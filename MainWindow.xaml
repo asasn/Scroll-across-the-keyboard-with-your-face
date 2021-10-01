@@ -7,6 +7,56 @@
         mc:Ignorable="d"
         Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="LightBlue"/>
+        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="LightBlue"/>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="300" />
+            </Grid.ColumnDefinitions>
+            <local:uc_Editor Grid.Column="2" Grid.RowSpan="2"/>
+            <local:uc_NoteTree Grid.Column="4" UcTitle="时间事件备忘"/>
+            <local:uc_NoteTree Grid.Column="4" Grid.Row="1" UcTitle="大纲笔记"/>
+            <TabControl Grid.Row="1">
+                <TabItem Header="角色信息卡">
+                    <Grid Background="#FFE5E5E5">
+                        <local:uc_NoteTree UcTitle="角色"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="地名信息卡">
+                    <Grid Background="#FFE5E5E5">
+                        <local:uc_NoteTree UcTitle="地名"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="道具信息卡">
+                    <Grid Background="#FFE5E5E5">
+                        <local:uc_NoteTree UcTitle="道具"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="势力与组织">
+                    <Grid Background="#FFE5E5E5">
+                        <local:uc_NoteTree UcTitle="势力"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <local:uc_Searcher Height="100" Margin="0,0,0,0" VerticalAlignment="Top" UcTitle="文章检索"/>
+            <GroupBox Header="工具箱" Margin="0,100,0,0" />
+        </Grid>
+        <local:uc_BookTree x:Name="books" UcTitle="书籍目录"/>
+        <local:uc_NoteTree Grid.Column="4" UcTitle="资料库"/>
     </Grid>
 </Window>

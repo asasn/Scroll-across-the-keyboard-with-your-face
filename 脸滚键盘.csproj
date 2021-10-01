@@ -64,6 +64,18 @@
     <Compile Include="TreeOperate-ReName.cs" />
     <Compile Include="TreeOperate-Save.cs" />
     <Compile Include="TreeOperate-Show.cs" />
+    <Compile Include="uc-BookTree.xaml.cs">
+      <DependentUpon>uc-BookTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uc-Editor.xaml.cs">
+      <DependentUpon>uc-Editor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uc-NoteTree.xaml.cs">
+      <DependentUpon>uc-NoteTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uc-Searcher.xaml.cs">
+      <DependentUpon>uc-Searcher.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +88,22 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="uc-BookTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uc-Editor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uc-NoteTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uc-Searcher.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

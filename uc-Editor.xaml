@@ -1,0 +1,41 @@
+﻿<UserControl x:Name="uc" x:Class="脸滚键盘.uc_Editor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:脸滚键盘"
+             mc:Ignorable="d" Background="#FFF5F5F5"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Height="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" MinWidth="60" MaxWidth="120"/>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="bookNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="0" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="16"/>
+            <TextBox x:Name="chapterNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="1" TextWrapping="Wrap" Background="#FFFEFEFE" FontSize="16" FontWeight="Normal" MaxLength="35"/>
+            <Button x:Name="saveTag" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="2" Background="#FFFEFEFE" Foreground="Blue" />
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <DockPanel>
+                <Label x:Name="lb0" Width="18" BorderThickness="0,0,0,0" Background="#FFF0F0F0" FontSize="16"/>
+                <TextBox x:Name="tb" BorderThickness="1,0,1,0" Background="#FFFCFCFC" FontSize="16">
+                </TextBox>
+            </DockPanel>
+        </ScrollViewer>
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" MinWidth="60" MaxWidth="120"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="lb1" BorderBrush="Gray" BorderThickness="1,1,0,1" Grid.Column="0" Content="段落：0" Background="#FFFAFAFA" Foreground="#FFC70F0F"/>
+            <Label x:Name="lb2" BorderBrush="Gray" BorderThickness="0,1,1,1" Grid.Column="1" Content="字数：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" />
+        </Grid>
+    </Grid>
+</UserControl>
