@@ -55,6 +55,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EditorOperate.cs" />
+    <Compile Include="FileOperate.cs" />
+    <Compile Include="TreeOperate-AddItem.cs" />
+    <Compile Include="TreeOperate-Common.cs" />
+    <Compile Include="TreeOperate-DelItem.cs" />
+    <Compile Include="TreeOperate-DragDrop.cs" />
+    <Compile Include="TreeOperate-ReName.cs" />
+    <Compile Include="TreeOperate-Save.cs" />
+    <Compile Include="TreeOperate-Show.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
