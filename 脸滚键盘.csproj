@@ -55,25 +55,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EditorOperate.cs" />
-    <Compile Include="FileOperate.cs" />
-    <Compile Include="TreeOperate-AddItem.cs" />
-    <Compile Include="TreeOperate-Common.cs" />
-    <Compile Include="TreeOperate-DelItem.cs" />
-    <Compile Include="TreeOperate-DragDrop.cs" />
-    <Compile Include="TreeOperate-ReName.cs" />
-    <Compile Include="TreeOperate-Save.cs" />
-    <Compile Include="TreeOperate-Show.cs" />
-    <Compile Include="uc-BookTree.xaml.cs">
+    <Compile Include="操作类\EditorOperate.cs" />
+    <Compile Include="操作类\FileOperate.cs" />
+    <Compile Include="操作类\TreeOperate-AddItem.cs" />
+    <Compile Include="操作类\TreeOperate-Common.cs" />
+    <Compile Include="操作类\TreeOperate-DelItem.cs" />
+    <Compile Include="操作类\TreeOperate-DragDrop.cs" />
+    <Compile Include="操作类\TreeOperate-ReName.cs" />
+    <Compile Include="操作类\TreeOperate-Save.cs" />
+    <Compile Include="操作类\TreeOperate-Show.cs" />
+    <Compile Include="自定义控件\uc-BookTree.xaml.cs">
       <DependentUpon>uc-BookTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="uc-Editor.xaml.cs">
+    <Compile Include="自定义控件\uc-Editor.xaml.cs">
       <DependentUpon>uc-Editor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="uc-NoteTree.xaml.cs">
+    <Compile Include="自定义控件\uc-NoteTree.xaml.cs">
       <DependentUpon>uc-NoteTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="uc-Searcher.xaml.cs">
+    <Compile Include="自定义控件\uc-Searcher.xaml.cs">
       <DependentUpon>uc-Searcher.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -88,19 +88,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="uc-BookTree.xaml">
+    <Page Include="自定义控件\uc-BookTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="uc-Editor.xaml">
+    <Page Include="自定义控件\uc-Editor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="uc-NoteTree.xaml">
+    <Page Include="自定义控件\uc-NoteTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="uc-Searcher.xaml">
+    <Page Include="自定义控件\uc-Searcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
