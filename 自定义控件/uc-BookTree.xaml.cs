@@ -348,7 +348,6 @@ namespace 脸滚键盘
                 TreeOperate.SaveBook(Gval.DragDrop.dragBookItem);
                 TreeOperate.SaveBook(dropBookItem);
                 TreeOperate.SaveBooks(tv);
-                Console.WriteLine("-------------------------");
             }
             else
             {
