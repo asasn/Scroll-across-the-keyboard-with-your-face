@@ -37,6 +37,19 @@ namespace 脸滚键盘
         public static readonly DependencyProperty UcTitleProperty =
             DependencyProperty.Register("UcTitle", typeof(string ), typeof(uc_BookTree), new PropertyMetadata(null));
 
+        private void TreeView_Loaded(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void tv_Loaded(object sender, RoutedEventArgs e)
+        {
+            TreeOperate.Show(tv);
+        }
+
+        private void btnNewBook_Click(object sender, RoutedEventArgs e)
+        {
+            TreeOperate.SaveAllBooks(tv);
+        }
     }
 }

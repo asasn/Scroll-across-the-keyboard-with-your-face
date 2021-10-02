@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Gval.cs" />
     <Compile Include="操作类\EditorOperate.cs" />
     <Compile Include="操作类\FileOperate.cs" />
     <Compile Include="操作类\TreeOperate-AddItem.cs" />

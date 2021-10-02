@@ -12,7 +12,8 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <TreeView Grid.Row="1"/>
+            <TreeView x:Name="tv" Grid.Row="1" Loaded="tv_Loaded"/>
+            <Button x:Name="btnNewBook" Content="新书籍" HorizontalAlignment="Left" Width="50" Click="btnNewBook_Click"/>
 
         </Grid>
     </GroupBox>
