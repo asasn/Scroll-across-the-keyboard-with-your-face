@@ -261,8 +261,14 @@ namespace 脸滚键盘
             {
                 if (Gval.DragDrop.dragItem.Name == "chapter")
                 {
-                    if (FileOperate.IsFileExists(fullFileName))
-                        return;
+                    if (dropVolumePath != Gval.DragDrop.dragVolumePath)
+                    {
+                        if (true == FileOperate.IsFileExists(fullFileName))
+                        {
+                            return;
+                        }
+                        FileOperate.renameDoc(Gval.DragDrop.dragTextFullName, fullFileName);
+                    }
                     if (dropItem.Name == "volume")
                     {
                         TreeOperate.DelItem(Gval.DragDrop.dragItem);
@@ -278,14 +284,21 @@ namespace 脸滚键盘
                         MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
                         return;
                     }
-                    FileOperate.renameDoc(Gval.DragDrop.dragTextFullName, fullFileName);
+                    
                 }
 
                 if (Gval.DragDrop.dragItem.Name == "volume")
                 {
                     dropVolumePath = dropBookPath + '/' + Gval.DragDrop.dragVolumeItem.Header.ToString();
-                    if (FileOperate.IsFolderExists(dropVolumePath))
-                        return;
+                    if ( dropBookPath != Gval.DragDrop.dragBookPath)
+                    {
+                        if (FileOperate.IsFolderExists(dropVolumePath))
+                        {
+                            return;
+                        }
+                        FileOperate.renameDir(Gval.DragDrop.dragVolumePath, dropVolumePath);
+                    }
+
                     if (dropItem.Name == "volume")
                     {
                         TreeOperate.DelItem(Gval.DragDrop.dragItem);
@@ -302,7 +315,7 @@ namespace 脸滚键盘
                         TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
                     }
                     
-                    FileOperate.renameDir(Gval.DragDrop.dragVolumePath, dropVolumePath);
+                    
                 }
 
                 if (Gval.DragDrop.dragItem.Name == "book")
