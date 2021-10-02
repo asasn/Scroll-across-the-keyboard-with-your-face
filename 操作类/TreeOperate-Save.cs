@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 
@@ -99,7 +100,7 @@ namespace 脸滚键盘
             }
             else
             {
-                Console.WriteLine("参数可能存在错误！");
+                MessageBox.Show("参数可能存在错误！", "提醒");
             }
         }
 

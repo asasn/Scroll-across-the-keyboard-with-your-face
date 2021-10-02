@@ -16,7 +16,7 @@
             <Button x:Name="btnNewVolume" Content="新分卷" HorizontalAlignment="Left" Width="50" Click="btnNewVolume_Click" Margin="50,0,0,0"/>
             <Button x:Name="btnNewChapter" Content="新章节" HorizontalAlignment="Left" Width="50" Click="btnNewChapter_Click" Margin="100,0,0,0"/>
             <Button x:Name="btnDelItem" Content="删除" HorizontalAlignment="Left" Width="50" Click="btnDelItem_Click" Margin="150,0,0,0"/>
-            <TreeView x:Name="tv" Grid.Row="1" Loaded="tv_Loaded" KeyDown="tv_KeyDown" MouseLeftButtonDown="tv_MouseLeftButtonDown"/>
+            <TreeView x:Name="tv" Grid.Row="1" Loaded="tv_Loaded" KeyDown="tv_KeyDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" DragEnter="tv_DragEnter" Drop="tv_Drop" MouseMove="tv_MouseMove" MouseLeftButtonUp="tv_MouseLeftButtonUp"/>
             <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
 
         </Grid>

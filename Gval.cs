@@ -74,5 +74,49 @@ namespace 脸滚键盘
             /// </summary>
             public static TreeViewItem curVolumeItem;
         }
+
+        public struct DragDrop
+        {
+            /// <summary>
+            /// 来源控件
+            /// </summary>
+            public static object dragUc;
+
+            /// <summary>
+            /// 拖动源书籍文件夹路径
+            /// </summary>
+            public static string dragBookPath;
+
+            /// <summary>
+            /// 拖动源分卷文件夹路径
+            /// </summary>
+            public static string dragVolumePath;
+
+            /// <summary>
+            /// 拖动源章节文档路径全名
+            /// </summary>
+            public static string dragTextFullName;
+
+            /// <summary>
+            /// 拖动源TreeView
+            /// </summary>
+            public static TreeView dragTreeView;
+
+            /// <summary>
+            /// 拖动源item
+            /// </summary>
+            public static TreeViewItem dragItem;
+
+            /// <summary>
+            /// 拖动源item的rootItem
+            /// </summary>
+            public static TreeViewItem dragBookItem;
+
+            /// <summary>
+            /// 拖动源分卷节点
+            /// </summary>
+            public static TreeViewItem dragVolumeItem;
+
+        }
     }
 }

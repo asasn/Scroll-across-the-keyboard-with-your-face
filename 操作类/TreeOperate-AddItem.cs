@@ -38,7 +38,7 @@ namespace 脸滚键盘
                 case typeOfItem.章节:
                     newItem.Name = "chapter";
                     newItem.Header = "新章节";
-                    newItem.AllowDrop = false;
+                    newItem.AllowDrop = true;
                     return newItem;
                 case typeOfItem.note词条:
                     newItem.Name = "note";
@@ -48,7 +48,7 @@ namespace 脸滚键盘
                 case typeOfItem.note内容:
                     newItem.Name = "content";
                     newItem.Header = "note内容";
-                    newItem.AllowDrop = false;
+                    newItem.AllowDrop = true;
                     return newItem;
                 default:
                     MessageBox.Show("无效的newItem");
@@ -84,6 +84,48 @@ namespace 脸滚键盘
 
         public static class BookTree
         {
+            //在指定节点添加指定的item
+            public static void AddThisItem(TreeViewItem baseItem, TreeViewItem thisItem)
+            {
+                if (baseItem == null)
+                    return;
+                if (thisItem.Name == "chapter")
+                {
+                    if (baseItem.Name == "chapter")
+                    {
+                        (baseItem.Parent as TreeViewItem).Items.Insert((baseItem.Parent as TreeViewItem).Items.IndexOf(baseItem), thisItem);
+                    }
+                    if (baseItem.Name == "volume")
+                    {
+                        baseItem.Items.Add(thisItem);
+                    }
+                }
+
+                if (thisItem.Name == "volume")
+                {
+                    if (baseItem.Name == "volume")
+                    {
+                        (baseItem.Parent as TreeViewItem).Items.Insert((baseItem.Parent as TreeViewItem).Items.IndexOf(baseItem), thisItem);
+                    }
+                    if (baseItem.Name == "book")
+                    {
+                        baseItem.Items.Add(thisItem);
+                    }
+                }
+
+                if (thisItem.Name == "book")
+                {
+                    if (baseItem.Name == "book")
+                    {
+                        (baseItem.Parent as TreeView).Items.Insert((baseItem.Parent as TreeView).Items.IndexOf(baseItem), thisItem);
+                    }
+                    if (baseItem == null)
+                    {
+                        baseItem.Items.Add(thisItem);
+                    }
+                }
+            }
+
             /// <summary>
             /// 添加新书籍
             /// </summary>
@@ -109,6 +151,11 @@ namespace 脸滚键盘
                 if (selectedItem.Name == "book")
                 {
                     TreeViewItem newItem = AddItem(selectedItem, typeOfItem.分卷);
+                    return newItem;
+                }
+                if (selectedItem.Name == "volume")
+                {
+                    TreeViewItem newItem = AddItem(selectedItem.Parent as TreeViewItem, typeOfItem.章节);
                     return newItem;
                 }
                 return null;
