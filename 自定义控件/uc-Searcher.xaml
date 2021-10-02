@@ -19,7 +19,7 @@
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <RadioButton Content="搜索当前书籍" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="searcher"/>
+                <RadioButton Content="搜索当前书籍" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="searcher" IsChecked="True" />
                 <RadioButton Content="搜索所有书籍" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="searcher"/>
 
             </Grid>

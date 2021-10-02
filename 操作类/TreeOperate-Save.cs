@@ -10,6 +10,10 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
+        /// <summary>
+        /// 保存书目结构和关联的所有书籍结构
+        /// </summary>
+        /// <param name="tv"></param>
         public static void SaveAllBooks(TreeView tv)
         {
             //保存书目
@@ -74,24 +78,28 @@ namespace 脸滚键盘
         /// <summary>
         /// 保存当前书籍结构
         /// </summary>
-        /// <param name="tv"></param>
-        /// <param name="rootItem"></param>
-        public static void SaveBook(TreeView tv, TreeViewItem rootItem)
+        /// <param name="tv">目录树控件</param>
+        /// <param name="bookItem">指向的书籍节点</param>
+        public static void SaveBook(TreeView tv, TreeViewItem bookItem)
         {
-            if (tv != null)
+            if (tv != null && bookItem.Name == "book")
             {
-                string fullXmlName_book = Gval.Base.AppPath + "/books/" + rootItem.Header.ToString() + "/index.xml";
+                string fullXmlName_book = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/index.xml";
 
                 XmlDocument doc = new XmlDocument();
                 XmlElement eleRoot = TreeToNode(doc, "book");
 
                 //保存分卷
-                foreach (TreeViewItem volumeItem in rootItem.Items)
+                foreach (TreeViewItem volumeItem in bookItem.Items)
                 {
                     XmlElement eleVolume = TreeToNode(doc, eleRoot, volumeItem, "volume");
                     SaveChapter(volumeItem, doc, eleVolume);
                 }
                 doc.Save(fullXmlName_book);
+            }
+            else
+            {
+                Console.WriteLine("参数可能存在错误！");
             }
         }
 
@@ -100,7 +108,7 @@ namespace 脸滚键盘
             //保存章节
             foreach (TreeViewItem chapterItem in volumeItem.Items)
             {
-                XmlElement eleChapter = TreeToNode(doc, eleVolume, chapterItem, "txt"); ;
+                XmlElement eleChapter = TreeToNode(doc, eleVolume, chapterItem, "chapter"); ;
             }
         }
     }
