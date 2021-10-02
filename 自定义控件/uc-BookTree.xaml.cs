@@ -56,7 +56,7 @@ namespace 脸滚键盘
                 FileOperate.CreateFolder(workPath);
                 TreeOperate.SaveBooks(tv);
             }
-            
+
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace 脸滚键盘
                 TreeViewItem newItem = TreeOperate.BookTree.AddNewBook(tv);
                 FileOperate.CreateFolder(bookPath);
                 TreeOperate.SaveBooks(tv);
-                TreeOperate.SaveBook(tv, newItem);
+                TreeOperate.SaveBook(newItem);
             }
         }
 
@@ -94,7 +94,7 @@ namespace 脸滚键盘
                 {
                     FileOperate.CreateFolder(volumePath);
                     TreeViewItem newItem = TreeOperate.BookTree.AddNewVolume(selectedItem);
-                    TreeOperate.SaveBook(tv, bookItem);
+                    TreeOperate.SaveBook(bookItem);
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace 脸滚键盘
                 {
                     FileOperate.CreateNewDoc(fullFileName);
                     TreeViewItem newItem = TreeOperate.BookTree.AddNewChapter(selectedItem);
-                    TreeOperate.SaveBook(tv, bookItem);
+                    TreeOperate.SaveBook(bookItem);
                 }
             }
         }
@@ -148,14 +148,14 @@ namespace 脸滚键盘
                     string fullFileName = volumePath + '/' + selectedItem.Header.ToString() + ".txt";
                     TreeOperate.DelItem(selectedItem);
                     FileOperate.deleteDoc(fullFileName);
-                    TreeOperate.SaveBook(tv, bookItem);
+                    TreeOperate.SaveBook(bookItem);
                 }
 
                 if (selectedItem.Name == "volume")
                 {
                     TreeOperate.DelItem(selectedItem);
                     FileOperate.deleteDir(volumePath);
-                    TreeOperate.SaveBook(tv, bookItem);
+                    TreeOperate.SaveBook(bookItem);
                 }
 
                 if (selectedItem.Name == "book")
@@ -168,8 +168,53 @@ namespace 脸滚键盘
                         TreeOperate.SaveBooks(tv);
                     }
                 }
-                
+
             }
+        }
+
+        private void tv_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F2)
+            {
+                TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+                if (selectedItem != null)
+                {
+                    if (renameBox.Visibility == Visibility.Hidden)
+                    {
+                        TreeOperate.ReNewCurrentBook(tv);//记录下当前节点的各种信息
+                        TreeOperate.ReadyForReName(selectedItem, renameBox);
+                    }
+                }
+            }
+        }
+
+        private void renameBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (e.Key == Key.Enter)
+            {
+                if (renameBox.Visibility == Visibility.Visible)
+                {
+                    TreeOperate.EndRename(Gval.CurrentBook.curItem, renameBox);
+                    selectedItem.Focus();
+                }
+            }
+        }
+
+        //鼠标左键点击事件：点击在TreeView类型的控件tv上，对应Item来说，相当于点击在空白
+        private void tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                selectedItem.IsSelected = false;
+            }
+            if (renameBox.Visibility == Visibility.Visible)
+            {
+                TreeOperate.EndRename(Gval.CurrentBook.curItem, renameBox);
+                selectedItem.Focus();
+            }
+
         }
     }
 }

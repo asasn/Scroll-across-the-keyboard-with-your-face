@@ -22,7 +22,7 @@ namespace 脸滚键盘
             //保存书籍
             foreach (TreeViewItem rootItem in tv.Items)
             {
-                SaveBook(tv, rootItem);
+                SaveBook(rootItem);
             }
 
         }
@@ -80,9 +80,9 @@ namespace 脸滚键盘
         /// </summary>
         /// <param name="tv">目录树控件</param>
         /// <param name="bookItem">指向的书籍节点</param>
-        public static void SaveBook(TreeView tv, TreeViewItem bookItem)
+        public static void SaveBook(TreeViewItem bookItem)
         {
-            if (tv != null && bookItem.Name == "book")
+            if (bookItem != null && bookItem.Name == "book")
             {
                 string fullXmlName_book = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/index.xml";
 
