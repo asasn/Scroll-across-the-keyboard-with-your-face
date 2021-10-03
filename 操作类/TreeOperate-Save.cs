@@ -35,7 +35,7 @@ namespace 脸滚键盘
         /// <param name="eleParent"></param>
         /// <param name="item"></param>
         /// <param name="itemName"></param>
-        static XmlElement TreeToNode(XmlDocument doc, XmlElement eleParent, TreeViewItem item, string itemName)
+        static XmlElement ItemToElement(XmlDocument doc, XmlElement eleParent, TreeViewItem item, string itemName)
         {
             XmlElement ele = doc.CreateElement(itemName);
             ele.SetAttribute("title", item.Header.ToString());
@@ -48,7 +48,7 @@ namespace 脸滚键盘
         /// </summary>
         /// <param name="doc"></param>
         /// <param name="eleName"></param>
-        static XmlElement TreeToNode(XmlDocument doc, string eleName)
+        static XmlElement ItemToElement(XmlDocument doc, string eleName)
         {
             XmlElement ele = doc.CreateElement(eleName);
             doc.AppendChild(ele);
@@ -65,11 +65,11 @@ namespace 脸滚键盘
             {
                 string fullXmlName_main = Gval.Base.AppPath + "/books/index.xml";
                 XmlDocument doc = new XmlDocument();
-                XmlElement eleRoot = TreeToNode(doc, "books");
+                XmlElement eleRoot = ItemToElement(doc, "books");
 
                 foreach (TreeViewItem rootItem in tv.Items)
                 {
-                    XmlElement eleBook = TreeToNode(doc, eleRoot, rootItem, "book");
+                    XmlElement eleBook = ItemToElement(doc, eleRoot, rootItem, rootItem.Name);
                 }
                 doc.Save(fullXmlName_main);
             }
@@ -85,18 +85,14 @@ namespace 脸滚键盘
         {
             if (bookItem != null && bookItem.Name == "book")
             {
+                //获取当前书籍对应的完整xml文件名
                 string fullXmlName_book = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/index.xml";
 
                 XmlDocument doc = new XmlDocument();
-                XmlElement eleRoot = TreeToNode(doc, "book");
-
-                //保存分卷
-                foreach (TreeViewItem volumeItem in bookItem.Items)
-                {
-                    XmlElement eleVolume = TreeToNode(doc, eleRoot, volumeItem, "volume");
-                    SaveChapter(volumeItem, doc, eleVolume);
-                }
+                XmlElement eleRoot = ItemToElement(doc, bookItem.Name);
+                DoSaveToXml(bookItem, eleRoot, doc);
                 doc.Save(fullXmlName_book);
+                Console.WriteLine("保存至：" + fullXmlName_book);
             }
             else
             {
@@ -104,12 +100,13 @@ namespace 脸滚键盘
             }
         }
 
-        static void SaveChapter(TreeViewItem volumeItem, XmlDocument doc, XmlElement eleVolume)
+        //递归保存
+        private static void DoSaveToXml(TreeViewItem curItem, XmlElement parentXmlElement, XmlDocument doc)
         {
-            //保存章节
-            foreach (TreeViewItem chapterItem in volumeItem.Items)
+            foreach (TreeViewItem childitem in curItem.Items)
             {
-                XmlElement eleChapter = TreeToNode(doc, eleVolume, chapterItem, "chapter"); ;
+                XmlElement ele = ItemToElement(doc, parentXmlElement, childitem, childitem.Name);
+                DoSaveToXml(childitem, ele, doc);
             }
         }
     }

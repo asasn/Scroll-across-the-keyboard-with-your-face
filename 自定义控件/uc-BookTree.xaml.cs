@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,7 @@ namespace 脸滚键盘
             //检查工作目录是否存在
             if (true == FileOperate.IsFolderExists(workPath) && true == FileOperate.IsFileExists(booksXml))
             {
-                TreeOperate.Show(tv);
+                TreeOperate.TwoXmlToTree.Show(tv);
             }
             else
             {
@@ -127,6 +128,17 @@ namespace 脸滚键盘
                     TreeOperate.SaveBook(bookItem);
                 }
             }
+
+            string fullTvFileName = Gval.Base.AppPath + "/books/text";
+            FileStream fs = new FileStream((fullTvFileName), FileMode.OpenOrCreate, FileAccess.Write);
+
+            if (File.Exists(fullTvFileName))
+            {
+                fs.SetLength(0); //先清空文件
+            }
+            StreamWriter sw = new StreamWriter(fs, new UTF8Encoding(true));
+            sw.Write(tv.Items);   //写入对象
+            sw.Close();
         }
 
         /// <summary>
