@@ -20,7 +20,7 @@ namespace 脸滚键盘
         }
 
         //根据输入的类型创建item
-        static TreeViewItem CreateItem(typeOfItem t)
+        static TreeViewItem CreateANewItem(typeOfItem t)
         {
             TreeViewItem newItem = new TreeViewItem();
             switch (t)
@@ -56,32 +56,6 @@ namespace 脸滚键盘
             }
         }
 
-        /// <summary>
-        /// 根节点
-        /// </summary>
-        /// <param name="tv"></param>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        static TreeViewItem AddItem(TreeView tv, typeOfItem t)
-        {
-            TreeViewItem newItem = CreateItem(t);
-            tv.Items.Add(newItem);
-            return newItem;
-        }
-
-        /// <summary>
-        /// 非根节点
-        /// </summary>
-        /// <param name="selectedItem"></param>
-        /// <param name="t"></param>
-        /// <returns></returns>
-        static TreeViewItem AddItem(TreeViewItem selectedItem, typeOfItem t)
-        {
-            TreeViewItem newItem = CreateItem(t);
-            selectedItem.Items.Add(newItem);
-            return newItem;
-        }
-
         public static class BookTree
         {
             //在指定节点添加指定的item
@@ -93,41 +67,65 @@ namespace 脸滚键盘
                 {
                     if (baseItem.Name == "chapter")
                     {
-                        (baseItem.Parent as TreeViewItem).Items.Insert((baseItem.Parent as TreeViewItem).Items.IndexOf(baseItem), thisItem);
+                        TreeViewItem volumeItem = baseItem.Parent as TreeViewItem;
+                        //volumeItem.Items.Insert(volumeItem.Items.IndexOf(baseItem) + 1, thisItem);
+                        volumeItem.Items.Add(thisItem);
                     }
                     if (baseItem.Name == "volume")
                     {
                         baseItem.Items.Add(thisItem);
                     }
+                    thisItem.IsExpanded = true;
+                    thisItem.Focus();
                 }
 
                 if (thisItem.Name == "volume")
                 {
                     if (baseItem.Name == "volume")
                     {
-                        (baseItem.Parent as TreeViewItem).Items.Insert((baseItem.Parent as TreeViewItem).Items.IndexOf(baseItem), thisItem);
+                        TreeViewItem bookItem = baseItem.Parent as TreeViewItem;
+                        //bookItem.Items.Insert(bookItem.Items.IndexOf(baseItem) + 1, thisItem);
+                        bookItem.Items.Add(thisItem);
                     }
                     if (baseItem.Name == "book")
                     {
                         baseItem.Items.Add(thisItem);
                     }
+                    thisItem.IsExpanded = true;
+                    thisItem.Focus();
                 }
 
                 if (thisItem.Name == "book")
                 {
+                    
                     if (baseItem.Name == "book")
                     {
-                        (baseItem.Parent as TreeView).Items.Insert((baseItem.Parent as TreeView).Items.IndexOf(baseItem), thisItem);
+                        TreeView tv = baseItem.Parent as TreeView;
+                        //tv.Items.Insert(tv.Items.IndexOf(baseItem) + 1, thisItem);
+                        tv.Items.Add(thisItem);
                     }
                     if (baseItem == null)
                     {
-                        baseItem.Items.Add(thisItem);
+                        Console.WriteLine("baseItem错误！");
                     }
+                    thisItem.Focus();
+                }
+            }
+
+            //在指定节点添加指定的item
+            public static void AddThisItem(TreeView tv, TreeViewItem thisItem)
+            {
+                if (tv == null)
+                    return;
+                if (thisItem.Name == "book")
+                {
+                    tv.Items.Add(thisItem);
+                    thisItem.Focus();
                 }
             }
 
             /// <summary>
-            /// 添加新书籍
+            /// 创建并添加新书籍
             /// </summary>
             /// <param name="tv"></param>
             /// <returns>newItem</returns>
@@ -135,47 +133,40 @@ namespace 脸滚键盘
             {
                 if (tv != null)
                 {
-                    TreeViewItem newItem = AddItem(tv, typeOfItem.书籍);
+                    TreeViewItem newItem = CreateANewItem(typeOfItem.书籍);
+                    AddThisItem(tv, newItem);
                     return newItem;
                 }
                 return null;
             }
 
             /// <summary>
-            /// 添加新分卷
+            /// 创建并添加新分卷
             /// </summary>
             /// <param name="tv"></param>
             /// <returns>newItem</returns>
             public static TreeViewItem AddNewVolume(TreeViewItem selectedItem)
             {
-                if (selectedItem.Name == "book")
+                if (selectedItem != null && (selectedItem.Name == "book" || selectedItem.Name == "volume"))
                 {
-                    TreeViewItem newItem = AddItem(selectedItem, typeOfItem.分卷);
-                    return newItem;
-                }
-                if (selectedItem.Name == "volume")
-                {
-                    TreeViewItem newItem = AddItem(selectedItem.Parent as TreeViewItem, typeOfItem.章节);
+                    TreeViewItem newItem = CreateANewItem(typeOfItem.分卷);
+                    AddThisItem(selectedItem, newItem);
                     return newItem;
                 }
                 return null;
             }
 
             /// <summary>
-            /// 添加新章节
+            /// 创建并添加新章节
             /// </summary>
             /// <param name="selectedItem"></param>
             /// <returns>newItem</returns>
             public static TreeViewItem AddNewChapter(TreeViewItem selectedItem)
             {
-                if (selectedItem.Name == "volume")
+                if (selectedItem != null && (selectedItem.Name == "volume" || selectedItem.Name == "chapter"))
                 {
-                    TreeViewItem newItem = AddItem(selectedItem, typeOfItem.章节);
-                    return newItem;
-                }
-                if (selectedItem.Name == "chapter")
-                {
-                    TreeViewItem newItem = AddItem(selectedItem.Parent as TreeViewItem, typeOfItem.章节);
+                    TreeViewItem newItem = CreateANewItem(typeOfItem.章节);
+                    AddThisItem(selectedItem, newItem);
                     return newItem;
                 }
                 return null;

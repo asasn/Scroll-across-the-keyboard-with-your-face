@@ -85,7 +85,7 @@ namespace 脸滚键盘
         private void btnNewVolume_Click(object sender, RoutedEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null && selectedItem.Name == "book")
+            if (selectedItem != null && (selectedItem.Name == "book" || selectedItem.Name == "volume"))
             {
 
                 TreeViewItem bookItem = TreeOperate.GetBookItem(selectedItem);
@@ -252,7 +252,7 @@ namespace 脸滚键盘
             TreeViewItem dropVolumeItem = TreeOperate.GetVolumeItem(dropItem);
             string dropBookPath = Gval.Base.AppPath + "/books/" + dropBookItem.Header.ToString();
             string dropVolumePath = dropBookPath + '/' + dropVolumeItem.Header.ToString();
-            //目标的文件名采用原来的
+            //目标的文件名采用原来的Gval.DragDrop.dragItem
             string fullFileName = dropVolumePath + "/" + Gval.DragDrop.dragItem.Header.ToString() + ".txt";
 
 
@@ -320,6 +320,8 @@ namespace 脸滚键盘
 
                 if (Gval.DragDrop.dragItem.Name == "book")
                 {
+                    dropBookPath = Gval.Base.AppPath + "/books/" + Gval.DragDrop.dragBookItem.Header.ToString();
+
                     if (dropItem.Name == "volume")
                     {
                         MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
