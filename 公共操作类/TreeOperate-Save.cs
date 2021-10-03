@@ -11,6 +11,10 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
+        public static partial class Save
+        {
+        }
+
         public static class BookTreeToXml
         {
             /// <summary>

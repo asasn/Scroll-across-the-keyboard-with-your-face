@@ -11,6 +11,9 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
+        public static partial class ReName
+        {
+        }
         /// <summary>
         /// 回填selectedItem和renamebox的信息
         /// </summary>

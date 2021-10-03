@@ -10,7 +10,9 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
-
+        public static partial class Show
+        {
+        }
 
         /// <summary>
         /// 双xml文件到Tree

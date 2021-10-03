@@ -9,6 +9,31 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
+        public enum typeOfItem : int
+        {
+            书籍,
+            分卷,
+            章节,
+        }
+
+        public enum typeOfNote : int
+        {
+            资料分卷,
+            资料文档,
+            备忘,
+            备忘行,
+            大纲,
+            大纲行,
+        }
+
+        public enum typeOfInfoCard : int
+        {
+            角色,
+            场景,
+            道具,
+            势力,
+        }
+
         /// <summary>
         /// 更新当前书籍的指向信息
         /// </summary>

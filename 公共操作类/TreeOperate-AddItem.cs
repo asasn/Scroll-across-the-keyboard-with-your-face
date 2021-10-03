@@ -10,30 +10,13 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
-        public enum typeOfItem : int
+        public static class CreateItem
         {
-            书籍,
-            分卷,
-            章节,
         }
-
-        public enum typeOfNote : int
+        public static class AddItem
         {
-            资料分卷,
-            资料文档,
-            备忘,
-            备忘行,
-            大纲,
-            大纲行,
         }
-
-        public enum typeOfInfoCard : int
-        {
-            角色,
-            场景,
-            道具,
-            势力,
-        }
+  
 
         //设置Item焦点
         static void SelectIt(TreeViewItem thisItem)

@@ -59,15 +59,15 @@
     <Compile Include="自定义控件-信息卡模板\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="操作类\EditorOperate.cs" />
-    <Compile Include="操作类\FileOperate.cs" />
-    <Compile Include="操作类\TreeOperate-AddItem.cs" />
-    <Compile Include="操作类\TreeOperate-Common.cs" />
-    <Compile Include="操作类\TreeOperate-DelItem.cs" />
-    <Compile Include="操作类\TreeOperate-DragDrop.cs" />
-    <Compile Include="操作类\TreeOperate-ReName.cs" />
-    <Compile Include="操作类\TreeOperate-Save.cs" />
-    <Compile Include="操作类\TreeOperate-Show.cs" />
+    <Compile Include="公共操作类\EditorOperate.cs" />
+    <Compile Include="公共操作类\FileOperate.cs" />
+    <Compile Include="公共操作类\TreeOperate-AddItem.cs" />
+    <Compile Include="公共操作类\TreeOperate-Common.cs" />
+    <Compile Include="公共操作类\TreeOperate-DelItem.cs" />
+    <Compile Include="公共操作类\TreeOperate-DragDrop.cs" />
+    <Compile Include="公共操作类\TreeOperate-ReName.cs" />
+    <Compile Include="公共操作类\TreeOperate-Save.cs" />
+    <Compile Include="公共操作类\TreeOperate-Show.cs" />
     <Compile Include="自定义控件\uc-BookTree.xaml.cs">
       <DependentUpon>uc-BookTree.xaml</DependentUpon>
     </Compile>

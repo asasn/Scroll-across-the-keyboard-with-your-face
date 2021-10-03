@@ -173,14 +173,14 @@ namespace 脸滚键盘
                 if (selectedItem.Name == "chapter")
                 {
                     string fullFileName = volumePath + '/' + selectedItem.Header.ToString() + ".txt";
-                    TreeOperate.DelItem(selectedItem);
+                    TreeOperate.DelItem.Do(selectedItem);
                     FileOperate.deleteDoc(fullFileName);
                     TreeOperate.BookTreeToXml.SaveBook(bookItem);
                 }
 
                 if (selectedItem.Name == "volume")
                 {
-                    TreeOperate.DelItem(selectedItem);
+                    TreeOperate.DelItem.Do(selectedItem);
                     FileOperate.deleteDir(volumePath);
                     TreeOperate.BookTreeToXml.SaveBook(bookItem);
                 }
@@ -190,7 +190,7 @@ namespace 脸滚键盘
                     MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n将会不经回收站直接删除，请进行确认！\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
                     if (dr == MessageBoxResult.OK)
                     {
-                        TreeOperate.DelItem(selectedItem);
+                        TreeOperate.DelItem.Do(selectedItem);
                         FileOperate.deleteDir(bookPath);
                         TreeOperate.BookTreeToXml.SaveBooks(tv);
                     }
@@ -281,7 +281,7 @@ namespace 脸滚键盘
 
         private void tv_MouseMove(object sender, MouseEventArgs e)
         {
-            TreeOperate.DragMove(tv, e);
+            TreeOperate.DragDropItem.DragMove(tv, e);
         }
 
         private void tv_Drop(object sender, DragEventArgs e)
@@ -311,12 +311,12 @@ namespace 脸滚键盘
                     }
                     if (dropItem.Name == "volume")
                     {
-                        TreeOperate.DelItem(Gval.DragDrop.dragItem);
+                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
                         TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
                     }
                     if (dropItem.Name == "chapter")
                     {
-                        TreeOperate.DelItem(Gval.DragDrop.dragItem);
+                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
                         TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
                     }
                     if (dropItem.Name == "book")
@@ -341,7 +341,7 @@ namespace 脸滚键盘
 
                     if (dropItem.Name == "volume")
                     {
-                        TreeOperate.DelItem(Gval.DragDrop.dragItem);
+                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
                         TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
                     }
                     if (dropItem.Name == "chapter")
@@ -351,7 +351,7 @@ namespace 脸滚键盘
                     }
                     if (dropItem.Name == "book")
                     {
-                        TreeOperate.DelItem(Gval.DragDrop.dragItem);
+                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
                         TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
                     }
 
@@ -374,7 +374,7 @@ namespace 脸滚键盘
                     }
                     if (dropItem.Name == "book")
                     {
-                        TreeOperate.DelItem(Gval.DragDrop.dragItem);
+                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
                         TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
                     }
                     if (dropItem.Name == null)
