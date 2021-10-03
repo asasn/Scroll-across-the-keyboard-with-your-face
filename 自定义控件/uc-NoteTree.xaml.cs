@@ -38,5 +38,43 @@ namespace 脸滚键盘
             DependencyProperty.Register("UcTitle", typeof(string), typeof(uc_NoteTree), new PropertyMetadata(null));
 
 
+
+        public string XmlName
+        {
+            get { return (string)GetValue(XmlNameProperty); }
+            set { SetValue(XmlNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for XmlName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty XmlNameProperty =
+            DependencyProperty.Register("XmlName", typeof(string), typeof(uc_NoteTree), new PropertyMetadata(null));
+
+
+
+        /// <summary>
+        /// DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Gval.CurrentBook.curBookItem != null)
+            {
+                tv.Items.Clear();
+
+                //获取当前notes对应的完整xml文件名
+                string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.CurrentBook.curBookItem.Header.ToString() + "/" + XmlName;
+                if (true == FileOperate.IsFileExists(fullXmlName_notes))
+                {
+                    TreeOperate.XmlToNoteTree.Show(tv, fullXmlName_notes);
+                    uc.IsEnabled = true;
+                }
+            }
+            else
+            {
+                tv.Items.Clear();
+                uc.IsEnabled = false;
+            }
+        }
     }
 }

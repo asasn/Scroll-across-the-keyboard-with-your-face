@@ -19,6 +19,18 @@ namespace 脸滚键盘
             note内容,
         }
 
+        //设置Item焦点
+        static void SelectIt(TreeViewItem thisItem)
+        {
+            TreeViewItem parentItem = thisItem.Parent as TreeViewItem;
+            if (parentItem != null)
+            {
+                parentItem.IsExpanded = true;
+            }
+            thisItem.IsSelected = true;
+            thisItem.Focus();            
+        }
+
         //根据输入的类型创建item
         static TreeViewItem CreateANewItem(typeOfItem t)
         {
@@ -69,14 +81,12 @@ namespace 脸滚键盘
                     {
                         TreeViewItem volumeItem = baseItem.Parent as TreeViewItem;
                         //volumeItem.Items.Insert(volumeItem.Items.IndexOf(baseItem) + 1, thisItem);
-                        volumeItem.Items.Add(thisItem);
+                        volumeItem.Items.Add(thisItem);                        
                     }
                     if (baseItem.Name == "volume")
                     {
                         baseItem.Items.Add(thisItem);
                     }
-                    thisItem.IsExpanded = true;
-                    thisItem.Focus();
                 }
 
                 if (thisItem.Name == "volume")
@@ -91,13 +101,11 @@ namespace 脸滚键盘
                     {
                         baseItem.Items.Add(thisItem);
                     }
-                    thisItem.IsExpanded = true;
-                    thisItem.Focus();
                 }
 
                 if (thisItem.Name == "book")
                 {
-                    
+
                     if (baseItem.Name == "book")
                     {
                         TreeView tv = baseItem.Parent as TreeView;
@@ -108,8 +116,9 @@ namespace 脸滚键盘
                     {
                         Console.WriteLine("baseItem错误！");
                     }
-                    thisItem.Focus();
                 }
+
+                SelectIt(thisItem);
             }
 
             //在指定节点添加指定的item
@@ -120,7 +129,7 @@ namespace 脸滚键盘
                 if (thisItem.Name == "book")
                 {
                     tv.Items.Add(thisItem);
-                    thisItem.Focus();
+                    SelectIt(thisItem);
                 }
             }
 

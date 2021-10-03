@@ -100,7 +100,7 @@ namespace 脸滚键盘
                         renameFillBcak(selectedItem, renameBox, newName);
 
                         FileOperate.renameDoc(fOld, fNew);
-                        SaveBook(Gval.CurrentBook.curBookItem);
+                        BookTreeToXml.SaveBook(Gval.CurrentBook.curBookItem);
                     }
 
                 }
@@ -122,7 +122,7 @@ namespace 脸滚键盘
                         renameFillBcak(selectedItem, renameBox, newName);
 
                         FileOperate.renameDir(oldVolumePath, newVolumePath);
-                        SaveBook(Gval.CurrentBook.curBookItem);
+                        BookTreeToXml.SaveBook(Gval.CurrentBook.curBookItem);
                     }
 
                 }
@@ -147,12 +147,12 @@ namespace 脸滚键盘
                         renameFillBcak(selectedItem, renameBox, newName);
 
                         FileOperate.renameDir(oldBookPath, newBookPath);
-                        TreeOperate.SaveBooks(Gval.CurrentBook.curTv);
+                        TreeOperate.BookTreeToXml.SaveBooks(Gval.CurrentBook.curTv);
                     }
                 }
                 //刷新工作区公共变量
                 //【注意】本控件是内容的消费者而非生产者，所以在此更新公共变量时，需要填入DocTree的信息
-                TreeOperate.ReNewCurrentBook(Gval.CurrentBook.curTv);
+                TreeOperate.ReNewCurrent(Gval.CurrentBook.curTv);
             }
         }
     }

@@ -38,11 +38,36 @@ namespace 脸滚键盘
         public static readonly DependencyProperty UcTitleProperty =
             DependencyProperty.Register("UcTitle", typeof(string), typeof(uc_BookTree), new PropertyMetadata(null));
 
-        private void TreeView_Loaded(object sender, RoutedEventArgs e)
-        {
 
+
+        public TreeViewItem CurItem
+        {
+            get { return (TreeViewItem)GetValue(CurItemProperty); }
+            set { SetValue(CurItemProperty, value); }
         }
 
+        // Using a DependencyProperty as the backing store for CurItem.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurItemProperty =
+            DependencyProperty.Register("CurItem", typeof(TreeViewItem), typeof(uc_BookTree), new PropertyMetadata(null));
+
+
+
+        /*
+
+        本自定义控件是一个专门用于关联./books/index.xml文件的树状目录结构控件，用于展示书库和书籍目录
+        它包含：
+        一，books目录下的index.xml，用于显示书库节点，作为TreeView的根节点
+        二，各书籍文件夹下的index.xml，在关联的根节点下遍历节点，显示书籍节点
+
+        */
+
+        //以下开始本控件的事件定义
+
+        /// <summary>
+        /// 载入TreeView事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tv_Loaded(object sender, RoutedEventArgs e)
         {
             string workPath = Gval.Base.AppPath + "/books";
@@ -50,13 +75,13 @@ namespace 脸滚键盘
             //检查工作目录是否存在
             if (true == FileOperate.IsFolderExists(workPath) && true == FileOperate.IsFileExists(booksXml))
             {
-                TreeOperate.TwoXmlToTree.Show(tv);
+                TreeOperate.XmlToBookTree.Show(tv);
             }
             else
             {
                 //不存在则建立
                 FileOperate.CreateFolder(workPath);
-                TreeOperate.SaveBooks(tv);
+                TreeOperate.BookTreeToXml.SaveBooks(tv);
             }
 
         }
@@ -73,8 +98,8 @@ namespace 脸滚键盘
             {
                 TreeViewItem newItem = TreeOperate.BookTree.AddNewBook(tv);
                 FileOperate.CreateFolder(bookPath);
-                TreeOperate.SaveBooks(tv);
-                TreeOperate.SaveBook(newItem);
+                TreeOperate.BookTreeToXml.SaveBooks(tv);
+                TreeOperate.BookTreeToXml.SaveBook(newItem);
             }
         }
 
@@ -96,7 +121,7 @@ namespace 脸滚键盘
                 {
                     FileOperate.CreateFolder(volumePath);
                     TreeViewItem newItem = TreeOperate.BookTree.AddNewVolume(selectedItem);
-                    TreeOperate.SaveBook(bookItem);
+                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
                 }
             }
         }
@@ -125,24 +150,13 @@ namespace 脸滚键盘
                 {
                     FileOperate.CreateNewDoc(fullFileName);
                     TreeViewItem newItem = TreeOperate.BookTree.AddNewChapter(selectedItem);
-                    TreeOperate.SaveBook(bookItem);
+                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
                 }
             }
-
-            string fullTvFileName = Gval.Base.AppPath + "/books/text";
-            FileStream fs = new FileStream((fullTvFileName), FileMode.OpenOrCreate, FileAccess.Write);
-
-            if (File.Exists(fullTvFileName))
-            {
-                fs.SetLength(0); //先清空文件
-            }
-            StreamWriter sw = new StreamWriter(fs, new UTF8Encoding(true));
-            sw.Write(tv.Items);   //写入对象
-            sw.Close();
         }
 
         /// <summary>
-        /// 删除节点
+        /// 删除选定节点
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -161,14 +175,14 @@ namespace 脸滚键盘
                     string fullFileName = volumePath + '/' + selectedItem.Header.ToString() + ".txt";
                     TreeOperate.DelItem(selectedItem);
                     FileOperate.deleteDoc(fullFileName);
-                    TreeOperate.SaveBook(bookItem);
+                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
                 }
 
                 if (selectedItem.Name == "volume")
                 {
                     TreeOperate.DelItem(selectedItem);
                     FileOperate.deleteDir(volumePath);
-                    TreeOperate.SaveBook(bookItem);
+                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
                 }
 
                 if (selectedItem.Name == "book")
@@ -178,13 +192,18 @@ namespace 脸滚键盘
                     {
                         TreeOperate.DelItem(selectedItem);
                         FileOperate.deleteDir(bookPath);
-                        TreeOperate.SaveBooks(tv);
+                        TreeOperate.BookTreeToXml.SaveBooks(tv);
                     }
                 }
 
             }
         }
 
+        /// <summary>
+        /// TreeView快捷键（包含按F2重命名等）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tv_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.F2)
@@ -194,13 +213,18 @@ namespace 脸滚键盘
                 {
                     if (renameBox.Visibility == Visibility.Hidden)
                     {
-                        TreeOperate.ReNewCurrentBook(tv);//记录下当前节点的各种信息
+                        TreeOperate.ReNewCurrent(tv);//记录下当前节点的各种信息
                         TreeOperate.ReadyForReName(selectedItem, renameBox);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// 重命名文本框快捷键
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void renameBox_KeyDown(object sender, KeyEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
@@ -214,7 +238,11 @@ namespace 脸滚键盘
             }
         }
 
-        //鼠标左键点击事件：点击在TreeView类型的控件tv上，对应Item来说，相当于点击在空白
+        /// <summary>
+        /// TreeView鼠标左键点击事件：点击在TreeView类型的控件tv上，对应Item来说，相当于点击在空白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
@@ -296,13 +324,13 @@ namespace 脸滚键盘
                         MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
                         return;
                     }
-                    
+
                 }
 
                 if (Gval.DragDrop.dragItem.Name == "volume")
                 {
                     dropVolumePath = dropBookPath + '/' + Gval.DragDrop.dragVolumeItem.Header.ToString();
-                    if ( dropBookPath != Gval.DragDrop.dragBookPath)
+                    if (dropBookPath != Gval.DragDrop.dragBookPath)
                     {
                         if (FileOperate.IsFolderExists(dropVolumePath))
                         {
@@ -326,8 +354,8 @@ namespace 脸滚键盘
                         TreeOperate.DelItem(Gval.DragDrop.dragItem);
                         TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
                     }
-                    
-                    
+
+
                 }
 
                 if (Gval.DragDrop.dragItem.Name == "book")
@@ -359,9 +387,9 @@ namespace 脸滚键盘
 
 
                 //保存源Xml，因为可能存在只调整次序的情况，所以要分别保存来源和目标的xml文件，另把书目也保存一下
-                TreeOperate.SaveBook(Gval.DragDrop.dragBookItem);
-                TreeOperate.SaveBook(dropBookItem);
-                TreeOperate.SaveBooks(tv);
+                TreeOperate.BookTreeToXml.SaveBook(Gval.DragDrop.dragBookItem);
+                TreeOperate.BookTreeToXml.SaveBook(dropBookItem);
+                TreeOperate.BookTreeToXml.SaveBooks(tv);
             }
             else
             {
@@ -380,6 +408,22 @@ namespace 脸滚键盘
             Gval.DragDrop.dragBookPath = null;
             Gval.DragDrop.dragVolumePath = null;
             Gval.DragDrop.dragTextFullName = null;
+        }
+
+        /// <summary>
+        /// Treeview节点双击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                TreeOperate.ReNewCurrent(tv);
+                //触发其他控件的绑定变动事件
+                CurItem = selectedItem;
+            }
         }
     }
 }

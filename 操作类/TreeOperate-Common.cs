@@ -13,7 +13,7 @@ namespace 脸滚键盘
         /// 更新当前书籍的指向信息
         /// </summary>
         /// <param name="tv"></param>
-        public static void ReNewCurrentBook(TreeView tv)
+        public static void ReNewCurrent(TreeView tv)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)

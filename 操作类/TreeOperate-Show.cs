@@ -15,7 +15,7 @@ namespace 脸滚键盘
         /// <summary>
         /// 双xml文件到Tree
         /// </summary>
-        public static class TwoXmlToTree
+        public static class XmlToBookTree
         {
             /// <summary>
             /// 将xml文件内的目录内容显示在控件上
@@ -80,6 +80,21 @@ namespace 脸滚键盘
         }
 
 
+        public static class XmlToNoteTree
+        {
+            public static void Show(TreeView tv, string fullXmlName_notes)
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fullXmlName_notes);
+                XmlNode root = doc.SelectSingleNode("notes");
+                XmlNodeList rlist = root.ChildNodes;
+
+                //以TreeView控件为起始
+                LoadInTree(rlist, tv);
+            }
+
+        }
+
         //递归载入(双xml文件，从根节点开始)
         private static void LoadInTree(XmlNodeList nlist, TreeViewItem parentItem)
         {
@@ -101,11 +116,39 @@ namespace 脸滚键盘
             TreeViewItem newItem = new TreeViewItem();
             newItem.Name = rn.Name;
             newItem.Header = rn.GetAttribute("title");
-            newItem.Tag = rn.GetAttribute("path");
+            newItem.Tag = rn.GetAttribute("content");
             newItem.AllowDrop = true;
             parentItem.Items.Add(newItem);
             return newItem;
         }
 
+
+        //递归载入(单xml模式：从TreeView控件开始)
+        private static void LoadInTree(XmlNodeList nlist, TreeView tv)
+        {
+            foreach (XmlNode ch in nlist)
+            {
+                XmlElement rn = (XmlElement)ch;
+                TreeViewItem newItem = ShowXmlNodeToTreeView(ch, tv);
+                if (ch.HasChildNodes)
+                {
+                    //开始进入第二级
+                    LoadInTree(rn.ChildNodes, newItem);
+                }
+            }
+        }
+
+        // 在控件中显示TreeViewItem（单xml模式：从控件开始）
+        private static TreeViewItem ShowXmlNodeToTreeView(XmlNode ch, TreeView tv)
+        {
+            XmlElement rn = (XmlElement)ch;
+            TreeViewItem newItem = new TreeViewItem();
+            newItem.Name = rn.Name;
+            newItem.Header = rn.GetAttribute("title");
+            newItem.Tag = rn.GetAttribute("content");
+            newItem.AllowDrop = true;
+            tv.Items.Add(newItem);
+            return newItem;
+        }
     }
 }
