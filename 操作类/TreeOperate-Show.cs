@@ -147,6 +147,7 @@ namespace 脸滚键盘
             newItem.Header = rn.GetAttribute("title");
             newItem.Tag = rn.GetAttribute("content");
             newItem.AllowDrop = true;
+            
             tv.Items.Add(newItem);
             return newItem;
         }

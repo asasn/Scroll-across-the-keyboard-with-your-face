@@ -34,22 +34,22 @@
             <TabControl Grid.Row="1">
                 <TabItem Header="角色信息卡">
                     <Grid Background="#FFE5E5E5">
-                        <local:uc_NoteTree UcTitle="角色" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="role.xml"/>
+                        <local:uc_InfoCardTree UcTitle="角色" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="role.xml"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="地名信息卡">
                     <Grid Background="#FFE5E5E5">
-                        <local:uc_NoteTree UcTitle="地名" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="place.xml"/>
+                        <local:uc_InfoCardTree UcTitle="地名" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="place.xml"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="道具信息卡">
                     <Grid Background="#FFE5E5E5">
-                        <local:uc_NoteTree UcTitle="道具" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="goods.xml"/>
+                        <local:uc_InfoCardTree UcTitle="道具" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="goods.xml"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="势力与组织">
                     <Grid Background="#FFE5E5E5">
-                        <local:uc_NoteTree UcTitle="势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="faction.xml"/>
+                        <local:uc_InfoCardTree UcTitle="势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="faction.xml"/>
                     </Grid>
                 </TabItem>
             </TabControl>

@@ -56,6 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Gval.cs" />
+    <Compile Include="自定义控件-信息卡模板\RoleCard.xaml.cs">
+      <DependentUpon>RoleCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="操作类\EditorOperate.cs" />
     <Compile Include="操作类\FileOperate.cs" />
     <Compile Include="操作类\TreeOperate-AddItem.cs" />
@@ -70,6 +73,9 @@
     </Compile>
     <Compile Include="自定义控件\uc-Editor.xaml.cs">
       <DependentUpon>uc-Editor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="自定义控件\uc-InfoCardTree.xaml.cs">
+      <DependentUpon>uc-InfoCardTree.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\uc-NoteTree.xaml.cs">
       <DependentUpon>uc-NoteTree.xaml</DependentUpon>
@@ -89,11 +95,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="自定义控件-信息卡模板\RoleCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="自定义控件\uc-BookTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\uc-Editor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\uc-InfoCardTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

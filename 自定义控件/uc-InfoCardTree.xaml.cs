@@ -18,9 +18,9 @@ namespace 脸滚键盘
     /// <summary>
     /// uc_NoteTree.xaml 的交互逻辑
     /// </summary>
-    public partial class uc_NoteTree : UserControl
+    public partial class uc_InfoCardTree : UserControl
     {
-        public uc_NoteTree()
+        public uc_InfoCardTree()
         {
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace 脸滚键盘
 
         // Using a DependencyProperty as the backing store for UcTitle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UcTitleProperty =
-            DependencyProperty.Register("UcTitle", typeof(string), typeof(uc_NoteTree), new PropertyMetadata(null));
+            DependencyProperty.Register("UcTitle", typeof(string), typeof(uc_InfoCardTree), new PropertyMetadata(null));
 
 
 
@@ -47,7 +47,7 @@ namespace 脸滚键盘
 
         // Using a DependencyProperty as the backing store for XmlName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty XmlNameProperty =
-            DependencyProperty.Register("XmlName", typeof(string), typeof(uc_NoteTree), new PropertyMetadata(null));
+            DependencyProperty.Register("XmlName", typeof(string), typeof(uc_InfoCardTree), new PropertyMetadata(null));
 
 
 
@@ -79,7 +79,7 @@ namespace 脸滚键盘
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TreeOperate.NoteTree.AddNewNote(tv, TreeOperate.typeOfNote.大纲);
+            TreeOperate.NoteTree.AddNewNote(tv, TreeOperate.typeOfInfoCard.角色);
         }
 
         private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)

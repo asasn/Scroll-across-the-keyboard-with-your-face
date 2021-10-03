@@ -114,7 +114,7 @@ namespace 脸滚键盘
             if (selectedItem != null && (selectedItem.Name == "book" || selectedItem.Name == "volume"))
             {
 
-                TreeViewItem bookItem = TreeOperate.GetBookItem(selectedItem);
+                TreeViewItem bookItem = TreeOperate.BookTree.GetBookItem(selectedItem);
                 string bookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
                 string volumePath = bookPath + "/新分卷";
                 if (false == FileOperate.IsFolderExists(volumePath))
@@ -137,8 +137,8 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null && (selectedItem.Name == "volume" || selectedItem.Name == "chapter"))
             {
-                TreeViewItem bookItem = TreeOperate.GetBookItem(selectedItem);
-                TreeViewItem volumeItem = TreeOperate.GetVolumeItem(selectedItem);
+                TreeViewItem bookItem = TreeOperate.BookTree.GetBookItem(selectedItem);
+                TreeViewItem volumeItem = TreeOperate.BookTree.GetVolumeItem(selectedItem);
                 string bookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
                 string volumePath = bookPath + '/' + volumeItem.Header.ToString();
                 string fullFileName = volumePath + "/新章节.txt";
@@ -165,8 +165,8 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
             {
-                TreeViewItem bookItem = TreeOperate.GetBookItem(selectedItem);
-                TreeViewItem volumeItem = TreeOperate.GetVolumeItem(selectedItem);
+                TreeViewItem bookItem = TreeOperate.BookTree.GetBookItem(selectedItem);
+                TreeViewItem volumeItem = TreeOperate.BookTree.GetVolumeItem(selectedItem);
                 string bookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
                 string volumePath = bookPath + '/' + volumeItem.Header.ToString();
 
@@ -267,8 +267,8 @@ namespace 脸滚键盘
                 Gval.DragDrop.dragUc = this;
                 Gval.DragDrop.dragTreeView = tv;
                 Gval.DragDrop.dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
-                Gval.DragDrop.dragBookItem = TreeOperate.GetBookItem(Gval.DragDrop.dragItem);
-                Gval.DragDrop.dragVolumeItem = TreeOperate.GetVolumeItem(Gval.DragDrop.dragItem);
+                Gval.DragDrop.dragBookItem = TreeOperate.BookTree.GetBookItem(Gval.DragDrop.dragItem);
+                Gval.DragDrop.dragVolumeItem = TreeOperate.BookTree.GetVolumeItem(Gval.DragDrop.dragItem);
                 Gval.DragDrop.dragBookPath = Gval.Base.AppPath + "/books/" + Gval.DragDrop.dragBookItem.Header.ToString();
                 Gval.DragDrop.dragVolumePath = Gval.DragDrop.dragBookPath + '/' + Gval.DragDrop.dragVolumeItem.Header.ToString();
                 Gval.DragDrop.dragTextFullName = Gval.DragDrop.dragVolumePath + '/' + Gval.DragDrop.dragItem.Header.ToString() + ".txt";
@@ -288,8 +288,8 @@ namespace 脸滚键盘
         {
             TreeViewItem dropItem = e.Source as TreeViewItem;
 
-            TreeViewItem dropBookItem = TreeOperate.GetBookItem(dropItem);
-            TreeViewItem dropVolumeItem = TreeOperate.GetVolumeItem(dropItem);
+            TreeViewItem dropBookItem = TreeOperate.BookTree.GetBookItem(dropItem);
+            TreeViewItem dropVolumeItem = TreeOperate.BookTree.GetVolumeItem(dropItem);
             string dropBookPath = Gval.Base.AppPath + "/books/" + dropBookItem.Header.ToString();
             string dropVolumePath = dropBookPath + '/' + dropVolumeItem.Header.ToString();
             //目标的文件名采用原来的Gval.DragDrop.dragItem

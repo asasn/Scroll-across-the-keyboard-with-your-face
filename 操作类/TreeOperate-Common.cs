@@ -18,8 +18,8 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
             {
-                TreeViewItem bookItem = GetBookItem(selectedItem);
-                TreeViewItem volumeItem = GetVolumeItem(selectedItem);
+                TreeViewItem bookItem = BookTree.GetBookItem(selectedItem);
+                TreeViewItem volumeItem = BookTree.GetVolumeItem(selectedItem);
 
                 //更新公共变量数据
                 Gval.CurrentBook.curItem = selectedItem;
@@ -44,39 +44,42 @@ namespace 脸滚键盘
                 Gval.CurrentBook.curTextFullName = null;
             }
         }
-
-        /// <summary>
-        /// 获取当前选中节点的书籍节点
-        /// </summary>
-        /// <param name="selectedItem">当前item</param>
-        /// <returns></returns>
-        public static TreeViewItem GetBookItem(TreeViewItem selectedItem)
+        public static partial class BookTree
         {
-            if (selectedItem != null)
+            /// <summary>
+            /// 获取当前选中节点的书籍节点
+            /// </summary>
+            /// <param name="selectedItem">当前item</param>
+            /// <returns></returns>
+            public static TreeViewItem GetBookItem(TreeViewItem selectedItem)
             {
-                while (selectedItem.Name != "book" && (selectedItem.Parent as TreeViewItem) != null)
+                if (selectedItem != null)
                 {
-                    selectedItem = selectedItem.Parent as TreeViewItem;
+                    while (selectedItem.Name != "book" && (selectedItem.Parent as TreeViewItem) != null)
+                    {
+                        selectedItem = selectedItem.Parent as TreeViewItem;
+                    }
                 }
+                return selectedItem;
             }
-            return selectedItem;
+
+            /// <summary>
+            /// 获取当前选中节点的分卷节点
+            /// </summary>
+            /// <param name="selectedItem">当前item</param>
+            /// <returns></returns>
+            public static TreeViewItem GetVolumeItem(TreeViewItem selectedItem)
+            {
+                if (selectedItem != null)
+                {
+                    while (selectedItem.Name != "volume" && (selectedItem.Parent as TreeViewItem) != null)
+                    {
+                        selectedItem = selectedItem.Parent as TreeViewItem;
+                    }
+                }
+                return selectedItem;
+            }
         }
 
-        /// <summary>
-        /// 获取当前选中节点的分卷节点
-        /// </summary>
-        /// <param name="selectedItem">当前item</param>
-        /// <returns></returns>
-        public static TreeViewItem GetVolumeItem(TreeViewItem selectedItem)
-        {
-            if (selectedItem != null)
-            {
-                while (selectedItem.Name != "volume" && (selectedItem.Parent as TreeViewItem) != null)
-                {
-                    selectedItem = selectedItem.Parent as TreeViewItem;
-                }
-            }
-            return selectedItem;
-        }
     }
 }
