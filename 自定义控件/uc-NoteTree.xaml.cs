@@ -66,7 +66,7 @@ namespace 脸滚键盘
                 string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.CurrentBook.curBookItem.Header.ToString() + "/" + XmlName;
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.XmlToNoteTree.Show(tv, fullXmlName_notes);
+                    TreeOperate.Show.ToNoteTree.ShowAll(tv, fullXmlName_notes);
                     uc.IsEnabled = true;
                 }
             }
@@ -79,7 +79,8 @@ namespace 脸滚键盘
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TreeOperate.NoteTree.AddNewNote(tv, TreeOperate.typeOfNote.大纲);
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            TreeOperate.GetLevel(selectedItem);
         }
 
         private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)

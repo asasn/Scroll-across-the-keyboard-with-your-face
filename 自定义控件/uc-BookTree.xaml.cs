@@ -75,15 +75,14 @@ namespace 脸滚键盘
             //检查工作目录是否存在
             if (true == FileOperate.IsFolderExists(workPath) && true == FileOperate.IsFileExists(booksXml))
             {
-                TreeOperate.XmlToBookTree.Show(tv);
+                TreeOperate.Show.ToBookTree.ShowAll(tv);
             }
             else
             {
                 //不存在则建立
                 FileOperate.CreateFolder(workPath);
-                TreeOperate.BookTreeToXml.SaveBooks(tv);
+                TreeOperate.Save.FromBookTree.SaveRoot(tv);
             }
-
         }
 
         /// <summary>
@@ -96,10 +95,10 @@ namespace 脸滚键盘
             string bookPath = Gval.Base.AppPath + "/books/新书籍";
             if (false == FileOperate.IsFolderExists(bookPath))
             {
-                TreeViewItem newItem = TreeOperate.BookTree.AddNewBook(tv);
+                TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, "新书籍", TreeOperate.ItemType.目录);
                 FileOperate.CreateFolder(bookPath);
-                TreeOperate.BookTreeToXml.SaveBooks(tv);
-                TreeOperate.BookTreeToXml.SaveBook(newItem);
+                TreeOperate.Save.FromBookTree.SaveRoot(tv);
+                TreeOperate.Save.FromBookTree.SaveCurBook(newItem);
             }
         }
 
@@ -110,20 +109,20 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void btnNewVolume_Click(object sender, RoutedEventArgs e)
         {
-            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null && (selectedItem.Name == "book" || selectedItem.Name == "volume"))
-            {
+            //TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            //if (selectedItem != null && (selectedItem.Name == "book" || selectedItem.Name == "volume"))
+            //{
 
-                TreeViewItem bookItem = TreeOperate.BookTree.GetBookItem(selectedItem);
-                string bookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
-                string volumePath = bookPath + "/新分卷";
-                if (false == FileOperate.IsFolderExists(volumePath))
-                {
-                    FileOperate.CreateFolder(volumePath);
-                    TreeViewItem newItem = TreeOperate.BookTree.AddNewVolume(selectedItem);
-                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
-                }
-            }
+            //    TreeViewItem bookItem = TreeOperate.BookTree.GetRootItem(selectedItem);
+            //    string bookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
+            //    string volumePath = bookPath + "/新分卷";
+            //    if (false == FileOperate.IsFolderExists(volumePath))
+            //    {
+            //        FileOperate.CreateFolder(volumePath);
+            //        TreeViewItem newItem = TreeOperate.AddItem.BrotherItem(selectedItem);
+            //        TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -135,24 +134,43 @@ namespace 脸滚键盘
         {
 
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null && (selectedItem.Name == "volume" || selectedItem.Name == "chapter"))
+
+            if (selectedItem != null)
             {
-                TreeViewItem bookItem = TreeOperate.BookTree.GetBookItem(selectedItem);
-                TreeViewItem volumeItem = TreeOperate.BookTree.GetVolumeItem(selectedItem);
+                TreeViewItem bookItem = TreeOperate.BookTree.GetRootItem(selectedItem);
+                TreeViewItem volumeItem = TreeOperate.BookTree.GetItemByLevel(selectedItem, 2);
                 string bookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
                 string volumePath = bookPath + '/' + volumeItem.Header.ToString();
                 string fullFileName = volumePath + "/新章节.txt";
-                if (false == FileOperate.IsFolderExists(volumePath))
+
+                int level = TreeOperate.GetLevel(selectedItem);
+                if (level == 3)
                 {
-                    FileOperate.CreateFolder(volumePath);
+                    if (false == FileOperate.IsFileExists(fullFileName))
+                    {
+                        TreeOperate.AddItem.BrotherItem(selectedItem, "新章节", TreeOperate.ItemType.文档);
+                        FileOperate.CreateNewDoc(fullFileName);
+                        TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
+                    }
                 }
-                if (false == FileOperate.IsFileExists(fullFileName))
+                if (level == 2)
                 {
-                    FileOperate.CreateNewDoc(fullFileName);
-                    TreeViewItem newItem = TreeOperate.BookTree.AddNewChapter(selectedItem);
-                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
+                    if (false == FileOperate.IsFolderExists(volumePath))
+                    {
+                        FileOperate.CreateFolder(volumePath);
+
+                    }
+                    if (false == FileOperate.IsFileExists(fullFileName))
+                    {
+                        TreeOperate.AddItem.ChildItem(selectedItem, "新章节", TreeOperate.ItemType.文档);
+                        FileOperate.CreateNewDoc(fullFileName);
+                        TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
+                    }
                 }
             }
+
+
+
         }
 
         /// <summary>
@@ -165,8 +183,8 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
             {
-                TreeViewItem bookItem = TreeOperate.BookTree.GetBookItem(selectedItem);
-                TreeViewItem volumeItem = TreeOperate.BookTree.GetVolumeItem(selectedItem);
+                TreeViewItem bookItem = TreeOperate.BookTree.GetRootItem(selectedItem);
+                TreeViewItem volumeItem = TreeOperate.BookTree.GetItemByLevel(selectedItem, 2);
                 string bookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
                 string volumePath = bookPath + '/' + volumeItem.Header.ToString();
 
@@ -175,14 +193,14 @@ namespace 脸滚键盘
                     string fullFileName = volumePath + '/' + selectedItem.Header.ToString() + ".txt";
                     TreeOperate.DelItem.Do(selectedItem);
                     FileOperate.deleteDoc(fullFileName);
-                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
+                    TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
                 }
 
                 if (selectedItem.Name == "volume")
                 {
                     TreeOperate.DelItem.Do(selectedItem);
                     FileOperate.deleteDir(volumePath);
-                    TreeOperate.BookTreeToXml.SaveBook(bookItem);
+                    TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
                 }
 
                 if (selectedItem.Name == "book")
@@ -192,7 +210,7 @@ namespace 脸滚键盘
                     {
                         TreeOperate.DelItem.Do(selectedItem);
                         FileOperate.deleteDir(bookPath);
-                        TreeOperate.BookTreeToXml.SaveBooks(tv);
+                        TreeOperate.Save.FromBookTree.SaveRoot(tv);
                     }
                 }
 
@@ -214,7 +232,7 @@ namespace 脸滚键盘
                     if (renameBox.Visibility == Visibility.Hidden)
                     {
                         TreeOperate.ReNewCurrent(tv);//记录下当前节点的各种信息
-                        TreeOperate.ReadyForReName(selectedItem, renameBox);
+                        TreeOperate.ReName.Ready(selectedItem, renameBox);
                     }
                 }
             }
@@ -232,7 +250,7 @@ namespace 脸滚键盘
             {
                 if (renameBox.Visibility == Visibility.Visible)
                 {
-                    TreeOperate.EndRename(Gval.CurrentBook.curItem, renameBox);
+                    TreeOperate.ReName.Do(Gval.CurrentBook.curItem, renameBox);
                     selectedItem.Focus();
                 }
             }
@@ -252,7 +270,7 @@ namespace 脸滚键盘
             }
             if (renameBox.Visibility == Visibility.Visible)
             {
-                TreeOperate.EndRename(Gval.CurrentBook.curItem, renameBox);
+                TreeOperate.ReName.Do(Gval.CurrentBook.curItem, renameBox);
                 selectedItem.Focus();
             }
 
@@ -267,8 +285,8 @@ namespace 脸滚键盘
                 Gval.DragDrop.dragUc = this;
                 Gval.DragDrop.dragTreeView = tv;
                 Gval.DragDrop.dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
-                Gval.DragDrop.dragBookItem = TreeOperate.BookTree.GetBookItem(Gval.DragDrop.dragItem);
-                Gval.DragDrop.dragVolumeItem = TreeOperate.BookTree.GetVolumeItem(Gval.DragDrop.dragItem);
+                Gval.DragDrop.dragBookItem = TreeOperate.BookTree.GetRootItem(Gval.DragDrop.dragItem);
+                Gval.DragDrop.dragVolumeItem = TreeOperate.BookTree.GetItemByLevel(Gval.DragDrop.dragItem, 2);
                 Gval.DragDrop.dragBookPath = Gval.Base.AppPath + "/books/" + Gval.DragDrop.dragBookItem.Header.ToString();
                 Gval.DragDrop.dragVolumePath = Gval.DragDrop.dragBookPath + '/' + Gval.DragDrop.dragVolumeItem.Header.ToString();
                 Gval.DragDrop.dragTextFullName = Gval.DragDrop.dragVolumePath + '/' + Gval.DragDrop.dragItem.Header.ToString() + ".txt";
@@ -286,115 +304,115 @@ namespace 脸滚键盘
 
         private void tv_Drop(object sender, DragEventArgs e)
         {
-            TreeViewItem dropItem = e.Source as TreeViewItem;
+            //    TreeViewItem dropItem = e.Source as TreeViewItem;
 
-            TreeViewItem dropBookItem = TreeOperate.BookTree.GetBookItem(dropItem);
-            TreeViewItem dropVolumeItem = TreeOperate.BookTree.GetVolumeItem(dropItem);
-            string dropBookPath = Gval.Base.AppPath + "/books/" + dropBookItem.Header.ToString();
-            string dropVolumePath = dropBookPath + '/' + dropVolumeItem.Header.ToString();
-            //目标的文件名采用原来的Gval.DragDrop.dragItem
-            string fullFileName = dropVolumePath + "/" + Gval.DragDrop.dragItem.Header.ToString() + ".txt";
-
-
-            //源和目标不一致，且目标不存在同名文件，面板类型一致时才能拖曳移动
-            if (dropItem != Gval.DragDrop.dragItem && Gval.DragDrop.dragUc.GetType() == this.GetType())
-            {
-                if (Gval.DragDrop.dragItem.Name == "chapter")
-                {
-                    if (dropVolumePath != Gval.DragDrop.dragVolumePath)
-                    {
-                        if (true == FileOperate.IsFileExists(fullFileName))
-                        {
-                            return;
-                        }
-                        FileOperate.renameDoc(Gval.DragDrop.dragTextFullName, fullFileName);
-                    }
-                    if (dropItem.Name == "volume")
-                    {
-                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
-                        TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
-                    }
-                    if (dropItem.Name == "chapter")
-                    {
-                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
-                        TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
-                    }
-                    if (dropItem.Name == "book")
-                    {
-                        MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
-                        return;
-                    }
-
-                }
-
-                if (Gval.DragDrop.dragItem.Name == "volume")
-                {
-                    dropVolumePath = dropBookPath + '/' + Gval.DragDrop.dragVolumeItem.Header.ToString();
-                    if (dropBookPath != Gval.DragDrop.dragBookPath)
-                    {
-                        if (FileOperate.IsFolderExists(dropVolumePath))
-                        {
-                            return;
-                        }
-                        FileOperate.renameDir(Gval.DragDrop.dragVolumePath, dropVolumePath);
-                    }
-
-                    if (dropItem.Name == "volume")
-                    {
-                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
-                        TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
-                    }
-                    if (dropItem.Name == "chapter")
-                    {
-                        MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
-                        return;
-                    }
-                    if (dropItem.Name == "book")
-                    {
-                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
-                        TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
-                    }
+            //    TreeViewItem dropBookItem = TreeOperate.BookTree.GetRootItem(dropItem);
+            //    TreeViewItem dropVolumeItem = TreeOperate.BookTree.GetVolumeItem(dropItem);
+            //    string dropBookPath = Gval.Base.AppPath + "/books/" + dropBookItem.Header.ToString();
+            //    string dropVolumePath = dropBookPath + '/' + dropVolumeItem.Header.ToString();
+            //    //目标的文件名采用原来的Gval.DragDrop.dragItem
+            //    string fullFileName = dropVolumePath + "/" + Gval.DragDrop.dragItem.Header.ToString() + ".txt";
 
 
-                }
+            //    //源和目标不一致，且目标不存在同名文件，面板类型一致时才能拖曳移动
+            //    if (dropItem != Gval.DragDrop.dragItem && Gval.DragDrop.dragUc.GetType() == this.GetType())
+            //    {
+            //        if (Gval.DragDrop.dragItem.Name == "chapter")
+            //        {
+            //            if (dropVolumePath != Gval.DragDrop.dragVolumePath)
+            //            {
+            //                if (true == FileOperate.IsFileExists(fullFileName))
+            //                {
+            //                    return;
+            //                }
+            //                FileOperate.renameDoc(Gval.DragDrop.dragTextFullName, fullFileName);
+            //            }
+            //            if (dropItem.Name == "volume")
+            //            {
+            //                TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
+            //                TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
+            //            }
+            //            if (dropItem.Name == "chapter")
+            //            {
+            //                TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
+            //                TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
+            //            }
+            //            if (dropItem.Name == "book")
+            //            {
+            //                MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
+            //                return;
+            //            }
 
-                if (Gval.DragDrop.dragItem.Name == "book")
-                {
-                    dropBookPath = Gval.Base.AppPath + "/books/" + Gval.DragDrop.dragBookItem.Header.ToString();
+            //        }
 
-                    if (dropItem.Name == "volume")
-                    {
-                        MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
-                        return;
-                    }
-                    if (dropItem.Name == "chapter")
-                    {
-                        MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
-                        return;
-                    }
-                    if (dropItem.Name == "book")
-                    {
-                        TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
-                        TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
-                    }
-                    if (dropItem.Name == null)
-                    {
-                        MessageBox.Show("空！", "提醒");
-                        return;
-                    }
-                    FileOperate.renameDir(Gval.DragDrop.dragBookPath, dropBookPath);
-                }
+            //        if (Gval.DragDrop.dragItem.Name == "volume")
+            //        {
+            //            dropVolumePath = dropBookPath + '/' + Gval.DragDrop.dragVolumeItem.Header.ToString();
+            //            if (dropBookPath != Gval.DragDrop.dragBookPath)
+            //            {
+            //                if (FileOperate.IsFolderExists(dropVolumePath))
+            //                {
+            //                    return;
+            //                }
+            //                FileOperate.renameDir(Gval.DragDrop.dragVolumePath, dropVolumePath);
+            //            }
+
+            //            if (dropItem.Name == "volume")
+            //            {
+            //                TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
+            //                TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
+            //            }
+            //            if (dropItem.Name == "chapter")
+            //            {
+            //                MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
+            //                return;
+            //            }
+            //            if (dropItem.Name == "book")
+            //            {
+            //                TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
+            //                TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
+            //            }
 
 
-                //保存源Xml，因为可能存在只调整次序的情况，所以要分别保存来源和目标的xml文件，另把书目也保存一下
-                TreeOperate.BookTreeToXml.SaveBook(Gval.DragDrop.dragBookItem);
-                TreeOperate.BookTreeToXml.SaveBook(dropBookItem);
-                TreeOperate.BookTreeToXml.SaveBooks(tv);
-            }
-            else
-            {
-                //MessageBox.Show("面板类型不一致，请不要在此放下！", "提醒");
-            }
+            //        }
+
+            //        if (Gval.DragDrop.dragItem.Name == "book")
+            //        {
+            //            dropBookPath = Gval.Base.AppPath + "/books/" + Gval.DragDrop.dragBookItem.Header.ToString();
+
+            //            if (dropItem.Name == "volume")
+            //            {
+            //                MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
+            //                return;
+            //            }
+            //            if (dropItem.Name == "chapter")
+            //            {
+            //                MessageBox.Show("错误的目标节点，请不要在此放下！", "提醒");
+            //                return;
+            //            }
+            //            if (dropItem.Name == "book")
+            //            {
+            //                TreeOperate.DelItem.Do(Gval.DragDrop.dragItem);
+            //                TreeOperate.BookTree.AddThisItem(dropItem, Gval.DragDrop.dragItem);
+            //            }
+            //            if (dropItem.Name == null)
+            //            {
+            //                MessageBox.Show("空！", "提醒");
+            //                return;
+            //            }
+            //            FileOperate.renameDir(Gval.DragDrop.dragBookPath, dropBookPath);
+            //        }
+
+
+            //        //保存源Xml，因为可能存在只调整次序的情况，所以要分别保存来源和目标的xml文件，另把书目也保存一下
+            //        TreeOperate.Save.FromBookTree.SaveCurBook(Gval.DragDrop.dragBookItem);
+            //        TreeOperate.Save.FromBookTree.SaveCurBook(dropBookItem);
+            //        TreeOperate.Save.FromBookTree.SaveRoot(tv);
+            //    }
+            //    else
+            //    {
+            //        //MessageBox.Show("面板类型不一致，请不要在此放下！", "提醒");
+            //    }
         }
 
         private void tv_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

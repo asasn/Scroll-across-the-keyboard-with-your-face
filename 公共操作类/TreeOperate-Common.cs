@@ -9,6 +9,33 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
+        /// <summary>
+        /// 获取节点所在的层级，无选中时为0，不在TreeView内的为-1
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        /// <returns></returns>
+        public static int GetLevel(TreeViewItem selectedItem)
+        {
+            int level;
+            if (selectedItem != null)
+            {
+                level = -1;
+                while ((selectedItem.Parent as TreeViewItem) != null)
+                {
+                    selectedItem = selectedItem.Parent as TreeViewItem;
+                    level--;
+                }
+                level = System.Math.Abs(level);
+                return level;
+            }
+            else
+            {
+                level = 0;
+                return level;
+            }
+
+        }
+
         public enum typeOfItem : int
         {
             书籍,
@@ -43,8 +70,8 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
             {
-                TreeViewItem bookItem = BookTree.GetBookItem(selectedItem);
-                TreeViewItem volumeItem = BookTree.GetVolumeItem(selectedItem);
+                TreeViewItem bookItem = BookTree.GetRootItem(selectedItem);
+                TreeViewItem volumeItem = BookTree.GetItemByLevel(selectedItem, 2);
 
                 //更新公共变量数据
                 Gval.CurrentBook.curItem = selectedItem;
@@ -52,8 +79,12 @@ namespace 脸滚键盘
                 Gval.CurrentBook.curBookItem = bookItem;
                 Gval.CurrentBook.curTv = bookItem.Parent as TreeView;
                 Gval.CurrentBook.curBookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
-                Gval.CurrentBook.curVolumePath = Gval.CurrentBook.curBookPath + '/' + volumeItem.Header.ToString();
-                Gval.CurrentBook.curTextFullName = Gval.CurrentBook.curVolumePath + '/' + selectedItem.Header.ToString() + ".txt";
+                if (volumeItem != null)
+                {
+                    Gval.CurrentBook.curVolumePath = Gval.CurrentBook.curBookPath + '/' + volumeItem.Header.ToString();
+                    Gval.CurrentBook.curTextFullName = Gval.CurrentBook.curVolumePath + '/' + selectedItem.Header.ToString() + ".txt";
+                }
+
 
 
             }
@@ -72,15 +103,15 @@ namespace 脸滚键盘
         public static partial class BookTree
         {
             /// <summary>
-            /// 获取当前选中节点的书籍节点
+            /// 获取根节点
             /// </summary>
             /// <param name="selectedItem">当前item</param>
             /// <returns></returns>
-            public static TreeViewItem GetBookItem(TreeViewItem selectedItem)
+            public static TreeViewItem GetRootItem(TreeViewItem selectedItem)
             {
                 if (selectedItem != null)
                 {
-                    while (selectedItem.Name != "book" && (selectedItem.Parent as TreeViewItem) != null)
+                    while (selectedItem.Parent as TreeViewItem != null)
                     {
                         selectedItem = selectedItem.Parent as TreeViewItem;
                     }
@@ -89,20 +120,32 @@ namespace 脸滚键盘
             }
 
             /// <summary>
-            /// 获取当前选中节点的分卷节点
+            /// 向上获取指定层级的节点
             /// </summary>
-            /// <param name="selectedItem">当前item</param>
+            /// <param name="selectedItem"></param>
+            /// <param name="tl">想要获取的目标层级</param>
             /// <returns></returns>
-            public static TreeViewItem GetVolumeItem(TreeViewItem selectedItem)
+            public static TreeViewItem GetItemByLevel(TreeViewItem selectedItem, int tl)
             {
-                if (selectedItem != null)
+                if (tl > 0)
                 {
-                    while (selectedItem.Name != "volume" && (selectedItem.Parent as TreeViewItem) != null)
+                    int level = GetLevel(selectedItem);
+                    //选择节点的层级必须比想要获取的目标深
+                    if (selectedItem != null && GetLevel(selectedItem) > tl)
                     {
-                        selectedItem = selectedItem.Parent as TreeViewItem;
+                        while (level > tl && (selectedItem.Parent as TreeViewItem) != null)
+                        {
+                            selectedItem = selectedItem.Parent as TreeViewItem;
+                            level = GetLevel(selectedItem);
+                        }
                     }
+                    return selectedItem;
                 }
-                return selectedItem;
+                else
+                {
+                    return null;
+                }
+
             }
         }
 
