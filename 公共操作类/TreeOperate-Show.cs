@@ -96,12 +96,6 @@ namespace 脸滚键盘
 
 
 
-
-
-
-
-
-
             //递归载入(双xml文件，从根节点开始)
             static void XmlNodeListToTree(XmlNodeList nlist, TreeViewItem parentItem)
             {
@@ -159,11 +153,6 @@ namespace 脸滚键盘
                 return newItem;
             }
         }
-
-
-
-
-
 
     }
 }

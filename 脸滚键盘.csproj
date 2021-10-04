@@ -77,6 +77,9 @@
     <Compile Include="自定义控件\uc-InfoCardTree.xaml.cs">
       <DependentUpon>uc-InfoCardTree.xaml</DependentUpon>
     </Compile>
+    <Compile Include="自定义控件\uc-MaterialTree.xaml.cs">
+      <DependentUpon>uc-MaterialTree.xaml</DependentUpon>
+    </Compile>
     <Compile Include="自定义控件\uc-NoteTree.xaml.cs">
       <DependentUpon>uc-NoteTree.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\uc-InfoCardTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\uc-MaterialTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

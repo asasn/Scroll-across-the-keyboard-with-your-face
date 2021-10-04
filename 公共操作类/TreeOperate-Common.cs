@@ -10,16 +10,15 @@ namespace 脸滚键盘
     static partial class TreeOperate
     {
         /// <summary>
-        /// 获取节点所在的层级，无选中时为0，不在TreeView内的为-1
+        /// 获取节点所在的层级，无选中或者不在TreeView内的为-1
         /// </summary>
         /// <param name="selectedItem"></param>
         /// <returns></returns>
         public static int GetLevel(TreeViewItem selectedItem)
         {
-            int level;
+            int level = -1;
             if (selectedItem != null)
             {
-                level = -1;
                 while ((selectedItem.Parent as TreeViewItem) != null)
                 {
                     selectedItem = selectedItem.Parent as TreeViewItem;
@@ -43,6 +42,9 @@ namespace 脸滚键盘
             章节,
         }
 
+        /// <summary>
+        /// note节点类型
+        /// </summary>
         public enum typeOfNote : int
         {
             资料分卷,
@@ -53,6 +55,9 @@ namespace 脸滚键盘
             大纲行,
         }
 
+        /// <summary>
+        /// card节点类型
+        /// </summary>
         public enum typeOfInfoCard : int
         {
             角色,
@@ -70,8 +75,8 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
             {
-                TreeViewItem bookItem = BookTree.GetRootItem(selectedItem);
-                TreeViewItem volumeItem = BookTree.GetItemByLevel(selectedItem, 2);
+                TreeViewItem bookItem = GetRootItem(selectedItem);
+                TreeViewItem volumeItem = GetItemByLevel(selectedItem, 2);
 
                 //更新公共变量数据
                 Gval.CurrentBook.curItem = selectedItem;
@@ -100,54 +105,60 @@ namespace 脸滚键盘
                 Gval.CurrentBook.curTextFullName = null;
             }
         }
-        public static partial class BookTree
+
+        /// <summary>
+        /// 获取根节点
+        /// </summary>
+        /// <param name="selectedItem">当前item</param>
+        /// <returns></returns>
+        public static TreeViewItem GetRootItem(TreeViewItem selectedItem)
         {
-            /// <summary>
-            /// 获取根节点
-            /// </summary>
-            /// <param name="selectedItem">当前item</param>
-            /// <returns></returns>
-            public static TreeViewItem GetRootItem(TreeViewItem selectedItem)
+            if (selectedItem != null)
             {
+                while (selectedItem.Parent as TreeViewItem != null)
+                {
+                    selectedItem = selectedItem.Parent as TreeViewItem;
+                }
+            }
+            return selectedItem;
+        }
+
+        /// <summary>
+        /// 向上获取指定层级的节点
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        /// <param name="tl">想要获取的目标层级</param>
+        /// <returns></returns>
+        public static TreeViewItem GetItemByLevel(TreeViewItem selectedItem, int tl)
+        {
+            if (tl > 0)
+            {
+                int level = GetLevel(selectedItem);
+                //选择节点的层级必须比想要获取的目标深
                 if (selectedItem != null)
                 {
-                    while (selectedItem.Parent as TreeViewItem != null)
+                    while (level > tl && (selectedItem.Parent as TreeViewItem) != null)
                     {
                         selectedItem = selectedItem.Parent as TreeViewItem;
-                    }
-                }
-                return selectedItem;
-            }
-
-            /// <summary>
-            /// 向上获取指定层级的节点
-            /// </summary>
-            /// <param name="selectedItem"></param>
-            /// <param name="tl">想要获取的目标层级</param>
-            /// <returns></returns>
-            public static TreeViewItem GetItemByLevel(TreeViewItem selectedItem, int tl)
-            {
-                if (tl > 0)
-                {
-                    int level = GetLevel(selectedItem);
-                    //选择节点的层级必须比想要获取的目标深
-                    if (selectedItem != null && GetLevel(selectedItem) > tl)
-                    {
-                        while (level > tl && (selectedItem.Parent as TreeViewItem) != null)
-                        {
-                            selectedItem = selectedItem.Parent as TreeViewItem;
-                            level = GetLevel(selectedItem);
-                        }
+                        level = GetLevel(selectedItem);
                     }
                     return selectedItem;
                 }
                 else
                 {
+                    Console.WriteLine("选择的节点错误！");
                     return null;
                 }
-
+                
             }
+            else
+            {
+                Console.WriteLine("想要获取的目标层级错误！");
+                return null;
+            }
+
         }
+
 
     }
 }

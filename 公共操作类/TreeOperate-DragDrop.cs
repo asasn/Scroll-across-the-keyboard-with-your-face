@@ -49,8 +49,77 @@ namespace 脸滚键盘
                 {
                 }
             }
+
+            /// <summary>
+            /// 在指定的节点放下一个item
+            /// </summary>
+            /// <param name="dragItem">来源节点</param>
+            /// <param name="dropItem">目标节点</param>
+            /// <returns>成功返回true，未成功则返回false</returns>
+            public static bool DoDrop(TreeViewItem dragItem, TreeViewItem dropItem)
+            {
+                int dragLevel = GetLevel(dragItem);
+                int dropLevel = GetLevel(dropItem);
+
+                if (false == IsHasSameHeader(dragItem, dropItem))
+                {
+                    //源和目标节点同级的情况
+                    if (dragLevel == dropLevel)
+                    {
+                        if (dropItem.Parent as TreeViewItem != null)
+                        {
+                            //不是顶层
+                            DelItem.Do(Gval.DragDrop.dragItem);
+                            (dropItem.Parent as TreeViewItem).Items.Add(dragItem);
+                            return true;
+                        }
+                        else
+                        {
+                            //是顶层
+                            DelItem.Do(Gval.DragDrop.dragItem);
+                            (dropItem.Parent as TreeView).Items.Add(dragItem);
+                            return true;
+                        }
+                        
+                    }
+
+                    //源比目标节点刚好深一级的情况
+                    if (dragLevel - dropLevel == 1)
+                    {
+                        DelItem.Do(Gval.DragDrop.dragItem);
+                        dropItem.Items.Add(dragItem);
+                        return true;
+                    }
+
+                }
+                    return false;
+            }
+
+
+            /// <summary>
+            /// 判断拖动的源节点和目标节点之间是否存在同名节点（同时对比目标节点的子节点）
+            /// </summary>
+            /// <param name="dragItem"></param>
+            /// <param name="dropItem"></param>
+            /// <returns>存在同名节点则返回true</returns>
+            static bool IsHasSameHeader(TreeViewItem dragItem, TreeViewItem dropItem)
+            {
+                foreach (TreeViewItem ditem in dropItem.Items)
+                {
+                    if (dragItem.Header.ToString() == ditem.Header.ToString())
+                    {
+                        return true;
+                    }
+                }
+                if (dragItem.Header.ToString() == dropItem.Header.ToString())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
-
-
     }
 }

@@ -57,6 +57,6 @@
             <GroupBox Header="工具箱" Margin="0,100,0,0" />
         </Grid>
         <local:uc_BookTree x:Name="BooksTree" UcTitle="书籍目录"/>
-        <local:uc_NoteTree Grid.Column="4" UcTitle="资料库" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="material.xml"/>
+        <local:uc_MaterialTree Grid.Column="4" UcTitle="资料库" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" XmlName="material.xml"/>
     </Grid>
 </Window>
