@@ -27,27 +27,12 @@ namespace 脸滚键盘
         /// <summary>
         /// 当前打开的书籍/文档来源信息
         /// </summary>
-        public struct CurrentBook
+        public struct Current
         {
-            /// <summary>
-            /// 基本书籍目录文件夹路径（只读）：app/books
-            /// </summary>
-            public static string BooksPath { get { return Base.AppPath + "/books"; } }
-
-            /// <summary>
-            /// 指向当前书籍文件夹路径
-            /// </summary>
-            public static string curBookPath;
-
-            /// <summary>
-            /// 指向当前分卷文件夹路径
-            /// </summary>
-            public static string curVolumePath;
-
-            /// <summary>
-            /// 指向当前章节文档路径全名
-            /// </summary>
-            public static string curTextFullName;
+            ///// <summary>
+            ///// 基本书籍目录文件夹路径（只读）：app/books
+            ///// </summary>
+            //public static string BooksPath { get { return Base.AppPath + "/books"; } }
 
             /// <summary>
             /// 指向节点所在的控件
@@ -55,9 +40,19 @@ namespace 脸滚键盘
             public static TreeView curTv;
 
             /// <summary>
-            /// 来源控件
+            /// 指向当前节点的路径
             /// </summary>
-            public static object originUc;
+            public static string curItemPath;
+
+            /// <summary>
+            /// 指向当前书籍分卷路径
+            /// </summary>
+            public static string curVolumePath;
+
+            /// <summary>
+            /// 指向当前书籍文件夹路径
+            /// </summary>
+            public static string curBookPath;
 
             /// <summary>
             /// 指向的节点item
@@ -65,14 +60,14 @@ namespace 脸滚键盘
             public static TreeViewItem curItem;
 
             /// <summary>
-            /// 指向当前书籍节点
-            /// </summary>
-            public static TreeViewItem curBookItem;
-
-            /// <summary>
             /// 指向当前分卷节点
             /// </summary>
             public static TreeViewItem curVolumeItem;
+
+            /// <summary>
+            /// 指向当前书籍节点
+            /// </summary>
+            public static TreeViewItem curBookItem;
         }
 
         public struct DragDrop

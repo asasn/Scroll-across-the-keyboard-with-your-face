@@ -20,6 +20,7 @@ namespace 脸滚键盘
             {
                 selectedItem.Header = name;
                 selectedItem.Tag = name;
+                selectedItem.Width = Double.NaN;
                 renameBox.Text = name;
                 if (renameBox.Name != "chapterNameBox")
                 {
@@ -33,19 +34,18 @@ namespace 脸滚键盘
             /// <summary>
             /// 重命名之前的准备（开始）
             /// </summary>
-            public static void Ready(TreeViewItem selectedItem, TextBox renameBox)
+            public static void Ready(TreeView tv, TreeViewItem selectedItem, TextBox renameBox)
             {
                 if (selectedItem != null && renameBox.Visibility == Visibility.Hidden)
                 {
                     //在节点位置显现
-                    Point p = selectedItem.TranslatePoint(new Point(), Gval.CurrentBook.curTv);
+                    Point p = selectedItem.TranslatePoint(new Point(), tv);
                     renameBox.Margin = new Thickness(p.X + 19, p.Y, 0, 0);
                     //隐藏节点会导致子节点也跟着隐藏，所以并不采用这个方法，而是把Header改为空值
                     renameBox.Visibility = Visibility.Visible;
                     renameBox.IsEnabled = true;
                     renameBox.Text = selectedItem.Header.ToString(); //新名字
                     renameBox.Tag = selectedItem.Header.ToString(); //旧名字
-                    selectedItem.Header = string.Empty;
                     renameBox.Focus();
                     renameBox.SelectAll();
                 }
@@ -57,7 +57,7 @@ namespace 脸滚键盘
             /// <param name="tv"></param>
             /// <param name="selectedItem"></param>
             /// <param name="renameBox"></param>
-            public static void Do(TreeViewItem selectedItem, TextBox renameBox)
+            public static void Do(TreeView tv, TreeViewItem selectedItem, TextBox renameBox, string workPath)
             {
                 if (selectedItem != null && renameBox.Visibility == Visibility.Visible)
                 {
@@ -85,12 +85,11 @@ namespace 脸滚键盘
 
                     //通过合法性检测，开始处理
 
-                    int level = GetLevel(selectedItem);
-
-                    if (level == 3)
+                    if (selectedItem.Name == "doc")
                     {
-                        string fOld = Gval.CurrentBook.curTextFullName;
-                        string fNew = Gval.CurrentBook.curVolumePath + "/" + newName + ".txt";
+                        //是文档的情况
+                        string fOld = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + oldName + ".txt";
+                        string fNew = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + newName + ".txt";
 
                         if (true == FileOperate.IsFileExists(fNew))
                         {
@@ -104,18 +103,27 @@ namespace 脸滚键盘
                             FillBcak(selectedItem, renameBox, newName);
 
                             FileOperate.renameDoc(fOld, fNew);
-                            Save.FromBookTree.SaveCurBook(Gval.CurrentBook.curBookItem);
+                            if (workPath == "books")
+                            {
+                                Save.FromBookTree.SaveCurBook(Gval.Current.curBookItem);
+                            }
+                            if (workPath == "material")
+                            {
+                                Save.FromMaterialTree.SaveAll(tv);
+                            }
+
                         }
                     }
-
-                    if (level == 2)
+                    else
                     {
-                        string oldVolumePath = Gval.CurrentBook.curVolumePath;
-                        string newVolumePath = Gval.CurrentBook.curBookPath + "/" + newName;
+                        //非文档的情况
 
-                        if (true == FileOperate.IsFolderExists(newVolumePath))
+                        string oldPath = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + oldName;
+                        string newPath = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + newName;
+
+                        if (true == FileOperate.IsFolderExists(newPath))
                         {
-                            Console.WriteLine("对应的分卷已经存在");
+                            Console.WriteLine("对应的文件夹已经存在");
                             FillBcak(selectedItem, renameBox, oldName);
                             return;
                         }
@@ -124,38 +132,27 @@ namespace 脸滚键盘
                             //新名称回填
                             FillBcak(selectedItem, renameBox, newName);
 
-                            FileOperate.renameDir(oldVolumePath, newVolumePath);
-                            Save.FromBookTree.SaveCurBook(Gval.CurrentBook.curBookItem);
-                        }
-                    }
-
-                    if (level == 1)
-                    {
-                        string oldBookPath = Gval.CurrentBook.curBookPath;
-                        string newBookPath = Gval.CurrentBook.BooksPath + "/" + newName;
-
-                        //对应的书籍目录已经存在的情况
-                        if (true == FileOperate.IsFolderExists(newBookPath))
-                        {
-                            Console.WriteLine("对应的书籍已经存在");
-                            FillBcak(selectedItem, renameBox, oldName);
-                            return;
-                        }
-                        else
-                        {
-                            //新名称回填
-                            FillBcak(selectedItem, renameBox, newName);
-
-                            FileOperate.renameDir(oldBookPath, newBookPath);
-                            TreeOperate.Save.FromBookTree.SaveRoot(Gval.CurrentBook.curTv);
+                            FileOperate.renameDir(oldPath, newPath);
+                            if (workPath == "books")
+                            {
+                                Save.FromBookTree.SaveCurBook(Gval.Current.curBookItem);
+                            }
+                            if (workPath == "material")
+                            {
+                                Save.FromMaterialTree.SaveAll(tv);
+                            }
                         }
                     }
 
 
                 }
-                //刷新工作区公共变量
-                //【注意】本控件是内容的消费者而非生产者，所以在此更新公共变量时，需要填入DocTree的信息
-                TreeOperate.ReNewCurrent(Gval.CurrentBook.curTv);
+                if (workPath == "books")
+                {
+                    //刷新工作区公共变量
+                    //【注意】本控件是内容的消费者而非生产者，所以在此更新公共变量时，需要填入DocTree的信息
+                    TreeOperate.ReNewCurrent(Gval.Current.curTv, workPath);
+                }
+
             }
         }
     }

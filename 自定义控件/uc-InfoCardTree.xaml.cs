@@ -58,15 +58,15 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Gval.CurrentBook.curBookItem != null)
+            if (Gval.Current.curBookItem != null)
             {
                 tv.Items.Clear();
 
                 //获取当前notes对应的完整xml文件名
-                string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.CurrentBook.curBookItem.Header.ToString() + "/" + XmlName;
+                string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.Current.curBookItem.Header.ToString() + "/" + XmlName;
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.Show.ToNoteTree.ShowAll(tv, fullXmlName_notes);
+                    TreeOperate.Show.ToNoteTree.ShowAll(tv, Gval.Current.curBookItem, XmlName);
                     uc.IsEnabled = true;
                 }
             }

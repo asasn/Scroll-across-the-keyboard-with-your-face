@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,42 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
+        /// <summary>
+        /// 获取item关联的文件/文件夹路径
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        /// <returns>selectedItem为null时返回工作路径，selectedItem不为null时返回Item路径</returns>
+        public static string GetItemPath(TreeViewItem selectedItem, string workPath)
+        {
+            ArrayList myItems = new ArrayList();
+            string itemPath = string.Empty;
+            TreeViewItem curItem = selectedItem;
+            itemPath += Gval.Base.AppPath + "/" + workPath;
+            if (selectedItem != null)
+            {
+                do
+                {
+                    myItems.Add(curItem);
+                    curItem = curItem.Parent as TreeViewItem;
+                } while (curItem != null);
+                myItems.Reverse();
+                foreach (TreeViewItem item in myItems)//倒序操作
+                {
+                    if (item.Name == "doc")
+                    {
+                        itemPath += "/" + item.Header.ToString() + ".txt";
+                    }
+                    else
+                    {
+                        itemPath += "/" + item.Header.ToString();
+                    }
+
+                }
+
+            }
+            return itemPath;
+        }
+
         /// <summary>
         /// 获取节点所在的层级，无选中或者不在TreeView内的为-1
         /// </summary>
@@ -70,7 +107,7 @@ namespace 脸滚键盘
         /// 更新当前书籍的指向信息
         /// </summary>
         /// <param name="tv"></param>
-        public static void ReNewCurrent(TreeView tv)
+        public static void ReNewCurrent(TreeView tv, string workPath)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
@@ -79,38 +116,32 @@ namespace 脸滚键盘
                 TreeViewItem volumeItem = GetItemByLevel(selectedItem, 2);
 
                 //更新公共变量数据
-                Gval.CurrentBook.curItem = selectedItem;
-                Gval.CurrentBook.curVolumeItem = volumeItem;
-                Gval.CurrentBook.curBookItem = bookItem;
-                Gval.CurrentBook.curTv = bookItem.Parent as TreeView;
-                Gval.CurrentBook.curBookPath = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString();
-                if (volumeItem != null)
-                {
-                    Gval.CurrentBook.curVolumePath = Gval.CurrentBook.curBookPath + '/' + volumeItem.Header.ToString();
-                    Gval.CurrentBook.curTextFullName = Gval.CurrentBook.curVolumePath + '/' + selectedItem.Header.ToString() + ".txt";
-                }
-
-
-
+                Gval.Current.curTv = tv;
+                Gval.Current.curItem = selectedItem;
+                Gval.Current.curVolumeItem = volumeItem;
+                Gval.Current.curBookItem = bookItem;
+                Gval.Current.curItemPath = GetItemPath(selectedItem, workPath);
+                Gval.Current.curVolumePath = GetItemPath(volumeItem, workPath);
+                Gval.Current.curBookPath = GetItemPath(bookItem, workPath);
             }
             else
             {
                 //更新公共变量数据
-                Gval.CurrentBook.curItem = null;
-                Gval.CurrentBook.curVolumeItem = null;
-                Gval.CurrentBook.curBookItem = null;
-                Gval.CurrentBook.curTv = null;
-                Gval.CurrentBook.curBookPath = null;
-                Gval.CurrentBook.curVolumePath = null;
-                Gval.CurrentBook.curTextFullName = null;
+                Gval.Current.curTv = null;
+                Gval.Current.curItem = null;
+                Gval.Current.curVolumeItem = null;
+                Gval.Current.curBookItem = null;
+                Gval.Current.curItemPath = null;
+                Gval.Current.curVolumePath = null;
+                Gval.Current.curBookPath = null;
             }
         }
 
         /// <summary>
-        /// 获取根节点
+        /// 向上获取根节点
         /// </summary>
         /// <param name="selectedItem">当前item</param>
-        /// <returns></returns>
+        /// <returns>根节点rootItem</returns>
         public static TreeViewItem GetRootItem(TreeViewItem selectedItem)
         {
             if (selectedItem != null)
@@ -124,41 +155,43 @@ namespace 脸滚键盘
         }
 
         /// <summary>
+        /// 向上获取控件对象
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        /// <returns>控件对象TreeView</returns>
+        public static TreeView GetTreeView(TreeViewItem selectedItem)
+        {
+            TreeView tv = null;
+            if (selectedItem != null)
+            {
+                TreeViewItem rootItem = GetRootItem(selectedItem);
+                tv = rootItem.Parent as TreeView;
+            }
+            return tv;
+        }
+
+        /// <summary>
         /// 向上获取指定层级的节点
         /// </summary>
         /// <param name="selectedItem"></param>
-        /// <param name="tl">想要获取的目标层级</param>
-        /// <returns></returns>
+        /// <param name="tl">想要获取的目标层级（1~？）</param>
+        /// <returns>节点对象</returns>
         public static TreeViewItem GetItemByLevel(TreeViewItem selectedItem, int tl)
         {
             if (tl > 0)
             {
                 int level = GetLevel(selectedItem);
-                //选择节点的层级必须比想要获取的目标深
-                if (selectedItem != null)
+                if (selectedItem != null && level >= tl)
                 {
-                    while (level > tl && (selectedItem.Parent as TreeViewItem) != null)
+                    while (level > tl && selectedItem.Parent as TreeViewItem != null)
                     {
                         selectedItem = selectedItem.Parent as TreeViewItem;
                         level = GetLevel(selectedItem);
                     }
                     return selectedItem;
                 }
-                else
-                {
-                    Console.WriteLine("选择的节点错误！");
-                    return null;
-                }
-                
             }
-            else
-            {
-                Console.WriteLine("想要获取的目标层级错误！");
-                return null;
-            }
-
+            return null;
         }
-
-
     }
 }

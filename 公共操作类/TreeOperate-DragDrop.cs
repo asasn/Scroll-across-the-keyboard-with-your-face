@@ -80,7 +80,7 @@ namespace 脸滚键盘
                             (dropItem.Parent as TreeView).Items.Add(dragItem);
                             return true;
                         }
-                        
+
                     }
 
                     //源比目标节点刚好深一级的情况
@@ -92,7 +92,7 @@ namespace 脸滚键盘
                     }
 
                 }
-                    return false;
+                return false;
             }
 
 

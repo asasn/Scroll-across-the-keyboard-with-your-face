@@ -76,12 +76,12 @@ namespace 脸滚键盘
 
             public static class FromNoteTree
             {
-                public static void SaveAll(TreeView tv, TreeViewItem bookItem, string XmlName)
+                public static void SaveAll(TreeView tv, TreeViewItem bookItem, string xmlName)
                 {
                     if (tv != null)
                     {
                         //获取当前notes对应的完整xml文件名
-                        string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + XmlName;
+                        string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + xmlName;
                         XmlDocument doc = new XmlDocument();
                         XmlElement eleRoot = ItemToRootElement(doc, "notes");
 
@@ -90,6 +90,27 @@ namespace 脸滚键盘
                             XmlElement eleBook = ItemToElement(doc, eleRoot, note, bookItem.Name);
                         }
                         doc.Save(fullXmlName_notes);
+                    }
+                }
+            }
+
+            public static class FromMaterialTree
+            {
+                public static void SaveAll(TreeView tv)
+                {
+                    if (tv != null)
+                    {
+                        //获取当前notes对应的完整xml文件名
+                        string fullXmlName_material = Gval.Base.AppPath + "/material/index.xml";
+                        XmlDocument doc = new XmlDocument();
+                        XmlElement eleRoot = ItemToRootElement(doc, "material");
+                        
+                        foreach (TreeViewItem dirItem in tv.Items)
+                        {
+                            XmlElement eleDoc = ItemToElement(doc, eleRoot, dirItem, "dir");
+                            DoSaveToXml(dirItem, eleDoc, doc);
+                        }
+                        doc.Save(fullXmlName_material);
                     }
                 }
             }

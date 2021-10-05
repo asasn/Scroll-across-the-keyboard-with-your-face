@@ -25,7 +25,7 @@
         <ScrollViewer Grid.Row="1">
             <DockPanel>
                 <Label x:Name="lb0" Width="18" BorderThickness="0,0,0,0" Background="#FFF0F0F0" FontSize="16"/>
-                <TextBox x:Name="tb" BorderThickness="1,0,1,0" Background="#FFFCFCFC" FontSize="16">
+                <TextBox x:Name="tb" BorderThickness="1,0,1,0" Background="#FFFCFCFC" FontSize="16" AcceptsReturn="True" TextWrapping="Wrap">
                 </TextBox>
             </DockPanel>
         </ScrollViewer>

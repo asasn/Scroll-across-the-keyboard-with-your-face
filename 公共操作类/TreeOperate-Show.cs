@@ -82,8 +82,11 @@ namespace 脸滚键盘
                 /// </summary>
                 /// <param name="tv"></param>
                 /// <param name="fullXmlName_notes"></param>
-                public static void ShowAll(TreeView tv, string fullXmlName_notes)
+                public static void ShowAll(TreeView tv, TreeViewItem bookItem, string xmlName)
                 {
+                    //获取当前notes对应的完整xml文件名
+                    string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + xmlName;
+
                     XmlDocument doc = new XmlDocument();
                     doc.Load(fullXmlName_notes);
                     XmlNode root = doc.SelectSingleNode("notes");
@@ -95,6 +98,32 @@ namespace 脸滚键盘
             }
 
 
+            public static class ToMaterialTree
+            {
+                /// <summary>
+                /// 从./books/当前书籍/note.xml文件载入，在TreeView控件上显示笔记内容
+                /// </summary>
+                /// <param name="tv"></param>
+                /// <param name="fullXmlName_material"></param>
+                public static void ShowAll(TreeView tv)
+                {
+                    //获取当前notes对应的完整xml文件名
+                    string fullXmlName_material = Gval.Base.AppPath + "/material/index.xml";
+
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(fullXmlName_material);
+                    XmlNode root = doc.SelectSingleNode("material");
+                    XmlNodeList rlist = root.ChildNodes;
+
+                    //以TreeView控件为起始
+                    XmlNodeListToTree(rlist, tv);
+                }
+            }
+
+
+
+
+
 
             //递归载入(双xml文件，从根节点开始)
             static void XmlNodeListToTree(XmlNodeList nlist, TreeViewItem parentItem)
@@ -102,7 +131,7 @@ namespace 脸滚键盘
                 foreach (XmlNode ch in nlist)
                 {
                     XmlElement rn = (XmlElement)ch;
-                    TreeViewItem newItem = XmlNodeToTreeView(ch, parentItem);
+                    TreeViewItem newItem = BuildItem(ch, parentItem);
                     if (ch.HasChildNodes)
                     {
                         XmlNodeListToTree(rn.ChildNodes, newItem);
@@ -111,7 +140,7 @@ namespace 脸滚键盘
             }
 
             // 在控件中显示TreeViewItem（双xml文件，从根节点开始）
-            static TreeViewItem XmlNodeToTreeView(XmlNode ch, TreeViewItem parentItem)
+            static TreeViewItem BuildItem(XmlNode ch, TreeViewItem parentItem)
             {
                 XmlElement rn = (XmlElement)ch;
                 TreeViewItem newItem = new TreeViewItem();
@@ -130,7 +159,7 @@ namespace 脸滚键盘
                 foreach (XmlNode ch in nlist)
                 {
                     XmlElement rn = (XmlElement)ch;
-                    TreeViewItem newItem = XmlNodeToTreeView(ch, tv);
+                    TreeViewItem newItem = BuildItem(ch, tv);
                     if (ch.HasChildNodes)
                     {
                         //开始进入第二级
@@ -140,7 +169,7 @@ namespace 脸滚键盘
             }
 
             // 在控件中显示TreeViewItem（单xml模式：从控件开始）
-            static TreeViewItem XmlNodeToTreeView(XmlNode ch, TreeView tv)
+            static TreeViewItem BuildItem(XmlNode ch, TreeView tv)
             {
                 XmlElement rn = (XmlElement)ch;
                 TreeViewItem newItem = new TreeViewItem();
@@ -148,11 +177,17 @@ namespace 脸滚键盘
                 newItem.Header = rn.GetAttribute("title");
                 newItem.Tag = rn.GetAttribute("content");
                 newItem.AllowDrop = true;
-
                 tv.Items.Add(newItem);
                 return newItem;
             }
+
+
         }
+
+
+
+
+
 
     }
 }
