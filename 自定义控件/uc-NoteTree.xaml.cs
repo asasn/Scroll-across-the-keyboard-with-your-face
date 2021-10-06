@@ -65,7 +65,7 @@ namespace 脸滚键盘
                 string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.Current.curBookItem.Header.ToString() + "/" + UcTag + ".xml";
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.Show.ToNoteTree.ShowAll(tv, Gval.Current.curBookItem, UcTag);
+                    TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, UcTag);
                     uc.IsEnabled = true;
                 }
             }
@@ -88,7 +88,7 @@ namespace 脸滚键盘
             if (Gval.Current.curBookItem != null)
             {
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
-                TreeOperate.Save.FromNoteTree.SaveAll(tv, Gval.Current.curBookItem, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
             }
         }
 
@@ -102,13 +102,13 @@ namespace 脸滚键盘
                 if (level == 2)
                 {
                     TreeOperate.AddItem.BrotherItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
-                    TreeOperate.Save.FromNoteTree.SaveAll(tv, Gval.Current.curBookItem, UcTag);
+                    TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
 
                 }
                 if (level == 1)
                 {
                     TreeOperate.AddItem.ChildItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
-                    TreeOperate.Save.FromNoteTree.SaveAll(tv, Gval.Current.curBookItem, UcTag);
+                    TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
                 }
             }
         }
@@ -119,7 +119,7 @@ namespace 脸滚键盘
             if (selectedItem != null && Gval.Current.curBookItem != null)
             {
                 TreeOperate.DelItem.Do(selectedItem);
-                TreeOperate.Save.FromNoteTree.SaveAll(tv, Gval.Current.curBookItem, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
             }
         }
 

@@ -73,47 +73,29 @@ namespace 脸滚键盘
                 }
             }
 
-
-            public static class FromNoteTree
+            public static void ToSingleXml(TreeView tv, TreeViewItem bookItem, string ucTag)
             {
-                public static void SaveAll(TreeView tv, TreeViewItem bookItem, string ucTag)
+                //获取当前笔记对应的完整xml文件名
+                string fullXmlName;                
+                if (ucTag == "material")
                 {
-                    if (tv != null && bookItem != null)
-                    {
-                        //获取当前笔记对应的完整xml文件名
-                        string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + ucTag + ".xml";
-                        XmlDocument doc = new XmlDocument();
-                        XmlElement eleRoot = ItemToRootElement(doc, "notes");
-
-                        foreach (TreeViewItem dirItem in tv.Items)
-                        {
-                            XmlElement eleDir = ItemToElement(doc, eleRoot, dirItem, "dir");
-                            DoSaveToXml(dirItem, eleDir, doc);
-                        }
-                        doc.Save(fullXmlName_notes);
-                    }
+                    fullXmlName = Gval.Base.AppPath + "/" + ucTag + "/index.xml";
                 }
-            }
-
-            public static class FromMaterialTree
-            {
-                public static void SaveAll(TreeView tv)
+                else
                 {
-                    if (tv != null)
-                    {
-                        //获取当前资料对应的完整xml文件名
-                        string fullXmlName_material = Gval.Base.AppPath + "/material/index.xml";
-                        XmlDocument doc = new XmlDocument();
-                        XmlElement eleRoot = ItemToRootElement(doc, "material");
-                        
-                        foreach (TreeViewItem dirItem in tv.Items)
-                        {
-                            XmlElement eleDir = ItemToElement(doc, eleRoot, dirItem, "dir");
-                            DoSaveToXml(dirItem, eleDir, doc);
-                        }
-                        doc.Save(fullXmlName_material);
-                    }
+                    fullXmlName = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + ucTag + ".xml";
                 }
+
+                XmlDocument doc = new XmlDocument();
+                XmlElement eleRoot = ItemToRootElement(doc, ucTag);
+
+                foreach (TreeViewItem dirItem in tv.Items)
+                {
+                    XmlElement eleDir = ItemToElement(doc, eleRoot, dirItem, "dir");
+                    DoSaveToXml(dirItem, eleDir, doc);
+                }
+                doc.Save(fullXmlName);
+
             }
 
             /// <summary>
@@ -143,7 +125,12 @@ namespace 脸滚键盘
                 return ele;
             }
 
-            //递归保存
+            /// <summary>
+            /// 递归保存
+            /// </summary>
+            /// <param name="curItem"></param>
+            /// <param name="parentXmlElement"></param>
+            /// <param name="doc"></param>
             static void DoSaveToXml(TreeViewItem curItem, XmlElement parentXmlElement, XmlDocument doc)
             {
                 foreach (TreeViewItem childitem in curItem.Items)
@@ -152,6 +139,7 @@ namespace 脸滚键盘
                     DoSaveToXml(childitem, ele, doc);
                 }
             }
+
 
         }
     }

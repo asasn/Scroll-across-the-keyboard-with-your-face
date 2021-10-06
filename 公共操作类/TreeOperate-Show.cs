@@ -75,49 +75,33 @@ namespace 脸滚键盘
                     XmlNodeListToTree(rlist, rootItem);
                 }
             }
-            public static class ToNoteTree
+
+            /// <summary>
+            /// 从xml文件载入到控件进行展示（single模式）
+            /// </summary>
+            /// <param name="tv"></param>
+            /// <param name="bookItem"></param>
+            /// <param name="ucTag"></param>
+            public static void FromSingleXml(TreeView tv, TreeViewItem bookItem, string ucTag)
             {
-                /// <summary>
-                /// 从./books/当前书籍/note.xml文件载入，在TreeView控件上显示笔记内容
-                /// </summary>
-                /// <param name="tv"></param>
-                /// <param name="fullXmlName_notes"></param>
-                public static void ShowAll(TreeView tv, TreeViewItem bookItem, string ucTag)
+
+                //获取当前notes对应的完整xml文件名
+                string fullXmlName;
+                if (ucTag == "material")
                 {
-                    //获取当前notes对应的完整xml文件名
-                    string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + ucTag + ".xml";
-
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(fullXmlName_notes);
-                    XmlNode root = doc.SelectSingleNode("notes");
-                    XmlNodeList rlist = root.ChildNodes;
-
-                    //以TreeView控件为起始
-                    XmlNodeListToTree(rlist, tv);
+                    fullXmlName = Gval.Base.AppPath + "/" + ucTag + "/index.xml";
                 }
-            }
-
-
-            public static class ToMaterialTree
-            {
-                /// <summary>
-                /// 从./books/当前书籍/note.xml文件载入，在TreeView控件上显示笔记内容
-                /// </summary>
-                /// <param name="tv"></param>
-                /// <param name="fullXmlName_material"></param>
-                public static void ShowAll(TreeView tv)
+                else
                 {
-                    //获取当前notes对应的完整xml文件名
-                    string fullXmlName_material = Gval.Base.AppPath + "/material/index.xml";
-
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(fullXmlName_material);
-                    XmlNode root = doc.SelectSingleNode("material");
-                    XmlNodeList rlist = root.ChildNodes;
-
-                    //以TreeView控件为起始
-                    XmlNodeListToTree(rlist, tv);
+                    fullXmlName = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + ucTag + ".xml";
                 }
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fullXmlName);
+                XmlNode root = doc.SelectSingleNode(ucTag);
+                XmlNodeList rlist = root.ChildNodes;
+
+                //以TreeView控件为起始
+                XmlNodeListToTree(rlist, tv);
             }
 
 
@@ -152,6 +136,18 @@ namespace 脸滚键盘
                 return newItem;
             }
 
+            // 在控件中显示TreeViewItem（单xml模式：从控件开始）
+            static TreeViewItem BuildItem(XmlNode ch, TreeView tv)
+            {
+                XmlElement rn = (XmlElement)ch;
+                TreeViewItem newItem = new TreeViewItem();
+                newItem.Name = rn.Name;
+                newItem.Header = rn.GetAttribute("title");
+                newItem.Tag = rn.GetAttribute("content");
+                newItem.AllowDrop = true;
+                tv.Items.Add(newItem);
+                return newItem;
+            }
 
             //递归载入(单xml模式：从TreeView控件开始)
             static void XmlNodeListToTree(XmlNodeList nlist, TreeView tv)
@@ -168,26 +164,14 @@ namespace 脸滚键盘
                 }
             }
 
-            // 在控件中显示TreeViewItem（单xml模式：从控件开始）
-            static TreeViewItem BuildItem(XmlNode ch, TreeView tv)
-            {
-                XmlElement rn = (XmlElement)ch;
-                TreeViewItem newItem = new TreeViewItem();
-                newItem.Name = rn.Name;
-                newItem.Header = rn.GetAttribute("title");
-                newItem.Tag = rn.GetAttribute("content");
-                newItem.AllowDrop = true;
-                tv.Items.Add(newItem);
-                return newItem;
-            }
+
 
 
         }
-
-
-
-
-
-
     }
 }
+
+
+
+
+

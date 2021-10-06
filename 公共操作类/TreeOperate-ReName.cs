@@ -146,13 +146,9 @@ namespace 脸滚键盘
                 {
                     Save.FromBookTree.SaveCurBook(Gval.Current.curBookItem);
                 }
-                if (ucTag == "material")
+                else
                 {
-                    Save.FromMaterialTree.SaveAll(tv);
-                }
-                if (ucTag == "note" || ucTag == "story")
-                {
-                    Save.FromNoteTree.SaveAll(tv, Gval.Current.curBookItem, ucTag);
+                    Save.ToSingleXml(tv, Gval.Current.curBookItem, ucTag);
                 }
             }
         }

@@ -66,7 +66,7 @@ namespace 脸滚键盘
                 string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.Current.curBookItem.Header.ToString() + "/" + XmlName;
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.Show.ToNoteTree.ShowAll(tv, Gval.Current.curBookItem, XmlName);
+                    TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, XmlName);
                     uc.IsEnabled = true;
                 }
             }
