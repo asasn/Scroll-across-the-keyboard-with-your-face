@@ -40,15 +40,15 @@ namespace 脸滚键盘
 
 
 
-        public string WorkPath
+        public string UcTag
         {
-            get { return (string)GetValue(WorkPathProperty); }
-            set { SetValue(WorkPathProperty, value); }
+            get { return (string)GetValue(UcTagProperty); }
+            set { SetValue(UcTagProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for WorkPath.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty WorkPathProperty =
-            DependencyProperty.Register("WorkPath", typeof(string), typeof(uc_MaterialTree), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for UcTag.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UcTagProperty =
+            DependencyProperty.Register("UcTag", typeof(string), typeof(uc_MaterialTree), new PropertyMetadata(null));
 
 
 
@@ -66,17 +66,17 @@ namespace 脸滚键盘
 
         private void tv_Loaded(object sender, RoutedEventArgs e)
         {
-            string workPath = Gval.Base.AppPath + "/" + WorkPath;
-            string materialXml = Gval.Base.AppPath + "/" + WorkPath + "/" + "index.xml";
+            string ucTag = Gval.Base.AppPath + "/" + UcTag;
+            string materialXml = Gval.Base.AppPath + "/" + UcTag + "/" + "index.xml";
             //检查工作目录是否存在
-            if (true == FileOperate.IsFolderExists(workPath) && true == FileOperate.IsFileExists(materialXml))
+            if (true == FileOperate.IsFolderExists(ucTag) && true == FileOperate.IsFileExists(materialXml))
             {
                 TreeOperate.Show.ToMaterialTree.ShowAll(tv);
             }
             else
             {
                 //不存在则建立
-                FileOperate.CreateFolder(workPath);
+                FileOperate.CreateFolder(ucTag);
                 TreeOperate.Save.FromMaterialTree.SaveAll(tv);
             }
         }
@@ -87,7 +87,7 @@ namespace 脸滚键盘
         private void btnNewFolder_Click(object sender, RoutedEventArgs e)
         {
             string itemTitle = "新文件夹";
-            string rootPath = Gval.Base.AppPath + "/" + WorkPath + "/" + itemTitle;
+            string rootPath = Gval.Base.AppPath + "/" + UcTag + "/" + itemTitle;
             if (false == FileOperate.IsFolderExists(rootPath))
             {
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
@@ -103,7 +103,7 @@ namespace 脸滚键盘
             if (selectedItem != null)
             {
                 TreeViewItem rootItem = TreeOperate.GetRootItem(selectedItem);
-                string rootPath = Gval.Base.AppPath + "/" + WorkPath + "/" + rootItem.Header.ToString();
+                string rootPath = Gval.Base.AppPath + "/" + UcTag + "/" + rootItem.Header.ToString();
                 string fullFileName = rootPath + "/" + itemTitle + ".txt";
 
                 int level = TreeOperate.GetLevel(selectedItem);
@@ -125,7 +125,6 @@ namespace 脸滚键盘
                         TreeOperate.Save.FromMaterialTree.SaveAll(tv);
                     }
                 }
-                Console.WriteLine(TreeOperate.GetItemPath(selectedItem, WorkPath));
             }
 
         }
@@ -144,13 +143,18 @@ namespace 脸滚键盘
             }
             if (renameBox.Visibility == Visibility.Visible)
             {
-                TreeOperate.ReName.Do(tv, curItem, renameBox, WorkPath);
+                TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
                 selectedItem.Focus();
             }
 
         }
 
         TreeViewItem curItem;
+        /// <summary>
+        /// TreeView快捷键（包含按F2重命名等）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tv_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.F2)
@@ -179,7 +183,7 @@ namespace 脸滚键盘
             {
                 if (renameBox.Visibility == Visibility.Visible)
                 {
-                    TreeOperate.ReName.Do(tv, curItem, renameBox, WorkPath);
+                    TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
                     selectedItem.Focus();
                 }
             }
@@ -191,7 +195,7 @@ namespace 脸滚键盘
             if (selectedItem != null)
             {
                 TreeViewItem dirItem = TreeOperate.GetRootItem(selectedItem);
-                string dirPath = Gval.Base.AppPath + "/" + WorkPath + "/" + dirItem.Header.ToString();
+                string dirPath = Gval.Base.AppPath + "/" + UcTag + "/" + dirItem.Header.ToString();
 
 
                 if (selectedItem.Name == "doc")
@@ -235,12 +239,10 @@ namespace 脸滚键盘
 
             if (selectedItem != null)
             {
-                (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = false;
                 (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = true;
             }
             else
             {
-                (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = true;
                 (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
             }
         }

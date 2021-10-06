@@ -57,7 +57,7 @@ namespace 脸滚键盘
             /// <param name="tv"></param>
             /// <param name="selectedItem"></param>
             /// <param name="renameBox"></param>
-            public static void Do(TreeView tv, TreeViewItem selectedItem, TextBox renameBox, string workPath)
+            public static void Do(TreeView tv, TreeViewItem selectedItem, TextBox renameBox, string ucTag)
             {
                 if (selectedItem != null && renameBox.Visibility == Visibility.Visible)
                 {
@@ -88,8 +88,8 @@ namespace 脸滚键盘
                     if (selectedItem.Name == "doc")
                     {
                         //是文档的情况
-                        string fOld = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + oldName + ".txt";
-                        string fNew = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + newName + ".txt";
+                        string fOld = GetItemPath(selectedItem.Parent as TreeViewItem, ucTag) + "/" + oldName + ".txt";
+                        string fNew = GetItemPath(selectedItem.Parent as TreeViewItem, ucTag) + "/" + newName + ".txt";
 
                         if (true == FileOperate.IsFileExists(fNew))
                         {
@@ -103,23 +103,15 @@ namespace 脸滚键盘
                             FillBcak(selectedItem, renameBox, newName);
 
                             FileOperate.renameDoc(fOld, fNew);
-                            if (workPath == "books")
-                            {
-                                Save.FromBookTree.SaveCurBook(Gval.Current.curBookItem);
-                            }
-                            if (workPath == "material")
-                            {
-                                Save.FromMaterialTree.SaveAll(tv);
-                            }
-
+                            SaveIt(tv, ucTag);
                         }
                     }
                     else
                     {
                         //非文档的情况
 
-                        string oldPath = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + oldName;
-                        string newPath = GetItemPath(selectedItem.Parent as TreeViewItem, workPath) + "/" + newName;
+                        string oldPath = GetItemPath(selectedItem.Parent as TreeViewItem, ucTag) + "/" + oldName;
+                        string newPath = GetItemPath(selectedItem.Parent as TreeViewItem, ucTag) + "/" + newName;
 
                         if (true == FileOperate.IsFolderExists(newPath))
                         {
@@ -133,26 +125,35 @@ namespace 脸滚键盘
                             FillBcak(selectedItem, renameBox, newName);
 
                             FileOperate.renameDir(oldPath, newPath);
-                            if (workPath == "books")
-                            {
-                                Save.FromBookTree.SaveCurBook(Gval.Current.curBookItem);
-                            }
-                            if (workPath == "material")
-                            {
-                                Save.FromMaterialTree.SaveAll(tv);
-                            }
+                            SaveIt(tv, ucTag);
                         }
                     }
 
 
                 }
-                if (workPath == "books")
+                if (ucTag == "books")
                 {
                     //刷新工作区公共变量
                     //【注意】本控件是内容的消费者而非生产者，所以在此更新公共变量时，需要填入DocTree的信息
-                    TreeOperate.ReNewCurrent(Gval.Current.curTv, workPath);
+                    TreeOperate.ReNewCurrent(Gval.Current.curTv, ucTag);
                 }
 
+            }
+
+            static void SaveIt(TreeView tv, string ucTag)
+            {
+                if (ucTag == "books")
+                {
+                    Save.FromBookTree.SaveCurBook(Gval.Current.curBookItem);
+                }
+                if (ucTag == "material")
+                {
+                    Save.FromMaterialTree.SaveAll(tv);
+                }
+                if (ucTag == "note" || ucTag == "story")
+                {
+                    Save.FromNoteTree.SaveAll(tv, Gval.Current.curBookItem, ucTag);
+                }
             }
         }
     }

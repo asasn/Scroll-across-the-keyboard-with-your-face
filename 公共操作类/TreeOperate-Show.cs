@@ -37,7 +37,7 @@ namespace 脸滚键盘
                 /// 流程1：从./books/index.xml文件载入，在TreeView控件上显示根节点（书籍名称）
                 /// </summary>
                 /// <param name="tv"></param>
-                /// <param name="WorkPath"></param>
+                /// <param name="UcTag"></param>
                 /// <param name="WorkXmlName"></param>
                 static void ToRoot(TreeView tv)
                 {
@@ -82,10 +82,10 @@ namespace 脸滚键盘
                 /// </summary>
                 /// <param name="tv"></param>
                 /// <param name="fullXmlName_notes"></param>
-                public static void ShowAll(TreeView tv, TreeViewItem bookItem, string xmlName)
+                public static void ShowAll(TreeView tv, TreeViewItem bookItem, string ucTag)
                 {
                     //获取当前notes对应的完整xml文件名
-                    string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + xmlName;
+                    string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + ucTag + ".xml";
 
                     XmlDocument doc = new XmlDocument();
                     doc.Load(fullXmlName_notes);

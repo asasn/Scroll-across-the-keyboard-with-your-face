@@ -15,12 +15,12 @@ namespace 脸滚键盘
         /// </summary>
         /// <param name="selectedItem"></param>
         /// <returns>selectedItem为null时返回工作路径，selectedItem不为null时返回Item路径</returns>
-        public static string GetItemPath(TreeViewItem selectedItem, string workPath)
+        public static string GetItemPath(TreeViewItem selectedItem, string ucTag)
         {
             ArrayList myItems = new ArrayList();
             string itemPath = string.Empty;
             TreeViewItem curItem = selectedItem;
-            itemPath += Gval.Base.AppPath + "/" + workPath;
+            itemPath += Gval.Base.AppPath + "/" + ucTag;
             if (selectedItem != null)
             {
                 do
@@ -66,7 +66,6 @@ namespace 脸滚键盘
             }
             else
             {
-                level = 0;
                 return level;
             }
 
@@ -107,7 +106,7 @@ namespace 脸滚键盘
         /// 更新当前书籍的指向信息
         /// </summary>
         /// <param name="tv"></param>
-        public static void ReNewCurrent(TreeView tv, string workPath)
+        public static void ReNewCurrent(TreeView tv, string ucTag)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
@@ -120,9 +119,9 @@ namespace 脸滚键盘
                 Gval.Current.curItem = selectedItem;
                 Gval.Current.curVolumeItem = volumeItem;
                 Gval.Current.curBookItem = bookItem;
-                Gval.Current.curItemPath = GetItemPath(selectedItem, workPath);
-                Gval.Current.curVolumePath = GetItemPath(volumeItem, workPath);
-                Gval.Current.curBookPath = GetItemPath(bookItem, workPath);
+                Gval.Current.curItemPath = GetItemPath(selectedItem, ucTag);
+                Gval.Current.curVolumePath = GetItemPath(volumeItem, ucTag);
+                Gval.Current.curBookPath = GetItemPath(bookItem, ucTag);
             }
             else
             {

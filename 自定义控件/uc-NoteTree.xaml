@@ -6,6 +6,15 @@
              xmlns:local="clr-namespace:脸滚键盘"
              mc:Ignorable="d" Background="#FFFFFFFF"
              d:DesignHeight="450" d:DesignWidth="300" DataContextChanged="uc_DataContextChanged">
+    <UserControl.Resources>
+        <ContextMenu x:Key="tvContextMenu">
+            <MenuItem x:Name="newDir" Header="新建根节点" Click="btnNewFolder_Click"/>
+            <Separator />
+            <MenuItem x:Name="newDoc" Header="新建子节点" Click="btnNewDoc_Click"/>
+            <Separator />
+            <MenuItem x:Name="remove" Header="删除该节点" Click="btnDelItem_Click"/>
+        </ContextMenu>
+    </UserControl.Resources>
     <GroupBox Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA">
         <Grid>
             <Grid.RowDefinitions>
@@ -18,11 +27,12 @@
                     <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Text="" BorderThickness="0,0,0,0" VerticalAlignment="Center"/>
-                <Button Content="查找" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto"  Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" Click="Button_Click" />
+                <Button Content="查找" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto"  Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" />
                 <Button Content="上一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1" Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="40,0,0,0" />
                 <Button Content="下一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="80,0,0,0" />
             </Grid>
-            <TreeView x:Name="tv" Grid.Row="1" MouseDoubleClick="tv_MouseDoubleClick"/>
+            <TreeView x:Name="tv" Grid.Row="1" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" KeyDown="tv_KeyDown"/>
+            <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
 
         </Grid>
     </GroupBox>

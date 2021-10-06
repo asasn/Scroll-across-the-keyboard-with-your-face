@@ -76,18 +76,19 @@ namespace 脸滚键盘
 
             public static class FromNoteTree
             {
-                public static void SaveAll(TreeView tv, TreeViewItem bookItem, string xmlName)
+                public static void SaveAll(TreeView tv, TreeViewItem bookItem, string ucTag)
                 {
-                    if (tv != null)
+                    if (tv != null && bookItem != null)
                     {
-                        //获取当前notes对应的完整xml文件名
-                        string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + xmlName;
+                        //获取当前笔记对应的完整xml文件名
+                        string fullXmlName_notes = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + ucTag + ".xml";
                         XmlDocument doc = new XmlDocument();
                         XmlElement eleRoot = ItemToRootElement(doc, "notes");
 
-                        foreach (TreeViewItem note in tv.Items)
+                        foreach (TreeViewItem dirItem in tv.Items)
                         {
-                            XmlElement eleBook = ItemToElement(doc, eleRoot, note, bookItem.Name);
+                            XmlElement eleDir = ItemToElement(doc, eleRoot, dirItem, "dir");
+                            DoSaveToXml(dirItem, eleDir, doc);
                         }
                         doc.Save(fullXmlName_notes);
                     }
@@ -100,15 +101,15 @@ namespace 脸滚键盘
                 {
                     if (tv != null)
                     {
-                        //获取当前notes对应的完整xml文件名
+                        //获取当前资料对应的完整xml文件名
                         string fullXmlName_material = Gval.Base.AppPath + "/material/index.xml";
                         XmlDocument doc = new XmlDocument();
                         XmlElement eleRoot = ItemToRootElement(doc, "material");
                         
                         foreach (TreeViewItem dirItem in tv.Items)
                         {
-                            XmlElement eleDoc = ItemToElement(doc, eleRoot, dirItem, "dir");
-                            DoSaveToXml(dirItem, eleDoc, doc);
+                            XmlElement eleDir = ItemToElement(doc, eleRoot, dirItem, "dir");
+                            DoSaveToXml(dirItem, eleDir, doc);
                         }
                         doc.Save(fullXmlName_material);
                     }
