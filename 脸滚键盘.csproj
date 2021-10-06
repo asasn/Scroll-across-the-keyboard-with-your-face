@@ -59,7 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Gval.cs" />
-    <Compile Include="自定义控件-信息卡模板\RoleCard.xaml.cs">
+    <Compile Include="信息卡模板\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="公共操作类\EditorOperate.cs" />
@@ -101,7 +101,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="自定义控件-信息卡模板\RoleCard.xaml">
+    <Page Include="信息卡模板\RoleCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

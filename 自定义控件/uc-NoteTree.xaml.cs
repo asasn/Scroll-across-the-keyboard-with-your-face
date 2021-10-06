@@ -139,12 +139,12 @@ namespace 脸滚键盘
             if (selectedItem != null)
             {
                 (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = true;
-                (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = true;
+                (cm.Items.GetItemAt(4) as MenuItem).IsEnabled = true;
             }
             else
             {
                 (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
-                (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
+                (cm.Items.GetItemAt(4) as MenuItem).IsEnabled = false;
             }
         }
 

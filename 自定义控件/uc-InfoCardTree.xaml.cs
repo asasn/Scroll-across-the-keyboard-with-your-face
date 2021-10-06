@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using 脸滚键盘.信息卡模板;
 
 namespace 脸滚键盘
 {
@@ -39,15 +41,15 @@ namespace 脸滚键盘
 
 
 
-        public string XmlName
+        public string UcTag
         {
-            get { return (string)GetValue(XmlNameProperty); }
-            set { SetValue(XmlNameProperty, value); }
+            get { return (string)GetValue(UcTagProperty); }
+            set { SetValue(UcTagProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for XmlName.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty XmlNameProperty =
-            DependencyProperty.Register("XmlName", typeof(string), typeof(uc_InfoCardTree), new PropertyMetadata(null));
+        // Using a DependencyProperty as the backing store for UcTag.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UcTagProperty =
+            DependencyProperty.Register("UcTag", typeof(string), typeof(uc_InfoCardTree), new PropertyMetadata(null));
 
 
 
@@ -63,10 +65,10 @@ namespace 脸滚键盘
                 tv.Items.Clear();
 
                 //获取当前notes对应的完整xml文件名
-                string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.Current.curBookItem.Header.ToString() + "/" + XmlName;
+                string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.Current.curBookItem.Header.ToString() + "/" + UcTag + ".xml";
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, XmlName);
+                    TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, UcTag);
                     uc.IsEnabled = true;
                 }
             }
@@ -84,7 +86,131 @@ namespace 脸滚键盘
 
         private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                RoleCard roleCard = new RoleCard(selectedItem, e);
+                roleCard.Show();
+            }
+        }
 
+        private void uc_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 右键菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tv_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+
+            //实例化菜单
+            ContextMenu cm = this.FindResource("tvContextMenu") as ContextMenu;
+
+            //在鼠标所在的位置显现
+            cm.Placement = PlacementMode.MousePoint;
+
+            //显示菜单
+            cm.IsOpen = true;
+            (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
+            if (selectedItem != null)
+            {
+                (cm.Items.GetItemAt(4) as MenuItem).IsEnabled = true;
+            }
+            else
+            {
+                (cm.Items.GetItemAt(4) as MenuItem).IsEnabled = false;
+            }
+        }
+
+        private void btnNewFolder_Click(object sender, RoutedEventArgs e)
+        {
+            string itemTitle = "新信息卡";
+            if (Gval.Current.curBookItem != null)
+            {
+                TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
+                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+            }
+        }
+
+        private void btnNewDoc_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDelItem_Click(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null && Gval.Current.curBookItem != null)
+            {
+                TreeOperate.DelItem.Do(selectedItem);
+                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+            }
+        }
+
+
+        /// <summary>
+        /// TreeView鼠标左键点击事件：点击在TreeView类型的控件tv上，对应Item来说，相当于点击在空白
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                selectedItem.IsSelected = false;
+            }
+            if (renameBox.Visibility == Visibility.Visible)
+            {
+                TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
+                selectedItem.Focus();
+            }
+
+        }
+
+        TreeViewItem curItem;
+        /// <summary>
+        /// TreeView快捷键（包含按F2重命名等）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tv_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F2)
+            {
+                TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+                if (selectedItem != null)
+                {
+                    if (renameBox.Visibility == Visibility.Hidden)
+                    {
+                        curItem = selectedItem;//记录下当前节点的各种信息
+                        TreeOperate.ReName.Ready(tv, selectedItem, renameBox);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 重命名文本框快捷键
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void renameBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (e.Key == Key.Enter)
+            {
+                if (renameBox.Visibility == Visibility.Visible)
+                {
+                    TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
+                    selectedItem.Focus();
+                }
+            }
         }
     }
 }

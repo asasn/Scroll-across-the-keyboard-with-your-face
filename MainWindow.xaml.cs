@@ -23,6 +23,7 @@ namespace 脸滚键盘
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
         private void Window_Closed(object sender, EventArgs e)

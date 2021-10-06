@@ -11,8 +11,8 @@
             <MenuItem x:Name="newDir" Header="新建资料文件夹" Click="btnNewFolder_Click"/>
             <Separator />
             <MenuItem x:Name="newDoc" Header="新建资料文档" Click="btnNewDoc_Click"/>
-            <!--<Separator />-->
-            <!--<MenuItem x:Name="remove" Header="删除该节点" Click="btnDelItem_Click"/>-->
+            <Separator />
+            <MenuItem x:Name="remove" Header="删除该节点" Click="btnDelItem_Click"/>
         </ContextMenu>
     </UserControl.Resources>
     <GroupBox Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA">
