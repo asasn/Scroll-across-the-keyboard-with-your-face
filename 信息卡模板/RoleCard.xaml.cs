@@ -28,16 +28,45 @@ namespace 脸滚键盘.信息卡模板
             this.Top = pointToWindow.Y - this.Height / 2;
             this.WindowStartupLocation = WindowStartupLocation.Manual;
 
-            Grid g = this.Content as Grid;
-            UIElementCollection elements = g.Children;
+            UIElementCollection elements = gCard.Children;
             foreach (UIElement element in elements)
             {
                 if (element.GetType() == typeof(Label))
                 {
                     Console.WriteLine((element as Label).Content);
-                    
+
                 }
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            double ln = 0;
+            Button b = sender as Button;
+            string num = b.Name.Substring(1);
+            string wpName = "w" + num;
+            WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
+            
+            TextBox tb = AddTextBox();
+            wp.Children.Add(tb);
+        }
+
+        TextBox AddTextBox()
+        {
+            TextBox tb = new TextBox();
+            tb.MinWidth = 30;
+            tb.TextWrapping = TextWrapping.Wrap;
+            tb.Text = "";
+            tb.BorderThickness = new Thickness(0, 0, 0, 1);
+            tb.Margin = new Thickness(10, 0, 0, 0);
+            tb.HorizontalAlignment = HorizontalAlignment.Left;
+            tb.VerticalAlignment = VerticalAlignment.Center;
+            return tb;
+        }
+
+        private void g6_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Console.WriteLine("内容改变");
         }
     }
 }
