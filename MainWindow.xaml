@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘"
         xmlns:hc="https://handyorg.github.io/handycontrol" 
+        xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
         mc:Ignorable="d"
         Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Closed="Window_Closed">
     <Grid>
@@ -32,7 +33,7 @@
             <local:uc_Editor Grid.Column="2" Grid.RowSpan="2"/>
             <local:uc_NoteTree Grid.Column="4" UcTitle="时间事件备忘笔记" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="note" />
             <local:uc_NoteTree Grid.Column="4" Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="故事大纲" UcTag="story" />
-            <TabControl Grid.Row="1">
+            <TabControl Grid.Row="1" >
                 <TabItem Header="角色信息卡">
                     <Grid Background="#FFE5E5E5">
                         <local:uc_InfoCardTree UcTitle="角色" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="role"/>

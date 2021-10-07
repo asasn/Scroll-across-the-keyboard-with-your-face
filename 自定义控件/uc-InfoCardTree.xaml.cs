@@ -52,6 +52,15 @@ namespace 脸滚键盘
             DependencyProperty.Register("UcTag", typeof(string), typeof(uc_InfoCardTree), new PropertyMetadata(null));
 
 
+        private string getMd5(string password)
+        {
+            byte[] pasArray = System.Text.Encoding.Default.GetBytes(password);
+            pasArray = new System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(pasArray);
+            string rMd5Str = "";
+            foreach (byte ibyte in pasArray)
+                rMd5Str += ibyte.ToString("x").PadLeft(2, '0');
+            return rMd5Str;
+        }
 
         /// <summary>
         /// DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件
@@ -132,7 +141,10 @@ namespace 脸滚键盘
             string itemTitle = "新信息卡";
             if (Gval.Current.curBookItem != null)
             {
+                string timestr = DateTime.Now.ToString();
+                string uid = getMd5(timestr);
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
+                newItem.Uid = uid;
                 TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
             }
         }
