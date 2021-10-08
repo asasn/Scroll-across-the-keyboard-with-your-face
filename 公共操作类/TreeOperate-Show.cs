@@ -130,7 +130,7 @@ namespace 脸滚键盘
                 TreeViewItem newItem = new TreeViewItem();
                 newItem.Name = rn.Name;
                 newItem.Header = rn.GetAttribute("title");
-                newItem.Tag = rn.GetAttribute("content");
+                newItem.Uid = rn.GetAttribute("id");
                 newItem.AllowDrop = true;
                 parentItem.Items.Add(newItem);
                 return newItem;
@@ -143,7 +143,7 @@ namespace 脸滚键盘
                 TreeViewItem newItem = new TreeViewItem();
                 newItem.Name = rn.Name;
                 newItem.Header = rn.GetAttribute("title");
-                newItem.Tag = rn.GetAttribute("content");
+                newItem.Uid = rn.GetAttribute("id");
                 newItem.AllowDrop = true;
                 tv.Items.Add(newItem);
                 return newItem;

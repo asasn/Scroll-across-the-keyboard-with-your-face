@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace 脸滚键盘
 {
@@ -18,7 +19,7 @@ namespace 脸滚键盘
         {
             dbName = dbName == null ? "card.db" : dbName;
             var dbFilePath = Path.Combine(DbPath, dbName);
-            return new SQLiteConnection("DataSource = " + dbFilePath);
+            return new SQLiteConnection("DataSource = " + dbFilePath + ";foreign keys=true;");
         }
 
         // 使用全局静态变量保存连接
@@ -75,8 +76,33 @@ namespace 脸滚键盘
                     //reader.Read()方法会从读出一行匹配的数据到reader中。注意：是一行数据。
 
                 }
-                tr.Commit();
+                //tr.Commit();
             }
         }
+
+
+        /// <summary>
+        /// 在数据库中添加一个新角色
+        /// </summary>
+        public static int AddRole(string roleName)
+        {
+            //实际上是以名字为标识符
+            if (false == string.IsNullOrEmpty(roleName))
+            {
+                string sql = string.Format("insert or ignore into 角色 (名称) values ('{0}');", roleName);
+                SqliteOperate.ExecuteNonQuery(sql);
+                sql = "select last_insert_rowid() from 角色;";
+                SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
+                int lastuid = 0;
+                while (reader.Read())
+                {
+                    lastuid = reader.GetInt32(0);
+                }
+                return lastuid;
+            }
+            return -1;
+        }
+
+
     }
 }

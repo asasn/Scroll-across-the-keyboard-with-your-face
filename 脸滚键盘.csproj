@@ -64,6 +64,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Gval.cs" />
+    <Compile Include="信息卡模板\FactionCard.xaml.cs">
+      <DependentUpon>FactionCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="信息卡模板\GoodsCard.xaml.cs">
+      <DependentUpon>GoodsCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="信息卡模板\PlaceCard.xaml.cs">
+      <DependentUpon>PlaceCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="公共操作类\SqliteOperate.cs" />
     <Compile Include="信息卡模板\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>
@@ -107,6 +116,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="信息卡模板\FactionCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡模板\GoodsCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡模板\PlaceCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="信息卡模板\RoleCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

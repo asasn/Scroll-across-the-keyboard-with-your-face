@@ -17,6 +17,8 @@ using 脸滚键盘.信息卡模板;
 
 namespace 脸滚键盘
 {
+    public delegate void SaveCardDelegate();
+
     /// <summary>
     /// uc_NoteTree.xaml 的交互逻辑
     /// </summary>
@@ -90,18 +92,33 @@ namespace 脸滚键盘
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-     
+
         }
 
+        /// <summary>
+        /// 双击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null)
+            SaveCardDelegate funSave = new SaveCardDelegate(SaveCard);
+            if (selectedItem != null && UcTag == "role")
             {
-                RoleCard roleCard = new RoleCard(selectedItem, e);
+                RoleCard roleCard = new RoleCard(selectedItem, e, funSave);
                 roleCard.Show();
             }
         }
+
+        
+
+        void SaveCard()
+        {
+            TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+        }
+
+
 
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
@@ -136,17 +153,21 @@ namespace 脸滚键盘
             }
         }
 
+
+
         private void btnNewFolder_Click(object sender, RoutedEventArgs e)
         {
             string itemTitle = "新信息卡";
             if (Gval.Current.curBookItem != null)
             {
-                string timestr = DateTime.Now.ToString();
-                string uid = getMd5(timestr);
+                int id = SqliteOperate.AddRole(itemTitle);
+                //string timestr = DateTime.Now.ToString();
+                //string uid = getMd5(timestr);
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
-                newItem.Uid = uid;
+                newItem.Uid = id.ToString();
                 TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
             }
+
         }
 
         private void btnNewDoc_Click(object sender, RoutedEventArgs e)
@@ -161,6 +182,8 @@ namespace 脸滚键盘
             {
                 TreeOperate.DelItem.Do(selectedItem);
                 TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                string sql = string.Format("DELETE FROM 角色 where 角色id = {0};", selectedItem.Uid);
+                SqliteOperate.ExecuteNonQuery(sql);
             }
         }
 

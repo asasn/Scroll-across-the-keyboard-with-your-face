@@ -109,6 +109,10 @@ namespace 脸滚键盘
             {
                 XmlElement ele = doc.CreateElement(itemName);
                 ele.SetAttribute("title", item.Header.ToString());
+                if (false == string.IsNullOrEmpty(item.Uid))
+                {
+                    ele.SetAttribute("id", item.Uid.ToString());
+                }
                 eleParent.AppendChild(ele);
                 return ele;
             }
