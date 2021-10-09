@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘"
              mc:Ignorable="d" Background="#FFFFFFFF"
-             d:DesignHeight="450" d:DesignWidth="300" DataContextChanged="uc_DataContextChanged" Loaded="uc_Loaded">
+             d:DesignHeight="450" d:DesignWidth="300" DataContextChanged="uc_DataContextChanged" Loaded="uc_Loaded" IsEnabled="False">
     <UserControl.Resources>
         <ContextMenu x:Key="tvContextMenu">
             <MenuItem x:Name="newDir" Header="新建信息卡" Click="btnNewFolder_Click"/>

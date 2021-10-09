@@ -30,28 +30,28 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-            <local:uc_Editor Grid.Column="2" Grid.RowSpan="2"/>
-            <local:uc_NoteTree Grid.Column="4" UcTitle="时间事件备忘笔记" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="note" />
-            <local:uc_NoteTree Grid.Column="4" Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="故事大纲" UcTag="story" />
-            <TabControl Grid.Row="1" >
+            <local:uc_Editor Grid.Column="2" Grid.RowSpan="2" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}"/>
+            <local:uc_NoteTree Grid.Column="4" UcTitle="时间事件备忘笔记" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="note" IsEnabled="False" />
+            <local:uc_NoteTree Grid.Column="4" Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="故事大纲" UcTag="story" IsEnabled="False" />
+            <TabControl Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}">
                 <TabItem Header="角色信息卡">
                     <Grid Background="#FFE5E5E5">
                         <local:uc_InfoCardTree UcTitle="角色" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="role"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="地名信息卡">
+                <TabItem Header="地区和势力">
                     <Grid Background="#FFE5E5E5">
-                        <local:uc_InfoCardTree UcTitle="地名" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="place"/>
+                        <local:uc_InfoCardTree UcTitle="地区和势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="faction"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="道具信息卡">
+                <TabItem Header="物品信息卡">
                     <Grid Background="#FFE5E5E5">
-                        <local:uc_InfoCardTree UcTitle="道具" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="goods"/>
+                        <local:uc_InfoCardTree UcTitle="物品" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="goods"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="势力与组织">
+                <TabItem Header="通用信息卡">
                     <Grid Background="#FFE5E5E5">
-                        <local:uc_InfoCardTree UcTitle="势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="faction"/>
+                        <local:uc_InfoCardTree UcTitle="通用" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="common"/>
                     </Grid>
                 </TabItem>
             </TabControl>

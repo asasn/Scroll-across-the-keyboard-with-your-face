@@ -18,13 +18,13 @@ namespace 脸滚键盘.信息卡模板
     /// <summary>
     /// PlaceCard.xaml 的交互逻辑
     /// </summary>
-    public partial class GoodsCard : Window
+    public partial class CommonCard : Window
     {
         string sql;
         SQLiteDataReader reader;
         TreeViewItem thisItem;
         SaveCardDelegate saveCard;
-        public GoodsCard(TreeViewItem selectedItem, MouseButtonEventArgs e, SaveCardDelegate funSave)
+        public CommonCard(TreeViewItem selectedItem, MouseButtonEventArgs e, SaveCardDelegate funSave)
         {
             InitializeComponent();
 
@@ -56,7 +56,7 @@ namespace 脸滚键盘.信息卡模板
             if (thisItem != null)
             {
                 FillBaseInfo();
-                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6,  };
+                WrapPanel[] wrapPanels = { w2, };
                 FillMainInfo(thisItem.Uid, wrapPanels);
 
             }
@@ -64,7 +64,7 @@ namespace 脸滚键盘.信息卡模板
 
         void FillBaseInfo()
         {
-            sql = string.Format("select * from 物品 where 物品id = {0};", thisItem.Uid);
+            sql = string.Format("select * from 通用 where 通用id = {0};", thisItem.Uid);
             reader = SqliteOperate.ExecuteQuery(sql);
 
             string 备注 = string.Empty;
@@ -89,12 +89,12 @@ namespace 脸滚键盘.信息卡模板
 
         }
 
-        void FillMainInfo(string 物品id, WrapPanel[] wrapPanels)
+        void FillMainInfo(string 通用id, WrapPanel[] wrapPanels)
         {
 
             foreach (WrapPanel wp in wrapPanels)
             {
-                sql = string.Format("select * from 物品{0}表 where 物品id = {1};", wp.Uid, 物品id);
+                sql = string.Format("select * from 通用{0}表 where 通用id = {1};", wp.Uid, 通用id);
                 reader = SqliteOperate.ExecuteQuery(sql);
                 wp.Children.Clear();
                 while (reader.Read())
@@ -115,7 +115,7 @@ namespace 脸滚键盘.信息卡模板
         {
             if (tbId != null && false == string.IsNullOrEmpty(tbId.Uid))
             {
-                string 物品id = tbId.Uid;
+                string 通用id = tbId.Uid;
                 string 权重 = "0";
                 if (string.IsNullOrEmpty(tbQz.Text))
                 {
@@ -126,12 +126,12 @@ namespace 脸滚键盘.信息卡模板
                     权重 = tbQz.Text;
                 }
 
-                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3}+1 where 物品id = {2};", tbName.Text, t12.Text, 物品id, 权重);
+                string sql = string.Format("update 通用 set 名称='{0}', 备注='{1}', 权重={3}+1 where 通用id = {2};", tbName.Text, t12.Text, 通用id, 权重);
                 SqliteOperate.ExecuteNonQuery(sql);
 
                 thisItem.Header = tbName.Text;
 
-                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6, };
+                WrapPanel[] wrapPanels = { w2, };
 
                 foreach (WrapPanel wp in wrapPanels)
                 {
@@ -144,7 +144,7 @@ namespace 脸滚键盘.信息卡模板
                             if (false == string.IsNullOrEmpty(tb.Text))
                             {
                                 //编辑框不为空，插入
-                                sql += string.Format("insert or ignore into 物品{0}表 (物品id, {0}) values ({1}, '{2}');", wp.Uid, 物品id, tb.Text);
+                                sql += string.Format("insert or ignore into 通用{0}表 (通用id, {0}) values ({1}, '{2}');", wp.Uid, 通用id, tb.Text);
                             }
                         }
                         else
@@ -152,12 +152,12 @@ namespace 脸滚键盘.信息卡模板
                             //存在记录，为空时删除，不为空时更新
                             if (string.IsNullOrEmpty(tb.Text))
                             {
-                                sql += string.Format("delete from 物品{0}表 where {0}id = {1};", wp.Uid, tb.Uid);
+                                sql += string.Format("delete from 通用{0}表 where {0}id = {1};", wp.Uid, tb.Uid);
 
                             }
                             else
                             {
-                                sql += string.Format("update 物品{0}表 set {0}='{1}' where {0}id = {2};", wp.Uid, tb.Text, tb.Uid);
+                                sql += string.Format("update 通用{0}表 set {0}='{1}' where {0}id = {2};", wp.Uid, tb.Text, tb.Uid);
                             }
 
 
@@ -197,6 +197,41 @@ namespace 脸滚键盘.信息卡模板
             tb.HorizontalAlignment = HorizontalAlignment.Left;
             tb.VerticalAlignment = VerticalAlignment.Center;
             return tb;
+        }
+        void AddNewTable()
+        {
+            RowDefinition row = new RowDefinition();
+            gCard.RowDefinitions.Add(row);
+
+            WrapPanel wp = new WrapPanel();            
+            Label lb = new Label();
+            lb.Content = "测试测试测试";
+            TextBox tb = AddTextBox();
+            wp.Children.Add(tb);
+            gCard.Children.Add(wp);
+
+            int n = 2;
+            foreach (var lineWp in gCard.Children)
+            {
+                if (lineWp.GetType() == typeof(WrapPanel))
+                {
+
+                    Grid.SetRow(lineWp as WrapPanel, n);
+                    n++;
+                }
+
+            }
+
+        }
+
+        private void 点击事件〇控件〇添加新行(object sender, RoutedEventArgs e)
+        {
+            //AddNewTable();
+        }
+
+        private void 点击事件〇控件〇删除新行(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -82,27 +82,36 @@ namespace 脸滚键盘
 
 
         /// <summary>
-        /// 在数据库中添加一个新角色
+        /// 在数据库中添加一个信息卡
         /// </summary>
-        public static int AddRole(string roleName)
+        public static int AddCard(string tableName, string mainField)
         {
             //实际上是以名字为标识符
-            if (false == string.IsNullOrEmpty(roleName))
+            if (false == string.IsNullOrEmpty(mainField) && false == string.IsNullOrEmpty(tableName))
             {
-                string sql = string.Format("insert or ignore into 角色 (名称) values ('{0}');", roleName);
+                string sql = string.Format("insert or ignore into {0} (名称) values ('{1}');", tableName, mainField);
                 SqliteOperate.ExecuteNonQuery(sql);
-                sql = "select last_insert_rowid() from 角色;";
-                SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
-                int lastuid = 0;
-                while (reader.Read())
-                {
-                    lastuid = reader.GetInt32(0);
-                }
+                int lastuid = GetLastUid(tableName);
                 return lastuid;
             }
             return -1;
         }
 
+        /// <summary>
+        /// 获取最后添加记录的uid
+        /// </summary>
+        /// <returns></returns>
+        public static int GetLastUid(string tableName)
+        {
+            string sql = string.Format("select last_insert_rowid() from {0};", tableName);
+            SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
+            int lastuid = -1;
+            while (reader.Read())
+            {
+                lastuid = reader.GetInt32(0);
+            }
+            return lastuid;
+        }
 
     }
 }

@@ -24,5 +24,25 @@ namespace 脸滚键盘
         {
             InitializeComponent();
         }
+
+        /// <summary>
+        /// DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (null == Gval.Current.curBookItem)
+                return;
+            //获取当前文件名
+            if (true == FileOperate.IsFileExists(Gval.Current.curItemPath))
+            {
+                uc.IsEnabled = true;
+            }
+            else
+            {
+                uc.IsEnabled = false;
+            }
+        }
     }
 }

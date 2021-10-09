@@ -18,13 +18,13 @@ namespace 脸滚键盘.信息卡模板
     /// <summary>
     /// PlaceCard.xaml 的交互逻辑
     /// </summary>
-    public partial class GoodsCard : Window
+    public partial class PlaceAndFactionCard : Window
     {
         string sql;
         SQLiteDataReader reader;
         TreeViewItem thisItem;
         SaveCardDelegate saveCard;
-        public GoodsCard(TreeViewItem selectedItem, MouseButtonEventArgs e, SaveCardDelegate funSave)
+        public PlaceAndFactionCard(TreeViewItem selectedItem, MouseButtonEventArgs e, SaveCardDelegate funSave)
         {
             InitializeComponent();
 
@@ -56,7 +56,7 @@ namespace 脸滚键盘.信息卡模板
             if (thisItem != null)
             {
                 FillBaseInfo();
-                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6,  };
+                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6, w7, w8, w9, w10 };
                 FillMainInfo(thisItem.Uid, wrapPanels);
 
             }
@@ -64,7 +64,7 @@ namespace 脸滚键盘.信息卡模板
 
         void FillBaseInfo()
         {
-            sql = string.Format("select * from 物品 where 物品id = {0};", thisItem.Uid);
+            sql = string.Format("select * from 势力 where 势力id = {0};", thisItem.Uid);
             reader = SqliteOperate.ExecuteQuery(sql);
 
             string 备注 = string.Empty;
@@ -89,12 +89,12 @@ namespace 脸滚键盘.信息卡模板
 
         }
 
-        void FillMainInfo(string 物品id, WrapPanel[] wrapPanels)
+        void FillMainInfo(string 势力id, WrapPanel[] wrapPanels)
         {
 
             foreach (WrapPanel wp in wrapPanels)
             {
-                sql = string.Format("select * from 物品{0}表 where 物品id = {1};", wp.Uid, 物品id);
+                sql = string.Format("select * from 势力{0}表 where 势力id = {1};", wp.Uid, 势力id);
                 reader = SqliteOperate.ExecuteQuery(sql);
                 wp.Children.Clear();
                 while (reader.Read())
@@ -115,7 +115,7 @@ namespace 脸滚键盘.信息卡模板
         {
             if (tbId != null && false == string.IsNullOrEmpty(tbId.Uid))
             {
-                string 物品id = tbId.Uid;
+                string 势力id = tbId.Uid;
                 string 权重 = "0";
                 if (string.IsNullOrEmpty(tbQz.Text))
                 {
@@ -126,12 +126,12 @@ namespace 脸滚键盘.信息卡模板
                     权重 = tbQz.Text;
                 }
 
-                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3}+1 where 物品id = {2};", tbName.Text, t12.Text, 物品id, 权重);
+                string sql = string.Format("update 势力 set 名称='{0}', 备注='{1}', 权重={3}+1 where 势力id = {2};", tbName.Text, t12.Text, 势力id, 权重);
                 SqliteOperate.ExecuteNonQuery(sql);
 
                 thisItem.Header = tbName.Text;
 
-                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6, };
+                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6, w7, w8, w9, w10 };
 
                 foreach (WrapPanel wp in wrapPanels)
                 {
@@ -144,7 +144,7 @@ namespace 脸滚键盘.信息卡模板
                             if (false == string.IsNullOrEmpty(tb.Text))
                             {
                                 //编辑框不为空，插入
-                                sql += string.Format("insert or ignore into 物品{0}表 (物品id, {0}) values ({1}, '{2}');", wp.Uid, 物品id, tb.Text);
+                                sql += string.Format("insert or ignore into 势力{0}表 (势力id, {0}) values ({1}, '{2}');", wp.Uid, 势力id, tb.Text);
                             }
                         }
                         else
@@ -152,12 +152,12 @@ namespace 脸滚键盘.信息卡模板
                             //存在记录，为空时删除，不为空时更新
                             if (string.IsNullOrEmpty(tb.Text))
                             {
-                                sql += string.Format("delete from 物品{0}表 where {0}id = {1};", wp.Uid, tb.Uid);
+                                sql += string.Format("delete from 势力{0}表 where {0}id = {1};", wp.Uid, tb.Uid);
 
                             }
                             else
                             {
-                                sql += string.Format("update 物品{0}表 set {0}='{1}' where {0}id = {2};", wp.Uid, tb.Text, tb.Uid);
+                                sql += string.Format("update 势力{0}表 set {0}='{1}' where {0}id = {2};", wp.Uid, tb.Text, tb.Uid);
                             }
 
 

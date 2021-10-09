@@ -109,9 +109,24 @@ namespace 脸滚键盘
                 RoleCard roleCard = new RoleCard(selectedItem, e, funSave);
                 roleCard.Show();
             }
+            if (selectedItem != null && UcTag == "faction")
+            {
+                PlaceAndFactionCard placeAndFactionCard = new PlaceAndFactionCard(selectedItem, e, funSave);
+                placeAndFactionCard.Show();
+            }
+            if (selectedItem != null && UcTag == "goods")
+            {
+                GoodsCard goodsCard = new GoodsCard(selectedItem, e, funSave);
+                goodsCard.Show();
+            }
+            if (selectedItem != null && UcTag == "common")
+            {
+                CommonCard commonCard = new CommonCard(selectedItem, e, funSave);
+                commonCard.Show();
+            }
         }
 
-        
+
 
         void SaveCard()
         {
@@ -158,9 +173,25 @@ namespace 脸滚键盘
         private void btnNewFolder_Click(object sender, RoutedEventArgs e)
         {
             string itemTitle = "新信息卡";
+            int id = -1;
             if (Gval.Current.curBookItem != null)
             {
-                int id = SqliteOperate.AddRole(itemTitle);
+                if (UcTag == "role")
+                {
+                    id = SqliteOperate.AddCard("角色", itemTitle);
+                }
+                if (UcTag == "faction")
+                {
+                    id = SqliteOperate.AddCard("势力", itemTitle);
+                }
+                if (UcTag == "goods")
+                {
+                    id = SqliteOperate.AddCard("物品", itemTitle);
+                }
+                if (UcTag == "common")
+                {
+                    id = SqliteOperate.AddCard("通用", itemTitle);
+                }
                 //string timestr = DateTime.Now.ToString();
                 //string uid = getMd5(timestr);
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
@@ -182,8 +213,26 @@ namespace 脸滚键盘
             {
                 TreeOperate.DelItem.Do(selectedItem);
                 TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
-                string sql = string.Format("DELETE FROM 角色 where 角色id = {0};", selectedItem.Uid);
-                SqliteOperate.ExecuteNonQuery(sql);
+                if (UcTag == "role")
+                {
+                    string sql = string.Format("DELETE FROM 角色 where 角色id = {0};", selectedItem.Uid);
+                    SqliteOperate.ExecuteNonQuery(sql);
+                }
+                if (UcTag == "faction")
+                {
+                    string sql = string.Format("DELETE FROM 势力 where 势力id = {0};", selectedItem.Uid);
+                    SqliteOperate.ExecuteNonQuery(sql);
+                }
+                if (UcTag == "goods")
+                {
+                    string sql = string.Format("DELETE FROM 物品 where 物品id = {0};", selectedItem.Uid);
+                    SqliteOperate.ExecuteNonQuery(sql);
+                }
+                if (UcTag == "common")
+                {
+                    string sql = string.Format("DELETE FROM 通用 where 通用id = {0};", selectedItem.Uid);
+                    SqliteOperate.ExecuteNonQuery(sql);
+                }
             }
         }
 
