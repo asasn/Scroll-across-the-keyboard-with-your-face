@@ -25,6 +25,17 @@ namespace 脸滚键盘
             InitializeComponent();
         }
 
+        void LoadFromTextFile()
+        {
+            if (true == FileOperate.IsFileExists(Gval.Current.curItemPath))
+            {
+                tb.Text = FileOperate.ReadFromTxt(Gval.Current.curItemPath);
+                chapterNameBox.Text = Gval.Current.curItem.Header.ToString();
+                volumeNameBox.Text = Gval.Current.curVolumeItem.Header.ToString();
+                bookNameBox.Text = Gval.Current.curBookItem.Header.ToString();
+            }
+        }
+
         /// <summary>
         /// DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件
         /// </summary>
@@ -37,12 +48,18 @@ namespace 脸滚键盘
             //获取当前文件名
             if (true == FileOperate.IsFileExists(Gval.Current.curItemPath))
             {
+                LoadFromTextFile();
                 uc.IsEnabled = true;
             }
             else
             {
                 uc.IsEnabled = false;
             }
+        }
+
+        private void tb_KeyUp(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }
