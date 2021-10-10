@@ -116,6 +116,7 @@ namespace 脸滚键盘
 
                 //更新公共变量数据
                 Gval.Current.curTv = tv;
+                Gval.Current.curUcTag = ucTag;
                 Gval.Current.curItem = selectedItem;
                 Gval.Current.curVolumeItem = volumeItem;
                 Gval.Current.curBookItem = bookItem;
@@ -127,6 +128,7 @@ namespace 脸滚键盘
             {
                 //更新公共变量数据
                 Gval.Current.curTv = null;
+                Gval.Current.curUcTag = null;
                 Gval.Current.curItem = null;
                 Gval.Current.curVolumeItem = null;
                 Gval.Current.curBookItem = null;

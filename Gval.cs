@@ -40,6 +40,11 @@ namespace 脸滚键盘
             public static TreeView curTv;
 
             /// <summary>
+            /// 当前控件标志
+            /// </summary>
+            public static string curUcTag;
+
+            /// <summary>
             /// 指向当前节点的路径
             /// </summary>
             public static string curItemPath;

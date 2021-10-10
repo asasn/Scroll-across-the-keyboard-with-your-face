@@ -134,7 +134,7 @@ namespace 脸滚键盘
                 if (ucTag == "books")
                 {
                     //刷新工作区公共变量
-                    //【注意】本控件是内容的消费者而非生产者，所以在此更新公共变量时，需要填入DocTree的信息
+                    //【注意】本方法是内容的消费者而非生产者，所以在此更新公共变量时，需要填入DocTree的信息
                     TreeOperate.ReNewCurrent(Gval.Current.curTv, ucTag);
                 }
 

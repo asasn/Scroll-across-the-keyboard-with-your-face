@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘"
              mc:Ignorable="d" Background="#FFF5F5F5"
-             d:DesignHeight="450" d:DesignWidth="800" IsEnabled="False" DataContextChanged="uc_DataContextChanged">
+             d:DesignHeight="450" d:DesignWidth="800" IsEnabled="False" DataContextChanged="uc_DataContextChanged" Loaded="uc_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -14,20 +14,22 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Height="25">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" MinWidth="50" MaxWidth="200" />
-                <ColumnDefinition Width="Auto" MinWidth="50" MaxWidth="200" />
+                <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="100*" />
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="Auto" MinWidth="50" MaxWidth="200"  />
+                <ColumnDefinition Width="Auto" MinWidth="50" MaxWidth="200" />
+                <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="bookNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="0" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="16"/>
-            <TextBox x:Name="volumeNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="1" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="16"/>
-            <TextBox x:Name="chapterNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="2" TextWrapping="Wrap" Background="#FFFEFEFE" FontSize="16" FontWeight="Normal" MaxLength="35" Grid.ColumnSpan="2"/>
-            <Button x:Name="saveTag" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="3" Background="#FFFEFEFE" Foreground="Blue" />
+            <TextBox BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="0" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="16" VerticalAlignment="Center"/>
+            <TextBox x:Name="chapterNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="1" TextWrapping="Wrap" Background="#FFFEFEFE" FontSize="16" FontWeight="Normal" MaxLength="35" VerticalAlignment="Center" LostFocus="chapterNameBox_LostFocus" GotFocus="chapterNameBox_GotFocus" KeyUp="chapterNameBox_KeyUp"/>
+            <TextBox x:Name="bookNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="2" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="16" VerticalAlignment="Center"/>
+            <TextBox x:Name="volumeNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="3" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="16" VerticalAlignment="Center"/>
+            <Button x:Name="btnSaveText" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="4" Background="#FFFEFEFE" Foreground="Blue" Content="" IsEnabled="False" VerticalAlignment="Center" Height="21"/>
         </Grid>
         <ScrollViewer Grid.Row="1">
             <DockPanel>
                 <Label x:Name="lb0" Width="18" BorderThickness="0,0,0,0" Background="#FFF0F0F0" FontSize="16"/>
-                <TextBox x:Name="tb" BorderThickness="1,0,1,0" Background="#FFFCFCFC" FontSize="16" AcceptsReturn="True" TextWrapping="Wrap" KeyUp="tb_KeyUp">
+                <TextBox x:Name="tb" BorderThickness="1,0,1,0" Background="#FFFCFCFC" FontSize="16" AcceptsReturn="True" TextWrapping="Wrap" KeyUp="tb_KeyUp" KeyDown="tb_KeyDown" TextChanged="tb_TextChanged" Loaded="tb_Loaded" MaxLength="20000">
                 </TextBox>
             </DockPanel>
         </ScrollViewer>
