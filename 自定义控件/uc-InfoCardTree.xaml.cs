@@ -174,6 +174,15 @@ namespace 脸滚键盘
         {
             string itemTitle = "新信息卡";
             int id = -1;
+
+            foreach (TreeViewItem item in tv.Items)
+            {
+                if (itemTitle == item.Header.ToString())
+                {
+                    return;
+                }
+            }
+
             if (Gval.Current.curBookItem != null)
             {
                 if (UcTag == "role")

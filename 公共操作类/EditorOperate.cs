@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +45,7 @@ namespace 脸滚键盘
         /// 方法：文字排版
         /// </summary>
         /// <param name="tb"></param>
-        public static void ReformatText(TextBox tb)
+        public static void ReformatText(TextEditor tb)
         {
             string reText = "　　"; //开头是两个全角空格
             string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t', '　' });

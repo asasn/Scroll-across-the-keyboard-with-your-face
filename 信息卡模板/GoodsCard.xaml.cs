@@ -113,6 +113,12 @@ namespace 脸滚键盘.信息卡模板
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            reader = SqliteOperate.ExecuteQuery(string.Format("select * from 物品 where 名称='{0}'", tbName.Text));
+            if (reader.Read() && tbId.Uid != reader.GetInt32(0).ToString())
+            {
+                MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
+                return;
+            }
             if (tbId != null && false == string.IsNullOrEmpty(tbId.Uid))
             {
                 string 物品id = tbId.Uid;
