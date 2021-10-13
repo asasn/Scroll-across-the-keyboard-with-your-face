@@ -98,7 +98,6 @@ namespace 脸滚键盘
         /// <param name="fullFolderName">完整的文件夹名</param>
         public static void deleteDir(string fullFolderName)
         {
-            //来源文件夹存在
             if (System.IO.Directory.Exists(fullFolderName))
             {
                 DirectoryInfo di = new DirectoryInfo(fullFolderName);
@@ -141,7 +140,7 @@ namespace 脸滚键盘
         /// <param name="content"></param>
         public static void WriteToTxt(string fullFileName, string content)
         {
-            if (string.IsNullOrEmpty(fullFileName)) //fullFileName为空则退出
+            if (string.IsNullOrEmpty(fullFileName))
                 return;
             FileStream fs = new FileStream((fullFileName), FileMode.OpenOrCreate, FileAccess.Write);
 
@@ -162,13 +161,12 @@ namespace 脸滚键盘
         /// <returns></returns>
         public static string ReadFromTxt(string fullFileName)
         {
-            if (false == File.Exists(fullFileName))  //文件不存在则退出
+            if (false == File.Exists(fullFileName))
                 return string.Empty;
-            string lines;
             StreamReader sr = new StreamReader(fullFileName, Encoding.UTF8);
-            lines = sr.ReadToEnd();
+            string text = sr.ReadToEnd();
             sr.Close();
-            return lines;
+            return text;
         }
     }
 }

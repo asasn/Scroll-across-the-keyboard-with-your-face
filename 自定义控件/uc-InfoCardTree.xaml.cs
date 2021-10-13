@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,8 +81,8 @@ namespace 脸滚键盘
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
                     TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, UcTag);
-                    uc.IsEnabled = true;
                 }
+                uc.IsEnabled = true;
             }
             else
             {
@@ -96,48 +97,59 @@ namespace 脸滚键盘
         }
 
         /// <summary>
-        /// 双击
+        /// 双击事件：根据不同的标志打开不同的信息卡窗口
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            SaveCardDelegate funSave = new SaveCardDelegate(SaveCard);
             if (selectedItem != null && UcTag == "role")
             {
-                RoleCard roleCard = new RoleCard(selectedItem, e, funSave);
+                RoleCard roleCard = new RoleCard(tv, selectedItem);
+                CardOperate.SetWindowsMiddle(e, roleCard);
                 roleCard.Show();
             }
             if (selectedItem != null && UcTag == "faction")
             {
-                PlaceAndFactionCard placeAndFactionCard = new PlaceAndFactionCard(selectedItem, e, funSave);
+                PlaceAndFactionCard placeAndFactionCard = new PlaceAndFactionCard(tv, selectedItem);
+                CardOperate.SetWindowsMiddle(e, placeAndFactionCard);
                 placeAndFactionCard.Show();
             }
             if (selectedItem != null && UcTag == "goods")
             {
-                GoodsCard goodsCard = new GoodsCard(selectedItem, e, funSave);
+                GoodsCard goodsCard = new GoodsCard(tv, selectedItem);
+                CardOperate.SetWindowsMiddle(e, goodsCard);
                 goodsCard.Show();
             }
             if (selectedItem != null && UcTag == "common")
             {
-                CommonCard commonCard = new CommonCard(selectedItem, e, funSave);
+                CommonCard commonCard = new CommonCard(tv, selectedItem);
+                CardOperate.SetWindowsMiddle(e, commonCard);
                 commonCard.Show();
             }
         }
 
 
-
-        void SaveCard()
-        {
-            TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
-        }
-
-
-
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-
+            //赋值给不同的公共变量以便调用
+            if (UcTag == "role")
+            {
+                Gval.InfoCard.RoleTv = tv;
+            }
+            if (UcTag == "goods")
+            {
+                Gval.InfoCard.GoodsTv = tv;
+            }
+            if (UcTag == "faction")
+            {
+                Gval.InfoCard.FactionTv = tv;
+            }
+            if (UcTag == "common")
+            {
+                Gval.InfoCard.CommonTv = tv;
+            }
         }
 
         /// <summary>
@@ -174,7 +186,6 @@ namespace 脸滚键盘
         {
             string itemTitle = "新信息卡";
             int id = -1;
-
             foreach (TreeViewItem item in tv.Items)
             {
                 if (itemTitle == item.Header.ToString())
@@ -185,21 +196,35 @@ namespace 脸滚键盘
 
             if (Gval.Current.curBookItem != null)
             {
+                string tagName;
                 if (UcTag == "role")
                 {
-                    id = SqliteOperate.AddCard("角色", itemTitle);
+                    tagName = "角色";
+                    string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id INTEGER PRIMARY KEY AUTOINCREMENT, 名称 CHARUNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tagName);
+                    SqliteOperate.ExecuteNonQuery(sql);
+
+                    id = CardOperate.AddCard(tagName, itemTitle);
                 }
                 if (UcTag == "faction")
                 {
-                    id = SqliteOperate.AddCard("势力", itemTitle);
+                    tagName = "势力";
+                    CardOperate.TryToBuildBaseTable(tagName);
+
+                    id = CardOperate.AddCard(tagName, itemTitle);
                 }
                 if (UcTag == "goods")
                 {
-                    id = SqliteOperate.AddCard("物品", itemTitle);
+                    tagName = "物品";
+                    CardOperate.TryToBuildBaseTable(tagName);
+
+                    id = CardOperate.AddCard(tagName, itemTitle);
                 }
                 if (UcTag == "common")
                 {
-                    id = SqliteOperate.AddCard("通用", itemTitle);
+                    tagName = "通用";
+                    CardOperate.TryToBuildBaseTable(tagName);
+
+                    id = CardOperate.AddCard(tagName, itemTitle);
                 }
                 //string timestr = DateTime.Now.ToString();
                 //string uid = getMd5(timestr);

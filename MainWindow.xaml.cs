@@ -28,6 +28,7 @@ namespace 脸滚键盘
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            SqliteOperate.Close();
         }
     }
 }

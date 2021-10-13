@@ -25,6 +25,17 @@ namespace 脸滚键盘
         }
 
         /// <summary>
+        /// 信息卡窗口对应的控件对象
+        /// </summary>
+        public struct InfoCard
+        {
+            public static TreeView RoleTv;
+            public static TreeView FactionTv;
+            public static TreeView GoodsTv;
+            public static TreeView CommonTv;
+        }
+
+        /// <summary>
         /// 当前打开的书籍/文档来源信息
         /// </summary>
         public struct Current

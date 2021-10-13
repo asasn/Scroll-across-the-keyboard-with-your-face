@@ -4,8 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘"
-        xmlns:hc="https://handyorg.github.io/handycontrol" 
-        xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
         mc:Ignorable="d"
         Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Closed="Window_Closed">
     <Grid>

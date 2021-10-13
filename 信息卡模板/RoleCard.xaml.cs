@@ -22,34 +22,22 @@ namespace 脸滚键盘.信息卡模板
     /// </summary>
     public partial class RoleCard : Window
     {
-        string sql;
+        TreeView Tv;
         SQLiteDataReader reader;
         TreeViewItem thisItem;
-        SaveCardDelegate saveCard;
-        public RoleCard(TreeViewItem selectedItem, MouseButtonEventArgs e, SaveCardDelegate funSave)
+        public RoleCard(TreeView tv, TreeViewItem selectedItem)
         {
             InitializeComponent();
 
-            //初始化，设置窗口中心为鼠标所在坐标
-            SetWindowsMiddle(e);
-
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
             thisItem = selectedItem;
-            saveCard = funSave;
+            Tv = tv;
 
             //填充窗口信息
             GetDataAndFillCard();
         }
 
 
-        void SetWindowsMiddle(MouseButtonEventArgs e)
-        {
-            Point p = Mouse.GetPosition(e.Source as FrameworkElement);
-            Point pointToWindow = (e.Source as FrameworkElement).PointToScreen(p);//转化为屏幕中的坐标
-            this.Left = pointToWindow.X - this.Width / 2;
-            this.Top = pointToWindow.Y - this.Height / 2;
-            this.WindowStartupLocation = WindowStartupLocation.Manual;
-        }
 
         /// <summary>
         /// 显示信息卡的主流程：从数据库中获取信息以填充卡片
@@ -60,16 +48,16 @@ namespace 脸滚键盘.信息卡模板
             {
                 FillBaseInfo();
                 WrapPanel[] wrapPanels = { w2, w3, w4, w7, w8, w9, w10, w11 };
-                FillMainInfo(thisItem.Uid, wrapPanels);
+                CardOperate.FillMainInfo(wrapPanels, "角色", thisItem.Uid);
 
                 WrapPanel[] wrapPanels2 = { w5, w6 };
-                FillOtherInfo(thisItem.Uid, wrapPanels2);
+                CardOperate.FillOtherInfo(wrapPanels2, "角色", thisItem.Uid);
             }
         }
 
         void FillBaseInfo()
         {
-            sql = string.Format("select * from 角色 where 角色id = {0};", thisItem.Uid);
+            string sql = string.Format("select * from 角色 where 角色id = {0};", thisItem.Uid);
             reader = SqliteOperate.ExecuteQuery(sql);
 
             string 备注 = string.Empty;
@@ -100,48 +88,48 @@ namespace 脸滚键盘.信息卡模板
 
         }
 
-        void FillMainInfo(string 角色id, WrapPanel[] wrapPanels)
-        {
+        //void FillMainInfo(string 角色id, WrapPanel[] wrapPanels)
+        //{
 
-            foreach (WrapPanel wp in wrapPanels)
-            {
-                sql = string.Format("select * from 角色{0}表 where 角色id = {1};", wp.Uid, 角色id);
-                reader = SqliteOperate.ExecuteQuery(sql);
-                wp.Children.Clear();
-                while (reader.Read())
-                {
-                    string t = reader.GetString(1);
-                    int n = reader.GetInt32(2);
-                    TextBox tb = AddTextBox();
-                    tb.Text = t;
-                    tb.Uid = n.ToString();
-                    wp.Children.Add(tb);
-                }
-            }
-        }
+        //    foreach (WrapPanel wp in wrapPanels)
+        //    {
+        //        string sql = string.Format("select * from 角色{0}表 where 角色id = {1};", wp.Uid, 角色id);
+        //        reader = SqliteOperate.ExecuteQuery(sql);
+        //        wp.Children.Clear();
+        //        while (reader.Read())
+        //        {
+        //            string t = reader.GetString(1);
+        //            int n = reader.GetInt32(2);
+        //            TextBox tb = AddTextBox();
+        //            tb.Text = t;
+        //            tb.Uid = n.ToString();
+        //            wp.Children.Add(tb);
+        //        }
+        //    }
+        //}
 
-        void FillOtherInfo(string 角色id, WrapPanel[] wrapPanels)
-        {
-            foreach (WrapPanel wp in wrapPanels)
-            {
-                sql = string.Format("select * from 角色{0}表 where 角色id = {1};", wp.Uid, 角色id);
-                reader = SqliteOperate.ExecuteQuery(sql);
-                int n = 0;
-                while (reader.Read())
-                {
-                    n = reader.GetInt32(1);
-                }
+        //void FillOtherInfo(string 角色id, WrapPanel[] wrapPanels)
+        //{
+        //    foreach (WrapPanel wp in wrapPanels)
+        //    {
+        //        string sql = string.Format("select * from 角色{0}表 where 角色id = {1};", wp.Uid, 角色id);
+        //        reader = SqliteOperate.ExecuteQuery(sql);
+        //        int n = 0;
+        //        while (reader.Read())
+        //        {
+        //            n = reader.GetInt32(1);
+        //        }
 
-                foreach (RadioButton rb in wp.Children)
-                {
-                    if (n == wp.Children.IndexOf(rb))
-                    {
-                        rb.IsChecked = true;
-                        break;
-                    }
-                }
-            }
-        }
+        //        foreach (RadioButton rb in wp.Children)
+        //        {
+        //            if (n == wp.Children.IndexOf(rb))
+        //            {
+        //                rb.IsChecked = true;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
         TextBox AddTextBox()
         {
@@ -162,9 +150,9 @@ namespace 脸滚键盘.信息卡模板
             string num = b.Name.Substring(1);
             string wpName = "w" + num;
             WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
-
             TextBox tb = AddTextBox();
             wp.Children.Add(tb);
+
         }
 
 
@@ -206,84 +194,34 @@ namespace 脸滚键盘.信息卡模板
                 thisItem.Header = tbRoleName.Text;
 
                 WrapPanel[] wrapPanels = { w2, w3, w4, w7, w8, w9, w10, w11 };
-
-                foreach (WrapPanel wp in wrapPanels)
-                {
-                    sql = string.Empty;
-                    foreach (TextBox tb in wp.Children)
-                    {
-                        if (string.IsNullOrEmpty(tb.Uid))
-                        {
-                            //不存在记录
-                            if (false == string.IsNullOrEmpty(tb.Text))
-                            {
-                                //编辑框不为空，插入
-                                sql += string.Format("insert or ignore into 角色{0}表 (角色id, {0}) values ({1}, '{2}');", wp.Uid, 角色id, tb.Text);
-                            }
-                        }
-                        else
-                        {
-                            //存在记录，为空时删除，不为空时更新
-                            if (string.IsNullOrEmpty(tb.Text))
-                            {
-                                sql += string.Format("delete from 角色{0}表 where {0}id = {1};", wp.Uid, tb.Uid);
-
-                            }
-                            else
-                            {
-                                sql += string.Format("update 角色{0}表 set {0}='{1}' where {0}id = {2};", wp.Uid, tb.Text, tb.Uid);
-                            }
-
-
-                        }
-                    }
-                    SqliteOperate.ExecuteNonQuery(sql);
-                }
+                CardOperate.SaveMainInfo(wrapPanels, "角色", 角色id);
 
                 WrapPanel[] wrapPanels2 = { w5, w6 };
-                foreach (WrapPanel wp in wrapPanels2)
-                {
-                    sql = string.Empty;
-                    int n = 0;
-                    foreach (RadioButton rb in wp.Children)
-                    {
-                        if (rb.IsChecked == true)
-                        {
-                            break;
-                        }
-                        n++;
-                    }
-                    sql += string.Format("replace into 角色{0}表 (角色id, {0}) VALUES ({1}, '{2}');", wp.Uid, 角色id, n);
-                    SqliteOperate.ExecuteNonQuery(sql);
-                }
-
-
-
+                CardOperate.SaveOtherInfo(wrapPanels2, "角色", 角色id);
             }
 
-            saveCard();
-
+            TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "role");
 
 
         }
 
-        /// <summary>
-        /// 在数据库中添加一个角色行
-        /// </summary>
-        public void AddRole()
-        {
-            //实际上是以名字为标识符
-            if (null == tbId.Text && false == string.IsNullOrEmpty(tbRoleName.Text))
-            {
-                string sql = string.Format("insert or ignore into 角色 (名称, 备注) values ('{0}', '{1}');", tbRoleName.Text, t12.Text);
-                SqliteOperate.ExecuteNonQuery(sql);
-                int lastuid = SqliteOperate.GetLastUid("角色");
-                if (null == tbId.Text)
-                {
-                    tbId.Text = lastuid.ToString();
-                }
-            }
-        }
+        ///// <summary>
+        ///// 在数据库中添加一个角色行
+        ///// </summary>
+        //public void AddRole()
+        //{
+        //    //实际上是以名字为标识符
+        //    if (null == tbId.Text && false == string.IsNullOrEmpty(tbRoleName.Text))
+        //    {
+        //        string sql = string.Format("insert or ignore into 角色 (名称, 备注) values ('{0}', '{1}');", tbRoleName.Text, t12.Text);
+        //        SqliteOperate.ExecuteNonQuery(sql);
+        //        int lastuid = SqliteOperate.GetLastUid("角色");
+        //        if (null == tbId.Text)
+        //        {
+        //            tbId.Text = lastuid.ToString();
+        //        }
+        //    }
+        //}
 
 
 

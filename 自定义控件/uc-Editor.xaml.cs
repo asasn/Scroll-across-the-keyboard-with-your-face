@@ -26,8 +26,33 @@ namespace 脸滚键盘
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 方法：展示状态栏段落和字数信息
+        /// </summary>
+        void ShowTextInfo()
+        {
+            if (lb1 != null && lb2 != null)
+            {
+                lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
+                lb2.Content = "字数：" + EditorOperate.WordCount(textEditor.Text).ToString();
+            }
+        }
 
 
+        /// <summary>
+        /// 方法：编辑区文字保存
+        /// </summary>
+        void SaveText()
+        {
+            FileOperate.WriteToTxt(Gval.Current.curItemPath, textEditor.Text);
+            btnSaveDoc.Content = "";
+            btnSaveDoc.IsEnabled = false;
+        }
+
+
+        /// <summary>
+        /// 方法：从文本文件中载入
+        /// </summary>
         void LoadFromTextFile()
         {
             if (true == FileOperate.IsFileExists(Gval.Current.curItemPath))
@@ -39,8 +64,9 @@ namespace 脸滚键盘
             }
         }
 
+
         /// <summary>
-        /// DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件
+        /// 事件：DataContext更改（DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件）
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -48,7 +74,10 @@ namespace 脸滚键盘
         {
             if (null == Gval.Current.curBookItem)
                 return;
-            //获取当前文件名
+            if (null != Gval.Current.curBookItem)
+            {
+                SqliteOperate.Refresh();
+            }
             if (true == FileOperate.IsFileExists(Gval.Current.curItemPath))
             {
                 LoadFromTextFile();
@@ -61,111 +90,141 @@ namespace 脸滚键盘
         }
 
 
-        void ShowTextInfo()
-        {
-            if (lb1 != null && lb2 != null)
-            {
-                lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
-                lb2.Content = "字数：" + EditorOperate.WordCount(textEditor.Text).ToString();
-            }
-        }
-
-
+        /// <summary>
+        /// 事件：编辑区按键
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textEditor_KeyUp(object sender, KeyEventArgs e)
         {
-            //松开回车之后
             if (e.Key == Key.Return)
             {
                 int a = textEditor.SelectionStart;
                 int b = textEditor.Text.Length;
-                string stra = textEditor.Text.Substring(0, a);
-                string strb = textEditor.Text.Substring(a, b - a);
-                textEditor.Text = stra + "\n　　" + strb.ToString();
-                textEditor.Select(a + 3, 0);//光标
+                string strA = textEditor.Text.Substring(0, a);
+                string strB = textEditor.Text.Substring(a, b - a);
+                string strM = "\n　　";
+
+                //重新赋值给编辑区
+                textEditor.Text = strA + strM + strB.ToString();
+
+                //光标移动至正确的编辑位置
+                textEditor.SelectionStart = a + strM.Length;
+                textEditor.LineDown();//滚动，行+1
+                textEditor.LineDown();//滚动，行+1
+
+                //自动保存（回车时）
                 SaveText();
             }
-            ////进行了删除之后
-            //if (e.Key == Key.Delete || e.Key == Key.Back)
-            //{
-            //    SaveText();
-            //}
-            ////逗号和句号的情况
-            //if (e.Key == Key.OemComma || e.Key == Key.OemPeriod)
-            //{
-            //    SaveText();
-            //}
-        }
-
-        private void textEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-            //因为开启了接受回车换行，这里不能再接收Enter，所以要转移到KeyUp
             if (e.Key == Key.F9)
             {
-                Console.WriteLine("排版");
+                //进行排版
                 EditorOperate.ReformatText(textEditor);
                 SaveText();
             }
+            //进行了删除之后
+            if (e.Key == Key.Delete || e.Key == Key.Back)
+            {
+                SaveText();
+            }
+            //逗号的情况
+            if (e.Key == Key.OemComma)
+            {
+                SaveText();
+            }
+            //句号的情况
+            if (e.Key == Key.OemPeriod)
+            {
+                SaveText();
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
+            {
+                //同时按下了Ctrl + Z键，回撤
+                textEditor.Undo();
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Y)
+            {
+                //同时按下了Ctrl + Y键，重做
+                textEditor.Redo();
+            }
+
         }
+
 
         /// <summary>
-        /// 执行方法：编辑区文字保存
+        /// 事件：编辑框文字变动
         /// </summary>
-        void SaveText()
-        {
-            FileOperate.WriteToTxt(Gval.Current.curItemPath, textEditor.Text);
-            btnSaveText.Content = "";
-            btnSaveText.IsEnabled = false;
-        }
-
-
-
-        //编辑框文字变动事件
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textEditor_TextChanged(object sender, EventArgs e)
         {
             ShowTextInfo();
-            if (uc.IsEnabled == true)
+            if (uc.IsEnabled == true && textEditor.TextArea.IsFocused == true)
             {
-                btnSaveText.Content = "保存■";
-                btnSaveText.IsEnabled = true;
+                btnSaveDoc.Content = "保存■";
+                btnSaveDoc.IsEnabled = true;
             }
         }
 
 
- 
-
+        /// <summary>
+        /// 事件：控件载入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-            btnSaveText.Height = chapterNameBox.ActualHeight;
-
-
+            btnSaveDoc.Height = chapterNameBox.ActualHeight;
         }
 
 
-        //标题栏获得焦点，进入重命名状态
+        /// <summary>
+        /// 事件：标题栏获得焦点，进入重命名状态（改名前的准备）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chapterNameBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //改名前的准备
             chapterNameBox.Tag = chapterNameBox.Text;
         }
 
-        //标题栏失去焦点，结束重命名
+
+        /// <summary>
+        /// 事件：标题栏失去焦点，结束重命名
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chapterNameBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TreeOperate.ReName.Do(Gval.Current.curTv, Gval.Current.curItem, chapterNameBox, Gval.Current.curUcTag);
         }
 
 
+        /// <summary>
+        /// 事件：章节名称栏按键
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void chapterNameBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                //转移焦点之后触发chapterNameBox_LostFocus方法完成重命名
+                //转移焦点，触发标题栏失去焦点事件
                 textEditor.Focus();
 
                 //光标移动至文末
+                textEditor.SelectionStart = textEditor.Text.Length;
+                textEditor.ScrollToLine(textEditor.LineCount);
+                textEditor.ScrollToEnd();
             }
         }
 
+
+        /// <summary>
+        /// 事件：点击保存
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSaveText_Click(object sender, RoutedEventArgs e)
         {
             SaveText();

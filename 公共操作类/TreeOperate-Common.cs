@@ -106,9 +106,8 @@ namespace 脸滚键盘
         /// 更新当前书籍的指向信息
         /// </summary>
         /// <param name="tv"></param>
-        public static void ReNewCurrent(TreeView tv, string ucTag)
+        public static void ReNewCurrent(TreeView tv,TreeViewItem selectedItem, string ucTag)
         {
-            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
             {
                 TreeViewItem bookItem = GetRootItem(selectedItem);

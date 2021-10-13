@@ -20,33 +20,22 @@ namespace 脸滚键盘.信息卡模板
     /// </summary>
     public partial class CommonCard : Window
     {
-        string sql;
+        TreeView Tv;
         SQLiteDataReader reader;
         TreeViewItem thisItem;
-        SaveCardDelegate saveCard;
-        public CommonCard(TreeViewItem selectedItem, MouseButtonEventArgs e, SaveCardDelegate funSave)
+        public CommonCard(TreeView tv, TreeViewItem selectedItem)
         {
             InitializeComponent();
 
-            //初始化，设置窗口中心为鼠标所在坐标
-            SetWindowsMiddle(e);
-
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
             thisItem = selectedItem;
-            saveCard = funSave;
+            Tv = tv;
 
             //填充窗口信息
             GetDataAndFillCard();
         }
 
-        void SetWindowsMiddle(MouseButtonEventArgs e)
-        {
-            Point p = Mouse.GetPosition(e.Source as FrameworkElement);
-            Point pointToWindow = (e.Source as FrameworkElement).PointToScreen(p);//转化为屏幕中的坐标
-            this.Left = pointToWindow.X - this.Width / 2;
-            this.Top = pointToWindow.Y - this.Height / 2;
-            this.WindowStartupLocation = WindowStartupLocation.Manual;
-        }
+
 
         /// <summary>
         /// 显示信息卡的主流程：从数据库中获取信息以填充卡片
@@ -57,14 +46,14 @@ namespace 脸滚键盘.信息卡模板
             {
                 FillBaseInfo();
                 WrapPanel[] wrapPanels = { w2, };
-                FillMainInfo(thisItem.Uid, wrapPanels);
+                CardOperate.FillMainInfo(wrapPanels, "通用", thisItem.Uid);
 
             }
         }
 
         void FillBaseInfo()
         {
-            sql = string.Format("select * from 通用 where 通用id = {0};", thisItem.Uid);
+            string sql = string.Format("select * from 通用 where 通用id = {0};", thisItem.Uid);
             reader = SqliteOperate.ExecuteQuery(sql);
 
             string 备注 = string.Empty;
@@ -89,25 +78,25 @@ namespace 脸滚键盘.信息卡模板
 
         }
 
-        void FillMainInfo(string 通用id, WrapPanel[] wrapPanels)
-        {
+        //void FillMainInfo(string 通用id, WrapPanel[] wrapPanels)
+        //{
 
-            foreach (WrapPanel wp in wrapPanels)
-            {
-                sql = string.Format("select * from 通用{0}表 where 通用id = {1};", wp.Uid, 通用id);
-                reader = SqliteOperate.ExecuteQuery(sql);
-                wp.Children.Clear();
-                while (reader.Read())
-                {
-                    string t = reader.GetString(1);
-                    int n = reader.GetInt32(2);
-                    TextBox tb = AddTextBox();
-                    tb.Text = t;
-                    tb.Uid = n.ToString();
-                    wp.Children.Add(tb);
-                }
-            }
-        }
+        //    foreach (WrapPanel wp in wrapPanels)
+        //    {
+        //        string sql = string.Format("select * from 通用{0}表 where 通用id = {1};", wp.Uid, 通用id);
+        //        reader = SqliteOperate.ExecuteQuery(sql);
+        //        wp.Children.Clear();
+        //        while (reader.Read())
+        //        {
+        //            string t = reader.GetString(1);
+        //            int n = reader.GetInt32(2);
+        //            TextBox tb = AddTextBox();
+        //            tb.Text = t;
+        //            tb.Uid = n.ToString();
+        //            wp.Children.Add(tb);
+        //        }
+        //    }
+        //}
 
 
 
@@ -138,46 +127,10 @@ namespace 脸滚键盘.信息卡模板
                 thisItem.Header = tbName.Text;
 
                 WrapPanel[] wrapPanels = { w2, };
-
-                foreach (WrapPanel wp in wrapPanels)
-                {
-                    sql = string.Empty;
-                    foreach (TextBox tb in wp.Children)
-                    {
-                        if (string.IsNullOrEmpty(tb.Uid))
-                        {
-                            //不存在记录
-                            if (false == string.IsNullOrEmpty(tb.Text))
-                            {
-                                //编辑框不为空，插入
-                                sql += string.Format("insert or ignore into 通用{0}表 (通用id, {0}) values ({1}, '{2}');", wp.Uid, 通用id, tb.Text);
-                            }
-                        }
-                        else
-                        {
-                            //存在记录，为空时删除，不为空时更新
-                            if (string.IsNullOrEmpty(tb.Text))
-                            {
-                                sql += string.Format("delete from 通用{0}表 where {0}id = {1};", wp.Uid, tb.Uid);
-
-                            }
-                            else
-                            {
-                                sql += string.Format("update 通用{0}表 set {0}='{1}' where {0}id = {2};", wp.Uid, tb.Text, tb.Uid);
-                            }
-
-
-                        }
-                    }
-                    SqliteOperate.ExecuteNonQuery(sql);
-                }
-
-
-
-
+                CardOperate.SaveMainInfo(wrapPanels, "通用", 通用id);
             }
 
-            saveCard();
+            TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "common");
 
         }
 

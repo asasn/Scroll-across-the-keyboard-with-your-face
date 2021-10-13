@@ -13,7 +13,7 @@ namespace 脸滚键盘
 
 
         /// <summary>
-        /// 获取最大行数
+        /// 公共方法：获取最大行数
         /// </summary>
         public static int GetMaxLineNum(TextBox tb)
         {
@@ -42,7 +42,7 @@ namespace 脸滚键盘
         }
 
         /// <summary>
-        /// 方法：文字排版
+        /// 公共方法：文字排版，并重新赋值给编辑框
         /// </summary>
         /// <param name="tb"></param>
         public static void ReformatText(TextEditor tb)
@@ -67,11 +67,16 @@ namespace 脸滚键盘
             //排版完成，重新赋值给文本框
             tb.Text = reText;
             //光标移动至文末
-            //tb.Select(tb.Text.Length, 0);
-            tb.SelectionStart = tb.Text.Length;            
+            tb.ScrollToLine(tb.LineCount);
+            tb.ScrollToEnd();
+            tb.SelectionStart = tb.Text.Length;
         }
 
-        //字数统计方法
+        /// <summary>
+        /// 公共方法：字数统计
+        /// </summary>
+        /// <param name="StrContert"></param>
+        /// <returns></returns>
         public static int WordCount(string StrContert)
         {
             if (string.IsNullOrEmpty(StrContert))
@@ -91,7 +96,11 @@ namespace 脸滚键盘
         }
 
 
-        //是否存在可见字符串
+        /// <summary>
+        /// 公共方法：判断是否存在可见字符串
+        /// </summary>
+        /// <param name="StrContert"></param>
+        /// <returns></returns>
         public static bool IsHasWords(string StrContert)
         {
             if (string.IsNullOrEmpty(StrContert))

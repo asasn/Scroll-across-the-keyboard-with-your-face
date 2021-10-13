@@ -27,7 +27,6 @@ namespace 脸滚键盘
         }
 
 
-
         public string UcTitle
         {
             get { return (string)GetValue(UcTitleProperty); }
@@ -39,7 +38,6 @@ namespace 脸滚键盘
             DependencyProperty.Register("UcTitle", typeof(string), typeof(uc_BookTree), new PropertyMetadata(null));
 
 
-
         public string UcTag
         {
             get { return (string)GetValue(UcTagProperty); }
@@ -49,7 +47,6 @@ namespace 脸滚键盘
         // Using a DependencyProperty as the backing store for UcTag.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UcTagProperty =
             DependencyProperty.Register("UcTag", typeof(string), typeof(uc_BookTree), new PropertyMetadata(null));
-
 
 
         public TreeViewItem CurItem
@@ -64,10 +61,10 @@ namespace 脸滚键盘
 
 
 
-        /*
+        /* 控件总览说明
 
         本自定义控件是一个专门用于关联./books/index.xml文件的树状目录结构控件，用于展示书库和书籍目录
-        它包含：
+        它关联：
         一，books目录下的index.xml，用于显示书库节点，作为TreeView的根节点
         二，各书籍文件夹下的index.xml，在关联的根节点下遍历节点，显示书籍节点
 
@@ -76,7 +73,7 @@ namespace 脸滚键盘
         //以下开始本控件的事件定义
 
         /// <summary>
-        /// 载入TreeView事件
+        /// 事件：载入TreeView事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -98,7 +95,7 @@ namespace 脸滚键盘
         }
 
         /// <summary>
-        /// 添加新书籍
+        /// 事件：点击添加新书籍
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -116,7 +113,7 @@ namespace 脸滚键盘
         }
 
         /// <summary>
-        /// 添加新分卷
+        /// 事件：点击添加新分卷
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -159,7 +156,7 @@ namespace 脸滚键盘
         }
 
         /// <summary>
-        /// 添加新章节
+        /// 事件：点击添加新章节
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -208,7 +205,7 @@ namespace 脸滚键盘
         }
 
         /// <summary>
-        /// 删除选定节点
+        /// 事件：点击删除选定节点
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -249,11 +246,12 @@ namespace 脸滚键盘
                         TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
                     }
                 }
+                ChangeCurItem(selectedItem);//更改当前节点指针
             }
         }
 
         /// <summary>
-        /// TreeView快捷键（包含按F2重命名等）
+        /// 事件：TreeView快捷键（包含按F2重命名等）
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -266,7 +264,7 @@ namespace 脸滚键盘
                 {
                     if (renameBox.Visibility == Visibility.Hidden)
                     {
-                        TreeOperate.ReNewCurrent(tv, UcTag);//记录下当前节点的各种信息
+                        TreeOperate.ReNewCurrent(tv, selectedItem, UcTag);//记录下当前节点的各种信息
                         TreeOperate.ReName.Ready(tv, selectedItem, renameBox);
                     }
                 }
@@ -286,7 +284,7 @@ namespace 脸滚键盘
                 if (renameBox.Visibility == Visibility.Visible)
                 {
                     TreeOperate.ReName.Do(tv, Gval.Current.curItem, renameBox, UcTag);
-                    selectedItem.Focus();
+                    ChangeCurItem(selectedItem);//更改当前节点指针
                 }
             }
         }
@@ -306,7 +304,7 @@ namespace 脸滚键盘
             if (renameBox.Visibility == Visibility.Visible)
             {
                 TreeOperate.ReName.Do(tv, Gval.Current.curItem, renameBox, UcTag);
-                selectedItem.Focus();
+                ChangeCurItem(selectedItem);//更改当前节点指针
             }
 
         }
@@ -331,8 +329,8 @@ namespace 脸滚键盘
                     Gval.DragDrop.dragVolumePath = Gval.DragDrop.dragBookPath + '/' + Gval.DragDrop.dragVolumeItem.Header.ToString();
                     Gval.DragDrop.dragTextFullName = Gval.DragDrop.dragVolumePath + '/' + Gval.DragDrop.dragItem.Header.ToString() + ".txt";
                 }
-                
-                
+
+
             }
 
             TreeViewItem dropItem = e.Source as TreeViewItem;
@@ -403,7 +401,6 @@ namespace 脸滚键盘
                             TreeOperate.Save.FromBookTree.SaveCurBook(dropBookItem);
                             TreeOperate.Save.FromBookTree.SaveRoot(tv);
                         }
-
                     }
                 }
                 else
@@ -467,6 +464,7 @@ namespace 脸滚键盘
                         }
                     }
                 }
+                ChangeCurItem(Gval.DragDrop.dragItem);//更改当前节点指针
             }
         }
 
@@ -493,16 +491,20 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null)
             {
-                TreeOperate.ReNewCurrent(tv, UcTag);
-                //触发其他控件的绑定变动事件
-                CurItem = selectedItem;
+                ChangeCurItem(selectedItem);
             }
         }
 
-        private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void ChangeCurItem(TreeViewItem selectedItem)
         {
-
+            CurItem = null;
+            TreeOperate.ReNewCurrent(tv, selectedItem, UcTag);
+            //触发其他控件的绑定变动事件
+            CurItem = selectedItem;
+            selectedItem.Focus();
         }
+
+
 
 
     }
