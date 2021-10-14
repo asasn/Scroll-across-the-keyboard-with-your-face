@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="Text" extensions=".txt" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
+  <!--fontWeight="bold"-->
+  <Color name="String" foreground="#fff99157" />
+  <Color name="Dialogue" foreground="#b8860b" />
+  <Color name="Keywords" foreground="#0000CD"/>
+  <!-- This is the main ruleset. -->
+  <RuleSet>
+    <Span color="Keywords">
+      <Begin>！</Begin>
+      <End></End>
+    </Span>
+    <Span color="Dialogue"  multiline="true">
+      <Begin>“</Begin>
+      <End>”</End>
+    </Span>
+    <Span color="Dialogue"  multiline="true">
+      <Begin>‘</Begin>
+      <End>’</End>
+    </Span>
+    <Span color="String"  multiline="true">
+      <Begin>（</Begin>
+      <End>）</End>
+    </Span>
+    <Span color="String"  multiline="true">
+      <Begin>《</Begin>
+      <End>》</End>
+    </Span>
+    <Span color="String">
+      <Begin>"</Begin>
+      <End>"</End>
+    </Span>
+    <Span color="String">
+      <Begin>'</Begin>
+      <End>'</End>
+    </Span>
+ </RuleSet>
+</SyntaxDefinition>

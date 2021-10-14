@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,15 @@ namespace 脸滚键盘
             /// </summary>
             public static string AppPath { get { return System.Environment.CurrentDirectory; } }
 
+        }
+
+
+        /// <summary>
+        /// 编辑器窗口对应的控件对象
+        /// </summary>
+        public struct Editor
+        {
+            public static uc_Editor Uc;
         }
 
         /// <summary>

@@ -95,7 +95,7 @@ namespace 脸滚键盘
                     DoSaveToXml(dirItem, eleDir, doc);
                 }
                 doc.Save(fullXmlName);
-
+                Gval.Editor.Uc.SetRules();
             }
 
             /// <summary>

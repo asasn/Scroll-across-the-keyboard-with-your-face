@@ -28,10 +28,9 @@
         <avalonEdit:TextEditor Grid.Row="1"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
             Name="textEditor" ShowLineNumbers="True"
-            SyntaxHighlighting="text"
             WordWrap="True"
             FontFamily="宋体"
-            FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp"  >
+            FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp" KeyDown="textEditor_KeyDown"  >
             <avalonEdit:TextEditor.Options>
                 <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>

@@ -201,8 +201,6 @@ namespace 脸滚键盘.信息卡模板
             }
 
             TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "role");
-
-
         }
 
         ///// <summary>

@@ -356,7 +356,7 @@ namespace 脸滚键盘
             string fullFileName;
 
             //源和目标不一致，且目标不存在同名文件，面板类型一致时才能拖曳移动
-            if (dropItem != Gval.DragDrop.dragItem && Gval.DragDrop.dragUc.GetType() == this.GetType())
+            if (TreeOperate.GetRootItem(Gval.DragDrop.dragItem) != Gval.DragDrop.dragItem && dropItem != Gval.DragDrop.dragItem && Gval.DragDrop.dragUc.GetType() == this.GetType())
             {
 
                 if (TreeOperate.GetRootItem(dropItem) != TreeOperate.GetRootItem(Gval.DragDrop.dragItem))

@@ -83,6 +83,7 @@ namespace 脸滚键盘
                     TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, UcTag);
                 }
                 uc.IsEnabled = true;
+                Gval.Editor.Uc.SetRules();
             }
             else
             {

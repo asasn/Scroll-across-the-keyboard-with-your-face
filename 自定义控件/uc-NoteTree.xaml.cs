@@ -66,8 +66,8 @@ namespace 脸滚键盘
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
                     TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, UcTag);
-                    uc.IsEnabled = true;
                 }
+                uc.IsEnabled = true;
             }
             else
             {
