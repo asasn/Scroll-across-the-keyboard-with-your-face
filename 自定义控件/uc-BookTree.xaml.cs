@@ -522,35 +522,25 @@ namespace 脸滚键盘
 
             //显示菜单
             cm.IsOpen = true;
-
+            (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = false;
+            (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
+            (cm.Items.GetItemAt(3) as MenuItem).IsEnabled = false;
+            (cm.Items.GetItemAt(5) as MenuItem).IsEnabled = false;
             if (selectedItem != null)
             {
-                (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = false;
                 if (TreeOperate.GetLevel(selectedItem) == 1)
                 {
                     (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = true;
-                }
-                else
-                {
-                    (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
                 }
                 if (TreeOperate.GetLevel(selectedItem) == 2)
                 {
                     (cm.Items.GetItemAt(3) as MenuItem).IsEnabled = true;
                 }
-                else
-                {
-                    (cm.Items.GetItemAt(3) as MenuItem).IsEnabled = false;
-                }
 
-                (cm.Items.GetItemAt(5) as MenuItem).IsEnabled = true;
             }
             else
             {
                 (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = true;
-                (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
-                (cm.Items.GetItemAt(3) as MenuItem).IsEnabled = false;
-                (cm.Items.GetItemAt(5) as MenuItem).IsEnabled = false;
             }
         }
 
@@ -561,13 +551,59 @@ namespace 脸滚键盘
 
         private void importDir_Click(object sender, RoutedEventArgs e)
         {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            TreeViewItem bookItem = TreeOperate.GetRootItem(selectedItem);
+            TreeViewItem volumeItem = null;
+
+            System.Windows.Forms.FolderBrowserDialog folder = new System.Windows.Forms.FolderBrowserDialog();
+
+            if (folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string srcFolder = folder.SelectedPath;
+
+                DirectoryInfo root = new DirectoryInfo(srcFolder);
+                string destFolder = System.IO.Path.Combine(TreeOperate.GetItemPath(selectedItem, UcTag), root.Name);
+                if (false == FileOperate.IsFolderExists(destFolder))
+                {
+                    volumeItem = TreeOperate.AddItem.ChildItem(selectedItem, root.Name, TreeOperate.ItemType.目录);
+                    FileOperate.CreateFolder(destFolder);
+                }
+                else
+                {
+                    foreach (TreeViewItem item in selectedItem.Items)
+                    {
+                        if (item.Header.ToString() == root.Name)
+                        {
+                            volumeItem = item;
+                            break;
+                        }
+                    }
+                }
+                foreach (FileInfo f in root.GetFiles())
+                {
+                    if (f.Extension == ".txt" || f.Extension == ".book")
+                    {
+                        string title = System.IO.Path.GetFileNameWithoutExtension(f.FullName);
+                        string srcFullFileName = f.FullName;
+                        string destFullFileName = System.IO.Path.Combine(destFolder, title + ".txt");
+                        if (false == FileOperate.IsFileExists(destFullFileName))
+                        {
+                            File.Copy(srcFullFileName, destFullFileName);
+                            TreeOperate.AddItem.ChildItem(volumeItem, title, TreeOperate.ItemType.文档);
+                        }
+                    }
+                }
+                TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
+            }
+
 
         }
 
         private void importDoc_Click(object sender, RoutedEventArgs e)
         {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            TreeViewItem bookItem = TreeOperate.GetRootItem(selectedItem);
             string[] files = null;
-            // 实例化一个文件选择对象
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.DefaultExt = ".txt";
             dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
@@ -578,7 +614,21 @@ namespace 脸滚键盘
             {
                 files = dlg.FileNames;
             }
-           
+            else
+            {
+                return;
+            }
+            foreach (string srcFullFileName in files)
+            {
+                string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
+                string destFullFileName = System.IO.Path.Combine(TreeOperate.GetItemPath(selectedItem, UcTag), title + ".txt");
+                if (false == FileOperate.IsFileExists(destFullFileName))
+                {
+                    File.Copy(srcFullFileName, destFullFileName);
+                    TreeOperate.AddItem.ChildItem(selectedItem, title, TreeOperate.ItemType.文档);
+                }
+            }
+            TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
         }
 
         private void export_Click(object sender, RoutedEventArgs e)
