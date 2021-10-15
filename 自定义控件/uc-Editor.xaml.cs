@@ -1,5 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Rendering;
@@ -33,6 +35,58 @@ namespace 脸滚键盘
         public uc_Editor()
         {
             InitializeComponent();
+            textEditor.TextArea.TextEntered += TextAreaOnTextEntered;
+
+        }
+        private void TextAreaOnTextEntered(object sender, TextCompositionEventArgs e)
+        {
+            char q = e.Text[0];
+            if (q > 32 && q != 0xa0 && q != 0x3000) // 非空字符，Unicode编码0x3000为全角空格，)
+            {
+                _completionWindow = new CompletionWindow(textEditor.TextArea);
+                var completionData = _completionWindow.CompletionList.CompletionData;
+                _completionWindow.Closed += (o, args) => _completionWindow = null;
+            }
+            if (e.Text == "：")
+            {
+                _completionWindow = new CompletionWindow(textEditor.TextArea);
+
+                var completionData = _completionWindow.CompletionList.CompletionData;
+                completionData.Add(new CompletionData("测试文本1"));
+                completionData.Add(new CompletionData("测试文本2"));
+                completionData.Add(new CompletionData("测试文本3"));
+                completionData.Add(new CompletionData("测试文本4"));
+                _completionWindow.Show();
+
+                _completionWindow.Closed += (o, args) => _completionWindow = null;
+            }
+        }
+
+        private CompletionWindow _completionWindow;
+
+        public class CompletionData : ICompletionData
+        {
+            public CompletionData(string text)
+            {
+                Text = text;
+            }
+
+            public ImageSource Image => null;
+
+            public string Text { get; }
+
+            public object Content => Text;
+
+            public object Description => "Description for " + this.Text;
+
+            /// <inheritdoc />
+            public double Priority { get; }
+
+            public void Complete(TextArea textArea, ISegment completionSegment,
+                EventArgs insertionRequestEventArgs)
+            {
+                textArea.Document.Replace(completionSegment, Text);
+            }
         }
 
         /// <summary>
@@ -129,7 +183,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void textEditor_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Return)
+            if (e.Key == Key.Enter && textEditor.TextArea.IsFocused == true)
             {
                 int a = textEditor.SelectionStart;
                 int b = textEditor.Text.Length;
@@ -299,7 +353,6 @@ namespace 脸滚键盘
         {
             SaveText();
         }
-
 
     }
 }

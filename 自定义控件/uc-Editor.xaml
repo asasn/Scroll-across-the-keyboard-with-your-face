@@ -28,6 +28,7 @@
         <avalonEdit:TextEditor Grid.Row="1"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
             Name="textEditor" ShowLineNumbers="True"
+            SyntaxHighlighting="C#"
             WordWrap="True"
             FontFamily="宋体"
             FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp" KeyDown="textEditor_KeyDown"  >

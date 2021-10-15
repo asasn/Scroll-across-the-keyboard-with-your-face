@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -504,7 +505,96 @@ namespace 脸滚键盘
             selectedItem.Focus();
         }
 
+        /// <summary>
+        /// 右键弹出菜单
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tv_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
 
+            //实例化菜单
+            ContextMenu cm = this.FindResource("tvContextMenu") as ContextMenu;
+
+            //在鼠标所在的位置显现
+            cm.Placement = PlacementMode.MousePoint;
+
+            //显示菜单
+            cm.IsOpen = true;
+
+            if (selectedItem != null)
+            {
+                (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = false;
+                if (TreeOperate.GetLevel(selectedItem) == 1)
+                {
+                    (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = true;
+                }
+                else
+                {
+                    (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
+                }
+                if (TreeOperate.GetLevel(selectedItem) == 2)
+                {
+                    (cm.Items.GetItemAt(3) as MenuItem).IsEnabled = true;
+                }
+                else
+                {
+                    (cm.Items.GetItemAt(3) as MenuItem).IsEnabled = false;
+                }
+
+                (cm.Items.GetItemAt(5) as MenuItem).IsEnabled = true;
+            }
+            else
+            {
+                (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = true;
+                (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
+                (cm.Items.GetItemAt(3) as MenuItem).IsEnabled = false;
+                (cm.Items.GetItemAt(5) as MenuItem).IsEnabled = false;
+            }
+        }
+
+        private void importBook_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void importDir_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void importDoc_Click(object sender, RoutedEventArgs e)
+        {
+            string[] files = null;
+            // 实例化一个文件选择对象
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
+            dlg.Multiselect = true;
+
+            // 打开选择框选择
+            if (dlg.ShowDialog() == true)
+            {
+                files = dlg.FileNames;
+            }
+           
+        }
+
+        private void export_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnItemUp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnItemDown_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
 
 
     }
