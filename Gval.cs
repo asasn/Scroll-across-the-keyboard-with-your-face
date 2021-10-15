@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using 脸滚键盘.信息卡模板;
 
 namespace 脸滚键盘
 {
@@ -13,6 +14,8 @@ namespace 脸滚键盘
     /// </summary>
     static class Gval
     {
+        public static MaterialWindow materialWin = new MaterialWindow(null, null);
+
         /// <summary>
         /// 基本信息
         /// </summary>

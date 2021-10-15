@@ -32,9 +32,11 @@
                 <Button Content="上一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1" Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="40,0,0,0" />
                 <Button Content="下一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="80,0,0,0" />
             </Grid>
-            <Button x:Name="btnNewFolder" Content="新建资料文件夹" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"  VerticalAlignment="Top" Width="100" Click="btnNewFolder_Click"/>
-            <Button x:Name="btnNewDoc" Content="新建资料文档" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"  VerticalAlignment="Top" Width="100" Margin="100,0,0,0" Click="btnNewDoc_Click" />
-            <Button x:Name="btnDelItem" Content="删除" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"   VerticalAlignment="Top" Margin="200,0,0,0" Width="87" Click="btnDelItem_Click"/>
+            <Button x:Name="btnNewFolder" Content="新建文件夹" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"  VerticalAlignment="Top" Width="75" Click="btnNewFolder_Click" Height="20"/>
+            <Button x:Name="btnNewDoc" Content="新建文档" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"  VerticalAlignment="Top" Width="75" Margin="75,0,0,0" Click="btnNewDoc_Click" Height="20" />
+            <Button x:Name="btnDelItem" Content="删除" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"   VerticalAlignment="Top" Margin="150,0,0,0" Width="60" Click="btnDelItem_Click" Height="20"/>
+            <Button x:Name="btnItemUp" Content="↑↑" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,20,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemUp_Click"/>
+            <Button x:Name="btnItemDown" Content="↓↓" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemDown_Click"/>
             <TreeView x:Name="tv" Grid.Row="2" MouseDoubleClick="tv_MouseDoubleClick" Loaded="tv_Loaded" MouseLeftButtonDown="tv_MouseLeftButtonDown" KeyDown="tv_KeyDown" MouseRightButtonDown="tv_MouseRightButtonDown"/>
             <TextBox x:Name="renameBox" Grid.Row="2" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
 

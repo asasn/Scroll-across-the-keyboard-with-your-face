@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using 脸滚键盘.信息卡模板;
 
 namespace 脸滚键盘
 {
@@ -25,8 +26,6 @@ namespace 脸滚键盘
         {
             InitializeComponent();
         }
-
-
 
         public string UcTitle
         {
@@ -51,6 +50,16 @@ namespace 脸滚键盘
             DependencyProperty.Register("UcTag", typeof(string), typeof(uc_MaterialTree), new PropertyMetadata(null));
 
 
+        public TreeViewItem CurItem
+        {
+            get { return (TreeViewItem)GetValue(CurItemProperty); }
+            set { SetValue(CurItemProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurItem.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurItemProperty =
+            DependencyProperty.Register("CurItem", typeof(TreeViewItem), typeof(uc_MaterialTree), new PropertyMetadata(null));
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -59,9 +68,29 @@ namespace 脸滚键盘
             Console.WriteLine(tvd);
         }
 
+        void ChangeCurItem(TreeViewItem selectedItem)
+        {
+            CurItem = null;
+            //TreeOperate.ReNewCurrent(tv, selectedItem, UcTag);
+            //触发其他控件的绑定变动事件
+            CurItem = selectedItem;
+            selectedItem.Focus();
+        }
+
+        //双击
         private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null && Gval.materialWin.IsVisible == false)
+            {
+                if (true == FileOperate.IsFileExists(TreeOperate.GetItemPath(selectedItem, UcTag)))
+                {
+                    ChangeCurItem(selectedItem);
+                    string fullFileName = TreeOperate.GetItemPath(selectedItem, UcTag);
+                    Gval.materialWin = new MaterialWindow(selectedItem, UcTag);
+                    Gval.materialWin.Show();
+                }
+            }
         }
 
         private void tv_Loaded(object sender, RoutedEventArgs e)
@@ -236,17 +265,32 @@ namespace 脸滚键盘
 
             //显示菜单
             cm.IsOpen = true;
-
+            (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = false;
+            (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
+            (cm.Items.GetItemAt(4) as MenuItem).IsEnabled = false;
             if (selectedItem != null)
             {
-                (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = true;
+                if (TreeOperate.GetLevel(selectedItem) == 1)
+                {
+                    (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = true;
+                }
                 (cm.Items.GetItemAt(4) as MenuItem).IsEnabled = true;
             }
             else
             {
-                (cm.Items.GetItemAt(2) as MenuItem).IsEnabled = false;
-                (cm.Items.GetItemAt(4) as MenuItem).IsEnabled = false;
+                (cm.Items.GetItemAt(0) as MenuItem).IsEnabled = true;
             }
         }
+
+        private void btnItemUp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnItemDown_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

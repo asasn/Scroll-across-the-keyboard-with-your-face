@@ -71,6 +71,9 @@
     <Compile Include="信息卡模板\GoodsCard.xaml.cs">
       <DependentUpon>GoodsCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="信息卡模板\MaterialWindow.xaml.cs">
+      <DependentUpon>MaterialWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="信息卡模板\PlaceAndFactionCard.xaml.cs">
       <DependentUpon>PlaceAndFactionCard.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="信息卡模板\GoodsCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡模板\MaterialWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

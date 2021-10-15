@@ -38,6 +38,37 @@ namespace 脸滚键盘
             textEditor.TextArea.TextEntered += TextAreaOnTextEntered;
 
         }
+
+        public string UcTag
+        {
+            get { return (string)GetValue(UcTagProperty); }
+            set { SetValue(UcTagProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for UcTag.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UcTagProperty =
+            DependencyProperty.Register("UcTag", typeof(string), typeof(uc_Editor), new PropertyMetadata(null));
+
+
+
+        public TreeViewItem CurItem
+        {
+            get { return (TreeViewItem)GetValue(CurItemProperty); }
+            set { SetValue(CurItemProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurItem.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurItemProperty =
+            DependencyProperty.Register("CurItem", typeof(TreeViewItem), typeof(uc_Editor), new PropertyMetadata(null));
+
+
+
+        string FullFileName;
+        string XmlPath;
+        TreeViewItem curVolumeItem;
+        TreeViewItem curBookItem;
+        TreeView curTv;
+
         private void TextAreaOnTextEntered(object sender, TextCompositionEventArgs e)
         {
             char q = e.Text[0];
@@ -107,8 +138,8 @@ namespace 脸滚键盘
         /// </summary>
         void SaveText()
         {
-            //FileOperate.WriteToTxt(Gval.Current.curItemPath, textEditor.Text);
-            textEditor.Save(Gval.Current.curItemPath);
+            //FileOperate.WriteToTxt(FullFileName, textEditor.Text);
+            textEditor.Save(FullFileName);
             btnSaveDoc.Content = "";
             btnSaveDoc.IsEnabled = false;
         }
@@ -119,13 +150,13 @@ namespace 脸滚键盘
         /// </summary>
         void LoadFromTextFile()
         {
-            if (true == FileOperate.IsFileExists(Gval.Current.curItemPath))
+            if (true == FileOperate.IsFileExists(FullFileName))
             {
-                //textEditor.Text = FileOperate.ReadFromTxt(Gval.Current.curItemPath);
-                textEditor.Load(Gval.Current.curItemPath);
-                chapterNameBox.Text = Gval.Current.curItem.Header.ToString();
-                volumeNameBox.Text = Gval.Current.curVolumeItem.Header.ToString();
-                bookNameBox.Text = Gval.Current.curBookItem.Header.ToString();
+                //textEditor.Text = FileOperate.ReadFromTxt(FullFileName);
+                textEditor.Load(FullFileName);
+                chapterNameBox.Text = CurItem.Header.ToString();
+                volumeNameBox.Text = curVolumeItem.Header.ToString();
+                bookNameBox.Text = curBookItem.Header.ToString();
             }
         }
 
@@ -137,15 +168,28 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (null == Gval.Current.curBookItem)
+            CurItem = uc.DataContext as TreeViewItem;
+            
+            curBookItem = TreeOperate.GetRootItem(CurItem);
+            if (curBookItem != null)
             {
-                return;
+                curTv = curBookItem.Parent as TreeView;
             }
             else
             {
+                curTv = null;
+            }            
+            curVolumeItem = TreeOperate.GetItemByLevel(CurItem, 2);
+            FullFileName = TreeOperate.GetItemPath(CurItem, UcTag);
+            if (null == curBookItem)
+            {
+                return;
+            }
+            if (UcTag == "books")
+            {
                 SqliteOperate.Refresh();
             }
-            if (true == FileOperate.IsFileExists(Gval.Current.curItemPath))
+            if (true == FileOperate.IsFileExists(FullFileName))
             {
                 LoadFromTextFile();
                 uc.IsEnabled = true;
@@ -320,7 +364,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void chapterNameBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            TreeOperate.ReName.Do(Gval.Current.curTv, Gval.Current.curItem, chapterNameBox, Gval.Current.curUcTag);
+            TreeOperate.ReName.Do(curTv, CurItem, chapterNameBox, UcTag);
         }
 
 

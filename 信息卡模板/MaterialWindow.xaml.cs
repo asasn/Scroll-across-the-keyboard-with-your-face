@@ -10,26 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace 脸滚键盘
+namespace 脸滚键盘.信息卡模板
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// MaterialWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MaterialWindow : Window
     {
-        public MainWindow()
+        public MaterialWindow(TreeViewItem curItem, string ucTag)
         {
             InitializeComponent();
 
-        }
+            if (ucEditor != null)
+            {
+                ucEditor.CurItem = curItem;
+                ucEditor.UcTag = ucTag;
+                ucEditor.DataContext = curItem;
+            }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            SqliteOperate.Close();
-            Application.Current.Shutdown();
         }
     }
 }
