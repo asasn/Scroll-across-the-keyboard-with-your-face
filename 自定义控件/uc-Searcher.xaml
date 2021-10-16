@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘"
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="300" Width="300" Height="60">
+             d:DesignHeight="60" d:DesignWidth="300" Width="300" Height="60" DataContextChanged="uc_DataContextChanged">
     <GroupBox Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA">
         <Grid>
 
@@ -27,8 +27,8 @@
                     <ColumnDefinition Width="80*"/>
                     <ColumnDefinition Width="20*"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Height="23" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center"/>
-                <Button Content="搜索" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" />
+                <TextBox x:Name="tbKeyWords" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Height="19" KeyDown="tbKeyWords_KeyDown"/>
+                <Button x:Name="btnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Click="btnSearch_Click" />
             </Grid>
         </Grid>
     </GroupBox>

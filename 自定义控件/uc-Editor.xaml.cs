@@ -63,11 +63,7 @@ namespace 脸滚键盘
 
 
 
-        string FullFileName;
-        string XmlPath;
-        TreeViewItem curVolumeItem;
-        TreeViewItem curBookItem;
-        TreeView curTv;
+
 
         private void TextAreaOnTextEntered(object sender, TextCompositionEventArgs e)
         {
@@ -160,16 +156,17 @@ namespace 脸滚键盘
             }
         }
 
+        string FullFileName;
+        TreeViewItem curVolumeItem;
+        TreeViewItem curBookItem;
+        TreeView curTv;
 
-        /// <summary>
-        /// 事件：DataContext更改（DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件）
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void RefreshBookItem()
         {
-            CurItem = uc.DataContext as TreeViewItem;
-            
+            //如果单只依靠绑定属性来传值，可能会发生DataContext改变了（触发本事件）而依赖属性CurItem未改变的情况
+            //所以，使用this.DataContext作为CurItem的值是必需的
+            CurItem = this.DataContext as TreeViewItem;
+
             curBookItem = TreeOperate.GetRootItem(CurItem);
             if (curBookItem != null)
             {
@@ -178,9 +175,20 @@ namespace 脸滚键盘
             else
             {
                 curTv = null;
-            }            
+            }
             curVolumeItem = TreeOperate.GetItemByLevel(CurItem, 2);
             FullFileName = TreeOperate.GetItemPath(CurItem, UcTag);
+
+        }
+
+        /// <summary>
+        /// 事件：DataContext更改（DataContext绑定了当前指向的curItem，因此将其更改事件作为curItem的更改事件）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RefreshBookItem();
             if (null == curBookItem)
             {
                 return;
@@ -192,11 +200,11 @@ namespace 脸滚键盘
             if (true == FileOperate.IsFileExists(FullFileName))
             {
                 LoadFromTextFile();
-                uc.IsEnabled = true;
+                this.IsEnabled = true;
             }
             else
             {
-                uc.IsEnabled = false;
+                this.IsEnabled = false;
             }
         }
 
@@ -279,7 +287,7 @@ namespace 脸滚键盘
         private void textEditor_TextChanged(object sender, EventArgs e)
         {
             ShowTextInfo();
-            if (uc.IsEnabled == true && textEditor.TextArea.IsFocused == true)
+            if (this.IsEnabled == true && textEditor.TextArea.IsFocused == true)
             {
                 btnSaveDoc.Content = "保存■";
                 btnSaveDoc.IsEnabled = true;

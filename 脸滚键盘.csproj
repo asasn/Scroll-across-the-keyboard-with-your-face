@@ -77,6 +77,9 @@
     <Compile Include="信息卡模板\PlaceAndFactionCard.xaml.cs">
       <DependentUpon>PlaceAndFactionCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="信息卡模板\SearchRetWindow.xaml.cs">
+      <DependentUpon>SearchRetWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="公共操作类\CardOperate.cs" />
     <Compile Include="公共操作类\SqliteOperate.cs" />
     <Compile Include="信息卡模板\RoleCard.xaml.cs">
@@ -138,6 +141,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="信息卡模板\RoleCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡模板\SearchRetWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
