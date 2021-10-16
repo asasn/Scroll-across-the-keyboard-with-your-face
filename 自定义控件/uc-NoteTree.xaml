@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:脸滚键盘"
+             xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" Background="#FFFFFFFF"
              d:DesignHeight="450" d:DesignWidth="300" DataContextChanged="uc_DataContextChanged" IsEnabled="False">
     <UserControl.Resources>
@@ -15,7 +15,7 @@
             <MenuItem x:Name="remove" Header="删除该节点" Click="btnDelItem_Click"/>
         </ContextMenu>
     </UserControl.Resources>
-    <GroupBox Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA">
+    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="2">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
@@ -26,14 +26,14 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="" BorderThickness="0,0,0,0" VerticalAlignment="Center"/>
-                <Button Content="查找" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto"  Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" />
-                <Button Content="上一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1" Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="40,0,0,0" />
-                <Button Content="下一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="80,0,0,0" />
+                <TextBox Padding="2" Text="" BorderThickness="0,0,0,0" VerticalAlignment="Center"/>
+                <Button Padding="1" Content="查找" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto"  Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,2,0,0" />
+                <Button Padding="1" Content="上一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1" Height="Auto" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="40,0,0,0" />
+                <Button Padding="1" Content="下一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="80,0,0,0" />
             </Grid>
             <TreeView x:Name="tv" Grid.Row="1" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" KeyDown="tv_KeyDown"/>
             <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
 
         </Grid>
-    </GroupBox>
+    </hc:Card>
 </UserControl>

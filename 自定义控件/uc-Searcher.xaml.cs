@@ -100,6 +100,14 @@ namespace 脸滚键盘
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
+            if (radButton1.IsChecked == true)
+            {
+                Console.WriteLine("当前书籍");
+            }
+            if (radButton2.IsChecked == true)
+            {
+                Console.WriteLine("全部书籍");
+            }
             SearchRetWindow rtWin = new SearchRetWindow(CurItem, UcTag, tbKeyWords.Text);
             rtWin.ShowDialog();
         }

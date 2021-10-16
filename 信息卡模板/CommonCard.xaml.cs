@@ -141,22 +141,10 @@ namespace 脸滚键盘.信息卡模板
             string wpName = "w" + num;
             WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
 
-            TextBox tb = AddTextBox();
+            TextBox tb = CardOperate.AddTextBox();
             wp.Children.Add(tb);
         }
 
-        TextBox AddTextBox()
-        {
-            TextBox tb = new TextBox();
-            tb.MinWidth = 30;
-            tb.TextWrapping = TextWrapping.Wrap;
-            tb.Text = "";
-            tb.BorderThickness = new Thickness(0, 0, 0, 1);
-            tb.Margin = new Thickness(10, 2, 0, 0);
-            tb.HorizontalAlignment = HorizontalAlignment.Left;
-            tb.VerticalAlignment = VerticalAlignment.Center;
-            return tb;
-        }
         void AddNewTable()
         {
             RowDefinition row = new RowDefinition();
@@ -165,7 +153,7 @@ namespace 脸滚键盘.信息卡模板
             WrapPanel wp = new WrapPanel();            
             Label lb = new Label();
             lb.Content = "测试测试测试";
-            TextBox tb = AddTextBox();
+            TextBox tb = CardOperate.AddTextBox();
             wp.Children.Add(tb);
             gCard.Children.Add(wp);
 

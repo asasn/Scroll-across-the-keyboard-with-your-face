@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:脸滚键盘"
+             xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
     <!--定义一个右键菜单控件-->
@@ -12,26 +12,26 @@
             <MenuItem x:Name="importBook" Header="新增根目录" Click="importBook_Click"/>
             <Separator />
             <MenuItem x:Name="importDir" Header="导入分卷" Click="importDir_Click"/>
-            <MenuItem x:Name="importDoc" Header="导入章节" Click="importDoc_Click"/>            
+            <MenuItem x:Name="importDoc" Header="导入章节" Click="importDoc_Click"/>
             <Separator />
             <MenuItem x:Name="export" Header="删除" Click="export_Click"/>
         </ContextMenu>
     </UserControl.Resources>
-    <GroupBox Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA">
+    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="2">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <Button x:Name="btnNewBook" Content="新书籍" HorizontalAlignment="Left" Width="50" Click="btnNewBook_Click"/>
-            <Button x:Name="btnNewVolume" Content="新分卷" HorizontalAlignment="Left" Width="50" Click="btnNewVolume_Click" Margin="50,0,0,0"/>
-            <Button x:Name="btnNewChapter" Content="新章节" HorizontalAlignment="Left" Width="50" Click="btnNewChapter_Click" Margin="100,0,0,0"/>
-            <Button x:Name="btnDelItem" Content="删除" HorizontalAlignment="Left" Width="50" Click="btnDelItem_Click" Margin="150,0,0,0"/>
-            <Button x:Name="btnItemUp" Content="↑↑" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemUp_Click"/>
-            <Button x:Name="btnItemDown" Content="↓↓" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemDown_Click"/>
+            <Button x:Name="btnNewBook" Padding="1"  Content="新书籍" HorizontalAlignment="Left" Width="50" Click="btnNewBook_Click" Height="20"/>
+            <Button x:Name="btnNewVolume" Padding="1"  Content="新分卷" HorizontalAlignment="Left" Width="50" Click="btnNewVolume_Click" Margin="50,0,0,0" Height="20"/>
+            <Button x:Name="btnNewChapter" Padding="1"  Content="新章节" HorizontalAlignment="Left" Width="50" Click="btnNewChapter_Click" Margin="100,0,0,0" Height="20"/>
+            <Button x:Name="btnDelItem" Padding="1" Content="删除" HorizontalAlignment="Left" Width="50" Click="btnDelItem_Click" Margin="150,0,0,0" Height="20"/>
+            <Button x:Name="btnItemUp" Padding="1" Content="↑↑" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemUp_Click"/>
+            <Button x:Name="btnItemDown" Padding="1" Content="↓↓" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemDown_Click"/>
             <TreeView x:Name="tv" Grid.Row="1" Loaded="tv_Loaded" KeyDown="tv_KeyDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" DragEnter="tv_DragEnter" Drop="tv_Drop" MouseMove="tv_MouseMove" MouseLeftButtonUp="tv_MouseLeftButtonUp" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown"/>
             <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
 
         </Grid>
-    </GroupBox>
+    </hc:Card>
 </UserControl>

@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:脸滚键盘"
-        mc:Ignorable="d"
+        xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d" 
         Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,8 +14,8 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
         </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="LightBlue"/>
-        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="LightBlue"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#FFF0F0F0"/>
+        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="#FFF0F0F0"/>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50*"/>
@@ -31,30 +31,32 @@
             <local:uc_Editor Grid.Column="2" Grid.RowSpan="2" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}"/>
             <local:uc_NoteTree Grid.Column="4" UcTitle="时间事件备忘笔记" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="note" IsEnabled="False" />
             <local:uc_NoteTree Grid.Column="4" Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="故事大纲" UcTag="story" IsEnabled="False" />
-            <TabControl Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}">
-                <TabItem Header="角色信息卡">
-                    <Grid Background="#FFE5E5E5">
-                        <local:uc_InfoCardTree UcTitle="角色" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="role"/>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="地区和势力">
-                    <Grid Background="#FFE5E5E5">
-                        <local:uc_InfoCardTree UcTitle="地区和势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="faction"/>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="物品信息卡">
-                    <Grid Background="#FFE5E5E5">
-                        <local:uc_InfoCardTree UcTitle="物品" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="goods"/>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="通用信息卡">
-                    <Grid Background="#FFE5E5E5">
-                        <local:uc_InfoCardTree UcTitle="通用" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="common"/>
-                    </Grid>
-                </TabItem>
-            </TabControl>
-            <local:uc_Searcher Height="100" Margin="0,0,0,0" VerticalAlignment="Top" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="文章检索"/>
-            <GroupBox Header="工具箱" Margin="0,100,0,0" />
+            <hc:Card Margin="2" Header="信息卡" Background="#FFFAFAFA" Grid.Row="1">
+                <hc:TabControl Style="{StaticResource TabControlInLine}" IsTabFillEnabled="True"  Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}">
+                    <hc:TabItem Header="角色信息卡" Padding="2" >
+                        <Grid Background="#FFE5E5E5">
+                            <local:uc_InfoCardTree UcTitle="角色" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="role"/>
+                        </Grid>
+                    </hc:TabItem>
+                    <hc:TabItem Header="地区和势力" Padding="2"  >
+                        <Grid Background="#FFE5E5E5">
+                            <local:uc_InfoCardTree UcTitle="地区和势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="faction"/>
+                        </Grid>
+                    </hc:TabItem>
+                    <hc:TabItem Header="物品信息卡" Padding="2"  >
+                        <Grid Background="#FFE5E5E5">
+                            <local:uc_InfoCardTree UcTitle="物品" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="goods"/>
+                        </Grid>
+                    </hc:TabItem>
+                    <hc:TabItem Header="通用信息卡" Padding="2"  >
+                        <Grid Background="#FFE5E5E5">
+                            <local:uc_InfoCardTree UcTitle="通用" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="common"/>
+                        </Grid>
+                    </hc:TabItem>
+                </hc:TabControl>
+            </hc:Card>
+            <local:uc_Searcher Margin="0,0,0,0" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="文章检索" VerticalAlignment="Top"/>
+            <hc:Card Background="#FFFAFAFA" Header="工具箱" Margin="2,95,2,2"/>
         </Grid>
         <local:uc_BookTree x:Name="BooksTree" UcTitle="书籍目录" UcTag="books"/>
         <local:uc_MaterialTree x:Name="MaterialTree" Grid.Column="4" UcTitle="资料库" UcTag="material"/>

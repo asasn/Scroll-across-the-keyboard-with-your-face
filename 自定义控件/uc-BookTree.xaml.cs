@@ -86,6 +86,10 @@ namespace 脸滚键盘
             if (true == FileOperate.IsFolderExists(ucTag) && true == FileOperate.IsFileExists(booksXml))
             {
                 TreeOperate.Show.ToBookTree.ShowAll(tv);
+                TreeViewItem lastBook = (tv.Items[tv.Items.Count - 1] as TreeViewItem);
+                lastBook.IsExpanded = true;
+                TreeViewItem lastVolume = (lastBook.Items[lastBook.Items.Count - 1] as TreeViewItem);
+                lastVolume.IsExpanded = true;
             }
             else
             {

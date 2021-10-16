@@ -137,18 +137,22 @@ namespace 脸滚键盘
             //赋值给不同的公共变量以便调用
             if (UcTag == "role")
             {
+                tv.Tag = UcTag;
                 Gval.InfoCard.RoleTv = tv;
             }
             if (UcTag == "goods")
             {
+                tv.Tag = UcTag;
                 Gval.InfoCard.GoodsTv = tv;
             }
             if (UcTag == "faction")
             {
+                tv.Tag = UcTag;
                 Gval.InfoCard.FactionTv = tv;
             }
             if (UcTag == "common")
             {
+                tv.Tag = UcTag;
                 Gval.InfoCard.CommonTv = tv;
             }
         }

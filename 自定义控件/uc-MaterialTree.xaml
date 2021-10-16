@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:脸滚键盘"
+             xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" Background="#FFFFFFFF"
              d:DesignHeight="450" d:DesignWidth="300">
     <UserControl.Resources>
@@ -15,7 +15,7 @@
             <MenuItem x:Name="remove" Header="删除该节点" Click="btnDelItem_Click"/>
         </ContextMenu>
     </UserControl.Resources>
-    <GroupBox Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA">
+    <hc:Card  Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="2">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
@@ -27,19 +27,19 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="120"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Text="" BorderThickness="0,0,0,0" VerticalAlignment="Center"/>
-                <Button Content="查找" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="16"  Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" Click="Button_Click" />
-                <Button Content="上一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1" Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="40,0,0,0" />
-                <Button Content="下一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="16" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="80,0,0,0" />
+                <TextBox Padding="2" Style="{StaticResource TextBoxBaseBaseStyle}" Text="" BorderThickness="0,0,0,0" VerticalAlignment="Center"/>
+                <Button Padding="1" Content="查找" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto"  Width="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" Click="Button_Click" />
+                <Button Padding="1" Content="上一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1" Height="Auto" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="40,0,0,0" />
+                <Button Padding="1" Content="下一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto" Width="40" HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Margin="80,0,0,0" />
             </Grid>
-            <Button x:Name="btnNewFolder" Content="新建文件夹" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"  VerticalAlignment="Top" Width="75" Click="btnNewFolder_Click" Height="20"/>
-            <Button x:Name="btnNewDoc" Content="新建文档" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"  VerticalAlignment="Top" Width="75" Margin="75,0,0,0" Click="btnNewDoc_Click" Height="20" />
-            <Button x:Name="btnDelItem" Content="删除" HorizontalAlignment="Left" Grid.Row="1" Background="#F5F5F5"   VerticalAlignment="Top" Margin="150,0,0,0" Width="60" Click="btnDelItem_Click" Height="20"/>
-            <Button x:Name="btnItemUp" Content="↑↑" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,20,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemUp_Click"/>
-            <Button x:Name="btnItemDown" Content="↓↓" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemDown_Click"/>
+            <Button x:Name="btnNewFolder" Padding="2"  Content="新文件夹" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="60" Click="btnNewFolder_Click" Height="20"/>
+            <Button x:Name="btnNewDoc" Padding="1" Content="新文档" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="60" Margin="60,0,0,0" Click="btnNewDoc_Click" Height="20" />
+            <Button x:Name="btnDelItem" Padding="1" Content="删除" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Margin="120,0,0,0" Width="50" Click="btnDelItem_Click" Height="20"/>
+            <Button x:Name="btnItemUp" Padding="1" Content="↑↑" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,20,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemUp_Click"/>
+            <Button x:Name="btnItemDown" Padding="1" Content="↓↓" HorizontalAlignment="Right" Grid.Row="1" Margin="0,0,0,0" VerticalAlignment="Top" Width="20" Height="20" IsEnabled="False" Click="btnItemDown_Click"/>
             <TreeView x:Name="tv" Grid.Row="2" MouseDoubleClick="tv_MouseDoubleClick" Loaded="tv_Loaded" MouseLeftButtonDown="tv_MouseLeftButtonDown" KeyDown="tv_KeyDown" MouseRightButtonDown="tv_MouseRightButtonDown"/>
             <TextBox x:Name="renameBox" Grid.Row="2" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
 
         </Grid>
-    </GroupBox>
+    </hc:Card>
 </UserControl>

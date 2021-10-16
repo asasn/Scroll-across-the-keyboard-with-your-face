@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" Background="#FFF5F5F5"
+             xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
+             mc:Ignorable="d" Background="#FFF5F5F5" Margin="3" Effect="{StaticResource EffectShadow3}" Style="{StaticResource BaseStyle}"
              d:DesignHeight="450" d:DesignWidth="800" IsEnabled="False" DataContextChanged="uc_DataContextChanged" Loaded="uc_Loaded">
     <Grid>
         <Grid.RowDefinitions>
@@ -11,19 +12,19 @@
             <RowDefinition Height="100*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="100*" />
-                <ColumnDefinition Width="Auto" MinWidth="50" MaxWidth="200"  />
-                <ColumnDefinition Width="Auto" MinWidth="50" MaxWidth="200" />
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="Auto" MinWidth="75" MaxWidth="200"  />
+                <ColumnDefinition Width="Auto" MinWidth="75" MaxWidth="200" />
+                <ColumnDefinition Width="75" />
             </Grid.ColumnDefinitions>
-            <TextBox BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="0" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="18" VerticalAlignment="Center"/>
-            <TextBox x:Name="chapterNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="1" TextWrapping="Wrap" Background="#FFFEFEFE" FontSize="18" FontWeight="Normal" MaxLength="35" VerticalAlignment="Center" LostFocus="chapterNameBox_LostFocus" GotFocus="chapterNameBox_GotFocus" KeyUp="chapterNameBox_KeyUp"/>
-            <TextBox x:Name="bookNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="2" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="18" VerticalAlignment="Center"/>
-            <TextBox x:Name="volumeNameBox" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="3" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="18" VerticalAlignment="Center"/>
-            <Button x:Name="btnSaveDoc" BorderBrush="red" BorderThickness="0,0,0,1" Grid.Column="4" Background="#FFFEFEFE" Foreground="Blue" Content="" IsEnabled="False" VerticalAlignment="Center" Height="24" Click="btnSaveText_Click" FontSize="16"/>
+            <TextBox Padding="2" Style="{StaticResource TextBoxBaseBaseStyle}" controls:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" Grid.Column="0" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="18" VerticalAlignment="Center"/>
+            <TextBox Padding="2" Style="{StaticResource TextBoxBaseBaseStyle}" controls:BorderElement.CornerRadius="0" x:Name="chapterNameBox" BorderBrush="Blue" BorderThickness="0,0,0,1" Grid.Column="1" TextWrapping="Wrap" Background="#FFFEFEFE" FontSize="18" FontWeight="Normal" MaxLength="35" VerticalAlignment="Center" LostFocus="chapterNameBox_LostFocus" GotFocus="chapterNameBox_GotFocus" KeyUp="chapterNameBox_KeyUp"/>
+            <TextBox Padding="2" Style="{StaticResource TextBoxBaseBaseStyle}" controls:BorderElement.CornerRadius="0" x:Name="bookNameBox" BorderBrush="Blue" BorderThickness="0,0,0,1" Grid.Column="2" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="18" VerticalAlignment="Center"/>
+            <TextBox Padding="2" Style="{StaticResource TextBoxBaseBaseStyle}" controls:BorderElement.CornerRadius="0" x:Name="volumeNameBox" BorderBrush="Blue" BorderThickness="0,0,0,1" Grid.Column="3" TextWrapping="Wrap" Background="#FFFEFEFE" IsEnabled="False" FontSize="18" VerticalAlignment="Center"/>
+            <Button Padding="2" Style="{StaticResource ButtonInfo}" controls:IconElement.Geometry="{StaticResource SaveGeometry}" controls:BorderElement.CornerRadius="0" x:Name="btnSaveDoc" BorderBrush="Blue" BorderThickness="0,0,0,1" Grid.Column="4" Background="#FFFEFEFE" Foreground="Blue" Content="" IsEnabled="False" VerticalAlignment="Center" Height="28" Click="btnSaveText_Click" HorizontalAlignment="Stretch"/>
         </Grid>
         <avalonEdit:TextEditor Grid.Row="1"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
@@ -42,8 +43,8 @@
                 <ColumnDefinition Width="Auto" MinWidth="60" MaxWidth="200"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="lb1" BorderBrush="Gray" BorderThickness="1,1,0,1" Grid.Column="0" Content="段落：0" Background="#FFFAFAFA" Foreground="#FFC70F0F" VerticalAlignment="Center"/>
-            <Label x:Name="lb2" BorderBrush="Gray" BorderThickness="0,1,1,1" Grid.Column="1" Content="字数：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" VerticalAlignment="Center" />
+            <Label controls:BorderElement.CornerRadius="0" x:Name="lb1" BorderBrush="Gray" BorderThickness="0,0,0,0" Grid.Column="0" Content="段落：0" Background="#FFFAFAFA" Foreground="#FFC70F0F" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+            <Label controls:BorderElement.CornerRadius="0" x:Name="lb2" BorderBrush="Gray" BorderThickness="0,0,0,0" Grid.Column="1" Content="字数：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" VerticalAlignment="Center" HorizontalAlignment="Left" />
         </Grid>
         <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=uc, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->
     </Grid>

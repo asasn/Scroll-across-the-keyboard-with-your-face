@@ -116,7 +116,7 @@ namespace 脸滚键盘
                 {
                     string t = reader.GetString(1);
                     int n = reader.GetInt32(2);
-                    TextBox tb = AddTextBox();
+                    TextBox tb = CardOperate.AddTextBox();
                     tb.Text = t;
                     tb.Uid = n.ToString();
                     wp.Children.Add(tb);
@@ -124,16 +124,18 @@ namespace 脸滚键盘
             }
         }
 
-        static TextBox AddTextBox()
+        public static TextBox AddTextBox()
         {
             TextBox tb = new TextBox();
             tb.MinWidth = 30;
+            tb.MinHeight = 0;
             tb.TextWrapping = TextWrapping.Wrap;
             tb.Text = "";
             tb.BorderThickness = new Thickness(0, 0, 0, 1);
-            tb.Margin = new Thickness(10, 2, 0, 0);
+            tb.Margin = new Thickness(10, 1, 0, 0);
             tb.HorizontalAlignment = HorizontalAlignment.Left;
             tb.VerticalAlignment = VerticalAlignment.Center;
+            tb.Padding = new Thickness(2);
             return tb;
         }
 

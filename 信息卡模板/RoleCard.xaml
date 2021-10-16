@@ -10,92 +10,93 @@
     <ScrollViewer>
         <Grid x:Name="gCard">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="38*"/>
+                <ColumnDefinition Width="40*"/>
                 <ColumnDefinition Width="232*"/>
-                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="26*"/>
+                <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
-                <RowDefinition Height="25*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
+                <RowDefinition Height="26*"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <Label x:Name="lid" Grid.Column="1" Width="30"  Content="id：" Margin="-35,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-            <TextBox x:Name="tbId" Grid.Column="1" IsEnabled="False" Margin="-13,7,0,0" MinWidth="20" BorderThickness="0,0,0,1" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <Label x:Name="lqz" Grid.Column="1" Width="38"  Content="权重：" Margin="20,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-            <TextBox x:Name="tbQz" Grid.Column="1" IsEnabled="False" Margin="58,7,0,0" MinWidth="20" BorderThickness="0,0,0,1" VerticalAlignment="Top" HorizontalAlignment="Left" />
-            <Label x:Name="l02" Content="真实年龄：" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="100,3,0,0"  />
-            <TextBox x:Name="tbRealAge" Grid.Column="1" Margin="162,7,0,0" MinWidth="20" BorderThickness="0,0,0,1" VerticalAlignment="Top" HorizontalAlignment="Left" IsEnabled="False" />
-            <Label x:Name="l1" Content="名称：" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Margin="0,3,0,0"  />
-            <TextBox x:Name="tbRoleName" Grid.Row="1" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,7,0,0"/>
-            <Label x:Name="lage" Content="相对年龄：" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="100,3,0,0"  />
-            <TextBox x:Name="tage" Text="" Grid.Row="1" Grid.Column="1" MinWidth="20" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="162,7,0,0"  />
-            <Label x:Name="l2" Content="别称：" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l3" Content="身份：" Grid.Row="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l4" Content="外观：" Grid.Row="4" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l5" Content="状态：" Grid.Row="5" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l6" Content="性别：" Grid.Row="6" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l7" Content="所属：" Grid.Row="7" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l8" Content="阶级：" Grid.Row="8" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l9" Content="物品：" Grid.Row="9" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l10" Content="能力：" Grid.Row="10" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l11" Content="经历：" Grid.Row="11" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Label x:Name="l12" Content="备注：" Grid.Row="12" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-            <Button x:Name="btnSave" Content="保&#x0a;存" Grid.Row="0" Grid.Column="2" BorderThickness="0,0,0,0" Background="#FFFAFAFA" Click="btnSave_Click" Grid.RowSpan="2" Margin="2,5"/>
-                        <WrapPanel x:Name="w2" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="别称" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <Label Padding="2" x:Name="lid" Grid.Column="1" Width="30"  Content="id：" Margin="-35,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+            <TextBox Padding="2" x:Name="tbId" Grid.Column="1" IsEnabled="False" Margin="-5,2,0,0" MinWidth="20" BorderThickness="0,0,0,1" VerticalAlignment="Top" HorizontalAlignment="Left" MinHeight="0" />
+            <Label Padding="2"  x:Name="lqz" Grid.Column="1" Width="38"  Content="权重：" Margin="20,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+            <TextBox Padding="2" x:Name="tbQz" Grid.Column="1" IsEnabled="False" Margin="58,2,0,0" MinWidth="20" BorderThickness="0,0,0,1" VerticalAlignment="Top" HorizontalAlignment="Left" MinHeight="0" />
+            <Label Padding="2" x:Name="l02" Content="真实年龄：" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="100,3,0,0"  />
+            <TextBox Padding="2" x:Name="tbRealAge" Grid.Column="1" Margin="162,2,0,0" MinWidth="20" BorderThickness="0,0,0,1" VerticalAlignment="Top" HorizontalAlignment="Left" IsEnabled="False" MinHeight="0" />
+            <Label Padding="2" x:Name="l1" Content="名称：" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Margin="0,3,0,0"  />
+            <TextBox Padding="2" x:Name="tbRoleName" Grid.Row="1" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2,0,0" MinHeight="0"/>
+            <Label Padding="2"  x:Name="lage" Content="相对年龄：" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="100,3,0,0"  />
+            <TextBox Padding="2" x:Name="tage" Text="" Grid.Row="1" Grid.Column="1" MinWidth="20" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="162,2,0,0" MinHeight="0"  />
+            <Label Padding="2" x:Name="l2" Content="别称：" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l3" Content="身份：" Grid.Row="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l4" Content="外观：" Grid.Row="4" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l5" Content="状态：" Grid.Row="5" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l6" Content="性别：" Grid.Row="6" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l7" Content="所属：" Grid.Row="7" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l8" Content="阶级：" Grid.Row="8" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l9" Content="物品：" Grid.Row="9" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l10" Content="能力：" Grid.Row="10" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l11" Content="经历：" Grid.Row="11" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Label Padding="2" x:Name="l12" Content="备注：" Grid.Row="12" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+            <Button Padding="2" x:Name="btnSave" Content="保&#x0a;存" Grid.Row="0" Grid.Column="2" BorderThickness="0,0,0,0" Background="#FFFAFAFA" Click="btnSave_Click" Grid.RowSpan="2" Margin="2,5" Height="Auto" Width="19"/>
+            <WrapPanel x:Name="w2" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="别称" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w3" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="身份" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <WrapPanel x:Name="w3" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="身份" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w4" Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="外观" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <WrapPanel x:Name="w4" Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="外观" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w5" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="状态" Margin="0,5,0,0">
+            <WrapPanel x:Name="w5" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="状态" Margin="0">
                 <RadioButton Content="生" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Center"  IsChecked="True"/>
                 <RadioButton Content="死" HorizontalAlignment="Left" Margin="32,5,0,0" VerticalAlignment="Center" />
                 <RadioButton Content="冷处理" HorizontalAlignment="Left" Margin="32,5,0,0" VerticalAlignment="Center"/>
             </WrapPanel>
-            <WrapPanel x:Name="w6" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="性别" Margin="0,5,0,0">
+            <WrapPanel x:Name="w6" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="性别" Margin="0">
                 <RadioButton Content="雄性" Margin="5,5,0,0" IsChecked="True" VerticalAlignment="Center"/>
                 <RadioButton Content="雌性" HorizontalAlignment="Left" Margin="20,5,0,0" VerticalAlignment="Center"/>
                 <RadioButton Content="未知" HorizontalAlignment="Left" Margin="20,5,0,0" VerticalAlignment="Center"/>
             </WrapPanel>
-            <WrapPanel x:Name="w7" Grid.Row="7" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="所属" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <WrapPanel x:Name="w7" Grid.Row="7" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="所属" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w8" Grid.Row="8" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="阶级" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <WrapPanel x:Name="w8" Grid.Row="8" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="阶级" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w9" Grid.Row="9" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="物品" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <WrapPanel x:Name="w9" Grid.Row="9" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="物品" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w10" Grid.Row="10" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="能力" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <WrapPanel x:Name="w10" Grid.Row="10" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="能力" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w11" Grid.Row="11" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="经历" Margin="-5,5,0,0">
-                <TextBox MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,2,0,0"/>
+            <WrapPanel x:Name="w11" Grid.Row="11" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="经历" Margin="-5,3,0,0">
+                <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,1,0,0" MinHeight="0"/>
             </WrapPanel>
-            <WrapPanel x:Name="w12" Grid.Row="12" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="备注" Margin="-5,5,0,0">
-                <TextBox x:Name="t12" MinWidth="200" Grid.Row="11" Grid.Column="1" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" Margin="10,2,0,0" VerticalAlignment="Top" AcceptsReturn="True"/>
+            <WrapPanel x:Name="w12" Grid.Row="12" Grid.Column="1" ItemHeight="Auto" Uid="备注" Margin="-5,3,0,0">
+                <TextBox Padding="2" x:Name="t12" MinWidth="200" Grid.Row="11" Grid.Column="1" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" Margin="10,1,0,0" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0"/>
             </WrapPanel>
-            <Button x:Name="b2" Content="+" Grid.Column="2" Grid.Row="2" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-            <Button x:Name="b3" Content="+" Grid.Column="2" Grid.Row="3" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-            <Button x:Name="b4" Content="+" Grid.Column="2" Grid.Row="4" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-            <Button x:Name="b7" Content="+" Grid.Column="2" Grid.Row="7" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-            <Button x:Name="b8" Content="+" Grid.Column="2" Grid.Row="8" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-            <Button x:Name="b9" Content="+" Grid.Column="2" Grid.Row="9" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-            <Button x:Name="b10" Content="+" Grid.Column="2" Grid.Row="10" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-            <Button x:Name="b11" Content="+" Grid.Column="2" Grid.Row="11" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+            <Button Padding="2" x:Name="b2" Content="+" Grid.Column="2" Grid.Row="2" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
+            <Button Padding="2" x:Name="b3" Content="+" Grid.Column="2" Grid.Row="3" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
+            <Button Padding="2" x:Name="b4" Content="+" Grid.Column="2" Grid.Row="4" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
+            <Button Padding="2" x:Name="b7" Content="+" Grid.Column="2" Grid.Row="7" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
+            <Button Padding="2" x:Name="b8" Content="+" Grid.Column="2" Grid.Row="8" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
+            <Button Padding="2" x:Name="b9" Content="+" Grid.Column="2" Grid.Row="9" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
+            <Button Padding="2" x:Name="b10" Content="+" Grid.Column="2" Grid.Row="10" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
+            <Button Padding="2" x:Name="b11" Content="+" Grid.Column="2" Grid.Row="11" Margin="1,1,1,1" BorderThickness="0,0,0,0" Background="#FFFAFAFA" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click" Height="Auto" Width="19"/>
         </Grid>
     </ScrollViewer>
 </Window>

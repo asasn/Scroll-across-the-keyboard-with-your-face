@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:脸滚键盘"
+             xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
              mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="300" Width="300" Height="60" DataContextChanged="uc_DataContextChanged">
-    <GroupBox Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA">
+             d:DesignHeight="90" d:DesignWidth="300" Width="300" DataContextChanged="uc_DataContextChanged">
+    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="2" Height="86" Width="296">
         <Grid>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="50*"/>
                 <RowDefinition Height="50*"/>
@@ -18,8 +18,8 @@
                     <ColumnDefinition Width="50*"/>
                     <ColumnDefinition Width="50*"/>
                 </Grid.ColumnDefinitions>
-                <RadioButton Content="搜索当前书籍" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="searcher" IsChecked="True" />
-                <RadioButton Content="搜索所有书籍" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="searcher"/>
+                <RadioButton x:Name="radButton1" Content="搜索当前书籍" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="searcher" IsChecked="True" />
+                <RadioButton x:Name="radButton2" Content="搜索所有书籍" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="searcher"/>
 
             </Grid>
             <Grid Grid.Row="1">
@@ -27,9 +27,9 @@
                     <ColumnDefinition Width="80*"/>
                     <ColumnDefinition Width="20*"/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="tbKeyWords" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" Height="19" KeyDown="tbKeyWords_KeyDown"/>
-                <Button x:Name="btnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Click="btnSearch_Click" />
+                <TextBox Padding="2" controls:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="tbKeyWords" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" KeyDown="tbKeyWords_KeyDown" Height="28"/>
+                <Button Padding="2" x:Name="btnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Click="btnSearch_Click" Height="30" />
             </Grid>
         </Grid>
-    </GroupBox>
+    </hc:Card>
 </UserControl>

@@ -289,7 +289,7 @@ namespace 脸滚键盘
             ShowTextInfo();
             if (this.IsEnabled == true && textEditor.TextArea.IsFocused == true)
             {
-                btnSaveDoc.Content = "保存■";
+                //btnSaveDoc.Content = "保存■";
                 btnSaveDoc.IsEnabled = true;
             }
         }
@@ -332,7 +332,7 @@ namespace 脸滚键盘
                 {
                     foreach (TreeViewItem item in tv.Items)
                     {
-                        AddKeyword(item.Header.ToString());
+                        AddKeyword(item.Header.ToString(), tv.Tag.ToString());
                     }
                 }
             }
@@ -342,11 +342,11 @@ namespace 脸滚键盘
         /// 添加一个变色关键词
         /// </summary>
         /// <param name="keyword"></param>
-        void AddKeyword(string keyword)
+        void AddKeyword(string keyword,string colorName)
         {
             var spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
             HighlightingSpan span = new HighlightingSpan();
-            span.SpanColor = textEditor.SyntaxHighlighting.GetNamedColor("Keywords");
+            span.SpanColor = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
             span.StartExpression = new Regex(keyword);
             span.EndExpression = new Regex("");
             span.SpanColorIncludesStart = true;
