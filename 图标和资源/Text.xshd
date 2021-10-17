@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <SyntaxDefinition name="Text" extensions=".txt" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
   <!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
-  <!--fontWeight="bold"-->
+  <!--fontWeight="bold" fontFamily="行楷" foreground="#0000CD"-->
   <Color name="String" foreground="#fff99157" />
   <Color name="Dialogue" foreground="#b8860b" />
-  <Color name="role" foreground="#0000CD"/>
-  <Color name="faction" foreground="#D2691E"/>
-  <Color name="goods" foreground="#FFD700"/>
-  <Color name="common" foreground="#808080"/>
+  <Color name="role" fontFamily="宋体" foreground="blue"/>
+  <Color name="faction" foreground="#FF4500"/>
+  <Color name="goods" foreground="#FF8C00"/>
+  <Color name="common" foreground="#FFA500"/>
   <!-- This is the main ruleset. -->
   <RuleSet>
     <Span color="Dialogue"  multiline="true">
@@ -34,5 +34,5 @@
       <Begin>'</Begin>
       <End>'</End>
     </Span>
- </RuleSet>
+  </RuleSet>
 </SyntaxDefinition>

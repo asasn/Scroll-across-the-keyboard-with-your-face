@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
+
 namespace 脸滚键盘
 {
     public static class CardOperate
@@ -57,8 +58,16 @@ namespace 脸滚键盘
                         //不存在记录
                         if (false == string.IsNullOrEmpty(tb.Text))
                         {
-                            //编辑框不为空，插入
-                            sql += string.Format("insert or ignore into {0}{1}表 ({0}id, {1}) values ({2}, '{3}');", tagName, wp.Uid, idValue, tb.Text);
+                            //将外面带入的sql语句提交，并且清空
+                            SqliteOperate.ExecuteNonQuery(sql);
+                            sql = string.Empty;
+
+                            //编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
+                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}) values ({2}, '{3}');", tagName, wp.Uid, idValue, tb.Text);
+                            SqliteOperate.ExecuteNonQuery(sql);
+                            int lastuid = SqliteOperate.GetLastUid(tagName +  wp.Uid + "表");
+                            tb.Uid = lastuid.ToString();
+                            sql = string.Empty; //注意清空，以免影响后续语句运行
                         }
                     }
                     else
@@ -132,10 +141,11 @@ namespace 脸滚键盘
             tb.TextWrapping = TextWrapping.Wrap;
             tb.Text = "";
             tb.BorderThickness = new Thickness(0, 0, 0, 1);
-            tb.Margin = new Thickness(10, 1, 0, 0);
+            tb.Margin = new Thickness(10, 0, 0, 0);
             tb.HorizontalAlignment = HorizontalAlignment.Left;
             tb.VerticalAlignment = VerticalAlignment.Center;
             tb.Padding = new Thickness(2);
+            HandyControl.Controls.BorderElement.SetCornerRadius(tb, new CornerRadius(0));
             return tb;
         }
 

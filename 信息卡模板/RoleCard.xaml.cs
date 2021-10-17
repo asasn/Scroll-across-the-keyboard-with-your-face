@@ -151,7 +151,7 @@ namespace 脸滚键盘.信息卡模板
             reader = SqliteOperate.ExecuteQuery(string.Format("select * from 角色 where 名称='{0}'", tbRoleName.Text));
             if (reader.Read() && tbId.Uid != reader.GetInt32(0).ToString())
             {
-                MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
+                MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
                 return;
             }
             if (tbId != null && false == string.IsNullOrEmpty(tbId.Uid))

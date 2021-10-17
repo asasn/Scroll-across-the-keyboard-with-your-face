@@ -48,6 +48,7 @@
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.115.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.0\lib\net46\System.Data.SQLite.dll</HintPath>
@@ -87,6 +88,7 @@
       <DependentUpon>SearchRetWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="公共操作类\CardOperate.cs" />
+    <Compile Include="公共操作类\SettingsOperate.cs" />
     <Compile Include="公共操作类\SqliteOperate.cs" />
     <Compile Include="信息卡模板\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>

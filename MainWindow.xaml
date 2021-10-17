@@ -4,18 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
         mc:Ignorable="d" 
-        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Closed="Window_Closed">
+        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" Closed="Window_Closed" WindowState="Maximized">
+
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
+            <ColumnDefinition Width="300" MinWidth="260" MaxWidth="400"/>
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="50*"/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
+            <ColumnDefinition Width="300" MinWidth="260" MaxWidth="400"/>
         </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#FFF0F0F0"/>
-        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="#FFF0F0F0"/>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="#FFFFFFFF"/>
+        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" Background="#FFFFFFFF"/>
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50*"/>
@@ -28,10 +31,10 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-            <local:uc_Editor Grid.Column="2" Grid.RowSpan="2" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}"/>
+            <local:uc_Editor x:Name="Editor" Grid.Column="2" Grid.RowSpan="2" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" Margin="6"/>
             <local:uc_NoteTree Grid.Column="4" UcTitle="时间事件备忘笔记" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="note" IsEnabled="False" />
             <local:uc_NoteTree Grid.Column="4" Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="故事大纲" UcTag="story" IsEnabled="False" />
-            <hc:Card Margin="2" Header="信息卡" Background="#FFFAFAFA" Grid.Row="1">
+            <hc:Card Margin="5" Header="信息卡" Background="#FFFAFAFA" Grid.Row="1">
                 <hc:TabControl Style="{StaticResource TabControlInLine}" IsTabFillEnabled="True"  Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}">
                     <hc:TabItem Header="角色信息卡" Padding="2" >
                         <Grid Background="#FFE5E5E5">
@@ -56,9 +59,16 @@
                 </hc:TabControl>
             </hc:Card>
             <local:uc_Searcher Margin="0,0,0,0" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="文章检索" VerticalAlignment="Top"/>
-            <hc:Card Background="#FFFAFAFA" Header="工具箱" Margin="2,95,2,2"/>
+            <hc:Card Background="#FFFAFAFA" Header="工具箱" Margin="5,95,5,5">
+                <Grid>
+                    <TextBox x:Name="tbPrice" Padding="2" hc:InfoElement.Title="稿费（元/千字）" hc:InfoElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" TextChanged="tbPrice_TextChanged" Loaded="tbPrice_Loaded" />
+                </Grid>
+            </hc:Card>
         </Grid>
         <local:uc_BookTree x:Name="BooksTree" UcTitle="书籍目录" UcTag="books"/>
         <local:uc_MaterialTree x:Name="MaterialTree" Grid.Column="4" UcTitle="资料库" UcTag="material"/>
+        <ScrollViewer Grid.Column="2" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right">
+            <StackPanel controls:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,10,10"/>
+        </ScrollViewer>
     </Grid>
 </Window>

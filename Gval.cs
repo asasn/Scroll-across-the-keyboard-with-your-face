@@ -28,6 +28,13 @@ namespace 脸滚键盘
 
         }
 
+        /// <summary>
+        /// 主窗口对应的控件对象
+        /// </summary>
+        public struct MainWindow
+        {
+            public static TextBox tbPrice;         
+        }
 
         /// <summary>
         /// 编辑器窗口对应的控件对象

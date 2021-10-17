@@ -10,6 +10,18 @@ namespace 脸滚键盘
 {
     static class EditorOperate
     {
+        /// <summary>
+        /// 稿费显示
+        /// </summary>
+        /// <param name="textEditor"></param>
+        /// <param name="lbValue"></param>
+        public static void ShowValue(int words, Label lbValue)
+        {
+            double price;
+            double.TryParse(Gval.MainWindow.tbPrice.Text, out price);
+            double result = Math.Floor(Convert.ToDouble(words / 1000) * price);
+            lbValue.Content = "价值：" + result.ToString() + "元";
+        }
 
         /// <summary>
         /// 公共方法：获取最大行数

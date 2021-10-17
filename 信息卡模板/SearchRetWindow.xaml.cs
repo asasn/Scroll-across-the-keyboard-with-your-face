@@ -107,14 +107,29 @@ namespace 脸滚键盘.信息卡模板
                         {
                             ListBoxItem lbItem = new ListBoxItem();
                             lbItem.Content = NextFile.Name + ListItemName;
-                            lbItem.Uid = curFolder.Name;
                             lb.Items.Add(lbItem);
+                            string strFileName = GetFileName(lbItem.Content.ToString());
+                            //获取对应的完整文件名，并储存在Uid属性当中
+                            lbItem.Uid = WorkPath + '/' + curFolder.Name + '/' + strFileName;
                         }
                     }
             }
 
         }
 
+        //从ListBoxItem当中获得真正的章节名
+        private string GetFileName(string itemValue)
+        {
+            if (!string.IsNullOrEmpty(itemValue))
+            {
+                Regex regex = new Regex(@".txt");
+                return regex.Split(itemValue)[0] + ".txt";
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         //判断文件当中是否包含某个字符串
         private bool IsInFile(string FilePath, string mystr)
@@ -138,13 +153,11 @@ namespace 脸滚键盘.信息卡模板
             ListBoxItem lbItem = lb.SelectedItem as ListBoxItem;
             if (false == string.IsNullOrEmpty(lb.SelectedItem.ToString()))
             {
-                string strFileName = GetFileName(lbItem.Content.ToString());
-                string strFullFileName = WorkPath + '/' + lbItem.Uid + '/' + strFileName;
-                textEditor.Text += strFullFileName + "\n";
+                textEditor.Text += lbItem.Uid + "\n";
                 string[] sArray = KeyWords.Split(' ');
                 foreach (var mystr in sArray)
                 {
-                    string lines = GetStrOnLines(strFullFileName, mystr);
+                    string lines = GetStrOnLines(lbItem.Uid, mystr);
                     textEditor.Text += lines + "\n";
                 }
             }
@@ -170,31 +183,18 @@ namespace 脸滚键盘.信息卡模板
             return lines;
         }
 
-        //从ListBoxItem当中获得真正的章节名
-        private string GetFileName(string itemValue)
-        {
-            if (!string.IsNullOrEmpty(itemValue))
-            {
-                Regex regex = new Regex(@".txt");
-                return regex.Split(itemValue)[0] + ".txt";
-            }
-            else
-            {
-                return null;
-            }
-        }
+
 
         //鼠标双击
         private void lb_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            ListBoxItem lbItem = lb.SelectedItem as ListBoxItem;
             if (!string.IsNullOrEmpty(lb.SelectedItem.ToString()))
             {
-                string strFileName = GetFileName(lb.SelectedItem.ToString());
-                string strFullFileName = WorkPath + '/' + strFileName;
                 //默认直接打开
                 //System.Diagnostics.Process.Start(strFullFileName);
                 //指定打开方式
-                System.Diagnostics.Process.Start(@"D:/mysoftware/EmEditor/EmEditor.exe", strFullFileName);
+                System.Diagnostics.Process.Start(@"D:/mysoftware/EmEditor/EmEditor.exe", lbItem.Uid);
             }
 
         }

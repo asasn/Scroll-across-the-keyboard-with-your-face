@@ -24,6 +24,7 @@ namespace 脸滚键盘
         {
             InitializeComponent();
 
+            Gval.MainWindow.tbPrice = tbPrice;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -31,5 +32,19 @@ namespace 脸滚键盘
             SqliteOperate.Close();
             Application.Current.Shutdown();
         }
+
+        private void tbPrice_Loaded(object sender, RoutedEventArgs e)
+        {
+            string price = SettingsOperate.GetSettings("price");
+            tbPrice.Text = price;
+        }
+
+        private void tbPrice_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SettingsOperate.SaveSettings("price", tbPrice.Text);
+            EditorOperate.ShowValue(Editor.words, Editor.lbValue);
+        }
+
+
     }
 }

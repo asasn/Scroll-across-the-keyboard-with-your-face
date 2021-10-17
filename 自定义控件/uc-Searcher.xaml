@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
              mc:Ignorable="d" 
-             d:DesignHeight="90" d:DesignWidth="300" Width="300" DataContextChanged="uc_DataContextChanged">
-    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="2" Height="86" Width="296">
+             d:DesignHeight="90" d:DesignWidth="290" DataContextChanged="uc_DataContextChanged" >
+    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="5" Height="80">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="50*"/>
@@ -24,8 +24,8 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80*"/>
-                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="25*"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Padding="2" controls:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="tbKeyWords" Margin="0,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Center" KeyDown="tbKeyWords_KeyDown" Height="28"/>
                 <Button Padding="2" x:Name="btnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Click="btnSearch_Click" Height="30" />

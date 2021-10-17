@@ -63,8 +63,6 @@ namespace 脸滚键盘
 
 
 
-
-
         private void TextAreaOnTextEntered(object sender, TextCompositionEventArgs e)
         {
             char q = e.Text[0];
@@ -116,6 +114,7 @@ namespace 脸滚键盘
             }
         }
 
+        public int words = 0;
         /// <summary>
         /// 方法：展示状态栏段落和字数信息
         /// </summary>
@@ -123,8 +122,9 @@ namespace 脸滚键盘
         {
             if (lb1 != null && lb2 != null)
             {
+                words = EditorOperate.WordCount(textEditor.Text);
                 lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
-                lb2.Content = "字数：" + EditorOperate.WordCount(textEditor.Text).ToString();
+                lb2.Content = "字数：" + words.ToString();
             }
         }
 
@@ -279,6 +279,7 @@ namespace 脸滚键盘
         }
 
 
+
         /// <summary>
         /// 事件：编辑框文字变动
         /// </summary>
@@ -292,6 +293,7 @@ namespace 脸滚键盘
                 //btnSaveDoc.Content = "保存■";
                 btnSaveDoc.IsEnabled = true;
             }
+            EditorOperate.ShowValue(words, lbValue);
         }
 
 
@@ -404,6 +406,7 @@ namespace 脸滚键盘
         private void btnSaveText_Click(object sender, RoutedEventArgs e)
         {
             SaveText();
+            HandyControl.Controls.Growl.Success("文件保存成功！");
         }
 
     }
