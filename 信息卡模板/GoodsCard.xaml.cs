@@ -120,7 +120,7 @@ namespace 脸滚键盘.信息卡模板
                     权重 = tbQz.Text;
                 }
 
-                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3}+1 where 物品id = {2};", tbName.Text, t12.Text, 物品id, 权重);
+                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3} where 物品id = {2};", tbName.Text, t12.Text, 物品id, 权重);
                 SqliteOperate.ExecuteNonQuery(sql);
 
                 thisItem.Header = tbName.Text;

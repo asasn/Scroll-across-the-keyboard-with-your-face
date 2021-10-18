@@ -344,7 +344,7 @@ namespace 脸滚键盘
         /// 添加一个变色关键词
         /// </summary>
         /// <param name="keyword"></param>
-        void AddKeyword(string keyword,string colorName)
+        void AddKeyword(string keyword, string colorName)
         {
             var spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
             HighlightingSpan span = new HighlightingSpan();
@@ -409,5 +409,15 @@ namespace 脸滚键盘
             HandyControl.Controls.Growl.Success("文件保存成功！");
         }
 
+
+        private void textEditor_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void textEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+  
+        }
     }
 }

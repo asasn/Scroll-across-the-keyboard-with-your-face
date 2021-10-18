@@ -33,7 +33,7 @@
             SyntaxHighlighting="C#"
             WordWrap="True"
             FontFamily="宋体"
-            FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp" KeyDown="textEditor_KeyDown"  >
+            FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp" KeyDown="textEditor_KeyDown" CommandManager.Executed="textEditor_Executed"  CommandManager.PreviewExecuted="textEditor_PreviewExecuted" >
             <avalonEdit:TextEditor.Options>
                 <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>

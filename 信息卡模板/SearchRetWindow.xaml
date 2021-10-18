@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:脸滚键盘.信息卡模板"
         xmlns:脸滚键盘="clr-namespace:脸滚键盘" x:Name="ucSearchRetWindow" x:Class="脸滚键盘.信息卡模板.SearchRetWindow"
         mc:Ignorable="d"
-        Title="SearchRetWindow" Height="450" Width="800" DataContextChanged="ucSearchRetWindow_DataContextChanged">
+        Title="搜索结果" Height="450" Width="800" DataContextChanged="ucSearchRetWindow_DataContextChanged">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="29*"/>

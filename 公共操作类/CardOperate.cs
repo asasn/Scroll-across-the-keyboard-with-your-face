@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Media;
 
 namespace 脸滚键盘
 {
@@ -19,7 +19,7 @@ namespace 脸滚键盘
             Point pointToWindow = (e.Source as FrameworkElement).PointToScreen(p);//转化为屏幕中的坐标
             card.Left = pointToWindow.X - card.Width / 2;
             card.Top = pointToWindow.Y - card.Height / 2;
-            card.WindowStartupLocation = WindowStartupLocation.Manual;
+            //card.WindowStartupLocation = WindowStartupLocation.Manual;
         }
 
 
@@ -48,6 +48,7 @@ namespace 脸滚键盘
 
         public static void SaveMainInfo(WrapPanel[] wrapPanels, string tagName, string idValue)
         {
+            int w = 0;
             foreach (WrapPanel wp in wrapPanels)
             {
                 string sql = string.Empty;
@@ -68,6 +69,7 @@ namespace 脸滚键盘
                             int lastuid = SqliteOperate.GetLastUid(tagName +  wp.Uid + "表");
                             tb.Uid = lastuid.ToString();
                             sql = string.Empty; //注意清空，以免影响后续语句运行
+                            w++;
                         }
                     }
                     else
@@ -81,6 +83,7 @@ namespace 脸滚键盘
                         else
                         {
                             sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = {2};", tagName, wp.Uid, tb.Uid, tb.Text);
+                            w++;
                         }
 
 
@@ -88,6 +91,8 @@ namespace 脸滚键盘
                 }
                 SqliteOperate.ExecuteNonQuery(sql);
             }
+            string sql2 = string.Format("update {0} set 权重={1} where {0}id = {2};", tagName, w, idValue);
+            SqliteOperate.ExecuteNonQuery(sql2);
         }
 
         public static void SaveOtherInfo(WrapPanel[] wrapPanels, string tagName, string idValue)
@@ -140,6 +145,7 @@ namespace 脸滚键盘
             tb.MinHeight = 0;
             tb.TextWrapping = TextWrapping.Wrap;
             tb.Text = "";
+            //tb.BorderBrush = Brushes.Blue;
             tb.BorderThickness = new Thickness(0, 0, 0, 1);
             tb.Margin = new Thickness(10, 0, 0, 0);
             tb.HorizontalAlignment = HorizontalAlignment.Left;

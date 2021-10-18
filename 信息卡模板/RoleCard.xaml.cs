@@ -25,13 +25,26 @@ namespace 脸滚键盘.信息卡模板
         TreeView Tv;
         SQLiteDataReader reader;
         TreeViewItem thisItem;
+
+        public struct role
+        {
+            public static string id;
+            public static string weight;
+            public static string realAge;
+            public static string 相对年龄;
+        }
+
         public RoleCard(TreeView tv, TreeViewItem selectedItem)
         {
             InitializeComponent();
 
+            //添加拖曳面板事件
+            this.MouseLeftButtonDown += (o, e) => { DragMove(); };
+
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
             thisItem = selectedItem;
             Tv = tv;
+            role.id = selectedItem.Uid;
 
             //填充窗口信息
             GetDataAndFillCard();
@@ -47,10 +60,10 @@ namespace 脸滚键盘.信息卡模板
             if (thisItem != null)
             {
                 FillBaseInfo();
-                WrapPanel[] wrapPanels = { w2, w3, w4, w7, w8, w9, w10, w11 };
+                WrapPanel[] wrapPanels = { wp别称, wp身份, wp外观, wp所属, wp阶级, wp物品, wp能力, wp经历};
                 CardOperate.FillMainInfo(wrapPanels, "角色", thisItem.Uid);
 
-                WrapPanel[] wrapPanels2 = { w5, w6 };
+                WrapPanel[] wrapPanels2 = { wp状态, wp性别 };
                 CardOperate.FillOtherInfo(wrapPanels2, "角色", thisItem.Uid);
             }
         }
@@ -71,21 +84,18 @@ namespace 脸滚键盘.信息卡模板
                 }
                 if (false == reader.IsDBNull(3))
                 {
-                    权重 = reader.GetInt32(3).ToString();
+                    role.weight = reader.GetInt32(3).ToString();
                 }
                 if (false == reader.IsDBNull(4))
                 {
-                    相对年龄 = reader.GetString(4).ToString();
+                    role.相对年龄 = reader.GetString(4).ToString();
                 }
 
-            }
-            tbId.Text = thisItem.Uid;
-            tbId.Uid = thisItem.Uid;
-            tbRoleName.Text = thisItem.Header.ToString();
-            t12.Text = 备注;
-            tbQz.Text = 权重;
-            tage.Text = 相对年龄;
+            }            
 
+            tbRoleName.Text = thisItem.Header.ToString();
+            tage.Text = role.相对年龄;
+            cardRole.Header = string.Format("　　id：{0}　　权重：{1}　　年龄：{2}", thisItem.Uid, role.weight, role.相对年龄);
         }
 
         //void FillMainInfo(string 角色id, WrapPanel[] wrapPanels)
@@ -135,8 +145,8 @@ namespace 脸滚键盘.信息卡模板
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            string num = b.Name.Substring(1);
-            string wpName = "w" + num;
+            string num = b.Name.Substring(3);
+            string wpName = "wp" + num;
             WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
             TextBox tb = CardOperate.AddTextBox();
             wp.Children.Add(tb);
@@ -149,23 +159,23 @@ namespace 脸滚键盘.信息卡模板
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             reader = SqliteOperate.ExecuteQuery(string.Format("select * from 角色 where 名称='{0}'", tbRoleName.Text));
-            if (reader.Read() && tbId.Uid != reader.GetInt32(0).ToString())
+            if (reader.Read() && role.id != reader.GetInt32(0).ToString())
             {
                 MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
                 return;
             }
-            if (tbId != null && false == string.IsNullOrEmpty(tbId.Uid))
+            if (role.id != null && false == string.IsNullOrEmpty(role.id))
             {
-                string 角色id = tbId.Uid;
+                string 角色id = role.id;
                 string 权重 = "0";
                 string 相对年龄 = "0";
-                if (string.IsNullOrEmpty(tbQz.Text))
+                if (string.IsNullOrEmpty(role.weight))
                 {
                     权重 = 0.ToString();
                 }
                 else
                 {
-                    权重 = tbQz.Text;
+                    权重 = role.weight;
                 }
                 if (string.IsNullOrEmpty(tage.Text))
                 {
@@ -176,19 +186,25 @@ namespace 脸滚键盘.信息卡模板
                     相对年龄 = tage.Text;
                 }
 
-                string sql = string.Format("update 角色 set 名称='{0}', 备注='{1}', 权重={3}+1, 相对年龄={4} where 角色id = {2};", tbRoleName.Text, t12.Text, 角色id, 权重, 相对年龄);
+                string sql = string.Format("update 角色 set 名称='{0}', 备注='{1}', 权重={3}, 相对年龄={4} where 角色id = {2};", tbRoleName.Text, tb备注.Text, 角色id, 权重, 相对年龄);
                 SqliteOperate.ExecuteNonQuery(sql);
 
                 thisItem.Header = tbRoleName.Text;
 
-                WrapPanel[] wrapPanels = { w2, w3, w4, w7, w8, w9, w10, w11 };
+                WrapPanel[] wrapPanels = { wp别称, wp身份, wp外观, wp所属, wp阶级, wp物品, wp能力, wp经历 };
                 CardOperate.SaveMainInfo(wrapPanels, "角色", 角色id);
 
-                WrapPanel[] wrapPanels2 = { w5, w6 };
+                WrapPanel[] wrapPanels2 = {wp状态, wp性别 };
                 CardOperate.SaveOtherInfo(wrapPanels2, "角色", 角色id);
             }
 
             TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "role");
+            
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         ///// <summary>

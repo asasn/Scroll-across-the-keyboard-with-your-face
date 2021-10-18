@@ -17,7 +17,7 @@
             <MenuItem x:Name="export" Header="删除" Click="export_Click"/>
         </ContextMenu>
     </UserControl.Resources>
-    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="5" Effect="{StaticResource EffectShadow2}">
+    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="5" Effect="{StaticResource EffectShadow3}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>

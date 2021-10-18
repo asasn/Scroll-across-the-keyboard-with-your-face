@@ -108,26 +108,26 @@ namespace 脸滚键盘
             if (selectedItem != null && UcTag == "role")
             {
                 RoleCard roleCard = new RoleCard(tv, selectedItem);
-                CardOperate.SetWindowsMiddle(e, roleCard);
                 roleCard.Show();
+                CardOperate.SetWindowsMiddle(e, roleCard);
             }
             if (selectedItem != null && UcTag == "faction")
             {
                 PlaceAndFactionCard placeAndFactionCard = new PlaceAndFactionCard(tv, selectedItem);
-                CardOperate.SetWindowsMiddle(e, placeAndFactionCard);
                 placeAndFactionCard.Show();
+                CardOperate.SetWindowsMiddle(e, placeAndFactionCard);
             }
             if (selectedItem != null && UcTag == "goods")
             {
                 GoodsCard goodsCard = new GoodsCard(tv, selectedItem);
-                CardOperate.SetWindowsMiddle(e, goodsCard);
                 goodsCard.Show();
+                CardOperate.SetWindowsMiddle(e, goodsCard);
             }
             if (selectedItem != null && UcTag == "common")
             {
                 CommonCard commonCard = new CommonCard(tv, selectedItem);
-                CardOperate.SetWindowsMiddle(e, commonCard);
                 commonCard.Show();
+                CardOperate.SetWindowsMiddle(e, commonCard);
             }
         }
 
