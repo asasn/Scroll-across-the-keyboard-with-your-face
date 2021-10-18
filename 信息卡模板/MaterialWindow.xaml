@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:脸滚键盘.信息卡模板"
         xmlns:脸滚键盘="clr-namespace:脸滚键盘" x:Name="materialWindow" x:Class="脸滚键盘.信息卡模板.MaterialWindow"
         mc:Ignorable="d"
-        Title="资料窗口" Height="450" Width="800" Topmost="True" WindowStartupLocation="CenterScreen">
+        Title="资料窗口" Height="450" Width="800" WindowStartupLocation="CenterScreen" Topmost="True">
     <Grid>
 
         <脸滚键盘:uc_Editor x:Name="ucEditor"/>

@@ -17,8 +17,10 @@ namespace 脸滚键盘
         {
             Point p = Mouse.GetPosition(e.Source as FrameworkElement);
             Point pointToWindow = (e.Source as FrameworkElement).PointToScreen(p);//转化为屏幕中的坐标
-            card.Left = pointToWindow.X - card.Width / 2;
-            card.Top = pointToWindow.Y - card.Height / 2;
+            card.Left = 305;
+            card.Top = 115;
+            //card.Left = pointToWindow.X - card.Width / 2;
+            //card.Top = pointToWindow.Y - card.Height / 2;
             //card.WindowStartupLocation = WindowStartupLocation.Manual;
         }
 

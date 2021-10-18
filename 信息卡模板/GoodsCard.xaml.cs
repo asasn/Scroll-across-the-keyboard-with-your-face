@@ -23,13 +23,25 @@ namespace 脸滚键盘.信息卡模板
         TreeView Tv;
         SQLiteDataReader reader;
         TreeViewItem thisItem;
+        WrapPanel[] wrapPanels;
+        public struct thisCard
+        {
+            public static string id;
+            public static string weight;
+        }
+
         public GoodsCard(TreeView tv, TreeViewItem selectedItem)
         {
             InitializeComponent();
+            //添加拖曳面板事件
+            this.MouseLeftButtonDown += (o, e) => { DragMove(); };
 
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
             thisItem = selectedItem;
             Tv = tv;
+            thisCard.id = selectedItem.Uid;
+            WrapPanel[] temp = { wp别称, wp外观, wp阶级, wp能力, wp经历};
+            wrapPanels = temp;
 
             //填充窗口信息
             GetDataAndFillCard();
@@ -44,36 +56,30 @@ namespace 脸滚键盘.信息卡模板
             if (thisItem != null)
             {
                 FillBaseInfo();
-                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6, };
-                CardOperate.FillMainInfo(wrapPanels, "物品", thisItem.Uid);
+                CardOperate.FillMainInfo(wrapPanels, "物品", thisCard.id);
 
             }
         }
 
         void FillBaseInfo()
         {
-            string sql = string.Format("select * from 物品 where 物品id = {0};", thisItem.Uid);
+            string sql = string.Format("select * from 物品 where 物品id = {0};", thisCard.id);
             reader = SqliteOperate.ExecuteQuery(sql);
 
-            string 备注 = string.Empty;
-            string 权重 = string.Empty;
             while (reader.Read())
             {
                 if (false == reader.IsDBNull(2))
                 {
-                    备注 = reader.GetString(2);
+                    tb备注.Text = reader.GetString(2);
                 }
                 if (false == reader.IsDBNull(3))
                 {
-                    权重 = reader.GetInt32(3).ToString();
+                    thisCard.weight = reader.GetInt32(3).ToString();
                 }
 
             }
-            tbId.Text = thisItem.Uid;
-            tbId.Uid = thisItem.Uid;
             tbName.Text = thisItem.Header.ToString();
-            t12.Text = 备注;
-            tbQz.Text = 权重;
+            card.Header = string.Format("　　id：{0}　　权重：{1}", thisCard.id, thisCard.weight);
 
         }
 
@@ -102,48 +108,44 @@ namespace 脸滚键盘.信息卡模板
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             reader = SqliteOperate.ExecuteQuery(string.Format("select * from 物品 where 名称='{0}'", tbName.Text));
-            if (reader.Read() && tbId.Uid != reader.GetInt32(0).ToString())
+            if (reader.Read() && thisCard.id != reader.GetInt32(0).ToString())
             {
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
                 return;
             }
-            if (tbId != null && false == string.IsNullOrEmpty(tbId.Uid))
+            if (thisCard.id != null && false == string.IsNullOrEmpty(thisCard.id))
             {
-                string 物品id = tbId.Uid;
-                string 权重 = "0";
-                if (string.IsNullOrEmpty(tbQz.Text))
+                if (string.IsNullOrEmpty(thisCard.weight))
                 {
-                    权重 = 0.ToString();
-                }
-                else
-                {
-                    权重 = tbQz.Text;
+                    thisCard.weight = 0.ToString();
                 }
 
-                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3} where 物品id = {2};", tbName.Text, t12.Text, 物品id, 权重);
+                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3} where 物品id = {2};", tbName.Text, tb备注.Text, thisCard.id, thisCard.weight);
                 SqliteOperate.ExecuteNonQuery(sql);
 
                 thisItem.Header = tbName.Text;
 
-                WrapPanel[] wrapPanels = { w2, w3, w4, w5, w6, };
-                CardOperate.SaveMainInfo(wrapPanels, "物品", 物品id);
-
+                CardOperate.SaveMainInfo(wrapPanels, "物品", thisCard.id);
             }
 
-            TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "goods");
+            TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "faction");
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            string num = b.Name.Substring(1);
-            string wpName = "w" + num;
+            string num = b.Name.Substring(3);
+            string wpName = "wp" + num;
             WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
 
             TextBox tb = CardOperate.AddTextBox();
             wp.Children.Add(tb);
         }
 
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

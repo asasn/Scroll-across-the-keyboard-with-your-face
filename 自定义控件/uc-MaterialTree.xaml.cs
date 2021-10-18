@@ -88,7 +88,7 @@ namespace 脸滚键盘
                     ChangeCurItem(selectedItem);
                     string fullFileName = TreeOperate.GetItemPath(selectedItem, UcTag);
                     Gval.materialWin = new MaterialWindow(selectedItem, UcTag);
-                    Gval.materialWin.Show();
+                    Gval.materialWin.ShowDialog();
                 }
             }
         }
