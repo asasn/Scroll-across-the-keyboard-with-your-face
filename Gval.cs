@@ -95,6 +95,11 @@ namespace 脸滚键盘
             public static string curBookPath;
 
             /// <summary>
+            /// 指向当前书籍名字
+            /// </summary>
+            public static string curBookName;
+
+            /// <summary>
             /// 指向的节点item
             /// </summary>
             public static TreeViewItem curItem;
@@ -104,10 +109,6 @@ namespace 脸滚键盘
             /// </summary>
             public static TreeViewItem curVolumeItem;
 
-            /// <summary>
-            /// 指向当前书籍节点
-            /// </summary>
-            public static TreeViewItem curBookItem;
         }
 
         public struct DragDrop

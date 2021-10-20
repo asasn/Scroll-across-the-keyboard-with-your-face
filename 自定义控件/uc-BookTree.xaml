@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300">
+             d:DesignHeight="450" d:DesignWidth="300" Loaded="uc_Loaded">
     <!--定义一个右键菜单控件-->
     <UserControl.Resources>
         <ContextMenu x:Key="tvContextMenu">
@@ -31,9 +32,30 @@
                 <Button x:Name="btnItemUp" Padding="1" Content="↑↑" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Width="20" Height="20" IsEnabled="False" Click="btnItemUp_Click"/>
                 <Button x:Name="btnItemDown" Padding="1" Content="↓↓" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Center" Width="20" Height="20" IsEnabled="False" Click="btnItemDown_Click"/>
             </Grid>
-          <TreeView x:Name="tv" Margin="5" Grid.Row="1" Loaded="tv_Loaded" KeyDown="tv_KeyDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" DragEnter="tv_DragEnter" Drop="tv_Drop" MouseMove="tv_MouseMove" MouseLeftButtonUp="tv_MouseLeftButtonUp" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown"/>
+            <TreeView x:Name="tv" Margin="5" Grid.Row="1" Loaded="tv_Loaded" KeyDown="tv_KeyDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" DragEnter="tv_DragEnter" Drop="tv_Drop" MouseMove="tv_MouseMove" MouseLeftButtonUp="tv_MouseLeftButtonUp" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown" />
             <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
+            <Button x:Name="btnBooks" Padding="0" Grid.Row="1" Foreground="LightGoldenrodYellow" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource StarGeometry}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Margin="5" Click="btnBooks_Click" />
+            <hc:Drawer Name="DrawerLeftInContainer" Dock="Left" ShowMask="False" Loaded="DrawerLeftInContainer_Loaded">
+                <Border Background="{DynamicResource RegionBrush}" Width="400" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Margin="10,0,0,0" Grid.Row="0">
+                            <TextBlock x:Name="drawerTbk" Text="当前书籍：" Style="{StaticResource TextBlockTitle}" HorizontalAlignment="Left"/>
+                            <Button HorizontalAlignment="Right" Foreground="{DynamicResource PrimaryTextBrush}" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Click="btnBooks_Click"/>
+                        </Grid>
+                        <Grid Margin="10,0,0,0" Grid.Row="1">
+                            <ScrollViewer>
+                                <WrapPanel x:Name="wpBooks">
 
+                                </WrapPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </hc:Drawer>
         </Grid>
     </hc:Card>
 </UserControl>

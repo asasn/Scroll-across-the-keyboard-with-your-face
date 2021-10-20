@@ -107,7 +107,7 @@ namespace 脸滚键盘.信息卡模板
                 CardOperate.SaveMainInfo(wrapPanels, "通用", thisCard.id);
             }
 
-            TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "faction");
+            TreeOperate.Save.ToSingleXml(Tv, "faction");
 
         }
 

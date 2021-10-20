@@ -4,11 +4,31 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace 脸滚键盘
 {
     static class FileOperate
     {
+
+        public static object GetImgObject(string imgPath)
+        {
+            if (false == FileOperate.IsFileExists(imgPath))
+            {
+                return "未找到图片";
+            }
+            BitmapImage img = new BitmapImage();
+
+            img.BeginInit();
+            img.UriSource = new Uri(imgPath);
+            img.EndInit();
+
+            Image imgShow = new Image() { Source = img };
+            return imgShow;
+        }
+
         /// <summary>
         /// 创建新文件夹
         /// </summary>

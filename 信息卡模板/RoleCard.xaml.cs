@@ -140,7 +140,7 @@ namespace 脸滚键盘.信息卡模板
                 CardOperate.SaveOtherInfo(wrapPanels2, "角色", thisCard.id);
             }
 
-            TreeOperate.Save.ToSingleXml(Tv, Gval.Current.curBookItem, "role");
+            TreeOperate.Save.ToSingleXml(Tv, "role");
             
         }
 

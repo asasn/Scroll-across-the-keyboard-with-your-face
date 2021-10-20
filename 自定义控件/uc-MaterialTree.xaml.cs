@@ -100,13 +100,13 @@ namespace 脸滚键盘
             //检查工作目录是否存在
             if (true == FileOperate.IsFolderExists(materialPath) && true == FileOperate.IsFileExists(materialXml))
             {
-                TreeOperate.Show.FromSingleXml(tv, null, UcTag);
+                TreeOperate.Show.FromSingleXml(tv, UcTag);
             }
             else
             {
                 //不存在则建立
                 FileOperate.CreateFolder(materialPath);
-                TreeOperate.Save.ToSingleXml(tv, null, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, UcTag);
             }
         }
 
@@ -121,7 +121,7 @@ namespace 脸滚键盘
             {
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
                 FileOperate.CreateFolder(rootPath);
-                TreeOperate.Save.ToSingleXml(tv, null, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, UcTag);
             }
         }
 
@@ -142,7 +142,7 @@ namespace 脸滚键盘
                     {
                         TreeOperate.AddItem.BrotherItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                         FileOperate.CreateNewDoc(fullFileName);
-                        TreeOperate.Save.ToSingleXml(tv, null, UcTag);
+                        TreeOperate.Save.ToSingleXml(tv, UcTag);
                     }
                 }
                 if (level == 1)
@@ -151,7 +151,7 @@ namespace 脸滚键盘
                     {
                         TreeOperate.AddItem.ChildItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                         FileOperate.CreateNewDoc(fullFileName);
-                        TreeOperate.Save.ToSingleXml(tv, null, UcTag);
+                        TreeOperate.Save.ToSingleXml(tv, UcTag);
                     }
                 }
             }
@@ -232,7 +232,7 @@ namespace 脸滚键盘
                     string fullFileName = dirPath + '/' + selectedItem.Header.ToString() + ".txt";
                     TreeOperate.DelItem.Do(selectedItem);
                     FileOperate.deleteDoc(fullFileName);
-                    TreeOperate.Save.ToSingleXml(tv, null, UcTag);
+                    TreeOperate.Save.ToSingleXml(tv, UcTag);
                 }
 
                 if (selectedItem.Name == "dir")
@@ -242,7 +242,7 @@ namespace 脸滚键盘
                     {
                         TreeOperate.DelItem.Do(selectedItem);
                         FileOperate.deleteDir(dirPath);
-                        TreeOperate.Save.ToSingleXml(tv, null, UcTag);
+                        TreeOperate.Save.ToSingleXml(tv, UcTag);
                     }
                 }
             }
@@ -290,6 +290,20 @@ namespace 脸滚键盘
         private void btnItemDown_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+
+        private void CoverFlowMain_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine(CoverFlowMain.PageIndex.ToString() + "-----------------");
+        }
+
+        private void CoverFlowMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            CoverFlowMain.Add(Gval.Base.AppPath + "/books/" + "1021800771.jpg");
+            CoverFlowMain.Add(Gval.Base.AppPath + "/books/" + "1021800771.jpg");
+            CoverFlowMain.Add(Gval.Base.AppPath + "/books/" + "1021800771.jpg");
+            CoverFlowMain.JumpTo(2);
         }
 
     }

@@ -144,15 +144,11 @@ namespace 脸滚键盘
             {
                 if (ucTag == "books")
                 {
-                    Save.FromBookTree.SaveCurBook(Gval.Current.curBookItem);
-                    if (tv.SelectedItem == Gval.Current.curBookItem)
-                    {
-                        Save.FromBookTree.SaveRoot(tv);
-                    }
+                    Save.BookTree.SaveCurBook(tv);
                 }
                 else
                 {
-                    Save.ToSingleXml(tv, Gval.Current.curBookItem, ucTag);
+                    Save.ToSingleXml(tv, ucTag);
                 }
                 //TreeOperate.Save.SaveTree(tv);
             }

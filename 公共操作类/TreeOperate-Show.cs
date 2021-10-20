@@ -29,7 +29,7 @@ namespace 脸滚键盘
                     //展示书籍
                     foreach (TreeViewItem rootItem in tv.Items)
                     {
-                        ToCurBook(rootItem);
+                        //ToCurBook(rootItem);
                     }
                 }
 
@@ -63,16 +63,16 @@ namespace 脸滚键盘
                 /// </summary>
                 /// <param name="tv"></param>
                 /// <param name="rootItem"></param>
-                static void ToCurBook(TreeViewItem rootItem)
+                public static void ToCurBook(TreeView tv)
                 {
                     //获取当前书籍对应的完整xml文件名
-                    string fullXmlName_book = Gval.Base.AppPath + "/books/" + rootItem.Header.ToString() + "/index.xml";
+                    string fullXmlName_book = Gval.Current.curBookPath + "/index.xml";
 
                     XmlDocument doc = new XmlDocument();
                     doc.Load(fullXmlName_book);
                     XmlNode root = doc.SelectSingleNode("book");
                     XmlNodeList rlist = root.ChildNodes;
-                    XmlNodeListToTree(rlist, rootItem);
+                    XmlNodeListToTree(rlist, tv);
                 }
             }
 
@@ -82,7 +82,7 @@ namespace 脸滚键盘
             /// <param name="tv"></param>
             /// <param name="bookItem"></param>
             /// <param name="ucTag"></param>
-            public static void FromSingleXml(TreeView tv, TreeViewItem bookItem, string ucTag)
+            public static void FromSingleXml(TreeView tv, string ucTag)
             {
 
                 //获取当前notes对应的完整xml文件名
@@ -93,7 +93,7 @@ namespace 脸滚键盘
                 }
                 else
                 {
-                    fullXmlName = Gval.Base.AppPath + "/books/" + bookItem.Header.ToString() + "/" + ucTag + ".xml";
+                    fullXmlName = Gval.Current.curBookPath + "/" + ucTag + ".xml";
                 }
                 XmlDocument doc = new XmlDocument();
                 doc.Load(fullXmlName);

@@ -57,15 +57,15 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Gval.Current.curBookItem != null)
+            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 tv.Items.Clear();
 
                 //获取当前notes对应的完整xml文件名
-                string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.Current.curBookItem.Header.ToString() + "/" + UcTag + ".xml";
+                string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                    TreeOperate.Show.FromSingleXml(tv, UcTag);
                     (tv.Items[tv.Items.Count - 1] as TreeViewItem).IsExpanded = true;
                 }
                 uc.IsEnabled = true;
@@ -86,10 +86,10 @@ namespace 脸滚键盘
         private void btnNewFolder_Click(object sender, RoutedEventArgs e)
         {
             string itemTitle = "新根节点";
-            if (Gval.Current.curBookItem != null)
+            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
-                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, UcTag);
             }
         }
 
@@ -97,19 +97,19 @@ namespace 脸滚键盘
         {
             string itemTitle = "新子节点";
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null && Gval.Current.curBookItem != null)
+            if (selectedItem != null && true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 int level = TreeOperate.GetLevel(selectedItem);
                 if (level == 2)
                 {
                     TreeOperate.AddItem.BrotherItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
-                    TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                    TreeOperate.Save.ToSingleXml(tv, UcTag);
 
                 }
                 if (level == 1)
                 {
                     TreeOperate.AddItem.ChildItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
-                    TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                    TreeOperate.Save.ToSingleXml(tv, UcTag);
                 }
             }
         }
@@ -117,10 +117,10 @@ namespace 脸滚键盘
         private void btnDelItem_Click(object sender, RoutedEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null && Gval.Current.curBookItem != null)
+            if (selectedItem != null && true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 TreeOperate.DelItem.Do(selectedItem);
-                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, UcTag);
             }
         }
 

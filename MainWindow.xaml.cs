@@ -24,6 +24,8 @@ namespace 脸滚键盘
         {
             InitializeComponent();
 
+            Gval.Current.curBookName = SettingsOperate.GetSettings("curBookName");
+            Gval.Current.curBookPath = SettingsOperate.GetSettings("curBookPath");
             Gval.Current.tbPrice = tbPrice;
             Gval.Current.tbBornYear = tbBornYear;
             Gval.Current.tbCurYear = tbCurYear;
@@ -86,15 +88,12 @@ namespace 脸滚键盘
         private void btnBookSettings_Click(object sender, RoutedEventArgs e)
         {
             DrawerBottomInContainer.IsOpen = !DrawerBottomInContainer.IsOpen;
-            if (Gval.Current.curBookItem != null)
+            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
-                drawerTbk.Text = "当前书籍：" + Gval.Current.curBookItem.Header.ToString();
+                drawerTbk.Text = "当前书籍：" + Gval.Current.curBookName;
             }
 
         }
-
-
-
 
     }
 }

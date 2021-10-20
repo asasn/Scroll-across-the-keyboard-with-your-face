@@ -21,6 +21,7 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="100*"/>
+                <RowDefinition Height="300"/>
             </Grid.RowDefinitions>
             <Grid >
                 <Grid Margin="5,5,5,0">
@@ -44,6 +45,7 @@
             </Grid>
             <TreeView x:Name="tv" Grid.Row="2" MouseDoubleClick="tv_MouseDoubleClick" Loaded="tv_Loaded" MouseLeftButtonDown="tv_MouseLeftButtonDown" KeyDown="tv_KeyDown" MouseRightButtonDown="tv_MouseRightButtonDown" Margin="5"/>
             <TextBox x:Name="renameBox" Grid.Row="2" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
+            <hc:CoverFlow x:Name="CoverFlowMain" Grid.Row="3" MouseUp="CoverFlowMain_MouseUp" Loaded="CoverFlowMain_Loaded" Margin="5" />
 
         </Grid>
     </hc:Card>

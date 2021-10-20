@@ -72,15 +72,15 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (Gval.Current.curBookItem != null)
+            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 tv.Items.Clear();
 
                 //获取当前notes对应的完整xml文件名
-                string fullXmlName_notes = Gval.Base.AppPath + "/books/" + Gval.Current.curBookItem.Header.ToString() + "/" + UcTag + ".xml";
+                string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.Show.FromSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                    TreeOperate.Show.FromSingleXml(tv, UcTag);
                 }
                 uc.IsEnabled = true;
                 Gval.Editor.Uc.SetRules();
@@ -199,7 +199,7 @@ namespace 脸滚键盘
                 }
             }
 
-            if (Gval.Current.curBookItem != null)
+            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 string tagName;
                 if (UcTag == "role")
@@ -235,7 +235,7 @@ namespace 脸滚键盘
                 //string uid = getMd5(timestr);
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
                 newItem.Uid = id.ToString();
-                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, UcTag);
             }
 
         }
@@ -248,10 +248,10 @@ namespace 脸滚键盘
         private void btnDelItem_Click(object sender, RoutedEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null && Gval.Current.curBookItem != null)
+            if (selectedItem != null && true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 TreeOperate.DelItem.Do(selectedItem);
-                TreeOperate.Save.ToSingleXml(tv, Gval.Current.curBookItem, UcTag);
+                TreeOperate.Save.ToSingleXml(tv, UcTag);
                 if (UcTag == "role")
                 {
                     string sql = string.Format("DELETE FROM 角色 where 角色id = {0};", selectedItem.Uid);

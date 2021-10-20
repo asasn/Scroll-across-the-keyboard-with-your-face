@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
-             mc:Ignorable="d"
+             mc:Ignorable="d" Effect="{StaticResource EffectShadow3}" UseLayoutRounding="True" 
              d:DesignHeight="450" d:DesignWidth="300" DataContextChanged="uc_DataContextChanged" IsEnabled="False">
     <UserControl.Resources>
         <ContextMenu x:Key="tvContextMenu">

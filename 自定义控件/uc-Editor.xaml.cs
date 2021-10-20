@@ -152,7 +152,7 @@ namespace 脸滚键盘
                 textEditor.Load(FullFileName);
                 chapterNameBox.Text = CurItem.Header.ToString();
                 volumeNameBox.Text = curVolumeItem.Header.ToString();
-                bookNameBox.Text = curBookItem.Header.ToString();
+                bookNameBox.Text = Gval.Current.curBookName;
             }
         }
 

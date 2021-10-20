@@ -20,7 +20,15 @@ namespace 脸滚键盘
             ArrayList myItems = new ArrayList();
             string itemPath = string.Empty;
             TreeViewItem curItem = selectedItem;
-            itemPath += Gval.Base.AppPath + "/" + ucTag;
+            if (ucTag == "books")
+            {
+                itemPath += Gval.Current.curBookPath;
+            }
+            else
+            {
+                itemPath += Gval.Base.AppPath + "/" + ucTag;
+            }
+            
             if (selectedItem != null)
             {
                 do
@@ -137,18 +145,15 @@ namespace 脸滚键盘
         {
             if (selectedItem != null)
             {
-                TreeViewItem bookItem = GetRootItem(selectedItem);
-                TreeViewItem volumeItem = GetItemByLevel(selectedItem, 2);
+                TreeViewItem volumeItem = GetItemByLevel(selectedItem, 1);
 
                 //更新公共变量数据
                 Gval.Current.curTv = tv;
                 Gval.Current.curUcTag = ucTag;
                 Gval.Current.curItem = selectedItem;
                 Gval.Current.curVolumeItem = volumeItem;
-                Gval.Current.curBookItem = bookItem;
                 Gval.Current.curItemPath = GetItemPath(selectedItem, ucTag);
                 Gval.Current.curVolumePath = GetItemPath(volumeItem, ucTag);
-                Gval.Current.curBookPath = GetItemPath(bookItem, ucTag);
             }
             else
             {
@@ -157,10 +162,8 @@ namespace 脸滚键盘
                 Gval.Current.curUcTag = null;
                 Gval.Current.curItem = null;
                 Gval.Current.curVolumeItem = null;
-                Gval.Current.curBookItem = null;
                 Gval.Current.curItemPath = null;
                 Gval.Current.curVolumePath = null;
-                Gval.Current.curBookPath = null;
             }
         }
 
