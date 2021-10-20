@@ -15,11 +15,11 @@ namespace 脸滚键盘
         /// </summary>
         /// <param name="textEditor"></param>
         /// <param name="lbValue"></param>
-        public static void ShowValue(int words, Label lbValue)
+        public static void ShowValue(double words, Label lbValue)
         {
             double price;
-            double.TryParse(Gval.MainWindow.tbPrice.Text, out price);
-            double result = Math.Floor(Convert.ToDouble(words / 1000) * price);
+            double.TryParse(Gval.Current.tbPrice.Text, out price);
+            double result = Math.Floor(words / 1000 * price);
             lbValue.Content = "价值：" + result.ToString() + "元";
         }
 

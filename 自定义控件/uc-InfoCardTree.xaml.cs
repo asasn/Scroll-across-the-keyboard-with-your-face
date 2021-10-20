@@ -205,7 +205,7 @@ namespace 脸滚键盘
                 if (UcTag == "role")
                 {
                     tagName = "角色";
-                    string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id INTEGER PRIMARY KEY AUTOINCREMENT, 名称 CHARUNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tagName);
+                    string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id INTEGER PRIMARY KEY AUTOINCREMENT, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tagName);
                     SqliteOperate.ExecuteNonQuery(sql);
 
                     id = CardOperate.AddCard(tagName, itemTitle);

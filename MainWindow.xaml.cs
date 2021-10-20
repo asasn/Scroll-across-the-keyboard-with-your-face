@@ -24,7 +24,12 @@ namespace 脸滚键盘
         {
             InitializeComponent();
 
-            Gval.MainWindow.tbPrice = tbPrice;
+            Gval.Current.tbPrice = tbPrice;
+            Gval.Current.tbBornYear = tbBornYear;
+            Gval.Current.tbCurYear = tbCurYear;
+            tbPrice_Loaded(null, null);
+            tbBornYear_Loaded(null, null);
+            tbCurYear_Loaded(null, null);
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -35,8 +40,30 @@ namespace 脸滚键盘
 
         private void tbPrice_Loaded(object sender, RoutedEventArgs e)
         {
-            string price = SettingsOperate.GetSettings("price");
-            tbPrice.Text = price;
+            //初始值为空，才是载入的初始状态，需要更改，其他已经发生改变的情况，不必再更改
+            if (true == string.IsNullOrEmpty(tbPrice.Text))
+            {
+                tbPrice.Text = SettingsOperate.GetSettings("price");
+            }
+        }
+
+        private void tbBornYear_Loaded(object sender, RoutedEventArgs e)
+        {
+            //初始值为空，才是载入的初始状态，需要更改，其他已经发生改变的情况，不必再更改
+            if (true == string.IsNullOrEmpty(tbBornYear.Text))
+            {
+                tbBornYear.Text = SettingsOperate.GetSettings("bornYear");
+            }
+        }
+
+        private void tbCurYear_Loaded(object sender, RoutedEventArgs e)
+        {
+            //初始值为空，才是载入的初始状态，需要更改，其他已经发生改变的情况，不必再更改
+            if (true == string.IsNullOrEmpty(tbCurYear.Text))
+            {
+                tbCurYear.Text = SettingsOperate.GetSettings("curYear");
+            }
+
         }
 
         private void tbPrice_TextChanged(object sender, TextChangedEventArgs e)
@@ -44,6 +71,29 @@ namespace 脸滚键盘
             SettingsOperate.SaveSettings("price", tbPrice.Text);
             EditorOperate.ShowValue(Editor.words, Editor.lbValue);
         }
+
+        private void tbBornYear_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SettingsOperate.SaveSettings("bornYear", tbBornYear.Text);
+
+        }
+
+        private void tbCurYear_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SettingsOperate.SaveSettings("curYear", tbCurYear.Text);
+        }
+
+        private void btnBookSettings_Click(object sender, RoutedEventArgs e)
+        {
+            DrawerBottomInContainer.IsOpen = !DrawerBottomInContainer.IsOpen;
+            if (Gval.Current.curBookItem != null)
+            {
+                drawerTbk.Text = "当前书籍：" + Gval.Current.curBookItem.Header.ToString();
+            }
+
+        }
+
+
 
 
     }

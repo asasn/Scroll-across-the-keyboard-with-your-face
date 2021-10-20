@@ -68,13 +68,13 @@ namespace 脸滚键盘.信息卡模板
 
             while (reader.Read())
             {
-                if (false == reader.IsDBNull(2))
+                if (reader["备注"] != null)
                 {
-                    tb备注.Text = reader.GetString(2);
+                    tb备注.Text = reader["备注"].ToString();
                 }
-                if (false == reader.IsDBNull(3))
+                if (reader["权重"] != null)
                 {
-                    thisCard.weight = reader.GetInt32(3).ToString();
+                    thisCard.weight = reader["权重"].ToString();
                 }
 
             }
@@ -82,27 +82,6 @@ namespace 脸滚键盘.信息卡模板
             card.Header = string.Format("　　id：{0}　　权重：{1}", thisCard.id, thisCard.weight);
 
         }
-
-        //void FillMainInfo(string 通用id, WrapPanel[] wrapPanels)
-        //{
-
-        //    foreach (WrapPanel wp in wrapPanels)
-        //    {
-        //        string sql = string.Format("select * from 通用{0}表 where 通用id = {1};", wp.Uid, 通用id);
-        //        reader = SqliteOperate.ExecuteQuery(sql);
-        //        wp.Children.Clear();
-        //        while (reader.Read())
-        //        {
-        //            string t = reader.GetString(1);
-        //            int n = reader.GetInt32(2);
-        //            TextBox tb = AddTextBox();
-        //            tb.Text = t;
-        //            tb.Uid = n.ToString();
-        //            wp.Children.Add(tb);
-        //        }
-        //    }
-        //}
-
 
 
         private void btnSave_Click(object sender, RoutedEventArgs e)

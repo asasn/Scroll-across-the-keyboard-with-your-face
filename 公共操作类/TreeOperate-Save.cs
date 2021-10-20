@@ -10,9 +10,57 @@ using System.Xml;
 namespace 脸滚键盘
 {
     static partial class TreeOperate
-    {
+    {        
         public static partial class Save
         {
+            static string Gsql = string.Empty;
+            public static void SaveTree(TreeView tv)
+            {
+                Gval.Current.curBookItem = TreeOperate.GetRootItem(tv.SelectedItem as TreeViewItem);
+                string tableName = Gval.Current.curBookItem.Header.ToString() + "_Tree";
+                string sql = string.Empty;
+                sql += string.Format("delete from {0};", tableName); //清空数据
+                sql += string.Format("update sqlite_sequence SET seq = 0 where name = '{0}';", tableName);//自增长ID为0
+                sql += string.Format("CREATE TABLE IF NOT EXISTS {0}(id CHAR PRIMARY KEY, 级别 INTEGER,索引 INTEGER,父id CHAR, 名称 CHAR);", tableName);
+                SqliteOperate.ExecuteNonQuery(sql);
+                Gsql = string.Empty;
+                ReTraversal(tv);
+                SqliteOperate.ExecuteNonQuery(Gsql);
+                
+            }
+
+            static void ReTraversal(TreeView tv)
+            {
+                string tableName = Gval.Current.curBookItem.Header.ToString() + "_Tree";
+                foreach (TreeViewItem item in tv.Items)
+                {
+                    item.Uid = TreeOperate.GetIndex(item);
+                    Gsql += string.Format("insert or ignore into {0} (id, 级别, 索引, 父id, 名称) values ('{1}', {2}, {3}, '{4}', '{5}');", tableName, item.Uid, GetLevel(item), tv.Items.IndexOf(item), 0, item.Header.ToString());
+                    //SqliteOperate.ExecuteNonQuery(sql);             
+                    if (item.HasItems)
+                    {
+                        ReTraversal(item);
+                    }
+                }
+                
+            }
+
+            static void ReTraversal(TreeViewItem parentItem)
+            {
+                string tableName = Gval.Current.curBookItem.Header.ToString() + "_Tree";
+                foreach (TreeViewItem item in parentItem.Items)
+                {
+                    item.Uid = TreeOperate.GetIndex(item);
+                    Gsql += string.Format("insert or ignore into {0} (id, 级别, 索引, 父id, 名称) values ('{1}', {2}, {3}, '{4}', '{5}');", tableName, item.Uid, GetLevel(item), parentItem.Items.IndexOf(item), parentItem.Uid, item.Header.ToString());
+                    //SqliteOperate.ExecuteNonQuery(sql);                                     
+                    if (item.HasItems)
+                    {
+                        ReTraversal(item);
+                    }
+                }
+                
+            }
+
             public static class FromBookTree
             {
                 /// <summary>
@@ -76,7 +124,7 @@ namespace 脸滚键盘
             public static void ToSingleXml(TreeView tv, TreeViewItem bookItem, string ucTag)
             {
                 //获取当前笔记对应的完整xml文件名
-                string fullXmlName;                
+                string fullXmlName;
                 if (ucTag == "material")
                 {
                     fullXmlName = Gval.Base.AppPath + "/" + ucTag + "/index.xml";

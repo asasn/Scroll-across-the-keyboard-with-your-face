@@ -47,6 +47,33 @@ namespace 脸滚键盘
         }
 
         /// <summary>
+        /// 获取节点索引，无选中或者不在TreeView内的为-1
+        /// </summary>
+        /// <param name="selectedItem"></param>
+        /// <returns></returns>
+        public static string GetIndex(TreeViewItem selectedItem)
+        {
+            string level = string.Empty;
+            if (selectedItem != null)
+            {
+                while ((selectedItem.Parent as TreeViewItem) != null)
+                {
+                    level += (selectedItem.Parent as TreeViewItem).Items.IndexOf(selectedItem) + "-";
+                    selectedItem = selectedItem.Parent as TreeViewItem;                    
+                }
+                level += (selectedItem.Parent as TreeView).Items.IndexOf(selectedItem);
+                char[] charArray = level.ToCharArray();
+                Array.Reverse(charArray);
+                return new string(charArray);
+            }
+            else
+            {
+                return level;
+            }
+
+        }
+
+        /// <summary>
         /// 获取节点所在的层级，无选中或者不在TreeView内的为-1
         /// </summary>
         /// <param name="selectedItem"></param>

@@ -78,67 +78,25 @@ namespace 脸滚键盘.信息卡模板
 
             while (reader.Read())
             {
-                if (false == reader.IsDBNull(2))
+                if (reader["备注"] != null)
                 {
-                    tb备注.Text = reader.GetString(2);
+                    tb备注.Text = reader["备注"].ToString();
                 }
-                if (false == reader.IsDBNull(3))
+                if (reader["权重"] != null)
                 {
-                    thisCard.weight = reader.GetInt32(3).ToString();
+                    thisCard.weight = reader["权重"].ToString();
                 }
-                if (false == reader.IsDBNull(4))
+                if (reader["相对年龄"] != null)
                 {
-                    tbOffsetAge.Text = reader.GetString(4).ToString();
+                    tbOffsetAge.Text = reader["相对年龄"].ToString();
                 }
 
             }            
 
             tbName.Text = thisItem.Header.ToString();
-            card.Header = string.Format("　　id：{0}　　权重：{1}　　年龄：{2}", thisCard.id, thisCard.weight, tbOffsetAge.Text);
+            int realAge = int.Parse(Gval.Current.tbCurYear.Text) - int.Parse(Gval.Current.tbBornYear.Text) + int.Parse(tbOffsetAge.Text);
+            card.Header = string.Format("　　id：{0}　　权重：{1}　　年龄：{2}", thisCard.id, thisCard.weight, realAge.ToString());
         }
-
-        //void FillMainInfo(string 角色id, WrapPanel[] wrapPanels)
-        //{
-
-        //    foreach (WrapPanel wp in wrapPanels)
-        //    {
-        //        string sql = string.Format("select * from 角色{0}表 where 角色id = {1};", wp.Uid, 角色id);
-        //        reader = SqliteOperate.ExecuteQuery(sql);
-        //        wp.Children.Clear();
-        //        while (reader.Read())
-        //        {
-        //            string t = reader.GetString(1);
-        //            int n = reader.GetInt32(2);
-        //            TextBox tb = AddTextBox();
-        //            tb.Text = t;
-        //            tb.Uid = n.ToString();
-        //            wp.Children.Add(tb);
-        //        }
-        //    }
-        //}
-
-        //void FillOtherInfo(string 角色id, WrapPanel[] wrapPanels)
-        //{
-        //    foreach (WrapPanel wp in wrapPanels)
-        //    {
-        //        string sql = string.Format("select * from 角色{0}表 where 角色id = {1};", wp.Uid, 角色id);
-        //        reader = SqliteOperate.ExecuteQuery(sql);
-        //        int n = 0;
-        //        while (reader.Read())
-        //        {
-        //            n = reader.GetInt32(1);
-        //        }
-
-        //        foreach (RadioButton rb in wp.Children)
-        //        {
-        //            if (n == wp.Children.IndexOf(rb))
-        //            {
-        //                rb.IsChecked = true;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -151,8 +109,6 @@ namespace 脸滚键盘.信息卡模板
             wp.Children.Add(tb);
 
         }
-
-
 
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -192,24 +148,6 @@ namespace 脸滚键盘.信息卡模板
         {
             this.Close();
         }
-
-        ///// <summary>
-        ///// 在数据库中添加一个角色行
-        ///// </summary>
-        //public void AddRole()
-        //{
-        //    //实际上是以名字为标识符
-        //    if (null == tbId.Text && false == string.IsNullOrEmpty(tbRoleName.Text))
-        //    {
-        //        string sql = string.Format("insert or ignore into 角色 (名称, 备注) values ('{0}', '{1}');", tbRoleName.Text, t12.Text);
-        //        SqliteOperate.ExecuteNonQuery(sql);
-        //        int lastuid = SqliteOperate.GetLastUid("角色");
-        //        if (null == tbId.Text)
-        //        {
-        //            tbId.Text = lastuid.ToString();
-        //        }
-        //    }
-        //}
 
 
 

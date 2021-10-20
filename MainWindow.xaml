@@ -42,7 +42,7 @@
                     </hc:TabItem>
                     <hc:TabItem Header="地区和势力" Padding="2"  >
                         <Grid Background="#FFE5E5E5">
-                            <local:uc_InfoCardTree UcTitle="地区和势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="faction"/>
+                            <local:uc_InfoCardTree UcTitle="势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="faction"/>
                         </Grid>
                     </hc:TabItem>
                     <hc:TabItem Header="物品信息卡" Padding="2"  >
@@ -58,10 +58,9 @@
                 </hc:TabControl>
             </hc:Card>
             <local:uc_Searcher DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="文章检索" VerticalAlignment="Top" />
-            <hc:Card Background="#FFFAFAFA" Header="工具箱" Margin="5,101,5,5">
+            <hc:Card Background="#FFFAFAFA" Header="工具箱" Margin="5,106,5,5">
                 <Grid>
-                    <TextBox x:Name="tbPrice" Padding="2" hc:InfoElement.Title="稿费（元/千字）" hc:InfoElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" TextChanged="tbPrice_TextChanged" Loaded="tbPrice_Loaded" Margin="5" />
-                    <TextBox x:Name="bornYear" Padding="2" hc:InfoElement.Title="主角出生年份" hc:InfoElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" TextChanged="tbPrice_TextChanged" Loaded="tbPrice_Loaded" Margin="5,40,5,5" />
+                    
                 </Grid>
             </hc:Card>
         </Grid>
@@ -70,5 +69,26 @@
         <ScrollViewer Grid.Column="2" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right">
             <StackPanel controls:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,10,10"/>
         </ScrollViewer>
+        <Button x:Name="btnBookSettings" Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="84,385,0,0" VerticalAlignment="Top" Width="75" Click="btnBookSettings_Click"/>
+        <hc:Drawer Name="DrawerBottomInContainer" Dock="Bottom" ShowMask="False">
+            <Border Background="{DynamicResource RegionBrush}" Height="400" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="10,0,0,0" Grid.Row="0">
+                        <TextBlock x:Name="drawerTbk" Text="当前书籍：" Style="{StaticResource TextBlockTitle}" HorizontalAlignment="Left"/>
+                        <Button HorizontalAlignment="Right" Foreground="{DynamicResource PrimaryTextBrush}" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Click="btnBookSettings_Click"/>
+                    </Grid>
+                    <Grid Margin="10,0,0,0" Grid.Row="1">
+                        <TextBox x:Name="tbPrice" Padding="2" hc:InfoElement.Title="稿费（元/千字）" hc:InfoElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" TextChanged="tbPrice_TextChanged" Loaded="tbPrice_Loaded" Margin="5" />
+                        <TextBox x:Name="tbBornYear" Padding="2" hc:InfoElement.Title="主角出生年份" hc:InfoElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" TextChanged="tbBornYear_TextChanged"  Loaded="tbBornYear_Loaded" Margin="5,40,5,5" />
+                        <TextBox x:Name="tbCurYear" Padding="2" hc:InfoElement.Title="当前剧情年份" hc:InfoElement.TitlePlacement="Left" Style="{StaticResource TextBoxExtend}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" TextChanged="tbCurYear_TextChanged" Loaded="tbCurYear_Loaded" Margin="5,80,5,5" />
+
+                    </Grid>
+                </Grid>
+            </Border>
+        </hc:Drawer>
     </Grid>
 </Window>

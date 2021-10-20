@@ -90,6 +90,7 @@ namespace 脸滚键盘
                 lastBook.IsExpanded = true;
                 TreeViewItem lastVolume = (lastBook.Items[lastBook.Items.Count - 1] as TreeViewItem);
                 lastVolume.IsExpanded = true;
+                ChangeCurItem(lastVolume);
             }
             else
             {
@@ -113,7 +114,7 @@ namespace 脸滚键盘
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
                 FileOperate.CreateFolder(bookPath);
                 TreeOperate.Save.FromBookTree.SaveRoot(tv);
-                TreeOperate.Save.FromBookTree.SaveCurBook(newItem);
+                TreeOperate.Save.FromBookTree.SaveCurBook(newItem);                
             }
         }
 
@@ -223,6 +224,11 @@ namespace 脸滚键盘
                 TreeViewItem volumeItem = TreeOperate.GetItemByLevel(selectedItem, 2);
                 string bookPath = Gval.Base.AppPath + "/" + UcTag + "/" + bookItem.Header.ToString();
                 string volumePath = bookPath + '/' + volumeItem.Header.ToString();
+                TreeViewItem parentItem = null;
+                if (selectedItem.Parent as TreeViewItem != null)
+                {
+                    parentItem = selectedItem.Parent as TreeViewItem;
+                }
 
                 if (TreeOperate.GetLevel(selectedItem) == 1)
                 {
@@ -251,7 +257,7 @@ namespace 脸滚键盘
                         TreeOperate.Save.FromBookTree.SaveCurBook(bookItem);
                     }
                 }
-                ChangeCurItem(selectedItem);//更改当前节点指针
+                ChangeCurItem(parentItem);//更改当前节点指针
             }
         }
 
@@ -497,6 +503,7 @@ namespace 脸滚键盘
             if (selectedItem != null)
             {
                 ChangeCurItem(selectedItem);
+                Console.WriteLine(TreeOperate.GetIndex(selectedItem) ); 
             }
         }
 

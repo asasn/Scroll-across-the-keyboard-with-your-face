@@ -72,7 +72,6 @@ namespace 脸滚键盘
             {
                 TreeViewItem newItem = null;
                 TreeViewItem parentItem = selectedItem.Parent as TreeViewItem;
-                TreeView tv = selectedItem.Parent as TreeView;
                 if (selectedItem != null)
                 {
                     newItem = CreateNewItem(title, itemType);
@@ -82,8 +81,10 @@ namespace 脸滚键盘
                     }
                     else
                     {
-                        tv.Items.Add(newItem);
+                        (selectedItem.Parent as TreeView).Items.Add(newItem);
                     }
+                    TreeView tv = TreeOperate.GetRootItem(selectedItem).Parent as TreeView;
+                    //TreeOperate.Save.SaveTree(tv);
                 }
                 else
                 {
@@ -107,6 +108,15 @@ namespace 脸滚键盘
                 {
                     newItem = CreateNewItem(title, itemType);
                     selectedItem.Items.Add(newItem);
+
+                    TreeView tv = TreeOperate.GetRootItem(selectedItem).Parent as TreeView;
+                    //TreeOperate.Save.SaveTree(tv);
+
+                    //string tableName = TreeOperate.GetRootItem(newItem).Header.ToString() + "_Tree";
+                    //TreeView tv = TreeOperate.GetRootItem(newItem).Parent as TreeView;
+                    //newItem.Uid = TreeOperate.GetIndex(newItem);
+                    //string sql = string.Format("insert or replace into {0} (id, 级别, 索引, 父id, 名称) values ('{1}', {2}, {3}, '{4}', '{5}');", tableName, newItem.Uid, GetLevel(newItem), selectedItem.Items.IndexOf(newItem), selectedItem.Uid, newItem.Header.ToString());
+                    //SqliteOperate.ExecuteNonQuery(sql);
                 }
                 else
                 {

@@ -19,8 +19,9 @@ namespace 脸滚键盘
         {
             // 数据库文件夹
             string DbPath = Gval.Current.curBookPath;
+            string DbName = "bookData.db";
 
-            dbName = dbName == null ? "card.db" : dbName;
+            dbName = dbName == null ? DbName : dbName;
             var dbFilePath = Path.Combine(DbPath, dbName);
             return new SQLiteConnection("DataSource = " + dbFilePath + ";foreign keys=true;");
         }
@@ -65,9 +66,9 @@ namespace 脸滚键盘
             // 确保连接打开
             Open();
 
-            using (var tr = connection.BeginTransaction())
+            using (SQLiteTransaction tr = connection.BeginTransaction())
             {
-                using (var command = connection.CreateCommand())
+                using (SQLiteCommand command = connection.CreateCommand())
                 {
                     command.CommandText = sql;
                     command.ExecuteNonQuery();
@@ -85,9 +86,9 @@ namespace 脸滚键盘
             // 确保连接打开
             Open();
 
-            using (var tr = connection.BeginTransaction())
+            using (SQLiteTransaction tr = connection.BeginTransaction())
             {
-                using (var command = connection.CreateCommand())
+                using (SQLiteCommand command = connection.CreateCommand())
                 {
                     command.CommandText = sql;
 

@@ -33,7 +33,7 @@ namespace 脸滚键盘
         /// </summary>
         public struct MainWindow
         {
-            public static TextBox tbPrice;         
+              
         }
 
         /// <summary>
@@ -60,6 +60,10 @@ namespace 脸滚键盘
         /// </summary>
         public struct Current
         {
+            public static TextBox tbPrice;
+            public static TextBox tbBornYear;
+            public static TextBox tbCurYear;
+
             ///// <summary>
             ///// 基本书籍目录文件夹路径（只读）：app/books
             ///// </summary>

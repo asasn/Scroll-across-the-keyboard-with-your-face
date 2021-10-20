@@ -293,7 +293,7 @@ namespace 脸滚键盘
                 //btnSaveDoc.Content = "保存■";
                 btnSaveDoc.IsEnabled = true;
             }
-            EditorOperate.ShowValue(words, lbValue);
+            EditorOperate.ShowValue((double)words, lbValue);
         }
 
 
