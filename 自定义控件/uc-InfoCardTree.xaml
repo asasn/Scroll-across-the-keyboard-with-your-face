@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="uc" x:Class="脸滚键盘.uc_InfoCardTree"
+﻿<UserControl x:Name="uc" x:Class="脸滚键盘.uc_InfoCard"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

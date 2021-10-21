@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300" Loaded="uc_Loaded">
+             d:DesignHeight="450" d:DesignWidth="300">
     <!--定义一个右键菜单控件-->
     <UserControl.Resources>
         <ContextMenu x:Key="tvContextMenu">

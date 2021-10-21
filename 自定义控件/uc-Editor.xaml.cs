@@ -35,7 +35,7 @@ namespace 脸滚键盘
         public uc_Editor()
         {
             InitializeComponent();
-            textEditor.TextArea.TextEntered += TextAreaOnTextEntered;
+            //textEditor.TextArea.TextEntered += TextAreaOnTextEntered;
 
         }
 
@@ -63,56 +63,56 @@ namespace 脸滚键盘
 
 
 
-        private void TextAreaOnTextEntered(object sender, TextCompositionEventArgs e)
-        {
-            char q = e.Text[0];
-            if (q > 32 && q != 0xa0 && q != 0x3000) // 非空字符，Unicode编码0x3000为全角空格，)
-            {
-                _completionWindow = new CompletionWindow(textEditor.TextArea);
-                var completionData = _completionWindow.CompletionList.CompletionData;
-                _completionWindow.Closed += (o, args) => _completionWindow = null;
-            }
-            if (e.Text == "：")
-            {
-                _completionWindow = new CompletionWindow(textEditor.TextArea);
+        //private void TextAreaOnTextEntered(object sender, TextCompositionEventArgs e)
+        //{
+        //    char q = e.Text[0];
+        //    if (q > 32 && q != 0xa0 && q != 0x3000) // 非空字符，Unicode编码0x3000为全角空格，)
+        //    {
+        //        _completionWindow = new CompletionWindow(textEditor.TextArea);
+        //        var completionData = _completionWindow.CompletionList.CompletionData;
+        //        _completionWindow.Closed += (o, args) => _completionWindow = null;
+        //    }
+        //    if (e.Text == "：")
+        //    {
+        //        _completionWindow = new CompletionWindow(textEditor.TextArea);
 
-                var completionData = _completionWindow.CompletionList.CompletionData;
-                completionData.Add(new CompletionData("测试文本1"));
-                completionData.Add(new CompletionData("测试文本2"));
-                completionData.Add(new CompletionData("测试文本3"));
-                completionData.Add(new CompletionData("测试文本4"));
-                _completionWindow.Show();
+        //        var completionData = _completionWindow.CompletionList.CompletionData;
+        //        completionData.Add(new CompletionData("测试文本1"));
+        //        completionData.Add(new CompletionData("测试文本2"));
+        //        completionData.Add(new CompletionData("测试文本3"));
+        //        completionData.Add(new CompletionData("测试文本4"));
+        //        _completionWindow.Show();
 
-                _completionWindow.Closed += (o, args) => _completionWindow = null;
-            }
-        }
+        //        _completionWindow.Closed += (o, args) => _completionWindow = null;
+        //    }
+        //}
 
-        private CompletionWindow _completionWindow;
+        //private CompletionWindow _completionWindow;
 
-        public class CompletionData : ICompletionData
-        {
-            public CompletionData(string text)
-            {
-                Text = text;
-            }
+        //public class CompletionData : ICompletionData
+        //{
+        //    public CompletionData(string text)
+        //    {
+        //        Text = text;
+        //    }
 
-            public ImageSource Image => null;
+        //    public ImageSource Image => null;
 
-            public string Text { get; }
+        //    public string Text { get; }
 
-            public object Content => Text;
+        //    public object Content => Text;
 
-            public object Description => "Description for " + this.Text;
+        //    public object Description => "Description for " + this.Text;
 
-            /// <inheritdoc />
-            public double Priority { get; }
+        //    /// <inheritdoc />
+        //    public double Priority { get; }
 
-            public void Complete(TextArea textArea, ISegment completionSegment,
-                EventArgs insertionRequestEventArgs)
-            {
-                textArea.Document.Replace(completionSegment, Text);
-            }
-        }
+        //    public void Complete(TextArea textArea, ISegment completionSegment,
+        //        EventArgs insertionRequestEventArgs)
+        //    {
+        //        textArea.Document.Replace(completionSegment, Text);
+        //    }
+        //}
 
         public int words = 0;
         /// <summary>
@@ -158,7 +158,7 @@ namespace 脸滚键盘
 
         string FullFileName;
         TreeViewItem curVolumeItem;
-        TreeViewItem curBookItem;
+        TreeViewItem curRootItem;
         TreeView curTv;
 
         void RefreshBookItem()
@@ -167,16 +167,16 @@ namespace 脸滚键盘
             //所以，使用this.DataContext作为CurItem的值是必需的
             CurItem = this.DataContext as TreeViewItem;
 
-            curBookItem = TreeOperate.GetRootItem(CurItem);
-            if (curBookItem != null)
+            curRootItem = TreeOperate.GetRootItem(CurItem);
+            if (curRootItem != null)
             {
-                curTv = curBookItem.Parent as TreeView;
+                curTv = curRootItem.Parent as TreeView;
             }
             else
             {
                 curTv = null;
             }
-            curVolumeItem = TreeOperate.GetItemByLevel(CurItem, 2);
+            curVolumeItem = TreeOperate.GetItemByLevel(CurItem, 1);
             FullFileName = TreeOperate.GetItemPath(CurItem, UcTag);
 
         }
@@ -189,13 +189,9 @@ namespace 脸滚键盘
         private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             RefreshBookItem();
-            if (null == curBookItem)
+            if (false == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 return;
-            }
-            if (UcTag == "books")
-            {
-                SqliteOperate.Refresh();
             }
             if (true == FileOperate.IsFileExists(FullFileName))
             {
@@ -304,7 +300,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Editor.Uc = this;
+            Gval.ucEditor = this;
             btnSaveDoc.Height = chapterNameBox.ActualHeight;
 
             //快速搜索功能
@@ -326,18 +322,22 @@ namespace 脸滚键盘
             xshd_reader.Close();
             xshd_stream.Close();
 
-            TreeView[] tvs = { Gval.InfoCard.RoleTv, Gval.InfoCard.FactionTv, Gval.InfoCard.GoodsTv, Gval.InfoCard.CommonTv };
-
-            foreach (TreeView tv in tvs)
+            if (Gval.ucRoleCard != null)
             {
-                if (tv != null)
+                TreeView[] tvs = { Gval.ucRoleCard.tv, Gval.ucFactionCard.tv, Gval.ucGoodsCard.tv, Gval.ucCommonCard.tv };
+
+                foreach (TreeView tv in tvs)
                 {
-                    foreach (TreeViewItem item in tv.Items)
+                    if (tv != null)
                     {
-                        AddKeyword(item.Header.ToString(), tv.Tag.ToString());
+                        foreach (TreeViewItem item in tv.Items)
+                        {
+                            AddKeyword(item.Header.ToString(), tv.Tag.ToString());
+                        }
                     }
                 }
             }
+
         }
 
         /// <summary>

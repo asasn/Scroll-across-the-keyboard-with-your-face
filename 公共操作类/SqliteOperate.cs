@@ -49,8 +49,9 @@ namespace 脸滚键盘
 
 
 
-        // 刷新数据库连接
-
+        /// <summary>
+        /// 刷新数据库连接
+        /// </summary>
         public static void Refresh()
         {
             Close();

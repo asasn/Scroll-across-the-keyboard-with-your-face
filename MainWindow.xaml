@@ -30,34 +30,34 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-            <local:uc_Editor x:Name="Editor" Grid.Column="2" Grid.RowSpan="2" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" Margin="6"/>
-            <local:uc_NoteTree Grid.Column="4" UcTitle="时间事件备忘笔记" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="note" IsEnabled="False" />
-            <local:uc_NoteTree Grid.Column="4" Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="故事大纲" UcTag="story" IsEnabled="False" />
-            <hc:Card Margin="5" Header="信息卡" Background="#FFFAFAFA" Grid.Row="1" Effect="{StaticResource EffectShadow3}" UseLayoutRounding="True" >
-                <hc:TabControl Style="{StaticResource TabControlInLine}" IsTabFillEnabled="True"  Grid.Row="1" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}">
+            <local:uc_Editor x:Name="ucEditor" Grid.Column="2" Grid.RowSpan="2" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=ucBookTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" Margin="6" Loaded="ucEditor_Loaded"/>
+            <local:uc_NoteTree x:Name="ucNote" Grid.Column="4" UcTitle="时间事件备忘笔记" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTag="note" IsEnabled="False" Loaded="ucNote_Loaded" />
+            <local:uc_NoteTree x:Name="ucTask" Grid.Column="4" Grid.Row="1" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTitle="任务清单" UcTag="story" IsEnabled="False" Loaded="ucTask_Loaded" />
+            <hc:Card x:Name="InfoCard" Margin="5" Header="信息卡" Background="#FFFAFAFA" Grid.Row="1" Effect="{StaticResource EffectShadow3}" UseLayoutRounding="True" Loaded="InfoCard_Loaded" >
+                <hc:TabControl Style="{StaticResource TabControlInLine}" IsTabFillEnabled="True"  Grid.Row="1" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}">
                     <hc:TabItem Header="角色信息卡" Padding="2" >
                         <Grid Background="#FFE5E5E5">
-                            <local:uc_InfoCardTree UcTitle="角色" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="role"/>
+                            <local:uc_InfoCard x:Name="ucRoleCard" UcTitle="角色" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTag="角色" Loaded="ucRoleCard_Loaded"/>
                         </Grid>
                     </hc:TabItem>
                     <hc:TabItem Header="地区和势力" Padding="2"  >
                         <Grid Background="#FFE5E5E5">
-                            <local:uc_InfoCardTree UcTitle="势力" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="faction"/>
+                            <local:uc_InfoCard x:Name="ucFactionCard" UcTitle="势力" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTag="势力" Loaded="ucFactionCard_Loaded"/>
                         </Grid>
                     </hc:TabItem>
                     <hc:TabItem Header="物品信息卡" Padding="2"  >
                         <Grid Background="#FFE5E5E5">
-                            <local:uc_InfoCardTree UcTitle="物品" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="goods"/>
+                            <local:uc_InfoCard x:Name="ucGoodsCard" UcTitle="物品" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTag="物品" Loaded="ucGoodsCard_Loaded"/>
                         </Grid>
                     </hc:TabItem>
                     <hc:TabItem Header="通用信息卡" Padding="2"  >
                         <Grid Background="#FFE5E5E5">
-                            <local:uc_InfoCardTree UcTitle="通用" DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="common"/>
+                            <local:uc_InfoCard x:Name="ucCommonCard" UcTitle="通用" DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTag="通用" Loaded="ucCommonCard_Loaded"/>
                         </Grid>
                     </hc:TabItem>
                 </hc:TabControl>
             </hc:Card>
-            <local:uc_Searcher DataContext="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=BooksTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=BooksTree, Mode=TwoWay}" UcTitle="文章检索" VerticalAlignment="Top" />
+            <local:uc_Searcher DataContext="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTag="{Binding UcTag, ElementName=ucBookTree, Mode=TwoWay}" CurItem="{Binding CurItem, ElementName=ucBookTree, Mode=TwoWay}" UcTitle="文章检索" VerticalAlignment="Top" />
             <hc:Card Background="#FFFAFAFA" Header="工具箱" Margin="5,106,5,5">
                 <Grid>
 
@@ -66,8 +66,8 @@
                 </Grid>
             </hc:Card>
         </Grid>
-        <local:uc_BookTree x:Name="BooksTree" UcTitle="书籍目录" UcTag="books"/>
-        <local:uc_MaterialTree x:Name="MaterialTree" Grid.Column="4" UcTitle="资料库" UcTag="material"/>
+        <local:uc_BookTree x:Name="ucBookTree" UcTitle="书籍目录" UcTag="books" Loaded="ucBookTree_Loaded"/>
+        <local:uc_MaterialTree x:Name="ucMaterialTree" Grid.Column="4" UcTitle="资料库" UcTag="material" Loaded="ucMaterialTree_Loaded"/>
         <ScrollViewer Grid.Column="2" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Right">
             <StackPanel controls:Growl.GrowlParent="True" VerticalAlignment="Top" Margin="0,10,10,10"/>
         </ScrollViewer>

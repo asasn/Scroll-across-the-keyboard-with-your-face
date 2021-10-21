@@ -55,11 +55,11 @@ namespace 脸滚键盘
         }
 
         /// <summary>
-        /// 获取节点索引，无选中或者不在TreeView内的为-1
+        /// 获取节点索引，无选中或者不在TreeView内的为null
         /// </summary>
         /// <param name="selectedItem"></param>
         /// <returns></returns>
-        public static string GetIndex(TreeViewItem selectedItem)
+        public static string GetItemIndex(TreeViewItem selectedItem)
         {
             string level = string.Empty;
             if (selectedItem != null)
@@ -76,7 +76,7 @@ namespace 脸滚键盘
             }
             else
             {
-                return level;
+                return null;
             }
 
         }
@@ -113,29 +113,29 @@ namespace 脸滚键盘
             章节,
         }
 
-        /// <summary>
-        /// note节点类型
-        /// </summary>
-        public enum typeOfNote : int
-        {
-            资料分卷,
-            资料文档,
-            备忘,
-            备忘行,
-            大纲,
-            大纲行,
-        }
+        ///// <summary>
+        ///// note节点类型
+        ///// </summary>
+        //public enum typeOfNote : int
+        //{
+        //    资料分卷,
+        //    资料文档,
+        //    备忘,
+        //    备忘行,
+        //    大纲,
+        //    大纲行,
+        //}
 
-        /// <summary>
-        /// card节点类型
-        /// </summary>
-        public enum typeOfInfoCard : int
-        {
-            角色,
-            场景,
-            道具,
-            势力,
-        }
+        ///// <summary>
+        ///// card节点类型
+        ///// </summary>
+        //public enum typeOfInfoCard : int
+        //{
+        //    角色,
+        //    场景,
+        //    道具,
+        //    势力,
+        //}
 
         /// <summary>
         /// 更新当前书籍的指向信息

@@ -27,7 +27,15 @@ namespace 脸滚键盘
 
         public static void TryToBuildBaseTable(string tagName)
         {
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id INTEGER PRIMARY KEY,名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER);", tagName);
+            string sql = string.Empty;
+            if (tagName == "角色")
+            {
+                sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id INTEGER PRIMARY KEY AUTOINCREMENT, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tagName);             
+            }
+            else
+            {
+                sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id INTEGER PRIMARY KEY,名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER);", tagName);
+            }
             SqliteOperate.ExecuteNonQuery(sql);
         }
 
@@ -68,7 +76,7 @@ namespace 脸滚键盘
                             //编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
                             sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}) values ({2}, '{3}');", tagName, wp.Uid, idValue, tb.Text);
                             SqliteOperate.ExecuteNonQuery(sql);
-                            int lastuid = SqliteOperate.GetLastUid(tagName +  wp.Uid + "表");
+                            int lastuid = SqliteOperate.GetLastUid(tagName + wp.Uid + "表");
                             tb.Uid = lastuid.ToString();
                             sql = string.Empty; //注意清空，以免影响后续语句运行
                             w++;

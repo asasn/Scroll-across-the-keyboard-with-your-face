@@ -33,7 +33,7 @@ namespace 脸滚键盘
                 string tableName = Gval.Current.curBookName + "_Tree";
                 foreach (TreeViewItem item in tv.Items)
                 {
-                    item.Uid = TreeOperate.GetIndex(item);
+                    item.Uid = TreeOperate.GetItemIndex(item);
                     Gsql += string.Format("insert or ignore into {0} (id, 级别, 索引, 父id, 名称) values ('{1}', {2}, {3}, '{4}', '{5}');", tableName, item.Uid, GetLevel(item), tv.Items.IndexOf(item), 0, item.Header.ToString());
                     //SqliteOperate.ExecuteNonQuery(sql);             
                     if (item.HasItems)
@@ -49,7 +49,7 @@ namespace 脸滚键盘
                 string tableName = Gval.Current.curBookName + "_Tree";
                 foreach (TreeViewItem item in parentItem.Items)
                 {
-                    item.Uid = TreeOperate.GetIndex(item);
+                    item.Uid = TreeOperate.GetItemIndex(item);
                     Gsql += string.Format("insert or ignore into {0} (id, 级别, 索引, 父id, 名称) values ('{1}', {2}, {3}, '{4}', '{5}');", tableName, item.Uid, GetLevel(item), parentItem.Items.IndexOf(item), parentItem.Uid, item.Header.ToString());
                     //SqliteOperate.ExecuteNonQuery(sql);                                     
                     if (item.HasItems)
@@ -113,7 +113,7 @@ namespace 脸滚键盘
                         string fullXmlName_book = Gval.Current.curBookPath + "/index.xml";
 
                         XmlDocument doc = new XmlDocument();
-                        XmlElement eleRoot = ItemToRootElement(doc, "book");
+                        XmlElement eleRoot = ItemToRootElement(doc, "root");
                         DoSaveToXml(tv, eleRoot, doc);
                         doc.Save(fullXmlName_book);
                         Console.WriteLine("保存至：" + fullXmlName_book);
@@ -139,15 +139,15 @@ namespace 脸滚键盘
                 }
 
                 XmlDocument doc = new XmlDocument();
-                XmlElement eleRoot = ItemToRootElement(doc, ucTag);
-
-                foreach (TreeViewItem dirItem in tv.Items)
-                {
-                    XmlElement eleDir = ItemToElement(doc, eleRoot, dirItem, "dir");
-                    DoSaveToXml(dirItem, eleDir, doc);
-                }
+                XmlElement eleRoot = ItemToRootElement(doc, "root");
+                DoSaveToXml(tv, eleRoot, doc);
+                //foreach (TreeViewItem dirItem in tv.Items)
+                //{
+                //    XmlElement eleDir = ItemToElement(doc, eleRoot, dirItem, "dir");
+                //    DoSaveToXml(dirItem, eleDir, doc);
+                //}
                 doc.Save(fullXmlName);
-                Gval.Editor.Uc.SetRules();
+                Gval.ucEditor.SetRules();
             }
 
             /// <summary>

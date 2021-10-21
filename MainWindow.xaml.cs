@@ -71,7 +71,7 @@ namespace 脸滚键盘
         private void tbPrice_TextChanged(object sender, TextChangedEventArgs e)
         {
             SettingsOperate.SaveSettings("price", tbPrice.Text);
-            EditorOperate.ShowValue(Editor.words, Editor.lbValue);
+            EditorOperate.ShowValue(ucEditor.words, ucEditor.lbValue);
         }
 
         private void tbBornYear_TextChanged(object sender, TextChangedEventArgs e)
@@ -95,5 +95,54 @@ namespace 脸滚键盘
 
         }
 
+        private void InfoCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.InfoCard = InfoCard;
+        }
+
+        private void ucRoleCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucRoleCard = ucRoleCard;
+        }
+
+        private void ucFactionCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucFactionCard = ucFactionCard;
+        }
+
+        private void ucGoodsCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucGoodsCard = ucGoodsCard;
+        }
+
+        private void ucCommonCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucCommonCard = ucCommonCard;
+        }
+
+        private void ucEditor_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucEditor = ucEditor;
+        }
+
+        private void ucBookTree_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucBookTree = ucBookTree;
+        }
+
+        private void ucMaterialTree_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucMaterialTree = ucMaterialTree;
+        }
+
+        private void ucNote_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucNote = ucNote;
+        }
+
+        private void ucTask_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.ucTask = ucTask;
+        }
     }
 }

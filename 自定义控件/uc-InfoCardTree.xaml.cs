@@ -23,9 +23,9 @@ namespace 脸滚键盘
     /// <summary>
     /// uc_NoteTree.xaml 的交互逻辑
     /// </summary>
-    public partial class uc_InfoCardTree : UserControl
+    public partial class uc_InfoCard : UserControl
     {
-        public uc_InfoCardTree()
+        public uc_InfoCard()
         {
             InitializeComponent();
         }
@@ -40,7 +40,7 @@ namespace 脸滚键盘
 
         // Using a DependencyProperty as the backing store for UcTitle.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UcTitleProperty =
-            DependencyProperty.Register("UcTitle", typeof(string), typeof(uc_InfoCardTree), new PropertyMetadata(null));
+            DependencyProperty.Register("UcTitle", typeof(string), typeof(uc_InfoCard), new PropertyMetadata(null));
 
 
 
@@ -52,7 +52,7 @@ namespace 脸滚键盘
 
         // Using a DependencyProperty as the backing store for UcTag.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UcTagProperty =
-            DependencyProperty.Register("UcTag", typeof(string), typeof(uc_InfoCardTree), new PropertyMetadata(null));
+            DependencyProperty.Register("UcTag", typeof(string), typeof(uc_InfoCard), new PropertyMetadata(null));
 
 
         private string getMd5(string password)
@@ -83,7 +83,7 @@ namespace 脸滚键盘
                     TreeOperate.Show.FromSingleXml(tv, UcTag);
                 }
                 uc.IsEnabled = true;
-                Gval.Editor.Uc.SetRules();
+                Gval.ucEditor.SetRules();
             }
             else
             {
@@ -105,25 +105,25 @@ namespace 脸滚键盘
         private void tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null && UcTag == "role")
+            if (selectedItem != null && UcTag == "角色")
             {
                 RoleCard roleCard = new RoleCard(tv, selectedItem);
                 roleCard.Show();
                 CardOperate.SetWindowsMiddle(e, roleCard);
             }
-            if (selectedItem != null && UcTag == "faction")
+            if (selectedItem != null && UcTag == "势力")
             {
                 PlaceAndFactionCard placeAndFactionCard = new PlaceAndFactionCard(tv, selectedItem);
                 placeAndFactionCard.Show();
                 CardOperate.SetWindowsMiddle(e, placeAndFactionCard);
             }
-            if (selectedItem != null && UcTag == "goods")
+            if (selectedItem != null && UcTag == "物品")
             {
                 GoodsCard goodsCard = new GoodsCard(tv, selectedItem);
                 goodsCard.Show();
                 CardOperate.SetWindowsMiddle(e, goodsCard);
             }
-            if (selectedItem != null && UcTag == "common")
+            if (selectedItem != null && UcTag == "通用")
             {
                 CommonCard commonCard = new CommonCard(tv, selectedItem);
                 commonCard.Show();
@@ -134,27 +134,8 @@ namespace 脸滚键盘
 
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-            //赋值给不同的公共变量以便调用
-            if (UcTag == "role")
-            {
-                tv.Tag = UcTag;
-                Gval.InfoCard.RoleTv = tv;
-            }
-            if (UcTag == "goods")
-            {
-                tv.Tag = UcTag;
-                Gval.InfoCard.GoodsTv = tv;
-            }
-            if (UcTag == "faction")
-            {
-                tv.Tag = UcTag;
-                Gval.InfoCard.FactionTv = tv;
-            }
-            if (UcTag == "common")
-            {
-                tv.Tag = UcTag;
-                Gval.InfoCard.CommonTv = tv;
-            }
+            //赋值给编辑器着色功能使用
+            tv.Tag = UcTag;
         }
 
         /// <summary>
@@ -201,36 +182,9 @@ namespace 脸滚键盘
 
             if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
-                string tagName;
-                if (UcTag == "role")
-                {
-                    tagName = "角色";
-                    string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id INTEGER PRIMARY KEY AUTOINCREMENT, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tagName);
-                    SqliteOperate.ExecuteNonQuery(sql);
+                CardOperate.TryToBuildBaseTable(UcTag);
+                id = CardOperate.AddCard(UcTag, itemTitle);
 
-                    id = CardOperate.AddCard(tagName, itemTitle);
-                }
-                if (UcTag == "faction")
-                {
-                    tagName = "势力";
-                    CardOperate.TryToBuildBaseTable(tagName);
-
-                    id = CardOperate.AddCard(tagName, itemTitle);
-                }
-                if (UcTag == "goods")
-                {
-                    tagName = "物品";
-                    CardOperate.TryToBuildBaseTable(tagName);
-
-                    id = CardOperate.AddCard(tagName, itemTitle);
-                }
-                if (UcTag == "common")
-                {
-                    tagName = "通用";
-                    CardOperate.TryToBuildBaseTable(tagName);
-
-                    id = CardOperate.AddCard(tagName, itemTitle);
-                }
                 //string timestr = DateTime.Now.ToString();
                 //string uid = getMd5(timestr);
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
@@ -252,26 +206,9 @@ namespace 脸滚键盘
             {
                 TreeOperate.DelItem.Do(selectedItem);
                 TreeOperate.Save.ToSingleXml(tv, UcTag);
-                if (UcTag == "role")
-                {
-                    string sql = string.Format("DELETE FROM 角色 where 角色id = {0};", selectedItem.Uid);
-                    SqliteOperate.ExecuteNonQuery(sql);
-                }
-                if (UcTag == "faction")
-                {
-                    string sql = string.Format("DELETE FROM 势力 where 势力id = {0};", selectedItem.Uid);
-                    SqliteOperate.ExecuteNonQuery(sql);
-                }
-                if (UcTag == "goods")
-                {
-                    string sql = string.Format("DELETE FROM 物品 where 物品id = {0};", selectedItem.Uid);
-                    SqliteOperate.ExecuteNonQuery(sql);
-                }
-                if (UcTag == "common")
-                {
-                    string sql = string.Format("DELETE FROM 通用 where 通用id = {0};", selectedItem.Uid);
-                    SqliteOperate.ExecuteNonQuery(sql);
-                }
+
+                string sql = string.Format("DELETE FROM {0} where {0}id = {1};", UcTag, selectedItem.Uid);
+                SqliteOperate.ExecuteNonQuery(sql);
             }
         }
 

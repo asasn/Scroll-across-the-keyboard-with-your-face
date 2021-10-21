@@ -3,18 +3,18 @@
   <!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
   <!--fontWeight="bold" fontFamily="行楷" foreground="#0000CD"-->
   <Color name="String" foreground="#fff99157" />
-  <Color name="Dialogue" foreground="#b8860b" />
-  <Color name="role" fontFamily="宋体" foreground="blue"/>
-  <Color name="faction" foreground="#FF4500"/>
-  <Color name="goods" foreground="#FF8C00"/>
-  <Color name="common" foreground="#FFA500"/>
+  <Color name="对话" foreground="#b8860b" />
+  <Color name="角色" fontFamily="宋体" foreground="blue"/>
+  <Color name="势力" foreground="#FF4500"/>
+  <Color name="物品" foreground="#FF8C00"/>
+  <Color name="通用" foreground="#FFA500"/>
   <!-- This is the main ruleset. -->
   <RuleSet>
-    <Span color="Dialogue"  multiline="true">
+    <Span color="对话"  multiline="true">
       <Begin>“</Begin>
       <End>”</End>
     </Span>
-    <Span color="Dialogue"  multiline="true">
+    <Span color="对话"  multiline="true">
       <Begin>‘</Begin>
       <End>’</End>
     </Span>

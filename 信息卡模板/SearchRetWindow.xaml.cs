@@ -38,34 +38,34 @@ namespace 脸滚键盘.信息卡模板
         string FullFileName;
         TreeViewItem CurItem;
         TreeViewItem curVolumeItem;
-        TreeViewItem curBookItem;
+        TreeViewItem curRootItem;
         TreeView curTv;
 
-        void RefreshBookItem()
-        {
-            //如果单只依靠绑定属性来传值，可能会发生DataContext改变了（触发本事件）而依赖属性CurItem未改变的情况
-            //所以，使用this.DataContext作为CurItem的值是必需的
-            CurItem = this.DataContext as TreeViewItem;
+        //void RefreshBookItem()
+        //{
+        //    //如果单只依靠绑定属性来传值，可能会发生DataContext改变了（触发本事件）而依赖属性CurItem未改变的情况
+        //    //所以，使用this.DataContext作为CurItem的值是必需的
+        //    CurItem = this.DataContext as TreeViewItem;
 
-            curBookItem = TreeOperate.GetRootItem(CurItem);
-            WorkPath = TreeOperate.GetItemPath(curBookItem, UcTag);
-            if (curBookItem != null)
-            {
-                curTv = curBookItem.Parent as TreeView;
-            }
-            else
-            {
-                curTv = null;
-            }
-            curVolumeItem = TreeOperate.GetItemByLevel(CurItem, 2);
-            FullFileName = TreeOperate.GetItemPath(CurItem, UcTag);
+        //    curRootItem = TreeOperate.GetRootItem(CurItem);
+        //    WorkPath = TreeOperate.GetItemPath(curRootItem, UcTag);
+        //    if (curRootItem != null)
+        //    {
+        //        curTv = curRootItem.Parent as TreeView;
+        //    }
+        //    else
+        //    {
+        //        curTv = null;
+        //    }
+        //    curVolumeItem = TreeOperate.GetItemByLevel(CurItem, 1);
+        //    FullFileName = TreeOperate.GetItemPath(CurItem, UcTag);
 
-        }
+        //}
 
         private void ucSearchRetWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            RefreshBookItem();
-            if (null == curBookItem)
+            WorkPath = Gval.Current.curBookPath;
+            if (false == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 return;
             }
@@ -75,7 +75,7 @@ namespace 脸滚键盘.信息卡模板
         private void GetResultList()
         {
             DirectoryInfo theFolder;
-            if (curBookItem !=null)
+            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 theFolder = new DirectoryInfo(WorkPath);
             }

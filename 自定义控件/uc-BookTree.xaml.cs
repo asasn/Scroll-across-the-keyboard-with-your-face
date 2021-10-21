@@ -465,7 +465,7 @@ namespace 脸滚键盘
             if (selectedItem != null)
             {
                 ChangeCurItem(selectedItem);
-                Console.WriteLine(TreeOperate.GetIndex(selectedItem));
+                Console.WriteLine(TreeOperate.GetItemIndex(selectedItem));
             }
         }
 
@@ -619,9 +619,6 @@ namespace 脸滚键盘
 
         }
 
-        private void uc_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
 
         private void btnBooks_Click(object sender, RoutedEventArgs e)
         {
@@ -637,7 +634,7 @@ namespace 脸滚键盘
             {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(booksXml);
-                XmlNode root = doc.SelectSingleNode("books");
+                XmlNode root = doc.SelectSingleNode("root");
                 XmlNodeList rlist = root.ChildNodes;
                 foreach (XmlNode ch in rlist)
                 {
@@ -665,6 +662,7 @@ namespace 脸滚键盘
                         bookCard.BorderThickness = new Thickness(0, 5, 0, 5);
                         UcTitle = "书籍目录——" + Gval.Current.curBookName;
                         drawerTbk.Text = "当前书籍：" + Gval.Current.curBookName;
+                        SqliteOperate.Refresh();
                     }
                 }
             }
@@ -694,6 +692,10 @@ namespace 脸滚键盘
             drawerTbk.Text = "当前书籍：" + Gval.Current.curBookName;
 
             tv_Loaded(null, null);
+
+            SqliteOperate.Refresh();
+
+            Gval.ucEditor.IsEnabled = false;
         }
 
     }

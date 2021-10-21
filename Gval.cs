@@ -33,27 +33,33 @@ namespace 脸滚键盘
         /// </summary>
         public struct MainWindow
         {
-              
+
         }
 
         /// <summary>
-        /// 编辑器窗口对应的控件对象
+        /// 编辑器对象
         /// </summary>
-        public struct Editor
-        {
-            public static uc_Editor Uc;
-        }
+        public static uc_Editor ucEditor;
 
+        /// <summary>
+        /// 目录树对象
+        /// </summary>
+        public static uc_BookTree ucBookTree;
+
+        public static uc_MaterialTree ucMaterialTree;
+
+        public static uc_NoteTree ucNote;
+        public static uc_NoteTree ucTask;
         /// <summary>
         /// 信息卡窗口对应的控件对象
         /// </summary>
-        public struct InfoCard
-        {
-            public static TreeView RoleTv;
-            public static TreeView FactionTv;
-            public static TreeView GoodsTv;
-            public static TreeView CommonTv;
-        }
+        public static HandyControl.Controls.Card InfoCard;
+
+        public static uc_InfoCard ucRoleCard;
+        public static uc_InfoCard ucFactionCard;
+        public static uc_InfoCard ucGoodsCard;
+        public static uc_InfoCard ucCommonCard;
+
 
         /// <summary>
         /// 当前打开的书籍/文档来源信息
