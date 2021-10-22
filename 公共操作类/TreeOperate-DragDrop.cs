@@ -30,8 +30,8 @@ namespace 脸滚键盘
                         Point currentPosition = e.GetPosition(tv);
 
                         //判断鼠标是否移动
-                        if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 5.0) ||
-                            (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 5.0))
+                        if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
+                            (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
                         {
                             //获取鼠标选中的节点数据
                             TreeViewItem draggedItem = (TreeViewItem)tv.SelectedItem;
@@ -50,6 +50,7 @@ namespace 脸滚键盘
                 }
             }
 
+            
             /// <summary>
             /// 在指定的节点放下一个item
             /// </summary>

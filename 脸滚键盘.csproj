@@ -88,6 +88,7 @@
       <DependentUpon>SearchRetWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="公共操作类\CardOperate.cs" />
+    <Compile Include="公共操作类\Others.cs" />
     <Compile Include="公共操作类\SettingsOperate.cs" />
     <Compile Include="公共操作类\SqliteOperate.cs" />
     <Compile Include="信息卡模板\RoleCard.xaml.cs">

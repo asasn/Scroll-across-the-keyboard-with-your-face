@@ -144,5 +144,27 @@ namespace 脸滚键盘
         {
             Gval.ucTask = ucTask;
         }
+
+        private void winMain_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Point p = Mouse.GetPosition(Gval.ucBookTree.DrawerLeftInContainer);
+
+            //if (p.X > Gval.ucBookTree.DrawerLeftInContainer.ActualWidth)
+            //{
+            //    Gval.ucBookTree.DrawerLeftInContainer.IsOpen = false;
+            //}
+
+            Point p2 = Mouse.GetPosition(DrawerBottomInContainer);
+
+            //if (p2.Y < this.Height - DrawerBottomInContainer.Height)
+            //{
+            //    DrawerBottomInContainer.IsOpen = false;
+            //}
+
+
+
+
+        }
+
     }
 }

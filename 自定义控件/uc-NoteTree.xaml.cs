@@ -65,8 +65,9 @@ namespace 脸滚键盘
                 string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
                 if (true == FileOperate.IsFileExists(fullXmlName_notes))
                 {
-                    TreeOperate.Show.FromSingleXml(tv, UcTag);
-                    (tv.Items[tv.Items.Count - 1] as TreeViewItem).IsExpanded = true;
+                    //TreeOperate.Show.FromSingleXml(tv, UcTag);
+                    TreeOperate.Show.ToBookTree.BySql(tv, UcTag);
+                    //(tv.Items[tv.Items.Count - 1] as TreeViewItem).IsExpanded = true;
                 }
                 uc.IsEnabled = true;
             }
@@ -90,6 +91,7 @@ namespace 脸滚键盘
             {
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
                 TreeOperate.Save.ToSingleXml(tv, UcTag);
+                TreeOperate.Save.BySql(tv, UcTag);
             }
         }
 
@@ -104,12 +106,14 @@ namespace 脸滚键盘
                 {
                     TreeOperate.AddItem.BrotherItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                     TreeOperate.Save.ToSingleXml(tv, UcTag);
+                    TreeOperate.Save.BySql(tv, UcTag);
 
                 }
                 if (level == 1)
                 {
                     TreeOperate.AddItem.ChildItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                     TreeOperate.Save.ToSingleXml(tv, UcTag);
+                    TreeOperate.Save.BySql(tv, UcTag);
                 }
             }
         }
@@ -121,6 +125,7 @@ namespace 脸滚键盘
             {
                 TreeOperate.DelItem.Do(selectedItem);
                 TreeOperate.Save.ToSingleXml(tv, UcTag);
+                TreeOperate.Save.BySql(tv, UcTag);
             }
         }
 

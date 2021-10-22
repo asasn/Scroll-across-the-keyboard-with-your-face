@@ -88,7 +88,9 @@ namespace 脸滚键盘
             if (true == FileOperate.IsFolderExists(ucTag) && true == FileOperate.IsFileExists(booksXml))
             {
                 tv.Items.Clear();
-                TreeOperate.Show.ToBookTree.ToCurBook(tv);
+                SqliteOperate.NewConnection();
+                //TreeOperate.Show.ToBookTree.ToCurBook(tv);
+                TreeOperate.Show.ToBookTree.BySql(tv, Gval.Current.curBookName);
                 if (tv.HasItems)
                 {
                     TreeViewItem lastVolume = (tv.Items[tv.Items.Count - 1] as TreeViewItem);
@@ -133,6 +135,7 @@ namespace 脸滚键盘
                     TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
                     FileOperate.CreateFolder(volumePath);
                     TreeOperate.Save.BookTree.SaveCurBook(tv);
+                    TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                 }
             }
         }
@@ -158,6 +161,7 @@ namespace 脸滚键盘
                         TreeOperate.AddItem.BrotherItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                         FileOperate.CreateNewDoc(fullFileName);
                         TreeOperate.Save.BookTree.SaveCurBook(tv);
+                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                     }
                 }
                 if (level == 1)
@@ -173,6 +177,7 @@ namespace 脸滚键盘
                         TreeOperate.AddItem.ChildItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                         FileOperate.CreateNewDoc(fullFileName);
                         TreeOperate.Save.BookTree.SaveCurBook(tv);
+                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                     }
                 }
             }
@@ -201,24 +206,25 @@ namespace 脸滚键盘
                     parentItem = selectedItem.Parent as TreeViewItem;
                 }
 
-                if (TreeOperate.GetLevel(selectedItem) == 1)
-                {
-                    MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n将会不经回收站直接删除，请进行确认！\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
-                    if (dr == MessageBoxResult.OK)
-                    {
-                        TreeOperate.DelItem.Do(selectedItem);
-                        FileOperate.deleteDir(bookPath);
+                //if (TreeOperate.GetLevel(selectedItem) == 1)
+                //{
+                //    MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n将会不经回收站直接删除，请进行确认！\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+                //    if (dr == MessageBoxResult.OK)
+                //    {
+                //        TreeOperate.DelItem.Do(selectedItem);
+                //        FileOperate.deleteDir(bookPath);
 
-                    }
-                }
-                else
-                {
+                //    }
+                //}
+                //else
+                //{
                     if (selectedItem.Name == "doc")
                     {
                         string fullFileName = volumePath + '/' + selectedItem.Header.ToString() + ".txt";
                         TreeOperate.DelItem.Do(selectedItem);
                         FileOperate.deleteDoc(fullFileName);
                         TreeOperate.Save.BookTree.SaveCurBook(tv);
+                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                     }
 
                     if (selectedItem.Name == "dir")
@@ -226,8 +232,9 @@ namespace 脸滚键盘
                         TreeOperate.DelItem.Do(selectedItem);
                         FileOperate.deleteDir(volumePath);
                         TreeOperate.Save.BookTree.SaveCurBook(tv);
+                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                     }
-                }
+                //}
                 ChangeCurItem(parentItem);//更改当前节点指针
             }
         }
@@ -380,6 +387,7 @@ namespace 脸滚键盘
                 }
                 else
                 {
+                    //TODO 尚未完成的拖曳事件
                     //同一书籍内部
                     if (dropVolumeItem != Gval.DragDrop.dragVolumeItem)
                     {
@@ -402,7 +410,7 @@ namespace 脸滚键盘
                                     FileOperate.renameDoc(Gval.DragDrop.dragTextFullName, fullFileName);
                                 }
                                 TreeOperate.Save.BookTree.SaveCurBook(tv);
-
+                                TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                             }
                         }
                         if (Gval.DragDrop.dragItem.Name == "dir")
@@ -417,7 +425,7 @@ namespace 脸滚键盘
                                     FileOperate.renameDir(Gval.DragDrop.dragVolumePath, dropVolumePath);
                                 }
                                 TreeOperate.Save.BookTree.SaveCurBook(tv);
-
+                                TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                             }
 
                         }
@@ -432,7 +440,7 @@ namespace 脸滚键盘
                             if (tag == true)
                             {
                                 TreeOperate.Save.BookTree.SaveCurBook(tv);
-
+                                TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                             }
                         }
                     }
@@ -465,7 +473,6 @@ namespace 脸滚键盘
             if (selectedItem != null)
             {
                 ChangeCurItem(selectedItem);
-                Console.WriteLine(TreeOperate.GetItemIndex(selectedItem));
             }
         }
 
@@ -567,6 +574,7 @@ namespace 脸滚键盘
                     }
                 }
                 TreeOperate.Save.BookTree.SaveCurBook(tv);
+                TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
             }
 
 
@@ -602,6 +610,7 @@ namespace 脸滚键盘
                 }
             }
             TreeOperate.Save.BookTree.SaveCurBook(tv);
+            TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
         }
 
         private void export_Click(object sender, RoutedEventArgs e)
@@ -658,11 +667,7 @@ namespace 脸滚键盘
 
                     if (bookCard.Header.ToString() == Gval.Current.curBookName)
                     {
-                        bookCard.BorderBrush = Brushes.Blue;
-                        bookCard.BorderThickness = new Thickness(0, 5, 0, 5);
-                        UcTitle = "书籍目录——" + Gval.Current.curBookName;
-                        drawerTbk.Text = "当前书籍：" + Gval.Current.curBookName;
-                        SqliteOperate.Refresh();
+                        ChoseBookChange(bookCard);
                     }
                 }
             }
@@ -674,6 +679,17 @@ namespace 脸滚键盘
             }
         }
 
+        void ChoseBookChange(HandyControl.Controls.Card bookCard)
+        {
+            bookCard.BorderBrush = Brushes.Blue;
+            bookCard.BorderThickness = new Thickness(0, 5, 0, 5);
+            UcTitle = "当前书籍——" + Gval.Current.curBookName;
+            drawerTbk.Text = "当前书籍：" + Gval.Current.curBookName;
+            SqliteOperate.NewConnection();
+            tv_Loaded(null, null);
+            Gval.ucEditor.IsEnabled = false;
+        }
+
         private void CardSelected(object sender, MouseButtonEventArgs e)
         {
             foreach (HandyControl.Controls.Card item in wpBooks.Children)
@@ -682,21 +698,25 @@ namespace 脸滚键盘
                 item.BorderThickness = new Thickness(0, 0, 0, 0);
             }
             HandyControl.Controls.Card bookCard = sender as HandyControl.Controls.Card;
-            bookCard.BorderBrush = Brushes.Blue;
-            bookCard.BorderThickness = new Thickness(0, 5, 0, 5);
             Gval.Current.curBookName = bookCard.Header.ToString();
             Gval.Current.curBookPath = Gval.Base.AppPath + "/books/" + bookCard.Header.ToString();
             SettingsOperate.SaveSettings("curBookName", bookCard.Header.ToString());
             SettingsOperate.SaveSettings("curBookPath", Gval.Current.curBookPath);
-            UcTitle = "书籍目录——" + Gval.Current.curBookName;
-            drawerTbk.Text = "当前书籍：" + Gval.Current.curBookName;
-
-            tv_Loaded(null, null);
-
-            SqliteOperate.Refresh();
-
-            Gval.ucEditor.IsEnabled = false;
+            ChoseBookChange(bookCard);
         }
 
+        private void uc_MouseEnter(object sender, MouseEventArgs e)
+        {
+            btnBooks.Visibility = Visibility.Visible;
+        }
+
+        private void uc_MouseLeave(object sender, MouseEventArgs e)
+        {
+            btnBooks.Visibility = Visibility.Hidden;
+        }
+
+        private void DrawerLeftInContainer_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+        }
     }
 }

@@ -78,20 +78,25 @@ namespace 脸滚键盘.信息卡模板
 
             while (reader.Read())
             {
-                if (reader["备注"] != null)
+                if (reader["备注"].ToString() != "")
                 {
                     tb备注.Text = reader["备注"].ToString();
                 }
-                if (reader["权重"] != null)
+                if (reader["权重"].ToString() != "")
                 {
                     thisCard.weight = reader["权重"].ToString();
                 }
-                if (reader["相对年龄"] != null)
+                if (reader["相对年龄"].ToString() != "")
                 {
                     tbOffsetAge.Text = reader["相对年龄"].ToString();
                 }
+                else
+                {
+                    tbOffsetAge.Text = 0.ToString();
+                }
 
-            }            
+            }
+            reader.Close();
 
             tbName.Text = thisItem.Header.ToString();
             int realAge = int.Parse(Gval.Current.tbCurYear.Text) - int.Parse(Gval.Current.tbBornYear.Text) + int.Parse(tbOffsetAge.Text);
@@ -117,8 +122,10 @@ namespace 脸滚键盘.信息卡模板
             if (reader.Read() && thisCard.id != reader.GetInt32(0).ToString())
             {
                 MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
+                reader.Close();
                 return;
             }
+            reader.Close();
             if (thisCard.id != null && false == string.IsNullOrEmpty(thisCard.id))
             {
                 if (string.IsNullOrEmpty(thisCard.weight))
@@ -140,8 +147,8 @@ namespace 脸滚键盘.信息卡模板
                 CardOperate.SaveOtherInfo(wrapPanels2, "角色", thisCard.id);
             }
 
-            TreeOperate.Save.ToSingleXml(Tv, "role");
-            
+            TreeOperate.Save.ToSingleXml(Tv, "角色");
+            TreeOperate.Save.BySql(Tv, "角色");
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

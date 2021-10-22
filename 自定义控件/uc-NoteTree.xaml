@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘" xmlns:hc="https://handyorg.github.io/handycontrol"
-             mc:Ignorable="d" Effect="{StaticResource EffectShadow3}" UseLayoutRounding="True" 
+             mc:Ignorable="d" UseLayoutRounding="True" 
              d:DesignHeight="450" d:DesignWidth="300" DataContextChanged="uc_DataContextChanged" IsEnabled="False">
     <UserControl.Resources>
         <ContextMenu x:Key="tvContextMenu">
@@ -15,7 +15,7 @@
             <MenuItem x:Name="remove" Header="删除该节点" Click="btnDelItem_Click"/>
         </ContextMenu>
     </UserControl.Resources>
-    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="5">
+    <hc:Card Header="{Binding UcTitle, ElementName=uc}" Background="#FFFAFAFA" Margin="5"  Effect="{StaticResource EffectShadow2}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>

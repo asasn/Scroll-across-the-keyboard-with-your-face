@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,47 +15,71 @@ namespace 脸滚键盘
         public static partial class Save
         {
             static string Gsql = string.Empty;
-            public static void SaveTree(TreeView tv)
+            public static void BySql(TreeView tv, string tableName)
             {
-                string tableName = Gval.Current.curBookName + "_Tree";
-                string sql = string.Empty;
-                sql += string.Format("delete from {0};", tableName); //清空数据
-                sql += string.Format("update sqlite_sequence SET seq = 0 where name = '{0}';", tableName);//自增长ID为0
-                sql += string.Format("CREATE TABLE IF NOT EXISTS {0}(id CHAR PRIMARY KEY, 级别 INTEGER,索引 INTEGER,父id CHAR, 名称 CHAR);", tableName);
+                if (tableName == "material")
+                {
+                    SqliteOperate.NewConnection(Gval.Base.AppPath + "/" + "material", "material.db");
+                }
+
+                tableName = "Tree_" + tableName;
+                string sql = string.Format("SELECT count(*) FROM sqlite_master WHERE type = 'table' AND name = '{0}';", tableName);
+                SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
+                sql = string.Empty;
+                if (reader.Read())
+                {
+                    if (reader.GetInt32(0) > 0)
+                    {
+                        sql += string.Format("delete from '{0}';", tableName); //清空数据
+                        //sql += string.Format("update sqlite_sequence SET seq = 0 where name = '{0}';", tableName);//自增长ID为0
+                    }
+                }
+                reader.Close();
+                sql += string.Format("CREATE TABLE IF NOT EXISTS {0}(id CHAR PRIMARY KEY, pid CHAR, Header CHAR, Name CHAR, Uid CHAR, Tag CHAR, DataContext CHAR, IsExpanded BOOLEAN);", tableName);
                 SqliteOperate.ExecuteNonQuery(sql);
                 Gsql = string.Empty;
-                ReTraversal(tv);
+                ReTraversal(tv, tableName);
                 SqliteOperate.ExecuteNonQuery(Gsql);
 
+                //恢复默认连接
+                SqliteOperate.NewConnection();
             }
 
-            static void ReTraversal(TreeView tv)
+            static void ReTraversal(TreeView tv, string tableName)
             {
-                string tableName = Gval.Current.curBookName + "_Tree";
                 foreach (TreeViewItem item in tv.Items)
                 {
+                    //借用uid过桥，以便获取pid，所以在借用之前先转移数据
+                    string itemUid = item.Uid;
                     item.Uid = TreeOperate.GetItemIndex(item);
-                    Gsql += string.Format("insert or ignore into {0} (id, 级别, 索引, 父id, 名称) values ('{1}', {2}, {3}, '{4}', '{5}');", tableName, item.Uid, GetLevel(item), tv.Items.IndexOf(item), 0, item.Header.ToString());
+                    item.Tag = item.Tag ?? "";
+                    item.DataContext = item.DataContext ?? "";
+                    item.IsExpanded = item.IsExpanded == true;
+                    Gsql += string.Format("insert or ignore into {0} (id, pid, Header, Name, Uid, Tag, DataContext, IsExpanded ) values ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8});", tableName, item.Uid, null, item.Header.ToString(), item.Name, itemUid, item.Tag, item.DataContext, item.IsExpanded);
                     //SqliteOperate.ExecuteNonQuery(sql);             
                     if (item.HasItems)
                     {
-                        ReTraversal(item);
+                        ReTraversal(item, tableName);
                     }
                 }
 
             }
 
-            static void ReTraversal(TreeViewItem parentItem)
+            static void ReTraversal(TreeViewItem parentItem, string tableName)
             {
-                string tableName = Gval.Current.curBookName + "_Tree";
                 foreach (TreeViewItem item in parentItem.Items)
                 {
+                    //借用uid过桥，以便获取pid，所以在借用之前先转移数据
+                    string itemUid = item.Uid;
                     item.Uid = TreeOperate.GetItemIndex(item);
-                    Gsql += string.Format("insert or ignore into {0} (id, 级别, 索引, 父id, 名称) values ('{1}', {2}, {3}, '{4}', '{5}');", tableName, item.Uid, GetLevel(item), parentItem.Items.IndexOf(item), parentItem.Uid, item.Header.ToString());
+                    item.Tag = item.Tag ?? "";
+                    item.DataContext = item.DataContext ?? "";
+                    item.IsExpanded = item.IsExpanded == true;
+                    Gsql += string.Format("insert or ignore into {0} (id, pid, Header, Name, Uid, Tag, DataContext, IsExpanded) values ('{1}', '{2}', '{3}','{4}', '{5}', '{6}', '{7}', {8});", tableName, item.Uid, parentItem.Uid, item.Header.ToString(), item.Name, itemUid, item.Tag, item.DataContext, item.IsExpanded);
                     //SqliteOperate.ExecuteNonQuery(sql);                                     
                     if (item.HasItems)
                     {
-                        ReTraversal(item);
+                        ReTraversal(item, tableName);
                     }
                 }
 

@@ -145,10 +145,12 @@ namespace 脸滚键盘
                 if (ucTag == "books")
                 {
                     Save.BookTree.SaveCurBook(tv);
+                    TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
                 }
                 else
                 {
                     Save.ToSingleXml(tv, ucTag);
+                    TreeOperate.Save.BySql(tv, ucTag);
                 }
                 //TreeOperate.Save.SaveTree(tv);
             }

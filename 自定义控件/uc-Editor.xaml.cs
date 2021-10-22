@@ -138,6 +138,8 @@ namespace 脸滚键盘
             textEditor.Save(FullFileName);
             btnSaveDoc.Content = "";
             btnSaveDoc.IsEnabled = false;
+
+            textEditor.Tag = null;
         }
 
 
@@ -211,17 +213,17 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void textEditor_KeyDown(object sender, KeyEventArgs e)
         {
-            //因为存在着“按住持续生效”的设定，所以改成在KeyDown处生效，免得一次按键生效两次
-            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
-            {
-                //同时按下了Ctrl + Z键，回撤
-                textEditor.Undo();
-            }
-            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Y)
-            {
-                //同时按下了Ctrl + Y键，重做
-                textEditor.Redo();
-            }
+            ////因为存在着“按住持续生效”的设定，所以改成在KeyDown处生效，免得一次按键生效两次
+            //if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
+            //{
+            //    //同时按下了Ctrl + Z键，回撤
+            //    textEditor.Undo();
+            //}
+            //if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Y)
+            //{
+            //    //同时按下了Ctrl + Y键，重做
+            //    textEditor.Redo();
+            //}
         }
 
         /// <summary>
@@ -284,12 +286,17 @@ namespace 脸滚键盘
         private void textEditor_TextChanged(object sender, EventArgs e)
         {
             ShowTextInfo();
+            EditorOperate.ShowValue((double)words, lbValue);
             if (this.IsEnabled == true && textEditor.TextArea.IsFocused == true)
             {
                 //btnSaveDoc.Content = "保存■";
                 btnSaveDoc.IsEnabled = true;
             }
-            EditorOperate.ShowValue((double)words, lbValue);
+            if (textEditor.Tag != null)
+            {
+                SaveText();
+            }
+
         }
 
 
@@ -406,18 +413,24 @@ namespace 脸滚键盘
         private void btnSaveText_Click(object sender, RoutedEventArgs e)
         {
             SaveText();
-            HandyControl.Controls.Growl.Success("文件保存成功！");
+            HandyControl.Controls.Growl.Success("文件保存！");
         }
 
 
         private void textEditor_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            Console.WriteLine("执行事件");
         }
 
         private void textEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-  
+            if (e.Command == ApplicationCommands.Cut || 
+                e.Command == ApplicationCommands.Paste
+                )
+            {
+                textEditor.Tag = true;
+            }
+
         }
     }
 }

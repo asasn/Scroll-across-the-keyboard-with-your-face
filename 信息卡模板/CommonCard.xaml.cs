@@ -68,16 +68,17 @@ namespace 脸滚键盘.信息卡模板
 
             while (reader.Read())
             {
-                if (reader["备注"] != null)
+                if (reader["备注"].ToString() != "")
                 {
                     tb备注.Text = reader["备注"].ToString();
                 }
-                if (reader["权重"] != null)
+                if (reader["权重"].ToString() != "")
                 {
                     thisCard.weight = reader["权重"].ToString();
                 }
 
             }
+            reader.Close();
             tbName.Text = thisItem.Header.ToString();
             card.Header = string.Format("　　id：{0}　　权重：{1}", thisCard.id, thisCard.weight);
 
@@ -90,8 +91,10 @@ namespace 脸滚键盘.信息卡模板
             if (reader.Read() && thisCard.id != reader.GetInt32(0).ToString())
             {
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
+                reader.Close();
                 return;
             }
+            reader.Close();
             if (thisCard.id != null && false == string.IsNullOrEmpty(thisCard.id))
             {
                 if (string.IsNullOrEmpty(thisCard.weight))
@@ -107,7 +110,8 @@ namespace 脸滚键盘.信息卡模板
                 CardOperate.SaveMainInfo(wrapPanels, "通用", thisCard.id);
             }
 
-            TreeOperate.Save.ToSingleXml(Tv, "faction");
+            TreeOperate.Save.ToSingleXml(Tv, "通用");
+            TreeOperate.Save.BySql(Tv, "通用");
 
         }
 

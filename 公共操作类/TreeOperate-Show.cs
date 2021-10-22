@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,53 @@ namespace 脸滚键盘
         {
             public static class ToBookTree
             {
+                public static void BySql(TreeView tv, string tableName)
+                {
+                    if (tableName == "material")
+                    {
+                        SqliteOperate.NewConnection(Gval.Base.AppPath + "/" + "material", "material.db");
+                    }
+                    tv.Items.Clear();
+                    tableName = "Tree_" + tableName;
+                    string sql = string.Format("SELECT * FROM '{0}' where pid='';", tableName);
+                    SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
+                    while (reader.Read())
+                    {
+                        TreeViewItem item = new TreeViewItem();
+                        item.Header = reader["Header"];
+                        item.Name = reader["Name"].ToString();
+                        item.Uid = reader["Uid"].ToString();
+                        item.Tag = reader["Tag"].ToString();
+                        item.DataContext = reader["DataContext"].ToString();
+                        item.IsExpanded = (bool)reader["IsExpanded"];
+                        tv.Items.Add(item);
+                        BySql(item, reader["id"].ToString(), tableName);
+                    }
+                    reader.Close();
+
+                    //恢复默认连接
+                    SqliteOperate.NewConnection();
+                }
+
+                private static void BySql(TreeViewItem pItem, string pid, string tableName)
+                {
+                    string sql = string.Format("SELECT * FROM '{0}' where pid='{1}';", tableName, pid);
+                    SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
+                    while (reader.Read())
+                    {
+                        TreeViewItem item = new TreeViewItem();
+                        item.Header = reader["Header"];
+                        item.Name = reader["Name"].ToString();
+                        item.Uid = reader["Uid"].ToString();
+                        item.Tag = reader["Tag"].ToString();
+                        item.DataContext = reader["DataContext"].ToString();
+                        item.IsExpanded = (bool)reader["IsExpanded"];
+                        pItem.Items.Add(item);
+                        BySql(item, reader["id"].ToString(), tableName);
+                    }
+                    reader.Close();
+                }
+
                 /// <summary>
                 /// 从两个xml文件当中展示
                 /// </summary>

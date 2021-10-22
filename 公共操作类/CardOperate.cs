@@ -145,6 +145,7 @@ namespace 脸滚键盘
                     tb.Uid = n.ToString();
                     wp.Children.Add(tb);
                 }
+                reader.Close();
             }
         }
 
@@ -181,7 +182,7 @@ namespace 脸滚键盘
                 {
                     n = reader.GetInt32(1);
                 }
-
+                reader.Close();
                 foreach (RadioButton rb in wp.Children)
                 {
                     if (n == wp.Children.IndexOf(rb))

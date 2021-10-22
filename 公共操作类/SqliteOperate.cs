@@ -15,19 +15,21 @@ namespace 脸滚键盘
 
 
         //与指定的数据库(实际上就是一个文件)建立连接
-        private static SQLiteConnection CreateDatabaseConnection(string dbName = null)
+        private static SQLiteConnection CreateDatabaseConnection(string dbPath = null, string dbName = null)
         {
             // 数据库文件夹
-            string DbPath = Gval.Current.curBookPath;
-            string DbName = "bookData.db";
 
-            dbName = dbName == null ? DbName : dbName;
-            var dbFilePath = Path.Combine(DbPath, dbName);
+            dbPath = dbPath ?? Gval.Current.curBookPath;
+            dbName = dbName ?? "bookData.db";
+            var dbFilePath = Path.Combine(dbPath, dbName);
             return new SQLiteConnection("DataSource = " + dbFilePath + ";foreign keys=true;");
         }
 
         // 使用全局静态变量保存连接
         private static SQLiteConnection connection;
+
+        //使用全局静态变量方便关闭
+        private static SQLiteDataReader Reader;
 
         // 打开连接
         private static void Open()
@@ -35,27 +37,33 @@ namespace 脸滚键盘
             if (connection != null && connection.State != System.Data.ConnectionState.Open)
             {
                 connection.Open();
+                SQLiteCommand command = connection.CreateCommand();
             }
         }
 
         // 关闭连接
         public static void Close()
         {
-            if (connection != null && connection.State == System.Data.ConnectionState.Open)
+            if (Reader != null && Reader.IsClosed == false)
             {
-                connection.Close();
+                Reader.Close();
             }
+            if (connection != null)
+            {
+                connection.Close();                
+            }
+            System.Data.SQLite.SQLiteConnection.ClearAllPools();
         }
-
 
 
         /// <summary>
         /// 刷新数据库连接
         /// </summary>
-        public static void Refresh()
-        {
-            Close();
-            connection = CreateDatabaseConnection();
+        public static void NewConnection(string DbPath = null, string DbName = null)
+        {            
+            Close();            
+            connection = CreateDatabaseConnection(DbPath, DbName);
+
         }
 
         /// <summary>
@@ -91,12 +99,13 @@ namespace 脸滚键盘
             {
                 using (SQLiteCommand command = connection.CreateCommand())
                 {
+
                     command.CommandText = sql;
 
                     // 执行查询会返回一个SQLiteDataReader对象
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    Reader = command.ExecuteReader();
 
-                    return reader;
+                    return Reader;
                     //reader.Read()方法会从读出一行匹配的数据到reader中。注意：是一行数据。
 
                 }
@@ -119,6 +128,7 @@ namespace 脸滚键盘
             {
                 lastuid = reader.GetInt32(0);
             }
+            reader.Close();
             return lastuid;
         }
 
