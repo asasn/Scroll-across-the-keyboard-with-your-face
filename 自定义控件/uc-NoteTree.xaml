@@ -33,9 +33,8 @@
                     <Button Padding="1" Content="下一个" BorderThickness="0,0,0,0" Background="#F5F5F5" Grid.Column="1"  Height="Auto" Width="40" HorizontalAlignment="Right" VerticalAlignment="Center" IsEnabled="False" Margin="80,0,0,0" />
                 </Grid>
             </Grid>
-            <TreeView x:Name="tv" Grid.Row="1" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" KeyDown="tv_KeyDown" Margin="5"/>
-            <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
-
+            <TreeView x:Name="tv" Grid.Row="1" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" KeyDown="tv_KeyDown" Margin="5" Loaded="tv_Loaded"/>
+            <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18" LostFocus="renameBox_LostFocus"/>
         </Grid>
     </hc:Card>
 </UserControl>

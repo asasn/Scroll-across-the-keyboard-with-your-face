@@ -102,10 +102,15 @@ namespace 脸滚键盘
 
                     command.CommandText = sql;
 
-                    // 执行查询会返回一个SQLiteDataReader对象
-                    Reader = command.ExecuteReader();
+                    if (Reader != null && Reader.IsClosed == false)
+                    {
+                        Reader.Close();
+                    }
 
-                    return Reader;
+                    // 执行查询会返回一个SQLiteDataReader对象
+                    SQLiteDataReader reader = command.ExecuteReader();
+
+                    return reader;
                     //reader.Read()方法会从读出一行匹配的数据到reader中。注意：是一行数据。
 
                 }

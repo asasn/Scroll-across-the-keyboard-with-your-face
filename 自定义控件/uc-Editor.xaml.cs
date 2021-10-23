@@ -323,13 +323,13 @@ namespace 脸滚键盘
         {
             textEditor.SyntaxHighlighting = null;
             string fullFileName = System.IO.Path.Combine(Gval.Base.AppPath, "Text.xshd");
-            Stream xshd_stream = File.OpenRead(fullFileName);
-            XmlTextReader xshd_reader = new XmlTextReader(xshd_stream);
-            textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshd_reader, HighlightingManager.Instance);
-            xshd_reader.Close();
-            xshd_stream.Close();
+            Stream xshdStream = File.OpenRead(fullFileName);
+            XmlTextReader xshdReader = new XmlTextReader(xshdStream);
+            textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
+            xshdReader.Close();
+            xshdStream.Close();
 
-            if (Gval.ucRoleCard != null)
+            if (Gval.ucRoleCard != null && Gval.ucFactionCard != null && Gval.ucGoodsCard != null && Gval.ucCommonCard != null)
             {
                 TreeView[] tvs = { Gval.ucRoleCard.tv, Gval.ucFactionCard.tv, Gval.ucGoodsCard.tv, Gval.ucCommonCard.tv };
 

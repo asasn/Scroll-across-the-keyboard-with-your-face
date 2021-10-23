@@ -26,6 +26,7 @@ namespace 脸滚键盘
 
             Gval.Current.curBookName = SettingsOperate.GetSettings("curBookName");
             Gval.Current.curBookPath = SettingsOperate.GetSettings("curBookPath");
+            SqliteOperate.NewConnection();
             Gval.Current.tbPrice = tbPrice;
             Gval.Current.tbBornYear = tbBornYear;
             Gval.Current.tbCurYear = tbCurYear;

@@ -36,6 +36,34 @@ namespace 脸滚键盘
                     }                    
                 }
             }
+
+
+            public static void toTable(TreeViewItem selectedItem, string tableName)
+            {
+                if (tableName == "material")
+                {
+                    SqliteOperate.NewConnection(Gval.Base.AppPath + "/" + "material", "material.db");
+                }
+
+                tableName = "Tree_" + tableName;                
+                string sql = string.Format("delete from {0} where Uid = '{1}';", tableName, selectedItem.Uid);
+                SqliteOperate.ExecuteNonQuery(sql);
+                ReTraversal(selectedItem, tableName);
+
+                //恢复默认连接
+                SqliteOperate.NewConnection();
+            }
+
+
+            static void ReTraversal(TreeViewItem selectedItem, string tableName)
+            {
+                foreach (TreeViewItem item in selectedItem.Items)
+                {                    
+                    string sql = string.Format("delete from {0} where Uid = '{1}';", tableName, selectedItem.Uid);
+                    SqliteOperate.ExecuteNonQuery(sql);
+                    ReTraversal(item, tableName);
+                }
+            }
         }
 
     }

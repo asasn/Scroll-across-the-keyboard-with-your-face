@@ -72,25 +72,25 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
-            {
-                tv.Items.Clear();
+            //if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
+            //{
+            //    tv.Items.Clear();
 
-                //获取当前notes对应的完整xml文件名
-                string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
-                if (true == FileOperate.IsFileExists(fullXmlName_notes))
-                {
-                    //TreeOperate.Show.FromSingleXml(tv, UcTag);
-                    TreeOperate.Show.ToBookTree.BySql(tv, UcTag);
-                }
-                uc.IsEnabled = true;
-                Gval.ucEditor.SetRules();
-            }
-            else
-            {
-                tv.Items.Clear();
-                uc.IsEnabled = false;
-            }
+            //    //获取当前notes对应的完整xml文件名
+            //    string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
+            //    if (true == FileOperate.IsFileExists(fullXmlName_notes))
+            //    {
+            //        //TreeOperate.Show.FromSingleXml(tv, UcTag);
+            //        TreeOperate.Show.ToBookTree.BySql(tv, UcTag);
+            //    }
+            //    uc.IsEnabled = true;
+            //    Gval.ucEditor.SetRules();
+            //}
+            //else
+            //{
+            //    tv.Items.Clear();
+            //    uc.IsEnabled = false;
+            //}
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -133,11 +133,6 @@ namespace 脸滚键盘
         }
 
 
-        private void uc_Loaded(object sender, RoutedEventArgs e)
-        {
-            //赋值给编辑器着色功能使用
-            tv.Tag = UcTag;
-        }
 
         /// <summary>
         /// 右键菜单
@@ -172,7 +167,6 @@ namespace 脸滚键盘
         private void btnNewFolder_Click(object sender, RoutedEventArgs e)
         {
             string itemTitle = "新信息卡";
-            int id = -1;
             foreach (TreeViewItem item in tv.Items)
             {
                 if (itemTitle == item.Header.ToString())
@@ -184,14 +178,16 @@ namespace 脸滚键盘
             if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
                 CardOperate.TryToBuildBaseTable(UcTag);
-                id = CardOperate.AddCard(UcTag, itemTitle);
+                
 
                 //string timestr = DateTime.Now.ToString();
                 //string uid = getMd5(timestr);
                 TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
-                newItem.Uid = id.ToString();
+                newItem.Header = itemTitle;
+                CardOperate.AddCard(UcTag, newItem);
                 TreeOperate.Save.ToSingleXml(tv, UcTag);
-                TreeOperate.Save.BySql(tv, UcTag);
+                //TreeOperate.Save.BySql(tv, UcTag);
+                TreeOperate.AddItem.toTable(newItem, UcTag);
             }
 
         }
@@ -206,9 +202,10 @@ namespace 脸滚键盘
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
             if (selectedItem != null && true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
             {
+                TreeOperate.DelItem.toTable(selectedItem, UcTag);
                 TreeOperate.DelItem.Do(selectedItem);
                 TreeOperate.Save.ToSingleXml(tv, UcTag);
-                TreeOperate.Save.BySql(tv, UcTag);
+                //TreeOperate.Save.BySql(tv, UcTag);
                 string sql = string.Format("DELETE FROM {0} where {0}id = {1};", UcTag, selectedItem.Uid);
                 SqliteOperate.ExecuteNonQuery(sql);
             }
@@ -272,6 +269,51 @@ namespace 脸滚键盘
                     TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
                     selectedItem.Focus();
                 }
+            }
+        }
+
+        public void TvLoad()
+        {
+            if (tv != null && true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
+            {
+                tv.Items.Clear();
+
+                //获取当前notes对应的完整xml文件名
+                string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
+                if (true == FileOperate.IsFileExists(fullXmlName_notes))
+                {
+                    //TreeOperate.Show.FromSingleXml(tv, UcTag);
+                    TreeOperate.Show.ToBookTree.BySql(tv, UcTag);
+                }
+                uc.IsEnabled = true;
+                Gval.ucEditor.SetRules();
+            }
+            else
+            {
+                tv.Items.Clear();
+                uc.IsEnabled = false;
+            }
+        }
+
+
+        private void tv_Loaded(object sender, RoutedEventArgs e)
+        {
+            //赋值给编辑器着色功能使用
+            tv.Tag = UcTag;
+            //TvLoad();
+        }
+
+        private void renameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                selectedItem.IsSelected = false;
+            }
+            if (renameBox.Visibility == Visibility.Visible)
+            {
+                TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
+                selectedItem.Focus();
             }
         }
     }

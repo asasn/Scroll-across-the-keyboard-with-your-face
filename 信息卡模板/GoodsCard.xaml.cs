@@ -21,7 +21,6 @@ namespace 脸滚键盘.信息卡模板
     public partial class GoodsCard : Window
     {
         TreeView Tv;
-        SQLiteDataReader reader;
         TreeViewItem thisItem;
         WrapPanel[] wrapPanels;
         public struct thisCard
@@ -63,8 +62,8 @@ namespace 脸滚键盘.信息卡模板
 
         void FillBaseInfo()
         {
-            string sql = string.Format("select * from 物品 where 物品id = {0};", thisCard.id);
-            reader = SqliteOperate.ExecuteQuery(sql);
+            string sql = string.Format("select * from 物品 where 物品id = '{0}';", thisCard.id);
+            SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
 
             while (reader.Read())
             {
@@ -79,14 +78,14 @@ namespace 脸滚键盘.信息卡模板
             }
             reader.Close();
             tbName.Text = thisItem.Header.ToString();
-            card.Header = string.Format("　　id：{0}　　权重：{1}", thisCard.id, thisCard.weight);
+            card.Header = string.Format("　　权重：{0}", thisCard.weight);
 
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            reader = SqliteOperate.ExecuteQuery(string.Format("select * from 物品 where 名称='{0}'", tbName.Text));
-            if (reader.Read() && thisCard.id != reader.GetInt32(0).ToString())
+            SQLiteDataReader reader = SqliteOperate.ExecuteQuery(string.Format("select * from 物品 where 名称='{0}'", tbName.Text));
+            if (reader.Read() && thisCard.id != reader.GetString(0).ToString())
             {
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
                 reader.Close();
@@ -100,7 +99,7 @@ namespace 脸滚键盘.信息卡模板
                     thisCard.weight = 0.ToString();
                 }
 
-                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3} where 物品id = {2};", tbName.Text, tb备注.Text, thisCard.id, thisCard.weight);
+                string sql = string.Format("update 物品 set 名称='{0}', 备注='{1}', 权重={3} where 物品id = '{2}';", tbName.Text, tb备注.Text, thisCard.id, thisCard.weight);
                 SqliteOperate.ExecuteNonQuery(sql);
 
                 thisItem.Header = tbName.Text;
@@ -109,7 +108,8 @@ namespace 脸滚键盘.信息卡模板
             }
 
             TreeOperate.Save.ToSingleXml(Tv, "物品");
-            TreeOperate.Save.BySql(Tv, "物品");
+            //TreeOperate.Save.BySql(Tv, "物品");
+            TreeOperate.ReName.toTable(thisItem, tbName.Text, "物品");
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

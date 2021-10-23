@@ -299,8 +299,18 @@ namespace 脸滚键盘
 
         }
 
-
-
-
+        private void renameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                selectedItem.IsSelected = false;
+            }
+            if (renameBox.Visibility == Visibility.Visible)
+            {
+                TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
+                selectedItem.Focus();
+            }
+        }
     }
 }

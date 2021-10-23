@@ -10,6 +10,8 @@ namespace 脸滚键盘
 {
     static partial class TreeOperate
     {
+
+     
         /// <summary>
         /// 获取item关联的文件/文件夹路径
         /// </summary>
@@ -66,10 +68,18 @@ namespace 脸滚键盘
             {
                 while ((selectedItem.Parent as TreeViewItem) != null)
                 {
-                    level += (selectedItem.Parent as TreeViewItem).Items.IndexOf(selectedItem) + "-";
+                    string t = (selectedItem.Parent as TreeViewItem).Items.IndexOf(selectedItem).ToString();
+                    char[] tArray = t.ToCharArray();
+                    Array.Reverse(tArray);
+                    string tString = new string(tArray);
+                    level = tString + "-";
                     selectedItem = selectedItem.Parent as TreeViewItem;                    
                 }
-                level += (selectedItem.Parent as TreeView).Items.IndexOf(selectedItem);
+                string t0 = (selectedItem.Parent as TreeView).Items.IndexOf(selectedItem).ToString();
+                char[] tArray0 = t0.ToCharArray();
+                Array.Reverse(tArray0);
+                string tString0 = new string(tArray0);
+                level += tString0;
                 char[] charArray = level.ToCharArray();
                 Array.Reverse(charArray);
                 return new string(charArray);

@@ -4,6 +4,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
 
@@ -26,19 +27,36 @@ namespace 脸滚键盘
                     }
                     tv.Items.Clear();
                     tableName = "Tree_" + tableName;
-                    string sql = string.Format("SELECT * FROM '{0}' where pid='';", tableName);
+                    string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}(Uid CHAR PRIMARY KEY, Pid CHAR, Header CHAR, Name CHAR, Tag CHAR, DataContext CHAR, WordsCount INTEGER, IsExpanded BOOLEAN);", tableName);
+                    SqliteOperate.ExecuteNonQuery(sql);
+                    sql = string.Format("SELECT * FROM '{0}' where Pid='';", tableName);
                     SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
                     while (reader.Read())
                     {
                         TreeViewItem item = new TreeViewItem();
-                        item.Header = reader["Header"];
+                        //TextBlock tbk = new TextBlock();
+                        //tbk.Text = reader["Header"].ToString();
+                        //TextBox tb = new TextBox();
+                        //tb.Text = reader["Header"].ToString();
+                        //tb.Visibility = Visibility.Hidden;
+                        //Image tempImage = new Image();
+                        //string imgPath = "D:/myfiles/Documents/source/repos/脸滚键盘/bin/Debug/books/测试书本三.jpg";
+                        //tempImage = FileOperate.GetImgObject(imgPath) as Image;
+                        //tempImage.Height = 20;
+                        //tempImage.Width = 20;
+                        //StackPanel sp = new StackPanel();
+                        //sp.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                        //sp.Children.Add(tempImage);
+                        //sp.Children.Add(tbk);
+                        //sp.Children.Add(tb);
+                        item.Header = reader["Header"].ToString(); ;
                         item.Name = reader["Name"].ToString();
                         item.Uid = reader["Uid"].ToString();
                         item.Tag = reader["Tag"].ToString();
                         item.DataContext = reader["DataContext"].ToString();
                         item.IsExpanded = (bool)reader["IsExpanded"];
                         tv.Items.Add(item);
-                        BySql(item, reader["id"].ToString(), tableName);
+                        BySql(item, tableName);
                     }
                     reader.Close();
 
@@ -46,9 +64,9 @@ namespace 脸滚键盘
                     SqliteOperate.NewConnection();
                 }
 
-                private static void BySql(TreeViewItem pItem, string pid, string tableName)
+                private static void BySql(TreeViewItem pItem, string tableName)
                 {
-                    string sql = string.Format("SELECT * FROM '{0}' where pid='{1}';", tableName, pid);
+                    string sql = string.Format("SELECT * FROM '{0}' where Pid='{1}';", tableName, pItem.Uid);
                     SQLiteDataReader reader = SqliteOperate.ExecuteQuery(sql);
                     while (reader.Read())
                     {
@@ -60,7 +78,7 @@ namespace 脸滚键盘
                         item.DataContext = reader["DataContext"].ToString();
                         item.IsExpanded = (bool)reader["IsExpanded"];
                         pItem.Items.Add(item);
-                        BySql(item, reader["id"].ToString(), tableName);
+                        BySql(item, tableName);
                     }
                     reader.Close();
                 }

@@ -33,7 +33,7 @@
                 <Button x:Name="btnItemDown" Padding="1" Content="↓↓" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Center" Width="20" Height="20" IsEnabled="False" Click="btnItemDown_Click"/>
             </Grid>
             <TreeView x:Name="tv" Margin="5" Grid.Row="1" Loaded="tv_Loaded" KeyDown="tv_KeyDown" MouseLeftButtonDown="tv_MouseLeftButtonDown" DragEnter="tv_DragEnter" Drop="tv_Drop" MouseMove="tv_MouseMove" MouseLeftButtonUp="tv_MouseLeftButtonUp" MouseDoubleClick="tv_MouseDoubleClick" MouseRightButtonDown="tv_MouseRightButtonDown" />
-            <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18"/>
+            <TextBox x:Name="renameBox" Grid.Row="1" IsEnabled="False" Visibility="Hidden" KeyDown="renameBox_KeyDown" MaxLength="35" MaxWidth="200" HorizontalAlignment="Left" VerticalAlignment="Top" Height="18" LostFocus="renameBox_LostFocus"/>
             <Button x:Name="btnBooks" Padding="0" Grid.Row="1" Foreground="LightGoldenrodYellow" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource StarGeometry}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Margin="5" Click="btnBooks_Click" Visibility="Hidden" />
             <hc:Drawer Name="DrawerLeftInContainer" Dock="Left" Width="400" ShowMask="False" Loaded="DrawerLeftInContainer_Loaded">
                 <Border x:Name="border"  Background="{DynamicResource RegionBrush}" Width="400" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">

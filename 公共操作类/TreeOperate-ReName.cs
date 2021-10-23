@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace 脸滚键盘
 {
@@ -13,6 +15,29 @@ namespace 脸滚键盘
     {
         public static partial class ReName
         {
+
+            /// <summary>
+            /// 获取子控件
+            /// </summary>
+            private static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                    if (child != null && child is childItem)
+                        return (childItem)child;
+                    else
+                    {
+                        childItem childOfChild = FindVisualChild<childItem>(child);
+                        if (childOfChild != null)
+                            return childOfChild;
+                    }
+                }
+                return null;
+            }
+
+            static string GOldName;
+            static string GNewName;
             /// <summary>
             /// 回填selectedItem和renamebox的信息
             /// </summary>
@@ -38,14 +63,18 @@ namespace 脸滚键盘
             {
                 if (selectedItem != null && renameBox.Visibility == Visibility.Hidden)
                 {
+                    //TextBox reNameTextBox = FindVisualChild<TextBox>(selectedItem as DependencyObject);
+                    //reNameTextBox.Visibility = Visibility.Visible;
                     //在节点位置显现
-                    Point p = selectedItem.TranslatePoint(new Point(), tv);
-                    renameBox.Margin = new Thickness(p.X + 19, p.Y, 0, 0);
+                    Point p = selectedItem.TranslatePoint(new Point(tv.Margin.Left, tv.Margin.Top), tv);
+                    renameBox.Margin = new Thickness(p.X, p.Y, 0, 0);
                     //隐藏节点会导致子节点也跟着隐藏，所以并不采用这个方法，而是把Header改为空值
                     renameBox.Visibility = Visibility.Visible;
                     renameBox.IsEnabled = true;
+                    GOldName = string.Empty;
+                    GNewName = string.Empty;
                     renameBox.Text = selectedItem.Header.ToString(); //新名字
-                    renameBox.Tag = selectedItem.Header.ToString(); //旧名字
+                    GOldName = selectedItem.Header.ToString(); //旧名字
                     renameBox.Focus();
                     renameBox.SelectAll();
                 }
@@ -61,7 +90,7 @@ namespace 脸滚键盘
             {
                 if (selectedItem != null && renameBox.Visibility == Visibility.Visible)
                 {
-                    string oldName = renameBox.Tag.ToString();
+                    string oldName = GOldName;
                     string newName = renameBox.Text;
 
                     //未发生改变的情况
@@ -103,7 +132,7 @@ namespace 脸滚键盘
                             FillBcak(selectedItem, renameBox, newName);
 
                             FileOperate.renameDoc(fOld, fNew);
-                            SaveIt(tv, ucTag);
+                            SaveIt(selectedItem, newName, tv, ucTag);
                         }
                     }
                     else
@@ -125,7 +154,8 @@ namespace 脸滚键盘
                             FillBcak(selectedItem, renameBox, newName);
 
                             FileOperate.renameDir(oldPath, newPath);
-                            SaveIt(tv, ucTag);
+                            SaveIt(selectedItem, newName, tv, ucTag);
+                            
                         }
                     }
 
@@ -140,19 +170,38 @@ namespace 脸滚键盘
 
             }
 
-            static void SaveIt(TreeView tv, string ucTag)
+            static void SaveIt(TreeViewItem selectedItem, string newName, TreeView tv, string ucTag)
             {
                 if (ucTag == "books")
                 {
                     Save.BookTree.SaveCurBook(tv);
-                    TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                    //TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                    toTable(selectedItem, newName, Gval.Current.curBookName);
                 }
                 else
                 {
                     Save.ToSingleXml(tv, ucTag);
-                    TreeOperate.Save.BySql(tv, ucTag);
+                    //TreeOperate.Save.BySql(tv, ucTag);
+                    toTable(selectedItem, newName, ucTag);
                 }
                 //TreeOperate.Save.SaveTree(tv);
+            }
+
+
+            public static void toTable(TreeViewItem selectedItem, string newName, string tableName)
+            {
+                if (tableName == "material")
+                {
+                    SqliteOperate.NewConnection(Gval.Base.AppPath + "/" + "material", "material.db");
+                }
+
+                tableName = "Tree_" + tableName;
+
+                string sql = string.Format("update {0} set Header='{1}' where Uid = '{2}';", tableName, newName, selectedItem.Uid);
+                SqliteOperate.ExecuteNonQuery(sql);
+
+                //恢复默认连接
+                SqliteOperate.NewConnection();
             }
         }
     }

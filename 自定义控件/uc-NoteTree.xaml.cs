@@ -57,25 +57,28 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
-            {
-                tv.Items.Clear();
+            //if (true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
+            //{
+            //    tv.Items.Clear();
 
-                //获取当前notes对应的完整xml文件名
-                string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
-                if (true == FileOperate.IsFileExists(fullXmlName_notes))
-                {
-                    //TreeOperate.Show.FromSingleXml(tv, UcTag);
-                    TreeOperate.Show.ToBookTree.BySql(tv, UcTag);
-                    //(tv.Items[tv.Items.Count - 1] as TreeViewItem).IsExpanded = true;
-                }
-                uc.IsEnabled = true;
-            }
-            else
-            {
-                tv.Items.Clear();
-                uc.IsEnabled = false;
-            }
+            //    //获取当前notes对应的完整xml文件名
+            //    string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
+            //    if (true == FileOperate.IsFileExists(fullXmlName_notes))
+            //    {
+            //        //TreeOperate.Show.FromSingleXml(tv, UcTag);
+            //        TreeOperate.Show.ToBookTree.BySql(tv, UcTag);
+            //        (tv.Items[tv.Items.Count - 1] as TreeViewItem).IsSelected = true;
+            //        (tv.Items[tv.Items.Count - 1] as TreeViewItem).Focus();
+            //        (tv.Items[tv.Items.Count - 1] as TreeViewItem).BringIntoView();
+            //        //(tv.Items[tv.Items.Count - 1] as TreeViewItem).IsExpanded = true;
+            //    }
+            //    uc.IsEnabled = true;
+            //}
+            //else
+            //{
+            //    tv.Items.Clear();
+            //    uc.IsEnabled = false;
+            //}
         }
 
 
@@ -217,6 +220,51 @@ namespace 脸滚键盘
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void TvLoad()
+        {
+            if (tv != null && true == FileOperate.IsFolderExists(Gval.Current.curBookPath))
+            {
+                tv.Items.Clear();
+
+                //获取当前notes对应的完整xml文件名
+                string fullXmlName_notes = Gval.Current.curBookPath + "/" + UcTag + ".xml";
+                if (true == FileOperate.IsFileExists(fullXmlName_notes))
+                {
+                    //TreeOperate.Show.FromSingleXml(tv, UcTag);
+                    TreeOperate.Show.ToBookTree.BySql(tv, UcTag);
+                    (tv.Items[tv.Items.Count - 1] as TreeViewItem).IsSelected = true;
+                    (tv.Items[tv.Items.Count - 1] as TreeViewItem).Focus();
+                    (tv.Items[tv.Items.Count - 1] as TreeViewItem).BringIntoView();
+                    //(tv.Items[tv.Items.Count - 1] as TreeViewItem).IsExpanded = true;
+                }
+                uc.IsEnabled = true;
+            }
+            else
+            {
+                tv.Items.Clear();
+                uc.IsEnabled = false;
+            }
+        }
+
+        private void tv_Loaded(object sender, RoutedEventArgs e)
+        {
+            //TvLoad();
+        }
+
+        private void renameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                selectedItem.IsSelected = false;
+            }
+            if (renameBox.Visibility == Visibility.Visible)
+            {
+                TreeOperate.ReName.Do(tv, curItem, renameBox, UcTag);
+                selectedItem.Focus();
+            }
         }
     }
 }

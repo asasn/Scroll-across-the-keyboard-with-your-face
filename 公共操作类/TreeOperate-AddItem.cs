@@ -16,7 +16,6 @@ namespace 脸滚键盘
             文档,
         }
 
-
         public static class AddItem
         {
             /// <summary>
@@ -34,10 +33,12 @@ namespace 脸滚键盘
                     case ItemType.目录:
                         newItem.Name = "dir";
                         newItem.Header = title;
+                        newItem.Uid = Guid.NewGuid().ToString();
                         break;
                     case ItemType.文档:
                         newItem.Name = "doc";
                         newItem.Header = title;
+                        newItem.Uid = Guid.NewGuid().ToString();
                         break;
                     default:
                         MessageBox.Show("无效的newItem");
@@ -125,6 +126,34 @@ namespace 脸滚键盘
                 SelectIt(newItem);
                 return newItem;
             }
+
+            public static void toTable(TreeViewItem newItem, string tableName)
+            {
+                if (tableName == "material")
+                {
+                    SqliteOperate.NewConnection(Gval.Base.AppPath + "/" + "material", "material.db");
+                }
+
+                tableName = "Tree_" + tableName;
+                string bsql = string.Format("CREATE TABLE IF NOT EXISTS {0}(Uid CHAR PRIMARY KEY, Pid CHAR, Header CHAR, Name CHAR, Uid CHAR, Tag CHAR, DataContext CHAR, WordsCount INTEGER, IsExpanded BOOLEAN);", tableName);
+                SqliteOperate.ExecuteNonQuery(bsql);
+                TreeViewItem parentItem = newItem.Parent as TreeViewItem;
+                string Pid;
+                if (parentItem != null)
+                {
+                    Pid = parentItem.Uid;
+                }
+                else
+                {
+                    Pid = "";
+                }
+                int WordsCount = EditorOperate.WordCount(newItem.DataContext.ToString());
+                string sql = string.Format("insert or ignore into {0} (Uid, Pid, Header, Name, Tag, DataContext, WordsCount, IsExpanded ) values ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', {7}, {8});", tableName, newItem.Uid, Pid, newItem.Header.ToString(), newItem.Name, newItem.Tag, newItem.DataContext, WordsCount, newItem.IsExpanded);
+                SqliteOperate.ExecuteNonQuery(sql);
+
+                //恢复默认连接
+                SqliteOperate.NewConnection();
+            }
         }
 
 
@@ -142,6 +171,8 @@ namespace 脸滚键盘
             thisItem.IsSelected = true;
             thisItem.Focus();
         }
+
+
 
 
     }

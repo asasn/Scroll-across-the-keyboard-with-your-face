@@ -127,16 +127,15 @@ namespace 脸滚键盘
         {
             string itemTitle = "新分卷";
             TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
-            if (selectedItem != null)
+
+            string volumePath = Gval.Current.curBookPath + "/" + itemTitle;
+            if (false == FileOperate.IsFolderExists(volumePath))
             {
-                string volumePath = Gval.Current.curBookPath + "/" + itemTitle;
-                if (false == FileOperate.IsFolderExists(volumePath))
-                {
-                    TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
-                    FileOperate.CreateFolder(volumePath);
-                    TreeOperate.Save.BookTree.SaveCurBook(tv);
-                    TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
-                }
+                TreeViewItem newItem = TreeOperate.AddItem.RootItem(tv, itemTitle, TreeOperate.ItemType.目录);
+                FileOperate.CreateFolder(volumePath);
+                TreeOperate.Save.BookTree.SaveCurBook(tv);
+                //TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                TreeOperate.AddItem.toTable(newItem, Gval.Current.curBookName);
             }
         }
 
@@ -158,10 +157,11 @@ namespace 脸滚键盘
                     string fullFileName = volumePath + "/" + itemTitle + ".txt";
                     if (false == FileOperate.IsFileExists(fullFileName))
                     {
-                        TreeOperate.AddItem.BrotherItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
+                        TreeViewItem newItem = TreeOperate.AddItem.BrotherItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                         FileOperate.CreateNewDoc(fullFileName);
                         TreeOperate.Save.BookTree.SaveCurBook(tv);
-                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                        //TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                        TreeOperate.AddItem.toTable(newItem, Gval.Current.curBookName);
                     }
                 }
                 if (level == 1)
@@ -174,10 +174,11 @@ namespace 脸滚键盘
                     }
                     if (false == FileOperate.IsFileExists(fullFileName))
                     {
-                        TreeOperate.AddItem.ChildItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
+                        TreeViewItem newItem = TreeOperate.AddItem.ChildItem(selectedItem, itemTitle, TreeOperate.ItemType.文档);
                         FileOperate.CreateNewDoc(fullFileName);
                         TreeOperate.Save.BookTree.SaveCurBook(tv);
-                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                        //TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                        TreeOperate.AddItem.toTable(newItem, Gval.Current.curBookName);
                     }
                 }
             }
@@ -197,7 +198,7 @@ namespace 脸滚键盘
             if (selectedItem != null)
             {
                 TreeViewItem bookItem = TreeOperate.GetRootItem(selectedItem);
-                TreeViewItem volumeItem = TreeOperate.GetItemByLevel(selectedItem, 2);
+                TreeViewItem volumeItem = TreeOperate.GetItemByLevel(selectedItem, 1);
                 string bookPath = Gval.Base.AppPath + "/" + UcTag + "/" + Gval.Current.curBookName;
                 string volumePath = bookPath + '/' + volumeItem.Header.ToString();
                 TreeViewItem parentItem = null;
@@ -218,22 +219,25 @@ namespace 脸滚键盘
                 //}
                 //else
                 //{
-                    if (selectedItem.Name == "doc")
-                    {
-                        string fullFileName = volumePath + '/' + selectedItem.Header.ToString() + ".txt";
-                        TreeOperate.DelItem.Do(selectedItem);
-                        FileOperate.deleteDoc(fullFileName);
-                        TreeOperate.Save.BookTree.SaveCurBook(tv);
-                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
-                    }
+                if (selectedItem.Name == "doc")
+                {
+                    TreeOperate.DelItem.toTable(selectedItem, Gval.Current.curBookName);
+                    string fullFileName = volumePath + '/' + selectedItem.Header.ToString() + ".txt";
+                    TreeOperate.DelItem.Do(selectedItem);
+                    FileOperate.deleteDoc(fullFileName);
+                    TreeOperate.Save.BookTree.SaveCurBook(tv);
+                    //TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                    
+                }
 
-                    if (selectedItem.Name == "dir")
-                    {
-                        TreeOperate.DelItem.Do(selectedItem);
-                        FileOperate.deleteDir(volumePath);
-                        TreeOperate.Save.BookTree.SaveCurBook(tv);
-                        TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
-                    }
+                if (selectedItem.Name == "dir")
+                {
+                    TreeOperate.DelItem.toTable(selectedItem, Gval.Current.curBookName);
+                    TreeOperate.DelItem.Do(selectedItem);
+                    FileOperate.deleteDir(volumePath);
+                    TreeOperate.Save.BookTree.SaveCurBook(tv);
+                    //TreeOperate.Save.BySql(tv, Gval.Current.curBookName);
+                }
                 //}
                 ChangeCurItem(parentItem);//更改当前节点指针
             }
@@ -482,7 +486,11 @@ namespace 脸滚键盘
             TreeOperate.ReNewCurrent(tv, selectedItem, UcTag);
             //触发其他控件的绑定变动事件
             CurItem = selectedItem;
-            selectedItem.Focus();
+            if (selectedItem != null)
+            {
+                selectedItem.Focus();
+            }
+            
         }
 
         /// <summary>
@@ -687,6 +695,12 @@ namespace 脸滚键盘
             drawerTbk.Text = "当前书籍：" + Gval.Current.curBookName;
             SqliteOperate.NewConnection();
             tv_Loaded(null, null);
+            Gval.ucNote.TvLoad();
+            Gval.ucTask.TvLoad();
+            Gval.ucRoleCard.TvLoad();
+            Gval.ucFactionCard.TvLoad();
+            Gval.ucGoodsCard.TvLoad();
+            Gval.ucCommonCard.TvLoad();
             Gval.ucEditor.IsEnabled = false;
         }
 
@@ -717,6 +731,21 @@ namespace 脸滚键盘
 
         private void DrawerLeftInContainer_MouseDown(object sender, MouseButtonEventArgs e)
         {
+        }
+
+
+        private void renameBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem selectedItem = tv.SelectedItem as TreeViewItem;
+            if (selectedItem != null)
+            {
+                selectedItem.IsSelected = false;
+            }
+            if (renameBox.Visibility == Visibility.Visible)
+            {
+                TreeOperate.ReName.Do(tv, Gval.Current.curItem, renameBox, UcTag);
+                ChangeCurItem(selectedItem);//更改当前节点指针
+            }
         }
     }
 }

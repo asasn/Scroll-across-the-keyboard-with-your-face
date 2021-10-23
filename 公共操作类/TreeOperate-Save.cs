@@ -35,7 +35,7 @@ namespace 脸滚键盘
                     }
                 }
                 reader.Close();
-                sql += string.Format("CREATE TABLE IF NOT EXISTS {0}(id CHAR PRIMARY KEY, pid CHAR, Header CHAR, Name CHAR, Uid CHAR, Tag CHAR, DataContext CHAR, IsExpanded BOOLEAN);", tableName);
+                sql += string.Format("CREATE TABLE IF NOT EXISTS {0}(Uid CHAR PRIMARY KEY, Pid CHAR, Header CHAR, Name CHAR, Uid CHAR, Tag CHAR, DataContext CHAR, WordsCount INTEGER, IsExpanded BOOLEAN);", tableName);
                 SqliteOperate.ExecuteNonQuery(sql);
                 Gsql = string.Empty;
                 ReTraversal(tv, tableName);
@@ -48,38 +48,36 @@ namespace 脸滚键盘
             static void ReTraversal(TreeView tv, string tableName)
             {
                 foreach (TreeViewItem item in tv.Items)
-                {
-                    //借用uid过桥，以便获取pid，所以在借用之前先转移数据
-                    string itemUid = item.Uid;
-                    item.Uid = TreeOperate.GetItemIndex(item);
+                {                    
                     item.Tag = item.Tag ?? "";
                     item.DataContext = item.DataContext ?? "";
+                    int WordsCount = EditorOperate.WordCount(item.DataContext.ToString());
                     item.IsExpanded = item.IsExpanded == true;
-                    Gsql += string.Format("insert or ignore into {0} (id, pid, Header, Name, Uid, Tag, DataContext, IsExpanded ) values ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', {8});", tableName, item.Uid, null, item.Header.ToString(), item.Name, itemUid, item.Tag, item.DataContext, item.IsExpanded);
+                    string guid = Guid.NewGuid().ToString();
+                    Gsql += string.Format("insert or ignore into {0} (Uid, Pid, Header, Name, Tag, DataContext, WordsCount, IsExpanded ) values ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', {7}, {8});", tableName, guid, null, item.Header.ToString(), item.Name, item.Tag, item.DataContext, WordsCount, item.IsExpanded);
                     //SqliteOperate.ExecuteNonQuery(sql);             
                     if (item.HasItems)
                     {
-                        ReTraversal(item, tableName);
+                        ReTraversal(item, tableName, guid);
                     }
                 }
 
             }
 
-            static void ReTraversal(TreeViewItem parentItem, string tableName)
+            static void ReTraversal(TreeViewItem parentItem, string tableName, string parentGuid)
             {
                 foreach (TreeViewItem item in parentItem.Items)
                 {
-                    //借用uid过桥，以便获取pid，所以在借用之前先转移数据
-                    string itemUid = item.Uid;
-                    item.Uid = TreeOperate.GetItemIndex(item);
                     item.Tag = item.Tag ?? "";
                     item.DataContext = item.DataContext ?? "";
+                    int WordsCount = EditorOperate.WordCount(item.DataContext.ToString());
                     item.IsExpanded = item.IsExpanded == true;
-                    Gsql += string.Format("insert or ignore into {0} (id, pid, Header, Name, Uid, Tag, DataContext, IsExpanded) values ('{1}', '{2}', '{3}','{4}', '{5}', '{6}', '{7}', {8});", tableName, item.Uid, parentItem.Uid, item.Header.ToString(), item.Name, itemUid, item.Tag, item.DataContext, item.IsExpanded);
+                    string guid = Guid.NewGuid().ToString();
+                    Gsql += string.Format("insert or ignore into {0} (Uid, Pid, Header, Name, Tag, DataContext, WordsCount, IsExpanded) values ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', {7}, {8});", tableName, guid, parentGuid, item.Header.ToString(), item.Name, item.Tag, item.DataContext, WordsCount, item.IsExpanded);
                     //SqliteOperate.ExecuteNonQuery(sql);                                     
                     if (item.HasItems)
                     {
-                        ReTraversal(item, tableName);
+                        ReTraversal(item, tableName, guid);
                     }
                 }
 
