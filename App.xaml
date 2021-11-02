@@ -1,14 +1,17 @@
 ﻿<Application x:Class="脸滚键盘.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:脸滚键盘"
+             xmlns:local="clr-namespace:脸滚键盘" 
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MyStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <local:VisibilityConverter x:Key="VisibilityConverter"/>
+            <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
