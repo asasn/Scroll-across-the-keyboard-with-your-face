@@ -4,9 +4,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        mc:Ignorable="d" UseLayoutRounding="True"
+        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
+        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" />
+        <Grid Grid.Column="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+        </Grid>
+
     </Grid>
 </Window>
