@@ -31,6 +31,8 @@ namespace 脸滚键盘.自定义控件
         {
             InitializeComponent();
         }
+
+        readonly string TypeOfTree = "book";
         /// <summary>
         /// 数据源：节点列表
         /// </summary>
@@ -39,11 +41,16 @@ namespace 脸滚键盘.自定义控件
 
         private void Tv_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadBook();
+
         }
 
         void LoadBook()
         {
+            if (Gval.CurrentBook.Name == null)
+            {
+                return;
+            }
+
             //数据初始化
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
 
@@ -57,18 +64,11 @@ namespace 脸滚键盘.自定义控件
                 IsDir = true
             };
 
-            TreeViewNode one = AddNewNode(TreeViewNodeList, TopNode);
-            AddNewNode(TreeViewNodeList, TopNode);
-            AddNewNode(TreeViewNodeList, TopNode);
-
-            AddNewNode(TreeViewNodeList, one);
-            AddNewNode(TreeViewNodeList, one);
-            AddNewNode(TreeViewNodeList, one);
 
             Gval.Flag.Loading = true;
 
             //从数据库中载入数据
-            //Load(TreeViewNodeList, TopNode);
+            Load(Gval.CurrentBook.Name, "book", TreeViewNodeList, TopNode);
 
             AddButtonNode(TreeViewNodeList, TopNode);
             Gval.Flag.Loading = false;
@@ -84,22 +84,285 @@ namespace 脸滚键盘.自定义控件
         private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
         {
 
+
+        }
+
+        #region 节点相关操作
+
+        #region 节点展开/缩回
+        /// <summary>
+        /// 节点展开
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tv_Expanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
+            if (selectedNode != null)
+            {
+                TreeOperate.ExpandedCollapsed(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
+            }
+        }
+
+        /// <summary>
+        /// 节点缩回
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tv_Collapsed(object sender, RoutedEventArgs e)
+        {
+            TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
+            if (selectedNode != null)
+            {
+                TreeOperate.ExpandedCollapsed(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
+            }
+        }
+        #endregion
+
+        #region 节点选择/双击
+
+        private void TreeView_Selected(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem selectedItem = e.OriginalSource as TreeViewItem;
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+
+            //载入节点的数据上下文以便调用
+            selectedNode.TheItem = selectedItem;
+
+            Grid grid = FindChild<Grid>(selectedItem as DependencyObject, "grid");
+            TextBlock showNameTextBox = FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
+            TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+            Button btnDel = FindChild<Button>(selectedItem as DependencyObject, "btnDel");
+
+            if (TbReName != null)
+            {
+                TbReName.Visibility = Visibility.Hidden;
+            }
+
+
+            //上下按钮可用/禁用
+            if (selectedNode.IsButton == true)
+            {
+                BtnMoveUp.IsEnabled = false;
+                BtnMoveDown.IsEnabled = false;
+            }
+            else
+            {
+                BtnMoveUp.Visibility = Visibility.Visible;
+                BtnMoveDown.Visibility = Visibility.Visible;
+                if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == 0)
+                {
+                    BtnMoveUp.IsEnabled = false;
+                }
+                else
+                {
+                    BtnMoveUp.IsEnabled = true;
+                }
+                if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == selectedNode.ParentNode.ChildNodes.Count - 2)
+                {
+                    BtnMoveDown.IsEnabled = false;
+                }
+                else
+                {
+                    BtnMoveDown.IsEnabled = true;
+                }
+            }
         }
 
         private void Tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
+            TreeViewItem selectedItem = TreeOperate.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
+            if (selectedNode != null)
+            {
+                if (selectedNode.IsButton == true)
+                {
+                    string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+                    SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode);
+                    string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
+                    sqlConn.ExecuteNonQuery(sql);
+                    newNode.IsSelected = true;
+                    //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
+                    //showNameTextBox.Visibility = Visibility.Hidden;
+                    //reNameTextBox.Text = newNode.NodeName;
+                    //reNameTextBox.SelectAll();
+                    //reNameTextBox.Visibility = Visibility.Visible;
+                    //reNameTextBox.Focus();
+                }
+                else
+                {
+                    if (selectedNode.IsDir == true)
+                    {
+                        //string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                        //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
+                        //sqlConn.ExecuteNonQuery(sql);
+                    }
+                    else
+                    {
+                        //双击选中节点，尝试进入编辑状态
+                        //CurNode = selectedNode;
+
+                        //Gval.ucEditor.CurNodeName = selectedItem.Name;
+
+                        //获取节点对应的路径
+                        string nodePath = GetPath(selectedNode);
+                        Console.WriteLine(nodePath);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region 节点重命名
+
+        private void TbReName_KeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox TbReName = sender as TextBox;
+            if (e.Key == Key.F2 ||
+                 e.Key == Key.Enter
+                 )
+            {
+                TbReName.Visibility = Visibility.Hidden;
+            }
         }
 
+        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            TextBox TbReName = sender as TextBox;
+            Grid grid = GetParentObjectEx<Grid>(TbReName as DependencyObject) as Grid;
+            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
+
+            TbkName.Visibility = Visibility.Visible;
+
+            Console.WriteLine(selectedNode.NodeName);
+
+            if (selectedNode != null)
+            {
+                string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName, selectedNode.Uid);
+                sqlConn.ExecuteNonQuery(sql);
+            }
+        }
+
+        private void Tv_KeyDown(object sender, KeyEventArgs e)
+        {
+            TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
+            TreeViewItem selectedItem = e.OriginalSource as TreeViewItem;
+
+            if (selectedItem != null)
+            {
+                if (e.Key == Key.F2)
+                {
+                    TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                    TbReName.SelectAll();
+                    TbReName.Visibility = Visibility.Visible;
+                    TbReName.Focus();
+                }
+            }
+
+
+        }
+        #endregion
+
+        #region 节点删除
+        /// <summary>
+        /// 方法：删除节点按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DelNode(TreeViewNode selectedNode)
+        {
+            if (selectedNode == null || selectedNode.IsButton == true)
+            {
+                return;
+            }
+            if (selectedNode.IsDir == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n将会不经回收站直接删除，请进行确认！\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
+            string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            RecursionDel(selectedNode, sqlConn);
+            string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+
+            //这里注意删除和获取索引号的先后顺序
+            TreeViewNode parentNode = selectedNode.ParentNode;
+            int n = parentNode.ChildNodes.IndexOf(selectedNode);
+            TreeViewNodeList.Remove(selectedNode);
+            parentNode.ChildNodes.Remove(selectedNode);
+            if (parentNode.ChildNodes.Count >= 2)
+            {
+                if (n > parentNode.ChildNodes.Count - 2)
+                {
+                    n--;
+                }
+                TreeViewNode node = parentNode.ChildNodes[n];
+                if (node != null)
+                {
+                    node.IsSelected = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 方法：递归删除子节点
+        /// </summary>
+        /// <param name="baseNode"></param>
+        /// <param name="sqlConn"></param>
+        void RecursionDel(TreeViewNode baseNode, SqliteOperate sqlConn)
+        {
+            if (baseNode.IsDir == true)
+            {
+                for (int i = 0; i < baseNode.ChildNodes.Count; i++)
+                {
+                    string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+                    string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
+                    sqlConn.ExecuteNonQuery(sql);
+                    RecursionDel(baseNode.ChildNodes[i], sqlConn);
+                    TreeViewNodeList.Remove(baseNode.ChildNodes[i]);
+                }
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region 右键菜单
         private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
         {
+            TreeViewNode selectedNode = (TreeViewNode)Tv.SelectedItem;
+            if (selectedNode != null)
+            {
+                if (selectedNode.IsButton == false)
+                {
+                    ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = true;
+                }
+                else
+                {
+                    ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = false;
+                }
+            }
 
         }
 
         private void Command_Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            DelNode(selectedNode);
         }
+        #endregion
+
+
 
         #region 书籍目录抽屉
 
@@ -146,7 +409,7 @@ namespace 脸滚键盘.自定义控件
 
                 if (BookUid == Gval.CurrentBook.Uid)
                 {
-                     ChoseBookChange(bookCard);
+                    ChoseBookChange(bookCard);
                 }
             }
             reader.Close();
@@ -208,8 +471,8 @@ namespace 脸滚键盘.自定义控件
             DrawerTbk.Text = "当前书籍：" + bookCard.Header.ToString();
             SettingsOperate.Set("curBookUid", bookCard.Uid);
             SettingsOperate.Set("curBookName", bookCard.Header.ToString());
-
             GetBookInfoForGval(bookCard.Uid);
+            LoadBook();
 
             //Gval.ucNote.TvLoad();
             //Gval.ucTask.TvLoad();
@@ -235,11 +498,8 @@ namespace 脸滚键盘.自定义控件
                 TbNewBookName.Clear();
                 TbNewBookName.IsEnabled = false;
             }
-     
+
         }
-
-        #endregion
-
         private void TbNewBookName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -281,5 +541,16 @@ namespace 脸滚键盘.自定义控件
             WpBooks.Children.Clear();
             DrawerLeftInContainer_Loaded(null, null);
         }
+
+
+
+
+
+
+
+        #endregion
+
     }
+
+
 }

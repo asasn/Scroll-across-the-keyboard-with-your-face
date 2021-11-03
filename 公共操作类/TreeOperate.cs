@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Data.SQLite;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace 脸滚键盘.公共操作类
 {
@@ -25,10 +29,6 @@ namespace 脸滚键盘.公共操作类
                 {
                     if (this.IsDir == true && propertyName == "IsExpanded")
                     {
-                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
-                        //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", Gval.CurrentBook.Name, this.IsExpanded, this.Uid);
-                        //sqlConn.ExecuteNonQuery(sql);
-
                         if (this.IsExpanded == true)
                         {
                             this.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
@@ -382,9 +382,232 @@ namespace 脸滚键盘.公共操作类
 
         #endregion
 
-        #region MyRegion
+        #region 载入书籍
+
+        public static void Load(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode TopNode)
+        {
+            string tableName = curBookName + "_" + typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded  BOOLEAN);", tableName);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("SELECT * FROM Tree_{0} where Pid='';", tableName);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                TreeViewNode node = new TreeViewNode
+                {
+                    Uid = reader["Uid"].ToString(),
+                    Pid = reader["Pid"].ToString(),
+                    NodeName = reader["NodeName"].ToString(),
+                    IsDir = (bool)reader["IsDir"],
+                    NodeContent = reader["NodeContent"].ToString(),
+                    WordsCount = Convert.ToInt32(reader["WordsCount"]),
+                    IsExpanded = (bool)reader["IsExpanded"]
+                };
+                LoadNode(node, TreeViewNodeList, TopNode);
+                ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
+            }
+            reader.Close();
+        }
+
+
+        static void LoadNode(TreeViewNode node, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
+        {
+            int x;
+            if (baseNode.ChildNodes.Count == 0)
+            {
+                //补偿索引，以便适应存在按钮的情况
+                x = 1;
+            }
+            else
+            {
+                x = baseNode.ChildNodes.Count;
+            }
+            if (string.IsNullOrEmpty(baseNode.Uid))
+            {
+                TreeViewNodeList.Insert(x - 1, node);
+                AddButtonNode(TreeViewNodeList, node);
+            }
+            baseNode.ChildNodes.Insert(x - 1, node);
+        }
+
+        static void ShowTree(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
+        {
+            string tableName = curBookName + "_" + typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, parentNode.Uid);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                TreeViewNode node = new TreeViewNode
+                {
+                    Uid = reader["Uid"].ToString(),
+                    Pid = reader["Pid"].ToString(),
+                    NodeName = reader["NodeName"].ToString(),
+                    IsDir = (bool)reader["IsDir"],
+                    NodeContent = reader["NodeContent"].ToString(),
+                    WordsCount = Convert.ToInt32(reader["WordsCount"]),
+                    IsExpanded = (bool)reader["IsExpanded"]
+                };
+                LoadNode(node, TreeViewNodeList, parentNode);
+                ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
+            }
+            reader.Close();
+        }
+        #endregion
+
+        #region 在数据库中的操作
+
+        /// <summary>
+        /// 节点伸展/缩回
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="selectedNode"></param>
+        public static void ExpandedCollapsed(string curBookName, string typeOfTree, TreeViewNode selectedNode)
+        {
+            string tableName = curBookName + "_" + typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+        }
+        #endregion
+        #region 获取控件
+
+        /// <summary>
+        /// 根据节点对应的路径
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static string GetPath(TreeViewNode selectedNode)
+        {
+            ArrayList nodes = new ArrayList();
+            string nodePath = string.Empty;
+            TreeViewNode curNode = selectedNode;
+
+            if (selectedNode != null)
+            {
+                do
+                {
+                    nodes.Add(curNode);
+                    curNode = curNode.ParentNode;
+                } while (curNode.ParentNode != null);
+                nodes.Reverse();//倒序操作
+                foreach (TreeViewNode node in nodes)
+                {
+                    if (node.IsDir == true)
+                    {
+                        nodePath += "/" + node.NodeName;
+                    }
+                    else
+                    {
+                        nodePath += "/" + node.NodeName + ".txt";
+                    }
+
+                }
+
+            }
+            return nodePath;
+        }
+
+        /// <summary>
+        /// 获取子控件
+        /// </summary>
+        public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
+        {
+            if (obj == null)
+            {
+                return null;
+            }
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is childItem)
+                    return (childItem)child;
+                else
+                {
+                    childItem childOfChild = FindVisualChild<childItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 按名称查找子控件
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parent"></param>
+        /// <param name="childName"></param>
+        /// <returns></returns>
+        public static T FindChild<T>(DependencyObject parent, string childName) where T : DependencyObject
+        {
+            if (parent == null) return null;
+
+            T foundChild = null;
+
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                // 如果子控件不是需查找的控件类型
+                T childType = child as T;
+                if (childType == null)
+                {
+                    // 在下一级控件中递归查找
+                    foundChild = FindChild<T>(child, childName);
+
+                    // 找到控件就可以中断递归操作 
+                    if (foundChild != null) break;
+                }
+                else if (!string.IsNullOrEmpty(childName))
+                {
+                    var frameworkElement = child as FrameworkElement;
+                    // 如果控件名称符合参数条件
+                    if (frameworkElement != null && frameworkElement.Name == childName)
+                    {
+                        foundChild = (T)child;
+                        break;
+                    }
+                    // 在下一级控件中递归查找
+                    foundChild = FindChild<T>(child, childName);
+
+                    // 找到控件就可以中断递归操作 
+                    if (foundChild != null) break;
+                }
+                else
+                {
+                    // 查找到了控件
+                    foundChild = (T)child;
+                    break;
+                }
+            }
+
+            return foundChild;
+        }
+
+        /// <summary>
+        /// 获取父控件
+        /// </summary>
+        public static TreeViewItem GetParentObjectEx<TreeViewItem>(DependencyObject obj) where TreeViewItem : FrameworkElement
+        {
+            if (obj == null)
+            {
+                return null;
+            }
+            DependencyObject parent = VisualTreeHelper.GetParent(obj);
+            while (parent != null)
+            {
+                if (parent is TreeViewItem)
+                {
+                    return (TreeViewItem)parent;
+                }
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return null;
+        }
 
         #endregion
-        
     }
 }
