@@ -17,6 +17,8 @@ namespace 脸滚键盘.公共操作类
 
         public struct CurrentBook
         {
+            public static string Uid;
+
             public static string Name;
 
             public static double Price;
