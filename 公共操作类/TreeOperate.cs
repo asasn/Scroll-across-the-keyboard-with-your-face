@@ -332,7 +332,7 @@ namespace 脸滚键盘.公共操作类
         /// 添加节点
         /// </summary>
         /// <param name="baseNode"></param>
-        public static TreeViewNode AddNewNode(ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
+        public static TreeViewNode AddNewNode(ObservableCollection<TreeViewNode> treeViewNodeList, TreeViewNode baseNode)
         {
             string guid = Guid.NewGuid().ToString();
             TreeViewNode newNode = new TreeViewNode(guid, "新节点");
@@ -348,8 +348,8 @@ namespace 脸滚键盘.公共操作类
             }
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
-                TreeViewNodeList.Insert(x - 1, newNode);
-                AddButtonNode(TreeViewNodeList, newNode);
+                treeViewNodeList.Insert(x - 1, newNode);
+                AddButtonNode(treeViewNodeList, newNode);
             }
             baseNode.ChildNodes.Insert(x - 1, newNode);
             return newNode;
@@ -380,11 +380,31 @@ namespace 脸滚键盘.公共操作类
             return button;
         }
 
+        /// <summary>
+        /// 在数据库中添加节点记录
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="selectedNode"></param>
+        /// <param name="treeViewNodeList"></param>
+        public static void AddNodeBySql(string curBookName, string typeOfTree, TreeViewNode newNode)
+        {
+            string tableName = curBookName + "_" + typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");            
+            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
+            sqlConn.ExecuteNonQuery(sql);
+        }
         #endregion
 
         #region 载入书籍
-
-        public static void Load(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode TopNode)
+        /// <summary>
+        /// 从数据库中递归载入节点记录
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="TreeViewNodeList"></param>
+        /// <param name="TopNode"></param>
+        public static void LoadBySql(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode TopNode)
         {
             string tableName = curBookName + "_" + typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
@@ -410,7 +430,12 @@ namespace 脸滚键盘.公共操作类
             reader.Close();
         }
 
-
+        /// <summary>
+        /// 在视图中载入节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="TreeViewNodeList"></param>
+        /// <param name="baseNode"></param>
         static void LoadNode(TreeViewNode node, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
         {
             int x;
@@ -431,6 +456,13 @@ namespace 脸滚键盘.公共操作类
             baseNode.ChildNodes.Insert(x - 1, node);
         }
 
+        /// <summary>
+        /// 在视图中载入节点
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="TreeViewNodeList"></param>
+        /// <param name="parentNode"></param>
         static void ShowTree(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
         {
             string tableName = curBookName + "_" + typeOfTree;
@@ -456,7 +488,43 @@ namespace 脸滚键盘.公共操作类
         }
         #endregion
 
-        #region 在数据库中的操作
+        #region 在数据库中的其他操作
+        /// <summary>
+        /// 删除节点
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="selectedNode"></param>
+        /// <param name="treeViewNodeList"></param>
+        public static void DelNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, ObservableCollection<TreeViewNode> treeViewNodeList)
+        {
+            string tableName = curBookName + "_" + typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            RecursionDelBySql(curBookName, typeOfTree, selectedNode, sqlConn, treeViewNodeList);
+            string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+        }
+
+
+        /// <summary>
+        /// 方法：递归删除子节点
+        /// </summary>
+        /// <param name="baseNode"></param>
+        /// <param name="sqlConn"></param>
+        static void RecursionDelBySql(string curBookName, string typeOfTree, TreeViewNode baseNode, SqliteOperate sqlConn, ObservableCollection<TreeViewNode> treeViewNodeList)
+        {
+            if (baseNode.IsDir == true)
+            {
+                for (int i = 0; i < baseNode.ChildNodes.Count; i++)
+                {
+                    string tableName = curBookName + "_" + typeOfTree;
+                    string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
+                    sqlConn.ExecuteNonQuery(sql);
+                    RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
+                    treeViewNodeList.Remove(baseNode.ChildNodes[i]);
+                }
+            }
+        }
 
         /// <summary>
         /// 节点伸展/缩回
@@ -464,7 +532,7 @@ namespace 脸滚键盘.公共操作类
         /// <param name="curBookName"></param>
         /// <param name="typeOfTree"></param>
         /// <param name="selectedNode"></param>
-        public static void ExpandedCollapsed(string curBookName, string typeOfTree, TreeViewNode selectedNode)
+        public static void ExpandedCollapsedBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode)
         {
             string tableName = curBookName + "_" + typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
@@ -473,6 +541,33 @@ namespace 脸滚键盘.公共操作类
         }
         #endregion
         #region 获取控件
+
+
+        /// <summary>
+        /// 获取节点所在的层级，无选中或者不在TreeView内的为-1
+        /// </summary>
+        /// <param name="selectedNode"></param>
+        /// <returns></returns>
+        public static int GetLevel(TreeViewNode selectedNode)
+        {
+            int level = -1;
+            if (selectedNode != null)
+            {
+                while ((selectedNode.ParentNode as TreeViewNode) != null)
+                {
+                    selectedNode = selectedNode.ParentNode as TreeViewNode;
+                    level--;
+                }
+                level = System.Math.Abs(level);
+                return level;
+            }
+            else
+            {
+                return level;
+            }
+
+        }
+
 
         /// <summary>
         /// 根据节点对应的路径

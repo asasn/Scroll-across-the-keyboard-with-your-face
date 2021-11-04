@@ -64,28 +64,21 @@ namespace 脸滚键盘.自定义控件
                 IsDir = true
             };
 
-
+           
             Gval.Flag.Loading = true;
 
-            //从数据库中载入数据
-            Load(Gval.CurrentBook.Name, "book", TreeViewNodeList, TopNode);
-
             AddButtonNode(TreeViewNodeList, TopNode);
+
+            //从数据库中载入数据
+            LoadBySql(Gval.CurrentBook.Name, "book", TreeViewNodeList, TopNode);
+
+            
             Gval.Flag.Loading = false;
         }
 
 
 
-        private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
-
-        private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
-        {
-
-
-        }
 
         #region 节点相关操作
 
@@ -100,7 +93,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null)
             {
-                TreeOperate.ExpandedCollapsed(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
+                TreeOperate.ExpandedCollapsedBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
             }
         }
 
@@ -114,7 +107,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null)
             {
-                TreeOperate.ExpandedCollapsed(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
+                TreeOperate.ExpandedCollapsedBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
             }
         }
         #endregion
@@ -178,11 +171,8 @@ namespace 脸滚键盘.自定义控件
             {
                 if (selectedNode.IsButton == true)
                 {
-                    string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
-                    SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
                     TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode);
-                    string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
-                    sqlConn.ExecuteNonQuery(sql);
+                    TreeOperate.AddNodeBySql(Gval.CurrentBook.Name, TypeOfTree, newNode);
                     newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
@@ -289,13 +279,11 @@ namespace 脸滚键盘.自定义控件
                     return;
                 }
             }
-            string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
-            RecursionDel(selectedNode, sqlConn);
-            string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
 
-            //这里注意删除和获取索引号的先后顺序
+            //在数据库中删除节点记录
+            TreeOperate.DelNodeBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode, TreeViewNodeList);
+
+            //在视图中删除节点，这里注意删除和获取索引号的先后顺序
             TreeViewNode parentNode = selectedNode.ParentNode;
             int n = parentNode.ChildNodes.IndexOf(selectedNode);
             TreeViewNodeList.Remove(selectedNode);
@@ -314,25 +302,297 @@ namespace 脸滚键盘.自定义控件
             }
         }
 
+        #endregion
+
+        #region 向上/向下调整节点
+
+
         /// <summary>
-        /// 方法：递归删除子节点
+        /// 事件：向上调整节点位置按钮点击
         /// </summary>
-        /// <param name="baseNode"></param>
-        /// <param name="sqlConn"></param>
-        void RecursionDel(TreeViewNode baseNode, SqliteOperate sqlConn)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
         {
-            if (baseNode.IsDir == true)
+            //已经采用按钮控件btnUp的可用/禁用来作判断，所以不必再次检查临近节点索引是否合法
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n - 1];
+            if (selectedNode == null || neighboringNode == null)
             {
-                for (int i = 0; i < baseNode.ChildNodes.Count; i++)
+                return;
+            }
+
+            string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            //更新数据库中临近节点记录集
+            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, neighboringNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+
+            //节点索引交换位置
+            TreeViewNode tempNode = selectedNode;
+            if (tempNode.Pid == "")
+            {
+                TreeViewNodeList.Remove(selectedNode);
+                TreeViewNodeList.Insert(n - 1, selectedNode);
+            }
+            tempNode.ParentNode.ChildNodes.Remove(selectedNode);
+            neighboringNode.ParentNode.ChildNodes.Insert(n - 1, tempNode);
+        }
+
+        /// <summary>
+        /// 事件：向下调整节点位置按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
+        {
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n + 1];
+            if (selectedNode == null || neighboringNode == null)
+            {
+                return;
+            }
+            string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            //更新数据库中临近节点记录集
+            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, neighboringNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+
+            //节点索引交换位置
+            TreeViewNode tempNode = selectedNode;
+            if (tempNode.Pid == "")
+            {
+                TreeViewNodeList.Remove(selectedNode);
+                TreeViewNodeList.Insert(n + 1, selectedNode);
+            }
+            tempNode.ParentNode.ChildNodes.Remove(selectedNode);
+            neighboringNode.ParentNode.ChildNodes.Insert(n + 1, tempNode);
+        }
+
+
+        #endregion
+
+        #region 拖曳操作相关
+
+
+        /// <summary>
+        /// 方法：获取最近的控件
+        /// </summary>
+        private TreeViewItem GetNearestContainer(UIElement element)
+        {
+            TreeViewItem container = element as TreeViewItem;
+            while ((container == null) && (element != null))
+            {
+                element = VisualTreeHelper.GetParent(element) as UIElement;
+                container = element as TreeViewItem;
+            }
+            return container;
+        }
+
+
+        TreeViewItem orginItem = new TreeViewItem();
+        TreeViewItem oldItem = new TreeViewItem();
+        int orginLevel = -1;
+        int dropLevel = -1;
+        /// <summary>
+        /// 事件：进入拖拽状态，改变字体颜色
+        /// </summary>
+        private void Tv_DragEnter(object sender, DragEventArgs e)
+        {
+
+            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+            TreeViewNode dragNode = container.DataContext as TreeViewNode;
+            if (orginLevel == -1)
+            {
+                orginLevel = GetLevel(dragNode);
+            }
+            if (orginItem == new TreeViewItem())
+            {
+                orginItem = container;
+            }
+            dropLevel = GetLevel(dragNode);
+
+
+            if (container != null)
+            {
+                oldItem = container;
+                if (dragNode.IsButton == false && orginLevel >= dropLevel)
                 {
-                    string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
-                    string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
-                    sqlConn.ExecuteNonQuery(sql);
-                    RecursionDel(baseNode.ChildNodes[i], sqlConn);
-                    TreeViewNodeList.Remove(baseNode.ChildNodes[i]);
+                    container.Foreground = new SolidColorBrush(Colors.Orange);
                 }
             }
+
         }
+
+        /// <summary>
+        /// 事件：离开拖曳状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tv_DragLeave(object sender, DragEventArgs e)
+        {
+            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+            container.Foreground = orginItem.Foreground;
+            if (container != null)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 事件：离开拖曳状态（放下）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tv_Drop(object sender, DragEventArgs e)
+        {
+            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+            TreeViewNode dragNode = (sender as TreeView).SelectedValue as TreeViewNode;
+            TreeViewNode dropNode = container.DataContext as TreeViewNode;
+            container.Foreground = orginItem.Foreground;
+
+            if (container != null)
+            {
+                //oldItem = container;
+                if (dropNode.IsButton == false && dragNode != dropNode)
+                {
+                    //放入目标目录（源级别要更深，才能往浅的目标拖动）
+                    if (GetLevel(dragNode) > GetLevel(dropNode))
+                    {
+                        Console.WriteLine("放入目标目录");
+                        int m = dropNode.ChildNodes.Count;
+                        if (m > 0)
+                        {
+                            //原目录
+                            if (dropNode.Uid == dragNode.Pid)
+                            {
+                                m -= 2;
+                            }
+                            else
+                            {
+                                m -= 1;
+                            }
+                        }
+
+
+                        string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+                        SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                        //更新数据库中临近节点记录集
+                        DelNodeBySql(Gval.CurrentBook.Name, TypeOfTree, dragNode, TreeViewNodeList);
+                        //更换改变pid
+                        dragNode.Pid = dropNode.Uid;
+                        AddNodeBySql(Gval.CurrentBook.Name, TypeOfTree, dragNode);
+
+                        //节点索引交换位置
+                        TreeViewNode tempNode = dragNode;
+                        if (tempNode.Pid == "")
+                        {
+                            TreeViewNodeList.Remove(dragNode);
+                            TreeViewNodeList.Insert(m, dragNode);
+                        }
+                        dragNode.ParentNode.ChildNodes.Remove(dragNode);
+                        dropNode.ChildNodes.Insert(m, tempNode);
+                    }
+                    //同级调换
+                    if (GetLevel(dropNode) == GetLevel(dragNode))
+                    {
+                        Console.WriteLine("同级调换");
+                        int n = dragNode.ParentNode.ChildNodes.IndexOf(dragNode);
+                        int m = dropNode.ParentNode.ChildNodes.IndexOf(dropNode);
+                        if (dragNode.Pid != dropNode.Pid)
+                        {
+                            m += 1;
+                        }
+                        if (dragNode == null || dropNode == null)
+                        {
+                            return;
+                        }
+
+                        string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
+                        SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                        //更新数据库中临近节点记录集
+                        string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", dropNode.Pid, dragNode.NodeName, dragNode.IsDir, dragNode.NodeContent, dragNode.WordsCount, dragNode.IsExpanded, dropNode.Uid);
+                        sqlConn.ExecuteNonQuery(sql);
+                        sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, dropNode.Uid, dropNode.Pid, dropNode.NodeName, dropNode.IsDir, dropNode.NodeContent, dropNode.WordsCount, dropNode.IsExpanded, dragNode.Uid);
+                        sqlConn.ExecuteNonQuery(sql);
+                        sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, dragNode.Uid);
+                        sqlConn.ExecuteNonQuery(sql);
+
+                        //节点索引交换位置
+                        TreeViewNode tempNode = dragNode;
+                        if (tempNode.Pid == "")
+                        {
+                            TreeViewNodeList.Remove(dragNode);
+                            TreeViewNodeList.Insert(m, dragNode);
+                        }
+                        dragNode.ParentNode.ChildNodes.Remove(dragNode);
+                        dropNode.ParentNode.ChildNodes.Insert(m, tempNode);
+                    }
+                }
+            }
+            orginLevel = -1;
+            dropLevel = -1;
+            orginItem = new TreeViewItem();
+        }
+
+
+        Point _lastMouseDown;
+        /// <summary>
+        /// 事件：鼠标移动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tv_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    //获取鼠标移动的距离
+                    Point currentPosition = e.GetPosition(Tv);
+
+                    //判断鼠标是否移动
+                    if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
+                        (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
+                    {
+                        //获取鼠标选中的节点数据
+                        TreeViewNode draggedNode = (TreeViewNode)Tv.SelectedItem;
+                        if (draggedNode != null && draggedNode.IsButton == false)
+                        {
+                            //启动拖放操作
+                            //DragDropEffects finalDropEffect = DragDrop.DoDragDrop(treeView, treeView.SelectedValue,System.Windows.DragDropEffects.Move);
+                            DragDrop.DoDragDrop(Tv, Tv.SelectedValue, System.Windows.DragDropEffects.Move);
+                            e.Handled = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        /// 事件：鼠标经过
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Tv_DragOver(object sender, DragEventArgs e)
+        {
+            TreeViewItem dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
+        }
+
+
+
         #endregion
 
         #endregion
@@ -548,7 +808,12 @@ namespace 脸滚键盘.自定义控件
 
 
 
+
+
+
+
         #endregion
+
 
     }
 
