@@ -327,6 +327,23 @@ namespace 脸滚键盘.公共操作类
         }
         #endregion
 
+
+        #region 节点拖曳/移动（改变索引）
+
+        public static void SwapNode(int m, TreeViewNode dragNode, TreeViewNode dropNode, ObservableCollection<TreeViewNode> treeViewNodeList)
+        {
+            TreeViewNode tempNode = dragNode;
+            if (tempNode.Pid == "")
+            {
+                treeViewNodeList.Remove(dragNode);
+                treeViewNodeList.Insert(m, dragNode);
+            }
+            tempNode.ParentNode.ChildNodes.Remove(dragNode);
+            dropNode.ParentNode.ChildNodes.Insert(m, tempNode);
+        }
+
+        #endregion
+
         #region 添加或者删除节点/按钮
         /// <summary>
         /// 添加节点
@@ -489,6 +506,26 @@ namespace 脸滚键盘.公共操作类
         #endregion
 
         #region 在数据库中的其他操作
+        /// <summary>
+        /// 同级节点记录在数据库中对调顺序
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="selectedNode"></param>
+        /// <param name="neighboringNode"></param>
+        public static void SwapNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, TreeViewNode neighboringNode)
+        {
+            string tableName = curBookName + "_" + typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            //更新数据库中临近节点记录集
+            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, neighboringNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+        }
+
         /// <summary>
         /// 删除节点
         /// </summary>

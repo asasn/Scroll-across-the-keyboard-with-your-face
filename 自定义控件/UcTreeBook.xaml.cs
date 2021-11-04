@@ -38,7 +38,6 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
 
-
         private void Tv_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -317,31 +316,18 @@ namespace 脸滚键盘.自定义控件
             //已经采用按钮控件btnUp的可用/禁用来作判断，所以不必再次检查临近节点索引是否合法
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
-            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n - 1];
+            n--;
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n];
             if (selectedNode == null || neighboringNode == null)
             {
                 return;
             }
 
-            string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
-            //更新数据库中临近节点记录集
-            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, neighboringNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            //数据库中的处理
+            TreeOperate.SwapNodeBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeViewNode tempNode = selectedNode;
-            if (tempNode.Pid == "")
-            {
-                TreeViewNodeList.Remove(selectedNode);
-                TreeViewNodeList.Insert(n - 1, selectedNode);
-            }
-            tempNode.ParentNode.ChildNodes.Remove(selectedNode);
-            neighboringNode.ParentNode.ChildNodes.Insert(n - 1, tempNode);
+            TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
         }
 
         /// <summary>
@@ -353,30 +339,18 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
-            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n + 1];
+            n++;
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n];
             if (selectedNode == null || neighboringNode == null)
             {
                 return;
             }
-            string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
-            //更新数据库中临近节点记录集
-            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, neighboringNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+
+            //数据库中的处理
+            TreeOperate.SwapNodeBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeViewNode tempNode = selectedNode;
-            if (tempNode.Pid == "")
-            {
-                TreeViewNodeList.Remove(selectedNode);
-                TreeViewNodeList.Insert(n + 1, selectedNode);
-            }
-            tempNode.ParentNode.ChildNodes.Remove(selectedNode);
-            neighboringNode.ParentNode.ChildNodes.Insert(n + 1, tempNode);
+            TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
         }
 
 
@@ -493,14 +467,7 @@ namespace 脸滚键盘.自定义控件
                         AddNodeBySql(Gval.CurrentBook.Name, TypeOfTree, dragNode);
 
                         //节点索引交换位置
-                        TreeViewNode tempNode = dragNode;
-                        if (tempNode.Pid == "")
-                        {
-                            TreeViewNodeList.Remove(dragNode);
-                            TreeViewNodeList.Insert(m, dragNode);
-                        }
-                        dragNode.ParentNode.ChildNodes.Remove(dragNode);
-                        dropNode.ChildNodes.Insert(m, tempNode);
+                        TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
                     }
                     //同级调换
                     if (GetLevel(dropNode) == GetLevel(dragNode))
@@ -517,25 +484,11 @@ namespace 脸滚键盘.自定义控件
                             return;
                         }
 
-                        string tableName = Gval.CurrentBook.Name + "_" + TypeOfTree;
-                        SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
-                        //更新数据库中临近节点记录集
-                        string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", dropNode.Pid, dragNode.NodeName, dragNode.IsDir, dragNode.NodeContent, dragNode.WordsCount, dragNode.IsExpanded, dropNode.Uid);
-                        sqlConn.ExecuteNonQuery(sql);
-                        sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, dropNode.Uid, dropNode.Pid, dropNode.NodeName, dropNode.IsDir, dropNode.NodeContent, dropNode.WordsCount, dropNode.IsExpanded, dragNode.Uid);
-                        sqlConn.ExecuteNonQuery(sql);
-                        sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, dragNode.Uid);
-                        sqlConn.ExecuteNonQuery(sql);
+                        //数据库中的处理
+                        TreeOperate.SwapNodeBySql(Gval.CurrentBook.Name, TypeOfTree, dragNode, dropNode);
 
                         //节点索引交换位置
-                        TreeViewNode tempNode = dragNode;
-                        if (tempNode.Pid == "")
-                        {
-                            TreeViewNodeList.Remove(dragNode);
-                            TreeViewNodeList.Insert(m, dragNode);
-                        }
-                        dragNode.ParentNode.ChildNodes.Remove(dragNode);
-                        dropNode.ParentNode.ChildNodes.Insert(m, tempNode);
+                        TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
                     }
                 }
             }
@@ -621,7 +574,6 @@ namespace 脸滚键盘.自定义控件
             DelNode(selectedNode);
         }
         #endregion
-
 
 
         #region 书籍目录抽屉
@@ -801,6 +753,7 @@ namespace 脸滚键盘.自定义控件
             WpBooks.Children.Clear();
             DrawerLeftInContainer_Loaded(null, null);
         }
+
 
 
 
