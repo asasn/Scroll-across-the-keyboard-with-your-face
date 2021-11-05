@@ -20,6 +20,7 @@
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="btnShowBooks" Padding="5" Foreground="DodgerBlue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource StarGeometry}" Click="BtnShowBooks_Click"/>
+                <TextBlock Grid.Column="1" Padding="2" x:Name="TbkCurBookName" Foreground="DodgerBlue" VerticalAlignment="Center" FontWeight="Bold"/>
                 <Button Grid.Column="2" Padding="1" x:Name="BtnMoveUp" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource UpGeometry}" HorizontalAlignment="Right"  Click="BtnMoveUp_Click" VerticalAlignment="Top" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
                 <Button Grid.Column="2" Padding="1" x:Name="BtnMoveDown" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DownGeometry}" HorizontalAlignment="Right" Click="BtnMoveDown_Click" VerticalAlignment="Bottom" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
             </Grid>

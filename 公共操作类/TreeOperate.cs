@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.SQLite;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,26 +17,26 @@ namespace 脸滚键盘.公共操作类
         public class TreeViewNode : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged;
-            protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            public void OnPropertyChanged([CallerMemberName] string propertyName = null)
             {
                 PropertyChangedEventHandler handler = PropertyChanged;
                 if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-                if (this.isButton == false && Gval.Flag.Loading == false)
-                {
-                    if (this.IsDir == true && propertyName == "IsExpanded")
-                    {
-                        if (this.IsExpanded == true)
-                        {
-                            this.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
-                        }
-                        else
-                        {
-                            this.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
-                        }
-                    }
+                //if (this.isButton == false && Gval.Flag.Loading == false)
+                //{
+                //    if (this.IsDir == true && propertyName == "IsExpanded")
+                //    {
+                //        if (this.IsExpanded == true)
+                //        {
+                //            this.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
+                //        }
+                //        else
+                //        {
+                //            this.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+                //        }
+                //    }
 
 
-                }
+                //}
 
             }
 
@@ -289,28 +285,28 @@ namespace 脸滚键盘.公共操作类
                     this.isDir = true;
                     stuff.Pid = this.Uid;
                     stuff.ParentNode = this;
-                    if (stuff.isButton == true)
-                    {
-                        stuff.IconPath = Gval.Path.App + "/Resourse/ic_action_add.png";
-                    }
-                    else
-                    {
-                        if (stuff.isDir == true)
-                        {
-                            if (stuff.IsExpanded == true)
-                            {
-                                stuff.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
-                            }
-                            else
-                            {
-                                stuff.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
-                            }
-                        }
-                        else
-                        {
-                            stuff.iconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
-                        }
-                    }
+                    //if (stuff.isButton == true)
+                    //{
+                    //    stuff.IconPath = Gval.Path.App + "/Resourse/ic_action_add.png";
+                    //}
+                    //else
+                    //{
+                    //    if (stuff.isDir == true)
+                    //    {
+                    //        if (stuff.IsExpanded == true)
+                    //        {
+                    //            stuff.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
+                    //        }
+                    //        else
+                    //        {
+                    //            stuff.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        stuff.iconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
+                    //    }
+                    //}
 
                 }
                 else if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -367,8 +363,13 @@ namespace 脸滚键盘.公共操作类
             {
                 treeViewNodeList.Insert(x - 1, newNode);
                 AddButtonNode(treeViewNodeList, newNode);
+                baseNode.ChildNodes.Insert(x - 1, newNode);
             }
-            baseNode.ChildNodes.Insert(x - 1, newNode);
+            else
+            {
+                baseNode.ChildNodes.Insert(x - 1, newNode);
+            }
+
             return newNode;
         }
 
@@ -383,16 +384,17 @@ namespace 脸滚键盘.公共操作类
             TreeViewNode button;
             if (baseNode.Uid == "")
             {
-                button = new TreeViewNode(null, "双击添加分卷", true, true);
+                button = new TreeViewNode(null, "双击添加根节点", true, true);
             }
             else
             {
-                button = new TreeViewNode(null, "双击添加章节", true, true);
+                button = new TreeViewNode(null, "双击添加子节点", true, true);
             }
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
                 TreeViewNodeList.Add(button);
             }
+            button.IconPath = Gval.Path.App + "/Resourse/ic_action_add.png";
             baseNode.ChildNodes.Add(button);
             return button;
         }
@@ -406,10 +408,11 @@ namespace 脸滚键盘.公共操作类
         /// <param name="treeViewNodeList"></param>
         public static void AddNodeBySql(string curBookName, string typeOfTree, TreeViewNode newNode)
         {
-            string tableName = curBookName + "_" + typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");            
+            string tableName = typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
             sqlConn.ExecuteNonQuery(sql);
+            sqlConn.Close();
         }
         #endregion
 
@@ -423,7 +426,7 @@ namespace 脸滚键盘.公共操作类
         /// <param name="TopNode"></param>
         public static void LoadBySql(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode TopNode)
         {
-            string tableName = curBookName + "_" + typeOfTree;
+            string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded  BOOLEAN);", tableName);
             sqlConn.ExecuteNonQuery(sql);
@@ -441,10 +444,33 @@ namespace 脸滚键盘.公共操作类
                     WordsCount = Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"]
                 };
+                if (node.IsExpanded == true)
+                {
+                    if (typeOfTree == "book" || typeOfTree == "material")
+                    {
+                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
+                    }
+                    if (typeOfTree == "note" || typeOfTree == "task")
+                    {
+                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
+                    }
+                }
+                else
+                {
+                    if (typeOfTree == "book" || typeOfTree == "material")
+                    {
+                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+                    }
+                    if (typeOfTree == "note" || typeOfTree == "task")
+                    {
+                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
+                    }
+                }
                 LoadNode(node, TreeViewNodeList, TopNode);
                 ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
+            sqlConn.Close();
         }
 
         /// <summary>
@@ -482,7 +508,7 @@ namespace 脸滚键盘.公共操作类
         /// <param name="parentNode"></param>
         static void ShowTree(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
         {
-            string tableName = curBookName + "_" + typeOfTree;
+            string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, parentNode.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
@@ -498,10 +524,19 @@ namespace 脸滚键盘.公共操作类
                     WordsCount = Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"]
                 };
+                if (typeOfTree == "book" || typeOfTree == "material")
+                {
+                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
+                }
+                if (typeOfTree == "note" || typeOfTree == "task")
+                {
+                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
+                }                
                 LoadNode(node, TreeViewNodeList, parentNode);
                 ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
+            sqlConn.Close();
         }
         #endregion
 
@@ -515,8 +550,8 @@ namespace 脸滚键盘.公共操作类
         /// <param name="neighboringNode"></param>
         public static void SwapNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, TreeViewNode neighboringNode)
         {
-            string tableName = curBookName + "_" + typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            string tableName = typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             //更新数据库中临近节点记录集
             string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, neighboringNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
@@ -524,6 +559,7 @@ namespace 脸滚键盘.公共操作类
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
+            sqlConn.Close();
         }
 
         /// <summary>
@@ -535,11 +571,12 @@ namespace 脸滚键盘.公共操作类
         /// <param name="treeViewNodeList"></param>
         public static void DelNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, ObservableCollection<TreeViewNode> treeViewNodeList)
         {
-            string tableName = curBookName + "_" + typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            string tableName = typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             RecursionDelBySql(curBookName, typeOfTree, selectedNode, sqlConn, treeViewNodeList);
             string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
+            sqlConn.Close();
         }
 
 
@@ -554,7 +591,7 @@ namespace 脸滚键盘.公共操作类
             {
                 for (int i = 0; i < baseNode.ChildNodes.Count; i++)
                 {
-                    string tableName = curBookName + "_" + typeOfTree;
+                    string tableName = typeOfTree;
                     string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
                     sqlConn.ExecuteNonQuery(sql);
                     RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
@@ -571,10 +608,11 @@ namespace 脸滚键盘.公共操作类
         /// <param name="selectedNode"></param>
         public static void ExpandedCollapsedBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode)
         {
-            string tableName = curBookName + "_" + typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+            string tableName = typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
+            sqlConn.Close();
         }
         #endregion
         #region 获取控件

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace 脸滚键盘.公共操作类
 {
@@ -20,7 +15,7 @@ namespace 脸滚键盘.公共操作类
         ~SqliteOperate()
         {
             Gval.Flag.IsSqlconnOpening = false;
-            //Close();            
+            //Close();
         }
 
         /// <summary>
@@ -31,8 +26,6 @@ namespace 脸滚键盘.公共操作类
         /// <returns></returns>
         private SQLiteConnection CreateDatabaseConnection(string dbPath, string dbName = null)
         {
-
-
             // 数据库文件夹
             dbName = string.IsNullOrEmpty(dbName) ? "bookData.db" : dbName;
             string dbFilePath = Path.Combine(dbPath, dbName);
@@ -58,8 +51,9 @@ namespace 脸滚键盘.公共操作类
             if (connection != null)
             {
                 connection.Close();
+                SQLiteConnection.ClearAllPools();
             }
-            System.Data.SQLite.SQLiteConnection.ClearAllPools();
+            
         }
 
 

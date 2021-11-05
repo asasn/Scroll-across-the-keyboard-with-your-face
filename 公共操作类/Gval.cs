@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using 脸滚键盘.自定义控件;
 
 namespace 脸滚键盘.公共操作类
 {
@@ -34,8 +31,13 @@ namespace 脸滚键盘.公共操作类
 
             public static bool Loading;
         }
-        //public static uc_Editor ucEditor;
-        //public static uc_TreeBooks ucBooks;
-        //public static uc_TreeMaterial ucMaterial;
+        public struct Uc
+        {
+            public static HandyControl.Controls.TabControl TabControl;
+            public static UcTreeBook TreeBook;
+            public static UcTreeMaterial TreeMaterial;
+            public static UcTreeNote TreeNote; 
+            public static UcTreeTask TreeTask;
+        }
     }
 }

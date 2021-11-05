@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using 脸滚键盘.公共操作类;
@@ -14,14 +13,14 @@ namespace 脸滚键盘.自定义控件
     /// <summary>
     /// UcTreeBook.xaml 的交互逻辑
     /// </summary>
-    public partial class UcTreeBook : UserControl
+    public partial class UcTreeNote : UserControl
     {
-        public UcTreeBook()
+        public UcTreeNote()
         {
             InitializeComponent();
         }
 
-        readonly string TypeOfTree = "book";
+        readonly string TypeOfTree = "note";
         /// <summary>
         /// 数据源：节点列表
         /// </summary>
@@ -29,10 +28,10 @@ namespace 脸滚键盘.自定义控件
 
         private void Tv_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
-        void LoadBook()
+        public void LoadBook()
         {
             if (Gval.CurrentBook.Name == null)
             {
@@ -80,8 +79,8 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
-            {  
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
+            {
+                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
                 TreeOperate.ExpandedCollapsedBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
             }
         }
@@ -95,8 +94,8 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
-            {        
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+            {
+                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
                 TreeOperate.ExpandedCollapsedBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
             }
         }
@@ -122,34 +121,6 @@ namespace 脸滚键盘.自定义控件
                 TbReName.Visibility = Visibility.Hidden;
             }
 
-
-            //上下按钮可用/禁用
-            if (selectedNode.IsButton == true)
-            {
-                BtnMoveUp.IsEnabled = false;
-                BtnMoveDown.IsEnabled = false;
-            }
-            else
-            {
-                BtnMoveUp.Visibility = Visibility.Visible;
-                BtnMoveDown.Visibility = Visibility.Visible;
-                if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == 0)
-                {
-                    BtnMoveUp.IsEnabled = false;
-                }
-                else
-                {
-                    BtnMoveUp.IsEnabled = true;
-                }
-                if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == selectedNode.ParentNode.ChildNodes.Count - 2)
-                {
-                    BtnMoveDown.IsEnabled = false;
-                }
-                else
-                {
-                    BtnMoveDown.IsEnabled = true;
-                }
-            }
         }
 
         private void Tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -190,59 +161,9 @@ namespace 脸滚键盘.自定义控件
 
                         //获取节点对应的路径
                         string nodePath = GetPath(selectedNode);
-
-
-
-                        foreach (HandyControl.Controls.TabItem item in Gval.Uc.TabControl.Items)
-                        {
-                            if (item.Uid == selectedNode.Uid)
-                            {
-                                item.IsSelected = true;
-                                return;
-                            }
-                        }
-
-                        HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem();
-                        tabItem.Uid = selectedNode.Uid;
-                        tabItem.DataContext = selectedNode;
-                        tabItem.IsSelected = true;
-
-                        UcEditor ucEditor = new UcEditor();
-                        ucEditor.DataContext = selectedNode;
-                        tabItem.Content = ucEditor;
-                        tabItem.Closing += TabItem_Closing;
-                        Binding textBinding = new Binding();
-                        textBinding.Source = selectedNode;
-                        textBinding.Path = new PropertyPath("NodeName");
-                        textBinding.Mode = BindingMode.TwoWay;
-                        tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定     
-                        Gval.Uc.TabControl.Items.Add(tabItem);
-                        ucEditor.LoadChapter();
+                        Console.WriteLine(nodePath);
                     }
                 }
-            }
-        }
-
-        private void TabItem_Closing(object sender, EventArgs e)
-        {
-            HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
-            UcEditor ucEditor = tabItem.Content as UcEditor;
-            if (ucEditor.btnSaveDoc.IsEnabled == true)
-            {
-                MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
-                if (dr == MessageBoxResult.Yes)
-                {
-                    ucEditor.btnSaveText_Click(null, null);
-                }
-                if (dr == MessageBoxResult.No)
-                {
-                    
-                }
-                if (dr == MessageBoxResult.Cancel)
-                {
-                    (e as HandyControl.Data.CancelRoutedEventArgs).Cancel = true;
-                }
-                
             }
         }
         #endregion
@@ -619,217 +540,7 @@ namespace 脸滚键盘.自定义控件
         #endregion
 
 
-        #region 书籍目录抽屉
-
-        /// <summary>
-        /// 展示书籍目录抽屉
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BtnShowBooks_Click(object sender, RoutedEventArgs e)
-        {
-            DrawerLeftInContainer.IsOpen = !DrawerLeftInContainer.IsOpen;
-        }
-
-        private void DrawerLeftInContainer_Loaded(object sender, RoutedEventArgs e)
-        {
-            //如果处在设计模式中则返回
-            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) { return; }
-
-            Gval.CurrentBook.Uid = SettingsOperate.Get("curBookUid");
-            string tableName = "books";
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Name CHAR, Price DOUBLE, BornYear INTEGER, CurrentYear INTEGER);", tableName);
-            sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("SELECT * FROM Tree_{0};", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-            while (reader.Read())
-            {
-                string BookUid = reader["Uid"].ToString();
-                string BookName = reader["Name"].ToString();
-                HandyControl.Controls.Card bookCard = new HandyControl.Controls.Card();
-                WpBooks.Children.Add(bookCard);
-                //bookCard.Effect = 
-                bookCard.Margin = new Thickness(10, 10, 0, 0);
-                bookCard.Width = 180;
-                bookCard.Height = 240;
-                bookCard.VerticalAlignment = VerticalAlignment.Stretch;
-                bookCard.HorizontalAlignment = HorizontalAlignment.Stretch;
-                bookCard.Uid = BookUid;
-                bookCard.Header = BookName;
-
-                string imgPath = Gval.Path.Books + "/" + BookName + ".jpg";
-
-                bookCard.Content = FileOperate.GetImgObject(imgPath);
-
-                bookCard.MouseLeftButtonDown += CardSelected;
-
-                if (BookUid == Gval.CurrentBook.Uid)
-                {
-                    ChoseBookChange(bookCard);
-                }
-            }
-            reader.Close();
-            sqlConn.Close();
-        }
-
-        /// <summary>
-        /// 根据Uid获取当前书籍信息，并填入Gval公共类当中
-        /// </summary>
-        /// <param name="uid"></param>
-        void GetBookInfoForGval(string uid)
-        {
-            Gval.CurrentBook.Uid = uid;
-            string tableName = "books";
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-            string sql = string.Format("SELECT * FROM Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-            while (reader.Read())
-            {
-                TbCurBookName.Text = reader["Name"].ToString();
-                TbCurBookPrice.Text = reader["Price"].ToString();
-                TbCurBookBornYear.Text = reader["BornYear"].ToString();
-                TbCurBookCurrentYear.Text = reader["CurrentYear"].ToString();
-
-                Gval.CurrentBook.Name = reader["Name"].ToString();
-                Gval.CurrentBook.Price = Convert.ToDouble(reader["Price"]);
-                Gval.CurrentBook.BornYear = Convert.ToInt32(reader["BornYear"]);
-                Gval.CurrentBook.CurrentYear = Convert.ToInt32(reader["CurrentYear"]);
-            }
-            reader.Close();
-            sqlConn.Close();
-        }
-
-        /// <summary>
-        /// 选择当前书籍卡片
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CardSelected(object sender, MouseButtonEventArgs e)
-        {
-            foreach (HandyControl.Controls.Card item in WpBooks.Children)
-            {
-                item.BorderBrush = null;
-                item.BorderThickness = new Thickness(0, 0, 0, 0);
-            }
-            HandyControl.Controls.Card bookCard = sender as HandyControl.Controls.Card;
-            Gval.Uc.TabControl.Items.Clear();
-            ChoseBookChange(bookCard);            
-        }
-
-        /// <summary>
-        /// 根据选择的书籍卡片执行一些切换书籍的操作
-        /// </summary>
-        /// <param name="bookCard"></param>
-        void ChoseBookChange(HandyControl.Controls.Card bookCard)
-        {
-            WpBooks.Tag = bookCard;
-
-            bookCard.BorderBrush = Brushes.DodgerBlue;
-            bookCard.BorderThickness = new Thickness(0, 5, 0, 5);
-
-            DrawerTbk.Text = "当前书籍：" + bookCard.Header.ToString();
-            TbkCurBookName.Text = bookCard.Header.ToString();
-            SettingsOperate.Set("curBookUid", bookCard.Uid);
-            SettingsOperate.Set("curBookName", bookCard.Header.ToString());
-            GetBookInfoForGval(bookCard.Uid);
-            this.LoadBook();
-            Gval.Uc.TreeNote.LoadBook();
-            Gval.Uc.TreeTask.LoadBook();
-
-            //Gval.ucNote.TvLoad();
-            //Gval.ucTask.TvLoad();
-            //Gval.ucRoleCard.TvLoad();
-            //Gval.ucFactionCard.TvLoad();
-            //Gval.ucGoodsCard.TvLoad();
-            //Gval.ucCommonCard.TvLoad();
-            //Gval.ucEditor.IsEnabled = false;
-        }
-
-        private void BtnBuild_Click(object sender, RoutedEventArgs e)
-        {
-            if (TbNewBookName.IsEnabled == false)
-            {
-                TbNewBookName.IsEnabled = true;
-                TbNewBookName.Text = "新书籍";
-                TbNewBookName.SelectAll();
-                BtnBuild.Content = "取消创建";
-            }
-            else
-            {
-                BtnBuild.Content = "创建新书籍";
-                TbNewBookName.Clear();
-                TbNewBookName.IsEnabled = false;
-            }
-
-        }
-
-        private void TbNewBookName_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                string tableName = "books";
-                string guid = Guid.NewGuid().ToString();
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-                string sql = string.Format("INSERT INTO Tree_{0} (Uid, Name, Price, BornYear, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbNewBookName.Text, 0, 2000, 2021);
-                sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
-
-                TbNewBookName.Clear();
-                TbNewBookName.IsEnabled = false;
-                BtnBuild.Content = "创建新书籍";
-                WpBooks.Children.Clear();
-                DrawerLeftInContainer_Loaded(null, null);
-            }
-        }
-
-        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            string oldName = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
-            string newName = Gval.Path.Books + "/" + TbCurBookName.Text + ".db";
-
-            if (FileOperate.IsFileExists(Gval.Path.Books + "/" + TbCurBookName.Text + ".db") == true)
-            {
-                MessageBoxResult dr = MessageBox.Show("该书籍已经存在\n请换一个新书名或者删除旧数据库（谨慎）！", "Tip", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
-                string tableName = "books";
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-                string sql = string.Format("UPDATE Tree_{0} set Price={1}, BornYear={2}, CurrentYear={3} where Uid = '{4}';", tableName, Convert.ToDouble(TbCurBookPrice.Text), Convert.ToInt32(TbCurBookBornYear.Text), Convert.ToInt32(TbCurBookCurrentYear.Text), Gval.CurrentBook.Uid);
-                sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
-                GetBookInfoForGval(Gval.CurrentBook.Uid);
-                return;
-            }
-            else
-            {
-                SQLiteConnection.ClearAllPools();
-                FileOperate.renameDoc(oldName, newName);
-                string tableName = "books";
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-                string sql = string.Format("UPDATE Tree_{0} set Name='{1}', Price={2}, BornYear={3}, CurrentYear={4} where Uid = '{5}';", tableName, TbCurBookName.Text, Convert.ToDouble(TbCurBookPrice.Text), Convert.ToInt32(TbCurBookBornYear.Text), Convert.ToInt32(TbCurBookCurrentYear.Text), Gval.CurrentBook.Uid);
-                sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
-
-                GetBookInfoForGval(Gval.CurrentBook.Uid);
-                DrawerTbk.Text = "当前书籍：" + TbCurBookName.Text;
-                (WpBooks.Tag as HandyControl.Controls.Card).Header = TbCurBookName.Text;
-                TbkCurBookName.Text = TbCurBookName.Text;
-            }
-        }
-
-        private void BtnDelBook_Click(object sender, RoutedEventArgs e)
-        {
-            string tableName = "books";
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-            string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
-
-            WpBooks.Children.Clear();
-            DrawerLeftInContainer_Loaded(null, null);
-        }
-
-        #endregion
-
+     
 
     }
 

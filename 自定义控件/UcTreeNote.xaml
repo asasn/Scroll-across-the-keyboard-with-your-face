@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="脸滚键盘.自定义控件.UcTreeMaterial"
+﻿<UserControl x:Class="脸滚键盘.自定义控件.UcTreeNote"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
 
-    <GroupBox Header="资料库" Style="{StaticResource BaseStyle}">
-        <Grid>
+    <GroupBox Header="记事板" Style="{StaticResource BaseStyle}">
+        <Grid>  
             <TreeView x:Name="Tv" Grid.Row="1" Margin="5" TreeViewItem.Selected="TreeView_Selected" TreeViewItem.Expanded="Tv_Expanded" TreeViewItem.Collapsed="Tv_Collapsed"
                       ItemsSource="{Binding Path=TreeViewNodeList}" MouseDoubleClick="Tv_MouseDoubleClick" Loaded="Tv_Loaded" Style="{DynamicResource BookTreeViewStyle}" KeyDown="Tv_KeyDown" MouseMove="Tv_MouseMove" DragOver="Tv_DragOver" DragEnter="Tv_DragEnter" DragLeave="Tv_DragLeave" Drop="Tv_Drop">
                 <TreeView.ItemTemplate>
@@ -17,12 +17,10 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="100*"/>
-                                <ColumnDefinition Width="50"/>
                             </Grid.ColumnDefinitions>
                             <Image x:Name="icon" Grid.Column="0" Source="{Binding IconPath, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <TextBlock Grid.Column="1" x:Name="TbkName" Text="{Binding NodeName, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" x:Name="TbReName" Text="{Binding Text, ElementName=TbkName, Mode=TwoWay}" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center" KeyDown="TbReName_KeyDown" LostFocus="TbReName_LostFocus"/>
-                            <TextBlock Grid.Column="2" x:Name="TbkCount" Visibility="{Binding IsDir, Converter={StaticResource Boolean2VisibilityReConverter}}" Foreground="Silver" Text="{Binding WordsCount}" HorizontalAlignment="Right" VerticalAlignment="Center" />
                         </Grid>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
@@ -43,7 +41,7 @@
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
-            </TreeView>
+            </TreeView>            
         </Grid>
 
     </GroupBox>
