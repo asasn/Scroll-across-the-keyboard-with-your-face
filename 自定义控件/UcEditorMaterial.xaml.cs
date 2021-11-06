@@ -14,9 +14,9 @@ namespace 脸滚键盘.自定义控件
     /// <summary>
     /// UcEditor.xaml 的交互逻辑
     /// </summary>
-    public partial class UcEditor : UserControl
+    public partial class UcEditorMaterial : UserControl
     {
-        public UcEditor()
+        public UcEditorMaterial()
         {
             InitializeComponent();
         }
@@ -33,9 +33,9 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-            
 
-            
+
+
         }
 
         public void LoadChapter(string curBookName, string typeOfTree)
@@ -126,12 +126,12 @@ namespace 脸滚键盘.自定义控件
         void ShowTextInfo()
         {
             words = EditorOperate.WordCount(textEditor.Text);
-            if (lb1 != null && lb2 != null)
-            {                
-                lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
-                lb2.Content = "字数：" + words.ToString();
-                lbValue.Content = "价值：" + ((double)words / 1000 * Gval.CurrentBook.Price).ToString() + "元";
-            }
+            //if (lb1 != null && lb2 != null)
+            //{
+            //    lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
+            //    lb2.Content = "字数：" + words.ToString();
+            //    lbValue.Content = "价值：" + ((double)words / 1000 * Gval.CurrentBook.Price).ToString() + "元";
+            //}
         }
 
         /// <summary>

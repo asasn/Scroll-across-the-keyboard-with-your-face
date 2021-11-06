@@ -39,5 +39,20 @@ namespace 脸滚键盘
         {
             Gval.Uc.TabControl = sender as HandyControl.Controls.TabControl;
         }
+
+        private void UcTreeRoleCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.TreeRoleCard = sender as UcTreeRoleCard;
+        }
+
+        private void UcTreeInfoCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.TreeInfoCard = sender as UcTreeInfoCard;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

@@ -14,9 +14,9 @@ namespace 脸滚键盘.自定义控件
     /// <summary>
     /// UcTreeBook.xaml 的交互逻辑
     /// </summary>
-    public partial class UcTreeInfoCard : UserControl
+    public partial class UcTreeRoleCard : UserControl
     {
-        public UcTreeInfoCard()
+        public UcTreeRoleCard()
         {
             InitializeComponent();
         }
@@ -84,7 +84,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
+                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
             }
         }
 
@@ -98,7 +98,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
+                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
             }
         }
         #endregion
@@ -136,7 +136,7 @@ namespace 脸滚键盘.自定义控件
                 {
                     TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
                     TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
-                    newNode.IsSelected = true; 
+                    newNode.IsSelected = true;
                     CardOperate.AddCard(CurBookName, TypeOfTree, newNode);
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
@@ -149,14 +149,14 @@ namespace 脸滚键盘.自定义控件
                 {
                     if (selectedNode.IsDir == true)
                     {
-                        InfoCard infoCard = new InfoCard(CurBookName, TypeOfTree, selectedNode);
-                        infoCard.DataContext = selectedNode;
-                        infoCard.Show();
-                        CardOperate.SetWindowsMiddle(e, infoCard);
+                        RoleCard roleCard = new RoleCard(CurBookName, TypeOfTree, selectedNode);
+                        roleCard.DataContext = selectedNode;
+                        roleCard.Show();
+                        CardOperate.SetWindowsMiddle(e, roleCard);
                     }
                     else
                     {
-
+      
                     }
                 }
             }

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using static 脸滚键盘.公共操作类.TreeOperate;
 
@@ -131,7 +132,7 @@ namespace 脸滚键盘.自定义控件
             {
                 if (selectedNode.IsButton == true)
                 {
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode);
+                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
                     TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                     newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
@@ -153,14 +154,13 @@ namespace 脸滚键盘.自定义控件
                     }
                     else
                     {
-                        //双击选中节点，尝试进入编辑状态
-                        //CurNode = selectedNode;
-
-                        //Gval.ucEditor.CurNodeName = selectedItem.Name;
-
-                        //获取节点对应的路径
-                        string nodePath = GetPath(selectedNode);
-                        Console.WriteLine(nodePath);
+                        if (Gval.Uc.MaterialWindow.IsVisible == false)
+                        {
+                            Gval.Uc.MaterialWindow = new MaterialWindow();
+                            Gval.Uc.MaterialWindow.ucEditor.DataContext = selectedNode;
+                            Gval.Uc.MaterialWindow.ucEditor.LoadChapter(CurBookName, TypeOfTree);
+                            Gval.Uc.MaterialWindow.ShowDialog();
+                        }
                     }
                 }
             }

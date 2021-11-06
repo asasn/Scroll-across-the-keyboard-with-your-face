@@ -52,7 +52,7 @@ namespace 脸滚键盘.公共操作类
         public static void ReformatText(TextEditor tb)
         {
             string reText = "　　"; //开头是两个全角空格
-            string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t', '　' });
+            string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t', '　', ' '});
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             foreach (string lineStr in sArrayNoEmpty)
             {
@@ -70,33 +70,34 @@ namespace 脸滚键盘.公共操作类
             }
             //排版完成，重新赋值给文本框
             tb.Text = reText;
-            //光标移动至文末
+            //光标移动至文末 
             tb.ScrollToLine(tb.LineCount);
-            tb.ScrollToEnd();
             tb.SelectionStart = tb.Text.Length;
+            tb.ScrollToEnd();
+            tb.ScrollToEnd();
         }
 
         /// <summary>
         /// 公共方法：字数统计
         /// </summary>
-        /// <param name="StrContert"></param>
+        /// <param name="content"></param>
         /// <returns></returns>
-        public static int WordCount(string StrContert)
+        public static int WordCount(string content)
         {
-            if (string.IsNullOrEmpty(StrContert))
+            if (string.IsNullOrEmpty(content))
             {
                 return 0;
             }
-            int totalWord = 0;
-            char[] q = StrContert.ToCharArray();
+            int total = 0;
+            char[] q = content.ToCharArray();
             for (int i = 0; i < q.Length; i++)
             {
                 if (q[i] > 32 && q[i] != 0xA0 && q[i] != 0x3000) // 非空字符，Unicode编码0x3000为全角空格，
                 {
-                    totalWord += 1;
+                    total += 1;
                 }
             }
-            return totalWord;
+            return total;
         }
 
 

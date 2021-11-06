@@ -1,4 +1,5 @@
 ﻿using System;
+using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.自定义控件;
 
 namespace 脸滚键盘.公共操作类
@@ -38,6 +39,9 @@ namespace 脸滚键盘.公共操作类
             public static UcTreeMaterial TreeMaterial;
             public static UcTreeNote TreeNote; 
             public static UcTreeTask TreeTask;
+            public static UcTreeRoleCard TreeRoleCard;
+            public static UcTreeInfoCard TreeInfoCard;
+            public static MaterialWindow MaterialWindow = new MaterialWindow();
         }
     }
 }

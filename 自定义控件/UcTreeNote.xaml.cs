@@ -20,7 +20,8 @@ namespace 脸滚键盘.自定义控件
             InitializeComponent();
         }
 
-        readonly string TypeOfTree = "note";
+        string TypeOfTree;
+        string CurBookName;
         /// <summary>
         /// 数据源：节点列表
         /// </summary>
@@ -28,15 +29,17 @@ namespace 脸滚键盘.自定义控件
 
         private void Tv_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
-        public void LoadBook()
+        public void LoadBook(string curBookName, string typeOfTree)
         {
-            if (Gval.CurrentBook.Name == null)
+            if (string.IsNullOrEmpty(curBookName))
             {
                 return;
             }
+            CurBookName = curBookName;
+            TypeOfTree = typeOfTree;
 
             //数据初始化
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
@@ -57,10 +60,11 @@ namespace 脸滚键盘.自定义控件
             AddButtonNode(TreeViewNodeList, TopNode);
 
             //从数据库中载入数据
-            LoadBySql(Gval.CurrentBook.Name, TypeOfTree, TreeViewNodeList, TopNode);
+            LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
 
 
             Gval.Flag.Loading = false;
+            Sv.ScrollToEnd();
         }
 
 
@@ -81,7 +85,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
                 selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
-                TreeOperate.ExpandedCollapsedBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
+                TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
 
@@ -96,7 +100,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
                 selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
-                TreeOperate.ExpandedCollapsedBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode);
+                TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
         #endregion
@@ -132,8 +136,8 @@ namespace 脸滚键盘.自定义控件
             {
                 if (selectedNode.IsButton == true)
                 {
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode);
-                    TreeOperate.AddNodeBySql(Gval.CurrentBook.Name, TypeOfTree, newNode);
+                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                    TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                     newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
@@ -147,7 +151,7 @@ namespace 脸滚键盘.自定义控件
                     if (selectedNode.IsDir == true)
                     {
                         //string tableName = TypeOfTree;
-                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                         //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
                         //sqlConn.ExecuteNonQuery(sql);
                         //sqlConn.Close();
@@ -195,7 +199,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null)
             {
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName, selectedNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
@@ -244,7 +248,7 @@ namespace 脸滚键盘.自定义控件
             }
 
             //在数据库中删除节点记录
-            TreeOperate.DelNodeBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode, TreeViewNodeList);
+            TreeOperate.DelNodeBySql(CurBookName, TypeOfTree, selectedNode, TreeViewNodeList);
 
             //在视图中删除节点，这里注意删除和获取索引号的先后顺序
             TreeViewNode parentNode = selectedNode.ParentNode;
@@ -288,7 +292,7 @@ namespace 脸滚键盘.自定义控件
             }
 
             //数据库中的处理
-            TreeOperate.SwapNodeBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode, neighboringNode);
+            TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
             TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
@@ -311,7 +315,7 @@ namespace 脸滚键盘.自定义控件
             }
 
             //数据库中的处理
-            TreeOperate.SwapNodeBySql(Gval.CurrentBook.Name, TypeOfTree, selectedNode, neighboringNode);
+            TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
             TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
@@ -423,12 +427,12 @@ namespace 脸滚键盘.自定义控件
 
 
                         string tableName = TypeOfTree;
-                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db");
+                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                         //更新数据库中临近节点记录集
-                        DelNodeBySql(Gval.CurrentBook.Name, TypeOfTree, dragNode, TreeViewNodeList);
+                        DelNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
                         //更换改变pid
                         dragNode.Pid = dropNode.Uid;
-                        AddNodeBySql(Gval.CurrentBook.Name, TypeOfTree, dragNode);
+                        AddNodeBySql(CurBookName, TypeOfTree, dragNode);
 
                         //节点索引交换位置
                         TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
@@ -449,7 +453,7 @@ namespace 脸滚键盘.自定义控件
                         }
 
                         //数据库中的处理
-                        TreeOperate.SwapNodeBySql(Gval.CurrentBook.Name, TypeOfTree, dragNode, dropNode);
+                        TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
 
                         //节点索引交换位置
                         TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
@@ -537,10 +541,23 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             DelNode(selectedNode);
         }
+
+
+
         #endregion
 
+        private void Tv_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = UIElement.MouseWheelEvent,
 
-     
+                Source = sender
+            };
+
+            this.Tv.RaiseEvent(eventArg);
+        }
+
 
     }
 

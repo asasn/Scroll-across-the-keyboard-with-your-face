@@ -89,6 +89,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="信息卡和窗口\InfoCard.xaml.cs">
+      <DependentUpon>InfoCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="信息卡和窗口\MaterialWindow.xaml.cs">
+      <DependentUpon>MaterialWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="信息卡和窗口\RoleCard.xaml.cs">
+      <DependentUpon>RoleCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="公共操作类\CardOperate.cs" />
     <Compile Include="公共操作类\EditorOperate.cs" />
     <Compile Include="公共操作类\FileOperate.cs" />
     <Compile Include="公共操作类\Gval.cs" />
@@ -97,6 +107,9 @@
     <Compile Include="公共操作类\TreeOperate.cs" />
     <Compile Include="自定义控件\UcEditor.xaml.cs">
       <DependentUpon>UcEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="自定义控件\UcEditorMaterial.xaml.cs">
+      <DependentUpon>UcEditorMaterial.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeBook.xaml.cs">
       <DependentUpon>UcTreeBook.xaml</DependentUpon>
@@ -109,6 +122,9 @@
     </Compile>
     <Compile Include="自定义控件\UcTreeNote.xaml.cs">
       <DependentUpon>UcTreeNote.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="自定义控件\UcTreeRoleCard.xaml.cs">
+      <DependentUpon>UcTreeRoleCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeTask.xaml.cs">
       <DependentUpon>UcTreeTask.xaml</DependentUpon>
@@ -129,7 +145,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="信息卡和窗口\InfoCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡和窗口\MaterialWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡和窗口\RoleCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="自定义控件\UcEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcEditorMaterial.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcTreeNote.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcTreeRoleCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace 脸滚键盘.公共操作类
 {
-    class TreeOperate
+    public class TreeOperate
     {
         #region 节点模型
         public class TreeViewNode : INotifyPropertyChanged
@@ -345,7 +345,7 @@ namespace 脸滚键盘.公共操作类
         /// 添加节点
         /// </summary>
         /// <param name="baseNode"></param>
-        public static TreeViewNode AddNewNode(ObservableCollection<TreeViewNode> treeViewNodeList, TreeViewNode baseNode)
+        public static TreeViewNode AddNewNode(ObservableCollection<TreeViewNode> treeViewNodeList, TreeViewNode baseNode, string typeOfTree)
         {
             string guid = Guid.NewGuid().ToString();
             TreeViewNode newNode = new TreeViewNode(guid, "新节点");
@@ -361,15 +361,49 @@ namespace 脸滚键盘.公共操作类
             }
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
+                newNode.IsDir = true;
+                if (typeOfTree != "role" && typeOfTree != "info")
+                {
+                    AddButtonNode(treeViewNodeList, newNode);
+                }
                 treeViewNodeList.Insert(x - 1, newNode);
-                AddButtonNode(treeViewNodeList, newNode);
                 baseNode.ChildNodes.Insert(x - 1, newNode);
             }
             else
             {
+                newNode.IsDir = false;
                 baseNode.ChildNodes.Insert(x - 1, newNode);
             }
-
+            if (newNode.IsDir == true)
+            {
+                if (typeOfTree == "book" || typeOfTree == "material")
+                {
+                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+                }
+                if (typeOfTree == "note" || typeOfTree == "task")
+                {
+                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
+                }
+                if (typeOfTree == "role")
+                {
+                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
+                }
+                if (typeOfTree == "info")
+                {
+                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
+                }
+            }
+            else
+            {
+                if (typeOfTree == "book" || typeOfTree == "material")
+                {
+                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
+                }
+                if (typeOfTree == "note" || typeOfTree == "task")
+                {
+                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
+                }
+            }
             return newNode;
         }
 
@@ -381,6 +415,7 @@ namespace 脸滚键盘.公共操作类
         /// <returns></returns>
         public static TreeViewNode AddButtonNode(ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
         {
+
             TreeViewNode button;
             if (baseNode.Uid == "")
             {
@@ -466,7 +501,15 @@ namespace 脸滚键盘.公共操作类
                         node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
                     }
                 }
-                LoadNode(node, TreeViewNodeList, TopNode);
+                if (typeOfTree == "role")
+                {
+                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
+                }
+                if (typeOfTree == "info")
+                {
+                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
+                }
+                LoadNode(node, TreeViewNodeList, TopNode, typeOfTree);
                 ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
@@ -479,7 +522,7 @@ namespace 脸滚键盘.公共操作类
         /// <param name="node"></param>
         /// <param name="TreeViewNodeList"></param>
         /// <param name="baseNode"></param>
-        static void LoadNode(TreeViewNode node, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
+        static void LoadNode(TreeViewNode node, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode, string typeOfTree)
         {
             int x;
             if (baseNode.ChildNodes.Count == 0)
@@ -494,7 +537,10 @@ namespace 脸滚键盘.公共操作类
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
                 TreeViewNodeList.Insert(x - 1, node);
-                AddButtonNode(TreeViewNodeList, node);
+                if (typeOfTree != "role" && typeOfTree != "info")
+                {
+                    AddButtonNode(TreeViewNodeList, node);
+                }
             }
             baseNode.ChildNodes.Insert(x - 1, node);
         }
@@ -531,8 +577,8 @@ namespace 脸滚键盘.公共操作类
                 if (typeOfTree == "note" || typeOfTree == "task")
                 {
                     node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
-                }                
-                LoadNode(node, TreeViewNodeList, parentNode);
+                }
+                LoadNode(node, TreeViewNodeList, parentNode, typeOfTree);
                 ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();

@@ -37,11 +37,11 @@
                                         </Binding.Converter>
                                     </Binding>
                                 </DockPanel.Margin>
-                                <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}">
+                                <ToggleButton x:Name="Expander" Margin="0,0,0,0" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}">
                                     <ToggleButton.Style>
                                         <Style TargetType="{x:Type ToggleButton}">
                                             <Setter Property="Focusable" Value="False"/>
-                                            <Setter Property="Width" Value="16"/>
+                                            <Setter Property="Width" Value="0"/>
                                             <Setter Property="Height" Value="16"/>
                                             <Setter Property="Template">
                                                 <Setter.Value>
