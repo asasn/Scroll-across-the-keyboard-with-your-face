@@ -33,6 +33,7 @@ namespace 脸滚键盘.自定义控件
             //如果处在设计模式中则返回
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) { return; }
             LoadBook();
+            Console.WriteLine("载入资料库");
         }
 
         void LoadBook()

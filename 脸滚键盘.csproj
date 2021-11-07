@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>图标和资源\ic_action_book_xxhdpi.ico</ApplicationIcon>
+    <ApplicationIcon>Resourse\ic_action_book_xxhdpi.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>脸滚键盘.App</StartupObject>
@@ -111,20 +111,17 @@
     <Compile Include="自定义控件\UcEditorMaterial.xaml.cs">
       <DependentUpon>UcEditorMaterial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="自定义控件\UcCards.xaml.cs">
+      <DependentUpon>UcCards.xaml</DependentUpon>
+    </Compile>
     <Compile Include="自定义控件\UcTreeBook.xaml.cs">
       <DependentUpon>UcTreeBook.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="自定义控件\UcTreeInfoCard.xaml.cs">
-      <DependentUpon>UcTreeInfoCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeMaterial.xaml.cs">
       <DependentUpon>UcTreeMaterial.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeNote.xaml.cs">
       <DependentUpon>UcTreeNote.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="自定义控件\UcTreeRoleCard.xaml.cs">
-      <DependentUpon>UcTreeRoleCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeTask.xaml.cs">
       <DependentUpon>UcTreeTask.xaml</DependentUpon>
@@ -165,11 +162,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcTreeBook.xaml">
+    <Page Include="自定义控件\UcCards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcTreeInfoCard.xaml">
+    <Page Include="自定义控件\UcTreeBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,10 +175,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcTreeNote.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UcTreeRoleCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -213,15 +206,22 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resourse\Text.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="图标和资源\ic_action_book.png" />
+    <None Include="Resourse\ic_action_book.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="图标和资源\ic_action_book_xxhdpi.ico" />
+    <None Include="Resourse\ic_action_book_xxhdpi.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
@@ -234,6 +234,46 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="依赖框架许可证\AvalonEdit 6.1.2.30.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="依赖框架许可证\HandyControl 3.2.0.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="依赖框架许可证\System.Data.SQLite.Core 1.0.115.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\ic_action_add.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_attachment.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_attachment_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_copy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_document.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_folder_closed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_folder_open.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_puzzle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\ic_action_user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

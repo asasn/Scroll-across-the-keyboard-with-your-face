@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 using 脸滚键盘.公共操作类;
+using 脸滚键盘.自定义控件;
 using static 脸滚键盘.公共操作类.TreeOperate;
 
 namespace 脸滚键盘.信息卡和窗口
@@ -25,7 +26,7 @@ namespace 脸滚键盘.信息卡和窗口
     public partial class RoleCard : Window
     {
         TreeView Tv;
-        TreeViewNode CurNode;
+        Button CurButton;
         WrapPanel[] wrapPanels;
         string CurBookName;
         string TypeOfTree;
@@ -37,7 +38,7 @@ namespace 脸滚键盘.信息卡和窗口
             public static string 相对年龄;
         }
 
-        public RoleCard(string curBookName, string typeOfTree, TreeViewNode curNode)
+        public RoleCard(string curBookName, string typeOfTree, Button curButton)
         {
             InitializeComponent();
 
@@ -48,8 +49,8 @@ namespace 脸滚键盘.信息卡和窗口
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
 
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
-            CurNode = curNode;
-            tbName.Text = curNode.NodeName;
+            CurButton = curButton;
+            tbName.Text = curButton.Content.ToString();
 
             WrapPanel[] temp = { wp别称, wp身份, wp外观, wp所属, wp阶级, wp物品, wp能力, wp经历 };
             wrapPanels = temp;
@@ -65,10 +66,10 @@ namespace 脸滚键盘.信息卡和窗口
         /// </summary>
         void GetDataAndFillCard()
         {
-            if (CurNode != null)
+            if (CurButton != null)
             {
                 FillBaseInfo();
-                CardOperate.FillMainInfo(CurBookName, TypeOfTree, wrapPanels, CurNode.Uid);
+                CardOperate.FillMainInfo(CurBookName, TypeOfTree, wrapPanels, CurButton.Uid);
 
             }
         }
@@ -77,7 +78,7 @@ namespace 脸滚键盘.信息卡和窗口
         {
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, CurNode.Uid);
+            string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, CurButton.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -127,7 +128,7 @@ namespace 脸滚键盘.信息卡和窗口
             SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, tbName.Text));
             while (reader.Read())
             {
-                if (CurNode.Uid != reader.GetString(0).ToString())
+                if (CurButton.Uid != reader.GetString(0).ToString())
                 {
                     MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
                     reader.Close();
@@ -137,7 +138,7 @@ namespace 脸滚键盘.信息卡和窗口
             }
             reader.Close();
 
-            if (false == string.IsNullOrEmpty(CurNode.NodeName))
+            if (false == string.IsNullOrEmpty(CurButton.Content.ToString()))
             {
                 if (string.IsNullOrEmpty(thisCard.weight))
                 {
@@ -148,16 +149,21 @@ namespace 脸滚键盘.信息卡和窗口
                     tbOffsetAge.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text, tb备注.Text, thisCard.weight, tbOffsetAge.Text, CurNode.Uid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text, tb备注.Text, thisCard.weight, tbOffsetAge.Text, CurButton.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
-                CurNode.NodeName = tbName.Text;
+                CurButton.Content = tbName.Text;
 
-                CardOperate.SaveMainInfo(CurBookName, TypeOfTree, wrapPanels, CurNode.Uid);
+                CardOperate.SaveMainInfo(CurBookName, TypeOfTree, wrapPanels, CurButton.Uid);
             }
-            string sql2 = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, CurNode.NodeName, CurNode.Uid);
-            sqlConn.ExecuteNonQuery(sql2);
             sqlConn.Close();
+
+
+            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+            {
+                UcEditor ucEditor = tabItem.Content as UcEditor;
+                ucEditor.SetRules();
+            }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using 脸滚键盘.公共操作类;
+using static 脸滚键盘.公共操作类.TreeOperate;
 
 namespace 脸滚键盘.自定义控件
 {
@@ -50,6 +51,8 @@ namespace 脸滚键盘.自定义控件
             textEditor.SelectionStart = textEditor.Text.Length;
             textEditor.ScrollToEnd();
             textEditor.ScrollToEnd();
+
+            SetRules();
         }
 
 
@@ -59,28 +62,28 @@ namespace 脸滚键盘.自定义控件
         public void SetRules()
         {
             textEditor.SyntaxHighlighting = null;
-            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Text.xshd");
+            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourse/Text.xshd");
             Stream xshdStream = File.OpenRead(fullFileName);
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
             textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
             xshdReader.Close();
             xshdStream.Close();
 
-            //if (Gval.ucRoleCard != null && Gval.ucFactionCard != null && Gval.ucGoodsCard != null && Gval.ucCommonCard != null)
-            //{
-            //    TreeView[] tvs = { Gval.ucRoleCard.tv, Gval.ucFactionCard.tv, Gval.ucGoodsCard.tv, Gval.ucCommonCard.tv };
+            if (Gval.Uc.RoleCards != null && Gval.Uc.OtherCards != null)
+            {
+                WrapPanel[] wps = { Gval.Uc.RoleCards.WpCards, Gval.Uc.OtherCards.WpCards };
 
-            //    foreach (TreeView tv in tvs)
-            //    {
-            //        if (tv != null)
-            //        {
-            //            foreach (TreeViewItem item in tv.Items)
-            //            {
-            //                AddKeyword(item.Header.ToString(), tv.Tag.ToString());
-            //            }
-            //        }
-            //    }
-            //}
+                foreach (WrapPanel wp in wps)
+                {
+                    if (wp != null)
+                    {
+                        foreach (Button btn in wp.Children)
+                        {
+                            AddKeyword(btn.Content.ToString(), wp.Tag.ToString());
+                        }
+                    }
+                }
+            }
 
         }
 

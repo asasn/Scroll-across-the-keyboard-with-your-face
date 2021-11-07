@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 using 脸滚键盘.公共操作类;
+using 脸滚键盘.自定义控件;
 using static 脸滚键盘.公共操作类.TreeOperate;
 
 namespace 脸滚键盘.信息卡和窗口
@@ -158,6 +159,13 @@ namespace 脸滚键盘.信息卡和窗口
             string sql2 = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, CurNode.NodeName, CurNode.Uid);
             sqlConn.ExecuteNonQuery(sql2);
             sqlConn.Close();
+
+
+            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+            {
+                UcEditor ucEditor = tabItem.Content as UcEditor;
+                ucEditor.SetRules();
+            }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

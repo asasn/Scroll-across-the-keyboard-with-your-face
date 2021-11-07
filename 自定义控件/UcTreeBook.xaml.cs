@@ -760,9 +760,9 @@ namespace 脸滚键盘.自定义控件
             this.LoadBook(Gval.CurrentBook.Name, "book");
             Gval.Uc.TreeNote.LoadBook(Gval.CurrentBook.Name, "note");
             Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");
-            Gval.Uc.TreeRoleCard.LoadBook(Gval.CurrentBook.Name, "角色");
+            Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "角色");
-            Gval.Uc.TreeInfoCard.LoadBook(Gval.CurrentBook.Name, "其他");           
+            Gval.Uc.OtherCards.LoadCards(Gval.CurrentBook.Name, "其他");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "其他");
         }
 

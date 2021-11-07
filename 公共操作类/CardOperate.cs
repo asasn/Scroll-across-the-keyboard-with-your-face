@@ -30,7 +30,7 @@ namespace 脸滚键盘.公共操作类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY REFERENCES Tree_{0}(Uid) ON DELETE CASCADE ON UPDATE CASCADE, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tableName);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
         }

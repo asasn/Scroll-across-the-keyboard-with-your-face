@@ -37,12 +37,14 @@
             <自定义控件:UcTreeTask Grid.Column="4" Grid.Row="1" Loaded="UcTreeTask_Loaded"/>
             <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
                 <hc:TabItem Header="本书角色信息卡">
-                    <自定义控件:UcTreeRoleCard Loaded="UcTreeRoleCard_Loaded"/>
+                    <自定义控件:UcCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
                 </hc:TabItem>
                 <hc:TabItem Header="本书其他信息卡">
-                    <自定义控件:UcTreeInfoCard Loaded="UcTreeInfoCard_Loaded"/>
+                    <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
+                
             </hc:TabControl>
+            
         </Grid>
 
         <自定义控件:UcTreeBook Loaded="UcTreeBook_Loaded"/>
@@ -51,10 +53,10 @@
                 <自定义控件:UcTreeMaterial Loaded="UcTreeMaterial_Loaded"/>
             </hc:TabItem>
             <hc:TabItem Header="公共角色卡">
-                <自定义控件:UcTreeRoleCard x:Name="PublicRoleCard" Loaded="PublicRoleCard_Loaded"/>
+                <自定义控件:UcCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
             </hc:TabItem>
             <hc:TabItem Header="公共信息卡">
-                <自定义控件:UcTreeInfoCard x:Name="PublicInfoCard" Loaded="PublicInfoCard_Loaded"/>
+                <自定义控件:UcCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
             </hc:TabItem>
         </hc:TabControl>        
     </Grid>

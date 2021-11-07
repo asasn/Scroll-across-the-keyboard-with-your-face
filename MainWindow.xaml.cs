@@ -40,15 +40,7 @@ namespace 脸滚键盘
             Gval.Uc.TabControl = sender as HandyControl.Controls.TabControl;
         }
 
-        private void UcTreeRoleCard_Loaded(object sender, RoutedEventArgs e)
-        {
-            Gval.Uc.TreeRoleCard = sender as UcTreeRoleCard;
-        }
 
-        private void UcTreeInfoCard_Loaded(object sender, RoutedEventArgs e)
-        {
-            Gval.Uc.TreeInfoCard = sender as UcTreeInfoCard;
-        }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -57,17 +49,40 @@ namespace 脸滚键盘
 
         private void PublicRoleCard_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicRoleCard = sender as UcTreeRoleCard;
-            Gval.Uc.PublicRoleCard.LoadBook("index", "角色");
-            CardOperate.TryToBuildBaseTable("index", "角色");
+            //Gval.Uc.PublicRoleCard = sender as UcTreeRoleCard;
+            //Gval.Uc.PublicRoleCard.LoadBook("index", "角色");
+            //CardOperate.TryToBuildBaseTable("index", "角色");
 
         }
 
-        private void PublicInfoCard_Loaded(object sender, RoutedEventArgs e)
+
+
+        private void RoleCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicInfoCard = sender as UcTreeInfoCard;
-            Gval.Uc.PublicInfoCard.LoadBook("index", "其他");
+            Gval.Uc.RoleCards = sender as UcCards;
+        }
+
+        private void OtherCards_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.OtherCards = sender as UcCards;
+        }
+
+        private void PublicRoleCards_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.PublicRoleCards = sender as UcCards;
+            Gval.Uc.PublicRoleCards.WpCards.Children.Clear();
+            Gval.Uc.PublicRoleCards.LoadCards("index", "角色");
+            CardOperate.TryToBuildBaseTable("index", "角色");
+        }
+
+        private void PublicOtherCards_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.PublicOtherCards = sender as UcCards;
+            Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
+            Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
             CardOperate.TryToBuildBaseTable("index", "其他");
         }
+
+
     }
 }

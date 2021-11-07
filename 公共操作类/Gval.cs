@@ -39,11 +39,11 @@ namespace 脸滚键盘.公共操作类
             public static UcTreeMaterial TreeMaterial;
             public static UcTreeNote TreeNote; 
             public static UcTreeTask TreeTask;
-            public static UcTreeRoleCard TreeRoleCard;
-            public static UcTreeInfoCard TreeInfoCard;
-            public static UcTreeRoleCard PublicRoleCard;
-            public static UcTreeInfoCard PublicInfoCard;
             public static MaterialWindow MaterialWindow = new MaterialWindow();
+            public static UcCards RoleCards;
+            public static UcCards OtherCards;
+            public static UcCards PublicRoleCards;
+            public static UcCards PublicOtherCards;
         }
     }
 }
