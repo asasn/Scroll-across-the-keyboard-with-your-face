@@ -362,7 +362,7 @@ namespace 脸滚键盘.公共操作类
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
                 newNode.IsDir = true;
-                if (typeOfTree != "role" && typeOfTree != "info")
+                if (typeOfTree != "角色" && typeOfTree != "其他")
                 {
                     AddButtonNode(treeViewNodeList, newNode);
                 }
@@ -384,11 +384,11 @@ namespace 脸滚键盘.公共操作类
                 {
                     newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
                 }
-                if (typeOfTree == "role")
+                if (typeOfTree == "角色")
                 {
                     newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
                 }
-                if (typeOfTree == "info")
+                if (typeOfTree == "其他")
                 {
                     newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
                 }
@@ -501,11 +501,11 @@ namespace 脸滚键盘.公共操作类
                         node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
                     }
                 }
-                if (typeOfTree == "role")
+                if (typeOfTree == "角色")
                 {
                     node.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
                 }
-                if (typeOfTree == "info")
+                if (typeOfTree == "其他")
                 {
                     node.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
                 }
@@ -537,7 +537,7 @@ namespace 脸滚键盘.公共操作类
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
                 TreeViewNodeList.Insert(x - 1, node);
-                if (typeOfTree != "role" && typeOfTree != "info")
+                if (typeOfTree != "角色" && typeOfTree != "其他")
                 {
                     AddButtonNode(TreeViewNodeList, node);
                 }

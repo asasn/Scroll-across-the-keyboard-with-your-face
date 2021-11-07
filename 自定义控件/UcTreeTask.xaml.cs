@@ -19,7 +19,7 @@ namespace 脸滚键盘.自定义控件
         {
             InitializeComponent();
         }
-
+        TextBox TbReName;
         string TypeOfTree;
         string CurBookName;
         /// <summary>
@@ -74,6 +74,20 @@ namespace 脸滚键盘.自定义控件
 
         #region 节点展开/缩回
         /// <summary>
+        /// 点击图标伸展/缩回
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewNode selectedNode = (sender as Image).DataContext as TreeViewNode;
+            if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
+            {
+                selectedNode.IsExpanded = !selectedNode.IsExpanded;
+            }
+        }
+
+        /// <summary>
         /// 节点展开
         /// </summary>
         /// <param name="sender"></param>
@@ -119,10 +133,6 @@ namespace 脸滚键盘.自定义控件
             TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
             Button btnDel = FindChild<Button>(selectedItem as DependencyObject, "btnDel");
 
-            if (TbReName != null)
-            {
-                TbReName.Visibility = Visibility.Hidden;
-            }
 
         }
 
@@ -131,7 +141,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             TreeViewItem selectedItem = TreeOperate.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
-            if (selectedNode != null)
+            if (selectedItem != null)
             {
                 if (selectedNode.IsButton == true)
                 {
@@ -149,6 +159,7 @@ namespace 脸滚键盘.自定义控件
                 {
                     if (selectedNode.IsDir == true)
                     {
+                        selectedNode.IsExpanded = !selectedNode.IsExpanded;
                         //string tableName = TypeOfTree;
                         //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                         //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
@@ -166,6 +177,11 @@ namespace 脸滚键盘.自定义控件
                         string nodePath = GetPath(selectedNode);
                         Console.WriteLine(nodePath);
                     }
+
+                    TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                    TbReName.SelectAll();
+                    TbReName.Visibility = Visibility.Visible;
+                    TbReName.Focus();
                 }
             }
         }
@@ -191,12 +207,11 @@ namespace 脸滚键盘.自定义控件
             Grid grid = GetParentObjectEx<Grid>(TbReName as DependencyObject) as Grid;
             TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
 
-            TbkName.Visibility = Visibility.Visible;
-
-            Console.WriteLine(selectedNode.NodeName);
-
             if (selectedNode != null)
             {
+                TbReName.Visibility = Visibility.Hidden;
+                TbkName.Visibility = Visibility.Visible;
+
                 string tableName = TypeOfTree;
                 SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName, selectedNode.Uid);
@@ -210,18 +225,26 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             TreeViewItem selectedItem = e.OriginalSource as TreeViewItem;
 
-            if (selectedItem != null)
+            if (selectedItem != null && selectedNode.IsButton == false)
             {
                 if (e.Key == Key.F2)
                 {
-                    TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                    TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
                     TbReName.SelectAll();
                     TbReName.Visibility = Visibility.Visible;
                     TbReName.Focus();
                 }
             }
+        }
 
 
+        private void Tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
+            if (TbReName != null)
+            {
+                TbReName.Visibility = Visibility.Hidden;
+            }
         }
         #endregion
 
@@ -540,10 +563,11 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             DelNode(selectedNode);
         }
+
+
+
+
         #endregion
-
-
-
 
     }
 

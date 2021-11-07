@@ -54,5 +54,20 @@ namespace 脸滚键盘
         {
             Application.Current.Shutdown();
         }
+
+        private void PublicRoleCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.PublicRoleCard = sender as UcTreeRoleCard;
+            Gval.Uc.PublicRoleCard.LoadBook("index", "角色");
+            CardOperate.TryToBuildBaseTable("index", "角色");
+
+        }
+
+        private void PublicInfoCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.PublicInfoCard = sender as UcTreeInfoCard;
+            Gval.Uc.PublicInfoCard.LoadBook("index", "其他");
+            CardOperate.TryToBuildBaseTable("index", "其他");
+        }
     }
 }

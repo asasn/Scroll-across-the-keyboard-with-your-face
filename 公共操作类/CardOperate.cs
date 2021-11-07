@@ -30,7 +30,7 @@ namespace 脸滚键盘.公共操作类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}({0}id CHAR PRIMARY KEY, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY REFERENCES Tree_{0}(Uid) ON DELETE CASCADE ON UPDATE CASCADE, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tableName);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
         }
@@ -45,7 +45,7 @@ namespace 脸滚键盘.公共操作类
             //实际上是以名字为标识符
             if (false == string.IsNullOrEmpty(newNode.NodeName) && false == string.IsNullOrEmpty(tableName))
             {
-                string sql = string.Format("insert or ignore into {0} ({0}id, 名称) values ('{1}', '{2}');", tableName, newNode.Uid, newNode.NodeName);
+                string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, newNode.Uid, newNode.NodeName);
                 sqlConn.ExecuteNonQuery(sql);
             }
             sqlConn.Close();
@@ -101,7 +101,7 @@ namespace 脸滚键盘.公共操作类
                 }
                 sqlConn.ExecuteNonQuery(sql);
             }
-            string sql2 = string.Format("update {0} set 权重={1} where {0}id = '{2}';", tableName, w, idValue);
+            string sql2 = string.Format("update {0}主表 set 权重={1} where {0}id = '{2}';", tableName, w, idValue);
             sqlConn.ExecuteNonQuery(sql2);
             sqlConn.Close();
         }
@@ -115,7 +115,7 @@ namespace 脸滚键盘.公共操作类
             foreach (WrapPanel wp in wrapPanels)
             {
                 //尝试建立新表（IF NOT EXISTS）
-                string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表({0}id CHAR REFERENCES {0} ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, wp.Uid);
+                string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, wp.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 sql = string.Format("select * from {0}{1}表 where {0}id = '{2}';", tableName, wp.Uid, idValue);

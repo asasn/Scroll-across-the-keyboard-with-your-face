@@ -3,7 +3,7 @@ using System.IO;
 
 namespace 脸滚键盘.公共操作类
 {
-    class SqliteOperate
+    public class SqliteOperate
     {
 
         public SqliteOperate(string DbPath, string DbName = null)

@@ -130,7 +130,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             TreeViewItem selectedItem = TreeOperate.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
-            if (selectedNode != null)
+            if (selectedItem != null)
             {
                 if (selectedNode.IsButton == true)
                 {
@@ -532,11 +532,11 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             DelNode(selectedNode);
 
-            string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            string sql = string.Format("DELETE FROM {0} where {0}id = '{1}';", TypeOfTree, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+            //string tableName = TypeOfTree;
+            //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            //string sql = string.Format("DELETE FROM {0}主表 where {0}id = '{1}';", TypeOfTree, selectedNode.Uid);
+            //sqlConn.ExecuteNonQuery(sql);
+            //sqlConn.Close();
         }
         #endregion
 

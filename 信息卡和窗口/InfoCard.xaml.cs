@@ -77,7 +77,7 @@ namespace 脸滚键盘.信息卡和窗口
         {
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            string sql = string.Format("select * from {0} where {0}id = '{1}';", tableName, CurNode.Uid);
+            string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, CurNode.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -124,7 +124,7 @@ namespace 脸滚键盘.信息卡和窗口
         {
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0} where 名称='{1}'", tableName, tbName.Text));
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, tbName.Text));
             while (reader.Read())
             {
                 if (CurNode.Uid != reader.GetString(0).ToString())
@@ -148,7 +148,7 @@ namespace 脸滚键盘.信息卡和窗口
                     tbOffsetAge.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0} set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text, tb备注.Text, thisCard.weight, tbOffsetAge.Text, CurNode.Uid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text, tb备注.Text, thisCard.weight, tbOffsetAge.Text, CurNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 CurNode.NodeName = tbName.Text;
