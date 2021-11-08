@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,6 +43,17 @@ namespace 脸滚键盘.信息卡和窗口
         {
             InitializeComponent();
 
+            if (CurBookName == "index")
+            {
+                this.Left = 305;
+                this.Top = 115;
+            }
+            else
+            {
+                this.Left = 305;
+                this.Top = 115;
+            }
+
             CurBookName = curBookName;
             TypeOfTree = typeOfTree;
 
@@ -52,7 +64,7 @@ namespace 脸滚键盘.信息卡和窗口
             CurButton = curButton;
             tbName.Text = curButton.Content.ToString();
 
-            WrapPanel[] temp = { wp别称, wp身份, wp外观, wp所属, wp阶级, wp物品, wp能力, wp经历 };
+            WrapPanel[] temp = { wp别称, wp身份, wp外观, wp阶级, wp所属, wp物品, wp能力, wp经历 };
             wrapPanels = temp;
 
             //填充窗口信息
@@ -92,28 +104,44 @@ namespace 脸滚键盘.信息卡和窗口
                 }
                 if (reader["相对年龄"].ToString() == "")
                 {
-                    tbOffsetAge.Text = "0";
+                    TbBornYear.Text = "0";
                 }
                 else
                 {
-                    tbOffsetAge.Text = reader["相对年龄"].ToString();
-
+                    TbBornYear.Text = reader["相对年龄"].ToString();
                 }
 
             }
             reader.Close();
             sqlConn.Close();
 
-            int realAge = Gval.CurrentBook.CurrentYear - Gval.CurrentBook.BornYear + int.Parse(tbOffsetAge.Text);
-            card.Header = string.Format("　　权重：{0}　　年龄：{1}", thisCard.weight, realAge.ToString());
+            int realAge = Gval.CurrentBook.CurrentYear - int.Parse(TbBornYear.Text);
+            Grid grid = new Grid();
+            TextBlock lb1 = new TextBlock();
+            TextBlock lb2 = new TextBlock();
+            lb1.Text = "权重：";
+            lb2.Text = "真实年龄："; 
+            lb1.Margin = new Thickness(7, 0, 0, 0);
+            lb2.Margin = new Thickness(152, 0, 0, 0);
+            TextBlock tbk1 = new TextBlock();
+            TextBlock tbk2 = new TextBlock();
+            tbk1.Text = thisCard.weight;
+            tbk2.Text = realAge.ToString(); ;
+            tbk1.Margin = new Thickness(50, 0, 0, 0);
+            tbk2.Margin = new Thickness(219, 0, 0, 0);
+            grid.Children.Add(lb1);
+            grid.Children.Add(lb2);
+            grid.Children.Add(tbk1);
+            grid.Children.Add(tbk2);
+            card.Header = grid;
         }
 
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            string num = b.Name.Substring(3);
-            string wpName = "wp" + num;
+            string btnName = b.Name.Substring(3);
+            string wpName = "wp" + btnName;
             WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
             TextBox tb = CardOperate.AddTextBox();
             wp.Children.Add(tb);
@@ -144,12 +172,12 @@ namespace 脸滚键盘.信息卡和窗口
                 {
                     thisCard.weight = 0.ToString();
                 }
-                if (string.IsNullOrEmpty(tbOffsetAge.Text))
+                if (string.IsNullOrEmpty(TbBornYear.Text))
                 {
-                    tbOffsetAge.Text = 0.ToString();
+                    TbBornYear.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text, tb备注.Text, thisCard.weight, tbOffsetAge.Text, CurButton.Uid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text, tb备注.Text, thisCard.weight, TbBornYear.Text, CurButton.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 CurButton.Content = tbName.Text;
@@ -172,6 +200,12 @@ namespace 脸滚键盘.信息卡和窗口
         }
 
 
-
+        private void TbBornYear_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            int str;
+            int.TryParse(tb.Text, out str);
+            tb.Text = str.ToString();
+        }
     }
 }

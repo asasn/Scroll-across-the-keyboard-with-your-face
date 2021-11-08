@@ -20,7 +20,9 @@
             <Button x:Name="BtnAdd" Grid.Column="1" Padding="5" Click="BtnAdd_Click" Style="{StaticResource ResourceKey=ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Content="添加" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center" />
         </Grid>
         <ScrollViewer Grid.Row="1">
-            <WrapPanel x:Name="WpCards"  Grid.ColumnSpan="2" Loaded="WpCards_Loaded"/>
+            <WrapPanel x:Name="WpCards"  Grid.ColumnSpan="2" Loaded="WpCards_Loaded">
+                
+            </WrapPanel>
         </ScrollViewer>
 
     </Grid>

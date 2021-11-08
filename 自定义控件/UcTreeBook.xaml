@@ -75,9 +75,9 @@
                         <WrapPanel Margin="10,0,0,0" Grid.Row="2" >
                             <WrapPanel>
                                 <TextBox x:Name="TbCurBookName" Text="" MinWidth="100"/>
-                                <TextBox x:Name="TbCurBookPrice" Text="" MinWidth="50"/>
-                                <TextBox x:Name="TbCurBookBornYear" Text="" MinWidth="50"/>
-                                <TextBox x:Name="TbCurBookCurrentYear" Text="" MinWidth="50"/>
+                                <TextBox x:Name="TbCurBookPrice" Text="" MinWidth="50" TextChanged="TbCurBookPrice_TextChanged"/>
+                                <TextBox x:Name="TbCurBookBornYear" Text="" MinWidth="50" TextChanged="TbCurBookBornYear_TextChanged"/>
+                                <TextBox x:Name="TbCurBookCurrentYear" Text="" MinWidth="50" TextChanged="TbCurBookCurrentYear_TextChanged"/>
                             </WrapPanel>
                             <Button x:Name="BtnUpdate" Click="BtnUpdate_Click" Content="修改当前书籍信息" HorizontalAlignment="Left" MinWidth="100"/>
                         </WrapPanel>

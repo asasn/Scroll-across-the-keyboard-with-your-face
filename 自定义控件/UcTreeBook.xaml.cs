@@ -440,7 +440,6 @@ namespace 脸滚键盘.自定义控件
             return container;
         }
 
-
         TreeViewItem orginItem = new TreeViewItem();
         TreeViewItem oldItem = new TreeViewItem();
         int orginLevel = -1;
@@ -450,7 +449,11 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         private void Tv_DragEnter(object sender, DragEventArgs e)
         {
-
+            if (TbReName.Visibility == Visibility.Visible)
+            {
+                e.Handled = true;
+            }
+            
             TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
             TreeViewNode dragNode = container.DataContext as TreeViewNode;
             if (orginLevel == -1)
@@ -611,8 +614,6 @@ namespace 脸滚键盘.自定义控件
             TreeViewItem dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
         }
 
-
-
         #endregion
 
         #endregion
@@ -760,10 +761,10 @@ namespace 脸滚键盘.自定义控件
             this.LoadBook(Gval.CurrentBook.Name, "book");
             Gval.Uc.TreeNote.LoadBook(Gval.CurrentBook.Name, "note");
             Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");
-            Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "角色");
-            Gval.Uc.OtherCards.LoadCards(Gval.CurrentBook.Name, "其他");
+            Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "其他");
+            Gval.Uc.OtherCards.LoadCards(Gval.CurrentBook.Name, "其他");           
         }
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)
@@ -850,9 +851,32 @@ namespace 脸滚键盘.自定义控件
 
 
 
+
         #endregion
 
+        private void TbCurBookBornYear_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            int str;
+            int.TryParse(tb.Text, out str);
+            tb.Text = str.ToString();
+        }
 
+        private void TbCurBookCurrentYear_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            int str;
+            int.TryParse(tb.Text, out str);
+            tb.Text = str.ToString();
+        }
+
+        private void TbCurBookPrice_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            double str;
+            double.TryParse(tb.Text, out str);
+            tb.Text = str.ToString();
+        }
     }
 
 

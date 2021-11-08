@@ -51,12 +51,22 @@ namespace 脸滚键盘.自定义控件
 
                 string guid = Guid.NewGuid().ToString();
                 Button BtnTag = new Button();
+                BtnTag.Padding = new Thickness(2);
+                BtnTag.Height = 22;
                 BtnTag.Margin = new Thickness(5, 5, 0, 0);
                 BtnTag.Click += BtnTag_Click;
+                ContextMenu aMenu = new ContextMenu();
+                MenuItem deleteMenu = new MenuItem();
+                deleteMenu.Header = "删除";
+                deleteMenu.Click += DeleteMenu_Click; ;
+                aMenu.Items.Add(deleteMenu);
+                BtnTag.ContextMenu = aMenu;
+                aMenu.DataContext = BtnTag;
                 BtnTag.Uid = guid;
-                BtnTag.Content = TbTab.Text;
-                TbTab.Clear();
+                BtnTag.Content = TbTab.Text;                
                 WpCards.Children.Add(BtnTag);
+
+                TbTab.Clear();
 
                 string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, BtnTag.Uid, BtnTag.Content.ToString());
                 sqlConn.ExecuteNonQuery(sql);
@@ -68,9 +78,16 @@ namespace 脸滚键盘.自定义控件
         private void BtnTag_Click(object sender, RoutedEventArgs e)
         {
             Button BtnTag = sender as Button;
-            TreeViewNode selectedNode = BtnTag.DataContext as TreeViewNode;
-            RoleCard roleCard = new RoleCard(CurBookName, TypeOfTree, BtnTag);
-            roleCard.Show();
+            if (TypeOfTree == "角色")
+            {
+                RoleCard roleCard = new RoleCard(CurBookName, TypeOfTree, BtnTag);
+                roleCard.Show();
+            }
+            if (TypeOfTree == "其他")
+            {
+                InfoCard infoCard = new InfoCard(CurBookName, TypeOfTree, BtnTag);
+                infoCard.Show();
+            }
         }
 
         public void LoadCards(string curBookName, string typeOfTree)
@@ -100,6 +117,8 @@ namespace 脸滚键盘.自定义控件
             while (reader.Read())
             {
                 Button BtnTag = new Button();
+                BtnTag.Padding = new Thickness(2);
+                BtnTag.Height = 22;
                 BtnTag.Margin = new Thickness(5, 5, 0, 0);
                 BtnTag.Click += BtnTag_Click;
                 ContextMenu aMenu = new ContextMenu();
