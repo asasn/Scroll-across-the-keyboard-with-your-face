@@ -50,20 +50,7 @@ namespace 脸滚键盘.自定义控件
                 reader.Close();
 
                 string guid = Guid.NewGuid().ToString();
-                Button BtnTag = new Button();
-                BtnTag.Padding = new Thickness(2);
-                BtnTag.Height = 22;
-                BtnTag.Margin = new Thickness(5, 5, 0, 0);
-                BtnTag.Click += BtnTag_Click;
-                ContextMenu aMenu = new ContextMenu();
-                MenuItem deleteMenu = new MenuItem();
-                deleteMenu.Header = "删除";
-                deleteMenu.Click += DeleteMenu_Click; ;
-                aMenu.Items.Add(deleteMenu);
-                BtnTag.ContextMenu = aMenu;
-                aMenu.DataContext = BtnTag;
-                BtnTag.Uid = guid;
-                BtnTag.Content = TbTab.Text;                
+                Button BtnTag = AddNode(guid, TbTab.Text);
                 WpCards.Children.Add(BtnTag);
 
                 TbTab.Clear();
@@ -116,20 +103,7 @@ namespace 脸滚键盘.自定义控件
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
-                Button BtnTag = new Button();
-                BtnTag.Padding = new Thickness(2);
-                BtnTag.Height = 22;
-                BtnTag.Margin = new Thickness(5, 5, 0, 0);
-                BtnTag.Click += BtnTag_Click;
-                ContextMenu aMenu = new ContextMenu();
-                MenuItem deleteMenu = new MenuItem();
-                deleteMenu.Header = "删除";
-                deleteMenu.Click += DeleteMenu_Click; ;
-                aMenu.Items.Add(deleteMenu);
-                BtnTag.ContextMenu = aMenu;
-                aMenu.DataContext = BtnTag;
-                BtnTag.Uid = reader.GetString(0);
-                BtnTag.Content = reader.GetString(1);
+                Button BtnTag = AddNode(reader[string.Format("{0}id", tableName)].ToString(), reader["名称"].ToString());
                 WpCards.Children.Add(BtnTag);
             }
             reader.Close();
@@ -163,6 +137,24 @@ namespace 脸滚键盘.自定义控件
             {
                 BtnAdd_Click(null, null);
             }
+        }
+
+        Button AddNode(string guid, string content)
+        {
+            Button BtnTag = new Button();
+            BtnTag.Padding = new Thickness(2);
+            BtnTag.Margin = new Thickness(5, 5, 0, 0);
+            BtnTag.Click += BtnTag_Click;
+            ContextMenu aMenu = new ContextMenu();
+            MenuItem deleteMenu = new MenuItem();
+            deleteMenu.Header = "删除";
+            deleteMenu.Click += DeleteMenu_Click; ;
+            aMenu.Items.Add(deleteMenu);
+            BtnTag.ContextMenu = aMenu;
+            aMenu.DataContext = BtnTag;
+            BtnTag.Uid = guid;
+            BtnTag.Content = content;
+            return BtnTag;
         }
     }
 }

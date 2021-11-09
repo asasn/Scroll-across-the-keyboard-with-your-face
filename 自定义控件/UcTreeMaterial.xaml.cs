@@ -235,6 +235,7 @@ namespace 脸滚键盘.自定义控件
 
         private void Tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _lastMouseDown = e.GetPosition(this);
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             if (TbReName != null)
             {
@@ -312,7 +313,7 @@ namespace 脸滚键盘.自定义控件
             TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
+            TreeOperate.SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
         /// <summary>
@@ -335,7 +336,7 @@ namespace 脸滚键盘.自定义控件
             TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
+            TreeOperate.SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
 
@@ -473,7 +474,7 @@ namespace 脸滚键盘.自定义控件
                         TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
 
                         //节点索引交换位置
-                        TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
+                        TreeOperate.SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
                     }
                 }
             }

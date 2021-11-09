@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Resources;
 using System.Windows.Shapes;
+using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 
 namespace 脸滚键盘.自定义控件
@@ -40,9 +41,15 @@ namespace 脸滚键盘.自定义控件
             {
                 return;
             }
+            WpYears.Children.Clear();
             CurBookName = curBookName;
             TypeOfTree = typeOfTree;
             WpYears.Tag = typeOfTree;
+            TbYear.Clear();
+            TbYear.Visibility = Visibility.Hidden;
+            TbYear.Uid = "";
+
+            Uc.Tag = false;
 
             Sv.ScrollToRightEnd();
 
@@ -56,20 +63,7 @@ namespace 脸滚键盘.自定义控件
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
-                Button BtnTag = new Button();
-                BtnTag.Padding = new Thickness(2);
-                BtnTag.Height = 30;
-                BtnTag.Margin = new Thickness(5, 5, 0, 0);
-                BtnTag.Click += BtnTag_Click;
-                ContextMenu aMenu = new ContextMenu();
-                MenuItem deleteMenu = new MenuItem();
-                deleteMenu.Header = "删除";
-                deleteMenu.Click += DeleteMenu_Click; ;
-                aMenu.Items.Add(deleteMenu);
-                BtnTag.ContextMenu = aMenu;
-                aMenu.DataContext = BtnTag;
-                BtnTag.Uid = reader["Uid"].ToString();
-                BtnTag.Content = reader["NodeName"].ToString();
+                Button BtnTag = AddNode(reader["Uid"].ToString(), reader["NodeName"].ToString());
                 WpYears.Children.Add(BtnTag);
             }
             reader.Close();
@@ -81,11 +75,41 @@ namespace 脸滚键盘.自定义控件
 
         private void DeleteMenu_Click(object sender, RoutedEventArgs e)
         {
+            Button BtnTag = (sender as MenuItem).DataContext as Button;
+            WpYears.Children.Remove(BtnTag);
 
+            string tableName = TypeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, BtnTag.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sql = string.Format("DELETE from Tree_{0} where Pid='{1}';", tableName, BtnTag.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sqlConn.Close();
         }
 
         private void BtnTag_Click(object sender, RoutedEventArgs e)
         {
+            if ((bool)Uc.Tag != true)
+            {
+                Uc.Tag = true;
+                Button BtnParentTag = sender as Button;
+                WpYears.Children.Clear();
+                TbYear.Visibility = Visibility.Visible;
+                TbYear.Text = BtnParentTag.Content.ToString();
+                TbYear.Uid = BtnParentTag.Uid;
+
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, BtnParentTag.Uid);
+                SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+                while (reader.Read())
+                {
+                    Button BtnTag = AddNode(reader["Uid"].ToString(), reader["NodeName"].ToString());
+                    WpYears.Children.Add(BtnTag);                    
+                }
+                reader.Close();
+                sqlConn.Close();
+            }
 
         }
 
@@ -109,25 +133,14 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnGoLeft_Click(object sender, RoutedEventArgs e)
         {
-            Sv.PageLeft();
+            LoadYears(CurBookName, TypeOfTree);
         }
 
         private void BtnGoRight_Click(object sender, RoutedEventArgs e)
         {
-            Sv.PageRight();
+            
         }
 
-        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
-        {
-            BtnGoLeft.Visibility = Visibility.Visible;
-            BtnGoRight.Visibility = Visibility.Visible;
-        }
-
-        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
-        {
-            BtnGoLeft.Visibility = Visibility.Hidden;
-            BtnGoRight.Visibility = Visibility.Hidden;
-        }
 
         Point _lastMouseDown;
         double lastOffset;
@@ -152,14 +165,65 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (false == string.IsNullOrEmpty(TbTab.Text))
+            {
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
 
+                string guid = Guid.NewGuid().ToString();
+                Button BtnTag = AddNode(guid, TbTab.Text);
+                WpYears.Children.Add(BtnTag);
+
+                string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, guid, TbYear.Uid, TbTab.Text, true, "", 0, 0);
+                sqlConn.ExecuteNonQuery(sql);
+                sqlConn.Close();
+                sqlConn.Close();
+                TbTab.Clear();
+            }
         }
 
         private void TbTab_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if (e.Key == Key.Enter)
+            {
+                BtnAdd_Click(null, null);
+            }
         }
 
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            
+            
+        }
 
+        Button AddNode(string guid, string content)
+        {
+            Button BtnTag = new Button();
+            BtnTag.Padding = new Thickness(2);
+            BtnTag.Margin = new Thickness(5, 5, 0, 0);
+            BtnTag.Click += BtnTag_Click;
+            ContextMenu aMenu = new ContextMenu();
+            MenuItem deleteMenu = new MenuItem();
+            deleteMenu.Header = "删除";
+            deleteMenu.Click += DeleteMenu_Click; ;
+            aMenu.Items.Add(deleteMenu);
+            BtnTag.ContextMenu = aMenu;
+            aMenu.DataContext = BtnTag;
+            BtnTag.Uid = guid;
+            BtnTag.Content = content;
+            return BtnTag;
+        }
+
+        private void TbYear_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && false == string.IsNullOrEmpty(TbYear.Text))
+            {
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbYear.Text, TbYear.Uid);
+                sqlConn.ExecuteNonQuery(sql);
+                sqlConn.Close();
+            }
+        }
     }
 }

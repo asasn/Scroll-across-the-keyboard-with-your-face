@@ -97,7 +97,7 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
-            {  
+            {
                 selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
                 TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
@@ -112,7 +112,7 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
-            {        
+            {
                 selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                 TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
@@ -253,13 +253,13 @@ namespace 脸滚键盘.自定义控件
                 }
                 if (dr == MessageBoxResult.No)
                 {
-                    
+
                 }
                 if (dr == MessageBoxResult.Cancel)
                 {
                     (e as HandyControl.Data.CancelRoutedEventArgs).Cancel = true;
                 }
-                
+
             }
         }
         #endregion
@@ -317,6 +317,7 @@ namespace 脸滚键盘.自定义控件
 
         private void Tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _lastMouseDown = e.GetPosition(this);
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             if (TbReName != null)
             {
@@ -394,7 +395,7 @@ namespace 脸滚键盘.自定义控件
             TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
+            TreeOperate.SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
         /// <summary>
@@ -417,7 +418,7 @@ namespace 脸滚键盘.自定义控件
             TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeOperate.SwapNode(n, selectedNode, neighboringNode, TreeViewNodeList);
+            TreeOperate.SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
 
@@ -553,7 +554,7 @@ namespace 脸滚键盘.自定义控件
                         TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
 
                         //节点索引交换位置
-                        TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
+                        TreeOperate.SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
                     }
                 }
             }
@@ -714,7 +715,7 @@ namespace 脸滚键盘.自定义控件
             }
             HandyControl.Controls.Card bookCard = sender as HandyControl.Controls.Card;
             Gval.Uc.TabControl.Items.Clear();
-            ChoseBookChange(bookCard);            
+            ChoseBookChange(bookCard);
         }
 
         /// <summary>

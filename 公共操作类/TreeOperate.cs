@@ -327,7 +327,7 @@ namespace 脸滚键盘.公共操作类
 
         #region 节点拖曳/移动（改变索引）
 
-        public static void SwapNode(int m, TreeViewNode dragNode, TreeViewNode dropNode, ObservableCollection<TreeViewNode> treeViewNodeList)
+        public static void SwapNode(int m, TreeViewNode dragNode, TreeViewNode parentNode, ObservableCollection<TreeViewNode> treeViewNodeList)
         {
             TreeViewNode tempNode = dragNode;
             if (tempNode.Pid == "")
@@ -336,7 +336,7 @@ namespace 脸滚键盘.公共操作类
                 treeViewNodeList.Insert(m, dragNode);
             }
             tempNode.ParentNode.ChildNodes.Remove(dragNode);
-            dropNode.ParentNode.ChildNodes.Insert(m, tempNode);
+            parentNode.ChildNodes.Insert(m, tempNode);
         }
 
         public static void MouseMove(TreeView Tv, MouseEventArgs e, Point _lastMouseDown)
