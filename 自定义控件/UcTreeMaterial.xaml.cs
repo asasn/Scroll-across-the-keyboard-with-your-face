@@ -491,32 +491,12 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            try
+            if (TbReName != null && TbReName.Visibility == Visibility.Visible)
             {
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    //获取鼠标移动的距离
-                    Point currentPosition = e.GetPosition(Tv);
+                return;
+            }
 
-                    //判断鼠标是否移动
-                    if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
-                        (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
-                    {
-                        //获取鼠标选中的节点数据
-                        TreeViewNode draggedNode = (TreeViewNode)Tv.SelectedItem;
-                        if (draggedNode != null && draggedNode.IsButton == false)
-                        {
-                            //启动拖放操作
-                            //DragDropEffects finalDropEffect = DragDrop.DoDragDrop(treeView, treeView.SelectedValue,System.Windows.DragDropEffects.Move);
-                            DragDrop.DoDragDrop(Tv, Tv.SelectedValue, System.Windows.DragDropEffects.Move);
-                            e.Handled = true;
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
+            TreeOperate.MouseMove(Tv, e, _lastMouseDown);
         }
 
         /// <summary>

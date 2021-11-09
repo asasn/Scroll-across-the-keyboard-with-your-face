@@ -7,6 +7,7 @@ using System.Data.SQLite;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace 脸滚键盘.公共操作类
@@ -338,6 +339,36 @@ namespace 脸滚键盘.公共操作类
             dropNode.ParentNode.ChildNodes.Insert(m, tempNode);
         }
 
+        public static void MouseMove(TreeView Tv, MouseEventArgs e, Point _lastMouseDown)
+        {
+            try
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    //获取鼠标移动的距离
+                    Point currentPosition = e.GetPosition(Tv);
+
+                    //判断鼠标是否移动
+                    if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
+                        (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
+                    {
+                        //获取鼠标选中的节点数据
+                        TreeViewNode draggedNode = (TreeViewNode)Tv.SelectedItem;
+                        if (draggedNode != null && draggedNode.IsButton == false)
+                        {
+                            //启动拖放操作
+                            //DragDropEffects finalDropEffect = DragDrop.DoDragDrop(treeView, treeView.SelectedValue,System.Windows.DragDropEffects.Move);
+                            DragDrop.DoDragDrop(Tv, Tv.SelectedValue, System.Windows.DragDropEffects.Move);
+                            e.Handled = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         #endregion
 
         #region 添加或者删除节点/按钮
@@ -380,7 +411,7 @@ namespace 脸滚键盘.公共操作类
                 {
                     newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                 }
-                if (typeOfTree == "note" || typeOfTree == "task")
+                if (typeOfTree == "history" || typeOfTree == "task")
                 {
                     newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
                 }
@@ -399,7 +430,7 @@ namespace 脸滚键盘.公共操作类
                 {
                     newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
                 }
-                if (typeOfTree == "note" || typeOfTree == "task")
+                if (typeOfTree == "history" || typeOfTree == "task")
                 {
                     newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
                 }
@@ -485,7 +516,7 @@ namespace 脸滚键盘.公共操作类
                     {
                         node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
                     }
-                    if (typeOfTree == "note" || typeOfTree == "task")
+                    if (typeOfTree == "history" || typeOfTree == "task")
                     {
                         node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
                     }
@@ -496,7 +527,7 @@ namespace 脸滚键盘.公共操作类
                     {
                         node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                     }
-                    if (typeOfTree == "note" || typeOfTree == "task")
+                    if (typeOfTree == "history" || typeOfTree == "task")
                     {
                         node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
                     }
@@ -574,7 +605,7 @@ namespace 脸滚键盘.公共操作类
                 {
                     node.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
                 }
-                if (typeOfTree == "note" || typeOfTree == "task")
+                if (typeOfTree == "history" || typeOfTree == "task")
                 {
                     node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
                 }

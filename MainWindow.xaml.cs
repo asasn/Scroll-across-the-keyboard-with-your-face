@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using 脸滚键盘.自定义控件;
 
@@ -25,10 +26,6 @@ namespace 脸滚键盘
             Gval.Uc.TreeMaterial = sender as UcTreeMaterial;
         }
 
-        private void UcTreeNote_Loaded(object sender, RoutedEventArgs e)
-        {
-            Gval.Uc.TreeNote = sender as UcTreeNote;
-        }
 
         private void UcTreeTask_Loaded(object sender, RoutedEventArgs e)
         {
@@ -46,15 +43,6 @@ namespace 脸滚键盘
         {
             Application.Current.Shutdown();
         }
-
-        private void PublicRoleCard_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Gval.Uc.PublicRoleCard = sender as UcTreeRoleCard;
-            //Gval.Uc.PublicRoleCard.LoadBook("index", "角色");
-            //CardOperate.TryToBuildBaseTable("index", "角色");
-
-        }
-
 
 
         private void RoleCards_Loaded(object sender, RoutedEventArgs e)
@@ -84,5 +72,15 @@ namespace 脸滚键盘
         }
 
 
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Gval.CurrentBook.Name != null)
+            {
+                HistoryWindow historyWindow = new HistoryWindow(Gval.CurrentBook.Name, "history");
+                historyWindow.UcHistoryBar.LoadYears(Gval.CurrentBook.Name, "history");
+                historyWindow.ShowDialog();                
+            }
+        }
     }
 }

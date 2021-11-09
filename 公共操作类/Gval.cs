@@ -37,13 +37,13 @@ namespace 脸滚键盘.公共操作类
             public static HandyControl.Controls.TabControl TabControl;
             public static UcTreeBook TreeBook;
             public static UcTreeMaterial TreeMaterial;
-            public static UcTreeNote TreeNote; 
             public static UcTreeTask TreeTask;
             public static MaterialWindow MaterialWindow = new MaterialWindow();
             public static UcCards RoleCards;
             public static UcCards OtherCards;
             public static UcCards PublicRoleCards;
             public static UcCards PublicOtherCards;
+            public static UcHistoryBar HistoryBar;
         }
     }
 }

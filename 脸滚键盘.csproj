@@ -95,6 +95,9 @@
     <Compile Include="信息卡和窗口\MaterialWindow.xaml.cs">
       <DependentUpon>MaterialWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="信息卡和窗口\HistoryWindow.xaml.cs">
+      <DependentUpon>HistoryWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="信息卡和窗口\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>
     </Compile>
@@ -114,14 +117,14 @@
     <Compile Include="自定义控件\UcCards.xaml.cs">
       <DependentUpon>UcCards.xaml</DependentUpon>
     </Compile>
+    <Compile Include="自定义控件\UcHistoryBar.xaml.cs">
+      <DependentUpon>UcHistoryBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="自定义控件\UcTreeBook.xaml.cs">
       <DependentUpon>UcTreeBook.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeMaterial.xaml.cs">
       <DependentUpon>UcTreeMaterial.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="自定义控件\UcTreeNote.xaml.cs">
-      <DependentUpon>UcTreeNote.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeTask.xaml.cs">
       <DependentUpon>UcTreeTask.xaml</DependentUpon>
@@ -150,6 +153,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="信息卡和窗口\HistoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="信息卡和窗口\RoleCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -166,15 +173,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="自定义控件\UcHistoryBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="自定义控件\UcTreeBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcTreeMaterial.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UcTreeNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

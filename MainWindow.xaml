@@ -8,6 +8,9 @@
         mc:Ignorable="d" UseLayoutRounding="True" Closing="Window_Closing"
         Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
             <ColumnDefinition Width="5"/>
@@ -15,8 +18,8 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
         </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
-        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch" />
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
         <Grid Grid.Column="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
@@ -33,7 +36,6 @@
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
                            Loaded="Editor_Loaded" IsDraggable="True">
             </hc:TabControl>
-            <自定义控件:UcTreeNote Grid.Column="4" Loaded="UcTreeNote_Loaded"/>
             <自定义控件:UcTreeTask Grid.Column="4" Grid.Row="1" Loaded="UcTreeTask_Loaded"/>
             <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
                 <hc:TabItem Header="本书角色信息卡">
@@ -42,13 +44,14 @@
                 <hc:TabItem Header="本书其他信息卡">
                     <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
-                
-            </hc:TabControl>
-            
-        </Grid>
 
-        <自定义控件:UcTreeBook Loaded="UcTreeBook_Loaded"/>
-        <hc:TabControl Grid.Column="4" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
+            </hc:TabControl>
+            <Button Content="BtnShowHistory" Click="Button_Click" HorizontalAlignment="Left" Margin="79,155,0,0" VerticalAlignment="Top" Width="75"/>
+
+        </Grid>
+       
+        
+        <hc:TabControl Grid.Column="4" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
             <hc:TabItem Header="资料库">
                 <自定义控件:UcTreeMaterial Loaded="UcTreeMaterial_Loaded"/>
             </hc:TabItem>
@@ -58,6 +61,8 @@
             <hc:TabItem Header="公共信息卡">
                 <自定义控件:UcCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
             </hc:TabItem>
-        </hc:TabControl>        
+        </hc:TabControl>
+
+        <自定义控件:UcTreeBook Loaded="UcTreeBook_Loaded" />
     </Grid>
 </Window>

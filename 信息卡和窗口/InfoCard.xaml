@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口" xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
         xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="Uc" x:Class="脸滚键盘.信息卡和窗口.InfoCard"
-        mc:Ignorable="d" ResizeMode="NoResize" Background="Transparent" Effect="{StaticResource EffectShadow3}" 
+        mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize" Background="Transparent" Effect="{StaticResource EffectShadow3}" 
         Title="角色信息卡" Width="300" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="400">
     <ScrollViewer MinHeight="400" VerticalAlignment="Top" >
         <hc:Card x:Name="card" Header="" Margin="5">
@@ -77,7 +77,7 @@
                 <Button Padding="2" x:Name="btn能力" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="7" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
                 <Button Padding="2" x:Name="btn经历" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="8" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
                 <Button Padding="2" x:Name="btnSave" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="btnSave_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" />
-                <Button Padding="2" x:Name="btnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="btnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="12" Height="12" Margin="5,-20,0,0" />
+                <Button Padding="2" x:Name="btnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="btnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-20,-5,0" />
             </Grid>
         </hc:Card>
     </ScrollViewer>

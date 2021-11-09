@@ -449,11 +449,6 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         private void Tv_DragEnter(object sender, DragEventArgs e)
         {
-            if (TbReName.Visibility == Visibility.Visible)
-            {
-                e.Handled = true;
-            }
-            
             TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
             TreeViewNode dragNode = container.DataContext as TreeViewNode;
             if (orginLevel == -1)
@@ -576,32 +571,12 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            try
+            if (TbReName != null && TbReName.Visibility == Visibility.Visible)
             {
-                if (e.LeftButton == MouseButtonState.Pressed)
-                {
-                    //获取鼠标移动的距离
-                    Point currentPosition = e.GetPosition(Tv);
+                return;
+            }
 
-                    //判断鼠标是否移动
-                    if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
-                        (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
-                    {
-                        //获取鼠标选中的节点数据
-                        TreeViewNode draggedNode = (TreeViewNode)Tv.SelectedItem;
-                        if (draggedNode != null && draggedNode.IsButton == false)
-                        {
-                            //启动拖放操作
-                            //DragDropEffects finalDropEffect = DragDrop.DoDragDrop(treeView, treeView.SelectedValue,System.Windows.DragDropEffects.Move);
-                            DragDrop.DoDragDrop(Tv, Tv.SelectedValue, System.Windows.DragDropEffects.Move);
-                            e.Handled = true;
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
+            TreeOperate.MouseMove(Tv, e, _lastMouseDown);
         }
 
         /// <summary>
@@ -759,12 +734,11 @@ namespace 脸滚键盘.自定义控件
             SettingsOperate.Set("curBookName", bookCard.Header.ToString());
             GetBookInfoForGval(bookCard.Uid);
             this.LoadBook(Gval.CurrentBook.Name, "book");
-            Gval.Uc.TreeNote.LoadBook(Gval.CurrentBook.Name, "note");
             Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "角色");
             Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "其他");
-            Gval.Uc.OtherCards.LoadCards(Gval.CurrentBook.Name, "其他");           
+            Gval.Uc.OtherCards.LoadCards(Gval.CurrentBook.Name, "其他");
         }
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)
