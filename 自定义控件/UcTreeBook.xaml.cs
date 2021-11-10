@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Data.SQLite;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,13 @@ namespace 脸滚键盘.自定义控件
     /// </summary>
     public partial class UcTreeBook : UserControl
     {
+        
+
         public UcTreeBook()
         {
             InitializeComponent();
+           
+            
         }
         TextBox TbReName;
         string TypeOfTree;
@@ -603,10 +608,20 @@ namespace 脸滚键盘.自定义控件
                 if (selectedNode.IsButton == false)
                 {
                     ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = true;
+                    if (selectedNode.IsDir == true)
+                    {
+                        ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = true;
+                    }
+                    else
+                    {
+                        ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = false;
+                    }
+                    
                 }
                 else
                 {
                     ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = false;
+                    ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = true;
                 }
             }
 
@@ -617,6 +632,42 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             DelNode(selectedNode);
         }
+
+        public static RoutedCommand Import = new RoutedCommand("Import", typeof(UcTreeBook));
+        private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+
+            string[] files = null;
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
+            dlg.Multiselect = true;
+
+            // 打开选择框选择
+            if (dlg.ShowDialog() == true)
+            {
+                files = dlg.FileNames;
+            }
+            else
+            {
+                return;
+            }
+            foreach (string srcFullFileName in files)
+            {
+                string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
+                if (selectedNode.IsDir == true)
+                {
+                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                    newNode.NodeName = title;
+                    newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
+                    newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
+                    TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                }
+            }
+        }
+
+
         #endregion
 
 
@@ -852,6 +903,8 @@ namespace 脸滚键盘.自定义控件
             double.TryParse(tb.Text, out str);
             tb.Text = str.ToString();
         }
+
+
     }
 
 

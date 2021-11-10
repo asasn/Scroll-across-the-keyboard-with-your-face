@@ -92,15 +92,16 @@ namespace 脸滚键盘.自定义控件
             if ((bool)Uc.Tag != true)
             {
                 Uc.Tag = true;
-                Button BtnParentTag = sender as Button;
+                Button BtnYearTag = sender as Button;
+
                 WpYears.Children.Clear();
                 TbYear.Visibility = Visibility.Visible;
-                TbYear.Text = BtnParentTag.Content.ToString();
-                TbYear.Uid = BtnParentTag.Uid;
+                TbYear.Text = BtnYearTag.Content.ToString();
+                TbYear.Uid = BtnYearTag.Uid;
 
                 string tableName = TypeOfTree;
                 SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, BtnParentTag.Uid);
+                string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, BtnYearTag.Uid);
                 SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
                 while (reader.Read())
                 {
@@ -110,7 +111,26 @@ namespace 脸滚键盘.自定义控件
                 reader.Close();
                 sqlConn.Close();
             }
+            else
+            {
+                Button BtnTag = sender as Button;
+                if (BtnTag.BorderBrush != Brushes.DodgerBlue)
+                {
+                    BtnTag.BorderBrush = Brushes.DodgerBlue;
+                }
+                else
+                {
+                    BtnTag.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+                }
+                foreach (Button btn in WpYears.Children)
+                {
+                    if (btn != BtnTag && BtnTag.BorderBrush == Brushes.DodgerBlue)
+                    {
+                        btn.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+                    }
+                }
 
+            }
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

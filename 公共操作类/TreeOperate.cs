@@ -378,8 +378,10 @@ namespace 脸滚键盘.公共操作类
         /// <param name="baseNode"></param>
         public static TreeViewNode AddNewNode(ObservableCollection<TreeViewNode> treeViewNodeList, TreeViewNode baseNode, string typeOfTree)
         {
+            
             string guid = Guid.NewGuid().ToString();
             TreeViewNode newNode = new TreeViewNode(guid, "新节点");
+            newNode.Pid = baseNode.Uid;
             newNode.NodeContent = "　　";
             int x;
             if (baseNode.ChildNodes.Count == 0)

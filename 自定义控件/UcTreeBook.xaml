@@ -44,13 +44,16 @@
                 <TreeView.ContextMenu>
                     <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">
                         <MenuItem x:Name="MenuDeleteItem" Header="删除该节点" IsEnabled="False" Command="Delete" InputGestureText="Delete"/>
+                        <MenuItem x:Name="MenuImportItem" Header="导入文档" IsEnabled="False" Command="local:UcTreeBook.Import" InputGestureText="Insert"/>
                     </ContextMenu>
                 </TreeView.ContextMenu>
                 <TreeView.CommandBindings>
                     <CommandBinding x:Name="Command_Delete" Command="Delete" Executed="Command_Delete_Executed" />
+                    <CommandBinding x:Name="Command_Import" Command="local:UcTreeBook.Import" Executed="Command_Import_Executed" />
                 </TreeView.CommandBindings>
                 <TreeView.InputBindings>
                     <KeyBinding Command="Delete" Key="Delete" />
+                    <KeyBinding Command="local:UcTreeBook.Import" Key="Insert" />
                 </TreeView.InputBindings>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem" BasedOn="{StaticResource BookTreeViewItemStyle}">
