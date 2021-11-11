@@ -7,11 +7,15 @@
              mc:Ignorable="d" UseLayoutRounding="True"
              d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="uc_DataContextChanged" Loaded="uc_Loaded">
     <hc:Card>
-        <Grid>
+        <Grid Background="#FFFAFAFA">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="100*"/>
                 <RowDefinition Height="30"/>
-            </Grid.RowDefinitions>           
+            </Grid.RowDefinitions>
             <avalonEdit:TextEditor Grid.Row="0"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
             Name="textEditor" ShowLineNumbers="True"
@@ -24,7 +28,7 @@
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
                 </avalonEdit:TextEditor.Options>
             </avalonEdit:TextEditor>
-            <Grid Grid.Row="2" Background="#FFFAFAFA" >
+            <Grid Grid.Row="1" Background="#FFFAFAFA">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -33,10 +37,32 @@
                     <Label controls:BorderElement.CornerRadius="0" x:Name="lb1" BorderThickness="0,0,0,0" Content="段落：0" Background="#FFFAFAFA" Foreground="#FFC70F0F" HorizontalAlignment="Left"/>
                     <Label controls:BorderElement.CornerRadius="0" x:Name="lb2" BorderThickness="0,0,0,0" Content="字数：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" VerticalAlignment="Center" HorizontalAlignment="Left" />
                     <Label controls:BorderElement.CornerRadius="0" x:Name="lbValue" BorderThickness="0,0,0,0" Content="价值：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                </WrapPanel>
-                <Button Padding="2" Style="{StaticResource ButtonIcon}" controls:IconElement.Geometry="{StaticResource SaveGeometry}" controls:BorderElement.CornerRadius="0" x:Name="btnSaveDoc" BorderBrush="Blue" BorderThickness="0,0,0,0" Grid.Column="4" Background="#FFFEFEFE" Foreground="Blue" IsEnabled="False" VerticalAlignment="Center" Height="28" Click="btnSaveText_Click" HorizontalAlignment="Right"/>
-
+                </WrapPanel>                
             </Grid>
+            <WrapPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
+                <Button x:Name="btnSaveDoc" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image  Source="pack://siteoforigin:,,,/Resourse/ic_action_save.png" />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="BtnCopy" ToolTip="复制文档内容" Click="BtnCopy_Click">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image  Source="pack://siteoforigin:,,,/Resourse/ic_action_copy.png" />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="BtnCopyTitle" ToolTip="复制文档标题" Click="BtnCopyTitle_Click">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image  Source="pack://siteoforigin:,,,/Resourse/ic_action_circles.png" />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </WrapPanel>
+            
             <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=uc, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->
         </Grid>
     </hc:Card>

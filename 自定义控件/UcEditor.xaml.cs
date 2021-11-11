@@ -44,7 +44,7 @@ namespace 脸滚键盘.自定义控件
             CurNode = this.DataContext as TreeOperate.TreeViewNode;
             TypeOfTree = typeOfTree;
             CurBookName = curBookName;
-            uc.textEditor.Load(EditorOperate.ConvertStringToStream(CurNode.NodeContent));
+            textEditor.Load(EditorOperate.ConvertStringToStream(CurNode.NodeContent));
 
             //光标移动至文末          
             textEditor.ScrollToLine(textEditor.LineCount);
@@ -183,7 +183,7 @@ namespace 脸滚键盘.自定义控件
         public void btnSaveText_Click(object sender, RoutedEventArgs e)
         {
             SaveText();
-            HandyControl.Controls.Growl.Success("文件保存！");
+            HandyControl.Controls.Growl.Success("本文档内容保存！");
         }
 
         private void textEditor_TextChanged(object sender, EventArgs e)
@@ -280,5 +280,16 @@ namespace 脸滚键盘.自定义控件
             }
         }
 
+        private void BtnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(textEditor.Text);
+            HandyControl.Controls.Growl.Success("已复制本文档内容到剪贴板！");
+        }
+
+        private void BtnCopyTitle_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(CurNode.NodeName);
+            HandyControl.Controls.Growl.Success("已复制本文档标题到剪贴板！");
+        }
     }
 }
