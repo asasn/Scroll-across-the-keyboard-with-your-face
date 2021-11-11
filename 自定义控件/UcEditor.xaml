@@ -37,7 +37,7 @@
                     <Label controls:BorderElement.CornerRadius="0" x:Name="lb1" BorderThickness="0,0,0,0" Content="段落：0" Background="#FFFAFAFA" Foreground="#FFC70F0F" HorizontalAlignment="Left"/>
                     <Label controls:BorderElement.CornerRadius="0" x:Name="lb2" BorderThickness="0,0,0,0" Content="字数：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" VerticalAlignment="Center" HorizontalAlignment="Left" />
                     <Label controls:BorderElement.CornerRadius="0" x:Name="lbValue" BorderThickness="0,0,0,0" Content="价值：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                </WrapPanel>                
+                </WrapPanel>
             </Grid>
             <WrapPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
                 <Button x:Name="btnSaveDoc" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">

@@ -1,7 +1,10 @@
 ﻿using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using ICSharpCode.AvalonEdit.Search;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,7 +27,7 @@ namespace 脸滚键盘.自定义控件
 
         string TypeOfTree;
         string CurBookName;
-
+        SearchPanel searchPanel;
         TreeOperate.TreeViewNode CurNode;
 
         /// <summary>
@@ -34,9 +37,14 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-            
 
-            
+            textEditor.TextArea.SelectionChanged += textEditor_TextArea_SelectionChanged;
+
+            //快速搜索功能
+            searchPanel =  SearchPanel.Install(textEditor.TextArea);
+            searchPanel.UseRegex = true;
+            searchPanel.Visibility = Visibility.Hidden;
+            searchPanel.Open();
         }
 
         public void LoadChapter(string curBookName, string typeOfTree)
@@ -189,7 +197,7 @@ namespace 脸滚键盘.自定义控件
         private void textEditor_TextChanged(object sender, EventArgs e)
         {
             ShowTextInfo();
-
+            
             if (this.IsEnabled == true && textEditor.TextArea.IsFocused == true)
             {
                 btnSaveDoc.IsEnabled = true;
@@ -263,6 +271,19 @@ namespace 脸滚键盘.自定义控件
 
                 btnSaveText_Click(null, null);
             }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+            {
+                
+            }
+            if (e.Key == Key.F3)
+            {
+                searchPanel.SearchPattern = textEditor.SelectedText;
+            }
+            if (e.Key == Key.F4)
+            {
+                searchPanel.SearchPattern = textEditor.SelectedText;
+                searchPanel.FindPrevious();
+            }
         }
 
         private void textEditor_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -291,5 +312,18 @@ namespace 脸滚键盘.自定义控件
             Clipboard.SetText(CurNode.NodeName);
             HandyControl.Controls.Growl.Success("已复制本文档标题到剪贴板！");
         }
+
+        void textEditor_TextArea_SelectionChanged(object sender, EventArgs e)
+        {
+            if (textEditor.SelectedText.Length > 0)
+            {                
+                lb2.Content = "字数：" + EditorOperate.WordCount(textEditor.SelectedText) + "/" + words.ToString();
+            }
+            else
+            {
+                lb2.Content = "字数：" + words.ToString();
+            }
+        }
+
     }
 }
