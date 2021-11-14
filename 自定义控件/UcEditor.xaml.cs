@@ -3,6 +3,7 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Search;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -84,13 +85,17 @@ namespace 脸滚键盘.自定义控件
 
                 foreach (WrapPanel wp in wps)
                 {
-                    if (wp != null)
+                    string keyword;
+                    string tableName = wp.Tag.ToString();
+                    SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                    SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName));
+                    while (reader.Read())
                     {
-                        foreach (Button btn in wp.Children)
-                        {
-                            AddKeyword(btn.Content.ToString(), wp.Tag.ToString());
-                        }
+                        keyword = reader["名称"].ToString();
+                        AddKeyword(keyword, wp.Tag.ToString());
                     }
+                    reader.Close();
+                    sqlConn.Close();
                 }
             }
 

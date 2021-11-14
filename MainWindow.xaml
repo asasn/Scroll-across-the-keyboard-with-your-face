@@ -48,7 +48,7 @@
             <Button Click="Button_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="4" Margin="10,445,0,0" Height="Auto">
                 <Button.Template>
                     <ControlTemplate>
-                        <Border Padding="5" BorderBrush="#FFE0E0E0" BorderThickness="1" CornerRadius="5">
+                        <Border Padding="2" BorderBrush="#FFE0E0E0" BorderThickness="1" CornerRadius="5">
                             <WrapPanel>
                                 <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_knight.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="32" Height="32" />
                                 <TextBlock Text="历史年表" HorizontalAlignment="Left" VerticalAlignment="Center"/>
