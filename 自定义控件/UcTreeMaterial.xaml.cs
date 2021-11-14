@@ -143,7 +143,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             TreeViewItem selectedItem = TreeOperate.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
-            if (selectedItem != null)
+            if (selectedNode != null)
             {
                 if (selectedNode.IsButton == true)
                 {

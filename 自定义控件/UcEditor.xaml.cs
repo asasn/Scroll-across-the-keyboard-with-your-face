@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
+using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using static 脸滚键盘.公共操作类.TreeOperate;
 
@@ -41,10 +42,10 @@ namespace 脸滚键盘.自定义控件
             textEditor.TextArea.SelectionChanged += textEditor_TextArea_SelectionChanged;
 
             //快速搜索功能
-            searchPanel =  SearchPanel.Install(textEditor.TextArea);
-            searchPanel.UseRegex = true;
-            searchPanel.Visibility = Visibility.Hidden;
-            searchPanel.Open();
+            //searchPanel =  SearchPanel.Install(textEditor.TextArea);
+            //searchPanel.UseRegex = true;
+            //searchPanel.Visibility = Visibility.Hidden;
+            //searchPanel.Open();
         }
 
         public void LoadChapter(string curBookName, string typeOfTree)
@@ -138,7 +139,7 @@ namespace 脸滚键盘.自定义控件
         {
             words = EditorOperate.WordCount(textEditor.Text);
             if (lb1 != null && lb2 != null)
-            {                
+            {
                 lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
                 lb2.Content = "字数：" + words.ToString();
                 lbValue.Content = "价值：" + ((double)words / 1000 * Gval.CurrentBook.Price).ToString() + "元";
@@ -197,7 +198,7 @@ namespace 脸滚键盘.自定义控件
         private void textEditor_TextChanged(object sender, EventArgs e)
         {
             ShowTextInfo();
-            
+
             if (this.IsEnabled == true && textEditor.TextArea.IsFocused == true)
             {
                 btnSaveDoc.IsEnabled = true;
@@ -268,21 +269,44 @@ namespace 脸滚键盘.自定义控件
             {
                 //同时按下了Ctrl + S键（S要最后按，因为判断了此次事件的e.Key）
                 //修饰键只能按下Ctrl，如果还同时按下了其他修饰键，则不会进入
-
                 btnSaveText_Click(null, null);
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
             {
-                
+                //如果被searchPanel占用就不要再设置
+                FindReplaceDialog.ShowForReplace(textEditor);
             }
             if (e.Key == Key.F3)
             {
-                searchPanel.SearchPattern = textEditor.SelectedText;
+                //如果被searchPanel占用就不要再设置
             }
             if (e.Key == Key.F4)
             {
-                searchPanel.SearchPattern = textEditor.SelectedText;
-                searchPanel.FindPrevious();
+                if (searchPanel != null)
+                {
+                    searchPanel.SearchPattern = textEditor.SelectedText;
+                    searchPanel.FindPrevious();
+                }
+            }
+            if (e.Key == Key.F5)
+            {
+                if (searchPanel != null)
+                {
+                    searchPanel.SearchPattern = textEditor.SelectedText;
+                    searchPanel.FindPrevious();
+                    textEditor.Document.Replace(textEditor.SelectionStart, textEditor.SelectionLength, "测试");
+                    searchPanel.FindNext();
+                }
+            }
+            if (e.Key == Key.F6)
+            {
+                if (searchPanel != null)
+                {
+                    searchPanel.SearchPattern = textEditor.SelectedText;
+                    searchPanel.FindPrevious();
+                    textEditor.Document.Replace(textEditor.SelectionStart, textEditor.SelectionLength, "测试");
+                    searchPanel.FindPrevious();
+                }
             }
         }
 
@@ -316,7 +340,7 @@ namespace 脸滚键盘.自定义控件
         void textEditor_TextArea_SelectionChanged(object sender, EventArgs e)
         {
             if (textEditor.SelectedText.Length > 0)
-            {                
+            {
                 lb2.Content = "字数：" + EditorOperate.WordCount(textEditor.SelectedText) + "/" + words.ToString();
             }
             else
@@ -324,6 +348,5 @@ namespace 脸滚键盘.自定义控件
                 lb2.Content = "字数：" + words.ToString();
             }
         }
-
     }
 }

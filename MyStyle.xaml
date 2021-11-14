@@ -17,27 +17,28 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="Padding" Value="0,0"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="AllowDrop" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                <ControlTemplate TargetType="{x:Type TreeViewItem}" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition MinHeight="30"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="{Binding (hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
-                            <DockPanel LastChildFill="True">
-                                <DockPanel.Margin>
+                            <Grid>
+                                <Grid.Margin>
                                     <Binding RelativeSource="{RelativeSource TemplatedParent}">
                                         <Binding.Converter>
                                             <hc:TreeViewItemMarginConverter/>
                                         </Binding.Converter>
                                     </Binding>
-                                </DockPanel.Margin>
-                                <ToggleButton x:Name="Expander" Margin="0,0,0,0" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}">
+                                </Grid.Margin>
+                                <ContentPresenter x:Name="PART_Header" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                <ToggleButton x:Name="Expander" Margin="0,0,0,0" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Right">
                                     <ToggleButton.Style>
                                         <Style TargetType="{x:Type ToggleButton}">
                                             <Setter Property="Focusable" Value="False"/>
@@ -68,8 +69,7 @@
                                         </Style>
                                     </ToggleButton.Style>
                                 </ToggleButton>
-                                <ContentPresenter x:Name="PART_Header" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
-                            </DockPanel>
+                            </Grid>
                         </Border>
                         <ItemsPresenter x:Name="ItemsHost" Grid.Row="1"/>
                     </Grid>
@@ -866,6 +866,137 @@
                 </Setter>
             </Trigger>
         </Style.Triggers>
+    </Style>
+    <Style x:Key="TaskItemStyle" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Opacity="0.6" SnapsToDevicePixels="True" Stroke="{DynamicResource SecondaryBorderBrush}" StrokeThickness="2" StrokeDashArray="1 1"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="0,0"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="AllowDrop" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeViewItem}" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MinHeight="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="{Binding (hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <DockPanel LastChildFill="True" >
+                                <DockPanel.Margin>
+                                    <Binding RelativeSource="{RelativeSource TemplatedParent}">
+                                        <Binding.Converter>
+                                            <hc:TreeViewItemMarginConverter/>
+                                        </Binding.Converter>
+                                    </Binding>
+                                </DockPanel.Margin>
+                                <ContentPresenter x:Name="PART_Header" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                <ToggleButton x:Name="Expander" Margin="0,0,0,0" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Right">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="{x:Type ToggleButton}">
+                                            <Setter Property="Focusable" Value="False"/>
+                                            <Setter Property="Width" Value="16"/>
+                                            <Setter Property="Height" Value="16"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                        <Border Background="Transparent" Height="16" Padding="4" Width="16">
+                                                            <Path x:Name="ExpandPath" Data="M508.89325,762.93166 A65.039498,65.039498,0,0,1,462.47259,743.44582 L97.125746,371.00402 C71.982728,345.3697 72.372878,304.18717 98.007197,279.04415 123.65597,253.87946 164.81682,254.29851 189.96706,279.92561 L508.90047,605.05084 827.83388,279.92561 A65.025048,65.025048,0,0,1,920.6752,371.00402 L555.31391,743.44582 A65.025048,65.025048,0,0,1,508.89325,762.93166 z" Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TreeViewItem}}}" RenderTransformOrigin="0.5,0.5" Stretch="Uniform">
+                                                                <Path.RenderTransform>
+                                                                    <RotateTransform Angle="-90"/>
+                                                                </Path.RenderTransform>
+                                                            </Path>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                                <Setter Property="RenderTransform" TargetName="ExpandPath">
+                                                                    <Setter.Value>
+                                                                        <RotateTransform Angle="0"/>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                </ToggleButton>
+                            </DockPanel>
+                        </Border>
+                        <ItemsPresenter x:Name="ItemsHost" Grid.Row="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" SourceName="Bd" Value="True">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource SecondaryRegionBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsExpanded" Value="False">
+                            <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource PrimaryBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsSelectionActive" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="Bd" Value="{DynamicResource DarkDefaultBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="#FF6D6D6D"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.BasedOn>
+            <Style TargetType="{x:Type Control}">
+                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FocusVisualStyle">
+                    <Setter.Value>
+                        <Style>
+                            <Setter Property="Control.Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Rectangle RadiusY="4" RadiusX="4">
+                                            <Rectangle.Style>
+                                                <Style TargetType="{x:Type Rectangle}">
+                                                    <Setter Property="Margin" Value="-2"/>
+                                                    <Setter Property="Opacity" Value="0.6"/>
+                                                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                    <Setter Property="Stroke" Value="{DynamicResource SecondaryBorderBrush}"/>
+                                                    <Setter Property="StrokeThickness" Value="2"/>
+                                                    <Setter Property="StrokeDashArray" Value="1 1"/>
+                                                </Style>
+                                            </Rectangle.Style>
+                                        </Rectangle>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.BasedOn>
     </Style>
 
 </ResourceDictionary>

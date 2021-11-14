@@ -141,7 +141,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             TreeViewItem selectedItem = TreeOperate.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
-            if (selectedItem != null)
+            if (selectedNode != null)
             {
                 if (selectedNode.IsButton == true)
                 {
@@ -177,11 +177,14 @@ namespace 脸滚键盘.自定义控件
                         string nodePath = GetPath(selectedNode);
                         Console.WriteLine(nodePath);
                     }
-
-                    TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-                    TbReName.SelectAll();
-                    TbReName.Visibility = Visibility.Visible;
-                    TbReName.Focus();
+                    CheckBox Ck = FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
+                    if (Ck.IsChecked == false)
+                    {
+                        TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                        TbReName.SelectAll();
+                        TbReName.Visibility = Visibility.Visible;
+                        TbReName.Focus();
+                    }
                 }
             }
         }
@@ -229,10 +232,14 @@ namespace 脸滚键盘.自定义控件
             {
                 if (e.Key == Key.F2)
                 {
-                    TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-                    TbReName.SelectAll();
-                    TbReName.Visibility = Visibility.Visible;
-                    TbReName.Focus();
+                    CheckBox Ck = FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
+                    if (Ck.IsChecked == false)
+                    {
+                        TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                        TbReName.SelectAll();
+                        TbReName.Visibility = Visibility.Visible;
+                        TbReName.Focus();
+                    }
                 }
             }
         }
@@ -549,8 +556,61 @@ namespace 脸滚键盘.自定义控件
 
 
         #endregion
+        private void Ck_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox Ck = sender as CheckBox;
+            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
+            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
+            TbkName.Foreground = Brushes.Silver;
+            TbkName.IsEnabled = false;
+        }
 
+        private void Ck_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox Ck = sender as CheckBox;
+            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
+            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
+            TbkName.Foreground = (Brush)new BrushConverter().ConvertFromString("#FF212121");
+            TbkName.IsEnabled = true;
+        }
+
+        private void Ck_Click(object sender, RoutedEventArgs e)
+        {
+            CheckBox Ck = sender as CheckBox;
+            TreeViewItem item = GetParentObjectEx<TreeViewItem>(Ck as DependencyObject) as TreeViewItem;
+            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
+            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
+            TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
+            selectedNode.TheItem = item;
+            if (Ck.IsChecked == true)
+            {
+                selectedNode.ParentNode.IsChecked = true;
+                foreach (TreeViewNode node in selectedNode.ChildNodes)
+                {
+                    if (node.IsButton == false)
+                    {
+                        node.IsChecked = true;
+                    }
+                }
+                foreach (TreeViewNode node in selectedNode.ParentNode.ChildNodes)
+                {
+                    if (node.IsButton == false && node.IsChecked == false)
+                    {
+                        node.ParentNode.IsChecked = false;
+                    }
+                }
+            }
+            else
+            {
+                selectedNode.ParentNode.IsChecked = false;
+                foreach (TreeViewNode node in selectedNode.ChildNodes)
+                {
+                    if (node.IsButton == false)
+                    {
+                        node.IsChecked = false;
+                    }
+                }
+            }
+        }
     }
-
-
 }

@@ -22,6 +22,8 @@ namespace 脸滚键盘.公共操作类
             {
                 PropertyChangedEventHandler handler = PropertyChanged;
                 if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+
+
                 //if (this.isButton == false && Gval.Flag.Loading == false)
                 //{
                 //    if (this.IsDir == true && propertyName == "IsExpanded")
@@ -35,8 +37,6 @@ namespace 脸滚键盘.公共操作类
                 //            this.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                 //        }
                 //    }
-
-
                 //}
 
             }
@@ -207,7 +207,7 @@ namespace 脸滚键盘.公共操作类
 
             private bool isSelected;
             /// <summary>
-            /// 是否选中（默认fale）
+            /// 是否选中节点（默认fale）
             /// </summary>
             public bool IsSelected
             {
@@ -221,6 +221,24 @@ namespace 脸滚键盘.公共操作类
                     OnPropertyChanged("IsSelected");
                 }
             }
+
+            private bool? isChecked = false;
+            /// <summary>
+            /// 是否勾选（默认fale）
+            /// </summary>
+            public bool? IsChecked
+            {
+                get
+                {
+                    return isChecked;
+                }
+                set
+                {
+                    isChecked = value;
+                    OnPropertyChanged("IsChecked");
+                }
+            }
+
 
             private bool isButton;
             /// <summary>
@@ -378,7 +396,7 @@ namespace 脸滚键盘.公共操作类
         /// <param name="baseNode"></param>
         public static TreeViewNode AddNewNode(ObservableCollection<TreeViewNode> treeViewNodeList, TreeViewNode baseNode, string typeOfTree)
         {
-            
+
             string guid = Guid.NewGuid().ToString();
             TreeViewNode newNode = new TreeViewNode(guid, "新节点");
             newNode.Pid = baseNode.Uid;
@@ -620,6 +638,18 @@ namespace 脸滚键盘.公共操作类
         #endregion
 
         #region 在数据库中的其他操作
+        /// <summary>
+        /// 从数据库中删除当前选定的书籍记录
+        /// </summary>
+        public static void DelCurBookBySql()
+        {
+            string tableName = "books";
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
+            string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sqlConn.Close();
+        }
+
         /// <summary>
         /// 同级节点记录在数据库中对调顺序
         /// </summary>

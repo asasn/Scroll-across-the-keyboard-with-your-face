@@ -17,26 +17,21 @@ namespace 脸滚键盘.自定义控件
     /// </summary>
     public partial class UcTreeBook : UserControl
     {
-        
-
+        #region 构造函数和载入方法
         public UcTreeBook()
         {
             InitializeComponent();
-           
-            
         }
-        TextBox TbReName;
-        string TypeOfTree;
-        string CurBookName;
-        /// <summary>
-        /// 数据源：节点列表
-        /// </summary>
-        ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
 
         private void Tv_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
+
+        /// <summary>
+        /// 数据源：节点列表
+        /// </summary>
+        ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
 
         public void LoadBook(string curBookName, string typeOfTree)
         {
@@ -71,12 +66,16 @@ namespace 脸滚键盘.自定义控件
 
             Gval.Flag.Loading = false;
         }
+        #endregion
 
+        #region 字段和属性
 
+        TextBox TbReName;
+        string TypeOfTree;
+        string CurBookName;
 
+        #endregion
 
-
-        #region 节点相关操作
 
         #region 节点展开/缩回
         /// <summary>
@@ -104,7 +103,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
                 selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
-                TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
+                ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
 
@@ -119,7 +118,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
                 selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
-                TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
+                ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
         #endregion
@@ -177,14 +176,14 @@ namespace 脸滚键盘.自定义控件
         private void Tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
-            TreeViewItem selectedItem = TreeOperate.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
+            TreeViewItem selectedItem = GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
-            if (selectedItem != null)
+            if (selectedNode != null)
             {
                 if (selectedNode.IsButton == true)
                 {
                     TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                    TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    AddNodeBySql(CurBookName, TypeOfTree, newNode);
                     newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
@@ -319,7 +318,6 @@ namespace 脸滚键盘.自定义控件
             }
         }
 
-
         private void Tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _lastMouseDown = e.GetPosition(this);
@@ -353,7 +351,7 @@ namespace 脸滚键盘.自定义控件
             }
 
             //在数据库中删除节点记录
-            TreeOperate.DelNodeBySql(CurBookName, TypeOfTree, selectedNode, TreeViewNodeList);
+            DelNodeBySql(CurBookName, TypeOfTree, selectedNode, TreeViewNodeList);
 
             //在视图中删除节点，这里注意删除和获取索引号的先后顺序
             TreeViewNode parentNode = selectedNode.ParentNode;
@@ -397,10 +395,10 @@ namespace 脸滚键盘.自定义控件
             }
 
             //数据库中的处理
-            TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
+            SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeOperate.SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
+            SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
         /// <summary>
@@ -420,17 +418,16 @@ namespace 脸滚键盘.自定义控件
             }
 
             //数据库中的处理
-            TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
+            SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            TreeOperate.SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
+            SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
 
         #endregion
 
         #region 拖曳操作相关
-
 
         /// <summary>
         /// 方法：获取最近的控件
@@ -538,7 +535,7 @@ namespace 脸滚键盘.自定义控件
                         AddNodeBySql(CurBookName, TypeOfTree, dragNode);
 
                         //节点索引交换位置
-                        TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
+                        SwapNode(m, dragNode, dropNode, TreeViewNodeList);
                     }
                     //同级调换
                     if (GetLevel(dropNode) == GetLevel(dragNode))
@@ -556,10 +553,10 @@ namespace 脸滚键盘.自定义控件
                         }
 
                         //数据库中的处理
-                        TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
+                        SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
 
                         //节点索引交换位置
-                        TreeOperate.SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
+                        SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
                     }
                 }
             }
@@ -597,7 +594,6 @@ namespace 脸滚键盘.自定义控件
 
         #endregion
 
-        #endregion
 
         #region 右键菜单
         private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
@@ -616,7 +612,7 @@ namespace 脸滚键盘.自定义控件
                     {
                         ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = false;
                     }
-                    
+
                 }
                 else
                 {
@@ -662,12 +658,10 @@ namespace 脸滚键盘.自定义控件
                     newNode.NodeName = title;
                     newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
                     newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
-                    TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 }
             }
         }
-
-
         #endregion
 
 
@@ -865,18 +859,10 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
         {
-            string tableName = "books";
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-            string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
-
+            DelCurBookBySql();
             WpBooks.Children.Clear();
             DrawerLeftInContainer_Loaded(null, null);
         }
-
-
-
 
         #endregion
 
@@ -903,7 +889,6 @@ namespace 脸滚键盘.自定义控件
             double.TryParse(tb.Text, out str);
             tb.Text = str.ToString();
         }
-
 
     }
 
