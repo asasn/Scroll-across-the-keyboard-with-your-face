@@ -39,30 +39,18 @@
                     <Label controls:BorderElement.CornerRadius="0" x:Name="lbValue" BorderThickness="0,0,0,0" Content="价值：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 </WrapPanel>
             </Grid>
-            <WrapPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
-                <Button x:Name="btnSaveDoc" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image  Source="pack://siteoforigin:,,,/Resourse/ic_action_save.png" />
-                        </ControlTemplate>
-                    </Button.Template>
+            <WrapPanel Background="#FFFAFAFA" Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
+                <Button x:Name="btnSaveDoc" Padding="1" BorderThickness="0" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_save.png" Width="20" Height="20" />
                 </Button>
-                <Button x:Name="BtnCopy" ToolTip="复制文档内容" Click="BtnCopy_Click">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image  Source="pack://siteoforigin:,,,/Resourse/ic_action_copy.png" />
-                        </ControlTemplate>
-                    </Button.Template>
+                <Button Background="#FFFAFAFA" x:Name="BtnCopy" Padding="1" BorderThickness="0" ToolTip="复制文档内容" Click="BtnCopy_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_copy.png" Width="20" Height="20" />
                 </Button>
-                <Button x:Name="BtnCopyTitle" ToolTip="复制文档标题" Click="BtnCopyTitle_Click">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Image  Source="pack://siteoforigin:,,,/Resourse/ic_action_circles.png" />
-                        </ControlTemplate>
-                    </Button.Template>
+                <Button Background="#FFFAFAFA" x:Name="BtnCopyTitle" Padding="1" BorderThickness="0" ToolTip="复制文档标题" Click="BtnCopyTitle_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_circles.png" Width="20" Height="20" />
                 </Button>
             </WrapPanel>
-            
+
             <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=uc, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->
         </Grid>
     </hc:Card>

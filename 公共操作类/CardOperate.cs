@@ -32,6 +32,8 @@ namespace 脸滚键盘.公共操作类
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tableName);
             sqlConn.ExecuteNonQuery(sql);
+            string sql2 = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, "别称");
+            sqlConn.ExecuteNonQuery(sql2);
             sqlConn.Close();
         }
 

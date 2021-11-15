@@ -14,7 +14,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="30"/>
+                <!--<ColumnDefinition Width="30"/>-->
             </Grid.ColumnDefinitions>
             <TextBox x:Name="TbTab" TextWrapping="Wrap" KeyDown="TbTab_KeyDown"/>
             <Button x:Name="BtnAdd" Grid.Column="1" Padding="5" Click="BtnAdd_Click" Style="{StaticResource ResourceKey=ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Content="添加" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center" />

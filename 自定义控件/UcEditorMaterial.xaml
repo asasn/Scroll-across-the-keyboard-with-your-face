@@ -7,7 +7,15 @@
              mc:Ignorable="d" UseLayoutRounding="True"
              d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="uc_DataContextChanged" Loaded="uc_Loaded">
     <hc:Card>
-        <Grid>
+        <Grid Background="#FFFAFAFA">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
             <avalonEdit:TextEditor Grid.Row="0"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
             Name="textEditor" ShowLineNumbers="True"
@@ -20,8 +28,28 @@
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
                 </avalonEdit:TextEditor.Options>
             </avalonEdit:TextEditor>
-
-            <Button Padding="2" Style="{StaticResource ButtonIcon}" controls:IconElement.Geometry="{StaticResource SaveGeometry}" controls:BorderElement.CornerRadius="0" x:Name="btnSaveDoc" BorderBrush="Blue" BorderThickness="0,0,0,0" Background="#FFFEFEFE" Foreground="Blue" IsEnabled="False" VerticalAlignment="Bottom" Height="28" Click="btnSaveText_Click" HorizontalAlignment="Right" Margin="0" Visibility="Collapsed"/>
+            <Grid Grid.Row="1" Background="#FFFAFAFA">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <WrapPanel Background="#FFFAFAFA" VerticalAlignment="Center">
+                    <Label controls:BorderElement.CornerRadius="0" x:Name="lb1" BorderThickness="0,0,0,0" Content="段落：0" Background="#FFFAFAFA" Foreground="#FFC70F0F" HorizontalAlignment="Left"/>
+                    <Label controls:BorderElement.CornerRadius="0" x:Name="lb2" BorderThickness="0,0,0,0" Content="字数：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                    <Label controls:BorderElement.CornerRadius="0" x:Name="lbValue" BorderThickness="0,0,0,0" Content="价值：0" Background="#FFFAFAFA" Foreground="#FF0D4DF9" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </WrapPanel>
+            </Grid>
+            <WrapPanel Background="#FFFAFAFA" Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
+                <Button x:Name="btnSaveDoc" Padding="1" BorderThickness="0" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_save.png" Width="20" Height="20" />
+                </Button>
+                <Button Background="#FFFAFAFA" x:Name="BtnCopy" Padding="1" BorderThickness="0" ToolTip="复制文档内容" Click="BtnCopy_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_copy.png" Width="20" Height="20" />
+                </Button>
+                <Button Background="#FFFAFAFA" x:Name="BtnCopyTitle" Padding="1" BorderThickness="0" ToolTip="复制文档标题" Click="BtnCopyTitle_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_circles.png" Width="20" Height="20" />
+                </Button>
+            </WrapPanel>
 
             <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=uc, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->
         </Grid>

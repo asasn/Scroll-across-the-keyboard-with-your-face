@@ -64,6 +64,9 @@ namespace 脸滚键盘.自定义控件
 
 
             Gval.Flag.Loading = false;
+
+            //滚动至末尾
+            //Sv.ScrollToEnd();
         }
 
 
@@ -611,6 +614,18 @@ namespace 脸滚键盘.自定义控件
                     }
                 }
             }
+        }
+
+        private void Tv_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = UIElement.MouseWheelEvent,
+
+                Source = sender
+            };
+
+            this.Tv.RaiseEvent(eventArg);
         }
     }
 }

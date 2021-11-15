@@ -83,6 +83,9 @@ namespace 脸滚键盘.自定义控件
             {
                 return;
             }
+
+            WpCards.Children.Clear();
+
             CurBookName = curBookName;
             TypeOfTree = typeOfTree;
             WpCards.Tag = typeOfTree;

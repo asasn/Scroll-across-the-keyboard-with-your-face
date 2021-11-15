@@ -27,6 +27,7 @@ namespace 脸滚键盘.自定义控件
             InitializeComponent();
         }
 
+
         string TypeOfTree;
         string CurBookName;
         SearchPanel searchPanel;
@@ -169,7 +170,6 @@ namespace 脸滚键盘.自定义控件
             CurNode.WordsCount = words;
 
             btnSaveDoc.IsEnabled = false;
-            textEditor.Tag = null;
 
             Console.WriteLine("保存至数据库");
         }
@@ -208,10 +208,12 @@ namespace 脸滚键盘.自定义控件
             {
                 btnSaveDoc.IsEnabled = true;
             }
-            if (textEditor.Tag != null)
+            if (PasteSign == true)
             {
-                SaveText();
-            }
+                PasteSign = false;
+                //连续粘贴可能会引起频繁保存的卡顿，所以注释掉了
+                //SaveText();
+            }            
         }
 
         /// <summary>
@@ -317,16 +319,17 @@ namespace 脸滚键盘.自定义控件
 
         private void textEditor_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
         }
 
+        bool PasteSign;
         private void textEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Command == ApplicationCommands.Cut ||
                  e.Command == ApplicationCommands.Paste
              )
             {
-                //textEditor.Tag = true;
+                //预览剪切，粘贴
+                PasteSign = true;
             }
         }
 

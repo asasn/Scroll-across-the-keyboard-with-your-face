@@ -9,9 +9,14 @@ namespace 脸滚键盘.公共操作类
 {
     class EditorOperate
     {
-        public static MemoryStream ConvertStringToStream(string content)
+        /// <summary>
+        /// 字符串转化为字节流
+        /// </summary>
+        /// <param name="strContent"></param>
+        /// <returns></returns>
+        public static MemoryStream ConvertStringToStream(string strContent)
         {
-            byte[] array = Encoding.UTF8.GetBytes(content);
+            byte[] array = Encoding.UTF8.GetBytes(strContent);
             MemoryStream stream = new MemoryStream(array);
             return stream;
         }
