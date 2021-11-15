@@ -369,29 +369,30 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         private void Tv_DragEnter(object sender, DragEventArgs e)
         {
-
-            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
-            TreeViewNode dragNode = container.DataContext as TreeViewNode;
-            if (orginLevel == -1)
+            if ((sender as TreeView).ContextMenu.IsLoaded == false)
             {
-                orginLevel = GetLevel(dragNode);
-            }
-            if (orginItem == new TreeViewItem())
-            {
-                orginItem = container;
-            }
-            dropLevel = GetLevel(dragNode);
-
-
-            if (container != null)
-            {
-                oldItem = container;
-                if (dragNode.IsButton == false && orginLevel >= dropLevel)
+                TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+                TreeViewNode dragNode = container.DataContext as TreeViewNode;
+                if (orginLevel == -1)
                 {
-                    container.Foreground = new SolidColorBrush(Colors.Orange);
+                    orginLevel = GetLevel(dragNode);
+                }
+                if (orginItem == new TreeViewItem())
+                {
+                    orginItem = container;
+                }
+                dropLevel = GetLevel(dragNode);
+
+
+                if (container != null)
+                {
+                    oldItem = container;
+                    if (dragNode.IsButton == false && orginLevel >= dropLevel)
+                    {
+                        container.Foreground = new SolidColorBrush(Colors.Orange);
+                    }
                 }
             }
-
         }
 
         /// <summary>
@@ -415,72 +416,75 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_Drop(object sender, DragEventArgs e)
         {
-            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
-            TreeViewNode dragNode = (sender as TreeView).SelectedValue as TreeViewNode;
-            TreeViewNode dropNode = container.DataContext as TreeViewNode;
-            container.Foreground = orginItem.Foreground;
-
-            if (container != null)
+            if ((sender as TreeView).ContextMenu.IsLoaded == false)
             {
-                //oldItem = container;
-                if (dropNode.IsButton == false && dragNode != dropNode)
+                TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+                TreeViewNode dragNode = (sender as TreeView).SelectedValue as TreeViewNode;
+                TreeViewNode dropNode = container.DataContext as TreeViewNode;
+                container.Foreground = orginItem.Foreground;
+
+                if (container != null)
                 {
-                    //放入目标目录（源级别要更深，才能往浅的目标拖动）
-                    if (GetLevel(dragNode) > GetLevel(dropNode))
+                    //oldItem = container;
+                    if (dropNode.IsButton == false && dragNode != dropNode)
                     {
-                        Console.WriteLine("放入目标目录");
-                        int m = dropNode.ChildNodes.Count;
-                        if (m > 0)
+                        //放入目标目录（源级别要更深，才能往浅的目标拖动）
+                        if (GetLevel(dragNode) > GetLevel(dropNode))
                         {
-                            //原目录
-                            if (dropNode.Uid == dragNode.Pid)
+                            Console.WriteLine("放入目标目录");
+                            int m = dropNode.ChildNodes.Count;
+                            if (m > 0)
                             {
-                                m -= 2;
+                                //原目录
+                                if (dropNode.Uid == dragNode.Pid)
+                                {
+                                    m -= 2;
+                                }
+                                else
+                                {
+                                    m -= 1;
+                                }
                             }
-                            else
+
+
+                            string tableName = TypeOfTree;
+                            //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                            //更新数据库中临近节点记录集
+                            DelNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
+                            //更换改变pid
+                            dragNode.Pid = dropNode.Uid;
+                            AddNodeBySql(CurBookName, TypeOfTree, dragNode);
+
+                            //节点索引交换位置
+                            TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
+                        }
+                        //同级调换
+                        if (GetLevel(dropNode) == GetLevel(dragNode))
+                        {
+                            Console.WriteLine("同级调换");
+                            int n = dragNode.ParentNode.ChildNodes.IndexOf(dragNode);
+                            int m = dropNode.ParentNode.ChildNodes.IndexOf(dropNode);
+                            if (dragNode.Pid != dropNode.Pid)
                             {
-                                m -= 1;
+                                m += 1;
                             }
+                            if (dragNode == null || dropNode == null)
+                            {
+                                return;
+                            }
+
+                            //数据库中的处理
+                            TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
+
+                            //节点索引交换位置
+                            TreeOperate.SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
                         }
-
-
-                        string tableName = TypeOfTree;
-                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                        //更新数据库中临近节点记录集
-                        DelNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
-                        //更换改变pid
-                        dragNode.Pid = dropNode.Uid;
-                        AddNodeBySql(CurBookName, TypeOfTree, dragNode);
-
-                        //节点索引交换位置
-                        TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
-                    }
-                    //同级调换
-                    if (GetLevel(dropNode) == GetLevel(dragNode))
-                    {
-                        Console.WriteLine("同级调换");
-                        int n = dragNode.ParentNode.ChildNodes.IndexOf(dragNode);
-                        int m = dropNode.ParentNode.ChildNodes.IndexOf(dropNode);
-                        if (dragNode.Pid != dropNode.Pid)
-                        {
-                            m += 1;
-                        }
-                        if (dragNode == null || dropNode == null)
-                        {
-                            return;
-                        }
-
-                        //数据库中的处理
-                        TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
-
-                        //节点索引交换位置
-                        TreeOperate.SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
                     }
                 }
+                orginLevel = -1;
+                dropLevel = -1;
+                orginItem = new TreeViewItem();
             }
-            orginLevel = -1;
-            dropLevel = -1;
-            orginItem = new TreeViewItem();
         }
 
 

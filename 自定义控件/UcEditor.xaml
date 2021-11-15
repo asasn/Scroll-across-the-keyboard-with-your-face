@@ -40,7 +40,7 @@
                 </WrapPanel>
             </Grid>
             <WrapPanel Background="#FFFAFAFA" Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
-                <Button x:Name="btnSaveDoc" Padding="1" BorderThickness="0" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
+                <Button Background="#FFFAFAFA" x:Name="btnSaveDoc" Padding="1" BorderThickness="0" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
                     <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_save.png" Width="20" Height="20" />
                 </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnCopy" Padding="1" BorderThickness="0" ToolTip="复制文档内容" Click="BtnCopy_Click">

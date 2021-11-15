@@ -13,7 +13,7 @@
                       ItemsSource="{Binding Path=TreeViewNodeList}" MouseDoubleClick="Tv_MouseDoubleClick" Loaded="Tv_Loaded" Style="{DynamicResource BookTreeViewStyle}" KeyDown="Tv_KeyDown" MouseMove="Tv_MouseMove" DragOver="Tv_DragOver" DragEnter="Tv_DragEnter" DragLeave="Tv_DragLeave" Drop="Tv_Drop" MouseLeftButtonDown="Tv_MouseLeftButtonDown" PreviewMouseWheel="Tv_PreviewMouseWheel">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
-                        <Grid x:Name="grid">
+                        <Grid x:Name="grid" Margin="0,0,5,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition Width="100*"/>
