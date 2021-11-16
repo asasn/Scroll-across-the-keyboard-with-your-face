@@ -54,7 +54,7 @@ namespace 脸滚键盘.自定义控件
 
             Gval.Flag.Loading = true;
 
-            AddButtonNode(TreeViewNodeList, TopNode);
+            //AddButtonNode(TreeViewNodeList, TopNode);
 
             //从数据库中载入数据
             LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
@@ -147,9 +147,9 @@ namespace 脸滚键盘.自定义控件
             {
                 if (selectedNode.IsButton == true)
                 {
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                    TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
-                    newNode.IsSelected = true;
+                    //TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                    //TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    //newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
                     //reNameTextBox.Text = newNode.NodeName;
@@ -496,7 +496,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            if (TbReName != null && TbReName.Visibility == Visibility.Visible)
+            if ((sender as TreeView).ContextMenu.IsLoaded == true || TbReName == null || TbReName.Visibility == Visibility.Visible)
             {
                 return;
             }
@@ -526,24 +526,43 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)Tv.SelectedItem;
             if (selectedNode != null)
             {
-                if (selectedNode.IsButton == false)
+                ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = true;
+                ((MenuItem)TreeViewMenu.Items[2]).IsEnabled = true;
+                if (selectedNode.IsDir == true)
                 {
-                    ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = true;
-                    if (selectedNode.IsDir == true)
-                    {
-                        ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = true;
-                    }
-                    else
-                    {
-                        ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = false;
-                    }
-
+                    ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = true;
+                    ((MenuItem)TreeViewMenu.Items[3]).IsEnabled = true;
                 }
                 else
                 {
-                    ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = false;
-                    ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = true;
+                    ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = false;
+                    ((MenuItem)TreeViewMenu.Items[3]).IsEnabled = false;
                 }
+            }
+            else
+            {
+                ((MenuItem)TreeViewMenu.Items[2]).IsEnabled = false;
+                ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = false;
+            }
+
+        }
+        private void Command_AddBrotherNode_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+            TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+            newNode.IsSelected = true;
+        }
+
+        private void Command_AddChildNode_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            if (selectedNode.IsDir == true)
+            {
+                TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                newNode.IsSelected = true;
             }
 
         }
@@ -554,36 +573,37 @@ namespace 脸滚键盘.自定义控件
             DelNode(selectedNode);
         }
 
-        public static RoutedCommand Import = new RoutedCommand("Import", typeof(UcTreeMaterial));
         private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            if (selectedNode.IsDir == true)
+            {
+                string[] files = null;
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.DefaultExt = ".txt";
+                dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
+                dlg.Multiselect = true;
 
-            string[] files = null;
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.DefaultExt = ".txt";
-            dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
-            dlg.Multiselect = true;
-
-            // 打开选择框选择
-            if (dlg.ShowDialog() == true)
-            {
-                files = dlg.FileNames;
-            }
-            else
-            {
-                return;
-            }
-            foreach (string srcFullFileName in files)
-            {
-                string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
-                if (selectedNode.IsDir == true)
+                // 打开选择框选择
+                if (dlg.ShowDialog() == true)
                 {
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
-                    newNode.NodeName = title;
-                    newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
-                    newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
-                    TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    files = dlg.FileNames;
+                }
+                else
+                {
+                    return;
+                }
+                foreach (string srcFullFileName in files)
+                {
+                    string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
+                    if (selectedNode.IsDir == true)
+                    {
+                        TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                        newNode.NodeName = title;
+                        newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
+                        newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
+                        TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    }
                 }
             }
         }
@@ -602,6 +622,8 @@ namespace 脸滚键盘.自定义控件
 
             this.Tv.RaiseEvent(eventArg);
         }
+
+
     }
 
 

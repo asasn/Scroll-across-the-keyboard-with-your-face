@@ -401,89 +401,56 @@ namespace 脸滚键盘.公共操作类
             TreeViewNode newNode = new TreeViewNode(guid, "新节点");
             newNode.Pid = baseNode.Uid;
             newNode.NodeContent = "　　";
-            int x;
-            if (baseNode.ChildNodes.Count == 0)
-            {
-                x = 1;
-            }
-            else
-            {
-                x = baseNode.ChildNodes.Count;
-            }
+            int x = baseNode.ChildNodes.Count;
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
                 newNode.IsDir = true;
-                if (typeOfTree != "角色" && typeOfTree != "其他")
-                {
-                    AddButtonNode(treeViewNodeList, newNode);
-                }
-                treeViewNodeList.Insert(x - 1, newNode);
-                baseNode.ChildNodes.Insert(x - 1, newNode);
+                //AddButtonNode(treeViewNodeList, newNode);
+                treeViewNodeList.Insert(x, newNode);
+                baseNode.ChildNodes.Insert(x, newNode);
             }
             else
             {
                 newNode.IsDir = false;
-                baseNode.ChildNodes.Insert(x - 1, newNode);
+                baseNode.ChildNodes.Insert(x, newNode);
             }
             if (newNode.IsDir == true)
             {
-                if (typeOfTree == "book" || typeOfTree == "material")
-                {
-                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
-                }
-                if (typeOfTree == "history" || typeOfTree == "task")
-                {
-                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
-                }
-                if (typeOfTree == "角色")
-                {
-                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
-                }
-                if (typeOfTree == "其他")
-                {
-                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
-                }
+                newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
             }
             else
             {
-                if (typeOfTree == "book" || typeOfTree == "material")
-                {
-                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
-                }
-                if (typeOfTree == "history" || typeOfTree == "task")
-                {
-                    newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
-                }
+                newNode.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
             }
             return newNode;
         }
 
-        /// <summary>
-        /// 添加按钮
-        /// </summary>
-        /// <param name="TreeViewNodeList"></param>
-        /// <param name="baseNode"></param>
-        /// <returns></returns>
-        public static TreeViewNode AddButtonNode(ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
-        {
+        ///// <summary>
+        ///// 添加按钮
+        ///// </summary>
+        ///// <param name="TreeViewNodeList"></param>
+        ///// <param name="baseNode"></param>
+        ///// <returns></returns>
+        //public static TreeViewNode AddButtonNode(ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
+        //{
 
-            TreeViewNode button;
-            if (baseNode.Uid == "")
-            {
-                button = new TreeViewNode(null, "双击添加根节点", true, true);
-            }
-            else
-            {
-                button = new TreeViewNode(null, "双击添加子节点", true, true);
-            }
-            if (string.IsNullOrEmpty(baseNode.Uid))
-            {
-                TreeViewNodeList.Add(button);
-            }
-            button.IconPath = Gval.Path.App + "/Resourse/ic_action_add.png";
-            baseNode.ChildNodes.Add(button);
-            return button;
-        }
+        //    TreeViewNode button;
+        //    if (baseNode.Uid == "")
+        //    {
+        //        button = new TreeViewNode(null, "双击添加根节点", true, true);
+        //    }
+        //    else
+        //    {
+        //        button = new TreeViewNode(null, "双击添加子节点", true, true);
+        //    }
+        //    if (string.IsNullOrEmpty(baseNode.Uid))
+        //    {
+        //        TreeViewNodeList.Add(button);
+        //    }
+        //    button.IconPath = Gval.Path.App + "/Resourse/ic_action_add.png";
+        //    baseNode.ChildNodes.Add(button);
+        //    return button;
+        //}
 
         /// <summary>
         /// 在数据库中添加节点记录
@@ -532,33 +499,11 @@ namespace 脸滚键盘.公共操作类
                 };
                 if (node.IsExpanded == true)
                 {
-                    if (typeOfTree == "book" || typeOfTree == "material")
-                    {
-                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
-                    }
-                    if (typeOfTree == "history" || typeOfTree == "task")
-                    {
-                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
-                    }
+                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
                 }
                 else
                 {
-                    if (typeOfTree == "book" || typeOfTree == "material")
-                    {
-                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
-                    }
-                    if (typeOfTree == "history" || typeOfTree == "task")
-                    {
-                        node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
-                    }
-                }
-                if (typeOfTree == "角色")
-                {
-                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_user.png";
-                }
-                if (typeOfTree == "其他")
-                {
-                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_puzzle.png";
+                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                 }
                 LoadNode(node, TreeViewNodeList, TopNode, typeOfTree);
                 ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
@@ -575,25 +520,13 @@ namespace 脸滚键盘.公共操作类
         /// <param name="baseNode"></param>
         static void LoadNode(TreeViewNode node, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode, string typeOfTree)
         {
-            int x;
-            if (baseNode.ChildNodes.Count == 0)
-            {
-                //补偿索引，以便适应存在按钮的情况
-                x = 1;
-            }
-            else
-            {
-                x = baseNode.ChildNodes.Count;
-            }
+            int x = baseNode.ChildNodes.Count;
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
-                TreeViewNodeList.Insert(x - 1, node);
-                if (typeOfTree != "角色" && typeOfTree != "其他")
-                {
-                    AddButtonNode(TreeViewNodeList, node);
-                }
+                TreeViewNodeList.Insert(x, node);
+                //AddButtonNode(TreeViewNodeList, node);
             }
-            baseNode.ChildNodes.Insert(x - 1, node);
+            baseNode.ChildNodes.Insert(x, node);
         }
 
         /// <summary>
@@ -621,14 +554,7 @@ namespace 脸滚键盘.公共操作类
                     WordsCount = Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"]
                 };
-                if (typeOfTree == "book" || typeOfTree == "material")
-                {
-                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
-                }
-                if (typeOfTree == "history" || typeOfTree == "task")
-                {
-                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
-                }
+                node.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
                 LoadNode(node, TreeViewNodeList, parentNode, typeOfTree);
                 ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
             }

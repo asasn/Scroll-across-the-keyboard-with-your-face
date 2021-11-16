@@ -19,7 +19,6 @@
                                 <ColumnDefinition Width="100*"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox x:Name="Ck" IsChecked="{Binding IsChecked, Mode=TwoWay}" Visibility="{Binding IsButton, Converter={StaticResource Boolean2VisibilityReConverter}, Mode=TwoWay}" Checked="Ck_Checked" Unchecked="Ck_Unchecked" Click="Ck_Click"/>
-                            <Image x:Name="icon" Visibility="{Binding IsButton, Converter={StaticResource Boolean2VisibilityConverter}, Mode=TwoWay}" Grid.Column="0" Source="{Binding IconPath, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" MouseLeftButtonDown="icon_MouseLeftButtonDown"/>
                             <TextBlock Grid.Column="1" x:Name="TbkName" Text="{Binding NodeName, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <TextBox Grid.Column="1" x:Name="TbReName" Text="{Binding Text, ElementName=TbkName, Mode=TwoWay}" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center" KeyDown="TbReName_KeyDown" LostFocus="TbReName_LostFocus"/>
                         </Grid>
@@ -27,19 +26,28 @@
                 </TreeView.ItemTemplate>
                 <TreeView.ContextMenu>
                     <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">
+                        <MenuItem x:Name="AddBrotherNode" Header="添加同级节点" IsEnabled="True" Command="local:MyCommand.AddBrotherNode" InputGestureText="Insert"/>
+                        <MenuItem x:Name="AddChildNode" Header="添加子节点" IsEnabled="False" Command="local:MyCommand.AddChildNode" InputGestureText="Enter"/>
                         <MenuItem x:Name="MenuDeleteItem" Header="删除该节点" IsEnabled="False" Command="Delete" InputGestureText="Delete"/>
+                        <MenuItem x:Name="MenuImportItem" Header="导入文档" IsEnabled="False" Command="local:MyCommand.Import" InputGestureText="Home"/>
                     </ContextMenu>
                 </TreeView.ContextMenu>
                 <TreeView.CommandBindings>
+                    <CommandBinding x:Name="Command_AddBrotherNode" Command="local:MyCommand.AddBrotherNode" Executed="Command_AddBrotherNode_Executed" />
+                    <CommandBinding x:Name="Command_AddChildNode" Command="local:MyCommand.AddChildNode" Executed="Command_AddChildNode_Executed" />
                     <CommandBinding x:Name="Command_Delete" Command="Delete" Executed="Command_Delete_Executed" />
+                    <CommandBinding x:Name="Command_Import" Command="local:MyCommand.Import" Executed="Command_Import_Executed" />
                 </TreeView.CommandBindings>
                 <TreeView.InputBindings>
+                    <KeyBinding Command="local:MyCommand.AddBrotherNode" Key="Insert" />
+                    <KeyBinding Command="local:MyCommand.AddChildNode" Key="Return" />
                     <KeyBinding Command="Delete" Key="Delete" />
+                    <KeyBinding Command="local:MyCommand.Import" Key="Home" />
                 </TreeView.InputBindings>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem" BasedOn="{StaticResource TaskItemStyle}">
                         <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
-                        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>                        
+                        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>

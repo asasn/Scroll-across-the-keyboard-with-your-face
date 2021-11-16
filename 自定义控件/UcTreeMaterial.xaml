@@ -28,17 +28,23 @@
                 </TreeView.ItemTemplate>
                 <TreeView.ContextMenu>
                     <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">
+                        <MenuItem x:Name="AddBrotherNode" Header="添加同级节点" IsEnabled="True" Command="local:MyCommand.AddBrotherNode" InputGestureText="Insert"/>
+                        <MenuItem x:Name="AddChildNode" Header="添加子节点" IsEnabled="False" Command="local:MyCommand.AddChildNode" InputGestureText="Enter"/>
                         <MenuItem x:Name="MenuDeleteItem" Header="删除该节点" IsEnabled="False" Command="Delete" InputGestureText="Delete"/>
-                        <MenuItem x:Name="MenuImportItem" Header="导入文档" IsEnabled="False" Command="local:UcTreeMaterial.Import" InputGestureText="Insert"/>
+                        <MenuItem x:Name="MenuImportItem" Header="导入文档" IsEnabled="False" Command="local:MyCommand.Import" InputGestureText="Home"/>
                     </ContextMenu>
                 </TreeView.ContextMenu>
                 <TreeView.CommandBindings>
+                    <CommandBinding x:Name="Command_AddBrotherNode" Command="local:MyCommand.AddBrotherNode" Executed="Command_AddBrotherNode_Executed" />
+                    <CommandBinding x:Name="Command_AddChildNode" Command="local:MyCommand.AddChildNode" Executed="Command_AddChildNode_Executed" />
                     <CommandBinding x:Name="Command_Delete" Command="Delete" Executed="Command_Delete_Executed" />
-                    <CommandBinding x:Name="Command_Import" Command="local:UcTreeMaterial.Import" Executed="Command_Import_Executed" />
+                    <CommandBinding x:Name="Command_Import" Command="local:MyCommand.Import" Executed="Command_Import_Executed" />
                 </TreeView.CommandBindings>
                 <TreeView.InputBindings>
+                    <KeyBinding Command="local:MyCommand.AddBrotherNode" Key="Insert" />
+                    <KeyBinding Command="local:MyCommand.AddChildNode" Key="Return" />
                     <KeyBinding Command="Delete" Key="Delete" />
-                    <KeyBinding Command="local:UcTreeMaterial.Import" Key="Insert" />
+                    <KeyBinding Command="local:MyCommand.Import" Key="Home" />
                 </TreeView.InputBindings>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem" BasedOn="{StaticResource BookTreeViewItemStyle}">

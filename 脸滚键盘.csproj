@@ -111,6 +111,7 @@
     <Compile Include="公共操作类\SettingsOperate.cs" />
     <Compile Include="公共操作类\SqliteOperate.cs" />
     <Compile Include="公共操作类\TreeOperate.cs" />
+    <Compile Include="自定义控件\MyCommand.cs" />
     <Compile Include="自定义控件\UcEditor.xaml.cs">
       <DependentUpon>UcEditor.xaml</DependentUpon>
     </Compile>
