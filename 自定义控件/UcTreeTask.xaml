@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="300">
 
     <GroupBox Header="任务清单" Style="{StaticResource BaseStyle}">
-        <ScrollViewer x:Name="Sv">
+        <ScrollViewer x:Name="Sv" HorizontalScrollBarVisibility="Auto">
             <TreeView x:Name="Tv" Grid.Row="1" Margin="5" TreeViewItem.Selected="TreeView_Selected" TreeViewItem.Expanded="Tv_Expanded" TreeViewItem.Collapsed="Tv_Collapsed"
                       ItemsSource="{Binding Path=TreeViewNodeList}" MouseDoubleClick="Tv_MouseDoubleClick" Loaded="Tv_Loaded" Style="{DynamicResource BookTreeViewStyle}" KeyDown="Tv_KeyDown" MouseMove="Tv_MouseMove" DragOver="Tv_DragOver" DragEnter="Tv_DragEnter" DragLeave="Tv_DragLeave" Drop="Tv_Drop" MouseLeftButtonDown="Tv_MouseLeftButtonDown" PreviewMouseWheel="Tv_PreviewMouseWheel">
                 <TreeView.ItemTemplate>
@@ -48,6 +48,7 @@
                     <Style TargetType="TreeViewItem" BasedOn="{StaticResource TaskItemStyle}">
                         <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
                         <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                        <Setter Property="AllowDrop" Value="{Binding Path=IsDir, Mode=TwoWay}" />
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>

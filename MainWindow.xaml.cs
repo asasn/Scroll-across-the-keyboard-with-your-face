@@ -73,15 +73,9 @@ namespace 脸滚键盘
         }
 
 
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void UcHistoryBar_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Gval.CurrentBook.Name != null)
-            {
-                HistoryWindow historyWindow = new HistoryWindow(Gval.CurrentBook.Name, "history");
-                historyWindow.UcHistoryBar.LoadYears(Gval.CurrentBook.Name, "history");
-                historyWindow.ShowDialog();                
-            }
+            Gval.Uc.HistoryBar = sender as UcHistoryBar;
         }
     }
 }

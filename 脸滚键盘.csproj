@@ -98,9 +98,6 @@
     <Compile Include="信息卡和窗口\MaterialWindow.xaml.cs">
       <DependentUpon>MaterialWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\HistoryWindow.xaml.cs">
-      <DependentUpon>HistoryWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="信息卡和窗口\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>
     </Compile>
@@ -158,10 +155,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="信息卡和窗口\MaterialWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="信息卡和窗口\HistoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

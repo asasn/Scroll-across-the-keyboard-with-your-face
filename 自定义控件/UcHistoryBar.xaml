@@ -5,24 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="800">
-    <Grid >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
-        <ScrollViewer x:Name="Sv" Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" MouseMove="Sv_MouseMove" MouseLeftButtonDown="Sv_MouseLeftButtonDown">
-            <WrapPanel x:Name="WpYears" VerticalAlignment="Bottom" />
-        </ScrollViewer>
-        <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Height="30" VerticalAlignment="Top">
-            <TextBox x:Name="TbTab" TextWrapping="Wrap" KeyDown="TbTab_KeyDown"  Width="200"/>
-            <Button x:Name="BtnAdd" Grid.Column="1" Padding="5" Click="BtnAdd_Click" Style="{StaticResource ResourceKey=ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Content="添加" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center" />
-        </WrapPanel>
-        <TextBox x:Name="TbYear" KeyDown="TbYear_KeyDown" Height="23" Grid.Column="1" TextWrapping="Wrap" Text="" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button x:Name="BtnGoLeft"  Click="BtnGoLeft_Click" Padding="0" Foreground="LightSkyBlue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="M 10,0 0,30 10,60 z" Visibility="{Binding Tag, ElementName=Uc, Converter={StaticResource Boolean2VisibilityConverter}}"  HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" />
-        <Button x:Name="BtnGoRight" Click="BtnGoRight_Click"  Padding="0" Foreground="LightSkyBlue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="M 10,0 20,30 10,60 z" Visibility="Hidden" Grid.Column="2" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" />
-    </Grid>
-
-
+             d:DesignHeight="300" d:DesignWidth="400">
+    <GroupBox Header="历史年表" Style="{StaticResource BaseStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="15"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="Sv" Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" MouseMove="Sv_MouseMove" MouseLeftButtonDown="Sv_MouseLeftButtonDown">
+                <Grid x:Name="Bar">
+                    <WrapPanel x:Name="WpYears" VerticalAlignment="Top" Orientation="Vertical" HorizontalAlignment="Left" PreviewMouseWheel="WpYears_PreviewMouseWheel" Margin="0,0,0,50"/>
+                </Grid>
+            </ScrollViewer>
+            <TextBox x:Name="TbSelected" Grid.Column="1" Grid.Row="2" KeyDown="TbSelected_KeyDown" Padding="1" TextWrapping="Wrap" HorizontalAlignment="Left" MinWidth="150" />
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="3" >
+                <TextBox x:Name="TbTab" TextWrapping="Wrap" KeyDown="TbTab_KeyDown"  Width="200"/>
+                <Button x:Name="BtnAdd" Padding="5" Click="BtnAdd_Click" Style="{StaticResource ResourceKey=ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Content="添加" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center" />
+            </Grid>
+            <TextBox x:Name="TbYear" Grid.Row="0" KeyDown="TbYear_KeyDown" Padding="5" Grid.Column="1" TextWrapping="Wrap" Text="" Width="200" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button x:Name="BtnGoLeft" Click="BtnGoLeft_Click" Padding="0" Foreground="LightSkyBlue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="M 15,0 0,100 15,200 z" Visibility="Collapsed" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="0,0,0,10" Grid.RowSpan="4" />
+            <Button x:Name="BtnGoRight" Click="BtnGoRight_Click"  Padding="0" Foreground="LightSkyBlue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="M 0,0 15,100 0,200 z" Visibility="Collapsed" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Grid.Column="2" Grid.RowSpan="4"/>
+        </Grid>
+    </GroupBox>
 </UserControl>

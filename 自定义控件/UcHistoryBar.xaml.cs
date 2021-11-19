@@ -34,7 +34,7 @@ namespace 脸滚键盘.自定义控件
 
         public string TypeOfTree;
         public string CurBookName;
-
+        bool OnYearsPanel;
         public void LoadYears(string curBookName, string typeOfTree)
         {
             if (string.IsNullOrEmpty(curBookName))
@@ -48,10 +48,10 @@ namespace 脸滚键盘.自定义控件
             TbYear.Clear();
             TbYear.Visibility = Visibility.Hidden;
             TbYear.Uid = "";
+            OnYearsPanel = true;
 
-            Uc.Tag = false;
 
-            Sv.ScrollToRightEnd();
+            Sv.ScrollToEnd();
 
             Gval.Flag.Loading = true;
 
@@ -68,7 +68,6 @@ namespace 脸滚键盘.自定义控件
             }
             reader.Close();
             sqlConn.Close();
-
 
             Gval.Flag.Loading = false;
         }
@@ -87,78 +86,111 @@ namespace 脸滚键盘.自定义控件
             sqlConn.Close();
         }
 
+        Button BtnSelected;
+        int yIndex;
         private void BtnTag_Click(object sender, RoutedEventArgs e)
         {
-            if ((bool)Uc.Tag != true)
+            BtnSelected = sender as Button;
+            TextBlock tbk = TreeOperate.FindVisualChild<TextBlock>(BtnSelected);
+            if (OnYearsPanel == true)
             {
-                Uc.Tag = true;
-                Button BtnYearTag = sender as Button;
-
-                WpYears.Children.Clear();
-                TbYear.Visibility = Visibility.Visible;
-                TbYear.Text = BtnYearTag.Content.ToString();
-                TbYear.Uid = BtnYearTag.Uid;
-
-                string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, BtnYearTag.Uid);
-                SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-                while (reader.Read())
+                yIndex = WpYears.Children.IndexOf(BtnSelected);
+            }
+            if (BtnSelected.BorderBrush != Brushes.DodgerBlue)
+            {
+                BtnSelected.BorderBrush = Brushes.DodgerBlue;
+                if (OnYearsPanel == true)
                 {
-                    Button BtnTag = AddNode(reader["Uid"].ToString(), reader["NodeName"].ToString());
-                    WpYears.Children.Add(BtnTag);                    
+                    BtnGoRight.Visibility = Visibility.Visible;
                 }
-                reader.Close();
-                sqlConn.Close();
+                //Point p = BtnSelected.TranslatePoint(new Point(), Bar);
+                //TbSelected.Margin = new Thickness(p.X, 0, 0, 30);
+                //TbSelected.Width = BtnSelected.ActualWidth;
+                TbSelected.Visibility = Visibility.Visible;
+                //TbSelected.Text = BtnSelected.Content.ToString();
+                TbSelected.Text = tbk.Text;
+                TbSelected.Uid = BtnSelected.Uid;
             }
             else
             {
-                Button BtnTag = sender as Button;
-                if (BtnTag.BorderBrush != Brushes.DodgerBlue)
+                BtnSelected.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+                BtnGoRight.Visibility = Visibility.Hidden;
+                TbSelected.Visibility = Visibility.Hidden;
+            }
+            foreach (Button btn in WpYears.Children)
+            {
+                if (btn != BtnSelected)
                 {
-                    BtnTag.BorderBrush = Brushes.DodgerBlue;
+                    btn.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
                 }
-                else
-                {
-                    BtnTag.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
-                }
-                foreach (Button btn in WpYears.Children)
-                {
-                    if (btn != BtnTag && BtnTag.BorderBrush == Brushes.DodgerBlue)
-                    {
-                        btn.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
-                    }
-                }
-
             }
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             ScrollViewer scrollviewer = sender as ScrollViewer;
-            if (e.Delta > 0)
-            {
-                scrollviewer.LineLeft();
-                scrollviewer.LineLeft();
-                scrollviewer.LineLeft();
-            }
-            else
-            {
-                scrollviewer.LineRight();
-                scrollviewer.LineRight();
-                scrollviewer.LineRight();
-            }
-            e.Handled = true;
+            //if (e.Delta > 0)
+            //{
+            //    scrollviewer.LineLeft();
+            //    scrollviewer.LineLeft();
+            //    scrollviewer.LineLeft();
+            //}
+            //else
+            //{
+            //    scrollviewer.LineRight();
+            //    scrollviewer.LineRight();
+            //    scrollviewer.LineRight();
+            //}
+            //if (e.Delta > 0)
+            //{
+            //    scrollviewer.LineUp();
+            //    scrollviewer.LineUp();
+            //    scrollviewer.LineUp();
+            //}
+            //else
+            //{
+            //    scrollviewer.LineDown();
+            //    scrollviewer.LineDown();
+            //    scrollviewer.LineDown();
+            //}
+            //e.Handled = true;
         }
 
         private void BtnGoLeft_Click(object sender, RoutedEventArgs e)
         {
+            OnYearsPanel = true;
+            BtnGoLeft.Visibility = Visibility.Hidden;
+            BtnGoRight.Visibility = Visibility.Visible;
             LoadYears(CurBookName, TypeOfTree);
+            BtnSelected = (WpYears.Children[yIndex] as Button);
+            BtnSelected.BorderBrush = Brushes.DodgerBlue;
         }
 
         private void BtnGoRight_Click(object sender, RoutedEventArgs e)
         {
-            
+            TextBlock tbk = TreeOperate.FindVisualChild<TextBlock>(BtnSelected);
+
+            OnYearsPanel = false;
+            BtnGoLeft.Visibility = Visibility.Visible;
+            BtnGoRight.Visibility = Visibility.Hidden;
+
+            WpYears.Children.Clear();
+            TbYear.Visibility = Visibility.Visible;
+            //TbYear.Text = BtnSelected.Content.ToString();
+            TbYear.Text = tbk.Text;
+            TbYear.Uid = BtnSelected.Uid;
+
+            string tableName = TypeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, BtnSelected.Uid);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                Button BtnTag = AddNode(reader["Uid"].ToString(), reader["NodeName"].ToString());
+                WpYears.Children.Add(BtnTag);
+            }
+            reader.Close();
+            sqlConn.Close();
         }
 
 
@@ -168,13 +200,13 @@ namespace 脸滚键盘.自定义控件
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
-                Mouse.SetCursor(Cursors.SizeWE);
-                double distance = e.GetPosition(Sv).X - _lastMouseDown.X;
-                Sv.ScrollToHorizontalOffset(lastOffset - distance);
+                Mouse.SetCursor(Cursors.SizeNS);
+                double distance = e.GetPosition(Sv).Y - _lastMouseDown.Y;
+                Sv.ScrollToVerticalOffset(lastOffset - distance);
             }
             else
             {
-                lastOffset = Sv.HorizontalOffset;
+                lastOffset = Sv.VerticalOffset;
             }
         }
 
@@ -212,15 +244,36 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
-            
-            
+
+
         }
 
         Button AddNode(string guid, string content)
         {
             Button BtnTag = new Button();
+            WrapPanel wp = new WrapPanel();
+            BtnTag.Content = wp;
+            Image img = new Image();
+            img.VerticalAlignment = VerticalAlignment.Center;
+            TextBlock tbk = new TextBlock();
+            tbk.VerticalAlignment = VerticalAlignment.Center;
+            wp.Children.Add(img);
+            wp.Children.Add(tbk);
+            tbk.Text = content;
+            int x = 0;
+            if (OnYearsPanel == true)
+            {
+                img.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourse/ic_action_knight.png"));
+            }
+            else
+            {
+                img.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourse/ic_action_attachment.png"));
+                x = 25;
+            }
+
             BtnTag.Padding = new Thickness(2);
-            BtnTag.Margin = new Thickness(5, 5, 0, 0);
+            BtnTag.HorizontalAlignment = HorizontalAlignment.Left;
+            BtnTag.Margin = new Thickness(5+x, 5, 0, 0);
             BtnTag.Click += BtnTag_Click;
             ContextMenu aMenu = new ContextMenu();
             MenuItem deleteMenu = new MenuItem();
@@ -230,7 +283,7 @@ namespace 脸滚键盘.自定义控件
             BtnTag.ContextMenu = aMenu;
             aMenu.DataContext = BtnTag;
             BtnTag.Uid = guid;
-            BtnTag.Content = content;
+            //BtnTag.Content = content;
             return BtnTag;
         }
 
@@ -244,6 +297,33 @@ namespace 脸滚键盘.自定义控件
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
             }
+        }
+
+        private void TbSelected_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                TextBlock tbk = TreeOperate.FindVisualChild<TextBlock>(BtnSelected);
+                //BtnSelected.Content = TbSelected.Text;
+                tbk.Text = TbSelected.Text;
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbSelected.Text, TbSelected.Uid);
+                sqlConn.ExecuteNonQuery(sql);
+                sqlConn.Close();
+            }
+        }
+
+        private void WpYears_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+            {
+                RoutedEvent = UIElement.MouseWheelEvent,
+
+                Source = sender
+            };
+
+            WpYears.RaiseEvent(eventArg);
         }
     }
 }

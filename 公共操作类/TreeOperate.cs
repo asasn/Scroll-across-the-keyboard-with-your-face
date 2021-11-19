@@ -304,6 +304,7 @@ namespace 脸滚键盘.公共操作类
                     this.isDir = true;
                     stuff.Pid = this.Uid;
                     stuff.ParentNode = this;
+                    this.WordsCount += 1;
                     //if (stuff.isButton == true)
                     //{
                     //    stuff.IconPath = Gval.Path.App + "/Resourse/ic_action_add.png";
@@ -331,6 +332,7 @@ namespace 脸滚键盘.公共操作类
                 else if (e.Action == NotifyCollectionChangedAction.Remove)
                 {
                     TreeViewNode stuff = (TreeViewNode)e.OldItems[0];
+                    this.WordsCount -= 1;
                     if (stuff.Pid == this.Uid)
                     {
                         stuff.Pid = string.Empty;
@@ -470,6 +472,24 @@ namespace 脸滚键盘.公共操作类
         #endregion
 
         #region 载入书籍
+        public static void SaveBySql(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
+        {
+            string tableName = typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            foreach (TreeViewNode node in baseNode.ChildNodes)
+            {
+                SaveBySql(sqlConn, node);
+            }
+            sqlConn.Close();
+        }
+
+        public static void SaveBySql(SqliteOperate sqlConn, TreeViewNode baseNode)
+        {
+            foreach (TreeViewNode node in baseNode.ChildNodes)
+            {
+                SaveBySql(sqlConn, node);
+            }
+        }
         /// <summary>
         /// 从数据库中递归载入节点记录
         /// </summary>
@@ -506,7 +526,7 @@ namespace 脸滚键盘.公共操作类
                     node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                 }
                 LoadNode(node, TreeViewNodeList, TopNode, typeOfTree);
-                ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
+                ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
             sqlConn.Close();
@@ -536,10 +556,9 @@ namespace 脸滚键盘.公共操作类
         /// <param name="typeOfTree"></param>
         /// <param name="TreeViewNodeList"></param>
         /// <param name="parentNode"></param>
-        static void ShowTree(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
+        static void ShowTree(SqliteOperate sqlConn, string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, parentNode.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
@@ -556,10 +575,9 @@ namespace 脸滚键盘.公共操作类
                 };
                 node.IconPath = Gval.Path.App + "/Resourse/ic_action_document.png";
                 LoadNode(node, TreeViewNodeList, parentNode, typeOfTree);
-                ShowTree(curBookName, typeOfTree, TreeViewNodeList, node);
+                ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
-            sqlConn.Close();
         }
         #endregion
 
@@ -596,7 +614,7 @@ namespace 脸滚键盘.公共操作类
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
         }
-
+        static string delSql;
         /// <summary>
         /// 删除节点
         /// </summary>
@@ -608,9 +626,11 @@ namespace 脸滚键盘.公共操作类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            delSql = string.Empty;
             RecursionDelBySql(curBookName, typeOfTree, selectedNode, sqlConn, treeViewNodeList);
-            string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(delSql);
+            treeViewNodeList.Remove(selectedNode);
             sqlConn.Close();
         }
 
@@ -627,8 +647,8 @@ namespace 脸滚键盘.公共操作类
                 for (int i = 0; i < baseNode.ChildNodes.Count; i++)
                 {
                     string tableName = typeOfTree;
-                    string sql = string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
-                    sqlConn.ExecuteNonQuery(sql);
+                    delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
+                    //sqlConn.ExecuteNonQuery(sql);
                     RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
                     treeViewNodeList.Remove(baseNode.ChildNodes[i]);
                 }

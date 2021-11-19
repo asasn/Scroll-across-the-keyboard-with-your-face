@@ -22,6 +22,11 @@ namespace 脸滚键盘.自定义控件
         TextBox TbReName;
         string TypeOfTree;
         string CurBookName;
+        TreeViewNode TopNode = new TreeViewNode
+        {
+            Uid = "",
+            IsDir = true
+        };
         /// <summary>
         /// 数据源：节点列表
         /// </summary>
@@ -48,7 +53,7 @@ namespace 脸滚键盘.自定义控件
             Tv.ItemsSource = TreeViewNodeList;
 
             //初始化顶层节点数据
-            TreeViewNode TopNode = new TreeViewNode
+            TopNode = new TreeViewNode
             {
                 Uid = "",
                 IsDir = true
@@ -203,6 +208,7 @@ namespace 脸滚键盘.自定义控件
                  )
             {
                 TbReName.Visibility = Visibility.Hidden;
+                e.Handled = true;
             }
         }
 
@@ -290,7 +296,7 @@ namespace 脸滚键盘.自定义控件
             parentNode.ChildNodes.Remove(selectedNode);
             if (parentNode.ChildNodes.Count >= 2)
             {
-                if (n > parentNode.ChildNodes.Count - 2)
+                if (n == parentNode.ChildNodes.Count)
                 {
                     n--;
                 }
@@ -448,19 +454,11 @@ namespace 脸滚键盘.自定义控件
                         {
                             Console.WriteLine("放入目标目录");
                             int m = dropNode.ChildNodes.Count;
-                            if (m > 0)
+                            //原目录
+                            if (dropNode.Uid == dragNode.Pid)
                             {
-                                //原目录
-                                if (dropNode.Uid == dragNode.Pid)
-                                {
-                                    m -= 2;
-                                }
-                                else
-                                {
-                                    m -= 1;
-                                }
+                                m -= 1;
                             }
-
 
                             string tableName = TypeOfTree;
                             //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
@@ -511,7 +509,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((sender as TreeView).ContextMenu.IsLoaded == true || TbReName == null || TbReName.Visibility == Visibility.Visible)
+            if ((sender as TreeView).ContextMenu.IsLoaded == true || (TbReName != null && TbReName.Visibility == Visibility.Visible))
             {
                 return;
             }
@@ -575,6 +573,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             if (selectedNode.IsDir == true)
             {
+                selectedNode.IsExpanded = true;
                 TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
                 TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
@@ -590,37 +589,7 @@ namespace 脸滚键盘.自定义控件
 
         private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
-            //if (selectedNode.IsDir == true)
-            //{
-            //    string[] files = null;
-            //    Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            //    dlg.DefaultExt = ".txt";
-            //    dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
-            //    dlg.Multiselect = true;
 
-            //    // 打开选择框选择
-            //    if (dlg.ShowDialog() == true)
-            //    {
-            //        files = dlg.FileNames;
-            //    }
-            //    else
-            //    {
-            //        return;
-            //    }
-            //    foreach (string srcFullFileName in files)
-            //    {
-            //        string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
-            //        if (selectedNode.IsDir == true)
-            //        {
-            //            TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
-            //            newNode.NodeName = title;
-            //            newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
-            //            newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
-            //            TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
-            //        }
-            //    }
-            //}
         }
 
 

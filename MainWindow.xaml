@@ -45,12 +45,7 @@
                     <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
             </hc:TabControl>
-            <Button Click="Button_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="4" Margin="10,445,0,0" Height="Auto" >
-                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" >
-                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_knight.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="32" Height="32" />
-                    <TextBlock Grid.Column="1" Text="历史年表" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                </WrapPanel>
-            </Button>
+            <自定义控件:UcHistoryBar x:Name="UcHistoryBar" Grid.Column="4" Loaded="UcHistoryBar_Loaded"/>
         </Grid>
 
 

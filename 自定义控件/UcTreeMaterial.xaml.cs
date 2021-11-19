@@ -22,7 +22,11 @@ namespace 脸滚键盘.自定义控件
         TextBox TbReName;
         readonly string TypeOfTree = "material";
         readonly string CurBookName = "index";
-
+        TreeViewNode TopNode = new TreeViewNode
+        {
+            Uid = "",
+            IsDir = true
+        };
         /// <summary>
         /// 数据源：节点列表
         /// </summary>
@@ -45,7 +49,7 @@ namespace 脸滚键盘.自定义控件
             Tv.ItemsSource = TreeViewNodeList;
 
             //初始化顶层节点数据
-            TreeViewNode TopNode = new TreeViewNode
+            TopNode = new TreeViewNode
             {
                 Uid = "",
                 IsDir = true
@@ -133,6 +137,7 @@ namespace 脸滚键盘.自定义控件
             if (TbReName != null)
             {
                 TbReName.Visibility = Visibility.Hidden;
+                e.Handled = true;
             }
 
 
@@ -275,7 +280,7 @@ namespace 脸滚键盘.自定义控件
             parentNode.ChildNodes.Remove(selectedNode);
             if (parentNode.ChildNodes.Count >= 2)
             {
-                if (n > parentNode.ChildNodes.Count - 2)
+                if (n == parentNode.ChildNodes.Count)
                 {
                     n--;
                 }
@@ -433,17 +438,10 @@ namespace 脸滚键盘.自定义控件
                         {
                             Console.WriteLine("放入目标目录");
                             int m = dropNode.ChildNodes.Count;
-                            if (m > 0)
+                            //原目录
+                            if (dropNode.Uid == dragNode.Pid)
                             {
-                                //原目录
-                                if (dropNode.Uid == dragNode.Pid)
-                                {
-                                    m -= 2;
-                                }
-                                else
-                                {
-                                    m -= 1;
-                                }
+                                m -= 1;
                             }
 
 
@@ -496,7 +494,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((sender as TreeView).ContextMenu.IsLoaded == true || TbReName == null || TbReName.Visibility == Visibility.Visible)
+            if ((sender as TreeView).ContextMenu.IsLoaded == true || (TbReName != null && TbReName.Visibility == Visibility.Visible))
             {
                 return;
             }
@@ -521,6 +519,18 @@ namespace 脸滚键盘.自定义控件
         #endregion
 
         #region 右键菜单
+
+        private void Tv_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (Tv.Items.Count == 0)
+            {
+                TreeViewNode newNode = AddNewNode(TreeViewNodeList, TopNode, TypeOfTree);
+                TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                newNode.IsSelected = true;
+                e.Handled = true;
+            }
+        }
+
         private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
         {
             TreeViewNode selectedNode = (TreeViewNode)Tv.SelectedItem;
@@ -560,6 +570,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             if (selectedNode.IsDir == true)
             {
+                selectedNode.IsExpanded = true;
                 TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
                 TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
@@ -593,18 +604,22 @@ namespace 脸滚键盘.自定义控件
                 {
                     return;
                 }
+                string sql = string.Empty;
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                 foreach (string srcFullFileName in files)
                 {
                     string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
-                    if (selectedNode.IsDir == true)
-                    {
-                        TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
-                        newNode.NodeName = title;
-                        newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
-                        newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
-                        TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
-                    }
+
+                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                    newNode.NodeName = title;
+                    newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
+                    newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
+                    //合并提交的SQL语句，使用+=来赋值
+                    sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
                 }
+                sqlConn.ExecuteNonQuery(sql);
+                sqlConn.Close();
             }
         }
 

@@ -32,7 +32,12 @@ namespace 脸滚键盘.自定义控件
         /// 数据源：节点列表
         /// </summary>
         ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
-
+        //初始化顶层节点数据
+        TreeViewNode TopNode = new TreeViewNode
+        {
+            Uid = "",
+            IsDir = true
+        };
         public void LoadBook(string curBookName, string typeOfTree)
         {
             if (string.IsNullOrEmpty(curBookName))
@@ -44,17 +49,14 @@ namespace 脸滚键盘.自定义控件
 
             //数据初始化
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
-
-            //数据源加载节点列表
-            Tv.ItemsSource = TreeViewNodeList;
-
-            //初始化顶层节点数据
-            TreeViewNode TopNode = new TreeViewNode
+            TopNode = new TreeViewNode
             {
                 Uid = "",
                 IsDir = true
             };
 
+            //数据源加载节点列表
+            Tv.ItemsSource = TreeViewNodeList;
 
             Gval.Flag.Loading = true;
 
@@ -180,6 +182,16 @@ namespace 脸滚键盘.自定义控件
 
             if (selectedNode != null)
             {
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                string sql = string.Format("SELECT * FROM Tree_{0} where Uid='{1}';", tableName, selectedNode.Uid);
+                SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+                while (reader.Read())
+                {
+                    selectedNode.NodeContent = reader["NodeContent"].ToString();
+                }
+                reader.Close();
+                sqlConn.Close();
                 if (selectedNode.IsButton == true)
                 {
                     TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
@@ -278,6 +290,7 @@ namespace 脸滚键盘.自定义控件
                  )
             {
                 TbReName.Visibility = Visibility.Hidden;
+                e.Handled = true;
             }
         }
 
@@ -360,7 +373,7 @@ namespace 脸滚键盘.自定义控件
             parentNode.ChildNodes.Remove(selectedNode);
             if (parentNode.ChildNodes.Count > 0)
             {
-                if (n > 0)
+                if (n == parentNode.ChildNodes.Count)
                 {
                     n--;
                 }
@@ -475,6 +488,7 @@ namespace 脸滚键盘.自定义控件
                         container.Foreground = new SolidColorBrush(Colors.Orange);
                     }
                 }
+                e.Handled = true;
             }
         }
 
@@ -516,19 +530,11 @@ namespace 脸滚键盘.自定义控件
                         {
                             Console.WriteLine("放入目标目录");
                             int m = dropNode.ChildNodes.Count;
-                            if (m > 0)
+                            //原目录
+                            if (dropNode.Uid == dragNode.Pid)
                             {
-                                //原目录
-                                if (dropNode.Uid == dragNode.Pid)
-                                {
-                                    m -= 2;
-                                }
-                                else
-                                {
-                                    m -= 1;
-                                }
+                                m -= 1;
                             }
-
 
                             string tableName = TypeOfTree;
                             //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
@@ -567,6 +573,7 @@ namespace 脸滚键盘.自定义控件
                 orginLevel = -1;
                 dropLevel = -1;
                 orginItem = new TreeViewItem();
+                //TreeOperate.SaveBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
             }
         }
 
@@ -578,7 +585,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((sender as TreeView).ContextMenu.IsLoaded == true || TbReName == null || TbReName.Visibility == Visibility.Visible)
+            if ((sender as TreeView).ContextMenu.IsLoaded == true || (TbReName != null && TbReName.Visibility == Visibility.Visible))
             {
                 return;
             }
@@ -639,6 +646,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             if (selectedNode.IsDir == true)
             {
+                selectedNode.IsExpanded = true;
                 TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
                 TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
@@ -671,18 +679,22 @@ namespace 脸滚键盘.自定义控件
                 {
                     return;
                 }
+                string sql = string.Empty;
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                 foreach (string srcFullFileName in files)
                 {
                     string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
-                    if (selectedNode.IsDir == true)
-                    {
-                        TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
-                        newNode.NodeName = title;
-                        newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
-                        newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
-                        AddNodeBySql(CurBookName, TypeOfTree, newNode);
-                    }
+
+                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                    newNode.NodeName = title;
+                    newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
+                    newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
+                    //合并提交的SQL语句，使用+=来赋值
+                    sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
                 }
+                sqlConn.ExecuteNonQuery(sql);
+                sqlConn.Close();
             }
         }
         #endregion
@@ -803,6 +815,7 @@ namespace 脸滚键盘.自定义控件
             SettingsOperate.Set("curBookName", bookCard.Header.ToString());
             GetBookInfoForGval(bookCard.Uid);
             this.LoadBook(Gval.CurrentBook.Name, "book");
+            Gval.Uc.HistoryBar.LoadYears(Gval.CurrentBook.Name, "history");
             Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "角色");
             Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
