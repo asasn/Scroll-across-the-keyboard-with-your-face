@@ -9,6 +9,8 @@ namespace 脸滚键盘.自定义控件
 {
     class MyCommand
     {
+        public static RoutedCommand MoveUp = new RoutedCommand("MoveUp", typeof(UcTreeBook));
+        public static RoutedCommand MoveDown = new RoutedCommand("MoveDown", typeof(UcTreeBook));
         public static RoutedCommand AddBrotherNode = new RoutedCommand("AddBrotherNode", typeof(UcTreeBook));
         public static RoutedCommand AddChildNode = new RoutedCommand("AddChildNode", typeof(UcTreeBook));
         public static RoutedCommand Import = new RoutedCommand("Import", typeof(UcTreeBook));

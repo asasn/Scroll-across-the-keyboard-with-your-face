@@ -328,6 +328,14 @@ namespace 脸滚键盘.自定义控件
                     TbReName.Visibility = Visibility.Visible;
                     TbReName.Focus();
                 }
+                if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
+                {
+                    BtnMoveUp_Click(null, null);
+                }
+                if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.J)
+                {
+                    BtnMoveDown_Click(null, null);
+                }
             }
         }
 
@@ -397,11 +405,14 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
         {
-            //已经采用按钮控件btnUp的可用/禁用来作判断，所以不必再次检查临近节点索引是否合法
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == 0)
+            {
+                return;
+            }
+
             int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
-            n--;
-            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n];
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n - 1];
             if (selectedNode == null || neighboringNode == null)
             {
                 return;
@@ -411,7 +422,7 @@ namespace 脸滚键盘.自定义控件
             SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
+            SwapNode(n - 1, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
         /// <summary>
@@ -422,9 +433,12 @@ namespace 脸滚键盘.自定义控件
         private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
         {
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == selectedNode.ParentNode.ChildNodes.Count - 1)
+            {
+                return;
+            }
             int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
-            n++;
-            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n];
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n + 1];
             if (selectedNode == null || neighboringNode == null)
             {
                 return;
@@ -434,7 +448,7 @@ namespace 脸滚键盘.自定义控件
             SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
 
             //节点索引交换位置
-            SwapNode(n, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
+            SwapNode(n + 1, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
         }
 
 
@@ -548,26 +562,26 @@ namespace 脸滚键盘.自定义控件
                             SwapNode(m, dragNode, dropNode, TreeViewNodeList);
                         }
                         //同级调换
-                        if (GetLevel(dropNode) == GetLevel(dragNode))
-                        {
-                            Console.WriteLine("同级调换");
-                            int n = dragNode.ParentNode.ChildNodes.IndexOf(dragNode);
-                            int m = dropNode.ParentNode.ChildNodes.IndexOf(dropNode);
-                            if (dragNode.Pid != dropNode.Pid)
-                            {
-                                m += 1;
-                            }
-                            if (dragNode == null || dropNode == null)
-                            {
-                                return;
-                            }
+                        //if (GetLevel(dropNode) == GetLevel(dragNode))
+                        //{
+                        //    Console.WriteLine("同级调换");
+                        //    int n = dragNode.ParentNode.ChildNodes.IndexOf(dragNode);
+                        //    int m = dropNode.ParentNode.ChildNodes.IndexOf(dropNode);
+                        //    if (dragNode.Pid != dropNode.Pid)
+                        //    {
+                        //        m += 1;
+                        //    }
+                        //    if (dragNode == null || dropNode == null)
+                        //    {
+                        //        return;
+                        //    }
 
-                            //数据库中的处理
-                            SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
+                        //    //数据库中的处理
+                        //    SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
 
-                            //节点索引交换位置
-                            SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
-                        }
+                        //    //节点索引交换位置
+                        //    SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
+                        //}
                     }
                 }
                 orginLevel = -1;
@@ -815,8 +829,9 @@ namespace 脸滚键盘.自定义控件
             SettingsOperate.Set("curBookName", bookCard.Header.ToString());
             GetBookInfoForGval(bookCard.Uid);
             this.LoadBook(Gval.CurrentBook.Name, "book");
-            Gval.Uc.HistoryBar.LoadYears(Gval.CurrentBook.Name, "history");
+            //Gval.Uc.HistoryBar.LoadYears(Gval.CurrentBook.Name, "history");
             Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");
+            Gval.Uc.TreeNote.LoadBook(Gval.CurrentBook.Name, "note");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "角色");
             Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "其他");

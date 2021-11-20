@@ -525,6 +525,10 @@ namespace 脸滚键盘.公共操作类
                 {
                     node.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                 }
+                if (typeOfTree == "note")
+                {
+                    node.IconPath = Gval.Path.App + "/Resourse/ic_action_knight.png";
+                }
                 LoadNode(node, TreeViewNodeList, TopNode, typeOfTree);
                 ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
             }

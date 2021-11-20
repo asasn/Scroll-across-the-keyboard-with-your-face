@@ -127,6 +127,9 @@
     <Compile Include="自定义控件\UcTreeMaterial.xaml.cs">
       <DependentUpon>UcTreeMaterial.xaml</DependentUpon>
     </Compile>
+    <Compile Include="自定义控件\UcTreeNote.xaml.cs">
+      <DependentUpon>UcTreeNote.xaml</DependentUpon>
+    </Compile>
     <Compile Include="自定义控件\UcTreeTask.xaml.cs">
       <DependentUpon>UcTreeTask.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcTreeMaterial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcTreeNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

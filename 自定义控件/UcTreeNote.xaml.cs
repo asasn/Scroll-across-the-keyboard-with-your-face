@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using static 脸滚键盘.公共操作类.TreeOperate;
 
@@ -13,9 +13,9 @@ namespace 脸滚键盘.自定义控件
     /// <summary>
     /// UcTreeBook.xaml 的交互逻辑
     /// </summary>
-    public partial class UcTreeTask : UserControl
+    public partial class UcTreeNote : UserControl
     {
-        public UcTreeTask()
+        public UcTreeNote()
         {
             InitializeComponent();
         }
@@ -32,7 +32,7 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
 
-        private void Tv_Loaded(object sender, RoutedEventArgs e)
+        public void Tv_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
@@ -48,17 +48,14 @@ namespace 脸滚键盘.自定义控件
 
             //数据初始化
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
-
-            //数据源加载节点列表
-            Tv.ItemsSource = TreeViewNodeList;
-
-            //初始化顶层节点数据
             TopNode = new TreeViewNode
             {
                 Uid = "",
                 IsDir = true
             };
 
+            //数据源加载节点列表
+            Tv.ItemsSource = TreeViewNodeList;
 
             Gval.Flag.Loading = true;
 
@@ -67,15 +64,9 @@ namespace 脸滚键盘.自定义控件
             //从数据库中载入数据
             LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
 
-
+            Sv.ScrollToEnd();
             Gval.Flag.Loading = false;
-
-            //滚动至末尾
-            //Sv.ScrollToEnd();
         }
-
-
-
 
 
         #region 节点相关操作
@@ -105,7 +96,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment_2.png";
+                //selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
                 TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
@@ -120,7 +111,7 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_attachment.png";
+                //selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
                 TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
@@ -141,6 +132,12 @@ namespace 脸滚键盘.自定义控件
             TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
             Button btnDel = FindChild<Button>(selectedItem as DependencyObject, "btnDel");
 
+            if (TbReName != null)
+            {
+                TbReName.Visibility = Visibility.Hidden;
+                e.Handled = true;
+            }
+
 
         }
 
@@ -153,9 +150,9 @@ namespace 脸滚键盘.自定义控件
             {
                 if (selectedNode.IsButton == true)
                 {
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                    TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
-                    newNode.IsSelected = true;
+                    //TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                    //TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    //newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
                     //reNameTextBox.Text = newNode.NodeName;
@@ -167,7 +164,6 @@ namespace 脸滚键盘.自定义控件
                 {
                     if (selectedNode.IsDir == true)
                     {
-                        selectedNode.IsExpanded = !selectedNode.IsExpanded;
                         //string tableName = TypeOfTree;
                         //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                         //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
@@ -176,22 +172,13 @@ namespace 脸滚键盘.自定义控件
                     }
                     else
                     {
-                        //双击选中节点，尝试进入编辑状态
-                        //CurNode = selectedNode;
-
-                        //Gval.ucEditor.CurNodeName = selectedItem.Name;
-
-                        //获取节点对应的路径
-                        string nodePath = GetPath(selectedNode);
-                        Console.WriteLine(nodePath);
-                    }
-                    CheckBox Ck = FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
-                    if (Ck.IsChecked == false)
-                    {
-                        TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-                        TbReName.SelectAll();
-                        TbReName.Visibility = Visibility.Visible;
-                        TbReName.Focus();
+                        if (Gval.Uc.MaterialWindow.IsVisible == false)
+                        {
+                            Gval.Uc.MaterialWindow = new MaterialWindow();
+                            Gval.Uc.MaterialWindow.ucEditor.DataContext = selectedNode;
+                            Gval.Uc.MaterialWindow.ucEditor.LoadChapter(CurBookName, TypeOfTree);
+                            Gval.Uc.MaterialWindow.ShowDialog();
+                        }
                     }
                 }
             }
@@ -208,7 +195,6 @@ namespace 脸滚键盘.自定义控件
                  )
             {
                 TbReName.Visibility = Visibility.Hidden;
-                e.Handled = true;
             }
         }
 
@@ -241,14 +227,10 @@ namespace 脸滚键盘.自定义控件
             {
                 if (e.Key == Key.F2)
                 {
-                    CheckBox Ck = FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
-                    if (Ck.IsChecked == false)
-                    {
-                        TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-                        TbReName.SelectAll();
-                        TbReName.Visibility = Visibility.Visible;
-                        TbReName.Focus();
-                    }
+                    TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                    TbReName.SelectAll();
+                    TbReName.Visibility = Visibility.Visible;
+                    TbReName.Focus();
                 }
                 if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
                 {
@@ -474,6 +456,7 @@ namespace 脸滚键盘.自定义控件
                                 m -= 1;
                             }
 
+
                             string tableName = TypeOfTree;
                             //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                             //更新数据库中临近节点记录集
@@ -548,6 +531,18 @@ namespace 脸滚键盘.自定义控件
         #endregion
 
         #region 右键菜单
+
+        private void Tv_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (Tv.Items.Count == 0)
+            {
+                TreeViewNode newNode = AddNewNode(TreeViewNodeList, TopNode, TypeOfTree);
+                TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                newNode.IsSelected = true;
+                e.Handled = true;
+            }
+        }
+
         private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
         {
             TreeViewNode selectedNode = (TreeViewNode)Tv.SelectedItem;
@@ -558,7 +553,7 @@ namespace 脸滚键盘.自定义控件
                 if (selectedNode.IsDir == true)
                 {
                     ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = true;
-                    ((MenuItem)TreeViewMenu.Items[3]).IsEnabled = false;
+                    ((MenuItem)TreeViewMenu.Items[3]).IsEnabled = true;
                 }
                 else
                 {
@@ -603,67 +598,45 @@ namespace 脸滚键盘.自定义控件
 
         private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            if (selectedNode.IsDir == true)
+            {
+                string[] files = null;
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.DefaultExt = ".txt";
+                dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
+                dlg.Multiselect = true;
 
+                // 打开选择框选择
+                if (dlg.ShowDialog() == true)
+                {
+                    files = dlg.FileNames;
+                }
+                else
+                {
+                    return;
+                }
+                string sql = string.Empty;
+                string tableName = TypeOfTree;
+                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                foreach (string srcFullFileName in files)
+                {
+                    string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
+
+                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                    newNode.NodeName = title;
+                    newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
+                    newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
+                    //合并提交的SQL语句，使用+=来赋值
+                    sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
+                }
+                sqlConn.ExecuteNonQuery(sql);
+                sqlConn.Close();
+            }
         }
 
 
         #endregion
-        private void Ck_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox Ck = sender as CheckBox;
-            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
-            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
-            TbkName.Foreground = Brushes.Silver;
-            TbkName.IsEnabled = false;
-        }
-
-        private void Ck_Unchecked(object sender, RoutedEventArgs e)
-        {
-            CheckBox Ck = sender as CheckBox;
-            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
-            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
-            TbkName.Foreground = (Brush)new BrushConverter().ConvertFromString("#FF212121");
-            TbkName.IsEnabled = true;
-        }
-
-        private void Ck_Click(object sender, RoutedEventArgs e)
-        {
-            CheckBox Ck = sender as CheckBox;
-            TreeViewItem item = GetParentObjectEx<TreeViewItem>(Ck as DependencyObject) as TreeViewItem;
-            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
-            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
-            TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
-            selectedNode.TheItem = item;
-            if (Ck.IsChecked == true)
-            {
-                selectedNode.ParentNode.IsChecked = true;
-                foreach (TreeViewNode node in selectedNode.ChildNodes)
-                {
-                    if (node.IsButton == false)
-                    {
-                        node.IsChecked = true;
-                    }
-                }
-                foreach (TreeViewNode node in selectedNode.ParentNode.ChildNodes)
-                {
-                    if (node.IsButton == false && node.IsChecked == false)
-                    {
-                        node.ParentNode.IsChecked = false;
-                    }
-                }
-            }
-            else
-            {
-                selectedNode.ParentNode.IsChecked = false;
-                foreach (TreeViewNode node in selectedNode.ChildNodes)
-                {
-                    if (node.IsButton == false)
-                    {
-                        node.IsChecked = false;
-                    }
-                }
-            }
-        }
 
         private void Tv_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -676,5 +649,9 @@ namespace 脸滚键盘.自定义控件
 
             this.Tv.RaiseEvent(eventArg);
         }
+
+
     }
+
+
 }

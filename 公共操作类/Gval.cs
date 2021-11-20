@@ -38,6 +38,7 @@ namespace 脸滚键盘.公共操作类
             public static UcTreeBook TreeBook;
             public static UcTreeMaterial TreeMaterial;
             public static UcTreeTask TreeTask;
+            public static UcTreeNote TreeNote;
             public static MaterialWindow MaterialWindow = new MaterialWindow();
             public static UcCards RoleCards;
             public static UcCards OtherCards;

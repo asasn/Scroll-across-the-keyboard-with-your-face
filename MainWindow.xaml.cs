@@ -27,6 +27,10 @@ namespace 脸滚键盘
             Gval.Uc.TreeMaterial = sender as UcTreeMaterial;
         }
 
+        private void UcTreeNote_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.Uc.TreeNote = sender as UcTreeNote;
+        }
 
         private void UcTreeTask_Loaded(object sender, RoutedEventArgs e)
         {
@@ -70,12 +74,6 @@ namespace 脸滚键盘
             Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
             Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
             CardOperate.TryToBuildBaseTable("index", "其他");
-        }
-
-
-        private void UcHistoryBar_Loaded(object sender, RoutedEventArgs e)
-        {
-            Gval.Uc.HistoryBar = sender as UcHistoryBar;
         }
     }
 }

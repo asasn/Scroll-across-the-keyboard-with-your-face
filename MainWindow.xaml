@@ -36,6 +36,7 @@
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
                            Loaded="Editor_Loaded" IsDraggable="True">
             </hc:TabControl>
+            <自定义控件:UcTreeNote Grid.Column="4" Loaded="UcTreeNote_Loaded"/>
             <自定义控件:UcTreeTask Grid.Column="4" Grid.Row="1" Loaded="UcTreeTask_Loaded"/>
             <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
                 <hc:TabItem Header="本书角色信息卡">
@@ -45,7 +46,7 @@
                     <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
             </hc:TabControl>
-            <自定义控件:UcHistoryBar x:Name="UcHistoryBar" Grid.Column="4" Loaded="UcHistoryBar_Loaded"/>
+            
         </Grid>
 
 
