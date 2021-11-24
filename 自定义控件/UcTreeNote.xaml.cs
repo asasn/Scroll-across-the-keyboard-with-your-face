@@ -195,6 +195,7 @@ namespace 脸滚键盘.自定义控件
                  )
             {
                 TbReName.Visibility = Visibility.Hidden;
+                e.Handled = true;
             }
         }
 

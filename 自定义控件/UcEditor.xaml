@@ -49,6 +49,9 @@
                 <Button Background="#FFFAFAFA" x:Name="BtnCopyTitle" Padding="1" BorderThickness="0" ToolTip="复制文档标题" Click="BtnCopyTitle_Click">
                     <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_circles.png" Width="20" Height="20" />
                 </Button>
+                <Button Background="#FFFAFAFA" x:Name="BtnPaste" Padding="1" BorderThickness="0" ToolTip="从剪贴板粘贴" Click="BtnPaste_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_paste.png" Width="20" Height="20" />
+                </Button>
             </WrapPanel>
 
             <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=uc, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->

@@ -77,6 +77,7 @@ namespace 脸滚键盘.公共操作类
             tb.Text = reText;
             //光标移动至文末 
             tb.ScrollToLine(tb.LineCount);
+            tb.SelectionLength = 0;
             tb.SelectionStart = tb.Text.Length;
             tb.ScrollToEnd();
             tb.ScrollToEnd();

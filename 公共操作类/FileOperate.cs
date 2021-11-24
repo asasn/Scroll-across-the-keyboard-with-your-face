@@ -25,6 +25,22 @@ namespace 脸滚键盘.公共操作类
             return imgShow;
         }
 
+        /// </summary>
+        /// <param name="imagePath">图片地址</param>
+        /// <returns></returns>
+        public static BitmapImage GetBitmapImage(string imagePath)
+        {
+
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.UriSource = new Uri(imagePath);
+            bitmap.EndInit();
+            return bitmap.Clone();
+        }
+
+
+
         /// <summary>
         /// 创建新文件夹
         /// </summary>

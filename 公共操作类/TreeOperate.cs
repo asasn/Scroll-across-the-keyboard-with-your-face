@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace 脸滚键盘.公共操作类
 {
@@ -157,7 +158,7 @@ namespace 脸滚键盘.公共操作类
 
             private string iconPath;
             /// <summary>
-            /// 节点图标
+            /// 节点图标路径
             /// </summary>
             public string IconPath
             {

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘"
-        xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="脸滚键盘.MainWindow"
+        xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="Mw" x:Class="脸滚键盘.MainWindow"
         mc:Ignorable="d" UseLayoutRounding="True" Closing="Window_Closing"
         Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized">
     <Grid>
@@ -45,8 +45,7 @@
                 <hc:TabItem Header="本书其他信息卡">
                     <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
-            </hc:TabControl>
-            
+            </hc:TabControl>           
         </Grid>
 
 

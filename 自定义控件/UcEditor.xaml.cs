@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,7 +41,6 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-
             textEditor.TextArea.SelectionChanged += textEditor_TextArea_SelectionChanged;
 
             //快速搜索功能
@@ -204,7 +204,7 @@ namespace 脸滚键盘.自定义控件
         {
             ShowTextInfo();
 
-            if (this.IsEnabled == true && textEditor.TextArea.IsFocused == true)
+            if (textEditor.TextArea.IsFocused == true)
             {
                 btnSaveDoc.IsEnabled = true;
             }
@@ -213,7 +213,7 @@ namespace 脸滚键盘.自定义控件
                 PasteSign = false;
                 //连续粘贴可能会引起频繁保存的卡顿，所以注释掉了
                 //SaveText();
-            }            
+            }
         }
 
         /// <summary>
@@ -282,6 +282,14 @@ namespace 脸滚键盘.自定义控件
             {
                 //如果被searchPanel占用就不要再设置
                 FindReplaceDialog.ShowForReplace(textEditor);
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
+            {
+
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Y)
+            {
+
             }
             if (e.Key == Key.F3)
             {
@@ -355,6 +363,17 @@ namespace 脸滚键盘.自定义控件
             {
                 lb2.Content = "字数：" + words.ToString();
             }
+        }
+
+
+
+        private void BtnPaste_Click(object sender, RoutedEventArgs e)
+        {
+            string temp = textEditor.Text;
+            textEditor.Text = Clipboard.GetText();
+            Clipboard.SetText(temp);
+            EditorOperate.ReformatText(textEditor);
+            btnSaveDoc.IsEnabled = true;
         }
     }
 }
