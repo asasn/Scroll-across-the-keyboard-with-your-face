@@ -1,11 +1,14 @@
-﻿using ICSharpCode.AvalonEdit.Highlighting;
+﻿using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Search;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,6 +30,34 @@ namespace 脸滚键盘.自定义控件
             InitializeComponent();
         }
 
+        ToolTip toolTip = new ToolTip();
+
+        /// <summary>
+        /// 鼠标悬浮提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textEditor_MouseHover(object sender, MouseEventArgs e)
+        {
+            var pos = textEditor.GetPositionFromPoint(e.GetPosition(textEditor));
+            if (pos != null)
+            {
+                toolTip.PlacementTarget = this; // required for property inheritance
+                toolTip.Content = pos.ToString();
+                toolTip.IsOpen = true;
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// 停止悬浮提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textEditor_MouseHoverStopped(object sender, MouseEventArgs e)
+        {
+            toolTip.IsOpen = false;
+        }
 
         string TypeOfTree;
         string CurBookName;
@@ -40,7 +71,6 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void uc_Loaded(object sender, RoutedEventArgs e)
         {
-
             textEditor.TextArea.SelectionChanged += textEditor_TextArea_SelectionChanged;
 
             //快速搜索功能
@@ -204,7 +234,7 @@ namespace 脸滚键盘.自定义控件
         {
             ShowTextInfo();
 
-            if (this.IsEnabled == true && textEditor.TextArea.IsFocused == true)
+            if (textEditor.TextArea.IsFocused == true)
             {
                 btnSaveDoc.IsEnabled = true;
             }
@@ -283,6 +313,14 @@ namespace 脸滚键盘.自定义控件
                 //如果被searchPanel占用就不要再设置
                 FindReplaceDialog.ShowForReplace(textEditor);
             }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
+            {
+
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Y)
+            {
+
+            }
             if (e.Key == Key.F3)
             {
                 //如果被searchPanel占用就不要再设置
@@ -355,6 +393,86 @@ namespace 脸滚键盘.自定义控件
             {
                 lb2.Content = "字数：" + words.ToString();
             }
+        }
+
+
+
+        private void BtnPaste_Click(object sender, RoutedEventArgs e)
+        {
+            string temp = textEditor.Text;
+            textEditor.Text = Clipboard.GetText();
+            Clipboard.SetText(temp);
+            EditorOperate.ReformatText(textEditor);
+            btnSaveDoc.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// 两边追加标志
+        /// </summary>
+        /// <param name="syntax"></param>
+        public void ToggleSymmetricalMarkdownFormatting(string syntax)
+        {
+            int selectionLength = this.textEditor.SelectionLength;
+            int selectionStart = this.textEditor.SelectionStart;
+            if (selectionLength == 0 && selectionStart + syntax.Length <= this.textEditor.Text.Length)
+            {
+                string text = this.textEditor.Document.GetText(selectionStart, syntax.Length);
+                if (text == syntax)
+                {
+                    this.textEditor.SelectionStart += syntax.Length;
+                    return;
+                }
+            }
+            char[] array = syntax.ToCharArray();
+            Array.Reverse(array);
+            string text2 = new string(array);
+            int num = this.textEditor.SelectionLength;
+            int num2 = this.textEditor.SelectionStart;
+            if (num2 >= syntax.Length)
+            {
+                num2 -= syntax.Length;
+                num += syntax.Length;
+            }
+            DocumentLine lineByOffset = this.textEditor.Document.GetLineByOffset(this.textEditor.CaretOffset);
+            if (num2 + num + syntax.Length <= lineByOffset.EndOffset)
+            {
+                num += syntax.Length;
+            }
+            string text3 = "";
+            if (num > 0)
+            {
+                text3 = this.textEditor.Document.GetText(num2, num);
+            }
+            Match match = Regex.Match(text3, string.Concat(new string[]
+          {
+    "^",
+    Regex.Escape(syntax),
+    "(.*)",
+    Regex.Escape(text2),
+    "$"
+          }), RegexOptions.Singleline);
+            bool success = match.Success;
+            if (success)
+            {
+                text3 = match.Groups[1].Value;
+                this.textEditor.SelectionStart = num2;
+                this.textEditor.SelectionLength = num;
+                this.textEditor.SelectedText = text3;
+                return;
+            }
+            text3 = syntax + this.textEditor.SelectedText + text2;
+            this.textEditor.SelectedText = text3;
+            this.textEditor.SelectionLength -= syntax.Length * 2;
+            this.textEditor.SelectionStart += syntax.Length;
+        }
+        private void BtnMark_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleSymmetricalMarkdownFormatting(textEditor.SelectedText);
+        }
+
+        private void textEditor_MouseHoverStopped_1(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }

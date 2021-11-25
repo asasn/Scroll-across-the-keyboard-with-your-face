@@ -10,7 +10,7 @@
     <Grid>
 
 
-        <自定义控件:UcEditorMaterial x:Name="ucEditor"/>
+        <自定义控件:UcEditor x:Name="ucEditor"/>
 
 
     </Grid>

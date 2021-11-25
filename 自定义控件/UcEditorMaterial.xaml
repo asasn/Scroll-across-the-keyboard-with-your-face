@@ -22,7 +22,7 @@
             SyntaxHighlighting="C#"
             WordWrap="True"
             FontFamily="宋体" Background="#FFFDFDFD"
-            FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp" KeyDown="textEditor_KeyDown" CommandManager.Executed="textEditor_Executed"  CommandManager.PreviewExecuted="textEditor_PreviewExecuted" >
+            FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp" KeyDown="textEditor_KeyDown" CommandManager.Executed="textEditor_Executed"  CommandManager.PreviewExecuted="textEditor_PreviewExecuted" MouseHover="textEditor_MouseHover" MouseHoverStopped="textEditor_MouseHoverStopped" >
                 <avalonEdit:TextEditor.Options>
                     <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
@@ -48,6 +48,12 @@
                 </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnCopyTitle" Padding="1" BorderThickness="0" ToolTip="复制文档标题" Click="BtnCopyTitle_Click">
                     <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_circles.png" Width="20" Height="20" />
+                </Button>
+                <Button Background="#FFFAFAFA" x:Name="BtnPaste" Padding="1" BorderThickness="0" ToolTip="从剪贴板粘贴" Click="BtnPaste_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_paste.png" Width="20" Height="20" />
+                </Button>
+                <Button Background="#FFFAFAFA" x:Name="BtnMark" Padding="1" BorderThickness="0" ToolTip="添加/删除书签" Click="BtnMark_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourse/ic_action_bookmark.png" Width="20" Height="20" />
                 </Button>
             </WrapPanel>
 

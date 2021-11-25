@@ -1,5 +1,7 @@
-﻿using ICSharpCode.AvalonEdit.Highlighting;
+﻿using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Search;
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,34 @@ namespace 脸滚键盘.自定义控件
             InitializeComponent();
         }
 
+        ToolTip toolTip = new ToolTip();
+
+        /// <summary>
+        /// 鼠标悬浮提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textEditor_MouseHover(object sender, MouseEventArgs e)
+        {
+            var pos = textEditor.GetPositionFromPoint(e.GetPosition(textEditor));
+            if (pos != null)
+            {
+                //toolTip.PlacementTarget = this; // required for property inheritance
+                //toolTip.Content = pos.ToString();
+                //toolTip.IsOpen = true;
+                //e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// 停止悬浮提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textEditor_MouseHoverStopped(object sender, MouseEventArgs e)
+        {
+            toolTip.IsOpen = false;
+        }
 
         string TypeOfTree;
         string CurBookName;
@@ -90,10 +120,11 @@ namespace 脸滚键盘.自定义控件
                     string tableName = wp.Tag.ToString();
                     SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
                     SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName));
+                    IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
                     while (reader.Read())
                     {
                         keyword = reader["名称"].ToString();
-                        AddKeyword(keyword, wp.Tag.ToString());
+                        AddKeyword(rules, keyword, wp.Tag.ToString());
                     }
                     reader.Close();
                     sqlConn.Close();
@@ -106,7 +137,21 @@ namespace 脸滚键盘.自定义控件
         /// 添加一个变色关键词
         /// </summary>
         /// <param name="keyword"></param>
-        void AddKeyword(string keyword, string colorName)
+        void AddKeyword(IList<HighlightingRule> rules, string keyword, string colorName)
+        {
+            
+            SetRules(rules, keyword, colorName);
+        }
+
+        void SetRules(IList<HighlightingRule> rules, string keyword, string colorName)
+        {
+            HighlightingRule rule = new HighlightingRule();
+            rule.Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
+            rule.Regex = new Regex(keyword);
+            rules.Add(rule);
+        }
+
+        void SetSpan(string keyword, string colorName)
         {
             var spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
             HighlightingSpan span = new HighlightingSpan();
@@ -266,7 +311,7 @@ namespace 脸滚键盘.自定义控件
         }
 
         /// <summary>
-        /// 事件：编辑区按钮
+        /// 事件：编辑区快捷键
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -375,5 +420,13 @@ namespace 脸滚键盘.自定义控件
             EditorOperate.ReformatText(textEditor);
             btnSaveDoc.IsEnabled = true;
         }
+
+
+        private void BtnMark_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+
     }
 }

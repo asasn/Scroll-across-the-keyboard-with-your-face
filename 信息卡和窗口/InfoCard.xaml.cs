@@ -149,6 +149,17 @@ namespace 脸滚键盘.信息卡和窗口
 
         }
 
+        /// <summary>
+        /// 刷新关键词着色
+        /// </summary>
+        void RefreshKeyWords()
+        {
+            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+            {
+                UcEditor ucEditor = tabItem.Content as UcEditor;
+                ucEditor.SetRules();
+            }
+        }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -188,11 +199,7 @@ namespace 脸滚键盘.信息卡和窗口
             sqlConn.Close();
 
 
-            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
-            {
-                UcEditor ucEditor = tabItem.Content as UcEditor;
-                ucEditor.SetRules();
-            }
+            RefreshKeyWords();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

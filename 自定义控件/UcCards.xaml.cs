@@ -33,6 +33,18 @@ namespace 脸滚键盘.自定义控件
         public string TypeOfTree;
         public string CurBookName;
 
+        /// <summary>
+        /// 刷新关键词着色
+        /// </summary>
+        void RefreshKeyWords()
+        {
+            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+            {
+                UcEditor ucEditor = tabItem.Content as UcEditor;
+                ucEditor.SetRules();
+            }
+        }
+
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (false == string.IsNullOrEmpty(TbTab.Text))
@@ -58,6 +70,8 @@ namespace 脸滚键盘.自定义控件
                 string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, BtnTag.Uid, BtnTag.Content.ToString());
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
+
+                RefreshKeyWords();
             }
 
         }
@@ -127,6 +141,8 @@ namespace 脸滚键盘.自定义控件
             string sql = string.Format("DELETE from {0}主表 where {0}id='{1}';", tableName, BtnTag.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
+
+            RefreshKeyWords();
         }
 
         private void WpCards_Loaded(object sender, RoutedEventArgs e)
