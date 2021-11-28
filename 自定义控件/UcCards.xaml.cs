@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
-using static 脸滚键盘.公共操作类.TreeOperate;
+using static 脸滚键盘.控件方法类.UTreeView;
 
 namespace 脸滚键盘.自定义控件
 {

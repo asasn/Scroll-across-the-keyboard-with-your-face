@@ -93,7 +93,7 @@ namespace 脸滚键盘.信息卡和窗口
             }
         }
 
-        private bool FindNext(string textToFind)
+        public bool FindNext(string textToFind)
         {
             Regex regex = GetRegEx(textToFind);
             int start = regex.Options.HasFlag(RegexOptions.RightToLeft) ?
@@ -143,7 +143,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         public static FindReplaceDialog theDialog = null;
 
-        public static void ShowForReplace(TextEditor editor)
+        public static FindReplaceDialog ShowForReplace(TextEditor editor)
         {
             if (theDialog == null)
             {
@@ -163,6 +163,7 @@ namespace 脸滚键盘.信息卡和窗口
                 theDialog.txtFind2.SelectAll();
                 theDialog.txtFind2.Focus();
             }
+            return theDialog;
         }
 
         private void txtFind_KeyDown(object sender, KeyEventArgs e)

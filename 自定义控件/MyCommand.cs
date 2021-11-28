@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace 脸滚键盘.自定义控件
 {
-    class MyCommand
+    public static class MyCommand
     {
         public static RoutedCommand MoveUp = new RoutedCommand("MoveUp", typeof(UcTreeBook));
         public static RoutedCommand MoveDown = new RoutedCommand("MoveDown", typeof(UcTreeBook));

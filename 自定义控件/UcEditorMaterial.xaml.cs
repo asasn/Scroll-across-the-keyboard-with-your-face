@@ -16,7 +16,8 @@ using System.Windows.Input;
 using System.Xml;
 using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
-using static 脸滚键盘.公共操作类.TreeOperate;
+using static 脸滚键盘.控件方法类.UTreeView;
+using static 脸滚键盘.控件方法类.UEditor;
 
 namespace 脸滚键盘.自定义控件
 {
@@ -62,7 +63,7 @@ namespace 脸滚键盘.自定义控件
         string TypeOfTree;
         string CurBookName;
         SearchPanel searchPanel;
-        TreeOperate.TreeViewNode CurNode;
+        TreeViewNode CurNode;
 
         /// <summary>
         /// 事件：控件载入
@@ -82,10 +83,10 @@ namespace 脸滚键盘.自定义控件
 
         public void LoadChapter(string curBookName, string typeOfTree)
         {
-            CurNode = this.DataContext as TreeOperate.TreeViewNode;
+            CurNode = this.DataContext as TreeViewNode;
             TypeOfTree = typeOfTree;
             CurBookName = curBookName;
-            textEditor.Load(EditorOperate.ConvertStringToStream(CurNode.NodeContent));
+            textEditor.Load(ConvertStringToStream(CurNode.NodeContent));
 
             //光标移动至文末          
             textEditor.ScrollToLine(textEditor.LineCount);
@@ -173,7 +174,7 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         void ShowTextInfo()
         {
-            words = EditorOperate.WordCount(textEditor.Text);
+            words = WordCount(textEditor.Text);
             if (lb1 != null && lb2 != null)
             {
                 lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
@@ -187,7 +188,7 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         void SaveText()
         {
-            TreeOperate.TreeViewNode CurNode = this.DataContext as TreeOperate.TreeViewNode;
+            TreeViewNode CurNode = this.DataContext as TreeViewNode;
 
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
@@ -275,7 +276,7 @@ namespace 脸滚键盘.自定义控件
             if (e.Key == Key.F9)
             {
                 //进行排版
-                EditorOperate.ReformatText(textEditor);
+                ReformatText(textEditor);
                 SaveText();
             }
             //进行了删除之后（太过频繁）
@@ -387,7 +388,7 @@ namespace 脸滚键盘.自定义控件
         {
             if (textEditor.SelectedText.Length > 0)
             {
-                lb2.Content = "字数：" + EditorOperate.WordCount(textEditor.SelectedText) + "/" + words.ToString();
+                lb2.Content = "字数：" + WordCount(textEditor.SelectedText) + "/" + words.ToString();
             }
             else
             {
@@ -402,7 +403,7 @@ namespace 脸滚键盘.自定义控件
             string temp = textEditor.Text;
             textEditor.Text = Clipboard.GetText();
             Clipboard.SetText(temp);
-            EditorOperate.ReformatText(textEditor);
+            ReformatText(textEditor);
             btnSaveDoc.IsEnabled = true;
         }
 

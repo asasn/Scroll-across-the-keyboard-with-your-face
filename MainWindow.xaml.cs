@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
+using 脸滚键盘.控件方法类;
 using 脸滚键盘.自定义控件;
 
 namespace 脸滚键盘
@@ -10,7 +12,7 @@ namespace 脸滚键盘
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
 
         public MainWindow()
         {
@@ -46,8 +48,13 @@ namespace 脸滚键盘
 
 
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, EventArgs e)
         {
+            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+            {
+                tabItem.Focus();
+                UEditor.TabItemClosing(tabItem, e);
+            }
             Application.Current.Shutdown();
         }
 

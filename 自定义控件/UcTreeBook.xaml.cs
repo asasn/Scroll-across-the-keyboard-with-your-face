@@ -8,7 +8,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using 脸滚键盘.公共操作类;
-using static 脸滚键盘.公共操作类.TreeOperate;
+using 脸滚键盘.控件方法类;
+using static 脸滚键盘.控件方法类.UTreeView;
 
 namespace 脸滚键盘.自定义控件
 {
@@ -20,7 +21,7 @@ namespace 脸滚键盘.自定义控件
         #region 构造函数和载入方法
         public UcTreeBook()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void Tv_Loaded(object sender, RoutedEventArgs e)
@@ -67,6 +68,8 @@ namespace 脸滚键盘.自定义控件
 
 
             Gval.Flag.Loading = false;
+
+            Sv.ScrollToEnd();
         }
         #endregion
 
@@ -259,24 +262,7 @@ namespace 脸滚键盘.自定义控件
         private void TabItem_Closing(object sender, EventArgs e)
         {
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
-            UcEditor ucEditor = tabItem.Content as UcEditor;
-            if (ucEditor.btnSaveDoc.IsEnabled == true)
-            {
-                MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
-                if (dr == MessageBoxResult.Yes)
-                {
-                    ucEditor.btnSaveText_Click(null, null);
-                }
-                if (dr == MessageBoxResult.No)
-                {
-
-                }
-                if (dr == MessageBoxResult.Cancel)
-                {
-                    (e as HandyControl.Data.CancelRoutedEventArgs).Cancel = true;
-                }
-
-            }
+            UEditor.TabItemClosing(tabItem, e);
         }
         #endregion
 
@@ -604,7 +590,7 @@ namespace 脸滚键盘.自定义控件
                 return;
             }
 
-            TreeOperate.MouseMove(Tv, e, _lastMouseDown);
+            MouseMoveMethod(Tv, e, _lastMouseDown);
         }
 
         /// <summary>
@@ -650,7 +636,7 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-            TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+            AddNodeBySql(CurBookName, TypeOfTree, newNode);
             newNode.IsSelected = true;
         }
 
@@ -662,7 +648,7 @@ namespace 脸滚键盘.自定义控件
             {
                 selectedNode.IsExpanded = true;
                 TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
-                TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
 
@@ -703,7 +689,7 @@ namespace 脸滚键盘.自定义控件
                     TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
                     newNode.NodeName = title;
                     newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
-                    newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
+                    newNode.WordsCount = UEditor.WordCount(newNode.NodeContent);
                     //合并提交的SQL语句，使用+=来赋值
                     sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
                 }

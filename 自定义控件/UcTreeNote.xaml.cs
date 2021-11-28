@@ -6,7 +6,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
-using static 脸滚键盘.公共操作类.TreeOperate;
+using 脸滚键盘.控件方法类;
+using static 脸滚键盘.控件方法类.UTreeView;
 
 namespace 脸滚键盘.自定义控件
 {
@@ -64,8 +65,10 @@ namespace 脸滚键盘.自定义控件
             //从数据库中载入数据
             LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
 
-            Sv.ScrollToEnd();
+            
             Gval.Flag.Loading = false;
+
+            Sv.ScrollToEnd();
         }
 
 
@@ -97,7 +100,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
                 //selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
-                TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
+                ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
 
@@ -112,7 +115,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
                 //selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
-                TreeOperate.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
+                ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
         #endregion
@@ -144,14 +147,14 @@ namespace 脸滚键盘.自定义控件
         private void Tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
-            TreeViewItem selectedItem = TreeOperate.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
+            TreeViewItem selectedItem = GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
             if (selectedNode != null)
             {
                 if (selectedNode.IsButton == true)
                 {
                     //TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                    //TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    //AddNodeBySql(CurBookName, TypeOfTree, newNode);
                     //newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
@@ -278,7 +281,7 @@ namespace 脸滚键盘.自定义控件
             }
 
             //在数据库中删除节点记录
-            TreeOperate.DelNodeBySql(CurBookName, TypeOfTree, selectedNode, TreeViewNodeList);
+            DelNodeBySql(CurBookName, TypeOfTree, selectedNode, TreeViewNodeList);
 
             //在视图中删除节点，这里注意删除和获取索引号的先后顺序
             TreeViewNode parentNode = selectedNode.ParentNode;
@@ -467,7 +470,7 @@ namespace 脸滚键盘.自定义控件
                             AddNodeBySql(CurBookName, TypeOfTree, dragNode);
 
                             //节点索引交换位置
-                            TreeOperate.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
+                            SwapNode(m, dragNode, dropNode, TreeViewNodeList);
                         }
                         //同级调换
                         //if (GetLevel(dropNode) == GetLevel(dragNode))
@@ -485,10 +488,10 @@ namespace 脸滚键盘.自定义控件
                         //    }
 
                         //    //数据库中的处理
-                        //    TreeOperate.SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
+                        //    SwapNodeBySql(CurBookName, TypeOfTree, dragNode, dropNode);
 
                         //    //节点索引交换位置
-                        //    TreeOperate.SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
+                        //    SwapNode(m, dragNode, dropNode.ParentNode, TreeViewNodeList);
                         //}
                     }
                 }
@@ -512,7 +515,7 @@ namespace 脸滚键盘.自定义控件
                 return;
             }
 
-            TreeOperate.MouseMove(Tv, e, _lastMouseDown);
+            MouseMoveMethod(Tv, e, _lastMouseDown);
         }
 
         /// <summary>
@@ -538,7 +541,7 @@ namespace 脸滚键盘.自定义控件
             if (Tv.Items.Count == 0)
             {
                 TreeViewNode newNode = AddNewNode(TreeViewNodeList, TopNode, TypeOfTree);
-                TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
                 e.Handled = true;
             }
@@ -573,7 +576,7 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-            TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+            AddNodeBySql(CurBookName, TypeOfTree, newNode);
             newNode.IsSelected = true;
         }
 
@@ -585,7 +588,7 @@ namespace 脸滚键盘.自定义控件
             {
                 selectedNode.IsExpanded = true;
                 TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
-                TreeOperate.AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
 
@@ -627,7 +630,7 @@ namespace 脸滚键盘.自定义控件
                     TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
                     newNode.NodeName = title;
                     newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
-                    newNode.WordsCount = EditorOperate.WordCount(newNode.NodeContent);
+                    newNode.WordsCount = UEditor.WordCount(newNode.NodeContent);
                     //合并提交的SQL语句，使用+=来赋值
                     sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
                 }

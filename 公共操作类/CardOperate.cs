@@ -8,11 +8,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using static 脸滚键盘.公共操作类.TreeOperate;
+using static 脸滚键盘.控件方法类.UTreeView;
 
 namespace 脸滚键盘.公共操作类
 {
-    public static class CardOperate
+    class CardOperate
     {
         public static void SetWindowsMiddle(MouseButtonEventArgs e, Window card)
         {
@@ -128,6 +128,7 @@ namespace 脸滚键盘.公共操作类
                     string t = reader.GetString(1);
                     string n = reader.GetString(2);
                     TextBox tb = CardOperate.AddTextBox();
+                    tb.GotFocus += Tb_GotFocus;
                     tb.Text = t;
                     tb.Uid = n.ToString();
                     wp.Children.Add(tb);
@@ -135,6 +136,11 @@ namespace 脸滚键盘.公共操作类
                 reader.Close();
             }
             sqlConn.Close();
+        }
+
+        private static void Tb_GotFocus(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         public static TextBox AddTextBox()

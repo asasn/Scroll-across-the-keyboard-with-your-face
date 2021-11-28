@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 using System.Xml;
 using 脸滚键盘.公共操作类;
 using 脸滚键盘.自定义控件;
-using static 脸滚键盘.公共操作类.TreeOperate;
 
 namespace 脸滚键盘.信息卡和窗口
 {
@@ -145,7 +144,6 @@ namespace 脸滚键盘.信息卡和窗口
             WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
             TextBox tb = CardOperate.AddTextBox();
             wp.Children.Add(tb);
-
         }
 
         /// <summary>

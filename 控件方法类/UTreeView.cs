@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.SQLite;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using 脸滚键盘.公共操作类;
 
-namespace 脸滚键盘.公共操作类
+namespace 脸滚键盘.控件方法类
 {
-    public class TreeOperate
+    class UTreeView
     {
         #region 节点模型
         public class TreeViewNode : INotifyPropertyChanged
@@ -345,7 +349,6 @@ namespace 脸滚键盘.公共操作类
         }
         #endregion
 
-
         #region 节点拖曳/移动（改变索引）
 
         public static void SwapNode(int m, TreeViewNode dragNode, TreeViewNode parentNode, ObservableCollection<TreeViewNode> treeViewNodeList)
@@ -360,7 +363,7 @@ namespace 脸滚键盘.公共操作类
             parentNode.ChildNodes.Insert(m, tempNode);
         }
 
-        public static void MouseMove(TreeView Tv, MouseEventArgs e, Point _lastMouseDown)
+        public static void MouseMoveMethod(TreeView Tv, MouseEventArgs e, Point _lastMouseDown)
         {
             try
             {
@@ -675,8 +678,6 @@ namespace 脸滚键盘.公共操作类
             sqlConn.Close();
         }
         #endregion
-        #region 获取控件
-
 
         /// <summary>
         /// 获取节点所在的层级，无选中或者不在TreeView内的为-1
@@ -702,7 +703,6 @@ namespace 脸滚键盘.公共操作类
             }
 
         }
-
 
         /// <summary>
         /// 根据节点对应的路径
@@ -739,6 +739,9 @@ namespace 脸滚键盘.公共操作类
             }
             return nodePath;
         }
+
+        #region 获取控件
+
 
         /// <summary>
         /// 获取子控件
@@ -839,5 +842,6 @@ namespace 脸滚键盘.公共操作类
         }
 
         #endregion
+
     }
 }

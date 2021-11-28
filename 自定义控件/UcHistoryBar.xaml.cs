@@ -18,6 +18,7 @@ using System.Windows.Resources;
 using System.Windows.Shapes;
 using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
+using 脸滚键盘.控件方法类;
 
 namespace 脸滚键盘.自定义控件
 {
@@ -91,7 +92,7 @@ namespace 脸滚键盘.自定义控件
         private void BtnTag_Click(object sender, RoutedEventArgs e)
         {
             BtnSelected = sender as Button;
-            TextBlock tbk = TreeOperate.FindVisualChild<TextBlock>(BtnSelected);
+            TextBlock tbk = UTreeView.FindVisualChild<TextBlock>(BtnSelected);
             if (OnYearsPanel == true)
             {
                 yIndex = WpYears.Children.IndexOf(BtnSelected);
@@ -168,7 +169,7 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnGoRight_Click(object sender, RoutedEventArgs e)
         {
-            TextBlock tbk = TreeOperate.FindVisualChild<TextBlock>(BtnSelected);
+            TextBlock tbk = UTreeView.FindVisualChild<TextBlock>(BtnSelected);
 
             OnYearsPanel = false;
             BtnGoLeft.Visibility = Visibility.Visible;
@@ -303,7 +304,7 @@ namespace 脸滚键盘.自定义控件
         {
             if (e.Key == Key.Enter)
             {
-                TextBlock tbk = TreeOperate.FindVisualChild<TextBlock>(BtnSelected);
+                TextBlock tbk = UTreeView.FindVisualChild<TextBlock>(BtnSelected);
                 //BtnSelected.Content = TbSelected.Text;
                 tbk.Text = TbSelected.Text;
                 string tableName = TypeOfTree;

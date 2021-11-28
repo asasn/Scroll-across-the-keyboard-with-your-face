@@ -1,14 +1,44 @@
 ﻿using ICSharpCode.AvalonEdit;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using 脸滚键盘.自定义控件;
 
-namespace 脸滚键盘.公共操作类
+namespace 脸滚键盘.控件方法类
 {
-    class EditorOperate
+    class UEditor
     {
+        /// <summary>
+        /// 编辑面板关闭事件
+        /// </summary>
+        /// <param name="tabItem"></param>
+        /// <param name="e"></param>
+        public static void TabItemClosing(HandyControl.Controls.TabItem tabItem, EventArgs e)
+        {
+            UcEditor ucEditor = tabItem.Content as UcEditor;
+            if (ucEditor.btnSaveDoc.IsEnabled == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    ucEditor.btnSaveText_Click(null, null);
+                }
+                if (dr == MessageBoxResult.No)
+                {
+
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    (e as HandyControl.Data.CancelRoutedEventArgs).Cancel = true;
+                }
+            }
+        }
+
         /// <summary>
         /// 字符串转化为字节流
         /// </summary>
@@ -30,7 +60,7 @@ namespace 脸滚键盘.公共操作类
             for (var i = 0; i < tb.LineCount; i++)
             {
                 //存在非空字符且不存在换行符（统计段落）
-                if (EditorOperate.IsHasWords(tb.GetLineText(i)))
+                if (IsHasWords(tb.GetLineText(i)))
                 {
                     if (i > 0)
                     {
@@ -57,7 +87,7 @@ namespace 脸滚键盘.公共操作类
         public static void ReformatText(TextEditor tb)
         {
             string reText = "　　"; //开头是两个全角空格
-            string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t', '　', ' '});
+            string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t', '　', ' ' });
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             foreach (string lineStr in sArrayNoEmpty)
             {
@@ -105,7 +135,6 @@ namespace 脸滚键盘.公共操作类
             }
             return total;
         }
-
 
         /// <summary>
         /// 公共方法：判断是否存在可见字符串
