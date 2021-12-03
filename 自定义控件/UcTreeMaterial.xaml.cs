@@ -316,24 +316,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
         {
-            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
-            if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == 0)
-            {
-                return;
-            }
-
-            int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
-            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n - 1];
-            if (selectedNode == null || neighboringNode == null)
-            {
-                return;
-            }
-
-            //数据库中的处理
-            SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
-
-            //节点索引交换位置
-            SwapNode(n - 1, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
+            UTreeView.NodeMoveUp(CurBookName, TypeOfTree, (TreeViewNode)this.Tv.SelectedItem, this.TreeViewNodeList);
         }
 
         /// <summary>
@@ -343,23 +326,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
         {
-            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
-            if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == selectedNode.ParentNode.ChildNodes.Count - 1)
-            {
-                return;
-            }
-            int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
-            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n + 1];
-            if (selectedNode == null || neighboringNode == null)
-            {
-                return;
-            }
-
-            //数据库中的处理
-            SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
-
-            //节点索引交换位置
-            SwapNode(n + 1, selectedNode, neighboringNode.ParentNode, TreeViewNodeList);
+            UTreeView.NodeMoveDown(CurBookName, TypeOfTree, (TreeViewNode)this.Tv.SelectedItem, this.TreeViewNodeList);
         }
 
 
@@ -584,7 +551,6 @@ namespace 脸滚键盘.自定义控件
 
         private void Command_AddChildNode_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             if (selectedNode.IsDir == true)
             {
@@ -593,7 +559,12 @@ namespace 脸滚键盘.自定义控件
                 AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
-
+            else
+            {
+                TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                newNode.IsSelected = true;
+            }
         }
 
         private void Command_Delete_Executed(object sender, ExecutedRoutedEventArgs e)

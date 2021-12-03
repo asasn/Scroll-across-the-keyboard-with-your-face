@@ -17,7 +17,7 @@ using 脸滚键盘.公共操作类;
 
 namespace 脸滚键盘.控件方法类
 {
-    class UTreeView
+    public class UTreeView
     {
         #region 节点模型
         public class TreeViewNode : INotifyPropertyChanged
@@ -347,6 +347,63 @@ namespace 脸滚键盘.控件方法类
 
 
         }
+        #endregion
+
+        #region 向上/向下调整节点
+
+
+        /// <summary>
+        /// 方法：向上调整节点位置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public static void NodeMoveUp(string CurBookName, string TypeOfTree, TreeViewNode selectedNode, ObservableCollection<TreeViewNode> treeViewNodeList)
+        {
+            if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == 0)
+            {
+                return;
+            }
+
+            int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n - 1];
+            if (selectedNode == null || neighboringNode == null)
+            {
+                return;
+            }
+
+            //数据库中的处理
+            SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
+
+            //节点索引交换位置
+            SwapNode(n - 1, selectedNode, neighboringNode.ParentNode, treeViewNodeList);
+        }
+
+        /// <summary>
+        /// 方法：向下调整节点位置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public static void NodeMoveDown(string CurBookName, string TypeOfTree, TreeViewNode selectedNode, ObservableCollection<TreeViewNode> treeViewNodeList)
+        {
+            if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == selectedNode.ParentNode.ChildNodes.Count - 1)
+            {
+                return;
+            }
+            int n = selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode);
+            TreeViewNode neighboringNode = selectedNode.ParentNode.ChildNodes[n + 1];
+            if (selectedNode == null || neighboringNode == null)
+            {
+                return;
+            }
+
+            //数据库中的处理
+            SwapNodeBySql(CurBookName, TypeOfTree, selectedNode, neighboringNode);
+
+            //节点索引交换位置
+            SwapNode(n + 1, selectedNode, neighboringNode.ParentNode, treeViewNodeList);
+        }
+
+
         #endregion
 
         #region 节点拖曳/移动（改变索引）

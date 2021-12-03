@@ -7,23 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
 
-    <hc:Card>
+    <GroupBox Header="书籍目录" Style="{StaticResource BaseStyle}">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="35"/>
-                <RowDefinition Height="100*"/>
-            </Grid.RowDefinitions>
-            <Grid Margin="5,5,5,0" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="100*" />
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name="btnShowBooks" Padding="5" Foreground="DodgerBlue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource StarGeometry}" Click="BtnShowBooks_Click"/>
-                <TextBlock Grid.Column="1" Padding="2" x:Name="TbkCurBookName" Foreground="DodgerBlue" VerticalAlignment="Center" FontWeight="Bold"/>
-                <Button Grid.Column="2" Padding="1" x:Name="BtnMoveUp" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource UpGeometry}" HorizontalAlignment="Right"  Click="BtnMoveUp_Click" VerticalAlignment="Top" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
-                <Button Grid.Column="2" Padding="1" x:Name="BtnMoveDown" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DownGeometry}" HorizontalAlignment="Right" Click="BtnMoveDown_Click" VerticalAlignment="Bottom" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
-            </Grid>
             <ScrollViewer x:Name="Sv" Grid.Row="1" HorizontalScrollBarVisibility="Auto">
                 <TreeView x:Name="Tv" Grid.Row="1" Margin="5" TreeViewItem.Selected="TreeView_Selected" TreeViewItem.Expanded="Tv_Expanded" TreeViewItem.Collapsed="Tv_Collapsed"
                       ItemsSource="{Binding Path=TreeViewNodeList}" MouseDoubleClick="Tv_MouseDoubleClick" Loaded="Tv_Loaded" Style="{DynamicResource BookTreeViewStyle}" KeyDown="Tv_KeyDown" MouseMove="Tv_MouseMove" DragOver="Tv_DragOver" DragEnter="Tv_DragEnter" DragLeave="Tv_DragLeave" Drop="Tv_Drop" MouseLeftButtonDown="Tv_MouseLeftButtonDown" PreviewMouseWheel="Tv_PreviewMouseWheel">
@@ -71,39 +56,8 @@
                     </TreeView.ItemContainerStyle>
                 </TreeView>
             </ScrollViewer>
-            <hc:Drawer Name="DrawerLeftInContainer" Dock="Left" Width="400" ShowMask="False" Loaded="DrawerLeftInContainer_Loaded">
-                <Border x:Name="border"  Background="{DynamicResource RegionBrush}" Width="400" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
-                    <WrapPanel x:Name="main" Orientation="Vertical" Width="400">
-                        <Grid Margin="10,0,0,0" Grid.Row="0" Width="400">
-                            <TextBlock x:Name="DrawerTbk" Text="当前书籍：" Style="{StaticResource TextBlockTitle}" HorizontalAlignment="Left"/>
-                            <Button HorizontalAlignment="Right" Foreground="{DynamicResource PrimaryTextBrush}" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Click="BtnShowBooks_Click"/>
-                        </Grid>
-                        <WrapPanel Margin="10,0,0,0" Grid.Row="1" >
-                            <Button x:Name="BtnBuild" Click="BtnBuild_Click" Content="创建新书籍" HorizontalAlignment="Left" MinWidth="100"/>
-                            <TextBox x:Name="TbNewBookName" Text="" KeyDown="TbNewBookName_KeyDown" IsEnabled="False" MinWidth="100"/>
-                            <Button x:Name="BtnDelBook" Click="BtnDelBook_Click"  Content="删除书籍" HorizontalAlignment="Center" MinWidth="100" Margin="0,0,30,0"/>
-                        </WrapPanel>
-                        <WrapPanel Margin="10,0,0,0" Grid.Row="2" >
-                            <WrapPanel>
-                                <TextBox x:Name="TbCurBookName" Text="" MinWidth="100"/>
-                                <TextBox x:Name="TbCurBookPrice" Text="" MinWidth="50" TextChanged="TbCurBookPrice_TextChanged"/>
-                                <TextBox x:Name="TbCurBookBornYear" Text="" MinWidth="50" TextChanged="TbCurBookBornYear_TextChanged"/>
-                                <TextBox x:Name="TbCurBookCurrentYear" Text="" MinWidth="50" TextChanged="TbCurBookCurrentYear_TextChanged"/>
-                            </WrapPanel>
-                            <Button x:Name="BtnUpdate" Click="BtnUpdate_Click" Content="修改当前书籍信息" HorizontalAlignment="Left" MinWidth="100"/>
-                        </WrapPanel>
-                        <Grid Margin="10,0,0,0" Grid.Row="3">
-                            <ScrollViewer>
-                                <WrapPanel x:Name="WpBooks">
-
-                                </WrapPanel>
-                            </ScrollViewer>
-                        </Grid>
-                    </WrapPanel>
-                </Border>
-            </hc:Drawer>
-
+            
         </Grid>
 
-    </hc:Card>
+    </GroupBox>
 </UserControl>

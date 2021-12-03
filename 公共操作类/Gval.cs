@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.自定义控件;
 
@@ -34,7 +36,10 @@ namespace 脸滚键盘.公共操作类
         }
         public struct Uc
         {
+            public static MainWindow MWindow;
+            public static Grid BooksPanel;
             public static HandyControl.Controls.TabControl TabControl;
+            public static HandyControl.Controls.Drawer BooksDrawer;
             public static UcTreeBook TreeBook;
             public static UcTreeMaterial TreeMaterial;
             public static UcTreeTask TreeTask;
