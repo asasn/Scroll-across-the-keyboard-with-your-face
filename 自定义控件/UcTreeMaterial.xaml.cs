@@ -541,6 +541,7 @@ namespace 脸滚键盘.自定义控件
             }
 
         }
+
         private void Command_AddBrotherNode_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;

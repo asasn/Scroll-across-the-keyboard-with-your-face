@@ -34,11 +34,39 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         public ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
         //初始化顶层节点数据
-        TreeViewNode TopNode = new TreeViewNode
+        public TreeViewNode TopNode = new TreeViewNode
         {
             Uid = "",
             IsDir = true
         };
+
+
+
+
+        public TreeViewNode TopNode
+        {
+            get { return (TreeViewNode)GetValue(TopNodeProperty); }
+            set { SetValue(TopNodeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TopNode.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TopNodeProperty =
+            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(new TreeViewNode{Uid = "", IsDir = true}));
+
+
+
+        public TreeViewNode CurNode
+        {
+            get { return (TreeViewNode)GetValue(CurNodeProperty); }
+            set { SetValue(CurNodeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurNode.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurNodeProperty =
+            DependencyProperty.Register("CurNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(new TreeViewNode()));
+
+
+
         public void LoadBook(string curBookName, string typeOfTree)
         {
             if (string.IsNullOrEmpty(curBookName))
@@ -134,6 +162,7 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewItem selectedItem = e.OriginalSource as TreeViewItem;
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            CurNode = selectedNode;
 
             //载入节点的数据上下文以便调用
             selectedNode.TheItem = selectedItem;

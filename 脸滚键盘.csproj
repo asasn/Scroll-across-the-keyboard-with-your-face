@@ -102,6 +102,9 @@
     <Compile Include="信息卡和窗口\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="信息卡和窗口\SearchRetWindow.xaml.cs">
+      <DependentUpon>SearchRetWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="公共操作类\CardOperate.cs" />
     <Compile Include="公共操作类\FileOperate.cs" />
     <Compile Include="公共操作类\Gval.cs" />
@@ -121,6 +124,9 @@
     </Compile>
     <Compile Include="自定义控件\UcHistoryBar.xaml.cs">
       <DependentUpon>UcHistoryBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="自定义控件\UcSearcher.xaml.cs">
+      <DependentUpon>UcSearcher.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeBook.xaml.cs">
       <DependentUpon>UcTreeBook.xaml</DependentUpon>
@@ -166,6 +172,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="信息卡和窗口\SearchRetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="自定义控件\UcEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -179,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcHistoryBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcSearcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

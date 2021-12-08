@@ -46,6 +46,7 @@
                     <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
             </hc:TabControl>
+            <自定义控件:UcSearcher Height="100" VerticalAlignment="Top" TopNode="{Binding TopNode, ElementName=ucTreeBook, Mode=TwoWay}" CurNode="{Binding CurNode, ElementName=ucTreeBook, Mode=TwoWay}" />
         </Grid>
 
 
@@ -65,7 +66,7 @@
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <自定义控件:UcTreeBook Loaded="UcTreeBook_Loaded" Grid.Row="1"/>
+            <自定义控件:UcTreeBook x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1"/>
             <Grid x:Name="BooksPanel" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -111,7 +112,7 @@
                 </Border>
             </hc:Drawer>
 
-            
+
         </Grid>
 
     </Grid>
