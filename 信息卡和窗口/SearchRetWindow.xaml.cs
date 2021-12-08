@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -23,75 +24,64 @@ namespace 脸滚键盘.信息卡和窗口
     /// </summary>
     public partial class SearchRetWindow : Window
     {
-        public SearchRetWindow(TreeViewNode curNode, TreeViewNode topNode, string ucTag, string keyWords)
+        public SearchRetWindow(TreeViewNode baseNode, string ucTag, string keyWords)
         {
             InitializeComponent();
-            CurNode = curNode;
-            TopNode = topNode;
+            BaseNode = baseNode;
             UcTag = ucTag;
             KeyWords = keyWords;
 
-            Console.WriteLine(curNode.NodeName);
-
-            GetResultList();
+            GetResultList(baseNode);
         }
 
         string KeyWords;
         string UcTag;
-        TreeViewNode CurNode;
-        TreeViewNode TopNode;
+        TreeViewNode BaseNode;
 
-        //void RefreshBookItem()
-        //{
-        //    //如果单只依靠绑定属性来传值，可能会发生DataContext改变了（触发本事件）而依赖属性CurItem未改变的情况
-        //    //所以，使用this.DataContext作为CurItem的值是必需的
-        //    CurItem = this.DataContext as TreeViewItem;
-
-        //    curRootItem = TreeOperate.GetRootItem(CurItem);
-        //    WorkPath = TreeOperate.GetItemPath(curRootItem, UcTag);
-        //    if (curRootItem != null)
-        //    {
-        //        curTv = curRootItem.Parent as TreeView;
-        //    }
-        //    else
-        //    {
-        //        curTv = null;
-        //    }
-        //    curVolumeItem = TreeOperate.GetItemByLevel(CurItem, 1);
-        //    FullFileName = TreeOperate.GetItemPath(CurItem, UcTag);
-
-        //}
-
-        private void ucSearchRetWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void AddToListBox(TreeViewNode node)
         {
-
-        }
-
-
-        private void GetResultList()
-        {
-
-
-        }
-
-        //从ListBoxItem当中获得真正的章节名
-        private string GetFileName(string itemValue)
-        {
-            if (!string.IsNullOrEmpty(itemValue))
+            string[] sArray = KeyWords.Split(' ');
+            string ListItemName = String.Empty;
+            ListItemName += ' ';
+            foreach (var mystr in sArray)
             {
-                Regex regex = new Regex(@".txt");
-                return regex.Split(itemValue)[0] + ".txt";
+                if (false == string.IsNullOrEmpty(mystr))
+                {
+                    if (IsInFile(node, mystr))
+                    {
+                        ListItemName += mystr + ' ';
+                    }
+                }
+            }
+            if (ListItemName != " ")
+            {
+                ListBoxItem lbItem = new ListBoxItem();
+                lbItem.Content = node.NodeName + ListItemName;
+                lb.Items.Add(lbItem);
+                lbItem.DataContext = node.NodeContent;
+            }
+        }
+
+        private void GetResultList(TreeViewNode baseNode)
+        {
+            if (baseNode.IsDir == true)
+            {
+                foreach (TreeViewNode node in baseNode.ChildNodes)
+                {
+                    GetResultList(node);
+                }
             }
             else
             {
-                return null;
+                AddToListBox(baseNode);
             }
         }
 
+
         //判断文件当中是否包含某个字符串
-        private bool IsInFile(string FilePath, string mystr)
+        private bool IsInFile(TreeViewNode node, string mystr)
         {
-            string text = System.IO.File.ReadAllText(@FilePath);
+            string text = node.NodeContent;
             if (text.Contains(mystr))
             {
                 return true;
@@ -110,52 +100,42 @@ namespace 脸滚键盘.信息卡和窗口
             ListBoxItem lbItem = lb.SelectedItem as ListBoxItem;
             if (false == string.IsNullOrEmpty(lb.SelectedItem.ToString()))
             {
-                textEditor.Text += lbItem.Uid + "\n";
-                string[] sArray = KeyWords.Split(' ');
-                foreach (var mystr in sArray)
-                {
-                    string lines = GetStrOnLines(lbItem.Uid, mystr);
-                    textEditor.Text += lines + "\n";
-                }
+                string[] keysArray = KeyWords.Split(' ');
+                string lines = GetStrOnLines(lbItem.DataContext.ToString(), keysArray);
+                textEditor.Text += lines + "\n";
             }
         }
 
         //从当前行当中判断字符串是否存在
-        private string GetStrOnLines(string FilePath, string mystr)
+        private string GetStrOnLines(string nodeContent, string[] keysArray)
         {
             int counter = 0;
-            string line;
             string lines = string.Empty;
-            StreamReader file = new StreamReader(@FilePath);
-            while ((line = file.ReadLine()) != null)
+
+            string[] sArray = nodeContent.Split(new char[] { '\n' });
+            string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            foreach (string line in sArrayNoEmpty)
             {
-                if (line.Contains(mystr))
+                foreach (string mystr in keysArray)
                 {
-                    lines += line + "\n";
-                    counter++;
+                    if (line.Contains(mystr))
+                    {
+                        lines += line + "\n";
+                        counter++;
+                        break;
+                    }
                 }
             }
-            file.Close();
-            Console.WriteLine(line);
             return lines;
         }
-
 
 
         //鼠标双击
         private void lb_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListBoxItem lbItem = lb.SelectedItem as ListBoxItem;
-            if (!string.IsNullOrEmpty(lb.SelectedItem.ToString()))
-            {
-                //默认直接打开
-                //System.Diagnostics.Process.Start(strFullFileName);
-                //指定打开方式
-                System.Diagnostics.Process.Start(@"D:/mysoftware/EmEditor/EmEditor.exe", lbItem.Uid);
-            }
-
+            textEditor.Text = lbItem.DataContext.ToString();
         }
-
 
     }
 }

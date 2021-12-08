@@ -82,21 +82,18 @@ namespace 脸滚键盘.自定义控件
             DependencyProperty.Register("UcTag", typeof(string), typeof(UcSearcher), new PropertyMetadata(null));
 
 
-        void RefreshBookItem()
-        {
-        }
-
-        private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            RefreshBookItem();
-        }
-
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(CurNode.NodeName);
-
-            //SearchRetWindow rtWin = new SearchRetWindow(CurNode, TopNode, UcTag, tbKeyWords.Text);
-            //rtWin.ShowDialog();
+            if (radButton1.IsChecked == true)
+            {
+                SearchRetWindow rtWin = new SearchRetWindow(CurNode, UcTag, tbKeyWords.Text);
+                rtWin.ShowDialog();
+            }
+            if (radButton2.IsChecked == true)
+            {
+                SearchRetWindow rtWin = new SearchRetWindow(TopNode, UcTag, tbKeyWords.Text);
+                rtWin.ShowDialog();
+            }
         }
 
 

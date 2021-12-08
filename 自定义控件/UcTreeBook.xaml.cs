@@ -33,12 +33,7 @@ namespace 脸滚键盘.自定义控件
         /// 数据源：节点列表
         /// </summary>
         public ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
-        //初始化顶层节点数据
-        public TreeViewNode TopNode = new TreeViewNode
-        {
-            Uid = "",
-            IsDir = true
-        };
+
 
 
 
@@ -78,11 +73,6 @@ namespace 脸滚键盘.自定义控件
 
             //数据初始化
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
-            TopNode = new TreeViewNode
-            {
-                Uid = "",
-                IsDir = true
-            };
 
             //数据源加载节点列表
             Tv.ItemsSource = TreeViewNodeList;
