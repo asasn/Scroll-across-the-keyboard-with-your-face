@@ -129,7 +129,7 @@ namespace 脸滚键盘.自定义控件
                     while (reader.Read())
                     {
                         keyword = reader["名称"].ToString();
-                        AddKeyword(rules, keyword, wp.Tag.ToString());
+                        AddKeyword(rules, keyword, "其他");
                     }
                     reader.Close();
                     sqlConn.Close();

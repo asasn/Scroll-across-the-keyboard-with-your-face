@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml;
 using 脸滚键盘.公共操作类;
 using static 脸滚键盘.控件方法类.UTreeView;
 
@@ -32,6 +35,7 @@ namespace 脸滚键盘.信息卡和窗口
             KeyWords = keyWords;
 
             GetResultList(baseNode);
+            SetKeyWordsColor();
         }
 
         string KeyWords;
@@ -62,6 +66,8 @@ namespace 脸滚键盘.信息卡和窗口
             }
         }
 
+       
+
         private void GetResultList(TreeViewNode baseNode)
         {
             if (baseNode.IsDir == true)
@@ -77,6 +83,46 @@ namespace 脸滚键盘.信息卡和窗口
             }
         }
 
+
+        private void SetKeyWordsColor()
+        {
+            textEditor.SyntaxHighlighting = null;
+            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourse/Text.xshd");
+            Stream xshdStream = File.OpenRead(fullFileName);
+            XmlTextReader xshdReader = new XmlTextReader(xshdStream);
+            textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);            
+            xshdReader.Close();
+            xshdStream.Close();
+
+            //清空文件内的自带规则
+            textEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
+            textEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
+
+            string[] keysArray = KeyWords.Split(' ');
+            IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
+            foreach (string word in keysArray)
+            {
+                AddKeyword(rules, word, "搜索");
+            }
+        }
+
+        /// <summary>
+        /// 添加一个变色关键词
+        /// </summary>
+        /// <param name="keyword"></param>
+        void AddKeyword(IList<HighlightingRule> rules, string keyword, string colorName)
+        {
+
+            SetRules(rules, keyword, colorName);
+        }
+
+        void SetRules(IList<HighlightingRule> rules, string keyword, string colorName)
+        {
+            HighlightingRule rule = new HighlightingRule();
+            rule.Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
+            rule.Regex = new Regex(keyword);
+            rules.Add(rule);
+        }
 
         //判断文件当中是否包含某个字符串
         private bool IsInFile(TreeViewNode node, string mystr)

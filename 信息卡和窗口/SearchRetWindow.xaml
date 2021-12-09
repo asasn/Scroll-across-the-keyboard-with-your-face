@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Name="ucSearchRetWindow" x:Class="脸滚键盘.信息卡和窗口.SearchRetWindow"
         mc:Ignorable="d"
-        Title="搜索结果" Height="450" Width="800" Topmost="True">
+        Title="搜索结果" Topmost="True" Width="978" Height="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="29*"/>
-            <ColumnDefinition Width="59*"/>
+            <ColumnDefinition Width="278"/>
+            <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <ListBox x:Name="lb" SelectionChanged="lb_SelectionChanged" MouseDoubleClick="lb_MouseDoubleClick"/>
         <avalonEdit:TextEditor Grid.Column="1"
