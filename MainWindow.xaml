@@ -46,7 +46,7 @@
                     <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
             </hc:TabControl>
-            <自定义控件:UcSearcher Height="100" VerticalAlignment="Top" TopNode="{Binding TopNode, ElementName=ucTreeBook, Mode=TwoWay}" CurNode="{Binding CurNode, ElementName=ucTreeBook, Mode=TwoWay}" />
+            <自定义控件:UcSearcher TopNode="{Binding TopNode, ElementName=ucTreeBook, Mode=TwoWay}" CurNode="{Binding CurNode, ElementName=ucTreeBook, Mode=TwoWay}" />
         </Grid>
 
 
