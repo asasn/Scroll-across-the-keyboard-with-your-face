@@ -29,11 +29,32 @@ namespace 脸滚键盘.自定义控件
 
         }
 
+
+
+        public string UcTitle
+        {
+            get { return (string)GetValue(UcTitleProperty); }
+            set { SetValue(UcTitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for UcTitle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UcTitleProperty =
+            DependencyProperty.Register("UcTitle", typeof(string), typeof(UcTreeBook), new PropertyMetadata(string.Empty));
+
+
+
         /// <summary>
         /// 数据源：节点列表
         /// </summary>
-        public ObservableCollection<TreeViewNode> TreeViewNodeList = new ObservableCollection<TreeViewNode>();
+        public ObservableCollection<TreeViewNode> TreeViewNodeList
+        {
+            get { return (ObservableCollection<TreeViewNode>)GetValue(TreeViewNodeListProperty); }
+            set { SetValue(TreeViewNodeListProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for TreeViewNodeList.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TreeViewNodeListProperty =
+            DependencyProperty.Register("TreeViewNodeList", typeof(ObservableCollection<TreeViewNode>), typeof(UcTreeBook), new PropertyMetadata(new ObservableCollection<TreeViewNode>()));
 
 
 
@@ -88,7 +109,7 @@ namespace 脸滚键盘.自定义控件
             Gval.Flag.Loading = false;
 
             Sv.ScrollToEnd();
-        }
+                    }
         #endregion
 
         #region 字段和属性

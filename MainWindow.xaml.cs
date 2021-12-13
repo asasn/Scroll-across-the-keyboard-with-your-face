@@ -29,7 +29,7 @@ namespace 脸滚键盘
         {
             Gval.Uc.MWindow = this;
             Gval.Uc.BooksPanel = this.BooksPanel;
-            
+
         }
 
         private void UcTreeBook_Loaded(object sender, RoutedEventArgs e)
@@ -39,12 +39,13 @@ namespace 脸滚键盘
 
         private void UcTreeMaterial_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeMaterial = sender as UcTreeMaterial;
+            Gval.Uc.TreeMaterial = sender as UcTreeBook;
+            Gval.Uc.TreeMaterial.LoadBook("index", "material");
         }
 
         private void UcTreeNote_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeNote = sender as UcTreeNote;
+            Gval.Uc.TreeNote = sender as UcTreeBook;
         }
 
         private void UcTreeTask_Loaded(object sender, RoutedEventArgs e)
@@ -237,9 +238,9 @@ namespace 脸滚键盘
             SettingsOperate.Set("curBookName", bookCard.Header.ToString());
             GetBookInfoForGval(bookCard.Uid);
             Gval.Uc.TreeBook.LoadBook(Gval.CurrentBook.Name, "book");
-            //Gval.Uc.HistoryBar.LoadYears(Gval.CurrentBook.Name, "history");
-            Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");
             Gval.Uc.TreeNote.LoadBook(Gval.CurrentBook.Name, "note");
+            //Gval.Uc.HistoryBar.LoadYears(Gval.CurrentBook.Name, "history");            
+            Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");            
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "角色");
             Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "其他");

@@ -84,8 +84,20 @@ namespace 脸滚键盘.自定义控件
 
         // Using a DependencyProperty as the backing store for KeyWords.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty KeyWordsProperty =
-            DependencyProperty.Register("KeyWords", typeof(string), typeof(UcSearcher), new PropertyMetadata(null));
+            DependencyProperty.Register("KeyWords", typeof(string), typeof(UcSearcher), new PropertyMetadata(string.Empty));
 
+
+
+
+        public string Pattern
+        {
+            get { return (string)GetValue(PatternProperty); }
+            set { SetValue(PatternProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Pattern.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PatternProperty =
+            DependencyProperty.Register("Pattern", typeof(string), typeof(UcSearcher), new PropertyMetadata(string.Empty));
 
 
 
@@ -108,6 +120,20 @@ namespace 脸滚键盘.自定义控件
 
             //每次搜索的关键词
             KeyWords = tbKeyWords.Text;
+            Pattern = tbKeyWords.Text;
+
+            if (cbMaterial.IsChecked == true)
+            {
+                //搜索资料库
+                //CurNode = Gval.Uc.TreeMaterial.CurNode;
+                //TopNode = Gval.Uc.TreeMaterial.TopNode;
+            }
+            else
+            {
+                //搜索当前书籍
+                CurNode = Gval.Uc.TreeBook.CurNode;
+                TopNode = Gval.Uc.TreeBook.TopNode;
+            }
 
             if (radButton1.IsChecked == true)
             {
@@ -129,19 +155,64 @@ namespace 脸滚键盘.自定义控件
 
         void AddToListBox(TreeViewNode node)
         {
-            string[] sArray = KeyWords.Split(' ');
             string ListItemName = String.Empty;
             ListItemName += ' ';
-            foreach (var mystr in sArray)
+
+
+            if (cbRegex.IsChecked == true)
             {
-                if (false == string.IsNullOrEmpty(mystr))
+                //正则模式
+                string[] sArray = GetMatchRets(node.NodeContent);
+                foreach (var mystr in sArray)
                 {
-                    if (IsInFile(node, mystr))
+                    if (false == string.IsNullOrEmpty(mystr))
                     {
                         ListItemName += mystr + ' ';
                     }
                 }
             }
+            else
+            {
+                //简易模式
+                string[] keysArray = KeyWords.Split(new char[] { ' ', '|' });
+                foreach (var mystr in keysArray)
+                {
+                    if (false == string.IsNullOrEmpty(mystr))
+                    {
+                        if (IsInFile(node, mystr))
+                        {
+                            ListItemName += mystr + ' ';
+                        }
+                    }
+                }
+
+                string[] keysArray1 = Regex.Split(KeyWords, "&", RegexOptions.IgnoreCase);
+                string[] keysArray2 = Regex.Split(KeyWords, "and", RegexOptions.IgnoreCase);
+                //List<string> c = new List<string>();
+                //c.AddRange(keysArray1);
+                //c.AddRange(keysArray2);
+                //string[] keysArrayAnd = c.ToArray();
+                string[] keysArrayAnd = keysArray1.Union(keysArray2).ToArray<string>(); //剔除重复项 
+
+                bool ret = true;
+                foreach (var mystr in keysArrayAnd)
+                {
+                    if (false == string.IsNullOrEmpty(mystr))
+                    {
+                        if (false == IsInFile(node, mystr))
+                        {
+                            ret = false;
+                        }
+                    }
+                }
+                if (ret == true)
+                {
+                    ListItemName += KeyWords + ' ';
+                }
+            }
+
+
+
             if (ListItemName != " ")
             {
                 ListBoxItem lbItem = new ListBoxItem();
@@ -151,6 +222,33 @@ namespace 脸滚键盘.自定义控件
                 SetItemToolTip(lbItem);
             }
         }
+
+        string[] GetMatchRets(string NodeContent)
+        {
+            if (string.IsNullOrEmpty(NodeContent))
+            {
+                return new List<string>().ToArray();
+            }
+
+            MatchCollection matchRets = Regex.Matches(NodeContent, Pattern);
+            if (matchRets.Count > 0)
+            {
+                List<string> listResult = new List<string>();
+                foreach (Match item in matchRets)
+                {
+                    if (false == listResult.Contains(item.Value))
+                    {
+                        listResult.Add(item.Value);
+                    }
+                }
+                return listResult.ToArray();
+            }
+            else
+            {
+                return new List<string>().ToArray();
+            }
+        }
+
 
         //判断文件当中是否包含某个字符串
         private bool IsInFile(TreeViewNode node, string mystr)
@@ -171,7 +269,6 @@ namespace 脸滚键盘.自定义控件
                 return false;
             }
         }
-
 
         private void GetResultList(TreeViewNode baseNode)
         {
@@ -207,17 +304,17 @@ namespace 脸滚键盘.自定义控件
         {
             TextEditor tEdit = new TextEditor()
             {
-                Width = 778,
+                Width = 400,
                 WordWrap = true,
-                
+
                 FontFamily = new FontFamily("宋体")
             };
             tEdit.Options.WordWrapIndentation = 4;
             tEdit.Options.InheritWordWrapIndentation = false;
             textEditor = tEdit;
             SetKeyWordsColor();
-            string[] keysArray = KeyWords.Split(' ');
-            string lines = GetStrOnLines(lbItem.DataContext.ToString(), keysArray);
+
+            string lines = GetStrOnLines(lbItem.DataContext.ToString());
             textEditor.Text += lines + "\n";
             ToolTip ttp = new ToolTip();
             ttp.Content = textEditor;
@@ -267,25 +364,64 @@ namespace 脸滚键盘.自定义控件
 
 
         //从当前行当中判断字符串是否存在
-        private string GetStrOnLines(string nodeContent, string[] keysArray)
+        private string GetStrOnLines(string nodeContent)
         {
             int counter = 0;
             string lines = string.Empty;
 
             string[] sArray = nodeContent.Split(new char[] { '\n' });
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
-            foreach (string line in sArrayNoEmpty)
+
+            if (cbRegex.IsChecked == true)
             {
-                foreach (string mystr in keysArray)
+                //正则模式
+                foreach (string line in sArrayNoEmpty)
                 {
-                    if (line.Contains(mystr))
+                    string[] keysArray = GetMatchRets(nodeContent);
+                    foreach (string mystr in keysArray)
                     {
-                        lines += line + "\n";
-                        counter++;
-                        break;
+                        if (line.Contains(mystr))
+                        {
+                            lines += line + "\n";
+                            counter++;
+                            break;
+                        }
                     }
                 }
             }
+            else
+            {
+                //简易模式
+                foreach (string line in sArrayNoEmpty)
+                {
+                    string[] keysArray = KeyWords.Split(new char[] { ' ', '|' });
+                    foreach (string mystr in keysArray)
+                    {
+                        if (line.Contains(mystr))
+                        {
+                            lines += line + "\n";
+                            counter++;
+                            break;
+                        }
+                    }
+                    string[] keysArray2 = KeyWords.Split(new char[] { '&' });
+                    bool isAll = true;
+                    foreach (string mystr in keysArray)
+                    {
+                        if (false == line.Contains(mystr))
+                        {
+                            isAll = false;
+                            break;
+                        }
+                    }
+                    if (isAll == true)
+                    {
+                        lines += line + "\n";
+                        counter++;
+                    }
+                }
+            }
+
             return lines;
         }
 

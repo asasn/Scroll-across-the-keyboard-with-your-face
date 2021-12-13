@@ -608,10 +608,10 @@ namespace 脸滚键盘.控件方法类
             int x = baseNode.ChildNodes.Count;
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
-                TreeViewNodeList.Insert(x, node);
+                TreeViewNodeList.Add(node);
                 //AddButtonNode(TreeViewNodeList, node);
             }
-            baseNode.ChildNodes.Insert(x, node);
+            baseNode.ChildNodes.Add(node);
         }
 
         /// <summary>

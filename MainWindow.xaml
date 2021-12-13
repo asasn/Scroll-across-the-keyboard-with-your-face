@@ -36,7 +36,7 @@
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
                            Loaded="Editor_Loaded" IsDraggable="True">
             </hc:TabControl>
-            <自定义控件:UcTreeNote Grid.Column="4" Loaded="UcTreeNote_Loaded"/>
+            <自定义控件:UcTreeBook Grid.Column="4" Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
             <自定义控件:UcTreeTask Grid.Column="4" Grid.Row="1" Loaded="UcTreeTask_Loaded"/>
             <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
                 <hc:TabItem Header="本书角色信息卡">
@@ -46,13 +46,13 @@
                     <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                 </hc:TabItem>
             </hc:TabControl>
-            <自定义控件:UcSearcher TopNode="{Binding TopNode, ElementName=ucTreeBook, Mode=TwoWay}" CurNode="{Binding CurNode, ElementName=ucTreeBook, Mode=TwoWay}" />
+            <自定义控件:UcSearcher/>
         </Grid>
 
 
         <hc:TabControl Grid.Column="4" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
             <hc:TabItem Header="资料库">
-                <自定义控件:UcTreeMaterial Loaded="UcTreeMaterial_Loaded"/>
+                <自定义控件:UcTreeBook Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
             </hc:TabItem>
             <hc:TabItem Header="公共角色卡">
                 <自定义控件:UcCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
@@ -66,7 +66,7 @@
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <自定义控件:UcTreeBook x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1"/>
+            <自定义控件:UcTreeBook x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1" UcTitle="目录树"/>
             <Grid x:Name="BooksPanel" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

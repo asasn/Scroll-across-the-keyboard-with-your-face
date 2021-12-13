@@ -10,7 +10,7 @@
     <hc:Card Header="搜索栏" Background="#FFFAFAFA" Margin="5">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
@@ -20,9 +20,15 @@
                     <ColumnDefinition Width="33*"/>
                     <ColumnDefinition Width="33*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50*"/>
+                    <RowDefinition Height="50*"/>
+                </Grid.RowDefinitions>
                 <RadioButton x:Name="radButton1" Content="当前节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="True"/>
-                <RadioButton x:Name="radButton2" Content="当前书籍" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
-                <RadioButton x:Name="radButton3" Content="所有书籍" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsEnabled="False"/>
+                <RadioButton x:Name="radButton2" Content="全部节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
+                <CheckBox x:Name="cbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="False"/>
+
+                <CheckBox x:Name="cbRegex" Content="启用正则" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="True"/>
             </Grid>
             <Grid Grid.Row="1" Margin="5">
                 <Grid.ColumnDefinitions>

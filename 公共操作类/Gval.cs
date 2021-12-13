@@ -41,9 +41,9 @@ namespace 脸滚键盘.公共操作类
             public static HandyControl.Controls.TabControl TabControl;
             public static HandyControl.Controls.Drawer BooksDrawer;
             public static UcTreeBook TreeBook;
-            public static UcTreeMaterial TreeMaterial;
-            public static UcTreeTask TreeTask;
-            public static UcTreeNote TreeNote;
+            public static UcTreeBook TreeMaterial;
+            public static UcTreeBook TreeNote;
+            public static UcTreeTask TreeTask;            
             public static MaterialWindow MaterialWindow = new MaterialWindow();
             public static UcCards RoleCards;
             public static UcCards OtherCards;
