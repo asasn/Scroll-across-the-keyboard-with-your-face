@@ -466,16 +466,17 @@ namespace 脸滚键盘.控件方法类
             newNode.NodeContent = "　　";
             int x = baseNode.ChildNodes.Count;
             if (string.IsNullOrEmpty(baseNode.Uid))
+
             {
                 newNode.IsDir = true;
                 //AddButtonNode(treeViewNodeList, newNode);
-                treeViewNodeList.Insert(x, newNode);
-                baseNode.ChildNodes.Insert(x, newNode);
+                treeViewNodeList.Add(newNode);
+                baseNode.ChildNodes.Add(newNode);
             }
             else
             {
                 newNode.IsDir = false;
-                baseNode.ChildNodes.Insert(x, newNode);
+                baseNode.ChildNodes.Add(newNode);
             }
             if (newNode.IsDir == true)
             {

@@ -21,7 +21,7 @@ namespace 脸滚键盘.自定义控件
         #region 构造函数和载入方法
         public UcTreeBook()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void Tv_Loaded(object sender, RoutedEventArgs e)
@@ -67,7 +67,7 @@ namespace 脸滚键盘.自定义控件
 
         // Using a DependencyProperty as the backing store for TopNode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TopNodeProperty =
-            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(new TreeViewNode{Uid = "", IsDir = true}));
+            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(new TreeViewNode { Uid = "", IsDir = true }));
 
 
 
@@ -94,6 +94,7 @@ namespace 脸滚键盘.自定义控件
 
             //数据初始化
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
+            TopNode = new TreeViewNode { Uid = "", IsDir = true };
 
             //数据源加载节点列表
             Tv.ItemsSource = TreeViewNodeList;
@@ -109,7 +110,7 @@ namespace 脸滚键盘.自定义控件
             Gval.Flag.Loading = false;
 
             Sv.ScrollToEnd();
-                    }
+        }
         #endregion
 
         #region 字段和属性
@@ -712,7 +713,7 @@ namespace 脸滚键盘.自定义控件
         #endregion
 
 
-    
+
 
 
 

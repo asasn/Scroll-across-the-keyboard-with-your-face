@@ -27,8 +27,11 @@
                 <RadioButton x:Name="radButton1" Content="当前节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="True"/>
                 <RadioButton x:Name="radButton2" Content="全部节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
                 <CheckBox x:Name="cbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="False"/>
+                <RadioButton x:Name="cbAnd" Content="与模式" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="True"/>
+                <RadioButton x:Name="cbOr" Content="或模式" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
+                <RadioButton x:Name="cbRegex" Content="启用正则" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
 
-                <CheckBox x:Name="cbRegex" Content="启用正则" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="True"/>
+                <!--<CheckBox x:Name="cbRegex" Content="启用正则" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="True"/>-->
             </Grid>
             <Grid Grid.Row="1" Margin="5">
                 <Grid.ColumnDefinitions>

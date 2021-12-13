@@ -125,8 +125,8 @@ namespace 脸滚键盘.自定义控件
             if (cbMaterial.IsChecked == true)
             {
                 //搜索资料库
-                //CurNode = Gval.Uc.TreeMaterial.CurNode;
-                //TopNode = Gval.Uc.TreeMaterial.TopNode;
+                CurNode = Gval.Uc.TreeMaterial.CurNode;
+                TopNode = Gval.Uc.TreeMaterial.TopNode;
             }
             else
             {
@@ -155,13 +155,16 @@ namespace 脸滚键盘.自定义控件
 
         void AddToListBox(TreeViewNode node)
         {
+            if (string.IsNullOrEmpty(node.NodeContent))
+            {
+                return;
+            }
             string ListItemName = String.Empty;
             ListItemName += ' ';
 
-
+            //正则模式
             if (cbRegex.IsChecked == true)
             {
-                //正则模式
                 string[] sArray = GetMatchRets(node.NodeContent);
                 foreach (var mystr in sArray)
                 {
@@ -171,46 +174,47 @@ namespace 脸滚键盘.自定义控件
                     }
                 }
             }
-            else
+
+            //与模式
+            if (cbAnd.IsChecked == true)
             {
-                //简易模式
-                string[] keysArray = KeyWords.Split(new char[] { ' ', '|' });
+                string[] keysArray = KeyWords.Split(new char[] { ' ' });
+
+                bool ret = true;
                 foreach (var mystr in keysArray)
                 {
                     if (false == string.IsNullOrEmpty(mystr))
                     {
-                        if (IsInFile(node, mystr))
-                        {
-                            ListItemName += mystr + ' ';
-                        }
-                    }
-                }
-
-                string[] keysArray1 = Regex.Split(KeyWords, "&", RegexOptions.IgnoreCase);
-                string[] keysArray2 = Regex.Split(KeyWords, "and", RegexOptions.IgnoreCase);
-                //List<string> c = new List<string>();
-                //c.AddRange(keysArray1);
-                //c.AddRange(keysArray2);
-                //string[] keysArrayAnd = c.ToArray();
-                string[] keysArrayAnd = keysArray1.Union(keysArray2).ToArray<string>(); //剔除重复项 
-
-                bool ret = true;
-                foreach (var mystr in keysArrayAnd)
-                {
-                    if (false == string.IsNullOrEmpty(mystr))
-                    {
-                        if (false == IsInFile(node, mystr))
+                        //不匹配时跳出
+                        if (false == IsInFile(node.NodeContent, mystr))
                         {
                             ret = false;
+                            break;
                         }
                     }
                 }
                 if (ret == true)
                 {
-                    ListItemName += KeyWords + ' ';
+                    ListItemName += KeyWords + ' ';                    
                 }
             }
 
+            //或模式
+            if (cbOr.IsChecked == true)
+            {
+                string[] keysArray = KeyWords.Split(new char[] { ' ' });
+                foreach (var mystr in keysArray)
+                {
+                    if (false == string.IsNullOrEmpty(mystr))
+                    {
+                        if (IsInFile(node.NodeContent, mystr))
+                        {
+                            ListItemName += KeyWords + ' ';
+                            break;
+                        }
+                    }
+                }
+            }
 
 
             if (ListItemName != " ")
@@ -251,15 +255,15 @@ namespace 脸滚键盘.自定义控件
 
 
         //判断文件当中是否包含某个字符串
-        private bool IsInFile(TreeViewNode node, string mystr)
+        private bool IsInFile(string NodeContent, string mystr)
         {
             //空节点时返回空
-            if (string.IsNullOrEmpty(node.NodeContent))
+            if (string.IsNullOrEmpty(NodeContent))
             {
                 return false;
             }
 
-            string text = node.NodeContent;
+            string text = NodeContent;
             if (text.Contains(mystr))
             {
                 return true;
@@ -372,12 +376,12 @@ namespace 脸滚键盘.自定义控件
             string[] sArray = nodeContent.Split(new char[] { '\n' });
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
+            //正则模式
             if (cbRegex.IsChecked == true)
             {
-                //正则模式
+                string[] keysArray = GetMatchRets(nodeContent);
                 foreach (string line in sArrayNoEmpty)
                 {
-                    string[] keysArray = GetMatchRets(nodeContent);
                     foreach (string mystr in keysArray)
                     {
                         if (line.Contains(mystr))
@@ -389,12 +393,35 @@ namespace 脸滚键盘.自定义控件
                     }
                 }
             }
-            else
+
+            //与模式
+            if (cbAnd.IsChecked == true)
             {
-                //简易模式
+                string[] keysArray = KeyWords.Split(new char[] { ' ' });
                 foreach (string line in sArrayNoEmpty)
                 {
-                    string[] keysArray = KeyWords.Split(new char[] { ' ', '|' });
+                    bool isAll = false;
+                    foreach (string mystr in keysArray)
+                    {
+                        if (line.Contains(mystr))
+                        {
+                            isAll = true;
+                            break;
+                        }
+                    }
+                    if (isAll == true)
+                    {
+                        lines += line + "\n";
+                        counter++;
+                    }
+                }
+            }
+
+            if (cbOr.IsChecked == true)
+            {
+                string[] keysArray = KeyWords.Split(new char[] { ' ' });
+                foreach (string line in sArrayNoEmpty)
+                {
                     foreach (string mystr in keysArray)
                     {
                         if (line.Contains(mystr))
@@ -403,21 +430,6 @@ namespace 脸滚键盘.自定义控件
                             counter++;
                             break;
                         }
-                    }
-                    string[] keysArray2 = KeyWords.Split(new char[] { '&' });
-                    bool isAll = true;
-                    foreach (string mystr in keysArray)
-                    {
-                        if (false == line.Contains(mystr))
-                        {
-                            isAll = false;
-                            break;
-                        }
-                    }
-                    if (isAll == true)
-                    {
-                        lines += line + "\n";
-                        counter++;
                     }
                 }
             }
