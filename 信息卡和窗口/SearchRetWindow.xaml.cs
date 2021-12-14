@@ -27,13 +27,10 @@ namespace 脸滚键盘.信息卡和窗口
     /// </summary>
     public partial class SearchRetWindow : Window
     {
-        public SearchRetWindow(TreeViewNode baseNode, ListBoxItem lbItem, string ucTag, string keyWords)
+        public SearchRetWindow(TreeViewNode baseNode, ListBoxItem lbItem, string[] keyWords)
         {
             InitializeComponent();
-            BaseNode = baseNode;
-            UcTag = ucTag;
-            KeyWords = keyWords;
-            LbItem = lbItem;
+            Matches = keyWords;
 
             SetKeyWordsColor();
             textEditor.Text = lbItem.DataContext.ToString();
@@ -41,10 +38,11 @@ namespace 脸滚键盘.信息卡和窗口
         public SearchRetWindow()
         {
         }
-        string KeyWords;
-        string UcTag;
-        TreeViewNode BaseNode;
-        ListBoxItem LbItem;
+
+        /// <summary>
+        /// 匹配结果数组（字符串数组）
+        /// </summary>
+        private string[] Matches;
 
 
 
@@ -62,9 +60,8 @@ namespace 脸滚键盘.信息卡和窗口
             textEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
             textEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
 
-            string[] keysArray = KeyWords.Split(' ');
             IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
-            foreach (string word in keysArray)
+            foreach (string word in Matches)
             {
                 AddKeyword(rules, word, "搜索");
             }
@@ -76,23 +73,15 @@ namespace 脸滚键盘.信息卡和窗口
         /// <param name="keyword"></param>
         void AddKeyword(IList<HighlightingRule> rules, string keyword, string colorName)
         {
-
-            SetRules(rules, keyword, colorName);
-        }
-
-        void SetRules(IList<HighlightingRule> rules, string keyword, string colorName)
-        {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return;
+            }
             HighlightingRule rule = new HighlightingRule();
             rule.Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
             rule.Regex = new Regex(keyword);
             rules.Add(rule);
-        }
-
-
-
-     
-
-
+        } 
 
     }
 }
