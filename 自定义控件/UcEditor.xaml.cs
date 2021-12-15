@@ -92,11 +92,10 @@ namespace 脸滚键盘.自定义控件
             textEditor.ScrollToLine(textEditor.LineCount);
             textEditor.SelectionLength = 0;
             textEditor.SelectionStart = textEditor.Text.Length;
-            textEditor.ScrollToEnd();
-            textEditor.ScrollToEnd();
-            textEditor.ScrollToEnd();
-            textEditor.ScrollToEnd();
-            textEditor.ScrollToEnd();
+            for (int i = 0; i < 5; i++)
+            {
+                textEditor.ScrollToEnd();
+            }
 
             SetRules();
         }

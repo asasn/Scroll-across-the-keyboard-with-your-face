@@ -147,7 +147,10 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
+                if (TypeOfTree == "book" || TypeOfTree == "material")
+                {
+                    selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
+                }             
                 ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
@@ -162,7 +165,10 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (e.OriginalSource as TreeViewItem).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
             {
-                selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+                if (TypeOfTree == "book" || TypeOfTree == "material")
+                {
+                    selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+                }
                 ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }

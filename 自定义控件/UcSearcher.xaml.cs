@@ -243,6 +243,7 @@ namespace 脸滚键盘.自定义控件
                 lbItem.Content = node.NodeName + " >> " + ListItemName;
                 lb.Items.Add(lbItem);
                 lbItem.DataContext = node.NodeContent;
+                lbItem.Tag = Matches;
                 SetItemToolTip(lbItem);
             }
         }
@@ -509,7 +510,7 @@ namespace 脸滚键盘.自定义控件
         private void lb_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListBoxItem lbItem = lb.SelectedItem as ListBoxItem;
-            SearchRetWindow rtWin = new SearchRetWindow(TopNode, lbItem, Matches);
+            SearchRetWindow rtWin = new SearchRetWindow(TopNode, lbItem, (string[])lbItem.Tag);
             rtWin.ShowDialog();
         }
     }

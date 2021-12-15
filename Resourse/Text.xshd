@@ -2,45 +2,26 @@
 <SyntaxDefinition name="Text" extensions=".txt" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
   <!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
   <!--fontWeight="bold" fontFamily="行楷" foreground="#0000CD"-->
-  <Color name="标记" foreground="#fff99157" />
+  <Color name="符号" foreground="#fff99157" />
+  <Color name="标记" foreground="blue" />
   <Color name="对话" foreground="#b8860b" />
   <Color name="角色" fontFamily="宋体" foreground="blue"/>
   <Color name="敏感" foreground="red"/>
-  <Color name="搜索" foreground="blue"/>
+  <Color name="搜索" background="#40FF40"/>
   <Color name="其他" foreground="#FF8C00"/>
   <!--<Color name="其他" foreground="#FFA500"/>-->
   <!-- This is the main ruleset. -->
   <RuleSet>
-    <Keywords color="角色">
-      <Word>测试</Word>
-      <Word>测试</Word>
-    </Keywords>
-    <Rule color="角色">
-      文本
-    </Rule>
-    <Span color="对话"  multiline="true">
+    <Span color="对话" multiline="true">
       <Begin>“</Begin>
       <End>”</End>
     </Span>
-    <Span color="对话"  multiline="true">
-      <Begin>‘</Begin>
-      <End>’</End>
-    </Span>
-    <Span color="标记"  multiline="true">
-      <Begin>（</Begin>
-      <End>）</End>
-    </Span>
-    <Span color="标记"  multiline="true">
-      <Begin>《</Begin>
-      <End>》</End>
-    </Span>
-    <Span color="标记">
-      <Begin>"</Begin>
-      <End>"</End>
-    </Span>
-    <Span color="标记">
-      <Begin>'</Begin>
-      <End>'</End>
-    </Span>
+    <Rule color="符号" >
+      ‘.*?’|".*?"|'.*?'|《.*?》|（.*?）|【.*?】|\(.*?\)|\[.*?\]|\{.*?\}
+    </Rule>
+    <Keywords color="标记">
+      <Word>测试文本</Word>
+      <Word>测试文本</Word>
+    </Keywords>
   </RuleSet>
 </SyntaxDefinition>
