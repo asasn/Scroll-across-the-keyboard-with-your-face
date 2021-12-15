@@ -16,7 +16,7 @@
                         <Grid x:Name="grid" Margin="0,0,5,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
-                                <ColumnDefinition Width="100*"/>
+                                <ColumnDefinition Width="206"/>
                             </Grid.ColumnDefinitions>
                             <CheckBox x:Name="Ck" IsChecked="{Binding IsChecked, Mode=TwoWay}" Visibility="{Binding IsButton, Converter={StaticResource Boolean2VisibilityReConverter}, Mode=TwoWay}" Checked="Ck_Checked" Unchecked="Ck_Unchecked" Click="Ck_Click"/>
                             <TextBlock Grid.Column="1" x:Name="TbkName" Text="{Binding NodeName, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
