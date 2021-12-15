@@ -116,8 +116,8 @@
     <Compile Include="自定义控件\UcEditor.xaml.cs">
       <DependentUpon>UcEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcEditorMaterial.xaml.cs">
-      <DependentUpon>UcEditorMaterial.xaml</DependentUpon>
+    <Compile Include="自定义控件\UcEditorCrude.xaml.cs">
+      <DependentUpon>UcEditorCrude.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcCards.xaml.cs">
       <DependentUpon>UcCards.xaml</DependentUpon>
@@ -130,12 +130,6 @@
     </Compile>
     <Compile Include="自定义控件\UcTreeBook.xaml.cs">
       <DependentUpon>UcTreeBook.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="自定义控件\UcTreeMaterial.xaml.cs">
-      <DependentUpon>UcTreeMaterial.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="自定义控件\UcTreeNote.xaml.cs">
-      <DependentUpon>UcTreeNote.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeTask.xaml.cs">
       <DependentUpon>UcTreeTask.xaml</DependentUpon>
@@ -180,7 +174,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcEditorMaterial.xaml">
+    <Page Include="自定义控件\UcEditorCrude.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,14 +191,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcTreeBook.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UcTreeMaterial.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UcTreeNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
