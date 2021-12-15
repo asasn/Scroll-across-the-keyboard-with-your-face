@@ -1,0 +1,42 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口"
+        xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="脸滚键盘.信息卡和窗口.NameToolWindow"
+        mc:Ignorable="d"
+        Title="取名工具" Height="450" Width="800" Background="WhiteSmoke">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="25*"/>
+                <RowDefinition Height="25*"/>
+            </Grid.RowDefinitions>
+            <GroupBox x:Name="GboxFamily" Grid.Row="0" Style="{StaticResource BaseStyle}" Header="姓氏"/>
+            <GroupBox x:Name="GboxName" Grid.Row="1" Style="{StaticResource BaseStyle}" Header="名字" />
+            <GroupBox x:Name="GboxGender" Grid.Row="2" Style="{StaticResource BaseStyle}" Header="性别"/>
+            <GroupBox x:Name="GboxStyle" Grid.Row="3" Style="{StaticResource BaseStyle}" Header="风格"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <WrapPanel x:Name="wpResult"/>
+            <Button x:Name="TbMore"  Content="更多" Width="75" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,30,0"/>
+
+        </Grid>
+        
+    </Grid>
+</Window>

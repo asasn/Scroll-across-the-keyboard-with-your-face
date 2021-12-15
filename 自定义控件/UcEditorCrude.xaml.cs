@@ -24,9 +24,9 @@ namespace 脸滚键盘.自定义控件
     /// <summary>
     /// UcEditor.xaml 的交互逻辑
     /// </summary>
-    public partial class UcEditorMaterial : UserControl
+    public partial class UcEditorCrude : UserControl
     {
-        public UcEditorMaterial()
+        public UcEditorCrude()
         {
             InitializeComponent();
         }
