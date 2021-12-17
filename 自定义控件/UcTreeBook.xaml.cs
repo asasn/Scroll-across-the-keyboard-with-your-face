@@ -149,7 +149,7 @@ namespace 脸滚键盘.自定义控件
             {
                 if (TypeOfTree == "book" || TypeOfTree == "material")
                 {
-                    selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_open.png";
+                    selectedNode.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_open.png";
                 }             
                 ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
@@ -167,7 +167,7 @@ namespace 脸滚键盘.自定义控件
             {
                 if (TypeOfTree == "book" || TypeOfTree == "material")
                 {
-                    selectedNode.IconPath = Gval.Path.App + "/Resourse/ic_action_folder_closed.png";
+                    selectedNode.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_closed.png";
                 }
                 ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }

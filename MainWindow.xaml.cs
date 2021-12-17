@@ -347,8 +347,13 @@ namespace 脸滚键盘
             double.TryParse(tb.Text, out str);
             tb.Text = str.ToString();
         }
+
         #endregion
 
-
+        private void NameTool_Click(object sender, RoutedEventArgs e)
+        {
+            NameToolWindow ntWin = new NameToolWindow();
+            ntWin.ShowDialog();
+        }
     }
 }

@@ -7,7 +7,7 @@
         xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="Mw" x:Class="脸滚键盘.MainWindow"
         mc:Ignorable="d" UseLayoutRounding="True" Closing="Window_Closing"
         Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Loaded="Mw_Loaded">
-    <Grid>
+    <Grid x:Name="主面板">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
@@ -18,9 +18,8 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="300" MinWidth="240" MaxWidth="400"/>
         </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
-        <GridSplitter Grid.Column="3" HorizontalAlignment="Stretch"/>
-        <Grid Grid.Column="2" >
+        <GridSplitter x:Name="左分隔条" Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <Grid x:Name="编辑区域" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300"/>
                 <ColumnDefinition Width="5"/>
@@ -28,28 +27,52 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="300"/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50*"/>
-                <RowDefinition Height="50*"/>
-            </Grid.RowDefinitions>
+            <Grid x:Name="左栏">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50*"/>
+                    <RowDefinition Height="50*"/>
+                </Grid.RowDefinitions>
+                <自定义控件:UcSearcher/>
+                <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
+                    <hc:TabItem Header="本书角色信息卡">
+                        <自定义控件:UcCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
+                    </hc:TabItem>
+                    <hc:TabItem Header="本书其他信息卡">
+                        <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
+                    </hc:TabItem>
+                </hc:TabControl>
+            </Grid>
             <hc:TabControl Name="Editor" Margin="5" Effect="{StaticResource EffectShadow3}" IsAnimationEnabled="True"
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
                            Loaded="Editor_Loaded" IsDraggable="True">
             </hc:TabControl>
-            <自定义控件:UcTreeBook Grid.Column="4" Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
-            <自定义控件:UcTreeTask Grid.Column="4" Grid.Row="1" Loaded="UcTreeTask_Loaded"/>
-            <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
-                <hc:TabItem Header="本书角色信息卡">
-                    <自定义控件:UcCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
-                </hc:TabItem>
-                <hc:TabItem Header="本书其他信息卡">
-                    <自定义控件:UcCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
-                </hc:TabItem>
-            </hc:TabControl>
-            <自定义控件:UcSearcher/>
+            <Grid x:Name="右栏" Grid.Column="4" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50*"/>
+                </Grid.RowDefinitions>
+                <自定义控件:UcTreeBook Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
+                <Border Grid.Row="1" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Margin="0,5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="40*"/>
+                            <ColumnDefinition Width="40*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Padding="0" x:Name="NameTool" Click="NameTool_Click" ToolTip="起名工具">
+                            <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_user.png"/>
+                        </Button>
+                    </Grid>
+                </Border>
+                <自定义控件:UcTreeTask Grid.Row="2" Loaded="UcTreeTask_Loaded" />
+            </Grid>
         </Grid>
-
-
+        <GridSplitter x:Name="右分隔条" Grid.Column="3" HorizontalAlignment="Stretch"/>
         <hc:TabControl Grid.Column="4" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
             <hc:TabItem Header="资料库">
                 <自定义控件:UcTreeBook Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>

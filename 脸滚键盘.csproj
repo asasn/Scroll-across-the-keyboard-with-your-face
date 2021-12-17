@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resourse\ic_action_book_xxhdpi.ico</ApplicationIcon>
+    <ApplicationIcon>Resourse\图标\ic_action_book_xxhdpi.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>脸滚键盘.App</StartupObject>
@@ -244,12 +244,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\ic_action_book.png">
+    <None Include="Resourse\图标\ic_action_book.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\ic_action_book_xxhdpi.ico">
+    <None Include="Resourse\图标\ic_action_book_xxhdpi.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -277,41 +277,41 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\ic_action_add.png">
+    <None Include="Resourse\图标\ic_action_add.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_attachment.png">
+    <None Include="Resourse\图标\ic_action_attachment.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_attachment_2.png">
+    <None Include="Resourse\图标\ic_action_attachment_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_copy.png">
+    <None Include="Resourse\图标\ic_action_copy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_document.png">
+    <None Include="Resourse\图标\ic_action_document.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_folder_closed.png">
+    <None Include="Resourse\图标\ic_action_folder_closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_folder_open.png">
+    <None Include="Resourse\图标\ic_action_folder_open.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_puzzle.png">
+    <None Include="Resourse\图标\ic_action_puzzle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\ic_action_user.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourse\ic_action_save.png">
+    <None Include="Resourse\图标\ic_action_user.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\ic_action_circles.png">
+    <None Include="Resourse\图标\ic_action_save.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\图标\ic_action_circles.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -321,17 +321,56 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\ic_action_knight.png">
+    <None Include="Resourse\图标\ic_action_knight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\ic_action_paste.png">
+    <None Include="Resourse\图标\ic_action_paste.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\ic_action_bookmark.png">
+    <None Include="Resourse\图标\ic_action_bookmark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\图标\ic_action_search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\字表\全唐诗.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\字表\千字文.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\字表\玄幻百家姓（单姓）.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\字表\玄幻百家姓（复姓）.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\字表\百家姓（单姓）.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\字表\百家姓（复姓）.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\字表\周易.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourse\字表\诗经.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
