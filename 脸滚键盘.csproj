@@ -341,36 +341,40 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\全唐诗.txt">
+    <None Include="Resourse\字表\全唐诗字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\千字文.txt">
+    <None Include="Resourse\字表\千字文字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\玄幻百家姓（单姓）.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resourse\字表\玄幻百家姓（复姓）.txt">
+    <None Include="Resourse\字表\玄幻百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\百家姓（单姓）.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resourse\字表\百家姓（复姓）.txt">
+    <None Include="Resourse\字表\百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\周易.txt">
+    <None Include="Resourse\字表\周易字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\字表\诗经.txt">
+    <None Include="Resourse\字表\诗经字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\字表\楚辞字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\字表\女性化字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -28,14 +28,70 @@ namespace 脸滚键盘.信息卡和窗口
             InitializeComponent();
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            //遍历词库文件
+            DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourse + "/字表");
+            FileInfo[] thefileInfo = theFolder.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
+
+            foreach (FileInfo NextFile in thefileInfo) //遍历文件
+            {
+                string name = System.IO.Path.GetFileNameWithoutExtension(NextFile.FullName);
+                if (name != "百家姓" && name != "玄幻百家姓")
+                {
+                    WrapPanel wp = new WrapPanel();
+                    wp.Width = 200;
+                    wp.Name = name;
+                    wp.Uid = NextFile.FullName;
+                    wp.Children.Add(new Label() { Content = name + " - " + GetListFormTXT(wp.Uid).Count.ToString(), BorderThickness = new Thickness(), Background = (Brush)new BrushConverter().ConvertFromString("#f5f5f5") });
+                    wp.Children.Add(new CheckBox());
+                    WpWordBank.Children.Add(wp);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 点击事件：生成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TbGenerate_Click(object sender, RoutedEventArgs e)
         {
             //结果列表初始化
             WpResults.Children.Clear();
+            List<List<string>> nameLists = new List<List<string>>();
+            foreach (WrapPanel wp in WpWordBank.Children)
+            {
+                if ((wp.Children[1] as CheckBox).IsChecked == true)
+                {
+                    nameLists.Add(GetListFormTXT(wp.Uid));
+                }
+            }
+
+            //获取姓氏长度选项值
+            int valueSurnameLength = GetCheckedBoxID(GboxSurnameLength);
+            //获取姓氏风格选项值
+            int valueSurnameReality = GetCheckedBoxID(GboxSurnameReality);
+            //获取名字选择值
+            int valueName = GetCheckedBoxID(GboxName);
+
+            //选择姓氏字典
+            List<string> surnameList = new List<string>();
+            if (valueSurnameReality == 0)
+            {
+                surnameList = GetListFormTXT(Gval.Path.Resourse + "/字表/百家姓.txt");
+            }
+            if (valueSurnameReality == 1)
+            {
+                surnameList = GetListFormTXT(Gval.Path.Resourse + "/字表/玄幻百家姓.txt");
+            }
+
+            //合并选择的名字字典
+            List<string> nameList = GetUnionList(nameLists);          
 
             for (int i = 0; i < 80; i++)
             {
-                GenerateWpItems();
+                GenerateWpItems(valueSurnameLength, valueName, surnameList, nameList);
             }
         }
 
@@ -44,109 +100,23 @@ namespace 脸滚键盘.信息卡和窗口
         /// </summary>
         /// <param name="valueSurname"></param>
         /// <param name="valueName"></param>
-        void GenerateWpItems()
+        void GenerateWpItems(int valueSurname, int valueName, List<string> surnameList, List<string> nameList)
         {
-            //获取姓氏选项值
-            int valueSurname = GetCheckedBoxID(GboxSurname);
-
-            //获取名字选择值
-            int valueName = GetCheckedBoxID(GboxName);
-
-            //获取姓氏选项值
-            int valueGender = GetCheckedBoxID(GboxGender);
-
-            //获取风格选项值
-            int valueStyle = GetCheckedBoxID(GboxStyle);
-
             //生成姓氏
             string surname = string.Empty;
 
             //生成名字
             string name = string.Empty;
 
-            //仙侠风格
-            if (valueStyle == 0)
+            surname = GetSurname(valueSurname + 1, surnameList);
+            if (nameList.Count == 0)
             {
-                List<string>[] surnameLists = { surnameXuanHuan1, surnameXuanHuan2 };
-                List<string> surnameList = GetUnionList(surnameLists);
-                List<string>[] nameLists = { listZhouYi, listQianZiWen };
-                List<string> nameList = GetUnionList(nameLists);
-
-                surname = GetSurname(valueSurname + 1, surnameList);
+                name = GetAName(valueName + 1);
+            }
+            else
+            {
                 name = GetAName(valueName + 1, nameList);
             }
-
-            //玄幻风格
-            if (valueStyle == 1)
-            {
-                List<string>[] surnameLists = { surnameXuanHuan1, surnameXuanHuan2 };
-                List<string> surnameList = GetUnionList(surnameLists);
-                List<string>[] nameLists = { listZhouYi, listQianZiWen };
-                List<string> nameList = GetUnionList(nameLists);
-
-                surname = GetSurname(valueSurname + 1, surnameList);
-                name = GetAName(valueName + 1, nameList);
-            }
-
-            //现实风格
-            if (valueStyle == 2)
-            {
-                List<string>[] surnameLists = { surname1, surname2 };
-                List<string> surnameList = GetUnionList(surnameLists);
-                List<string>[] nameLists = { listShiJing, listQuanTangShi, };
-                List<string> nameList = GetUnionList(nameLists);
-
-                surname = GetSurname(valueSurname + 1, surnameList);
-                name = GetAName(valueName + 1, nameList);
-
-            }
-
-            //古代风格
-            if (valueStyle == 3)
-            {
-                List<string>[] surnameLists = { surname1, surname2 };
-                List<string> surnameList = GetUnionList(surnameLists);
-                List<string>[] nameLists = { listShiJing};
-                List<string> nameList = GetUnionList(nameLists);
-
-                surname = GetSurname(valueSurname + 1, surnameList);
-                name = GetAName(valueName + 1, nameList);
-            }
-
-            //西方风格
-            if (valueStyle == 4)
-            {
-
-            }
-
-            //代称风格
-            if (valueStyle == 5)
-            {
-
-            }
-
-            //龙套风格
-            if (valueStyle == 6)
-            {
-                List<string>[] surnameLists = { surnameXuanHuan1, surnameXuanHuan2 };
-                List<string> surnameList = GetUnionList(surnameLists);
-
-                surname = GetSurname(valueSurname + 1, surnameList);
-                name = GetAName(valueName + 1, "GB2312");
-            }
-
-            //配角风格
-            if (valueStyle == 7)
-            {
-                List<string>[] surnameLists = { surnameXuanHuan1, surnameXuanHuan2 };
-                List<string> surnameList = GetUnionList(surnameLists);
-                List<string>[] nameLists = { listShiJing, listQianZiWen, };
-                List<string> nameList = GetUnionList(nameLists);
-
-                surname = GetSurname(valueSurname + 1, surnameList);
-                name = GetAName(valueName + 1, nameList);
-            }
-
             //生成新文本框
             TextBox tb = new TextBox();
             tb.IsReadOnly = true;
@@ -334,26 +304,30 @@ namespace 脸滚键盘.信息卡和窗口
         /// <returns></returns>
         string GetStringFromList(List<string> stringList)
         {
+            if (stringList.Count == 0)
+            {
+                return string.Empty;
+            }
             Random random = new Random();
             int index = new Random(Guid.NewGuid().GetHashCode()).Next(0, stringList.Count());
             return stringList[index];
         }
 
-        List<string> surnameXuanHuan1 = GetListFormTXT("玄幻百家姓（单姓）");
-        List<string> surnameXuanHuan2 = GetListFormTXT("玄幻百家姓（复姓）");
-        List<string> surname1 = GetListFormTXT("百家姓（单姓）");
-        List<string> surname2 = GetListFormTXT("百家姓（复姓）");
-        List<string> listQianZiWen = GetListFormTXT("千字文");
-        List<string> listQuanTangShi = GetListFormTXT("全唐诗");
-        List<string> listShiJing = GetListFormTXT("诗经");
-        List<string> listZhouYi = GetListFormTXT("周易");
+        //List<string> listSurnameReality = GetListFormTXT("百家姓");
+        //List<string> listSurnameXuanHuan = GetListFormTXT("玄幻百家姓");
+
+        //List<string> listQianZiWen = GetListFormTXT("千字文字库");
+        //List<string> listQuanTangShi = GetListFormTXT("全唐诗字库");
+        //List<string> listShiJing = GetListFormTXT("诗经字库");
+        //List<string> listChuCi = GetListFormTXT("楚辞字库");
+        //List<string> listZhouYi = GetListFormTXT("周易字库");
 
         /// <summary>
         /// 合并多个字符串列表
         /// </summary>
         /// <param name="listArray"></param>
         /// <returns></returns>
-        List<string> GetUnionList(Array listArray)
+        List<string> GetUnionList(List<List<string>> listArray)
         {
             List<string> listRet = new List<string>();
             foreach (List<string> listString in listArray)
@@ -363,11 +337,10 @@ namespace 脸滚键盘.信息卡和窗口
             return listRet;
         }
 
-        static List<string> GetListFormTXT(string sFileName)
+        static List<string> GetListFormTXT(string fullFilePath)
         {
             List<string> myList = new List<string>();
-            string sFilePath = Gval.Path.Resourse + "/字表/" + sFileName + ".txt";
-            FileStream fs = new FileStream(sFilePath, FileMode.Open);
+            FileStream fs = new FileStream(fullFilePath, FileMode.Open);
             StreamReader reader = new StreamReader(fs, UnicodeEncoding.GetEncoding("utf-8"));
 
             //按行读取
@@ -381,5 +354,6 @@ namespace 脸滚键盘.信息卡和窗口
             reader.Close();
             return myList;
         }
+
     }
 }
