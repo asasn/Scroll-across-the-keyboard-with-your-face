@@ -93,6 +93,9 @@
     <Compile Include="信息卡和窗口\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="信息卡和窗口\HansWindow.xaml.cs">
+      <DependentUpon>HansWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="信息卡和窗口\InfoCard.xaml.cs">
       <DependentUpon>InfoCard.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,7 @@
     <Compile Include="公共操作类\Gval.cs" />
     <Compile Include="公共操作类\SettingsOperate.cs" />
     <Compile Include="公共操作类\SqliteOperate.cs" />
+    <Compile Include="公共操作类\WebOperate.cs" />
     <Compile Include="控件方法类\UEditor.cs" />
     <Compile Include="控件方法类\UTreeView.cs" />
     <Compile Include="自定义控件\MyCommand.cs" />
@@ -157,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="信息卡和窗口\FindReplaceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡和窗口\HansWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,10 +41,7 @@ namespace 脸滚键盘.信息卡和窗口
                 string name = System.IO.Path.GetFileNameWithoutExtension(NextFile.FullName);
                 if (name != "百家姓" && name != "玄幻百家姓")
                 {
-                    WrapPanel wp = new WrapPanel();
-                    wp.Width = 200;
-                    wp.Name = name;
-                    wp.Uid = NextFile.FullName;
+                    WrapPanel wp = new WrapPanel() { Width = 200, Name = name, Uid = NextFile.FullName };
                     wp.Children.Add(new Label() { Content = name + " - " + GetListFormTXT(wp.Uid).Count.ToString(), BorderThickness = new Thickness(), Background = (Brush)new BrushConverter().ConvertFromString("#f5f5f5") });
                     wp.Children.Add(new CheckBox());
                     WpWordBank.Children.Add(wp);
@@ -59,6 +58,7 @@ namespace 脸滚键盘.信息卡和窗口
         {
             //结果列表初始化
             WpResults.Children.Clear();
+
             List<List<string>> nameLists = new List<List<string>>();
             foreach (WrapPanel wp in WpWordBank.Children)
             {
@@ -69,11 +69,11 @@ namespace 脸滚键盘.信息卡和窗口
             }
 
             //获取姓氏长度选项值
-            int valueSurnameLength = GetCheckedBoxID(GboxSurnameLength);
+            int valueSurnameLength = GetCheckedBoxID(GridSurnameLength);
             //获取姓氏风格选项值
-            int valueSurnameReality = GetCheckedBoxID(GboxSurnameReality);
+            int valueSurnameReality = GetCheckedBoxID(GridSurnameReality);
             //获取名字选择值
-            int valueName = GetCheckedBoxID(GboxName);
+            int valueName = GetCheckedBoxID(GridNameLength);
 
             //选择姓氏字典
             List<string> surnameList = new List<string>();
@@ -87,12 +87,14 @@ namespace 脸滚键盘.信息卡和窗口
             }
 
             //合并选择的名字字典
-            List<string> nameList = GetUnionList(nameLists);          
+            List<string> nameList = GetUnionList(nameLists);
 
             for (int i = 0; i < 80; i++)
             {
                 GenerateWpItems(valueSurnameLength, valueName, surnameList, nameList);
             }
+
+            webBrowser.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -118,13 +120,14 @@ namespace 脸滚键盘.信息卡和窗口
                 name = GetAName(valueName + 1, nameList);
             }
             //生成新文本框
-            TextBox tb = new TextBox();
-            tb.IsReadOnly = true;
+            TextBox tb = new TextBox() { IsReadOnly = true, Text = surname + name, Margin = new Thickness(2) };
             tb.GotFocus += Tb_GotFocus;
-            tb.Text = surname + name;
-            tb.Margin = new Thickness(2);
             WpResults.Children.Add(tb);
+
+
         }
+
+
 
         /// <summary>
         /// 生成一个名字
@@ -209,7 +212,34 @@ namespace 脸滚键盘.信息卡和窗口
             TextBox tb = sender as TextBox;
             Clipboard.SetText(tb.Text);
             HandyControl.Controls.Growl.SuccessGlobal("已复制名字到剪贴板！");
+
+            WpShowWord.Children.Clear();
+            foreach (char c in tb.Text)
+            {
+                WebBrowser webb = new WebBrowser();
+                string urlStr = "https://www.zdic.net/hans/" + c.ToString();
+                string htmlText = WebOperate.GetHtmlText(urlStr);
+                string pattern = "(?<=<span class=\"z_d song\">)([\\s\\S]+?)(?=<span class=\"ptr\">)";
+                MatchCollection matchRets = Regex.Matches(htmlText, pattern, RegexOptions.Multiline);
+                string pinyin = c.ToString() + "：";
+                if (matchRets.Count > 0)
+                {
+                    foreach (Match item in matchRets)
+                    {
+                        string p = "[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüêɑńňɡａ-ｚＡ－ＺA-Za-z\\s∥-]+";
+                        Match m = Regex.Match(item.Value, p);
+                        if (false == pinyin.Contains(item.Value) && m.Success)
+                        {
+                            pinyin += item.Value + " ";
+                        }
+                    }
+                }
+                TextBox tbw = new TextBox() { Margin = new Thickness(0, 2, 0, 2), Text = pinyin.Trim(), IsReadOnly = true };
+                WpShowWord.Children.Add(tbw);
+            }
         }
+
+
 
         /// <summary>
         /// 查找某种类型的子控件
@@ -354,6 +384,7 @@ namespace 脸滚键盘.信息卡和窗口
             reader.Close();
             return myList;
         }
+
 
     }
 }
