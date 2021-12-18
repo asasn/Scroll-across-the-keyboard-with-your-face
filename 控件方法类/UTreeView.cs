@@ -527,7 +527,7 @@ namespace 脸滚键盘.控件方法类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
-            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
+            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
         }
@@ -563,7 +563,7 @@ namespace 脸滚键盘.控件方法类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded  BOOLEAN);", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN);", tableName);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("SELECT * FROM Tree_{0} where Pid='';", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
@@ -577,7 +577,8 @@ namespace 脸滚键盘.控件方法类
                     IsDir = (bool)reader["IsDir"],
                     NodeContent = reader["NodeContent"].ToString(),
                     WordsCount = Convert.ToInt32(reader["WordsCount"]),
-                    IsExpanded = (bool)reader["IsExpanded"]
+                    IsExpanded = (bool)reader["IsExpanded"],
+                    IsChecked = (bool)reader["IsChecked"],
                 };
                 if (node.IsExpanded == true)
                 {
@@ -637,7 +638,8 @@ namespace 脸滚键盘.控件方法类
                     IsDir = (bool)reader["IsDir"],
                     NodeContent = reader["NodeContent"].ToString(),
                     WordsCount = Convert.ToInt32(reader["WordsCount"]),
-                    IsExpanded = (bool)reader["IsExpanded"]
+                    IsExpanded = (bool)reader["IsExpanded"],
+                    IsChecked = (bool)reader["IsChecked"],
                 };
                 node.IconPath = Gval.Path.Resourse + "/图标/ic_action_document.png";
                 LoadNode(node, TreeViewNodeList, parentNode, typeOfTree);
@@ -672,9 +674,9 @@ namespace 脸滚键盘.控件方法类
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             //更新数据库中临近节点记录集
-            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, neighboringNode.Uid);
+            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked{8} where Uid = '{9}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, selectedNode.IsChecked, neighboringNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7} where Uid = '{8}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, selectedNode.Uid);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked{8} where Uid = '{9}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, neighboringNode.IsChecked, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
@@ -732,6 +734,21 @@ namespace 脸滚键盘.控件方法类
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            sqlConn.Close();
+        }
+
+        /// <summary>
+        /// 节点选中/取消选中
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="selectedNode"></param>
+        public static void CheckedBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode)
+        {
+            string tableName = typeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            string sql = string.Format("UPDATE Tree_{0} set IsChecked={1} where Uid = '{2}';", tableName, selectedNode.IsChecked, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
         }

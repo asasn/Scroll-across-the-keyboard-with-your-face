@@ -580,6 +580,7 @@ namespace 脸滚键盘.自定义控件
 
 
         #endregion
+
         private void Ck_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox Ck = sender as CheckBox;
@@ -587,6 +588,8 @@ namespace 脸滚键盘.自定义控件
             TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TbkName.Foreground = Brushes.Silver;
             TbkName.IsEnabled = false;
+            TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
+            CheckedBySql(CurBookName, TypeOfTree, selectedNode);
         }
 
         private void Ck_Unchecked(object sender, RoutedEventArgs e)
@@ -596,6 +599,8 @@ namespace 脸滚键盘.自定义控件
             TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TbkName.Foreground = (Brush)new BrushConverter().ConvertFromString("#FF212121");
             TbkName.IsEnabled = true;
+            TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
+            CheckedBySql(CurBookName, TypeOfTree, selectedNode);
         }
 
         private void Ck_Click(object sender, RoutedEventArgs e)
@@ -635,6 +640,7 @@ namespace 脸滚键盘.自定义控件
                     }
                 }
             }
+            
         }
 
         private void Tv_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
