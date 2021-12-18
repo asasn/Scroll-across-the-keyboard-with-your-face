@@ -751,7 +751,6 @@ namespace 脸滚键盘.控件方法类
             string sql = string.Format("UPDATE Tree_{0} set IsChecked={1} where Uid = '{2}';", tableName, selectedNode.IsChecked, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
-            Console.WriteLine("+++");
         }
         #endregion
 

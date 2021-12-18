@@ -19,23 +19,32 @@ namespace 脸滚键盘.信息卡和窗口
     /// <summary>
     /// HansWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class HansWindow : Window
+    public partial class HansToolWindow : Window
     {
-        public HansWindow()
+        public HansToolWindow()
         {
             InitializeComponent();
         }
 
         private void BtnGet_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TbHans.Text))
+            {
+                return;
+            }
             string ttt = " ";
             string urlStr = "https://www.zdic.net/hans/" + TbHans.Text;
             string htmlText = WebOperate.GetHtmlText(urlStr);
-            string pattern = "<div class=\"dictlink\">([\\s\\S]+)<div class=\"div copyright\"> (.+?) </div>";
+            //string pattern = "<div class=\"zdict\">([\\s\\S]+)(?=<div class=\"zdict\">)";
+            string pattern = "<main>([\\s\\S]+)</main>";
             Match matchRet = Regex.Match(htmlText, pattern, RegexOptions.Multiline);
-            string pattern2 = "<script ([\\s\\S]+?)</script>";
+            string pattern2 = ".*<script([\\s\\S]+?)</script>.*";
             ttt = Regex.Replace(matchRet.Value, pattern2, "", RegexOptions.Multiline);
-
+            ttt = Regex.Replace(ttt, "<h2><span class=\"z_ts2\">条目</span> <strong>(.+?)</strong>([\\s\\S]+?)</h2>", "", RegexOptions.Multiline);
+            ttt = Regex.Replace(ttt, "<div id='gg_([\\s\\S]+?)</div>", "", RegexOptions.Multiline);
+            ttt = Regex.Replace(ttt, "<div class=\"nr-box nr-box-shiyi wytl\"([\\s\\S]+?)<div class=\"res_c_right\">", "", RegexOptions.Multiline);
+            ttt = Regex.Replace(ttt, "<div class=\"div copyright\">(.+?)</div>", "</br><hr/></br>", RegexOptions.Multiline);
+            Console.WriteLine(ttt);
             //MatchCollection matchRets = Regex.Matches(matchRet.Value, pattern2, RegexOptions.Multiline);
             //
             //if (matchRets.Count > 0)
@@ -45,8 +54,19 @@ namespace 脸滚键盘.信息卡和窗口
             //        ttt += item.Value + "\n";
             //    }
             //}
-            Console.WriteLine(ttt);
+            if (string.IsNullOrWhiteSpace(ttt))
+            {
+                return;
+            }
             webBrowser.NavigateToString(WebOperate.ConvertExtendedASCII(ttt));
+        }
+
+        private void TbHans_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnGet.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            }
         }
     }
 }

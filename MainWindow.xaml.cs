@@ -353,7 +353,17 @@ namespace 脸滚键盘
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
             NameToolWindow ntWin = new NameToolWindow();
+            ntWin.Left = 600;
+            ntWin.Top = 60;
             ntWin.ShowDialog();
+        }
+
+        private void HansTool_Click(object sender, RoutedEventArgs e)
+        {
+            HansToolWindow htWin = new HansToolWindow();
+            htWin.Left = 600;
+            htWin.Top = 60;
+            htWin.ShowDialog();
         }
     }
 }

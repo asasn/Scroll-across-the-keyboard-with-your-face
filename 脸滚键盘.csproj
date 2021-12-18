@@ -93,8 +93,8 @@
     <Compile Include="信息卡和窗口\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\HansWindow.xaml.cs">
-      <DependentUpon>HansWindow.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\HansToolWindow.xaml.cs">
+      <DependentUpon>HansToolWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="信息卡和窗口\InfoCard.xaml.cs">
       <DependentUpon>InfoCard.xaml</DependentUpon>
@@ -164,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\HansWindow.xaml">
+    <Page Include="信息卡和窗口\HansToolWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

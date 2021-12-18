@@ -53,7 +53,7 @@
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
                 <自定义控件:UcTreeBook Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
-                <Border Grid.Row="1" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Margin="0,5">
+                <Border x:Name="BorderToolBar" Grid.Row="1" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Margin="0,5">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40*"/>
@@ -66,6 +66,9 @@
                         </Grid.ColumnDefinitions>
                         <Button Padding="0" x:Name="NameTool" Click="NameTool_Click" ToolTip="起名工具">
                             <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_user.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Column="1" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
+                            <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_search.png"/>
                         </Button>
                     </Grid>
                 </Border>

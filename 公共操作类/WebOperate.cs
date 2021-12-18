@@ -13,9 +13,16 @@ namespace 脸滚键盘.公共操作类
         public static string GetHtmlText(string urlStr)
         {
             WebRequest request = WebRequest.Create(urlStr);
-            WebResponse response = request.GetResponse();
-            StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
-            return reader.ReadToEnd();
+            try
+            {
+                WebResponse response = request.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
+                return reader.ReadToEnd();
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }            
         }
 
         /// <summary>

@@ -64,6 +64,7 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 if ((wp.Children[1] as CheckBox).IsChecked == true)
                 {
+                    //载入挂接的词库
                     nameLists.Add(GetListFormTXT(wp.Uid));
                 }
             }
@@ -343,14 +344,6 @@ namespace 脸滚键盘.信息卡和窗口
             return stringList[index];
         }
 
-        //List<string> listSurnameReality = GetListFormTXT("百家姓");
-        //List<string> listSurnameXuanHuan = GetListFormTXT("玄幻百家姓");
-
-        //List<string> listQianZiWen = GetListFormTXT("千字文字库");
-        //List<string> listQuanTangShi = GetListFormTXT("全唐诗字库");
-        //List<string> listShiJing = GetListFormTXT("诗经字库");
-        //List<string> listChuCi = GetListFormTXT("楚辞字库");
-        //List<string> listZhouYi = GetListFormTXT("周易字库");
 
         /// <summary>
         /// 合并多个字符串列表
