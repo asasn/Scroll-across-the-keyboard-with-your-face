@@ -586,8 +586,6 @@ namespace 脸滚键盘.自定义控件
             CheckBox Ck = sender as CheckBox;
             Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
             TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
-            TbkName.Foreground = Brushes.Silver;
-            TbkName.IsEnabled = false;
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             CheckedBySql(CurBookName, TypeOfTree, selectedNode);
         }
@@ -597,8 +595,6 @@ namespace 脸滚键盘.自定义控件
             CheckBox Ck = sender as CheckBox;
             Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
             TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
-            TbkName.Foreground = (Brush)new BrushConverter().ConvertFromString("#FF212121");
-            TbkName.IsEnabled = true;
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             CheckedBySql(CurBookName, TypeOfTree, selectedNode);
         }
@@ -613,34 +609,45 @@ namespace 脸滚键盘.自定义控件
             selectedNode.TheItem = item;
             if (Ck.IsChecked == true)
             {
-                selectedNode.ParentNode.IsChecked = true;
+                //当自身选中时，子节点全部进行相应的改变
                 foreach (TreeViewNode node in selectedNode.ChildNodes)
                 {
-                    if (node.IsButton == false)
-                    {
-                        node.IsChecked = true;
-                    }
+                    node.IsChecked = true;
                 }
+
+                bool tag = true;
+                //兄弟节点当中有任意一个未选择，则改变标志
                 foreach (TreeViewNode node in selectedNode.ParentNode.ChildNodes)
                 {
-                    if (node.IsButton == false && node.IsChecked == false)
+                    if (node.IsChecked == false)
                     {
-                        node.ParentNode.IsChecked = false;
+                        tag = false;
+                        break;
                     }
+                }
+
+                //根据标志改变父节点选中状态
+                if (tag == true)
+                {
+                    selectedNode.ParentNode.IsChecked = true;
+                }
+                else
+                {
+                    selectedNode.ParentNode.IsChecked = false;
                 }
             }
             else
             {
+                //当自身取消选中时，父节点也取消选中
                 selectedNode.ParentNode.IsChecked = false;
+
+                //当自身选中时，子节点全部进行相应的改变
                 foreach (TreeViewNode node in selectedNode.ChildNodes)
                 {
-                    if (node.IsButton == false)
-                    {
-                        node.IsChecked = false;
-                    }
+                    node.IsChecked = false;
                 }
             }
-            
+
         }
 
         private void Tv_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MyStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:VisibilityConverter x:Key="VisibilityConverter"/>
+            <local:ColorConverter x:Key="ColorConverter"/>
             <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         </ResourceDictionary>
     </Application.Resources>
