@@ -33,7 +33,7 @@ namespace 脸滚键盘.信息卡和窗口
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //遍历词库文件
-            DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourse + "/字表");
+            DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourse + "/语料");
             FileInfo[] thefileInfo = theFolder.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
 
             foreach (FileInfo NextFile in thefileInfo) //遍历文件
@@ -80,11 +80,11 @@ namespace 脸滚键盘.信息卡和窗口
             List<string> surnameList = new List<string>();
             if (valueSurnameReality == 0)
             {
-                surnameList = GetListFormTXT(Gval.Path.Resourse + "/字表/百家姓.txt");
+                surnameList = GetListFormTXT(Gval.Path.Resourse + "/语料/百家姓.txt");
             }
             if (valueSurnameReality == 1)
             {
-                surnameList = GetListFormTXT(Gval.Path.Resourse + "/字表/玄幻百家姓.txt");
+                surnameList = GetListFormTXT(Gval.Path.Resourse + "/语料/玄幻百家姓.txt");
             }
 
             //合并选择的名字字典

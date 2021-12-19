@@ -674,9 +674,9 @@ namespace 脸滚键盘.控件方法类
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
             //更新数据库中临近节点记录集
-            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked{8} where Uid = '{9}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, selectedNode.IsChecked, neighboringNode.Uid);
+            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8} where Uid = '{9}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, selectedNode.IsChecked, neighboringNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked{8} where Uid = '{9}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, neighboringNode.IsChecked, selectedNode.Uid);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8} where Uid = '{9}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, neighboringNode.IsChecked, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);

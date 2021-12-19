@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -13,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using 脸滚键盘.公共操作类;
+using System.Windows.Navigation;
+using System.Reflection;
+using System.Windows.Controls;
 
 namespace 脸滚键盘.信息卡和窗口
 {
@@ -35,31 +37,85 @@ namespace 脸滚键盘.信息卡和窗口
             string ttt = " ";
             string urlStr = "https://www.zdic.net/hans/" + TbHans.Text;
             string htmlText = WebOperate.GetHtmlText(urlStr);
-            //string pattern = "<div class=\"zdict\">([\\s\\S]+)(?=<div class=\"zdict\">)";
-            string pattern = "<main>([\\s\\S]+)</main>";
-            Match matchRet = Regex.Match(htmlText, pattern, RegexOptions.Multiline);
-            string pattern2 = ".*<script([\\s\\S]+?)</script>.*";
-            ttt = Regex.Replace(matchRet.Value, pattern2, "", RegexOptions.Multiline);
-            ttt = Regex.Replace(ttt, "<h2><span class=\"z_ts2\">条目</span> <strong>(.+?)</strong>([\\s\\S]+?)</h2>", "", RegexOptions.Multiline);
-            ttt = Regex.Replace(ttt, "<div id='gg_([\\s\\S]+?)</div>", "", RegexOptions.Multiline);
-            ttt = Regex.Replace(ttt, "<div class=\"nr-box nr-box-shiyi wytl\"([\\s\\S]+?)<div class=\"res_c_right\">", "", RegexOptions.Multiline);
-            ttt = Regex.Replace(ttt, "<div class=\"div copyright\">(.+?)</div>", "</br><hr/></br>", RegexOptions.Multiline);
-            Console.WriteLine(ttt);
-            //MatchCollection matchRets = Regex.Matches(matchRet.Value, pattern2, RegexOptions.Multiline);
-            //
-            //if (matchRets.Count > 0)
-            //{
-            //    foreach (Match item in matchRets)
-            //    {                     
-            //        ttt += item.Value + "\n";
-            //    }
-            //}
-            if (string.IsNullOrWhiteSpace(ttt))
+
+            //htmlText = Regex.Replace(htmlText, "href=\"/style.css\"", "href=\"https://www.zdic.net/style.css\"", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "href=\"/zi.css?v=1.3\"", "href=\"https://www.zdic.net/zi.css?v=1.3\"", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "<script([\\s\\S]+?)</script>", "", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "<footer([\\s\\S]+?)</footer>", "", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "<header([\\s\\S]+?)</header>", "", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "<nav([\\s\\S]+?)</nav>", "", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "<div class='res_c_left res_s res_t'>([\\s\\S]+?)(?=<div class=\"zdict\">)", "", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "<ins([\\s\\S]+?)</ins>", "", RegexOptions.Multiline);
+            //htmlText = Regex.Replace(htmlText, "<div class=\"topslot_container\">([\\s\\S]+?)</div>", "", RegexOptions.Multiline);
+            MatchCollection matches = Regex.Matches(htmlText, "<div class=\"nr-box nr-box-shiyi([\\s\\S]+?)(?=<div class=\"res_c_right\">)");
+            string match1 = string.Empty;
+            if (matches.Count > 0)
             {
-                return;
+                foreach (Match match in matches)
+                {
+                    match1 += match.Value + "</div></div></div></div></div></div></div></div></div></div>";
+                }
+                match1 = Regex.Replace(match1, "<div class=\"nr-box nr-box-shiyi wytl\"([\\s\\S]+)</div>", "", RegexOptions.Multiline);
+                match1 = Regex.Replace(match1, "<div class=\"zi-b-container zib-title\">([\\s\\S]+?)</div>", "", RegexOptions.Multiline);
+                match1 = Regex.Replace(match1, "<div class=\"zi-b-container res_hos res_hot res_hod zib-title\">([\\s\\S]+?)</div>", "", RegexOptions.Multiline);
+                match1 = Regex.Replace(match1, "<ins([\\s\\S]+?)</ins>", "", RegexOptions.Multiline);
+                match1 = Regex.Replace(match1, "<div class=\"h_line(.+?)</div>", "<hr/><hr/>", RegexOptions.Multiline);
             }
-            webBrowser.NavigateToString(WebOperate.ConvertExtendedASCII(ttt));
+            //Match match2 = Regex.Match(htmlText, "<div class=\"res_c_right\">([\\s\\S]+?)(?=</main>)");
+            htmlText = Regex.Replace(htmlText, "<head([\\s\\S]+?)</head>", "<head><meta charset=\"utf-8\"><link type=\"text/css\" rel=\"stylesheet\" media=\"screen\" href=\"https://www.zdic.net/style.css\" /></head>", RegexOptions.Multiline);
+            htmlText = Regex.Replace(htmlText, "<body([\\s\\S]+?)</body>", match1, RegexOptions.Multiline);
+            htmlText = Regex.Replace(htmlText, "=\"//img.zdic.net/", "=\"https://img.zdic.net/", RegexOptions.Multiline);
+            htmlText = Regex.Replace(htmlText, "='//img.zdic.net/", "='https://img.zdic.net/", RegexOptions.Multiline);
+            
+            if (string.IsNullOrWhiteSpace(htmlText))
+            {
+                webBrowser.Navigate("about:blank");
+            }
+
+            webBrowser.NavigateToString(htmlText);
+            webBrowser.AllowDrop = false;
         }
+
+
+        #region 浏览器加载过程中：屏蔽弹出脚本错误窗口
+        public void SuppressScriptErrors(WebBrowser webBrowser, bool Hide)
+        {
+            FieldInfo fiComWebBrowser = typeof(WebBrowser).GetField("_axIWebBrowser2", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (fiComWebBrowser == null) return;
+
+            object objComWebBrowser = fiComWebBrowser.GetValue(webBrowser);
+            if (objComWebBrowser == null) return;
+
+            objComWebBrowser.GetType().InvokeMember("Silent", BindingFlags.SetProperty, null, objComWebBrowser, new object[] { Hide });
+        }
+        void webBrowser1_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            SuppressScriptErrors(webBrowser, true);
+        }
+
+        /// <summary>
+        /// 在浏览器加载时绑定扩展方法
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void webBrowser_Loaded(object sender, RoutedEventArgs e)
+        {
+            webBrowser.Navigating += webBrowser1_Navigating;
+        }
+
+        //导航中
+        private void webBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+
+        }
+
+        //导航完成
+        private void webBrowser_Navigated(object sender, NavigationEventArgs e)
+        {
+           
+        }
+        #endregion
+
 
         private void TbHans_KeyDown(object sender, KeyEventArgs e)
         {
@@ -68,5 +124,7 @@ namespace 脸滚键盘.信息卡和窗口
                 BtnGet.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
+
+
     }
 }

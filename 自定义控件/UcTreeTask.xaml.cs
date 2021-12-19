@@ -90,9 +90,9 @@ namespace 脸滚键盘.自定义控件
         private void icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TreeViewNode selectedNode = (sender as Image).DataContext as TreeViewNode;
-            if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
+            if (selectedNode != null)
             {
-                selectedNode.IsExpanded = !selectedNode.IsExpanded;
+
             }
         }
 
@@ -152,48 +152,17 @@ namespace 脸滚键盘.自定义控件
 
             if (selectedNode != null)
             {
-                if (selectedNode.IsButton == true)
-                {
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                    AddNodeBySql(CurBookName, TypeOfTree, newNode);
-                    newNode.IsSelected = true;
-                    //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
-                    //showNameTextBox.Visibility = Visibility.Hidden;
-                    //reNameTextBox.Text = newNode.NodeName;
-                    //reNameTextBox.SelectAll();
-                    //reNameTextBox.Visibility = Visibility.Visible;
-                    //reNameTextBox.Focus();
-                }
-                else
-                {
-                    if (selectedNode.IsDir == true)
-                    {
-                        selectedNode.IsExpanded = !selectedNode.IsExpanded;
-                        //string tableName = TypeOfTree;
-                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                        //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
-                        //sqlConn.ExecuteNonQuery(sql);
-                        //sqlConn.Close();
-                    }
-                    else
-                    {
-                        //双击选中节点，尝试进入编辑状态
-                        //CurNode = selectedNode;
+                //对抗双击引起的双击/展开
+                selectedNode.IsExpanded = !selectedNode.IsExpanded;
 
-                        //Gval.ucEditor.CurNodeName = selectedItem.Name;
-
-                        //获取节点对应的路径
-                        string nodePath = GetPath(selectedNode);
-                        Console.WriteLine(nodePath);
-                    }
-                    CheckBox Ck = FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
-                    if (Ck.IsChecked == false)
-                    {
-                        TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-                        TbReName.SelectAll();
-                        TbReName.Visibility = Visibility.Visible;
-                        TbReName.Focus();
-                    }
+                //尝试进入编辑状态
+                CheckBox Ck = FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
+                if (Ck.IsChecked == false)
+                {
+                    TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                    TbReName.SelectAll();
+                    TbReName.Visibility = Visibility.Visible;
+                    TbReName.Focus();
                 }
             }
         }

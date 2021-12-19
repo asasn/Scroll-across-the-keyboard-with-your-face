@@ -349,40 +349,40 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\全唐诗字库.txt">
+    <None Include="Resourse\语料\全唐诗字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\千字文字库.txt">
+    <None Include="Resourse\语料\千字文字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\玄幻百家姓.txt">
+    <None Include="Resourse\语料\玄幻百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\百家姓.txt">
+    <None Include="Resourse\语料\百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\周易字库.txt">
+    <None Include="Resourse\语料\周易字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\字表\诗经字库.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourse\字表\楚辞字库.txt">
+    <None Include="Resourse\语料\诗经字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\字表\女性化字库.txt">
+    <None Include="Resourse\语料\楚辞字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourse\语料\女性化字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

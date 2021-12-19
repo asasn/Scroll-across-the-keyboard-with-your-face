@@ -266,10 +266,8 @@ namespace 脸滚键盘.自定义控件
                     }
                     else
                     {
-                        //双击选中节点，尝试进入编辑状态
-                        //CurNode = selectedNode;
-
-                        //Gval.ucEditor.CurNodeName = selectedItem.Name;
+                        //非目录节点：手动进行一个改变，对抗双击引起的双击/展开
+                        selectedNode.IsExpanded = !selectedNode.IsExpanded;
 
                         //获取节点对应的路径
                         string nodePath = GetPath(selectedNode);
