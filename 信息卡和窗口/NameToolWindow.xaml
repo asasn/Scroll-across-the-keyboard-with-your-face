@@ -10,90 +10,22 @@
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
             <GroupBox Grid.Row="0" Style="{StaticResource BaseStyle}" Header="姓氏">
-                <Grid Height="90">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"/>
-                        <ColumnDefinition Width="50*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50*"/>
-                        <RowDefinition Height="50*"/>
-                        <RowDefinition Height="50*"/>
-                    </Grid.RowDefinitions>
-                    <Grid x:Name="GridSurnameLength" Grid.ColumnSpan="2" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50*"/>
-                            <ColumnDefinition Width="50*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Row="0" Grid.Column="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="单姓：" HorizontalAlignment="Left" Width="38"/>
-                            <RadioButton x:Name="rbSurname0" GroupName="length" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
-                        </Grid>
-                        <Grid Grid.Row="0" Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="复姓：" HorizontalAlignment="Left" Width="38"/>
-                            <RadioButton x:Name="rbSurname1" GroupName="length" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Grid>
-                    <Grid x:Name="GridSurnameReality" Grid.Row="1" Grid.ColumnSpan="2" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50*"/>
-                            <ColumnDefinition Width="50*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Row="1" Grid.Column="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="现实：" HorizontalAlignment="Left" Width="38"/>
-                            <RadioButton x:Name="rbSurname2" GroupName="reality" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
-                        </Grid>
-                        <Grid Grid.Row="1" Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="虚造：" HorizontalAlignment="Left" Width="38"/>
-                            <RadioButton x:Name="rbSurname3" GroupName="reality" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Grid>
-                    <Grid x:Name="GridSurnameSet" Grid.Row="2" Grid.ColumnSpan="2" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50*"/>
-                            <ColumnDefinition Width="50*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Row="2" Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="指定：" HorizontalAlignment="Left" Width="38"/>
-                            <TextBox x:Name="tbSurname" Padding="0" Grid.Column="1" MinHeight="0"/>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </GroupBox>
-            <GroupBox Grid.Row="1" Style="{StaticResource BaseStyle}" Header="名字">
-                <Grid Height="60">
+                <Grid x:Name="GridSurname" Height="50" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50*"/>
                         <ColumnDefinition Width="50*"/>
@@ -102,66 +34,146 @@
                         <RowDefinition Height="50*"/>
                         <RowDefinition Height="50*"/>
                     </Grid.RowDefinitions>
-                    <Grid x:Name="GridNameLength" Grid.ColumnSpan="2">
-                                      <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50*"/>
-                                <ColumnDefinition Width="50*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Row="0" Grid.Column="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="单字：" HorizontalAlignment="Left" Width="38"/>
-                            <RadioButton x:Name="rbName0" GroupName="name" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
-                        </Grid>
-                        <Grid Grid.Row="0" Grid.Column="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="100*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="双字：" HorizontalAlignment="Left" Width="38"/>
-                            <RadioButton x:Name="rbName1" GroupName="name" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="单姓：" HorizontalAlignment="Left" Width="38"/>
+                        <RadioButton x:Name="rbSurname0" GroupName="surname" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
                     </Grid>
-                    <Grid x:Name="GridNameLengthSet" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="复姓：" HorizontalAlignment="Left" Width="38"/>
+                        <RadioButton x:Name="rbSurname1" GroupName="surname" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="特殊：" HorizontalAlignment="Left" Width="38"/>
+                        <RadioButton x:Name="rbSurname2" GroupName="surname" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="指定：" HorizontalAlignment="Left" Width="38"/>
+                        <TextBox x:Name="tbSurname" Padding="0" Grid.Column="1" MinHeight="0"/>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Style="{StaticResource BaseStyle}" Header="名字 - 其一">
+                <Grid x:Name="GridNameFirst" Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50*"/>
+                        <RowDefinition Height="50*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="启用：" HorizontalAlignment="Left" Width="38"/>
+                        <CheckBox x:Name="ckbName1" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
+                    </Grid>
+                    <Grid x:Name="GridNameFirstSet" Grid.Row="2" Grid.ColumnSpan="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50*"/>
                             <ColumnDefinition Width="50*"/>
                         </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="1">
+                        <Grid Grid.Column="1" IsEnabled="{Binding IsChecked, ElementName=ckbName1}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="100*"/>
                             </Grid.ColumnDefinitions>
                             <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="指定：" HorizontalAlignment="Left" Width="38"/>
-                            <TextBox x:Name="tbName" Padding="0" Grid.Column="1" MinHeight="0"/>
+                            <TextBox x:Name="tbNameFirst" Padding="0" Grid.Column="1" MinHeight="0"/>
                         </Grid>
                     </Grid>
-                    
                 </Grid>
             </GroupBox>
-            <GroupBox x:Name="GboxWordBank" Grid.Row="3" Style="{StaticResource BaseStyle}" Header="挂接词库">
-                <Grid>
-                    <ScrollViewer>
-                        <WrapPanel x:Name="WpWordBank"></WrapPanel>
-                    </ScrollViewer>
+            <GroupBox Grid.Row="2" Style="{StaticResource BaseStyle}" Header="名字 - 其二">
+                <Grid x:Name="GridNameSecond" Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50*"/>
+                        <RowDefinition Height="50*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="启用：" HorizontalAlignment="Left" Width="38"/>
+                        <CheckBox x:Name="ckbName2" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsChecked, ElementName=ckbName2}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="重叠：" HorizontalAlignment="Left" Width="38"/>
+                        <CheckBox x:Name="ckbNameRepeat" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid x:Name="GridNameSecondSet" Grid.Row="2" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="50*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="1" IsEnabled="{Binding IsChecked, ElementName=ckbName2}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="100*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="指定：" HorizontalAlignment="Left" Width="38"/>
+                            <TextBox x:Name="tbNameSecond" Padding="0" Grid.Column="1" MinHeight="0"/>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </GroupBox>
         </Grid>
         <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100*"/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
             <ScrollViewer>
                 <WrapPanel x:Name="WpResults"/>
             </ScrollViewer>
-            <Button x:Name="TbGenerate"  Content="生成" Width="75" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,30,0" Click="TbGenerate_Click"/>
-            <WebBrowser x:Name="webBrowser" Visibility="Hidden"/>
-            <WrapPanel Name="WpShowWord" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="100">
-            </WrapPanel>
         </Grid>
-
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+            <GroupBox x:Name="GboxSurnameBank" Style="{StaticResource BaseStyle}" Header="挂接词库 - 姓氏" >
+                <Grid>
+                    <ScrollViewer>
+                        <WrapPanel x:Name="WpSurnameBank"></WrapPanel>
+                    </ScrollViewer>
+                </Grid>
+            </GroupBox>
+            <GroupBox x:Name="GboxNameBank" Grid.Row="1" Style="{StaticResource BaseStyle}" Header="挂接词库 - 名字" >
+                <Grid >
+                    <ScrollViewer>
+                        <WrapPanel x:Name="WpNameBank"></WrapPanel>
+                    </ScrollViewer>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        <Button x:Name="TbGenerate" Content="生成" Width="75" Grid.Row="1" HorizontalAlignment="Center" Click="TbGenerate_Click" Grid.Column="2"/>
+        <WebBrowser x:Name="webBrowser"  Visibility="Hidden" Grid.Column="1"/>
+        <WrapPanel Name="WpShowWord" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="100" Grid.Column="1">
+        </WrapPanel>
     </Grid>
 </Window>

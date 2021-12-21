@@ -15,6 +15,7 @@ using 脸滚键盘.公共操作类;
 using System.Windows.Navigation;
 using System.Reflection;
 using System.Windows.Controls;
+using mshtml;
 
 namespace 脸滚键盘.信息卡和窗口
 {
@@ -34,8 +35,36 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return;
             }
-            string ttt = " ";
-            string urlStr = "https://www.zdic.net/hans/" + TbHans.Text;
+            string urlZdic = "https://www.zdic.net/hans/" + TbHans.Text;
+            string urlBaidu = "https://baike.baidu.com/item/" + TbHans.Text + "?force=1";
+            NavigateZdicToString(urlZdic);
+        }
+
+        void Navigate(string urlStr)
+        {
+            webBrowser.Navigate(new Uri(urlStr)); ;
+        }
+
+        void NavigateBaikeToString(string urlStr)
+        {
+            string htmlText = WebOperate.GetHtmlText(urlStr);
+            MatchCollection matches = Regex.Matches(htmlText, "<div class=\"content\">([\\s\\S]+?)(?=<div class=\"side-content\">)");
+            string match1 = string.Empty;
+            if (matches.Count > 0)
+            {
+                foreach (Match match in matches)
+                {
+                    match1 += match.Value + "</div></div></div></div></div></div></div></div></div></div>";
+                }
+                match1 = Regex.Replace(match1, "<div class=\"nr-box nr-box-shiyi wytl\"([\\s\\S]+)</div>", "", RegexOptions.Multiline);
+            }
+            htmlText = Regex.Replace(htmlText, "<body([\\s\\S]+?)</body>", "<body>" + match1 + "</body>", RegexOptions.Multiline);
+            htmlText = Regex.Replace(htmlText, "href=\"/item/", "href=\"https://baike.baidu.com/item/", RegexOptions.Multiline);
+            NavigateToString(htmlText);
+        }
+
+        void NavigateZdicToString(string urlStr) 
+        {
             string htmlText = WebOperate.GetHtmlText(urlStr);
 
             //htmlText = Regex.Replace(htmlText, "href=\"/style.css\"", "href=\"https://www.zdic.net/style.css\"", RegexOptions.Multiline);
@@ -59,21 +88,26 @@ namespace 脸滚键盘.信息卡和窗口
                 match1 = Regex.Replace(match1, "<div class=\"zi-b-container zib-title\">([\\s\\S]+?)</div>", "", RegexOptions.Multiline);
                 match1 = Regex.Replace(match1, "<div class=\"zi-b-container res_hos res_hot res_hod zib-title\">([\\s\\S]+?)</div>", "", RegexOptions.Multiline);
                 match1 = Regex.Replace(match1, "<ins([\\s\\S]+?)</ins>", "", RegexOptions.Multiline);
-                match1 = Regex.Replace(match1, "<div class=\"h_line(.+?)</div>", "<hr/><hr/>", RegexOptions.Multiline);
+                match1 = Regex.Replace(match1, "<div class=\"h_line(.+?)</div>", "<hr/><br/>", RegexOptions.Multiline);
             }
             //Match match2 = Regex.Match(htmlText, "<div class=\"res_c_right\">([\\s\\S]+?)(?=</main>)");
             htmlText = Regex.Replace(htmlText, "<head([\\s\\S]+?)</head>", "<head><meta charset=\"utf-8\"><link type=\"text/css\" rel=\"stylesheet\" media=\"screen\" href=\"https://www.zdic.net/style.css\" /></head>", RegexOptions.Multiline);
-            htmlText = Regex.Replace(htmlText, "<body([\\s\\S]+?)</body>", match1, RegexOptions.Multiline);
+            htmlText = Regex.Replace(htmlText, "<body([\\s\\S]+?)</body>", "<body>" + match1 + "</body>", RegexOptions.Multiline);
             htmlText = Regex.Replace(htmlText, "=\"//img.zdic.net/", "=\"https://img.zdic.net/", RegexOptions.Multiline);
             htmlText = Regex.Replace(htmlText, "='//img.zdic.net/", "='https://img.zdic.net/", RegexOptions.Multiline);
+
+            NavigateToString(htmlText);
             
+        }
+
+        void NavigateToString(string htmlText)
+        {
             if (string.IsNullOrWhiteSpace(htmlText))
             {
                 webBrowser.Navigate("about:blank");
             }
 
             webBrowser.NavigateToString(htmlText);
-            webBrowser.AllowDrop = false;
         }
 
 
@@ -112,7 +146,7 @@ namespace 脸滚键盘.信息卡和窗口
         //导航完成
         private void webBrowser_Navigated(object sender, NavigationEventArgs e)
         {
-           
+            WebBrowser wb = (WebBrowser)sender;
         }
         #endregion
 
