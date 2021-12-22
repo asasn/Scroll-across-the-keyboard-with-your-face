@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,48 +31,146 @@ namespace 脸滚键盘.信息卡和窗口
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 事件：窗口载入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //遍历词库文件
-            DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourse + "/语料");
-            FileInfo[] thefileInfo = theFolder.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
+            WpSurnameBank.Children.Clear();
+            WpNameBank.Children.Clear();
 
-            foreach (FileInfo NextFile in thefileInfo) //遍历文件
+            string styleName = GetCheckedBoxUidName(GridStyle);
+            SetStyle(styleName);
+        }
+
+        CheckBox AddBank(WrapPanel wpParent, string name, FileInfo NextFile)
+        {
+            WrapPanel wp = new WrapPanel() { Width = 200, Name = name, Uid = NextFile.FullName };
+            CheckBox ckBox = new CheckBox() { Name = name };
+            ckBox.Checked += CkBox_Checked;
+            ckBox.Unchecked += CkBox_Unchecked;
+
+            wp.Children.Add(ckBox);
+            wp.Children.Add(new Label() { Content = name, BorderThickness = new Thickness(), Background = (Brush)new BrushConverter().ConvertFromString("#f5f5f5") });
+            wpParent.Children.Add(wp);
+
+            return ckBox;
+        }
+
+        /// <summary>
+        /// 挂接词库组（根据输入标志进行选择）
+        /// </summary>
+        /// <param name="styleName"></param>
+        void SetStyle(string styleName)
+        {
+            if (WpSurnameBank != null && WpNameBank != null)
             {
-                string name = System.IO.Path.GetFileNameWithoutExtension(NextFile.FullName);
-                if (name.Contains("百家姓"))
+                //遍历词库文件
+                DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourse + "/语料");
+                FileInfo[] thefileInfo = theFolder.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
+                WpSurnameBank.Children.Clear();
+                WpNameBank.Children.Clear();
+                foreach (FileInfo NextFile in thefileInfo) //遍历文件
                 {
-                    WrapPanel wp = new WrapPanel() { Width = 200, Name = name, Uid = NextFile.FullName };
-                    CheckBox ckBox = new CheckBox() { Name = name };
-                    ckBox.Checked += CkBox_Checked;
-                    ckBox.Unchecked += CkBox_Unchecked;
+                    string name = System.IO.Path.GetFileNameWithoutExtension(NextFile.FullName);
 
-                    wp.Children.Add(ckBox);
-                    wp.Children.Add(new Label() { Content = name, BorderThickness = new Thickness(), Background = (Brush)new BrushConverter().ConvertFromString("#f5f5f5") });
-                    WpSurnameBank.Children.Add(wp);
-
-                    if (name.Contains("常见"))
+                    if (styleName == "常规" && false == (name.Contains("前缀") || name.Contains("后缀")))
                     {
-                        ckBox.IsChecked = true;
+                        if (name.Contains("百家姓"))
+                        {
+                            CheckBox ckBox = AddBank(WpSurnameBank, name, NextFile);
+
+                            if (name.Contains("常见"))
+                            {
+                                ckBox.IsChecked = true;
+                            }
+                        }
+                        else
+                        {
+                            CheckBox ckBox = AddBank(WpNameBank, name, NextFile);
+
+                            if (name.Contains("常用字2500"))
+                            {
+                                ckBox.IsChecked = true;
+                            }
+                        }
                     }
-                }
-                else
-                {
-                    WrapPanel wp = new WrapPanel() { Width = 200, Name = name, Uid = NextFile.FullName };
-                    CheckBox ckBox = new CheckBox() { Name = name };
-                    ckBox.Checked += CkBox_Checked;
-                    ckBox.Unchecked += CkBox_Unchecked;
-
-                    wp.Children.Add(ckBox);
-                    wp.Children.Add(new Label() { Content = name, BorderThickness = new Thickness(), Background = (Brush)new BrushConverter().ConvertFromString("#f5f5f5") });
-                    WpNameBank.Children.Add(wp);
-
-                    if (name.Contains("常用字2500"))
+                    else
                     {
-                        ckBox.IsChecked = true;
+                        if (name.Contains(styleName) || name.Contains("周易") || name.Contains("千字文"))
+                        {
+                            if (name.Contains("前缀") || name.Contains("周易") || name.Contains("千字文"))
+                            {
+                                CheckBox ckBox = AddBank(WpSurnameBank, name, NextFile);
+
+                                if (name.Contains("周易"))
+                                {
+                                    ckBox.IsChecked = true;
+                                }
+                            }
+                            if (name.Contains("后缀"))
+                            {
+                                CheckBox ckBox = AddBank(WpNameBank, name, NextFile);
+
+                                if (name.Contains("后缀"))
+                                {
+                                    ckBox.IsChecked = true;
+                                }
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 事件：姓氏长度（单姓/复姓）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rbSurname_Checked(object sender, RoutedEventArgs e)
+        {
+            if (cbSurnameLength != null)
+            {
+                int v = GetCheckedBoxID(GridSurname);
+                if (v == 0)
+                {
+                    cbSurnameLength.SelectedIndex = 1;
+                }
+                if (v == 1)
+                {
+                    cbSurnameLength.SelectedIndex = 2;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 事件：前缀长度
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbSurnameLength_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbSurnameLength.SelectedIndex == 1)
+            {
+                rbSurname0.IsChecked = true;
+            }
+            if (cbSurnameLength.SelectedIndex == 2)
+            {
+                rbSurname1.IsChecked = true;
+            }
+        }
+        /// <summary>
+        /// 事件：风格选项选中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RadioButtonStyle_Checked(object sender, RoutedEventArgs e)
+        {
+            string styleName = GetCheckedBoxUidName(GridStyle);
+            SetStyle(styleName);
         }
 
         /// <summary>
@@ -105,7 +204,7 @@ namespace 脸滚键盘.信息卡和窗口
             lb.Content = ckBox.Name;
         }
 
-        List<string> GetListFromBank(WrapPanel wpBank)
+        List<string> GetListFromBanks(WrapPanel wpBank)
         {
             List<List<string>> nameLists = new List<List<string>>();
             foreach (WrapPanel wp in wpBank.Children)
@@ -131,18 +230,12 @@ namespace 脸滚键盘.信息卡和窗口
         {
             //结果列表初始化
             WpResults.Children.Clear();
-            List<string> surnameList = GetListFromBank(WpSurnameBank);
-            List<string> nameList = GetListFromBank(WpNameBank);
-
-            //获取姓氏选项值
-            int valueSurname = GetCheckedBoxID(GridSurname);
-
-            //获取名字选择值
-            int isNameSecond = GetCheckedBoxID(GridNameSecond);
+            List<string> surnameList = GetListFromBanks(WpSurnameBank);
+            List<string> nameList = GetListFromBanks(WpNameBank);
 
             for (int i = 0; i < 80; i++)
             {
-                GenerateWpItems(valueSurname, isNameSecond, surnameList, nameList);
+                GenerateWpItems(surnameList, nameList);
             }
 
             webBrowser.Visibility = Visibility.Hidden;
@@ -153,23 +246,44 @@ namespace 脸滚键盘.信息卡和窗口
         /// </summary>
         /// <param name="valueSurname"></param>
         /// <param name="valueName"></param>
-        void GenerateWpItems(int valueSurname, int valueName, List<string> surnameList, List<string> nameList)
+        void GenerateWpItems(List<string> surnameList, List<string> nameList)
         {
-            //生成姓氏
             string surname = string.Empty;
-
-            //生成名字
             string name = string.Empty;
 
-            surname = GetSurname(valueSurname, surnameList);
-            if (nameList.Count == 0)
+
+            if (rbStyleNormal.IsChecked == true)
             {
-                name = GetAName(valueName + 1);
+                surname = GetSurname(surnameList);
+                if (nameList.Count == 0)
+                {
+                    //这个是GB2312字库开关，旨在未选择词库时是否仍然能够随即选择一个汉字
+                    //name = GetAName();
+                }
+                else
+                {
+                    name = GetAName(nameList);
+                }
             }
             else
             {
-                name = GetAName(valueName + 1, nameList);
+                //姓和名倒置，作为前后缀风格，比如xx真人
+                surname = GetAName(surnameList);
+                if (ckbSuffix.IsChecked == true)
+                {
+                    if (string.IsNullOrWhiteSpace(tbSuffix.Text))
+                    {
+                        name = GetSurname(nameList);
+                    }
+                    else
+                    {
+                        name = tbSuffix.Text;
+                    }
+                }
             }
+
+
+
             //生成新文本框
             TextBox tb = new TextBox() { IsReadOnly = true, Text = surname + name, Margin = new Thickness(2) };
             tb.GotFocus += Tb_GotFocus;
@@ -186,44 +300,52 @@ namespace 脸滚键盘.信息卡和窗口
         /// <param name="length"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        string GetAName(int length, string encoding = "GB2312")
+        string GetAName(string encoding = "GB2312")
         {
-            string name = string.Empty;
             string name1 = string.Empty;
+            string name2 = string.Empty;
 
             if (ckbName1.IsChecked == true)
             {//名字·其一
                 if (string.IsNullOrWhiteSpace(tbNameFirst.Text))
                 {
-                    name1 = name += GenerateChineseWords(encoding);
+                    while (name1.Length < cbName1Length.SelectedIndex)
+                    {
+                        name1 += GenerateChineseWords(encoding);
+                    };
+
                 }
                 else
                 {
-                    name1 = name += tbNameFirst.Text;
+                    name1 = tbNameFirst.Text;
                 }
             }
 
             //名字·其二
             if (ckbName2.IsChecked == true)
             {
-                if (ckbNameRepeat.IsChecked == true)
+                if (string.IsNullOrWhiteSpace(tbNameSecond.Text))
                 {
-                    name += name1;
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(tbNameSecond.Text))
+                    if (ckbNameRepeat.IsChecked == true)
                     {
-                        name += GenerateChineseWords(encoding);
+                        name2 = name1;
                     }
                     else
                     {
-                        name += tbNameSecond.Text;
+                        while (name2.Length < cbName2Length.SelectedIndex)
+                        {
+                            name2 += GenerateChineseWords(encoding);
+                        };
+
                     }
+                }
+                else
+                {
+                    name2 = tbNameSecond.Text;
                 }
             }
 
-            return name;
+            return name1 + name2;
         }
 
         /// <summary>
@@ -232,45 +354,57 @@ namespace 脸滚键盘.信息卡和窗口
         /// <param name="length"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        string GetAName(int length, List<string> myList)
+        string GetAName(List<string> myList)
         {
-            string name = string.Empty;
+            if (myList.Count == 0)
+            {
+                return string.Empty;
+            }
+
             string name1 = string.Empty;
+            string name2 = string.Empty;
 
             //名字·其一
             if (ckbName1.IsChecked == true)
             {
                 if (string.IsNullOrWhiteSpace(tbNameFirst.Text))
                 {
-                    name1 = name += GetStringFromList(myList);
+                    while (name1.Length < cbName1Length.SelectedIndex)
+                    {
+                        name1 += GetStringFromList(myList);
+                    };
                 }
                 else
                 {
-                    name1 = name += tbNameFirst.Text;
+                    name1 = tbNameFirst.Text;
                 }
             }
 
             //名字·其二
             if (ckbName2.IsChecked == true)
             {
-                if (ckbNameRepeat.IsChecked == true)
+                if (string.IsNullOrWhiteSpace(tbNameSecond.Text))
                 {
-                    name += name1;
-                }
-                else
-                {
-                    if (string.IsNullOrWhiteSpace(tbNameSecond.Text))
+                    if (ckbNameRepeat.IsChecked == true)
                     {
-                        name += GetStringFromList(myList);
+                        name2 = name1;
                     }
                     else
                     {
-                        name += tbNameSecond.Text;
+                        while (name2.Length < cbName2Length.SelectedIndex)
+                        {
+                            name2 += GetStringFromList(myList);
+                        };
+
                     }
+                }
+                else
+                {
+                    name2 = tbNameSecond.Text;
                 }
             }
 
-            return name;
+            return name1 + name2;
         }
 
         /// <summary>
@@ -401,42 +535,62 @@ namespace 脸滚键盘.信息卡和窗口
             return t;
         }
 
+        /// <summary>
+        /// 获取选中的Uid（标记名称）
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <returns></returns>
+        string GetCheckedBoxUidName(UIElement uIElement)
+        {
+            List<RadioButton> rbList = FindChirldHelper.FindVisualChild<RadioButton>(uIElement);
+            foreach (RadioButton rb in rbList)
+            {
+                if (rb.IsChecked == true)
+                {
+                    return rb.Uid;
+                }
+            }
+            return string.Empty;
+        }
 
         /// <summary>
         /// 生成姓氏（前缀）
         /// </summary>
         /// <returns></returns>
-        public string GetSurname(int valueSurname, List<string> myList)
+        public string GetSurname(List<string> myList)
         {
             if (myList.Count == 0)
             {
                 return string.Empty;
             }
 
-            int length = 1;
-            if (valueSurname == 2)
-            {
-                //特殊选项
-            }
-            else
-            {
-                if (valueSurname == 1)
-                {
-                    length = 2;
-                }
-            }
             string surname = string.Empty;
-            if (string.IsNullOrWhiteSpace(tbSurname.Text))
+
+            if (tbSurname.IsEnabled == true && false == string.IsNullOrWhiteSpace(tbSurname.Text))
             {
-                do
+                surname += tbSurname.Text;
+            }
+            if (ckbSuffix.IsChecked == true && false == string.IsNullOrWhiteSpace(tbSuffix.Text))
+            {
+                surname += tbSuffix.Text;
+            }
+            if (false == string.IsNullOrWhiteSpace(surname))
+            {
+                return surname;
+            }
+
+            if (rbStyleNormal.IsChecked == true)
+            {
+                while (surname.Length != cbSurnameLength.SelectedIndex)
                 {
                     surname = GetStringFromList(myList);
-                } while (surname.Length != length);
+                };
             }
             else
             {
-                surname = tbSurname.Text;
+                surname = GetStringFromList(myList);
             }
+
             return surname;
         }
 
