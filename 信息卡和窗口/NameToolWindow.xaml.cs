@@ -126,43 +126,6 @@ namespace 脸滚键盘.信息卡和窗口
         }
 
         /// <summary>
-        /// 事件：姓氏长度（单姓/复姓）
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rbSurname_Checked(object sender, RoutedEventArgs e)
-        {
-            if (cbSurnameLength != null)
-            {
-                int v = GetCheckedBoxID(GridSurname);
-                if (v == 0)
-                {
-                    cbSurnameLength.SelectedIndex = 1;
-                }
-                if (v == 1)
-                {
-                    cbSurnameLength.SelectedIndex = 2;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 事件：前缀长度
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbSurnameLength_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cbSurnameLength.SelectedIndex == 1)
-            {
-                rbSurname0.IsChecked = true;
-            }
-            if (cbSurnameLength.SelectedIndex == 2)
-            {
-                rbSurname1.IsChecked = true;
-            }
-        }
-        /// <summary>
         /// 事件：风格选项选中
         /// </summary>
         /// <param name="sender"></param>
@@ -566,31 +529,34 @@ namespace 脸滚键盘.信息卡和窗口
 
             string surname = string.Empty;
 
-            if (tbSurname.IsEnabled == true && false == string.IsNullOrWhiteSpace(tbSurname.Text))
+            if (ckbSurname.IsChecked == true)
             {
-                surname += tbSurname.Text;
-            }
-            if (ckbSuffix.IsChecked == true && false == string.IsNullOrWhiteSpace(tbSuffix.Text))
-            {
-                surname += tbSuffix.Text;
-            }
-            if (false == string.IsNullOrWhiteSpace(surname))
-            {
-                return surname;
-            }
+                if (tbSurname.IsEnabled == true && false == string.IsNullOrWhiteSpace(tbSurname.Text))
+                {
+                    surname += tbSurname.Text;
+                }
+                if (ckbSuffix.IsChecked == true && false == string.IsNullOrWhiteSpace(tbSuffix.Text))
+                {
+                    surname += tbSuffix.Text;
+                }
+                if (false == string.IsNullOrWhiteSpace(surname))
+                {
+                    return surname;
+                }
 
-            if (rbStyleNormal.IsChecked == true)
-            {
-                while (surname.Length != cbSurnameLength.SelectedIndex)
+                if (rbStyleNormal.IsChecked == true)
+                {
+                    while (surname.Length != cbSurnameLength.SelectedIndex)
+                    {
+                        surname = GetStringFromList(myList);
+                    };
+                }
+                else
                 {
                     surname = GetStringFromList(myList);
-                };
+                }
             }
-            else
-            {
-                surname = GetStringFromList(myList);
-            }
-
+            
             return surname;
         }
 

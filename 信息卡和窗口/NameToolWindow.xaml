@@ -36,29 +36,21 @@
                         <RowDefinition Height="50*"/>
                         <RowDefinition Height="50*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Grid.Column="0" IsEnabled="{Binding IsChecked, ElementName=ckbSurname}">
+                    <Grid Grid.Row="0" Grid.Column="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="单姓：" HorizontalAlignment="Left" Width="38"/>
-                        <RadioButton x:Name="rbSurname0" GroupName="surname" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True" Checked="rbSurname_Checked"/>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="启用：" HorizontalAlignment="Left" Width="38"/>
+                        <CheckBox x:Name="ckbSurname" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
                     </Grid>
-                    <Grid Grid.Row="0" Grid.Column="1" IsEnabled="{Binding IsChecked, ElementName=ckbSurname}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="复姓：" HorizontalAlignment="Left" Width="38"/>
-                        <RadioButton x:Name="rbSurname1" GroupName="surname" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="rbSurname_Checked"/>
-                    </Grid>
-                    <Grid Grid.Row="1" Grid.Column="0" IsEnabled="{Binding IsChecked, ElementName=rbStyleNormal,Converter={StaticResource Boolean2BooleanReConverter}}">
+                    <Grid Grid.Row="1" Grid.Column="0" IsEnabled="{Binding IsChecked, ElementName=rbStyleNormal}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="长度：" HorizontalAlignment="Left" Width="38"/>
-                        <ComboBox x:Name="cbSurnameLength" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="1" SelectionChanged="cbSurnameLength_SelectionChanged">
+                        <ComboBox x:Name="cbSurnameLength" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="1">
                             <TextBlock Text="0"/>
                             <TextBlock Text="1"/>
                             <TextBlock Text="2"/>
@@ -130,7 +122,7 @@
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="启用：" HorizontalAlignment="Left" Width="38"/>
-                        <CheckBox x:Name="ckbName2" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsChecked, ElementName=rbStyleHonor, Mode=OneWay}"/>
+                        <CheckBox x:Name="ckbName2" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsChecked, ElementName=rbStyleNormal,Converter={StaticResource Boolean2BooleanReConverter}, Mode=OneWay}"/>
                     </Grid>
                     <Grid Grid.Row="1" Grid.Column="0" IsEnabled="{Binding IsChecked, ElementName=ckbName2}">
                         <Grid.ColumnDefinitions>
@@ -178,7 +170,7 @@
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="启用：" HorizontalAlignment="Left" Width="38"/>
-                        <CheckBox x:Name="ckbSuffix" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsChecked, ElementName=rbStyleHonor,Mode=OneWay}"/>
+                        <CheckBox x:Name="ckbSuffix" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsChecked, ElementName=rbStyleNormal,Converter={StaticResource Boolean2BooleanReConverter}, Mode=OneWay}"/>
                     </Grid>
                     <Grid Grid.Row="2" Grid.Column="1" x:Name="GridSuffixSet" IsEnabled="{Binding IsChecked, ElementName=ckbSuffix}">
                         <Grid.ColumnDefinitions>
