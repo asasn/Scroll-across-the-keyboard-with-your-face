@@ -65,10 +65,16 @@
                             <ColumnDefinition Width="40*"/>
                         </Grid.ColumnDefinitions>
                         <Button Padding="0" x:Name="NameTool" Click="NameTool_Click" ToolTip="起名工具">
-                            <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_user.png"/>
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_user.png"/>
                         </Button>
                         <Button Padding="0" Grid.Column="1" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
-                            <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_search.png"/>
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_search.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="章节内容提炼">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_lab.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Column="6" x:Name="BooksChoose" Click="BooksChoose_Click" ToolTip="书籍选择">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_book.png"/>
                         </Button>
                     </Grid>
                 </Border>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using JiebaNet.Analyser;
+using JiebaNet.Segmenter;
+using JiebaNet.Segmenter.PosSeg;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -68,7 +71,7 @@ namespace 脸滚键盘.信息卡和窗口
             if (WpSurnameBank != null && WpNameBank != null)
             {
                 //遍历词库文件
-                DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourse + "/语料");
+                DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourses + "/语料");
                 FileInfo[] thefileInfo = theFolder.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
                 WpSurnameBank.Children.Clear();
                 WpNameBank.Children.Clear();
@@ -323,7 +326,7 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return string.Empty;
             }
-
+            
             string name1 = string.Empty;
             string name2 = string.Empty;
 
@@ -357,8 +360,7 @@ namespace 脸滚键盘.信息卡和窗口
                         while (name2.Length < cbName2Length.SelectedIndex)
                         {
                             name2 += GetStringFromList(myList);
-                        };
-
+                        }
                     }
                 }
                 else

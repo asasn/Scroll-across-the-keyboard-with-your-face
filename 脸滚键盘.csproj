@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resourse\图标\ic_action_book_xxhdpi.ico</ApplicationIcon>
+    <ApplicationIcon>Resourses\图标\ic_action_book_xxhdpi.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>脸滚键盘.App</StartupObject>
@@ -64,8 +64,17 @@
     <Reference Include="ICSharpCode.AvalonEdit, Version=6.1.2.30, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
       <HintPath>..\packages\AvalonEdit.6.1.2.30\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
     </Reference>
+    <Reference Include="JiebaNet.Analyser, Version=0.42.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jieba.NET.0.42.2\lib\net45\JiebaNet.Analyser.dll</HintPath>
+    </Reference>
+    <Reference Include="JiebaNet.Segmenter, Version=0.42.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jieba.NET.0.42.2\lib\net45\JiebaNet.Segmenter.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -93,6 +102,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="信息卡和窗口\CollectToolWindow.xaml.cs">
+      <DependentUpon>CollectToolWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="信息卡和窗口\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
@@ -160,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MyStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡和窗口\CollectToolWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -247,7 +263,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resourse\Text.xshd">
+    <None Include="Resourses\Text.xshd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -255,12 +271,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_book.png">
+    <None Include="Resourses\图标\ic_action_book.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_book_xxhdpi.ico">
+    <None Include="Resourses\图标\ic_action_book_xxhdpi.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -277,6 +293,24 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resourses\jiebanet\config\char_state_tab.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\pos_prob_emit.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\pos_prob_start.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\pos_prob_trans.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\prob_emit.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\prob_trans.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="依赖框架许可证\AvalonEdit 6.1.2.30.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -288,41 +322,41 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_add.png">
+    <None Include="Resourses\图标\ic_action_add.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_attachment.png">
+    <None Include="Resourses\图标\ic_action_attachment.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_attachment_2.png">
+    <None Include="Resourses\图标\ic_action_attachment_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_copy.png">
+    <None Include="Resourses\图标\ic_action_copy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_document.png">
+    <None Include="Resourses\图标\ic_action_document.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_folder_closed.png">
+    <None Include="Resourses\图标\ic_action_folder_closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_folder_open.png">
+    <None Include="Resourses\图标\ic_action_folder_open.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_puzzle.png">
+    <None Include="Resourses\图标\ic_action_puzzle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\图标\ic_action_user.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourse\图标\ic_action_save.png">
+    <None Include="Resourses\图标\ic_action_user.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_circles.png">
+    <None Include="Resourses\图标\ic_action_save.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\图标\ic_action_circles.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -332,90 +366,112 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_knight.png">
+    <None Include="Resourses\图标\ic_action_knight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_paste.png">
+    <None Include="Resourses\图标\ic_action_paste.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_bookmark.png">
+    <None Include="Resourses\图标\ic_action_bookmark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\图标\ic_action_search.png">
+    <None Include="Resourses\图标\ic_action_search.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\全唐诗字库.txt">
+    <None Include="Resourses\语料\全唐诗字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\千字文字库.txt">
+    <None Include="Resourses\语料\千字文字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\玄幻百家姓.txt">
+    <None Include="Resourses\语料\玄幻百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\完整百家姓.txt">
+    <None Include="Resourses\语料\完整百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\周易字库.txt">
+    <None Include="Resourses\语料\周易字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourse\语料\诗经字库.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourse\语料\楚辞字库.txt">
+    <None Include="Resourses\语料\诗经字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\女性化字库.txt">
+    <None Include="Resourses\语料\楚辞字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\通用字表7000字.txt">
+    <None Include="Resourses\语料\女性化字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\常用字2500字.txt">
+    <None Include="Resourses\语料\通用字表7000字.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\次常用字1000字.txt">
+    <None Include="Resourses\语料\常用字2500字.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\常见百家姓.txt">
+    <None Include="Resourses\语料\次常用字1000字.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\称号后缀.txt">
+    <None Include="Resourses\语料\常见百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourse\语料\称号前缀.txt">
+    <None Include="Resourses\语料\称号后缀.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\语料\称号前缀.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\jiebanet\config\cn_synonym.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\dict.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\idf.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\jiebanet\config\stopwords.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\图标\ic_action_alarm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\图标\ic_action_lab.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

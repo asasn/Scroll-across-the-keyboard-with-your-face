@@ -264,11 +264,11 @@ namespace 脸滚键盘.自定义控件
             int x = 0;
             if (OnYearsPanel == true)
             {
-                img.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourse/图标/ic_action_knight.png"));
+                img.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/ic_action_knight.png"));
             }
             else
             {
-                img.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourse/图标/ic_action_attachment.png"));
+                img.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/ic_action_attachment.png"));
                 x = 25;
             }
 

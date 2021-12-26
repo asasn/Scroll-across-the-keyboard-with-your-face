@@ -57,7 +57,7 @@ namespace 脸滚键盘.自定义控件
 
         // Using a DependencyProperty as the backing store for TopNode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TopNodeProperty =
-            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcSearcher), new PropertyMetadata(new TreeViewNode { Uid = "", IsDir = true }));
+            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcSearcher), new PropertyMetadata(null));
 
 
 
@@ -70,7 +70,7 @@ namespace 脸滚键盘.自定义控件
 
         // Using a DependencyProperty as the backing store for CurNode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurNodeProperty =
-            DependencyProperty.Register("CurNode", typeof(TreeViewNode), typeof(UcSearcher), new PropertyMetadata(new TreeViewNode()));
+            DependencyProperty.Register("CurNode", typeof(TreeViewNode), typeof(UcSearcher), new PropertyMetadata(null));
 
 
 
@@ -149,14 +149,16 @@ namespace 脸滚键盘.自定义控件
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
+            //搜索参数初始化
+            InitSearch();
+
             //输入检校（空字符串时退出）
             if (string.IsNullOrEmpty(tbKeyWords.Text.Trim()))
             {
                 return;
             }
 
-            //搜索参数初始化
-            InitSearch();
+
 
             //生成搜索结果列表
             if (radButton1.IsChecked == true)
@@ -188,6 +190,10 @@ namespace 脸滚键盘.自定义控件
         /// <param name="baseNode"></param>
         private void GetResultMain(TreeViewNode baseNode)
         {
+            if (baseNode == null)
+            {
+                return;
+            }
             if (baseNode.IsDir == true)
             {
                 foreach (TreeViewNode node in baseNode.ChildNodes)
@@ -368,7 +374,7 @@ namespace 脸滚键盘.自定义控件
         private void SetKeyWordsColor()
         {
             textEditor.SyntaxHighlighting = null;
-            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourse/Text.xshd");
+            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
             Stream xshdStream = File.OpenRead(fullFileName);
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
             textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);

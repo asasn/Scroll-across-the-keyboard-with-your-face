@@ -352,18 +352,31 @@ namespace 脸滚键盘
 
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
-            NameToolWindow ntWin = new NameToolWindow();
-            ntWin.Left = 600;
-            ntWin.Top = 60;
-            ntWin.ShowDialog();
+            NameToolWindow win = new NameToolWindow();
+            win.Left = 600;
+            win.Top = 60;
+            win.ShowDialog();
         }
 
         private void HansTool_Click(object sender, RoutedEventArgs e)
         {
-            HansToolWindow htWin = new HansToolWindow();
-            htWin.Left = 600;
-            htWin.Top = 60;
-            htWin.ShowDialog();
+            HansToolWindow win = new HansToolWindow();
+            win.Left = 600;
+            win.Top = 60;
+            win.ShowDialog();
+        }
+
+        private void CollectTool_Click(object sender, RoutedEventArgs e)
+        {
+            CollectToolWindow win = new CollectToolWindow();
+            win.Left = 600;
+            win.Top = 60;
+            win.ShowDialog();
+        }
+
+        private void BooksChoose_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

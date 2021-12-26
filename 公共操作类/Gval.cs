@@ -14,7 +14,7 @@ namespace 脸滚键盘.公共操作类
 
             public static string Books { get { return Environment.CurrentDirectory + "/books"; } }
 
-            public static string Resourse { get { return Environment.CurrentDirectory + "/Resourse"; } }
+            public static string Resourses { get { return Environment.CurrentDirectory + "/Resourses"; } }
         }
 
         public struct CurrentBook

@@ -104,7 +104,7 @@ namespace 脸滚键盘.自定义控件
         public void SetRules()
         {
             textEditor.SyntaxHighlighting = null;
-            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourse/Text.xshd");
+            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
             Stream xshdStream = File.OpenRead(fullFileName);
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
             textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);

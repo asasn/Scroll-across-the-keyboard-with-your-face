@@ -36,8 +36,9 @@ namespace 脸滚键盘.信息卡和窗口
                 return;
             }
             string urlZdic = "https://www.zdic.net/hans/" + TbHans.Text;
-            string urlBaidu = "https://baike.baidu.com/item/" + TbHans.Text + "?force=1";
             NavigateZdicToString(urlZdic);
+            //string urlBaidu = "https://baike.baidu.com/item/" + TbHans.Text;
+            //NavigateBaikeToString(urlBaidu);
         }
 
         void Navigate(string urlStr)
@@ -45,25 +46,80 @@ namespace 脸滚键盘.信息卡和窗口
             webBrowser.Navigate(new Uri(urlStr)); ;
         }
 
-        void NavigateBaikeToString(string urlStr)
+        string GetBaikePage(string htmltext)
         {
-            string htmlText = WebOperate.GetHtmlText(urlStr);
-            MatchCollection matches = Regex.Matches(htmlText, "<div class=\"content\">([\\s\\S]+?)(?=<div class=\"side-content\">)");
-            string match1 = string.Empty;
+            string html2 = string.Empty;
+            htmltext = Regex.Replace(htmltext, "href=\"/item/", "href=\"https://baike.baidu.com/item/", RegexOptions.Multiline);
+            MatchCollection matches2 = Regex.Matches(htmltext, "(?<=<a target=_blank href=\")(.+?)(?=\" data-lemmaid)");
+            string matchTemp = string.Empty;
+            if (matches2.Count > 0)
+            {
+                foreach (Match match in matches2)
+                {
+                    matchTemp += WebOperate.GetHtmlText(match.Value);
+                }
+                html2 = Regex.Replace(matchTemp, "<dl([\\s\\S]+?)</dl>", "", RegexOptions.Multiline);
+            }
+            return html2;
+        }
+
+        string PickUpBaikeContent(string htmlText, bool tag = false)
+        {
+            string matchTemp = string.Empty;
+            MatchCollection matches = Regex.Matches(htmlText, "<div class=\"main-content J-content\">([\\s\\S]+?)(?=<div id=\"J-main-content-end-dom\">)");
             if (matches.Count > 0)
             {
                 foreach (Match match in matches)
                 {
-                    match1 += match.Value + "</div></div></div></div></div></div></div></div></div></div>";
+                    if (tag == true)
+                    {
+                        matchTemp += "<div style=\"border: 3px double #000000;padding:3px\">" + match.Value + "</div></div></div></div></div></div></div>" + "<br/>";
+                    }
+                    else
+                    {
+                        matchTemp += match.Value + "</div></div></div></div></div></div></div>" + "<br/>";
+                    }
                 }
-                match1 = Regex.Replace(match1, "<div class=\"nr-box nr-box-shiyi wytl\"([\\s\\S]+)</div>", "", RegexOptions.Multiline);
+                matchTemp = Regex.Replace(matchTemp, "<dl([\\s\\S]+?)</dl>", "", RegexOptions.Multiline);
+                matchTemp = Regex.Replace(matchTemp, "<div class=\"top-tool([\\s\\S]+?)(?=<div style)", "", RegexOptions.Multiline);
+                matchTemp = Regex.Replace(matchTemp, "<a class=\"audio-play part-audio-play([\\s\\S]+?)(?=</a>)", "", RegexOptions.Multiline);
+                return matchTemp;
             }
-            htmlText = Regex.Replace(htmlText, "<body([\\s\\S]+?)</body>", "<body>" + match1 + "</body>", RegexOptions.Multiline);
-            htmlText = Regex.Replace(htmlText, "href=\"/item/", "href=\"https://baike.baidu.com/item/", RegexOptions.Multiline);
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        void NavigateBaikeToString(string urlStr)
+        {
+            string html1 = WebOperate.GetHtmlText(urlStr);
+            string html2 = string.Empty;
+            string htmlText = string.Empty;
+            if (html1.Contains("lemmaWgt-subLemmaListTitle"))
+            {
+                //html2 = GetBaikePage(html1);
+                //htmlText += "<div style=\"background-color: #ddffff!important;padding: 14px;border-left: 6px solid #ccc!important;border-color: #2196F3!important;\">" + PickUpBaikeContent(html1) + "</div>";
+                //htmlText += PickUpBaikeContent(html2, true);
+
+                html1 = Regex.Replace(html1, "href=\"/item/", "href=\"https://baike.baidu.com/item/", RegexOptions.Multiline);
+                string url2 = Regex.Match(html1, "(?<=<a target=_blank href=\")(.+?)(?=\" data-lemmaid)").Value;
+                html2 = WebOperate.GetHtmlText(url2);
+                htmlText += Regex.Match(html2, "<div class=\"polysemantList-header\">([\\s\\S]+?)(?=<div class=\"content-wrapper\">)").Value + "</div></div></div></div></div><br/>";
+                htmlText += PickUpBaikeContent(html2, true);
+                htmlText = Regex.Replace(htmlText, "href='/item/", "href='https://baike.baidu.com/item/", RegexOptions.Multiline);
+            }
+            else
+            {
+                htmlText += Regex.Match(html1, "<ul class=\"polysemantList-wrapper cmn-clearfix\"([\\s\\S]+?)(</ul>)").Value + "</div></div></div></div></div><br/>";
+                htmlText += PickUpBaikeContent(html1, true);
+                htmlText = Regex.Replace(htmlText, "href='/item/", "href='https://baike.baidu.com/item/", RegexOptions.Multiline);
+            }
+            htmlText = Regex.Replace(html1, "<body([\\s\\S]+?)</body>", "<body>" + htmlText + "</body>", RegexOptions.Multiline);
             NavigateToString(htmlText);
         }
 
-        void NavigateZdicToString(string urlStr) 
+        void NavigateZdicToString(string urlStr)
         {
             string htmlText = WebOperate.GetHtmlText(urlStr);
 
@@ -97,7 +153,7 @@ namespace 脸滚键盘.信息卡和窗口
             htmlText = Regex.Replace(htmlText, "='//img.zdic.net/", "='https://img.zdic.net/", RegexOptions.Multiline);
 
             NavigateToString(htmlText);
-            
+
         }
 
         void NavigateToString(string htmlText)
@@ -146,7 +202,7 @@ namespace 脸滚键盘.信息卡和窗口
         //导航完成
         private void webBrowser_Navigated(object sender, NavigationEventArgs e)
         {
-            WebBrowser wb = (WebBrowser)sender;
+            WebBrowser wb = (WebBrowser)sender;
         }
         #endregion
 

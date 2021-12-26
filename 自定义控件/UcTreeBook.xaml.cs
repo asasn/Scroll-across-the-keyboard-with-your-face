@@ -67,7 +67,7 @@ namespace 脸滚键盘.自定义控件
 
         // Using a DependencyProperty as the backing store for TopNode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TopNodeProperty =
-            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(new TreeViewNode { Uid = "", IsDir = true }));
+            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(null));
 
 
 
@@ -79,7 +79,7 @@ namespace 脸滚键盘.自定义控件
 
         // Using a DependencyProperty as the backing store for CurNode.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurNodeProperty =
-            DependencyProperty.Register("CurNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(new TreeViewNode()));
+            DependencyProperty.Register("CurNode", typeof(TreeViewNode), typeof(UcTreeBook), new PropertyMetadata(null));
 
 
 
@@ -149,7 +149,7 @@ namespace 脸滚键盘.自定义控件
             {
                 if (TypeOfTree == "book" || TypeOfTree == "material")
                 {
-                    selectedNode.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_open.png";
+                    selectedNode.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_open.png";
                 }             
                 ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
@@ -167,7 +167,7 @@ namespace 脸滚键盘.自定义控件
             {
                 if (TypeOfTree == "book" || TypeOfTree == "material")
                 {
-                    selectedNode.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_closed.png";
+                    selectedNode.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_closed.png";
                 }
                 ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }

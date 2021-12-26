@@ -41,19 +41,19 @@
             </Grid>
             <WrapPanel Background="#FFFAFAFA" Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
                 <Button x:Name="btnSaveDoc" Padding="1" BorderThickness="0" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
-                    <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_save.png" Width="20" Height="20" />
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_save.png" Width="20" Height="20" />
                 </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnCopy" Padding="1" BorderThickness="0" ToolTip="复制文档内容" Click="BtnCopy_Click">
-                    <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_copy.png" Width="20" Height="20" />
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_copy.png" Width="20" Height="20" />
                 </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnCopyTitle" Padding="1" BorderThickness="0" ToolTip="复制文档标题" Click="BtnCopyTitle_Click">
-                    <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_circles.png" Width="20" Height="20" />
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_circles.png" Width="20" Height="20" />
                 </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnPaste" Padding="1" BorderThickness="0" ToolTip="从剪贴板粘贴" Click="BtnPaste_Click">
-                    <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_paste.png" Width="20" Height="20" />
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_paste.png" Width="20" Height="20" />
                 </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnMark" Padding="1" BorderThickness="0" ToolTip="添加/删除书签" Click="BtnMark_Click">
-                    <Image Source="pack://siteoforigin:,,,/Resourse/图标/ic_action_bookmark.png" Width="20" Height="20" />
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_bookmark.png" Width="20" Height="20" />
                 </Button>
             </WrapPanel>
 

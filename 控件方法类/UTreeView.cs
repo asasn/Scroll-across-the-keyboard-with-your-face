@@ -480,11 +480,11 @@ namespace 脸滚键盘.控件方法类
             }
             if (newNode.IsDir == true)
             {
-                newNode.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_closed.png";
+                newNode.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_closed.png";
             }
             else
             {
-                newNode.IconPath = Gval.Path.Resourse + "/图标/ic_action_document.png";
+                newNode.IconPath = Gval.Path.Resourses + "/图标/ic_action_document.png";
             }
             return newNode;
         }
@@ -582,15 +582,15 @@ namespace 脸滚键盘.控件方法类
                 };
                 if (node.IsExpanded == true)
                 {
-                    node.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_open.png";
+                    node.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_open.png";
                 }
                 else
                 {
-                    node.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_closed.png";
+                    node.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_closed.png";
                 }
                 if (typeOfTree == "note")
                 {
-                    node.IconPath = Gval.Path.Resourse + "/图标/ic_action_knight.png";
+                    node.IconPath = Gval.Path.Resourses + "/图标/ic_action_knight.png";
                 }
                 LoadNode(node, TreeViewNodeList, TopNode, typeOfTree);
                 ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
@@ -641,7 +641,7 @@ namespace 脸滚键盘.控件方法类
                     IsExpanded = (bool)reader["IsExpanded"],
                     IsChecked = (bool)reader["IsChecked"],
                 };
-                node.IconPath = Gval.Path.Resourse + "/图标/ic_action_document.png";
+                node.IconPath = Gval.Path.Resourses + "/图标/ic_action_document.png";
                 LoadNode(node, TreeViewNodeList, parentNode, typeOfTree);
                 ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
             }
