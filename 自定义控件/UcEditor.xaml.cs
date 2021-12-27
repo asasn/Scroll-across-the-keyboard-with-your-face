@@ -254,7 +254,7 @@ namespace 脸滚键盘.自定义控件
                             {
                                 //button.Background = Brushes.Honeydew;
                                 //button.BorderBrush = Brushes.Khaki;
-                                button.Background = Brushes.Honeydew;
+                                button.Background = Brushes.Cornsilk;
                             }
                             else
                             {

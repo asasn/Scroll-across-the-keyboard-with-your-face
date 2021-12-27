@@ -96,20 +96,15 @@ namespace 脸滚键盘.信息卡和窗口
 
         void GetNames(List<string> names, TreeViewNode node)
         {
-
-
-
             string text = node.NodeContent;
             text = Regex.Replace(text, "　", "", RegexOptions.Multiline);
 
             string[] pArray =
             {
-                    "^(.{2,4})(?=(豪气..|淡淡说|淡淡|好笑|苦笑|惊怒|提醒|豪迈|豪气)道)",
-                    "^(.{2,4})(?=(亦|也|说|笑|惊|怒)道)",
-                    "^(.{2,4})(?=微微..)",
-                    "^(.{2,4})(?=坐在上首)",
-                    "^(.{2,4})(?=深以为.)",
-                    "^(.{2,4})(?=面色)",
+                "^(.{2,4})(?=(豪气..|淡淡说|幽幽说|笑着说|仍自笑|默默.|笑呵呵|呵呵.|肃然说)道)",
+                "^(.{2,4})(?=已然坐在|睁开眼睛|面色苍白|微微一.|深以为.|面露..之色|默然..)",
+                "^(.{2,4})(?=(淡淡|冷笑|好笑|干笑|苦笑|呵呵|含.|不甘|恐慌|愤.|惊.|提醒|豪.)道)",
+                "^(.{2,4})(?=(亦|也|说|笑|恨|惊|怒)道)",               
                 };
             foreach (string p in pArray)
             {
@@ -122,7 +117,7 @@ namespace 脸滚键盘.信息卡和窗口
                     }
                 }
             }
-            MatchCollection ms2 = Regex.Matches(text, "(?<=【【【【)(.+?)(?=】】】】)", RegexOptions.Multiline);
+            MatchCollection ms2 = Regex.Matches(text, "(?<=^【【【【)(.{2,4})(?=】】】】)", RegexOptions.Multiline);
             if (ms2.Count > 0)
             {
                 foreach (Match m in ms2)

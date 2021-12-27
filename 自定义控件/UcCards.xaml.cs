@@ -185,6 +185,10 @@ namespace 脸滚键盘.自定义控件
                 BtnTag.DataContext += name + " ";
             }
             BtnTag.DataContext += "";//防止为空，避免之后的判断
+            if (false == string.IsNullOrWhiteSpace(BtnTag.DataContext.ToString()))
+            {
+                BtnTag.ToolTip = BtnTag.DataContext.ToString();
+            }
             reader.Close();
             sqlConn.Close();
             return BtnTag;
