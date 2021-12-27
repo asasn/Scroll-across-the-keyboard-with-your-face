@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘"
-        xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="Mw" x:Class="脸滚键盘.MainWindow"
+        xmlns:gg="clr-namespace:脸滚键盘.公共操作类"
+        xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:信息卡和窗口="clr-namespace:脸滚键盘.信息卡和窗口" x:Name="Mw" x:Class="脸滚键盘.MainWindow"
         mc:Ignorable="d" UseLayoutRounding="True" Closing="Window_Closing"
-        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Loaded="Mw_Loaded">
+        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Loaded="Mw_Loaded" >
     <Grid x:Name="主面板">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -42,10 +43,9 @@
                     </hc:TabItem>
                 </hc:TabControl>
             </Grid>
-            <hc:TabControl Name="Editor" Margin="5" Effect="{StaticResource EffectShadow3}" IsAnimationEnabled="True"
+            <hc:TabControl x:Name="Editor" Margin="5" Effect="{StaticResource EffectShadow3}" IsAnimationEnabled="True"
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
-                           Loaded="Editor_Loaded" IsDraggable="True">
-            </hc:TabControl>
+                           Loaded="Editor_Loaded" IsDraggable="True"/>
             <Grid x:Name="右栏" Grid.Column="4" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
@@ -72,9 +72,6 @@
                         </Button>
                         <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="章节内容提炼">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_lab.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Column="6" x:Name="BooksChoose" Click="BooksChoose_Click" ToolTip="书籍选择">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_book.png"/>
                         </Button>
                     </Grid>
                 </Border>
@@ -105,46 +102,15 @@
                     <ColumnDefinition Width="100*"/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="btnShowBooks" Padding="5"  Foreground="DodgerBlue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource StarGeometry}" Click="BtnShowBooks_Click" />
-                <TextBlock Padding="2" Width="Auto" x:Name="TbkCurBookName" Foreground="DodgerBlue" VerticalAlignment="Center" FontWeight="Bold" Grid.Column="1"/>
+                <Button Padding="0" Grid.Column="0" BorderThickness="0" x:Name="BooksChoose" Click="BooksChoose_Click" ToolTip="书籍选择">
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_book.png"/>
+                </Button>
+                <TextBlock Padding="2" Width="Auto" x:Name="TbkCurBookName" Text="{Binding CurrentBookName, ElementName=Mw, Mode=TwoWay}" Foreground="DodgerBlue" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" Height="25" Margin="5,0"/>
                 <Grid Grid.Column="2" HorizontalAlignment="Center" >
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveUp" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource UpGeometry}" HorizontalAlignment="Right"  Click="BtnMoveUp_Click" VerticalAlignment="Top" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveDown" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DownGeometry}" HorizontalAlignment="Right" Click="BtnMoveDown_Click" VerticalAlignment="Bottom" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
                 </Grid>
             </Grid>
-            <hc:Drawer Name="DrawerLeftInContainer" Dock="Left" Width="400" ShowMask="False" Loaded="DrawerLeftInContainer_Loaded">
-                <Border x:Name="border"  Background="{DynamicResource RegionBrush}" Width="400" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}">
-                    <WrapPanel x:Name="main" Orientation="Vertical" Width="400">
-                        <Grid Margin="10,0,0,0" Grid.Row="0" Width="400">
-                            <TextBlock x:Name="DrawerTbk" Text="当前书籍：" Style="{StaticResource TextBlockTitle}" HorizontalAlignment="Left"/>
-                            <Button HorizontalAlignment="Right" Foreground="{DynamicResource PrimaryTextBrush}" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DeleteFillCircleGeometry}" Click="BtnShowBooks_Click"/>
-                        </Grid>
-                        <WrapPanel Margin="10,0,0,0" Grid.Row="1" >
-                            <Button x:Name="BtnBuild" Click="BtnBuild_Click" Content="创建新书籍" HorizontalAlignment="Left" MinWidth="100"/>
-                            <TextBox x:Name="TbNewBookName" Text="" KeyDown="TbNewBookName_KeyDown" IsEnabled="False" MinWidth="100"/>
-                            <Button x:Name="BtnDelBook" Click="BtnDelBook_Click"  Content="删除书籍" HorizontalAlignment="Center" MinWidth="100" Margin="0,0,30,0"/>
-                        </WrapPanel>
-                        <WrapPanel Margin="10,0,0,0" Grid.Row="2" >
-                            <WrapPanel>
-                                <TextBox x:Name="TbCurBookName" Text="" MinWidth="100"/>
-                                <TextBox x:Name="TbCurBookPrice" Text="" MinWidth="50" TextChanged="TbCurBookPrice_TextChanged"/>
-                                <TextBox x:Name="TbCurBookBornYear" Text="" MinWidth="50" TextChanged="TbCurBookBornYear_TextChanged"/>
-                                <TextBox x:Name="TbCurBookCurrentYear" Text="" MinWidth="50" TextChanged="TbCurBookCurrentYear_TextChanged"/>
-                            </WrapPanel>
-                            <Button x:Name="BtnUpdate" Click="BtnUpdate_Click" Content="修改当前书籍信息" HorizontalAlignment="Left" MinWidth="100"/>
-                        </WrapPanel>
-                        <Grid Margin="10,0,0,0" Grid.Row="3">
-                            <ScrollViewer>
-                                <WrapPanel x:Name="WpBooks">
-
-                                </WrapPanel>
-                            </ScrollViewer>
-                        </Grid>
-                    </WrapPanel>
-                </Border>
-            </hc:Drawer>
-
-
         </Grid>
 
     </Grid>

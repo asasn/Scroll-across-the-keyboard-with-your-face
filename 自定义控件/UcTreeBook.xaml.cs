@@ -642,14 +642,27 @@ namespace 脸滚键盘.自定义控件
                 ((MenuItem)TreeViewMenu.Items[2]).IsEnabled = false;
                 ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = false;
             }
-
+            if (TopNode.ChildNodes.Count == 0)
+            {
+                Command_AddBrotherNode_Executed(null, null);
+            }
         }
         private void Command_AddBrotherNode_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
-            TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-            AddNodeBySql(CurBookName, TypeOfTree, newNode);
-            newNode.IsSelected = true;
+            if (selectedNode == null)
+            {
+                TreeViewNode newNode = AddNewNode(TreeViewNodeList, TopNode, TypeOfTree);
+                AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                newNode.IsSelected = true;
+            }
+            else
+            {
+                TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                newNode.IsSelected = true;
+            }
+
         }
 
         private void Command_AddChildNode_Executed(object sender, ExecutedRoutedEventArgs e)

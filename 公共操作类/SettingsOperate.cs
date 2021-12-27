@@ -6,7 +6,8 @@ namespace 脸滚键盘.公共操作类
     {
         public static string Get(string key)
         {
-            string value = ConfigurationManager.AppSettings[key];
+            Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string value = cfa.AppSettings.Settings[key].Value;
             return value;
         }
 
