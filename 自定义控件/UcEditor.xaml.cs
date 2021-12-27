@@ -18,6 +18,7 @@ using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using static 脸滚键盘.控件方法类.UTreeView;
 using static 脸滚键盘.控件方法类.UEditor;
+using System.Windows.Media;
 
 namespace 脸滚键盘.自定义控件
 {
@@ -221,7 +222,71 @@ namespace 脸滚键盘.自定义控件
             btnSaveDoc.IsEnabled = false;
 
             Console.WriteLine("保存至数据库");
+
+            MarkNamesInChapter();
         }
+
+
+        /// <summary>
+        /// 标记Card中button
+        /// </summary>
+        public void MarkNamesInChapter()
+        {
+            if (CurBookName == null)
+            {
+                return;
+            }
+            TreeViewNode CurNode = this.DataContext as TreeViewNode;
+            WrapPanel[] wps = { Gval.Uc.RoleCards.WpCards, Gval.Uc.OtherCards.WpCards };
+            foreach (WrapPanel wp in wps)
+            {
+                string tableName2 = wp.Tag.ToString();
+                SqliteOperate sqlConn2 = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SQLiteDataReader reader = sqlConn2.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName2));
+                while (reader.Read())
+                {
+                    string name = reader["名称"].ToString();
+                    foreach (Button button in wp.Children)
+                    {
+                        if (name == button.Content.ToString())
+                        {
+                            if (CurNode.NodeContent.Contains(name) || IsContainsNickname(button.DataContext.ToString(), CurNode.NodeContent))
+                            {
+                                //button.Background = Brushes.Honeydew;
+                                //button.BorderBrush = Brushes.Khaki;
+                                button.Background = Brushes.Honeydew;
+                            }
+                            else
+                            {
+                                //button.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+                                button.Background = Brushes.White;
+                            }
+                        }
+                    }
+                }
+                reader.Close();
+                sqlConn2.Close();
+            }
+        }
+        /// <summary>
+        /// 判断文章内是否包含别称
+        /// </summary>
+        /// <param name="dataStr"></param>
+        /// <param name="nodeContent"></param>
+        /// <returns></returns>
+        bool IsContainsNickname(string dataStr, string nodeContent)
+        {
+            string[] sArray = dataStr.Split(new char[] { ' ' });
+            foreach (string ss in sArray)
+            {
+                if (false == string.IsNullOrWhiteSpace(ss.Trim()) && nodeContent.Contains(ss.Trim()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         private void chapterNameBox_GotFocus(object sender, RoutedEventArgs e)
         {

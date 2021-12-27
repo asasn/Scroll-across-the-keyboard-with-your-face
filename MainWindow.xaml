@@ -45,7 +45,7 @@
             </Grid>
             <hc:TabControl x:Name="Editor" Margin="5" Effect="{StaticResource EffectShadow3}" IsAnimationEnabled="True"
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
-                           Loaded="Editor_Loaded" IsDraggable="True"/>
+                           Loaded="Editor_Loaded" IsDraggable="True" SelectionChanged="Editor_SelectionChanged" />
             <Grid x:Name="右栏" Grid.Column="4" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
@@ -105,7 +105,7 @@
                 <Button Padding="0" Grid.Column="0" BorderThickness="0" x:Name="BooksChoose" Click="BooksChoose_Click" ToolTip="书籍选择">
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_book.png"/>
                 </Button>
-                <TextBlock Padding="2" Width="Auto" x:Name="TbkCurBookName" Text="{Binding CurrentBookName, ElementName=Mw, Mode=TwoWay}" Foreground="DodgerBlue" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" Height="25" Margin="5,0"/>
+                <TextBlock Padding="2" Width="Auto" x:Name="TbkCurBookName" Text="{Binding CurrentBookName, ElementName=Mw, Mode=TwoWay}" Foreground="DodgerBlue" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"/>
                 <Grid Grid.Column="2" HorizontalAlignment="Center" >
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveUp" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource UpGeometry}" HorizontalAlignment="Right"  Click="BtnMoveUp_Click" VerticalAlignment="Top" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveDown" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DownGeometry}" HorizontalAlignment="Right" Click="BtnMoveDown_Click" VerticalAlignment="Bottom" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>

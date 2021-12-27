@@ -74,6 +74,16 @@ namespace 脸滚键盘
             Gval.Uc.TabControl = sender as HandyControl.Controls.TabControl;
         }
 
+        private void Editor_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            HandyControl.Controls.TabItem tabItem = Gval.Uc.TabControl.SelectedItem as HandyControl.Controls.TabItem;
+            if (tabItem != null)
+            {
+                UcEditor ucEditor = tabItem.Content as UcEditor;
+                ucEditor.MarkNamesInChapter();
+            }
+        }
+
         private void Window_Closing(object sender, EventArgs e)
         {
             foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
@@ -169,5 +179,7 @@ namespace 脸滚键盘
             win.Top = 60;
             win.ShowDialog();
         }
+
+
     }
 }

@@ -161,8 +161,9 @@ namespace 脸滚键盘.自定义控件
         Button AddNode(string guid, string content)
         {
             Button BtnTag = new Button();
+            BtnTag.Height = 25;
             BtnTag.Padding = new Thickness(2);
-            BtnTag.Margin = new Thickness(5, 5, 0, 0);
+            BtnTag.Margin = new Thickness(5, 5, 2, 2);
             BtnTag.Click += BtnTag_Click;
             ContextMenu aMenu = new ContextMenu();
             MenuItem deleteMenu = new MenuItem();
@@ -173,6 +174,19 @@ namespace 脸滚键盘.自定义控件
             aMenu.DataContext = BtnTag;
             BtnTag.Uid = guid;
             BtnTag.Content = content;
+
+            string tableName = TypeOfTree;
+            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            string sql = string.Format("SELECT * FROM {0}别称表 where {0}id='{1}';", tableName, guid);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                string name = reader["别称"].ToString();
+                BtnTag.DataContext += name + " ";
+            }
+            BtnTag.DataContext += "";//防止为空，避免之后的判断
+            reader.Close();
+            sqlConn.Close();
             return BtnTag;
         }
     }

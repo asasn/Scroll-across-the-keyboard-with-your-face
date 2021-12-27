@@ -299,6 +299,7 @@ namespace 脸滚键盘.自定义控件
                         tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定     
                         Gval.Uc.TabControl.Items.Add(tabItem);
                         ucEditor.LoadChapter(CurBookName, TypeOfTree);
+                        ucEditor.MarkNamesInChapter();
                     }
                 }
             }
