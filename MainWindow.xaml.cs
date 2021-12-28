@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Data.SQLite;
+using System.Diagnostics;
+using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using 脸滚键盘.控件方法类;
@@ -179,6 +183,93 @@ namespace 脸滚键盘
             win.Top = 60;
             win.ShowDialog();
         }
+
+        #region 番茄时间
+        public string ShowTimeText { get { return String.Format("{0:D2}:{1:D2}", (int)stopWatch.Elapsed.TotalMinutes, stopWatch.Elapsed.Seconds); } }
+        Stopwatch stopWatch = new Stopwatch();
+        DispatcherTimer timer = new DispatcherTimer();
+        bool changeTag = false;       
+        private void TomatoTimeStart_Click(object sender, RoutedEventArgs e)
+        {
+            if (timer.IsEnabled)
+            {
+                BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/ic_action_playback_play.png"));
+                TomatoTimeStop_Click(null, null);
+            }
+            else
+            {
+                BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/ic_action_playback_stop.png"));
+                timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromMilliseconds(1000);
+                timer.Tick += TimeRuner;
+                timer.Start();
+                if (changeTag == true)
+                {
+                    SettingsOperate.Set("tomatoTime", CbTime.Value.ToString());
+                    changeTag = false;
+                }
+                CbTime.Visibility = Visibility.Hidden;
+                mediaElement.Source = new Uri(Gval.Path.Resourses + "/声音/dida.wav", UriKind.Relative);
+                stopWatch.Start();
+            }
+        }
+
+        private void TimeRuner(object sender, EventArgs e)
+        {
+            TbTime.Text = ShowTimeText;
+            mediaElement.Stop();
+            mediaElement.Play();
+
+            if ((int)stopWatch.Elapsed.TotalMinutes == CbTime.Value)
+            {
+                mediaElement.Source = new Uri(Gval.Path.Resourses + "/声音/ring.wav", UriKind.Relative);
+                mediaElement.Play();
+                TomatoTimeStart_Click(null, null);
+            }
+        }
+
+
+        private void TomatoTimeStop_Click(object sender, RoutedEventArgs e)
+        {
+            stopWatch = new Stopwatch();
+            timer.Tick -= TimeRuner;
+            timer.Stop();
+            TbTime.Text = ShowTimeText;
+        }
+
+        private void TomatoTimePause_Click(object sender, RoutedEventArgs e)
+        {
+            stopWatch.Stop();
+            timer.Tick -= TimeRuner;
+            timer.Stop();
+            TbTime.Text = ShowTimeText;
+            
+        }
+
+        private void CbTime_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
+        {
+            changeTag = true;
+        }
+
+        private void CbTime_Loaded(object sender, RoutedEventArgs e)
+        {
+            double value;
+            double.TryParse(SettingsOperate.Get("tomatoTime"), out value);
+            CbTime.Value = value;
+        }
+
+        private void BorderTomatoTime_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (CbTime.Visibility == Visibility.Visible)
+            {
+                CbTime.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                CbTime.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
 
 
     }

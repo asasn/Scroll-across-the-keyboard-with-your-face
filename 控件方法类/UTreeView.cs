@@ -35,11 +35,11 @@ namespace 脸滚键盘.控件方法类
                 //    {
                 //        if (this.IsExpanded == true)
                 //        {
-                //            this.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_open.png";
+                //            this.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_open.png";
                 //        }
                 //        else
                 //        {
-                //            this.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_closed.png";
+                //            this.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_closed.png";
                 //        }
                 //    }
                 //}
@@ -312,7 +312,7 @@ namespace 脸滚键盘.控件方法类
                     this.WordsCount += 1;
                     //if (stuff.isButton == true)
                     //{
-                    //    stuff.IconPath = Gval.Path.Resourse + "/图标/ic_action_add.png";
+                    //    stuff.IconPath = Gval.Path.Resourses + "/图标/ic_action_add.png";
                     //}
                     //else
                     //{
@@ -320,16 +320,16 @@ namespace 脸滚键盘.控件方法类
                     //    {
                     //        if (stuff.IsExpanded == true)
                     //        {
-                    //            stuff.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_open.png";
+                    //            stuff.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_open.png";
                     //        }
                     //        else
                     //        {
-                    //            stuff.IconPath = Gval.Path.Resourse + "/图标/ic_action_folder_closed.png";
+                    //            stuff.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_closed.png";
                     //        }
                     //    }
                     //    else
                     //    {
-                    //        stuff.iconPath = Gval.Path.Resourse + "/图标/ic_action_document.png";
+                    //        stuff.iconPath = Gval.Path.Resourses + "/图标/ic_action_document.png";
                     //    }
                     //}
 
@@ -511,7 +511,7 @@ namespace 脸滚键盘.控件方法类
         //    {
         //        TreeViewNodeList.Add(button);
         //    }
-        //    button.IconPath = Gval.Path.Resourse + "/图标/ic_action_add.png";
+        //    button.IconPath = Gval.Path.Resourses + "/图标/ic_action_add.png";
         //    baseNode.ChildNodes.Add(button);
         //    return button;
         //}
