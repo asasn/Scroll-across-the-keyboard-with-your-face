@@ -13,6 +13,7 @@ namespace 脸滚键盘.公共操作类
         public static string GetHtmlText(string urlStr)
         {
             WebRequest request = WebRequest.Create(urlStr);
+            request.Timeout = 5000;
             try
             {
                 WebResponse response = request.GetResponse();

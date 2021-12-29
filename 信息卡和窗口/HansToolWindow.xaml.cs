@@ -162,8 +162,10 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 webBrowser.Navigate("about:blank");
             }
-
-            webBrowser.NavigateToString(htmlText);
+            else
+            {
+                webBrowser.NavigateToString(htmlText);
+            }
         }
 
 
