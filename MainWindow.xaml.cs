@@ -26,9 +26,19 @@ namespace 脸滚键盘
         public MainWindow()
         {
             InitializeComponent();
+            RunningCheck();
         }
 
-
+        private void RunningCheck()
+        {
+            Process thisProc = Process.GetCurrentProcess();
+            if (Process.GetProcessesByName(thisProc.ProcessName).Length > 1)
+            {
+                MessageBox.Show("应用程序运行中");
+                Application.Current.Shutdown();
+                return;
+            }
+        }
 
         public string CurrentBookName
         {
