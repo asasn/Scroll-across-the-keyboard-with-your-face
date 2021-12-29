@@ -326,7 +326,7 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return string.Empty;
             }
-            
+
             string name1 = string.Empty;
             string name2 = string.Empty;
 
@@ -411,30 +411,94 @@ namespace 脸滚键盘.信息卡和窗口
             WpShowWord.Children.Clear();
             foreach (char c in tb.Text)
             {
-                WebBrowser webb = new WebBrowser();
-                string urlStr = "https://www.zdic.net/hans/" + c.ToString();
-                string htmlText = WebOperate.GetHtmlText(urlStr);
-                string pattern = "(?<=<span class=\"z_d song\">)([\\s\\S]+?)(?=<span class=\"ptr\">)";
-                MatchCollection matchRets = Regex.Matches(htmlText, pattern, RegexOptions.Multiline);
-                string pinyin = c.ToString() + "：";
-                if (matchRets.Count > 0)
+                string pinyin = string.Empty;
+                if (false == string.IsNullOrWhiteSpace(pinyin = ReadFromPinyinDict(c.ToString())))
                 {
-                    foreach (Match item in matchRets)
+                    //尝试在本地字典查找
+                }
+                else
+                {
+                    //未在本地字典发现，从网络上查找
+                    pinyin = c.ToString() + "：";
+                    WebBrowser webb = new WebBrowser();
+                    string urlStr = "https://www.zdic.net/hans/" + c.ToString();
+                    string htmlText = WebOperate.GetHtmlText(urlStr);
+                    string pattern = "(?<=<span class=\"z_d song\">)([\\s\\S]+?)(?=<span class=\"ptr\">)";
+                    MatchCollection matchRets = Regex.Matches(htmlText, pattern, RegexOptions.Multiline);                    
+                    if (matchRets.Count > 0)
                     {
-                        string p = "[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüêɑńňɡａ-ｚＡ－ＺA-Za-z\\s∥-]+";
-                        Match m = Regex.Match(item.Value, p);
-                        if (false == pinyin.Contains(item.Value) && m.Success)
+                        foreach (Match item in matchRets)
                         {
-                            pinyin += item.Value + " ";
+                            string p = "[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüêɑńňɡａ-ｚＡ－ＺA-Za-z\\s∥-]+";
+                            Match m = Regex.Match(item.Value, p);
+                            if (false == pinyin.Contains(item.Value) && m.Success)
+                            {
+                                pinyin += item.Value + " ";
+                            }
                         }
+                        SaveToPinyinDict(c.ToString(), pinyin.Trim());
                     }
                 }
+
                 TextBox tbw = new TextBox() { Margin = new Thickness(0, 2, 0, 2), Text = pinyin.Trim(), IsReadOnly = true };
                 WpShowWord.Children.Add(tbw);
             }
         }
 
+        /// <summary>
+        /// 从字典读取拼音
+        /// </summary>
+        /// <param name="hanzi"></param>
+        /// <returns></returns>
+        string ReadFromPinyinDict(string hanzi)
+        {
+            string filepath = Gval.Path.Resourses + "/语料/拼音字典/PinyinDict.txt";
+            string content = string.Empty;
+            String line;
+            StreamReader sr = new StreamReader(filepath, new UTF8Encoding(true));
+            while ((line = sr.ReadLine()) != null)//按行读取 line为每行的数据
+            {
+                if (line.Contains(hanzi))
+                {
+                    sr.Close();
+                    return line;
+                }
+            }
+            sr.Close();
+            return null;            
+        }
 
+        /// <summary>
+        /// 保存至拼音字典
+        /// </summary>
+        /// <param name="hanzi"></param>
+        /// <param name="pinyin"></param>
+        void SaveToPinyinDict(string hanzi, string pinyin)
+        {
+            string filepath = Gval.Path.Resourses + "/语料/拼音字典/PinyinDict.txt";
+            string content = string.Empty;
+            String line;
+            FileStream fs = new FileStream(filepath, FileMode.OpenOrCreate);
+            StreamReader sr = new StreamReader(fs, new UTF8Encoding(true));
+            StreamWriter sw = new StreamWriter(fs, new UTF8Encoding(true));
+
+            while ((line = sr.ReadLine()) != null)//按行读取 line为每行的数据
+            {
+                content += line + "\n";
+            }
+            if (false == content.Contains(hanzi))
+            {
+                content = pinyin + "\n" + content;
+            }
+            if (File.Exists(filepath))
+            {
+                fs.SetLength(0); //先清空文件
+            }
+            sw.Write(content);   //写入字符串
+            sw.Close();
+            sr.Close();
+            fs.Close();
+        }
 
         /// <summary>
         /// 查找某种类型的子控件
@@ -558,7 +622,7 @@ namespace 脸滚键盘.信息卡和窗口
                     surname = GetStringFromList(myList);
                 }
             }
-            
+
             return surname;
         }
 
@@ -597,8 +661,7 @@ namespace 脸滚键盘.信息卡和窗口
         static List<string> GetListFormTXT(string fullFilePath)
         {
             List<string> myList = new List<string>();
-            FileStream fs = new FileStream(fullFilePath, FileMode.Open);
-            StreamReader reader = new StreamReader(fs, UnicodeEncoding.GetEncoding("utf-8"));
+            StreamReader reader = new StreamReader(fullFilePath, UnicodeEncoding.GetEncoding("utf-8"));
 
             //按行读取
             string strLine = string.Empty;
@@ -607,7 +670,6 @@ namespace 脸滚键盘.信息卡和窗口
                 strLine = strLine.Trim().ToString();
                 myList.Add(strLine);
             }
-            fs.Close();
             reader.Close();
             return myList;
         }

@@ -174,7 +174,7 @@ namespace 脸滚键盘.公共操作类
         {
             if (string.IsNullOrEmpty(fullFileName))
                 return;
-            FileStream fs = new FileStream((fullFileName), FileMode.OpenOrCreate, FileAccess.Write);
+            FileStream fs = new FileStream(fullFileName, FileMode.OpenOrCreate, FileAccess.Write);
 
             if (File.Exists(fullFileName))
             {

@@ -111,7 +111,7 @@
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
             <自定义控件:UcTreeBook x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1" UcTitle="目录树"/>
-            <Grid x:Name="BooksPanel" >
+            <Grid x:Name="BooksPanel" Margin="10,0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="100*"/>
