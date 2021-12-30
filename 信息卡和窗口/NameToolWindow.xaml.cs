@@ -429,7 +429,7 @@ namespace 脸滚键盘.信息卡和窗口
                     {
                         foreach (Match item in matchRets)
                         {
-                            string p = "[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüêɑńňɡａ-ｚＡ－ＺA-Za-z\\s∥-]+";
+                            string p = "[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüêɑḿm̀ńňɡａ-ｚＡ－ＺA-Za-z\\s∥-]+";
                             Match m = Regex.Match(item.Value, p);
                             if (false == pinyin.Contains(item.Value) && m.Success)
                             {
