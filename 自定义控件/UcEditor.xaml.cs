@@ -75,6 +75,15 @@ namespace 脸滚键盘.自定义控件
         {
             textEditor.TextArea.SelectionChanged += textEditor_TextArea_SelectionChanged;
 
+            if (TypeOfTree == "book")
+            {
+                lbValue.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                lbValue.Visibility = Visibility.Hidden;
+            }
+
             //快速搜索功能
             //searchPanel =  SearchPanel.Install(textEditor.TextArea);
             //searchPanel.UseRegex = true;
@@ -209,6 +218,11 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode CurNode = this.DataContext as TreeViewNode;
 
+            if (CurNode == null)
+            {
+                return;
+            }
+
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
             string sql = string.Format("UPDATE Tree_{0} set NodeContent='{1}', WordsCount={2} where Uid = '{3}';", tableName, textEditor.Text, words, CurNode.Uid);
@@ -314,7 +328,7 @@ namespace 脸滚键盘.自定义控件
         {
             ShowTextInfo();
 
-            if (textEditor.TextArea.IsFocused == true)
+            if (textEditor.TextArea.IsFocused == true && CurNode != null)
             {
                 btnSaveDoc.IsEnabled = true;
             }
@@ -459,6 +473,10 @@ namespace 脸滚键盘.自定义控件
         #region 右侧按钮面板
         public void btnSaveText_Click(object sender, RoutedEventArgs e)
         {
+            if (CurNode == null)
+            {
+                return;
+            }
             SaveText();
             HandyControl.Controls.Growl.Success("本文档内容保存！");
         }
@@ -471,6 +489,10 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnCopyTitle_Click(object sender, RoutedEventArgs e)
         {
+            if (CurNode == null)
+            {
+                return;
+            }
             Clipboard.SetText(CurNode.NodeName);
             HandyControl.Controls.Growl.Success("已复制本文档标题到剪贴板！");
         }
@@ -479,9 +501,30 @@ namespace 脸滚键盘.自定义控件
         {
             string temp = textEditor.Text;
             textEditor.Text = Clipboard.GetText();
-            Clipboard.SetText(temp);
+            BtnUndo.DataContext =temp;
+            BtnUndo.IsEnabled = true;
             ReformatText(textEditor);
-            btnSaveDoc.IsEnabled = true;
+            if (CurNode != null)
+            {
+                btnSaveDoc.IsEnabled = true;
+            }
+            
+        }
+
+        private void BtnUndo_Click(object sender, RoutedEventArgs e)
+        {
+            textEditor.Text = BtnUndo.DataContext.ToString();
+            ReformatText(textEditor);
+            BtnUndo.IsEnabled = false;
+            if (CurNode != null)
+            {
+                btnSaveDoc.IsEnabled = true;
+            }
+        }
+
+        private void BtnFormat_Click(object sender, RoutedEventArgs e)
+        {
+            ReformatText(textEditor);
         }
 
         private void BtnMark_Click(object sender, RoutedEventArgs e)
@@ -502,8 +545,6 @@ namespace 脸滚键盘.自定义控件
                 lb2.Content = "字数：" + words.ToString();
             }
         }
-
-
 
 
     }

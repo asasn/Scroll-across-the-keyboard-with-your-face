@@ -407,6 +407,11 @@ namespace 脸滚键盘.自定义控件
             btnSaveDoc.IsEnabled = true;
         }
 
+        private void BtnUndo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// 两边追加标志
         /// </summary>
@@ -475,5 +480,7 @@ namespace 脸滚键盘.自定义控件
         {
 
         }
+
+
     }
 }

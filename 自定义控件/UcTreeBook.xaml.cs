@@ -272,7 +272,10 @@ namespace 脸滚键盘.自定义控件
                         //获取节点对应的路径
                         string nodePath = GetPath(selectedNode);
 
-
+                        if (TypeOfTree == "note")
+                        {
+                            return;
+                        }
 
                         foreach (HandyControl.Controls.TabItem item in Gval.Uc.TabControl.Items)
                         {

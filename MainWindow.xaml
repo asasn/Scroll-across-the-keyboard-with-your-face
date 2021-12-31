@@ -49,7 +49,7 @@
             <Grid x:Name="右栏" Grid.Column="4" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="80"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
                 <自定义控件:UcTreeBook Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
@@ -65,6 +65,10 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
                         <Button Padding="0" x:Name="NameTool" Click="NameTool_Click" ToolTip="起名工具">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_user.png"/>
                         </Button>
@@ -77,10 +81,10 @@
                         <Button Padding="0" Grid.Column="3" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="灵感工具" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bulb.png"/>
                         </Button>
-                        <Button Padding="0" Grid.Column="4" x:Name="MaterialTool" Click="MaterialTool_Click" ToolTip="素材库" IsEnabled="False">
+                        <Button Padding="0" Grid.Column="4" x:Name="MaterialTool" Click="MaterialTool_Click" ToolTip="素材库">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
                         </Button>    
-                        <Border x:Name="BorderTomatoTime" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2" Grid.Column="5" ToolTip="番茄时间" Margin="4" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown">
+                        <Border x:Name="BorderTomatoTime" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2" Grid.Column="5" ToolTip="番茄时间" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown" Height="30" HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="28"/>
@@ -89,13 +93,16 @@
                                 <Button Padding="0" BorderThickness="0" Grid.Column="0" x:Name="BtnStart" Click="TomatoTimeStart_Click" ToolTip="开始/停止（右键进入设置模式）" Height="Auto">
                                     <Image x:Name="BtnTime" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png" />
                                 </Button>
-                                <TextBlock  x:Name="TbTime"  Grid.Column="1" Padding="0" Text="00:00" Margin="0" VerticalAlignment="Center"/>
+                                <TextBlock  x:Name="TbTime"  Grid.Column="1" Padding="0" Text="00:00" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <hc:NumericUpDown Maximum="99" Minimum="0" Padding="0" x:Name="CbTime" Visibility="Hidden" ValueChanged="CbTime_ValueChanged" Loaded="CbTime_Loaded" Grid.ColumnSpan="2" MinHeight="28"/>
                                 <MediaElement x:Name="mediaElement" Visibility="Hidden" LoadedBehavior="Manual"/>
                             </Grid>
                         </Border>
                         <Button Padding="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Row="1" Grid.Column="7" x:Name="AppSettings" Click="AppSettings_Click" ToolTip="程序设置" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_settings.png"/>
                         </Button>
                     </Grid>
                 </Border>
@@ -129,7 +136,7 @@
                 <Button Padding="0" Grid.Column="0" BorderThickness="0" x:Name="BooksChoose" Click="BooksChoose_Click" ToolTip="书籍选择">
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_book.png"/>
                 </Button>
-                <TextBlock Padding="2" Width="Auto" x:Name="TbkCurBookName" Text="{Binding CurrentBookName, ElementName=Mw, Mode=TwoWay}" Foreground="DodgerBlue" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBlock Padding="2" Grid.Column="1" Width="Auto" x:Name="TbkCurBookName" Text="{Binding CurrentBookName, ElementName=Mw, Mode=TwoWay}" Foreground="DodgerBlue" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0"/>
                 <Grid Grid.Column="2" HorizontalAlignment="Center" >
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveUp" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource UpGeometry}" HorizontalAlignment="Right"  Click="BtnMoveUp_Click" VerticalAlignment="Top" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveDown" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DownGeometry}" HorizontalAlignment="Right" Click="BtnMoveDown_Click" VerticalAlignment="Bottom" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>

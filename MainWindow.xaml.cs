@@ -198,7 +198,10 @@ namespace 脸滚键盘
 
         private void MaterialTool_Click(object sender, RoutedEventArgs e)
         {
-
+            MaterialWindow win = new MaterialWindow();
+            win.Left = 100;
+            win.Top = 60;
+            win.ShowDialog();
         }
 
         private void InspirationTool_Click(object sender, RoutedEventArgs e)
@@ -298,6 +301,10 @@ namespace 脸滚键盘
 
 
 
+        private void AppSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
 
         #endregion

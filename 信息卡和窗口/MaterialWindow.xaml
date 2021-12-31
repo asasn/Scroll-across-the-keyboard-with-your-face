@@ -4,14 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口"
-        xmlns:脸滚键盘="clr-namespace:脸滚键盘" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" x:Name="materialWindow" x:Class="脸滚键盘.信息卡和窗口.MaterialWindow"
-        mc:Ignorable="d" Closing="materialWindow_Closing"
-        Title="{Binding Path=DataContext.NodeName ,ElementName=ucEditor, Mode=TwoWay}" Height="450" Width="800" WindowStartupLocation="CenterScreen" Topmost="True">
+        xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" x:Class="脸滚键盘.信息卡和窗口.MaterialWindow"
+        mc:Ignorable="d"
+        Title="素材库" Height="450" Width="800">
     <Grid>
-
-
-        <自定义控件:UcEditor x:Name="ucEditor"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="255"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="CbVolume" Loaded="CbVolume_Loaded" SelectionChanged="CbVolume_SelectionChanged"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="255"/>
+            </Grid.ColumnDefinitions>
+            <Image Source="pack://siteoforigin:,,,/Resourses/图标/目录树/ic_action_document.png"/>
+            <ComboBox x:Name="CbChapter" Grid.Column="1" Loaded="CbChapter_Loaded" SelectionChanged="CbChapter_SelectionChanged"/>
+        </Grid>
+        <自定义控件:UcEditor x:Name="UcEditor" Grid.Row="2"/>
 
     </Grid>
 </Window>

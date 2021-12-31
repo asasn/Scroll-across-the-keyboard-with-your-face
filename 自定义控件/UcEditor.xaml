@@ -52,6 +52,12 @@
                 <Button Background="#FFFAFAFA" x:Name="BtnPaste" Padding="1" BorderThickness="0" ToolTip="从剪贴板粘贴" Click="BtnPaste_Click">
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/编辑器/ic_action_paste.png" Width="20" Height="20" />
                 </Button>
+                <Button Background="#FFFAFAFA" x:Name="BtnUndo" Padding="1" BorderThickness="0" ToolTip="粘贴之前的原文" Click="BtnUndo_Click" IsEnabled="False">
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/编辑器/ic_action_redo.png" Width="20" Height="20" />
+                </Button>
+                <Button Background="#FFFAFAFA" x:Name="BtnFormat" Padding="1" BorderThickness="0" ToolTip="排版" Click="BtnFormat_Click">
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/编辑器/ic_action_reload.png" Width="20" Height="20" />
+                </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnMark" Padding="1" BorderThickness="0" ToolTip="添加/删除书签" Click="BtnMark_Click">
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/编辑器/ic_action_bookmark.png" Width="20" Height="20" />
                 </Button>
