@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.IO;
 using System.Text;
 using System.Windows.Controls;
@@ -116,11 +117,11 @@ namespace 脸滚键盘.公共操作类
         /// 方法：删除文档
         /// </summary>
         /// <param name="fullFileName">完整的文件名</param>
-        public static void deleteDoc(string fullFileName)
+        public static void DeleteFile(string fullFileName)
         {
             if (File.Exists(fullFileName))
             {
-                File.Delete(fullFileName);
+                FileSystem.DeleteFile(fullFileName, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
             }
         }
 
@@ -128,12 +129,11 @@ namespace 脸滚键盘.公共操作类
         /// 方法：删除文件夹
         /// </summary>
         /// <param name="fullFolderName">完整的文件夹名</param>
-        public static void deleteDir(string fullFolderName)
+        public static void DeleteDirectory(string fullFolderName)
         {
             if (System.IO.Directory.Exists(fullFolderName))
             {
-                DirectoryInfo di = new DirectoryInfo(fullFolderName);
-                di.Delete(true);
+                FileSystem.DeleteDirectory(fullFolderName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             }
         }
 

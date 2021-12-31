@@ -159,7 +159,12 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return;
             }
-
+            TbBuild.Text = FileOperate.ReplaceFileName(TbBuild.Text);
+            if (FileOperate.IsFileExists(Gval.Path.Books + "/" + TbBuild.Text + ".db") == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("该书籍已经存在\n请换一个新书名！", "Tip", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+                return;
+            }
             string tableName = "books";
             string guid = Guid.NewGuid().ToString();
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
@@ -187,6 +192,12 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+            if (dr == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+            FileOperate.DeleteFile(Gval.Path.Books + "/" + (WpBooks.Tag as HandyControl.Controls.Card).Header.ToString() + ".db");
             UTreeView.DelCurBookBySql();
             WpBooks.Children.Clear();
             Window_Loaded(null, null);
@@ -218,6 +229,11 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void BtnName_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TbName.Text))
+            {
+                return;
+            }
+            TbName.Text = FileOperate.ReplaceFileName(TbName.Text);
             string oldName = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
             string newName = Gval.Path.Books + "/" + TbName.Text + ".db";
             Gval.CurrentBook.Name = TbName.Text;
