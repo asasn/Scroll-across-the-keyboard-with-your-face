@@ -41,7 +41,6 @@ namespace 脸滚键盘.公共操作类
             public static MainWindow MWindow;
             public static Grid BooksPanel;
             public static HandyControl.Controls.TabControl TabControl;
-            public static HandyControl.Controls.Drawer BooksDrawer;
             public static UcTreeBook TreeBook;
             public static UcTreeBook TreeMaterial;
             public static UcTreeBook TreeNote;

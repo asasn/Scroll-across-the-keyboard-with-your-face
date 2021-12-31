@@ -394,70 +394,70 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\全唐诗字库.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\全唐诗字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\千字文字库.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\千字文字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\玄幻百家姓.txt">
+    <None Include="Resourses\语料\取名工具\常规\前缀\玄幻百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\完整百家姓.txt">
+    <None Include="Resourses\语料\取名工具\常规\前缀\完整百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\周易字库.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\周易字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\语料\诗经字库.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourses\语料\楚辞字库.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\诗经字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\女性化字库.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\楚辞字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\通用字表7000字.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\女性化字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\常用字2500字.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\通用字表7000字.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\次常用字1000字.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\常用字2500字.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\常见百家姓.txt">
+    <None Include="Resourses\语料\取名工具\常规\后缀\次常用字1000字.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\称号后缀.txt">
+    <None Include="Resourses\语料\取名工具\常规\前缀\常见百家姓.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\语料\称号前缀.txt">
+    <None Include="Resourses\语料\取名工具\称号\后缀\称号后缀.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\语料\取名工具\称号\前缀\称号前缀.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -514,6 +514,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resourses\语料\拼音字典\PinyinDict.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\语料\取名工具\称号\前缀\千字文字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\语料\取名工具\称号\前缀\周易字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resourses\语料\取名工具\地名\前缀\周易字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\语料\取名工具\地名\前缀\千字文字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\语料\取名工具\地名\后缀\地名后缀.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

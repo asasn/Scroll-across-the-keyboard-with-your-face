@@ -70,59 +70,36 @@ namespace 脸滚键盘.信息卡和窗口
         {
             if (WpSurnameBank != null && WpNameBank != null)
             {
-                //遍历词库文件
-                DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourses + "/语料");
-                FileInfo[] thefileInfo = theFolder.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
-                WpSurnameBank.Children.Clear();
-                WpNameBank.Children.Clear();
-                foreach (FileInfo NextFile in thefileInfo) //遍历文件
+                LoadBank(styleName, WpSurnameBank);
+                LoadBank(styleName, WpNameBank);
+
+                CheckBank(WpSurnameBank, new string[] { "常见", "周易" });
+                CheckBank(WpNameBank, new string[] { "常用字2500", "后缀" });
+            }
+        }
+
+        void LoadBank(string styleName, WrapPanel wpBank)
+        {
+            DirectoryInfo theFolder = new DirectoryInfo(Gval.Path.Resourses + "/语料/取名工具/" + styleName + "/" + wpBank.Tag.ToString());
+            FileInfo[] thefileInfo = theFolder.GetFiles("*.txt", SearchOption.TopDirectoryOnly);
+            wpBank.Children.Clear();
+            foreach (FileInfo NextFile in thefileInfo) //遍历文件
+            {
+                string name = System.IO.Path.GetFileNameWithoutExtension(NextFile.FullName);
+                CheckBox ckBox = AddBank(wpBank, name, NextFile);
+            }
+        }
+
+        void CheckBank(WrapPanel wpBank, string[] tags)
+        {
+            foreach (WrapPanel wp in wpBank.Children)
+            {
+                CheckBox cb = FindChirldHelper.FindVisualChild<CheckBox>(wp)[0];
+                foreach (string tag in tags)
                 {
-                    string name = System.IO.Path.GetFileNameWithoutExtension(NextFile.FullName);
-
-                    if (styleName == "常规" && false == (name.Contains("前缀") || name.Contains("后缀")))
+                    if (cb.Name.Contains(tag))
                     {
-                        if (name.Contains("百家姓"))
-                        {
-                            CheckBox ckBox = AddBank(WpSurnameBank, name, NextFile);
-
-                            if (name.Contains("常见"))
-                            {
-                                ckBox.IsChecked = true;
-                            }
-                        }
-                        else
-                        {
-                            CheckBox ckBox = AddBank(WpNameBank, name, NextFile);
-
-                            if (name.Contains("常用字2500"))
-                            {
-                                ckBox.IsChecked = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (name.Contains(styleName) || name.Contains("周易") || name.Contains("千字文"))
-                        {
-                            if (name.Contains("前缀") || name.Contains("周易") || name.Contains("千字文"))
-                            {
-                                CheckBox ckBox = AddBank(WpSurnameBank, name, NextFile);
-
-                                if (name.Contains("周易"))
-                                {
-                                    ckBox.IsChecked = true;
-                                }
-                            }
-                            if (name.Contains("后缀"))
-                            {
-                                CheckBox ckBox = AddBank(WpNameBank, name, NextFile);
-
-                                if (name.Contains("后缀"))
-                                {
-                                    ckBox.IsChecked = true;
-                                }
-                            }
-                        }
+                        cb.IsChecked = true;
                     }
                 }
             }
@@ -148,12 +125,19 @@ namespace 脸滚键盘.信息卡和窗口
         {
             CheckBox ckBox = sender as CheckBox;
             WrapPanel wp = ckBox.Parent as WrapPanel;
+            WrapPanel wpBank = wp.Parent as WrapPanel;
+            ScrollViewer sc = wpBank.Parent as ScrollViewer;
+            Grid gd = sc.Parent as Grid;
+            GroupBox gb = gd.Parent as GroupBox;
 
             List<string> listString = GetListFormTXT(wp.Uid);
             ckBox.DataContext = listString;
 
             Label lb = FindChirldHelper.FindVisualChild<Label>(wp)[0];
             lb.Content = ckBox.Name + " - " + listString.Count.ToString();
+
+            gb.DataContext = GetListFromBanks(wpBank);
+            gb.Header = gb.Tag.ToString() + " - " + (gb.DataContext as List<string>).Count.ToString();
         }
 
         /// <summary>
@@ -165,9 +149,16 @@ namespace 脸滚键盘.信息卡和窗口
         {
             CheckBox ckBox = sender as CheckBox;
             WrapPanel wp = ckBox.Parent as WrapPanel;
+            WrapPanel wpBank = wp.Parent as WrapPanel;
+            ScrollViewer sc = wpBank.Parent as ScrollViewer;
+            Grid gd = sc.Parent as Grid;
+            GroupBox gb = gd.Parent as GroupBox;
 
             Label lb = FindChirldHelper.FindVisualChild<Label>(wp)[0];
             lb.Content = ckBox.Name;
+
+            gb.DataContext = GetListFromBanks(wpBank);
+            gb.Header = gb.Tag.ToString() + " - " + (gb.DataContext as List<string>).Count.ToString();
         }
 
         List<string> GetListFromBanks(WrapPanel wpBank)
@@ -196,8 +187,8 @@ namespace 脸滚键盘.信息卡和窗口
         {
             //结果列表初始化
             WpResults.Children.Clear();
-            List<string> surnameList = GetListFromBanks(WpSurnameBank);
-            List<string> nameList = GetListFromBanks(WpNameBank);
+            List<string> surnameList = WpSurnameBank.DataContext as List<string>;
+            List<string> nameList = WpNameBank.DataContext as List<string>;
 
             for (int i = 0; i < 80; i++)
             {
@@ -275,7 +266,7 @@ namespace 脸滚键盘.信息卡和窗口
             {//名字·其一
                 if (string.IsNullOrWhiteSpace(tbNameFirst.Text))
                 {
-                    while (name1.Length < cbName1Length.SelectedIndex)
+                    while (name1.Length < cbName1Length.SelectedIndex + 1)
                     {
                         name1 += GenerateChineseWords(encoding);
                     };
@@ -298,7 +289,7 @@ namespace 脸滚键盘.信息卡和窗口
                     }
                     else
                     {
-                        while (name2.Length < cbName2Length.SelectedIndex)
+                        while (name2.Length < cbName2Length.SelectedIndex + 1)
                         {
                             name2 += GenerateChineseWords(encoding);
                         };
@@ -335,7 +326,7 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 if (string.IsNullOrWhiteSpace(tbNameFirst.Text))
                 {
-                    while (name1.Length < cbName1Length.SelectedIndex)
+                    while (name1.Length < cbName1Length.SelectedIndex + 1)
                     {
                         name1 += GetStringFromList(myList);
                     };
@@ -357,7 +348,7 @@ namespace 脸滚键盘.信息卡和窗口
                     }
                     else
                     {
-                        while (name2.Length < cbName2Length.SelectedIndex)
+                        while (name2.Length < cbName2Length.SelectedIndex + 1)
                         {
                             name2 += GetStringFromList(myList);
                         }
@@ -424,7 +415,7 @@ namespace 脸滚键盘.信息卡和窗口
                     string urlStr = "https://www.zdic.net/hans/" + c.ToString();
                     string htmlText = WebOperate.GetHtmlText(urlStr);
                     string pattern = "(?<=<span class=\"z_d song\">)([\\s\\S]+?)(?=<span class=\"ptr\">)";
-                    MatchCollection matchRets = Regex.Matches(htmlText, pattern, RegexOptions.Multiline);                    
+                    MatchCollection matchRets = Regex.Matches(htmlText, pattern, RegexOptions.Multiline);
                     if (matchRets.Count > 0)
                     {
                         foreach (Match item in matchRets)
@@ -465,7 +456,7 @@ namespace 脸滚键盘.信息卡和窗口
                 }
             }
             sr.Close();
-            return null;            
+            return null;
         }
 
         /// <summary>
@@ -612,14 +603,17 @@ namespace 脸滚键盘.信息卡和窗口
 
                 if (rbStyleNormal.IsChecked == true)
                 {
-                    while (surname.Length != cbSurnameLength.SelectedIndex)
+                    while (surname.Length != cbSurnameLength.SelectedIndex + 1)
                     {
                         surname = GetStringFromList(myList);
                     };
                 }
                 else
                 {
-                    surname = GetStringFromList(myList);
+                    while (surname.Length != cbSuffixLength.SelectedIndex + 1)
+                    {
+                        surname = GetStringFromList(myList);
+                    };
                 }
             }
 

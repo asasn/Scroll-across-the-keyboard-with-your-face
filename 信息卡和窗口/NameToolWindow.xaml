@@ -50,8 +50,7 @@
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="长度：" HorizontalAlignment="Left" Width="38"/>
-                        <ComboBox x:Name="cbSurnameLength" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="1">
-                            <TextBlock Text="0"/>
+                        <ComboBox x:Name="cbSurnameLength" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="0">
                             <TextBlock Text="1"/>
                             <TextBlock Text="2"/>
                         </ComboBox>
@@ -90,8 +89,7 @@
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="长度：" HorizontalAlignment="Left" Width="38"/>
-                        <ComboBox x:Name="cbName1Length" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="1">
-                            <TextBlock Text="0"/>
+                        <ComboBox x:Name="cbName1Length" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="0">
                             <TextBlock Text="1"/>
                             <TextBlock Text="2"/>
                         </ComboBox>
@@ -130,8 +128,7 @@
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="长度：" HorizontalAlignment="Left" Width="38"/>
-                        <ComboBox x:Name="cbName2Length" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="1">
-                            <TextBlock Text="0"/>
+                        <ComboBox x:Name="cbName2Length" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="0">
                             <TextBlock Text="1"/>
                             <TextBlock Text="2"/>
                         </ComboBox>
@@ -171,6 +168,17 @@
                         </Grid.ColumnDefinitions>
                         <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="启用：" HorizontalAlignment="Left" Width="38"/>
                         <CheckBox x:Name="ckbSuffix" Padding="0" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding IsChecked, ElementName=rbStyleNormal,Converter={StaticResource Boolean2BooleanReConverter}, Mode=OneWay}"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="0" IsEnabled="{Binding IsChecked, ElementName=ckbSuffix}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="长度：" HorizontalAlignment="Left" Width="38"/>
+                        <ComboBox x:Name="cbSuffixLength" Grid.Column="1" MinHeight="0" HorizontalAlignment="Left" VerticalAlignment="Center" SelectedIndex="0">
+                            <TextBlock Text="1"/>
+                            <TextBlock Text="2"/>
+                        </ComboBox>
                     </Grid>
                     <Grid Grid.Row="2" Grid.Column="1" x:Name="GridSuffixSet" IsEnabled="{Binding IsChecked, ElementName=ckbSuffix}">
                         <Grid.ColumnDefinitions>
@@ -229,17 +237,17 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <GroupBox x:Name="GboxSurnameBank" Style="{StaticResource BaseStyle}" Header="挂接词库 - 姓氏/前缀" >
+            <GroupBox x:Name="GboxSurnameBank" Style="{StaticResource BaseStyle}" Header="挂接词库 - 姓氏/前缀" Tag="挂接词库 - 姓氏/前缀">
                 <Grid>
                     <ScrollViewer>
-                        <WrapPanel x:Name="WpSurnameBank"></WrapPanel>
+                        <WrapPanel x:Name="WpSurnameBank" Tag="前缀"></WrapPanel>
                     </ScrollViewer>
                 </Grid>
             </GroupBox>
-            <GroupBox x:Name="GboxNameBank" Grid.Row="1" Style="{StaticResource BaseStyle}" Header="挂接词库 - 名字/后缀" >
+            <GroupBox x:Name="GboxNameBank" Grid.Row="1" Style="{StaticResource BaseStyle}" Header="挂接词库 - 名字/后缀" Tag="挂接词库 - 名字/后缀" >
                 <Grid >
                     <ScrollViewer>
-                        <WrapPanel x:Name="WpNameBank"></WrapPanel>
+                        <WrapPanel x:Name="WpNameBank" Tag="后缀"></WrapPanel>
                     </ScrollViewer>
                 </Grid>
             </GroupBox>
