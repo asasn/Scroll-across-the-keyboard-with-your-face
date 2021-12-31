@@ -161,6 +161,8 @@ namespace 脸滚键盘
 
         #endregion
 
+        #region 工具栏
+
 
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
@@ -194,21 +196,35 @@ namespace 脸滚键盘
             win.ShowDialog();
         }
 
+        private void MaterialTool_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void InspirationTool_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RecycleBin_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         #region 番茄时间
         public string ShowTimeText { get { return String.Format("{0:D2}:{1:D2}", (int)stopWatch.Elapsed.TotalMinutes, stopWatch.Elapsed.Seconds); } }
         Stopwatch stopWatch = new Stopwatch();
         DispatcherTimer timer = new DispatcherTimer();
-        bool changeTag = false;       
+        bool changeTag = false;
         private void TomatoTimeStart_Click(object sender, RoutedEventArgs e)
         {
             if (timer.IsEnabled)
             {
-                BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/ic_action_playback_play.png"));
+                BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png"));
                 TomatoTimeStop_Click(null, null);
             }
             else
             {
-                BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/ic_action_playback_stop.png"));
+                BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_stop.png"));
                 timer = new DispatcherTimer();
                 timer.Interval = TimeSpan.FromMilliseconds(1000);
                 timer.Tick += TimeRuner;
@@ -253,7 +269,7 @@ namespace 脸滚键盘
             timer.Tick -= TimeRuner;
             timer.Stop();
             TbTime.Text = ShowTimeText;
-            
+
         }
 
         private void CbTime_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
@@ -279,6 +295,11 @@ namespace 脸滚键盘
                 CbTime.Visibility = Visibility.Visible;
             }
         }
+
+
+
+        #endregion
+
         #endregion
 
 

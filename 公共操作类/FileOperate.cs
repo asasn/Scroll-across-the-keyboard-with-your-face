@@ -121,7 +121,7 @@ namespace 脸滚键盘.公共操作类
         {
             if (File.Exists(fullFileName))
             {
-                FileSystem.DeleteFile(fullFileName, UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
+                FileSystem.DeleteFile(fullFileName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             }
         }
 

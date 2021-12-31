@@ -312,7 +312,7 @@ namespace 脸滚键盘.控件方法类
                     this.WordsCount += 1;
                     //if (stuff.isButton == true)
                     //{
-                    //    stuff.IconPath = Gval.Path.Resourses + "/图标/ic_action_add.png";
+                    //    stuff.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_add.png";
                     //}
                     //else
                     //{
@@ -320,16 +320,16 @@ namespace 脸滚键盘.控件方法类
                     //    {
                     //        if (stuff.IsExpanded == true)
                     //        {
-                    //            stuff.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_open.png";
+                    //            stuff.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_folder_open.png";
                     //        }
                     //        else
                     //        {
-                    //            stuff.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_closed.png";
+                    //            stuff.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_folder_closed.png";
                     //        }
                     //    }
                     //    else
                     //    {
-                    //        stuff.iconPath = Gval.Path.Resourses + "/图标/ic_action_document.png";
+                    //        stuff.iconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_document.png";
                     //    }
                     //}
 
@@ -582,15 +582,15 @@ namespace 脸滚键盘.控件方法类
                 };
                 if (node.IsExpanded == true)
                 {
-                    node.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_open.png";
+                    node.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_folder_open.png";
                 }
                 else
                 {
-                    node.IconPath = Gval.Path.Resourses + "/图标/ic_action_folder_closed.png";
+                    node.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_folder_closed.png";
                 }
                 if (typeOfTree == "note")
                 {
-                    node.IconPath = Gval.Path.Resourses + "/图标/ic_action_knight.png";
+                    node.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_knight.png";
                 }
                 LoadNode(node, TreeViewNodeList, TopNode, typeOfTree);
                 ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
@@ -641,7 +641,7 @@ namespace 脸滚键盘.控件方法类
                     IsExpanded = (bool)reader["IsExpanded"],
                     IsChecked = (bool)reader["IsChecked"],
                 };
-                node.IconPath = Gval.Path.Resourses + "/图标/ic_action_document.png";
+                node.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_document.png";
                 LoadNode(node, TreeViewNodeList, parentNode, typeOfTree);
                 ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
             }

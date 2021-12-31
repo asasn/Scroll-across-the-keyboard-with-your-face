@@ -66,28 +66,37 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Button Padding="0" x:Name="NameTool" Click="NameTool_Click" ToolTip="起名工具">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_user.png"/>
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_user.png"/>
                         </Button>
                         <Button Padding="0" Grid.Column="1" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_search.png"/>
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_search.png"/>
                         </Button>
-                        <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="章节内容提炼">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_lab.png"/>
+                        <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="内容提炼">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_wizard.png"/>
                         </Button>
-                        <Border x:Name="BorderTomatoTime" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2" Grid.Column="6" ToolTip="番茄时间" Margin="4" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown">
+                        <Button Padding="0" Grid.Column="3" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="灵感工具" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bulb.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Column="4" x:Name="MaterialTool" Click="MaterialTool_Click" ToolTip="素材库" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
+                        </Button>    
+                        <Border x:Name="BorderTomatoTime" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2" Grid.Column="5" ToolTip="番茄时间" Margin="4" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="28"/>
                                     <ColumnDefinition Width="100*"/>
                                 </Grid.ColumnDefinitions>
                                 <Button Padding="0" BorderThickness="0" Grid.Column="0" x:Name="BtnStart" Click="TomatoTimeStart_Click" ToolTip="开始/停止（右键进入设置模式）" Height="Auto">
-                                    <Image x:Name="BtnTime" Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_playback_play.png" />
+                                    <Image x:Name="BtnTime" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png" />
                                 </Button>
                                 <TextBlock  x:Name="TbTime"  Grid.Column="1" Padding="0" Text="00:00" Margin="0" VerticalAlignment="Center"/>
                                 <hc:NumericUpDown Maximum="99" Minimum="0" Padding="0" x:Name="CbTime" Visibility="Hidden" ValueChanged="CbTime_ValueChanged" Loaded="CbTime_Loaded" Grid.ColumnSpan="2" MinHeight="28"/>
                                 <MediaElement x:Name="mediaElement" Visibility="Hidden" LoadedBehavior="Manual"/>
                             </Grid>
                         </Border>
+                        <Button Padding="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
+                        </Button>
                     </Grid>
                 </Border>
                 <自定义控件:UcTreeTask Grid.Row="2" Loaded="UcTreeTask_Loaded" />

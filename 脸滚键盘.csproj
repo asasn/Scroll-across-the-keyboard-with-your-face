@@ -330,41 +330,32 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_add.png">
+    <None Include="Resourses\图标\编辑器\ic_action_copy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\图标\ic_action_attachment.png">
+    <None Include="Resourses\图标\目录树\ic_action_document.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\图标\ic_action_attachment_2.png">
+    <None Include="Resourses\图标\目录树\ic_action_folder_closed.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\图标\ic_action_copy.png">
+    <None Include="Resourses\图标\目录树\ic_action_folder_open.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\图标\ic_action_document.png">
+    <None Include="Resourses\图标\工具栏\ic_action_puzzle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\图标\ic_action_folder_closed.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resourses\图标\ic_action_folder_open.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resourses\图标\ic_action_puzzle.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resourses\图标\ic_action_user.png">
+    <None Include="Resourses\图标\工具栏\ic_action_user.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_save.png">
+    <None Include="Resourses\图标\编辑器\ic_action_save.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_circles.png">
+    <None Include="Resourses\图标\编辑器\ic_action_circles.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -374,22 +365,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_knight.png">
+    <None Include="Resourses\图标\目录树\ic_action_knight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_paste.png">
+    <None Include="Resourses\图标\编辑器\ic_action_paste.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_bookmark.png">
+    <None Include="Resourses\图标\编辑器\ic_action_bookmark.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_search.png">
+    <None Include="Resourses\图标\工具栏\ic_action_search.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -476,10 +467,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_alarm.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resourses\图标\ic_action_lab.png">
+    <None Include="Resourses\图标\工具栏\ic_action_lab.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -497,13 +485,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\图标\ic_action_playback_pause.png">
+    <None Include="Resourses\图标\工具栏\ic_action_playback_pause.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\图标\ic_action_playback_play.png">
+    <None Include="Resourses\图标\工具栏\ic_action_playback_play.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resourses\图标\ic_action_playback_stop.png">
+    <None Include="Resourses\图标\工具栏\ic_action_playback_stop.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -525,7 +513,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resourses\图标\工具栏\ic_action_bulb.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\图标\工具栏\ic_action_trash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resourses\语料\取名工具\地名\前缀\周易字库.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -538,6 +533,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resourses\语料\取名工具\地名\后缀\地名后缀.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\图标\工具栏\ic_action_wizard.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
