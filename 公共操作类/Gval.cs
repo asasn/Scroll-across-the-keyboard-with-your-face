@@ -49,7 +49,6 @@ namespace 脸滚键盘.公共操作类
             public static UcCards OtherCards;
             public static UcCards PublicRoleCards;
             public static UcCards PublicOtherCards;
-            public static UcHistoryBar HistoryBar;
         }
     }
 }

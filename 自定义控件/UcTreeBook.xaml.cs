@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using 脸滚键盘.控件方法类;
 using static 脸滚键盘.控件方法类.UTreeView;
@@ -272,37 +273,51 @@ namespace 脸滚键盘.自定义控件
                         //获取节点对应的路径
                         string nodePath = GetPath(selectedNode);
 
-                        if (TypeOfTree == "note")
+                        if (TypeOfTree == "note" || TypeOfTree == "task")
                         {
                             return;
                         }
 
-                        foreach (HandyControl.Controls.TabItem item in Gval.Uc.TabControl.Items)
+                        if (TypeOfTree == "material")
                         {
-                            if (item.Uid == selectedNode.Uid)
-                            {
-                                item.IsSelected = true;
-                                return;
-                            }
+                            Gval.Uc.TreeMaterial = this;
+                            MaterialWindow win = new MaterialWindow();
+                            win.Left = Gval.Uc.MWindow.Left + Gval.Uc.MWindow.ActualWidth / 2 - win.Width / 2;
+                            win.Top = Gval.Uc.MWindow.Top + 25;
+                            win.ShowDialog();
+                            return;
                         }
 
-                        HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem();
-                        tabItem.Uid = selectedNode.Uid;
-                        tabItem.DataContext = selectedNode;
-                        tabItem.IsSelected = true;
+                        if (TypeOfTree == "book")
+                        {
+                            foreach (HandyControl.Controls.TabItem item in Gval.Uc.TabControl.Items)
+                            {
+                                if (item.Uid == selectedNode.Uid)
+                                {
+                                    item.IsSelected = true;
+                                    return;
+                                }
+                            }
 
-                        UcEditor ucEditor = new UcEditor();
-                        ucEditor.DataContext = selectedNode;
-                        tabItem.Content = ucEditor;
-                        tabItem.Closing += TabItem_Closing;
-                        Binding textBinding = new Binding();
-                        textBinding.Source = selectedNode;
-                        textBinding.Path = new PropertyPath("NodeName");
-                        textBinding.Mode = BindingMode.TwoWay;
-                        tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定     
-                        Gval.Uc.TabControl.Items.Add(tabItem);
-                        ucEditor.LoadChapter(CurBookName, TypeOfTree);
-                        ucEditor.MarkNamesInChapter();
+                            HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem();
+                            tabItem.Uid = selectedNode.Uid;
+                            tabItem.DataContext = selectedNode;
+                            tabItem.IsSelected = true;
+
+                            UcEditor ucEditor = new UcEditor();
+                            ucEditor.DataContext = selectedNode;
+                            tabItem.Content = ucEditor;
+                            tabItem.Closing += TabItem_Closing;
+                            Binding textBinding = new Binding();
+                            textBinding.Source = selectedNode;
+                            textBinding.Path = new PropertyPath("NodeName");
+                            textBinding.Mode = BindingMode.TwoWay;
+                            tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定     
+                            Gval.Uc.TabControl.Items.Add(tabItem);
+                            ucEditor.LoadChapter(CurBookName, TypeOfTree);
+                            ucEditor.MarkNamesInChapter();
+                        }
+
                     }
                 }
             }

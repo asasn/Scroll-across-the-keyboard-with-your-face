@@ -51,12 +51,15 @@ namespace 脸滚键盘.控件方法类
             {
             }
 
-            public TreeViewNode(string _uid, string _nodeName, bool _isDir = false, bool _isButton = false)
+            public TreeViewNode(string _uid, string _nodeName, bool _isDir = false, bool _isButton = false,bool _isExpanded = false, bool _isSelected=false, bool _isChecked=false)
             {
                 this.uid = _uid;
                 this.nodeName = _nodeName;
                 this.isDir = _isDir;
                 this.isButton = _isButton;
+                this.isExpanded = _isExpanded;
+                this.isSelected = _isSelected;
+                this.isChecked = _isChecked;
             }
             #endregion
 

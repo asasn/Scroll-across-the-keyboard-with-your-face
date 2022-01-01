@@ -214,7 +214,7 @@ namespace 脸滚键盘.自定义控件
         /// <summary>
         /// 方法：编辑区文字保存
         /// </summary>
-        void SaveText()
+        public void SaveText()
         {
             TreeViewNode CurNode = this.DataContext as TreeViewNode;
 
@@ -225,7 +225,7 @@ namespace 脸滚键盘.自定义控件
 
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            string sql = string.Format("UPDATE Tree_{0} set NodeContent='{1}', WordsCount={2} where Uid = '{3}';", tableName, textEditor.Text, words, CurNode.Uid);
+            string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}', isDir={2}, NodeContent='{3}', WordsCount={4}, IsExpanded={5}, IsChecked={6} where Uid = '{7}';", tableName, CurNode.NodeName, CurNode.IsDir, textEditor.Text, words, CurNode.IsExpanded, CurNode.IsChecked, CurNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
 
@@ -525,6 +525,7 @@ namespace 脸滚键盘.自定义控件
         private void BtnFormat_Click(object sender, RoutedEventArgs e)
         {
             ReformatText(textEditor);
+            SaveText();
         }
 
         private void BtnMark_Click(object sender, RoutedEventArgs e)

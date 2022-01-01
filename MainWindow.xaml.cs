@@ -167,43 +167,39 @@ namespace 脸滚键盘
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
             NameToolWindow win = new NameToolWindow();
-            win.Left = 600;
-            win.Top = 60;
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
             win.ShowDialog();
         }
 
         private void HansTool_Click(object sender, RoutedEventArgs e)
         {
             HansToolWindow win = new HansToolWindow();
-            win.Left = 600;
-            win.Top = 60;
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
             win.ShowDialog();
         }
 
         private void CollectTool_Click(object sender, RoutedEventArgs e)
         {
             CollectToolWindow win = new CollectToolWindow();
-            win.Left = 600;
-            win.Top = 60;
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
             win.ShowDialog();
         }
 
         private void BooksChoose_Click(object sender, RoutedEventArgs e)
         {
             BooksChooseWindow win = new BooksChooseWindow();
-            win.Left = 100;
-            win.Top = 60;
+            win.Left = Mw.Left + 100;
+            win.Top = Mw.Top + 100;
             win.ShowDialog();
         }
 
-        private void MaterialTool_Click(object sender, RoutedEventArgs e)
+        private void PuzzleTool_Click(object sender, RoutedEventArgs e)
         {
-            MaterialWindow win = new MaterialWindow();
-            win.Left = 100;
-            win.Top = 60;
-            win.ShowDialog();
-        }
 
+        }
         private void InspirationTool_Click(object sender, RoutedEventArgs e)
         {
 
@@ -213,6 +209,7 @@ namespace 脸滚键盘
         {
 
         }
+
         #region 番茄时间
         public string ShowTimeText { get { return String.Format("{0:D2}:{1:D2}", (int)stopWatch.Elapsed.TotalMinutes, stopWatch.Elapsed.Seconds); } }
         Stopwatch stopWatch = new Stopwatch();
@@ -299,13 +296,16 @@ namespace 脸滚键盘
             }
         }
 
+        #endregion
 
+        private void MapTool_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
         private void AppSettings_Click(object sender, RoutedEventArgs e)
         {
 
         }
-        #endregion
 
         #endregion
 
