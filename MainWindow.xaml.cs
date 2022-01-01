@@ -162,7 +162,13 @@ namespace 脸滚键盘
         #endregion
 
         #region 工具栏
-
+        private void BooksChoose_Click(object sender, RoutedEventArgs e)
+        {
+            BooksChooseWindow win = new BooksChooseWindow();
+            win.Left = Mw.Left + 100;
+            win.Top = Mw.Top + 100;
+            win.ShowDialog();
+        }
 
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
@@ -185,14 +191,6 @@ namespace 脸滚键盘
             CollectToolWindow win = new CollectToolWindow();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
-            win.ShowDialog();
-        }
-
-        private void BooksChoose_Click(object sender, RoutedEventArgs e)
-        {
-            BooksChooseWindow win = new BooksChooseWindow();
-            win.Left = Mw.Left + 100;
-            win.Top = Mw.Top + 100;
             win.ShowDialog();
         }
 
@@ -300,7 +298,10 @@ namespace 脸滚键盘
 
         private void MapTool_Click(object sender, RoutedEventArgs e)
         {
-
+            MapWindow win = new MapWindow();
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
+            win.ShowDialog();
         }
         private void AppSettings_Click(object sender, RoutedEventArgs e)
         {

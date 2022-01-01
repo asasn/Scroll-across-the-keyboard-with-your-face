@@ -1,0 +1,20 @@
+﻿<Window x:Class="脸滚键盘.信息卡和窗口.MapWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口"
+        mc:Ignorable="d"
+        Title="MapWindow" Height="450" Width="800">
+    <Canvas x:Name="canvas" AllowDrop="True">
+        <Image Source="D:\myfiles\Desktop\测试地图.jpg"/>
+
+
+        <local:DragButton x:Name="btn" BorderThickness="0" Background="Transparent" Canvas.Left="173" Canvas.Top="64" Width="30" Height="30">
+            <Image x:Name="ttt1" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" />
+        </local:DragButton>
+        <local:DragButton x:Name="btn2" BorderThickness="0" Background="Transparent" Canvas.Left="103" Canvas.Top="64" Width="30" Height="30">
+            <Image x:Name="ttt2" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" />
+        </local:DragButton>
+    </Canvas>
+</Window>

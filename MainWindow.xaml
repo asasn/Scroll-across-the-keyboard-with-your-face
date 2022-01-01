@@ -101,7 +101,7 @@
                         <Button Padding="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
                         </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="MapTool" Click="MapTool_Click" ToolTip="地图" IsEnabled="False">
+                        <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="MapTool" Click="MapTool_Click" ToolTip="地图">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_map.png"/>
                         </Button>
                         <Button Padding="0" Grid.Row="1" Grid.Column="7" x:Name="AppSettings" Click="AppSettings_Click" ToolTip="程序设置" IsEnabled="False">
