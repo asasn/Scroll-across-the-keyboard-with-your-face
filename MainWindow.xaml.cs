@@ -303,10 +303,36 @@ namespace 脸滚键盘
             win.Top = Mw.Top + 25;
             win.ShowDialog();
         }
+
+        private void DesignTool_Click(object sender, RoutedEventArgs e)
+        {
+            DesignToolWindow win = new DesignToolWindow();
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
+            win.ShowDialog();
+        }
+
+        private void AnchorTool_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LockTool_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DBTool_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void AppSettings_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+
 
         #endregion
 

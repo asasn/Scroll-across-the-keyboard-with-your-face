@@ -15,14 +15,13 @@ using System.Windows.Shapes;
 namespace 脸滚键盘.信息卡和窗口
 {
     /// <summary>
-    /// MapWindow.xaml 的交互逻辑
+    /// DesignToolWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MapWindow : Window
+    public partial class DesignToolWindow : Window
     {
-        public MapWindow()
+        public DesignToolWindow()
         {
             InitializeComponent();
         }
     }
 }
-

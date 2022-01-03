@@ -6,15 +6,19 @@
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口"
         mc:Ignorable="d"
         Title="MapWindow" Height="450" Width="800">
-    <Canvas x:Name="canvas" AllowDrop="True">
-        <Image Source="D:\myfiles\Desktop\测试地图.jpg"/>
-
-
-        <local:DragButton x:Name="btn" BorderThickness="0" Background="Transparent" Canvas.Left="173" Canvas.Top="64" Width="30" Height="30">
-            <Image x:Name="ttt1" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" />
-        </local:DragButton>
-        <local:DragButton x:Name="btn2" BorderThickness="0" Background="Transparent" Canvas.Left="103" Canvas.Top="64" Width="30" Height="30">
-            <Image x:Name="ttt2" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" />
-        </local:DragButton>
-    </Canvas>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Image Source="D:\myfiles\Desktop\New map.jpg"/>
+                <Button x:Name="btn" BorderThickness="0" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="300,200,0,0">
+                    <Image x:Name="ttt1" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" />
+                </Button>
+                <Button x:Name="btn2" BorderThickness="0" Background="Transparent" Width="30" Height="30" Margin="300,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Image x:Name="ttt2" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" />
+                </Button>
+            </Grid>
+    </Grid>
 </Window>

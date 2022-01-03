@@ -104,6 +104,24 @@
                         <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="MapTool" Click="MapTool_Click" ToolTip="地图">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_map.png"/>
                         </Button>
+                        <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="DesignTool" Click="DesignTool_Click" ToolTip="大纲设计" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_knight.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Row="1" Grid.Column="2" x:Name="AnchorTool" Click="AnchorTool_Click" ToolTip="锚点工具" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_anchor.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Row="1" Grid.Column="3" x:Name="LockTool" Click="LockTool_Click" ToolTip="加锁" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lock_closed.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Row="1" Grid.Column="4" x:Name="UnKnowTool" ToolTip="未知" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_warning.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Row="1" Grid.Column="5" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_warning.png"/>
+                        </Button>
+                        <Button Padding="0" Grid.Row="1" Grid.Column="6" x:Name="DBTool" Click="DBTool_Click" ToolTip="数据库管理" IsEnabled="False">
+                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_database.png"/>
+                        </Button>
                         <Button Padding="0" Grid.Row="1" Grid.Column="7" x:Name="AppSettings" Click="AppSettings_Click" ToolTip="程序设置" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_settings.png"/>
                         </Button>
