@@ -681,7 +681,6 @@ namespace 脸滚键盘.自定义控件
                 AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
-
         }
 
         private void Command_AddChildNode_Executed(object sender, ExecutedRoutedEventArgs e)

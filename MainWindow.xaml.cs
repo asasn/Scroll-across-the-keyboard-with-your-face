@@ -26,6 +26,7 @@ namespace 脸滚键盘
         public MainWindow()
         {
             InitializeComponent();
+            FileOperate.CreateFolder(Gval.Path.Books);
             RunningCheck();
         }
 
@@ -122,16 +123,16 @@ namespace 脸滚键盘
         {
             Gval.Uc.PublicRoleCards = sender as UcCards;
             Gval.Uc.PublicRoleCards.WpCards.Children.Clear();
-            Gval.Uc.PublicRoleCards.LoadCards("index", "角色");
             CardOperate.TryToBuildBaseTable("index", "角色");
+            Gval.Uc.PublicRoleCards.LoadCards("index", "角色");            
         }
 
         private void PublicOtherCards_Loaded(object sender, RoutedEventArgs e)
         {
             Gval.Uc.PublicOtherCards = sender as UcCards;
             Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
-            Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
             CardOperate.TryToBuildBaseTable("index", "其他");
+            Gval.Uc.PublicOtherCards.LoadCards("index", "其他");            
         }
 
 
