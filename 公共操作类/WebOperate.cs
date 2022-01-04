@@ -10,6 +10,11 @@ namespace 脸滚键盘.公共操作类
 {
     class WebOperate
     {
+        /// <summary>
+        /// 依据输入的url链接获取html源代码
+        /// </summary>
+        /// <param name="urlStr"></param>
+        /// <returns></returns>
         public static string GetHtmlText(string urlStr)
         {
             WebRequest request = WebRequest.Create(urlStr);

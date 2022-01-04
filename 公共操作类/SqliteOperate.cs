@@ -8,15 +8,19 @@ namespace 脸滚键盘.公共操作类
 
         public SqliteOperate(string DbPath, string DbName = null)
         {
-            NewConnection(DbPath, DbName);
+            Close();
+            connection = CreateDatabaseConnection(DbPath, DbName);
             Gval.Flag.IsSqlconnOpening = true;
         }
 
         ~SqliteOperate()
         {
             Gval.Flag.IsSqlconnOpening = false;
-            //Close();
+            //SQLiteConnection.ClearAllPools();
         }
+
+        // 使用全局静态变量保存连接
+        private SQLiteConnection connection;
 
         /// <summary>
         /// 数据库建立连接
@@ -31,9 +35,6 @@ namespace 脸滚键盘.公共操作类
             string dbFilePath = Path.Combine(dbPath, dbName);
             return new SQLiteConnection("DataSource = " + dbFilePath + ";foreign keys=true;");
         }
-
-        // 使用全局静态变量保存连接
-        private SQLiteConnection connection;
 
         // 打开连接
         private void Open()
@@ -51,19 +52,7 @@ namespace 脸滚键盘.公共操作类
             if (connection != null)
             {
                 connection.Close();
-                SQLiteConnection.ClearAllPools();
             }
-            
-        }
-
-
-        /// <summary>
-        /// 刷新数据库连接
-        /// </summary>
-        public void NewConnection(string DbPath, string DbName = null)
-        {
-            Close();
-            connection = CreateDatabaseConnection(DbPath, DbName);
         }
 
         /// <summary>
@@ -112,8 +101,6 @@ namespace 脸滚键盘.公共操作类
                 //tr.Commit();
             }
         }
-
-
 
         /// <summary>
         /// 获取最后添加记录的uid

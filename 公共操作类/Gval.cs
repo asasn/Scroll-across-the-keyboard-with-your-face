@@ -36,6 +36,7 @@ namespace 脸滚键盘.公共操作类
 
             public static bool Loading;
         }
+
         public struct Uc
         {
             public static MainWindow MWindow;
