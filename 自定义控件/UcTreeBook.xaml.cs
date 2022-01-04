@@ -110,7 +110,10 @@ namespace 脸滚键盘.自定义控件
 
             Gval.Flag.Loading = false;
 
-            Sv.ScrollToEnd();
+            if (Tv != null)
+            {
+                Sv.ScrollToEnd();
+            }
         }
         #endregion
 

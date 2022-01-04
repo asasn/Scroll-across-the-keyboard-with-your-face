@@ -101,10 +101,13 @@ namespace 脸滚键盘
 
         private void Window_Closing(object sender, EventArgs e)
         {
-            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+            if (Gval.Uc.TabControl != null)
             {
-                tabItem.Focus();
-                UEditor.TabItemClosing(tabItem, e);
+                foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+                {
+                    tabItem.Focus();
+                    UEditor.TabItemClosing(tabItem, e);
+                }
             }
             Application.Current.Shutdown();
         }
