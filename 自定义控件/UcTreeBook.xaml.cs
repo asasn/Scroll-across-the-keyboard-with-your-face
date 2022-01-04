@@ -664,7 +664,7 @@ namespace 脸滚键盘.自定义控件
                 ((MenuItem)TreeViewMenu.Items[2]).IsEnabled = false;
                 ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = false;
             }
-            if (TopNode.ChildNodes.Count == 0)
+            if (TopNode !=null && TopNode.ChildNodes.Count == 0)
             {
                 Command_AddBrotherNode_Executed(null, null);
             }
@@ -742,7 +742,7 @@ namespace 脸滚键盘.自定义控件
                     newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
                     newNode.WordsCount = UEditor.WordCount(newNode.NodeContent);
                     //合并提交的SQL语句，使用+=来赋值
-                    sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded);
+                    sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
                 }
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();

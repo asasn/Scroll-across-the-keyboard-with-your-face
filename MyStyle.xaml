@@ -142,7 +142,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-        <Setter Property="hc:ScrollViewer.IsInertiaEnabled" Value="False"/>
+        <Setter Property="hc:ScrollViewer.IsInertiaEnabled" Value="True"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True"/>

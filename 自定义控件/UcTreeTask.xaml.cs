@@ -23,11 +23,17 @@ namespace 脸滚键盘.自定义控件
         TextBox TbReName;
         string TypeOfTree;
         string CurBookName;
-        TreeViewNode TopNode = new TreeViewNode
+
+        public TreeViewNode TopNode
         {
-            Uid = "",
-            IsDir = true
-        };
+            get { return (TreeViewNode)GetValue(TopNodeProperty); }
+            set { SetValue(TopNodeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TopNode.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TopNodeProperty =
+            DependencyProperty.Register("TopNode", typeof(TreeViewNode), typeof(UcTreeTask), new PropertyMetadata(null));
+
         /// <summary>
         /// 数据源：节点列表
         /// </summary>
@@ -508,7 +514,7 @@ namespace 脸滚键盘.自定义控件
                 ((MenuItem)TreeViewMenu.Items[2]).IsEnabled = false;
                 ((MenuItem)TreeViewMenu.Items[0]).IsEnabled = false;
             }
-            if (TopNode.ChildNodes.Count == 0)
+            if (TopNode != null && TopNode.ChildNodes.Count == 0)
             {
                 Command_AddBrotherNode_Executed(null, null);
             }

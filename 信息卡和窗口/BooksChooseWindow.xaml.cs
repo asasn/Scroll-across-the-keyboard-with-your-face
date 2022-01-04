@@ -181,6 +181,10 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TbPrice.Text) || string.IsNullOrWhiteSpace(TbBornYear.Text) || string.IsNullOrWhiteSpace(TbCurrentYear.Text) || WpBooks.Tag == null)
+            {
+                return;
+            }
             string tableName = "books";
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
             string sql = string.Format("UPDATE Tree_{0} set Price={1}, BornYear={2}, CurrentYear={3} where Uid = '{4}';", tableName, Convert.ToDouble(TbPrice.Text), Convert.ToInt32(TbBornYear.Text), Convert.ToInt32(TbCurrentYear.Text), Gval.CurrentBook.Uid);
@@ -192,6 +196,10 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
         {
+            if (WpBooks.Tag == null)
+            {
+                return;
+            }
             MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
             if (dr == MessageBoxResult.Cancel)
             {
@@ -229,7 +237,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void BtnName_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TbName.Text))
+            if (string.IsNullOrWhiteSpace(TbName.Text) || WpBooks.Tag == null)
             {
                 return;
             }
