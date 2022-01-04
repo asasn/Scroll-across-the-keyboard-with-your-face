@@ -148,23 +148,11 @@ namespace 脸滚键盘.信息卡和窗口
             wp.Children.Add(tb);
         }
 
-        /// <summary>
-        /// 刷新关键词着色
-        /// </summary>
-        void RefreshKeyWords()
-        {
-            foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
-            {
-                UcEditor ucEditor = tabItem.Content as UcEditor;
-                ucEditor.SetRules();
-            }
-        }
-
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, tbName.Text));
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, tbName.Text.Replace("'", "''")));
             while (reader.Read())
             {
                 if (CurButton.Uid != reader.GetString(0).ToString())
@@ -188,7 +176,7 @@ namespace 脸滚键盘.信息卡和窗口
                     TbBornYear.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text, tb备注.Text, thisCard.weight, TbBornYear.Text, CurButton.Uid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text.Replace("'", "''"), tb备注.Text.Replace("'", "''"), thisCard.weight, TbBornYear.Text, CurButton.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 CurButton.Content = tbName.Text;
@@ -198,7 +186,8 @@ namespace 脸滚键盘.信息卡和窗口
             sqlConn.Close();
 
 
-            RefreshKeyWords();
+            Gval.Uc.RoleCards.RefreshKeyWords();
+            Gval.Uc.RoleCards.MarkNamesInChapter();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

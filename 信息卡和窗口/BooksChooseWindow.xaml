@@ -87,7 +87,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="新书：" Width="38"/>
-                <TextBox Grid.Column="1" x:Name="TbBuild" Padding="0"/>
+                <TextBox Grid.Column="1" x:Name="TbBuild" Padding="0" KeyDown="TbBuild_KeyDown"/>
                 <Button Grid.Column="2" x:Name="BtnBuild" Content="创建" Click="BtnBuild_Click"/>
             </Grid>
             <Grid Grid.Row="8">

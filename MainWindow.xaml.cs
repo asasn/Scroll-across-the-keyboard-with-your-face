@@ -95,8 +95,13 @@ namespace 脸滚键盘
             if (tabItem != null)
             {
                 UcEditor ucEditor = tabItem.Content as UcEditor;
-                ucEditor.MarkNamesInChapter();
+                Gval.CurrentBook.CurNode = ucEditor.DataContext as TreeViewNode;                
             }
+            else
+            {
+                Gval.CurrentBook.CurNode = new TreeViewNode();
+            }
+            Gval.Uc.RoleCards.MarkNamesInChapter();
         }
 
         private void Window_Closing(object sender, EventArgs e)

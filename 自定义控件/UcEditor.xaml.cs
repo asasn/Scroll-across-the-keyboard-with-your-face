@@ -94,6 +94,7 @@ namespace 脸滚键盘.自定义控件
         public void LoadChapter(string curBookName, string typeOfTree)
         {
             CurNode = this.DataContext as TreeViewNode;
+            Gval.CurrentBook.CurNode = this.DataContext as TreeViewNode;
             TypeOfTree = typeOfTree;
             CurBookName = curBookName;
             textEditor.Load(ConvertStringToStream(CurNode.NodeContent));
@@ -225,7 +226,7 @@ namespace 脸滚键盘.自定义控件
 
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}', isDir={2}, NodeContent='{3}', WordsCount={4}, IsExpanded={5}, IsChecked={6} where Uid = '{7}';", tableName, CurNode.NodeName, CurNode.IsDir, textEditor.Text, words, CurNode.IsExpanded, CurNode.IsChecked, CurNode.Uid);
+            string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}', isDir={2}, NodeContent='{3}', WordsCount={4}, IsExpanded={5}, IsChecked={6} where Uid = '{7}';", tableName, CurNode.NodeName.Replace("'", "''"), CurNode.IsDir, textEditor.Text.Replace("'", "''"), words, CurNode.IsExpanded, CurNode.IsChecked, CurNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
 
@@ -236,91 +237,10 @@ namespace 脸滚键盘.自定义控件
             btnSaveDoc.IsEnabled = false;
 
             Console.WriteLine("保存至数据库");
-
-            MarkNamesInChapter();
+            Gval.Uc.RoleCards.MarkNamesInChapter();
         }
 
 
-        /// <summary>
-        /// 标记Card中button
-        /// </summary>
-        public void MarkNamesInChapter()
-        {
-            if (CurBookName == null)
-            {
-                return;
-            }
-            TreeViewNode CurNode = this.DataContext as TreeViewNode;
-            WrapPanel[] wps = { Gval.Uc.RoleCards.WpCards, Gval.Uc.OtherCards.WpCards };
-            foreach (WrapPanel wp in wps)
-            {
-                string tableName2 = wp.Tag.ToString();
-                SqliteOperate sqlConn2 = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                SQLiteDataReader reader = sqlConn2.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName2));
-                while (reader.Read())
-                {
-                    string name = reader["名称"].ToString();
-                    foreach (Button button in wp.Children)
-                    {
-                        if (name == button.Content.ToString())
-                        {
-                            if (CurNode.NodeContent.Contains(name) || IsContainsNickname(button.DataContext.ToString(), CurNode.NodeContent))
-                            {
-                                //button.Background = Brushes.Honeydew;
-                                //button.BorderBrush = Brushes.Khaki;
-                                button.Background = Brushes.Cornsilk;
-                            }
-                            else
-                            {
-                                //button.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
-                                button.Background = Brushes.White;
-                            }
-                        }
-                    }
-                }
-                reader.Close();
-                sqlConn2.Close();
-            }
-        }
-        /// <summary>
-        /// 判断文章内是否包含别称
-        /// </summary>
-        /// <param name="dataStr"></param>
-        /// <param name="nodeContent"></param>
-        /// <returns></returns>
-        bool IsContainsNickname(string dataStr, string nodeContent)
-        {
-            string[] sArray = dataStr.Split(new char[] { ' ' });
-            foreach (string ss in sArray)
-            {
-                if (false == string.IsNullOrWhiteSpace(ss.Trim()) && nodeContent.Contains(ss.Trim()))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-
-        private void chapterNameBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void chapterNameBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            //CurNodeName = chapterNameBox.Text;
-            //CurNode.NodeName = chapterNameBox.Text;
-            //if (CurNode != null)
-            //{
-            //    Console.WriteLine("Editor>>>CurNodeName");
-            //    string tableName = uc.CurBookName + "_" + uc.TypeOfTree;
-            //    SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, uc.CurBookName + ".db");
-            //    string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, CurNode.NodeName, CurNode.Uid);
-            //    sqlConn.ExecuteNonQuery(sql);
-            //    sqlConn.Close();
-            //}
-        }
 
 
 

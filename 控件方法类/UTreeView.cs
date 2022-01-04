@@ -47,14 +47,16 @@ namespace 脸滚键盘.控件方法类
             }
 
             #region 构造函数
-            public TreeViewNode()
+            public TreeViewNode(string _nodeContent = "")
             {
+                this.nodeContent = _nodeContent;
             }
 
-            public TreeViewNode(string _uid, string _nodeName, bool _isDir = false, bool _isButton = false,bool _isExpanded = false, bool _isSelected=false, bool _isChecked=false)
+            public TreeViewNode(string _uid, string _nodeName, string _nodeContent="", bool _isDir = false, bool _isButton = false,bool _isExpanded = false, bool _isSelected=false, bool _isChecked=false)
             {
                 this.uid = _uid;
                 this.nodeName = _nodeName;
+                this.nodeContent = _nodeContent;
                 this.isDir = _isDir;
                 this.isButton = _isButton;
                 this.isExpanded = _isExpanded;
@@ -538,7 +540,7 @@ namespace 脸滚键盘.控件方法类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
-            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
+            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent.Replace("'", "''"), newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
         }

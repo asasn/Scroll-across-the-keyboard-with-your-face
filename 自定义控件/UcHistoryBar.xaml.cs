@@ -294,7 +294,7 @@ namespace 脸滚键盘.自定义控件
             {
                 string tableName = TypeOfTree;
                 SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbYear.Text, TbYear.Uid);
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbYear.Text.Replace("'", "''"), TbYear.Uid);
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
             }
@@ -309,7 +309,7 @@ namespace 脸滚键盘.自定义控件
                 tbk.Text = TbSelected.Text;
                 string tableName = TypeOfTree;
                 SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbSelected.Text, TbSelected.Uid);
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbSelected.Text.Replace("'", "''"), TbSelected.Uid);
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
             }

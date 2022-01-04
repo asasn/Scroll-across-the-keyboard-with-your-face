@@ -37,23 +37,23 @@ namespace 脸滚键盘.公共操作类
             sqlConn.Close();
         }
 
-        /// <summary>
-        /// 在数据库中添加一个信息卡
-        /// </summary>
-        public static string AddCard(string curBookName, string typeOfTree, TreeViewNode newNode)
-        {
-            string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
-            //实际上是以名字为标识符
-            if (false == string.IsNullOrEmpty(newNode.NodeName) && false == string.IsNullOrEmpty(tableName))
-            {
-                string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, newNode.Uid, newNode.NodeName);
-                sqlConn.ExecuteNonQuery(sql);
-            }
-            sqlConn.Close();
-            return newNode.NodeName;
+        ///// <summary>
+        ///// 在数据库中添加一个信息卡
+        ///// </summary>
+        //public static string AddCard(string curBookName, string typeOfTree, TreeViewNode newNode)
+        //{
+        //    string tableName = typeOfTree;
+        //    SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+        //    //实际上是以名字为标识符
+        //    if (false == string.IsNullOrEmpty(newNode.NodeName) && false == string.IsNullOrEmpty(tableName))
+        //    {
+        //        string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, newNode.Uid, newNode.NodeName.Replace("'", "''"));
+        //        sqlConn.ExecuteNonQuery(sql);
+        //    }
+        //    sqlConn.Close();
+        //    return newNode.NodeName;
 
-        }
+        //}
 
 
         public static void SaveMainInfo(string curBookName, string typeOfTree, WrapPanel[] wrapPanels, string idValue)
@@ -77,7 +77,7 @@ namespace 脸滚键盘.公共操作类
 
                             //编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
                             string guid = Guid.NewGuid().ToString();
-                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}, {1}id) values ('{2}', '{3}', '{4}');", tableName, wp.Uid, idValue, tb.Text, guid);
+                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}, {1}id) values ('{2}', '{3}', '{4}');", tableName, wp.Uid, idValue, tb.Text.Replace("'", "''"), guid);
                             sqlConn.ExecuteNonQuery(sql);
                             tb.Uid = guid;
                             sql = string.Empty; //注意清空，以免影响后续语句运行
@@ -94,7 +94,7 @@ namespace 脸滚键盘.公共操作类
                         }
                         else
                         {
-                            sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = '{2}';", tableName, wp.Uid, tb.Uid, tb.Text);
+                            sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = '{2}';", tableName, wp.Uid, tb.Uid, tb.Text.Replace("'", "''"));
                             w++;
                         }
 

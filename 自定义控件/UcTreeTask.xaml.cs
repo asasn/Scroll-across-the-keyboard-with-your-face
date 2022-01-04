@@ -202,7 +202,7 @@ namespace 脸滚键盘.自定义控件
 
                 string tableName = TypeOfTree;
                 SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName, selectedNode.Uid);
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
             }

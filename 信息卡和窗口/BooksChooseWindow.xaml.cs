@@ -168,7 +168,7 @@ namespace 脸滚键盘.信息卡和窗口
             string tableName = "books";
             string guid = Guid.NewGuid().ToString();
             SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Name, Price, BornYear, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text, 0, 2000, 2021);
+            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Name, Price, BornYear, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), 0, 2000, 2021);
             sqlConn.ExecuteNonQuery(sql);
             sqlConn.Close();
 
@@ -256,7 +256,7 @@ namespace 脸滚键盘.信息卡和窗口
                 FileOperate.renameDoc(oldName, newName);
                 string tableName = "books";
                 SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-                string sql = string.Format("UPDATE Tree_{0} set Name='{1}' where Uid = '{2}';", tableName, TbName.Text, Gval.CurrentBook.Uid);
+                string sql = string.Format("UPDATE Tree_{0} set Name='{1}' where Uid = '{2}';", tableName, TbName.Text.Replace("'", "''"), Gval.CurrentBook.Uid);
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
 
@@ -287,6 +287,14 @@ namespace 脸滚键盘.信息卡和窗口
             int str;
             int.TryParse(tb.Text, out str);
             tb.Text = str.ToString();
+        }
+
+        private void TbBuild_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnBuild.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            }
         }
     }
 }

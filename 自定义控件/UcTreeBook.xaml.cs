@@ -318,7 +318,8 @@ namespace 脸滚键盘.自定义控件
                             tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定     
                             Gval.Uc.TabControl.Items.Add(tabItem);
                             ucEditor.LoadChapter(CurBookName, TypeOfTree);
-                            ucEditor.MarkNamesInChapter();
+                            //ucEditor.MarkNamesInChapter();
+                            Gval.Uc.RoleCards.MarkNamesInChapter();
                         }
 
                     }
@@ -361,7 +362,7 @@ namespace 脸滚键盘.自定义控件
 
                 string tableName = TypeOfTree;
                 SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName, selectedNode.Uid);
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();
             }
@@ -742,7 +743,7 @@ namespace 脸滚键盘.自定义控件
                     newNode.NodeContent = FileOperate.ReadFromTxt(srcFullFileName);
                     newNode.WordsCount = UEditor.WordCount(newNode.NodeContent);
                     //合并提交的SQL语句，使用+=来赋值
-                    sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent, newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
+                    sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent.Replace("'", "''"), newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
                 }
                 sqlConn.ExecuteNonQuery(sql);
                 sqlConn.Close();

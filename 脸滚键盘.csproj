@@ -148,9 +148,6 @@
     <Compile Include="自定义控件\UcEditor.xaml.cs">
       <DependentUpon>UcEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcEditorCrude.xaml.cs">
-      <DependentUpon>UcEditorCrude.xaml</DependentUpon>
-    </Compile>
     <Compile Include="自定义控件\UcCards.xaml.cs">
       <DependentUpon>UcCards.xaml</DependentUpon>
     </Compile>
@@ -227,10 +224,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UcEditorCrude.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
