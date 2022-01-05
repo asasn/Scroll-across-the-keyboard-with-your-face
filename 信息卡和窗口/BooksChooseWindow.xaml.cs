@@ -150,7 +150,9 @@ namespace 脸滚键盘.信息卡和窗口
             CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "其他");
             Gval.Uc.OtherCards.LoadCards(Gval.CurrentBook.Name, "其他");
 
-            Gval.Uc.MWindow.CurrentBookName = Gval.CurrentBook.Name;
+            Gval.Uc.MWindow.TbkCurBookName.Visibility = Visibility.Hidden;
+            Gval.Uc.MWindow.TbkCurBookName2.Text = Gval.CurrentBook.Name;
+            Gval.Uc.MWindow.TbkCurBookName2.Visibility = Visibility.Visible;
         }
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)
@@ -209,6 +211,10 @@ namespace 脸滚键盘.信息卡和窗口
             UTreeView.DelCurBookBySql();
             WpBooks.Children.Clear();
             Window_Loaded(null, null);
+
+            Gval.Uc.MWindow.TbkCurBookName2.Visibility = Visibility.Hidden;
+            Gval.Uc.MWindow.TbkCurBookName.Text = "<<<点击选择或者创建书籍";
+            Gval.Uc.MWindow.TbkCurBookName.Visibility = Visibility.Visible;
         }
 
         private void TbCurBookBornYear_TextChanged(object sender, TextChangedEventArgs e)

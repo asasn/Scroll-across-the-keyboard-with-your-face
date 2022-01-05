@@ -83,7 +83,7 @@
                         </Button>
                         <Button Padding="0" Grid.Column="4" x:Name="PuzzleTool" Click="PuzzleTool_Click" ToolTip="拼图工具" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
-                        </Button>    
+                        </Button>
                         <Border x:Name="BorderTomatoTime" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2" Grid.Column="5" ToolTip="番茄时间" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown" Height="30" HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -157,7 +157,19 @@
                 <Button Padding="0" Grid.Column="0" BorderThickness="0" x:Name="BooksChoose" Click="BooksChoose_Click" ToolTip="书籍选择">
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/ic_action_book.png"/>
                 </Button>
-                <TextBlock Padding="2" Grid.Column="1" Width="Auto" x:Name="TbkCurBookName" Text="{Binding CurrentBookName, ElementName=Mw, Mode=TwoWay}" Foreground="DodgerBlue" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0"/>
+                <TextBlock Padding="2" Grid.Column="1" Width="Auto" x:Name="TbkCurBookName" Text="&lt;&lt;&lt;点击选择或者创建书籍" Foreground="DodgerBlue" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0" FontSize="14">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard BeginTime="0:0:0" Duration="0:0:1" AutoReverse="True" RepeatBehavior="Forever">
+                                    <ColorAnimation From="LightBlue" To="Blue" Duration="0:0:1" RepeatBehavior="Forever"  Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="TbkCurBookName">
+                                    </ColorAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+                <TextBlock Padding="2" Grid.Column="1" Width="Auto" x:Name="TbkCurBookName2" Foreground="DodgerBlue" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0" FontSize="14"/>
                 <Grid Grid.Column="2" HorizontalAlignment="Center" >
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveUp" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource UpGeometry}" HorizontalAlignment="Right"  Click="BtnMoveUp_Click" VerticalAlignment="Top" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
                     <Button Grid.Column="2" Padding="1" x:Name="BtnMoveDown" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource DownGeometry}" HorizontalAlignment="Right" Click="BtnMoveDown_Click" VerticalAlignment="Bottom" Width="15" Height="15" Foreground="Blue" IsEnabled="False"/>
