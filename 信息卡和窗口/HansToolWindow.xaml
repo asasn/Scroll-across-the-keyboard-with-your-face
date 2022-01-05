@@ -11,7 +11,7 @@
             <RowDefinition Height="100*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <WebBrowser x:Name="webBrowser" Loaded="webBrowser_Loaded" Navigating="webBrowser_Navigating" Navigated="webBrowser_Navigated"/>
+        <WebBrowser x:Name="UiWebBrowser" Loaded="WebBrowser_Loaded" Navigating="WebBrowser_Navigating" Navigated="WebBrowser_Navigated"/>
         <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" >
             <TextBox x:Name="TbHans" HorizontalAlignment="Left" TextWrapping="Wrap" KeyDown="TbHans_KeyDown" VerticalAlignment="Top" Width="200"/>
             <Button x:Name="BtnGet" Content="检索" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="BtnGet_Click"/>

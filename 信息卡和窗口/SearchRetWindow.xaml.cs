@@ -27,13 +27,13 @@ namespace 脸滚键盘.信息卡和窗口
     /// </summary>
     public partial class SearchRetWindow : Window
     {
-        public SearchRetWindow(TreeViewNode baseNode, ListBoxItem lbItem, string[] keyWords)
+        public SearchRetWindow(ListBoxItem lbItem, string[] keyWords)
         {
             InitializeComponent();
             Matches = keyWords;
 
             SetKeyWordsColor();
-            textEditor.Text = lbItem.DataContext.ToString();
+            TextEditor.Text = lbItem.DataContext.ToString();
         }
         public SearchRetWindow()
         {
@@ -48,19 +48,19 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void SetKeyWordsColor()
         {
-            textEditor.SyntaxHighlighting = null;
+            TextEditor.SyntaxHighlighting = null;
             string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
             Stream xshdStream = File.OpenRead(fullFileName);
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
-            textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);            
+            TextEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);            
             xshdReader.Close();
             xshdStream.Close();
 
             //清空文件内的自带规则
-            textEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
-            textEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
+            TextEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
+            TextEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
 
-            IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
+            IList<HighlightingRule> rules = TextEditor.SyntaxHighlighting.MainRuleSet.Rules;
             foreach (string word in Matches)
             {
                 AddKeyword(rules, word, "搜索");
@@ -77,9 +77,11 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return;
             }
-            HighlightingRule rule = new HighlightingRule();
-            rule.Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
-            rule.Regex = new Regex(keyword);
+            HighlightingRule rule = new HighlightingRule
+            {
+                Color = TextEditor.SyntaxHighlighting.GetNamedColor(colorName),
+                Regex = new Regex(keyword)
+            };
             rules.Add(rule);
         } 
 

@@ -28,56 +28,56 @@
                     <RowDefinition MinHeight="25" Height="Auto"/>
                     <RowDefinition MinHeight="50" Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="lb名称" Content="名称：" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Margin="0,3,0,0"  />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb诞生年份" Content="诞生年份：" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="108,3,0,0"  />
-                <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="lb别称" Content="别称：" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb身份" Content="身份：" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb外观" Content="外观：" Grid.Row="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb阶级" Content="阶级：" Grid.Row="4" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb所属" Content="所属：" Grid.Row="5" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb物品" Content="物品：" Grid.Row="6" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb能力" Content="能力：" Grid.Row="7" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb经历" Content="经历：" Grid.Row="8" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="lb备注" Content="备注：" Grid.Row="9" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
-                <TextBox Padding="2" x:Name="tbName" hc:BorderElement.CornerRadius="0" Grid.Row="0" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2,0,0" MinHeight="0"/>
+                <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="Lb名称" Content="名称：" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Margin="0,3,0,0"  />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb诞生年份" Content="诞生年份：" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="108,3,0,0"  />
+                <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="Lb别称" Content="别称：" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb身份" Content="身份：" Grid.Row="2" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb外观" Content="外观：" Grid.Row="3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb阶级" Content="阶级：" Grid.Row="4" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb所属" Content="所属：" Grid.Row="5" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb物品" Content="物品：" Grid.Row="6" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb能力" Content="能力：" Grid.Row="7" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb经历" Content="经历：" Grid.Row="8" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb备注" Content="备注：" Grid.Row="9" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                <TextBox Padding="2" x:Name="TbName" TextChanged="Tb_TextChanged" hc:BorderElement.CornerRadius="0" Grid.Row="0" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2,0,0" MinHeight="0"/>
                 <TextBox Padding="2" x:Name="TbBornYear" hc:BorderElement.CornerRadius="0" Text="" Grid.Row="0" Grid.Column="1" MinWidth="20" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="175,2,0,0" MinHeight="0" input:InputMethod.IsInputMethodEnabled="False" TextChanged="TbBornYear_TextChanged" />
-                <WrapPanel x:Name="wp别称" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="别称" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp别称" Uid="别称" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel x:Name="wp身份" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="身份" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp身份" Uid="身份" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel x:Name="wp外观" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="外观" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp外观" Uid="外观" Grid.Row="3" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel x:Name="wp阶级" Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="阶级" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp阶级" Uid="阶级" Grid.Row="4" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel x:Name="wp所属" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="所属" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp所属" Uid="所属" Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel x:Name="wp物品" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="物品" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp物品" Uid="物品" Grid.Row="6" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel x:Name="wp能力" Grid.Row="7" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="能力" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp能力" Uid="能力" Grid.Row="7" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel x:Name="wp经历" Grid.Row="8" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Uid="经历" Margin="-5,2,0,0">
+                <WrapPanel x:Name="Wp经历" Uid="经历" Grid.Row="8" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
-                <WrapPanel MinHeight="50" x:Name="wp备注" Grid.Row="9" Grid.Column="1" ItemHeight="Auto" Uid="备注" Margin="-5,2,0,0">
-                    <TextBox Padding="2" hc:BorderElement.CornerRadius="0" x:Name="tb备注" MinWidth="200" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0"/>
+                <WrapPanel MinHeight="50" x:Name="Wp备注" Uid="备注" Grid.Row="9" Grid.Column="1" ItemHeight="Auto" Margin="-5,2,0,0">
+                    <TextBox Padding="2" hc:BorderElement.CornerRadius="0" x:Name="Tb备注" TextChanged="Tb_TextChanged" MinWidth="200" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0"/>
                 </WrapPanel>
-                <Button Padding="2" x:Name="btn别称" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="1" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btn身份" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="2" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btn外观" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="3" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btn阶级" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="4" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btn所属" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="5" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btn物品" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="6" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btn能力" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="7" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btn经历" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="8" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
-                <Button Padding="2" x:Name="btnSave" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="btnSave_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" />
-                <Button Padding="2" x:Name="btnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="btnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-20,-5,0" />
+                <Button Padding="2" x:Name="Btn别称" Uid="别称" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="1" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="Btn身份" Uid="身份" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="2" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="Btn外观" Uid="外观" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="3" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="Btn阶级" Uid="阶级" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="4" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="Btn所属" Uid="所属" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="5" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="Btn物品" Uid="物品" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="6" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="Btn能力" Uid="能力" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="7" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="Btn经历" Uid="经历" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="8" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
+                <Button Padding="2" x:Name="BtnSave" IsEnabled="False" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="BtnSave_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" />
+                <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="BtnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-20,-5,0" />
 
             </Grid>
         </hc:Card>

@@ -27,12 +27,11 @@ namespace 脸滚键盘.信息卡和窗口
     /// </summary>
     public partial class InfoCard : Window
     {
-        TreeView Tv;
         Button CurButton;
         WrapPanel[] wrapPanels;
         string CurBookName;
         string TypeOfTree;
-        public struct thisCard
+        public struct ThisCard
         {
             public static string id;
             public static string weight;
@@ -63,13 +62,15 @@ namespace 脸滚键盘.信息卡和窗口
 
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
             CurButton = curButton;
-            tbName.Text = curButton.Content.ToString();
+            TbName.Text = curButton.Content.ToString();
 
-            WrapPanel[] temp = { wp别称, wp描述, wp阶级, wp基类, wp派生, wp物品, wp能力, wp经历 };
+            WrapPanel[] temp = { Wp别称, Wp描述, Wp阶级, Wp基类, Wp派生, Wp物品, Wp能力, Wp经历 };
             wrapPanels = temp;
 
             //填充窗口信息
             GetDataAndFillCard();
+
+            BtnSave.IsEnabled = false;
         }
 
 
@@ -90,7 +91,7 @@ namespace 脸滚键盘.信息卡和窗口
         void FillBaseInfo()
         {
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, CurButton.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
@@ -101,7 +102,7 @@ namespace 脸滚键盘.信息卡和窗口
                 }
                 if (reader["权重"].ToString() != "")
                 {
-                    thisCard.weight = reader["权重"].ToString();
+                    ThisCard.weight = reader["权重"].ToString();
                 }
                 if (reader["相对年龄"].ToString() == "")
                 {
@@ -115,7 +116,7 @@ namespace 脸滚键盘.信息卡和窗口
 
             }
             reader.Close();
-            sqlConn.Close();
+
 
             int realAge = Gval.CurrentBook.CurrentYear - int.Parse(TbBornYear.Text);
             Grid grid = new Grid();
@@ -127,7 +128,7 @@ namespace 脸滚键盘.信息卡和窗口
             lb2.Margin = new Thickness(152, 0, 0, 0);
             TextBlock tbk1 = new TextBlock();
             TextBlock tbk2 = new TextBlock();
-            tbk1.Text = thisCard.weight;
+            tbk1.Text = ThisCard.weight;
             tbk2.Text = realAge.ToString(); ;
             tbk1.Margin = new Thickness(50, 0, 0, 0);
             tbk2.Margin = new Thickness(219, 0, 0, 0);
@@ -141,25 +142,31 @@ namespace 脸滚键盘.信息卡和窗口
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            string btnName = b.Name.Substring(3);
-            string wpName = "wp" + btnName;
+            string wpName = "Wp" + b.Uid;
             WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
             TextBox tb = CardOperate.AddTextBox();
+            tb.TextChanged += Tb_TextChanged;
             wp.Children.Add(tb);
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private void Tb_TextChanged(object sender, TextChangedEventArgs e)
         {
+            BtnSave.IsEnabled = true;
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            BtnSave.IsEnabled = false;
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, tbName.Text.Replace("'", "''")));
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbName.Text.Replace("'", "''")));
             while (reader.Read())
             {
                 if (CurButton.Uid != reader.GetString(0).ToString())
                 {
                     MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
                     reader.Close();
-                    sqlConn.Close();
+
                     return;
                 }
             }
@@ -167,30 +174,29 @@ namespace 脸滚键盘.信息卡和窗口
 
             if (false == string.IsNullOrEmpty(CurButton.Content.ToString()))
             {
-                if (string.IsNullOrEmpty(thisCard.weight))
+                if (string.IsNullOrEmpty(ThisCard.weight))
                 {
-                    thisCard.weight = 0.ToString();
+                    ThisCard.weight = 0.ToString();
                 }
                 if (string.IsNullOrEmpty(TbBornYear.Text))
                 {
                     TbBornYear.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, tbName.Text.Replace("'", "''"), tb备注.Text.Replace("'", "''"), thisCard.weight, TbBornYear.Text, CurButton.Uid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, CurButton.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
-                CurButton.Content = tbName.Text;
+                CurButton.Content = TbName.Text;
 
                 CardOperate.SaveMainInfo(CurBookName, TypeOfTree, wrapPanels, CurButton.Uid);
             }
-            sqlConn.Close();
-
 
             Gval.Uc.RoleCards.RefreshKeyWords();
             Gval.Uc.RoleCards.MarkNamesInChapter();
+
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -198,9 +204,10 @@ namespace 脸滚键盘.信息卡和窗口
         private void TbBornYear_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            int str;
-            int.TryParse(tb.Text, out str);
+            int.TryParse(tb.Text, out int str);
             tb.Text = str.ToString();
+
+            Tb_TextChanged(sender, e);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Media;
@@ -28,6 +29,7 @@ namespace 脸滚键盘
             InitializeComponent();
             FileOperate.CreateFolder(Gval.Path.Books);
             RunningCheck();
+            Gval.SQLClass.Pools.Add("index", new SqliteOperate(Gval.Path.Books, "index.db"));
         }
 
         private void RunningCheck()
@@ -114,6 +116,10 @@ namespace 脸滚键盘
                     UEditor.TabItemClosing(tabItem, e);
                 }
             }
+            foreach (SqliteOperate sqlConn in Gval.SQLClass.Pools.Values)
+            {
+                sqlConn.Close();
+            }
             Application.Current.Shutdown();
         }
 
@@ -173,9 +179,11 @@ namespace 脸滚键盘
         #region 工具栏
         private void BooksChoose_Click(object sender, RoutedEventArgs e)
         {
-            BooksChooseWindow win = new BooksChooseWindow();
-            win.Left = Mw.Left + 100;
-            win.Top = Mw.Top + 100;
+            BooksChooseWindow win = new BooksChooseWindow
+            {
+                Left = Mw.Left + 100,
+                Top = Mw.Top + 100
+            };
             win.ShowDialog();
         }
 
@@ -232,8 +240,10 @@ namespace 脸滚键盘
             else
             {
                 BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_stop.png"));
-                timer = new DispatcherTimer();
-                timer.Interval = TimeSpan.FromMilliseconds(1000);
+                timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(1000)
+                };
                 timer.Tick += TimeRuner;
                 timer.Start();
                 if (changeTag == true)
@@ -286,8 +296,7 @@ namespace 脸滚键盘
 
         private void CbTime_Loaded(object sender, RoutedEventArgs e)
         {
-            double value;
-            double.TryParse(SettingsOperate.Get("tomatoTime"), out value);
+            double.TryParse(SettingsOperate.Get("tomatoTime"), out double value);
             CbTime.Value = value;
         }
 

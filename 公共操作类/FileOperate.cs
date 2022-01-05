@@ -142,7 +142,7 @@ namespace 脸滚键盘.公共操作类
         /// </summary>
         /// <param name="srcFolderPath">原文件夹</param>
         /// <param name="destFolderPath">新文件夹</param>
-        public static void renameDir(string srcFolderPath, string destFolderPath)
+        public static void RenameDir(string srcFolderPath, string destFolderPath)
         {
             //来源文件夹存在，目标文件夹不存在，且来源和目标文件夹不相同
             if (System.IO.Directory.Exists(srcFolderPath) && !System.IO.Directory.Exists(destFolderPath) && srcFolderPath != destFolderPath)
@@ -156,7 +156,7 @@ namespace 脸滚键盘.公共操作类
         /// </summary>
         /// <param name="fOld"></param>
         /// <param name="fNew"></param>
-        public static void renameDoc(string fOld, string fNew)
+        public static void RenameDoc(string fOld, string fNew)
         {
             //原文件存在，且改名后的新文件不存在
             if (File.Exists(fOld) && false == File.Exists(fNew))

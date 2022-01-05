@@ -17,7 +17,7 @@ namespace 脸滚键盘.公共操作类
         public static void SetWindowsMiddle(MouseButtonEventArgs e, Window card)
         {
             Point p = Mouse.GetPosition(e.Source as FrameworkElement);
-            Point pointToWindow = (e.Source as FrameworkElement).PointToScreen(p);//转化为屏幕中的坐标
+            _ = (e.Source as FrameworkElement).PointToScreen(p);//转化为屏幕中的坐标
             card.Left = 305;
             card.Top = 115;
             //card.Left = pointToWindow.X - card.Width / 2;
@@ -29,12 +29,12 @@ namespace 脸滚键盘.公共操作类
         public static void TryToBuildBaseTable(string curBookName, string typeOfTree)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tableName);
             sqlConn.ExecuteNonQuery(sql);
             string sql2 = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, "别称");
             sqlConn.ExecuteNonQuery(sql2);
-            sqlConn.Close();
+            
         }
 
         ///// <summary>
@@ -43,14 +43,14 @@ namespace 脸滚键盘.公共操作类
         //public static string AddCard(string curBookName, string typeOfTree, TreeViewNode newNode)
         //{
         //    string tableName = typeOfTree;
-        //    SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+        //    SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
         //    //实际上是以名字为标识符
         //    if (false == string.IsNullOrEmpty(newNode.NodeName) && false == string.IsNullOrEmpty(tableName))
         //    {
         //        string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, newNode.Uid, newNode.NodeName.Replace("'", "''"));
         //        sqlConn.ExecuteNonQuery(sql);
         //    }
-        //    sqlConn.Close();
+        //    
         //    return newNode.NodeName;
 
         //}
@@ -59,7 +59,7 @@ namespace 脸滚键盘.公共操作类
         public static void SaveMainInfo(string curBookName, string typeOfTree, WrapPanel[] wrapPanels, string idValue)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             int w = 0;
             foreach (WrapPanel wp in wrapPanels)
             {
@@ -105,7 +105,7 @@ namespace 脸滚键盘.公共操作类
             }
             string sql2 = string.Format("update {0}主表 set 权重={1} where {0}id = '{2}';", tableName, w, idValue);
             sqlConn.ExecuteNonQuery(sql2);
-            sqlConn.Close();
+            
         }
 
 
@@ -113,7 +113,7 @@ namespace 脸滚键盘.公共操作类
         public static void FillMainInfo(string curBookName, string typeOfTree, WrapPanel[] wrapPanels, string idValue)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             foreach (WrapPanel wp in wrapPanels)
             {
                 //尝试建立新表（IF NOT EXISTS）
@@ -135,7 +135,7 @@ namespace 脸滚键盘.公共操作类
                 }
                 reader.Close();
             }
-            sqlConn.Close();
+            
         }
 
         private static void Tb_GotFocus(object sender, RoutedEventArgs e)
@@ -145,17 +145,18 @@ namespace 脸滚键盘.公共操作类
 
         public static TextBox AddTextBox()
         {
-            TextBox tb = new TextBox();
-            tb.MinWidth = 30;
-            tb.MinHeight = 0;
-            tb.TextWrapping = TextWrapping.Wrap;
-            tb.Text = "";
-            //tb.BorderBrush = Brushes.Blue;
-            tb.BorderThickness = new Thickness(0, 0, 0, 1);
-            tb.Margin = new Thickness(10, 0, 0, 0);
-            tb.HorizontalAlignment = HorizontalAlignment.Left;
-            tb.VerticalAlignment = VerticalAlignment.Center;
-            tb.Padding = new Thickness(2);
+            TextBox tb = new TextBox
+            {
+                MinWidth = 30,
+                MinHeight = 0,
+                TextWrapping = TextWrapping.Wrap,
+                Text = "",
+                BorderThickness = new Thickness(0, 0, 0, 1),
+                Margin = new Thickness(10, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Padding = new Thickness(2)
+            };
             HandyControl.Controls.BorderElement.SetCornerRadius(tb, new CornerRadius(0));
             return tb;
         }

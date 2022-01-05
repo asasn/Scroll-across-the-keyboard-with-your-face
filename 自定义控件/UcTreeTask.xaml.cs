@@ -93,7 +93,7 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TreeViewNode selectedNode = (sender as Image).DataContext as TreeViewNode;
             if (selectedNode != null)
@@ -143,10 +143,9 @@ namespace 脸滚键盘.自定义控件
             //载入节点的数据上下文以便调用
             selectedNode.TheItem = selectedItem;
 
-            Grid grid = FindChild<Grid>(selectedItem as DependencyObject, "grid");
-            TextBlock showNameTextBox = FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
-            TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-            Button btnDel = FindChild<Button>(selectedItem as DependencyObject, "btnDel");
+            //Grid grid = FindChild<Grid>(selectedItem as DependencyObject, "GridLine");
+            //TextBlock showNameTextBox = FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
+            //TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
 
 
         }
@@ -201,10 +200,10 @@ namespace 脸滚键盘.自定义控件
                 TbkName.Visibility = Visibility.Visible;
 
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
+                
             }
         }
 
@@ -212,7 +211,6 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             TreeViewItem selectedItem = e.OriginalSource as TreeViewItem;
-
             if (selectedItem != null && selectedNode.IsButton == false)
             {
                 if (e.Key == Key.F2)
@@ -241,7 +239,7 @@ namespace 脸滚键盘.自定义控件
         private void Tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _lastMouseDown = e.GetPosition(this);
-            TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
+            //TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             if (TbReName != null)
             {
                 TbReName.Visibility = Visibility.Hidden;
@@ -417,8 +415,7 @@ namespace 脸滚键盘.自定义控件
                                 m -= 1;
                             }
 
-                            string tableName = TypeOfTree;
-                            //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                            //SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
                             //更新数据库中临近节点记录集
                             DelNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
                             //更换改变pid
@@ -481,7 +478,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_DragOver(object sender, DragEventArgs e)
         {
-            TreeViewItem dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
+            //TreeViewItem dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
         }
 
 
@@ -571,8 +568,8 @@ namespace 脸滚键盘.自定义控件
         private void Ck_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox Ck = sender as CheckBox;
-            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
-            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
+            //Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
+            //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             CheckedBySql(CurBookName, TypeOfTree, selectedNode);
         }
@@ -580,8 +577,8 @@ namespace 脸滚键盘.自定义控件
         private void Ck_Unchecked(object sender, RoutedEventArgs e)
         {
             CheckBox Ck = sender as CheckBox;
-            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
-            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
+            //Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
+            //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             CheckedBySql(CurBookName, TypeOfTree, selectedNode);
         }
@@ -590,8 +587,8 @@ namespace 脸滚键盘.自定义控件
         {
             CheckBox Ck = sender as CheckBox;
             TreeViewItem item = GetParentObjectEx<TreeViewItem>(Ck as DependencyObject) as TreeViewItem;
-            Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
-            TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
+            //Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
+            //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             selectedNode.TheItem = item;
             if (Ck.IsChecked == true)

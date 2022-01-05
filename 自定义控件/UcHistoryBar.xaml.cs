@@ -57,7 +57,7 @@ namespace 脸滚键盘.自定义控件
             Gval.Flag.Loading = true;
 
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded  BOOLEAN);", tableName);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("SELECT * FROM Tree_{0} where Pid='';", tableName);
@@ -68,7 +68,7 @@ namespace 脸滚键盘.自定义控件
                 WpYears.Children.Add(BtnTag);
             }
             reader.Close();
-            sqlConn.Close();
+
 
             Gval.Flag.Loading = false;
         }
@@ -79,12 +79,12 @@ namespace 脸滚键盘.自定义控件
             WpYears.Children.Remove(BtnTag);
 
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, BtnTag.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("DELETE from Tree_{0} where Pid='{1}';", tableName, BtnTag.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+
         }
 
         Button BtnSelected;
@@ -129,7 +129,7 @@ namespace 脸滚键盘.自定义控件
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scrollviewer = sender as ScrollViewer;
+            //ScrollViewer scrollviewer = sender as ScrollViewer;
             //if (e.Delta > 0)
             //{
             //    scrollviewer.LineLeft();
@@ -182,7 +182,7 @@ namespace 脸滚键盘.自定义控件
             TbYear.Uid = BtnSelected.Uid;
 
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, BtnSelected.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
@@ -191,7 +191,7 @@ namespace 脸滚键盘.自定义控件
                 WpYears.Children.Add(BtnTag);
             }
             reader.Close();
-            sqlConn.Close();
+
         }
 
 
@@ -221,7 +221,7 @@ namespace 脸滚键盘.自定义控件
             if (false == string.IsNullOrEmpty(TbTab.Text))
             {
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
 
                 string guid = Guid.NewGuid().ToString();
                 Button BtnTag = AddNode(guid, TbTab.Text);
@@ -229,8 +229,8 @@ namespace 脸滚键盘.自定义控件
 
                 string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7});", tableName, guid, TbYear.Uid, TbTab.Text, true, "", 0, 0);
                 sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
-                sqlConn.Close();
+
+
                 TbTab.Clear();
             }
         }
@@ -251,16 +251,20 @@ namespace 脸滚键盘.自定义控件
 
         Button AddNode(string guid, string content)
         {
-            Button BtnTag = new Button();
+
             WrapPanel wp = new WrapPanel();
-            BtnTag.Content = wp;
-            Image img = new Image();
-            img.VerticalAlignment = VerticalAlignment.Center;
-            TextBlock tbk = new TextBlock();
-            tbk.VerticalAlignment = VerticalAlignment.Center;
+
+            Image img = new Image
+            {
+                VerticalAlignment = VerticalAlignment.Center
+            };
+            TextBlock tbk = new TextBlock
+            {
+                VerticalAlignment = VerticalAlignment.Center,
+                Text = content
+            };
             wp.Children.Add(img);
             wp.Children.Add(tbk);
-            tbk.Text = content;
             int x = 0;
             if (OnYearsPanel == true)
             {
@@ -272,19 +276,27 @@ namespace 脸滚键盘.自定义控件
                 x = 25;
             }
 
-            BtnTag.Padding = new Thickness(2);
-            BtnTag.HorizontalAlignment = HorizontalAlignment.Left;
-            BtnTag.Margin = new Thickness(5+x, 5, 0, 0);
+
+            Button BtnTag = new Button
+            {
+                Uid = guid,
+                Content = wp,
+                Padding = new Thickness(2),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(5 + x, 5, 0, 0)
+            };
             BtnTag.Click += BtnTag_Click;
-            ContextMenu aMenu = new ContextMenu();
-            MenuItem deleteMenu = new MenuItem();
-            deleteMenu.Header = "删除";
+            MenuItem deleteMenu = new MenuItem
+            {
+                Header = "删除"
+            };
+            ContextMenu aMenu = new ContextMenu
+            {
+                DataContext = BtnTag
+            };
+            BtnTag.ContextMenu = aMenu;
             deleteMenu.Click += DeleteMenu_Click; ;
             aMenu.Items.Add(deleteMenu);
-            BtnTag.ContextMenu = aMenu;
-            aMenu.DataContext = BtnTag;
-            BtnTag.Uid = guid;
-            //BtnTag.Content = content;
             return BtnTag;
         }
 
@@ -293,10 +305,10 @@ namespace 脸滚键盘.自定义控件
             if (e.Key == Key.Enter && false == string.IsNullOrEmpty(TbYear.Text))
             {
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbYear.Text.Replace("'", "''"), TbYear.Uid);
                 sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
+
             }
         }
 
@@ -308,10 +320,10 @@ namespace 脸滚键盘.自定义控件
                 //BtnSelected.Content = TbSelected.Text;
                 tbk.Text = TbSelected.Text;
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbSelected.Text.Replace("'", "''"), TbSelected.Uid);
                 sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
+
             }
         }
 

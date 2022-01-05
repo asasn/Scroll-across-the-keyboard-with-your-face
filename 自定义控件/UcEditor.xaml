@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" UseLayoutRounding="True"
-             d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="uc_DataContextChanged" Loaded="uc_Loaded">
+             d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="Uc_DataContextChanged" Loaded="Uc_Loaded">
     <hc:Card>
         <Grid Background="#FFFAFAFA">
             <Grid.ColumnDefinitions>
@@ -18,11 +18,11 @@
             </Grid.RowDefinitions>
             <avalonEdit:TextEditor Grid.Row="0"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-            Name="textEditor" ShowLineNumbers="True"
+            Name="TextEditor" ShowLineNumbers="True"
             SyntaxHighlighting="C#"
             WordWrap="True"
             FontFamily="宋体" Background="#FFFDFDFD"
-            FontSize="12pt" TextChanged="textEditor_TextChanged" KeyUp="textEditor_KeyUp" KeyDown="textEditor_KeyDown" CommandManager.Executed="textEditor_Executed"  CommandManager.PreviewExecuted="textEditor_PreviewExecuted" MouseHover="textEditor_MouseHover" MouseHoverStopped="textEditor_MouseHoverStopped" >
+            FontSize="12pt" TextChanged="TextEditor_TextChanged" KeyUp="TextEditor_KeyUp" KeyDown="TextEditor_KeyDown" CommandManager.Executed="TextEditor_Executed"  CommandManager.PreviewExecuted="TextEditor_PreviewExecuted" MouseHover="TextEditor_MouseHover" MouseHoverStopped="TextEditor_MouseHoverStopped" >
                 <avalonEdit:TextEditor.Options>
                     <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
@@ -40,7 +40,7 @@
                 </WrapPanel>
             </Grid>
             <WrapPanel Background="#FFFAFAFA" Grid.Row="0" Grid.Column="1" Orientation="Vertical" >
-                <Button Background="#FFFAFAFA" x:Name="btnSaveDoc" Padding="1" BorderThickness="0" ToolTip="保存文档" IsEnabled="False" Click="btnSaveText_Click">
+                <Button Background="#FFFAFAFA" x:Name="BtnSaveDoc" Padding="1" BorderThickness="0" ToolTip="保存文档" IsEnabled="False" Click="BtnSaveText_Click">
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/编辑器/ic_action_save.png" Width="20" Height="20" />
                 </Button>
                 <Button Background="#FFFAFAFA" x:Name="BtnCopy" Padding="1" BorderThickness="0" ToolTip="复制文档内容" Click="BtnCopy_Click">

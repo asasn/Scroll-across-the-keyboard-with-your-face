@@ -125,13 +125,13 @@ namespace 脸滚键盘.自定义控件
         void InitSearch()
         {
             //初始化列表框
-            lb.Items.Clear();
+            ListBoxOfResults.Items.Clear();
 
             //每次搜索的关键词
-            KeyWords = tbKeyWords.Text;
-            Pattern = tbKeyWords.Text;
+            KeyWords = TbKeyWords.Text;
+            Pattern = TbKeyWords.Text;
 
-            if (cbMaterial.IsChecked == true)
+            if (CbMaterial.IsChecked == true)
             {
                 //搜索资料库
                 CurNode = Gval.Uc.TreeMaterial.CurNode;
@@ -147,13 +147,13 @@ namespace 脸滚键盘.自定义控件
 
         #region 执行搜索
 
-        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             //搜索参数初始化
             InitSearch();
 
             //输入检校（空字符串时退出）
-            if (string.IsNullOrEmpty(tbKeyWords.Text.Trim()))
+            if (string.IsNullOrEmpty(TbKeyWords.Text.Trim()))
             {
                 return;
             }
@@ -161,22 +161,22 @@ namespace 脸滚键盘.自定义控件
 
 
             //生成搜索结果列表
-            if (radButton1.IsChecked == true)
+            if (RadButton1.IsChecked == true)
             {
                 GetResultMain(CurNode);
             }
-            if (radButton2.IsChecked == true)
+            if (RadButton2.IsChecked == true)
             {
                 GetResultMain(TopNode);
             }
 
         }
 
-        private void tbKeyWords_KeyDown(object sender, KeyEventArgs e)
+        private void TbKeyWords_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                btnSearch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                BtnSearch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
 
@@ -221,7 +221,7 @@ namespace 脸滚键盘.自定义控件
             string ListItemName = String.Empty;
 
             //正则模式
-            if (cbRegex.IsChecked == true)
+            if (CbRegex.IsChecked == true)
             {
 
                 Matches = GetMatchRets(node.NodeContent);
@@ -229,14 +229,14 @@ namespace 脸滚键盘.自定义控件
             }
 
             //与模式
-            if (cbAnd.IsChecked == true)
+            if (CbAnd.IsChecked == true)
             {
                 Matches = GetModeAndRets(node.NodeContent);
                 ListItemName = string.Join(" ", Matches);
             }
 
             //或模式
-            if (cbOr.IsChecked == true)
+            if (CbOr.IsChecked == true)
             {
                 Matches = GetModeOrRets(node.NodeContent);
                 ListItemName = string.Join(" ", Matches);
@@ -245,12 +245,14 @@ namespace 脸滚键盘.自定义控件
             //获取和定义列表项
             if (false == string.IsNullOrEmpty(ListItemName))
             {
-                ListBoxItem lbItem = new ListBoxItem();
-                lbItem.Content = node.NodeName + " >> " + ListItemName;
-                lb.Items.Add(lbItem);
-                lbItem.DataContext = node.NodeContent;
-                lbItem.Tag = Matches;
+                ListBoxItem lbItem = new ListBoxItem
+                {
+                    Content = node.NodeName + " >> " + ListItemName,
+                    DataContext = node.NodeContent,
+                    Tag = Matches
+                };
                 SetItemToolTip(lbItem);
+                ListBoxOfResults.Items.Add(lbItem);
             }
         }
 
@@ -402,9 +404,11 @@ namespace 脸滚键盘.自定义控件
             {
                 return;
             }
-            HighlightingRule rule = new HighlightingRule();
-            rule.Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
-            rule.Regex = new Regex(keyword);
+            HighlightingRule rule = new HighlightingRule
+            {
+                Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName),
+                Regex = new Regex(keyword)
+            };
             rules.Add(rule);
         }
 
@@ -432,8 +436,10 @@ namespace 脸滚键盘.自定义控件
             textEditor.Text = lines;
             SetKeyWordsColor();
 
-            ToolTip ttp = new ToolTip();
-            ttp.Content = textEditor;
+            ToolTip ttp = new ToolTip
+            {
+                Content = textEditor
+            };
             lbItem.ToolTip = ttp;
         }
 
@@ -447,7 +453,7 @@ namespace 脸滚键盘.自定义控件
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
             //正则模式
-            if (cbRegex.IsChecked == true)
+            if (CbRegex.IsChecked == true)
             {
                 string[] keysArray = GetMatchRets(nodeContent);
                 foreach (string line in sArrayNoEmpty)
@@ -465,7 +471,7 @@ namespace 脸滚键盘.自定义控件
             }
 
             //与模式
-            if (cbAnd.IsChecked == true)
+            if (CbAnd.IsChecked == true)
             {
                 string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 foreach (string line in sArrayNoEmpty)
@@ -488,7 +494,7 @@ namespace 脸滚键盘.自定义控件
             }
 
             //或模式
-            if (cbOr.IsChecked == true)
+            if (CbOr.IsChecked == true)
             {
                 string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 foreach (string line in sArrayNoEmpty)
@@ -513,10 +519,10 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lb_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void ListBoxOfResults_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ListBoxItem lbItem = lb.SelectedItem as ListBoxItem;
-            SearchRetWindow rtWin = new SearchRetWindow(TopNode, lbItem, (string[])lbItem.Tag);
+            ListBoxItem lbItem = ListBoxOfResults.SelectedItem as ListBoxItem;
+            SearchRetWindow rtWin = new SearchRetWindow(lbItem, (string[])lbItem.Tag);
             rtWin.ShowDialog();
         }
     }

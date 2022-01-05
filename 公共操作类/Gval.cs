@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using 脸滚键盘.信息卡和窗口;
@@ -53,6 +54,11 @@ namespace 脸滚键盘.公共操作类
             public static UcCards OtherCards;
             public static UcCards PublicRoleCards;
             public static UcCards PublicOtherCards;
+        }
+
+        public struct SQLClass
+        {
+            public static Dictionary<string, SqliteOperate> Pools = new Dictionary<string, SqliteOperate>();
         }
     }
 }

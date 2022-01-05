@@ -52,13 +52,13 @@ namespace 脸滚键盘.自定义控件
                 return;
             }
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbTab.Text.Replace("'", "''")));
             while (reader.Read())
             {
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
                 reader.Close();
-                sqlConn.Close();
+                
                 return;
             }
             reader.Close();
@@ -71,10 +71,11 @@ namespace 脸滚键盘.自定义控件
 
             string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, BtnTag.Uid, BtnTag.Content.ToString().Replace("'", "''"));
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+            
 
             RefreshKeyWords();
             MarkNamesInChapter();
+            
         }
 
         /// <summary>
@@ -90,9 +91,9 @@ namespace 脸滚键盘.自定义控件
             WrapPanel[] wps = { Gval.Uc.RoleCards.WpCards, Gval.Uc.OtherCards.WpCards };
             foreach (WrapPanel wp in wps)
             {
-                string tableName2 = wp.Tag.ToString();
-                SqliteOperate sqlConn2 = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-                SQLiteDataReader reader = sqlConn2.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName2));
+                string tableName = wp.Tag.ToString();
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+                SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName));
                 while (reader.Read())
                 {
                     string name = reader["名称"].ToString();
@@ -115,7 +116,6 @@ namespace 脸滚键盘.自定义控件
                     }
                 }
                 reader.Close();
-                sqlConn2.Close();
             }
         }
         /// <summary>
@@ -166,17 +166,17 @@ namespace 脸滚键盘.自定义控件
             WpCards.Tag = typeOfTree;
 
             //初始化顶层节点数据
-            TreeViewNode TopNode = new TreeViewNode
-            {
-                Uid = "",
-                IsDir = true
-            };
+            //TreeViewNode TopNode = new TreeViewNode
+            //{
+            //    Uid = "",
+            //    IsDir = true
+            //};
 
 
             Gval.Flag.Loading = true;
 
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("SELECT * FROM {0}主表 ORDER BY 权重 DESC", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
@@ -185,7 +185,7 @@ namespace 脸滚键盘.自定义控件
                 WpCards.Children.Add(BtnTag);
             }
             reader.Close();
-            sqlConn.Close();
+            
 
 
             Gval.Flag.Loading = false;
@@ -198,10 +198,10 @@ namespace 脸滚键盘.自定义控件
             WpCards.Children.Remove(BtnTag);
 
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             string sql = string.Format("DELETE from {0}主表 where {0}id='{1}';", tableName, BtnTag.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+            
 
             RefreshKeyWords();
             MarkNamesInChapter();
@@ -222,23 +222,31 @@ namespace 脸滚键盘.自定义控件
 
         Button AddNode(string guid, string content)
         {
-            Button BtnTag = new Button();
-            BtnTag.Height = 25;
-            BtnTag.Padding = new Thickness(2);
-            BtnTag.Margin = new Thickness(5, 5, 2, 2);
+            Button BtnTag = new Button
+            {
+                Uid = guid,
+                Content = content,
+                Height = 25,
+                Padding = new Thickness(2),
+                Margin = new Thickness(5, 5, 2, 2),
+            };
             BtnTag.Click += BtnTag_Click;
-            ContextMenu aMenu = new ContextMenu();
-            MenuItem deleteMenu = new MenuItem();
-            deleteMenu.Header = "删除";
-            deleteMenu.Click += DeleteMenu_Click; ;
+
+            ContextMenu aMenu = new ContextMenu
+            {
+                DataContext = BtnTag
+            };
+
+            MenuItem deleteMenu = new MenuItem
+            {
+                Header = "删除"
+            };
+            deleteMenu.Click += DeleteMenu_Click; 
             aMenu.Items.Add(deleteMenu);
-            BtnTag.ContextMenu = aMenu;
-            aMenu.DataContext = BtnTag;
-            BtnTag.Uid = guid;
-            BtnTag.Content = content;
+            BtnTag.ContextMenu = aMenu; 
 
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             string sql = string.Format("SELECT * FROM {0}别称表 where {0}id='{1}';", tableName, guid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
@@ -252,7 +260,7 @@ namespace 脸滚键盘.自定义控件
                 BtnTag.ToolTip = BtnTag.DataContext.ToString();
             }
             reader.Close();
-            sqlConn.Close();
+            
             return BtnTag;
         }
     }

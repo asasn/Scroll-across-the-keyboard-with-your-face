@@ -21,12 +21,12 @@ namespace 脸滚键盘.控件方法类
         public static void TabItemClosing(HandyControl.Controls.TabItem tabItem, EventArgs e)
         {
             UcEditor ucEditor = tabItem.Content as UcEditor;
-            if (ucEditor.btnSaveDoc.IsEnabled == true)
+            if (ucEditor.BtnSaveDoc.IsEnabled == true)
             {
                 MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
                 if (dr == MessageBoxResult.Yes)
                 {
-                    ucEditor.btnSaveText_Click(null, null);
+                    ucEditor.BtnSaveText_Click(null, null);
                 }
                 if (dr == MessageBoxResult.No)
                 {

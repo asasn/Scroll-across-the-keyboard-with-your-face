@@ -43,7 +43,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         void Navigate(string urlStr)
         {
-            webBrowser.Navigate(new Uri(urlStr)); ;
+            UiWebBrowser.Navigate(new Uri(urlStr)); ;
         }
 
         string GetBaikePage(string htmltext)
@@ -94,7 +94,7 @@ namespace 脸滚键盘.信息卡和窗口
         void NavigateBaikeToString(string urlStr)
         {
             string html1 = WebOperate.GetHtmlText(urlStr);
-            string html2 = string.Empty;
+            string html2;
             string htmlText = string.Empty;
             if (html1.Contains("lemmaWgt-subLemmaListTitle"))
             {
@@ -160,11 +160,11 @@ namespace 脸滚键盘.信息卡和窗口
         {
             if (string.IsNullOrWhiteSpace(htmlText))
             {
-                webBrowser.Navigate("about:blank");
+                UiWebBrowser.Navigate("about:blank");
             }
             else
             {
-                webBrowser.NavigateToString(htmlText);
+                UiWebBrowser.NavigateToString(htmlText);
             }
         }
 
@@ -180,9 +180,9 @@ namespace 脸滚键盘.信息卡和窗口
 
             objComWebBrowser.GetType().InvokeMember("Silent", BindingFlags.SetProperty, null, objComWebBrowser, new object[] { Hide });
         }
-        void webBrowser1_Navigating(object sender, NavigatingCancelEventArgs e)
+        void WebBrowser1_Navigating(object sender, NavigatingCancelEventArgs e)
         {
-            SuppressScriptErrors(webBrowser, true);
+            SuppressScriptErrors(UiWebBrowser, true);
         }
 
         /// <summary>
@@ -190,21 +190,21 @@ namespace 脸滚键盘.信息卡和窗口
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void webBrowser_Loaded(object sender, RoutedEventArgs e)
+        private void WebBrowser_Loaded(object sender, RoutedEventArgs e)
         {
-            webBrowser.Navigating += webBrowser1_Navigating;
+            UiWebBrowser.Navigating += WebBrowser1_Navigating;
         }
 
         //导航中
-        private void webBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
+        private void WebBrowser_Navigating(object sender, NavigatingCancelEventArgs e)
         {
 
         }
 
         //导航完成
-        private void webBrowser_Navigated(object sender, NavigationEventArgs e)
+        private void WebBrowser_Navigated(object sender, NavigationEventArgs e)
         {
-            WebBrowser wb = (WebBrowser)sender;
+            //WebBrowser wb = (WebBrowser)sender;
         }
         #endregion
 

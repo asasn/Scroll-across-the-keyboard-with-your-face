@@ -24,12 +24,12 @@
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <RadioButton x:Name="radButton2" Content="全部节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="True"/>
-                <RadioButton x:Name="radButton1" Content="当前节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
-                <CheckBox x:Name="cbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="False"/>
-                <RadioButton x:Name="cbAnd" Content="与模式" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="True"/>
-                <RadioButton x:Name="cbOr" Content="或模式" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
-                <RadioButton x:Name="cbRegex" Content="正则模式" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
+                <RadioButton x:Name="RadButton2" Content="全部节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="True"/>
+                <RadioButton x:Name="RadButton1" Content="当前节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
+                <CheckBox x:Name="CbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="False"/>
+                <RadioButton x:Name="CbAnd" Content="与模式" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="True"/>
+                <RadioButton x:Name="CbOr" Content="或模式" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
+                <RadioButton x:Name="CbRegex" Content="正则模式" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
 
                 <!--<CheckBox x:Name="cbRegex" Content="启用正则" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="True"/>-->
             </Grid>
@@ -38,10 +38,10 @@
                     <ColumnDefinition Width="75*"/>
                     <ColumnDefinition Width="25*"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Padding="0" controls:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="tbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="tbKeyWords_KeyDown"/>
-                <Button Padding="2" x:Name="btnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="50" Click="btnSearch_Click" Height="30" />
+                <TextBox Padding="0" controls:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="TbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="TbKeyWords_KeyDown"/>
+                <Button Padding="2" x:Name="BtnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="50" Click="BtnSearch_Click" Height="30" />
             </Grid>
-            <ListBox  x:Name="lb" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="lb_MouseDoubleClick" Style="{DynamicResource ListBoxStyle}" >
+            <ListBox  x:Name="ListBoxOfResults" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick" Style="{DynamicResource ListBoxStyle}" >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemStyle}">
                         <Setter Property="ToolTipService.ShowDuration" Value="60000"/>

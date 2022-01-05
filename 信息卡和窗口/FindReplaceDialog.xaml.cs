@@ -166,7 +166,7 @@ namespace 脸滚键盘.信息卡和窗口
             return theDialog;
         }
 
-        private void txtFind_KeyDown(object sender, KeyEventArgs e)
+        private void TxtFind_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

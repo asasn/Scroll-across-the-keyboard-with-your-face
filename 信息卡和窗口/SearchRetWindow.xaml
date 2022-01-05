@@ -9,7 +9,7 @@
     <Grid>
         <avalonEdit:TextEditor
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-            Name="textEditor" ShowLineNumbers="True"
+            Name="TextEditor" ShowLineNumbers="True"
             SyntaxHighlighting="C#"
             WordWrap="True"
             FontFamily="宋体"

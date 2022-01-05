@@ -11,11 +11,11 @@
             <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid x:Name="grid" Grid.Row="1" AllowDrop="True">
-            <Image x:Name="map" Source="D:\myfiles\Desktop\New map.jpg" SizeChanged="map_SizeChanged" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Grid x:Name="rect" SizeChanged="rect_SizeChanged" Width="519" HorizontalAlignment="Center" VerticalAlignment="Center" Height="389" >
-                <Button x:Name="btn" BorderThickness="0" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,100,0,0" MouseMove="btn_MouseMove" Click="btn_Click" MouseRightButtonDown="btn_MouseRightButtonDown" MouseRightButtonUp="btn_MouseRightButtonUp" Height="30" Width="30">
-                    <Image x:Name="ttt1" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" Width="24" Height="24" />
+        <Grid x:Name="GridMain" Grid.Row="1" AllowDrop="True">
+            <Image x:Name="MapImage" Source="D:\myfiles\Desktop\New map.jpg" SizeChanged="Map_SizeChanged" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Grid x:Name="RectMapImage" SizeChanged="Rect_SizeChanged" Width="519" HorizontalAlignment="Center" VerticalAlignment="Center" Height="389" >
+                <Button x:Name="BtnLocation" BorderThickness="0" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,100,0,0" MouseMove="Btn_MouseMove" Click="Btn_Click" MouseRightButtonDown="Btn_MouseRightButtonDown" MouseRightButtonUp="Btn_MouseRightButtonUp" Height="30" Width="30">
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png" MaxHeight="30" MaxWidth="30"/>
                 </Button>
             </Grid>
         </Grid>

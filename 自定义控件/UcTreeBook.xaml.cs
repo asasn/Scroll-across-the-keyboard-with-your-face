@@ -132,7 +132,7 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             TreeViewNode selectedNode = (sender as Image).DataContext as TreeViewNode;
             if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
@@ -189,10 +189,9 @@ namespace 脸滚键盘.自定义控件
             //载入节点的数据上下文以便调用
             selectedNode.TheItem = selectedItem;
 
-            Grid grid = FindChild<Grid>(selectedItem as DependencyObject, "grid");
-            TextBlock showNameTextBox = FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
+            //Grid grid = FindChild<Grid>(selectedItem as DependencyObject, "GridLine");
+            //TextBlock showNameTextBox = FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
             TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-            Button btnDel = FindChild<Button>(selectedItem as DependencyObject, "btnDel");
 
             if (TbReName != null)
             {
@@ -237,7 +236,7 @@ namespace 脸滚键盘.自定义控件
             if (selectedNode != null)
             {
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                 string sql = string.Format("SELECT * FROM Tree_{0} where Uid='{1}';", tableName, selectedNode.Uid);
                 SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
                 while (reader.Read())
@@ -245,7 +244,7 @@ namespace 脸滚键盘.自定义控件
                     selectedNode.NodeContent = reader["NodeContent"].ToString();
                 }
                 reader.Close();
-                sqlConn.Close();
+                
                 if (selectedNode.IsButton == true)
                 {
                     TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
@@ -263,10 +262,10 @@ namespace 脸滚键盘.自定义控件
                     if (selectedNode.IsDir == true)
                     {
                         //string tableName = TypeOfTree;
-                        //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                        //SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
                         //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
                         //sqlConn.ExecuteNonQuery(sql);
-                        //sqlConn.Close();
+                        //
                     }
                     else
                     {
@@ -302,23 +301,31 @@ namespace 脸滚键盘.自定义控件
                                 }
                             }
 
-                            HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem();
-                            tabItem.Uid = selectedNode.Uid;
-                            tabItem.DataContext = selectedNode;
-                            tabItem.IsSelected = true;
 
-                            UcEditor ucEditor = new UcEditor();
-                            ucEditor.DataContext = selectedNode;
-                            tabItem.Content = ucEditor;
-                            tabItem.Closing += TabItem_Closing;
-                            Binding textBinding = new Binding();
-                            textBinding.Source = selectedNode;
-                            textBinding.Path = new PropertyPath("NodeName");
-                            textBinding.Mode = BindingMode.TwoWay;
-                            tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定     
-                            Gval.Uc.TabControl.Items.Add(tabItem);
+
+                            UcEditor ucEditor = new UcEditor
+                            {
+                                DataContext = selectedNode
+                            };
                             ucEditor.LoadChapter(CurBookName, TypeOfTree);
-                            //ucEditor.MarkNamesInChapter();
+
+                            HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem
+                            {
+                                Uid = selectedNode.Uid,
+                                DataContext = selectedNode,
+                                IsSelected = true,
+                                Content = ucEditor
+                            };
+                            tabItem.Closing += TabItem_Closing;
+                            Binding textBinding = new Binding
+                            {
+                                Source = selectedNode,
+                                Path = new PropertyPath("NodeName"),
+                                Mode = BindingMode.TwoWay
+                            };
+                            tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定     
+                            
+                            Gval.Uc.TabControl.Items.Add(tabItem);                          
                             Gval.Uc.RoleCards.MarkNamesInChapter();
                         }
 
@@ -361,10 +368,10 @@ namespace 脸滚键盘.自定义控件
                 TbkName.Visibility = Visibility.Visible;
 
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
+                
             }
         }
 
@@ -372,7 +379,6 @@ namespace 脸滚键盘.自定义控件
         {
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             TreeViewItem selectedItem = e.OriginalSource as TreeViewItem;
-
             if (selectedItem != null && selectedNode.IsButton == false)
             {
                 if (e.Key == Key.F2)
@@ -396,7 +402,7 @@ namespace 脸滚键盘.自定义控件
         private void Tv_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _lastMouseDown = e.GetPosition(this);
-            TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
+            //TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             if (TbReName != null)
             {
                 TbReName.Visibility = Visibility.Hidden;
@@ -571,8 +577,7 @@ namespace 脸滚键盘.自定义控件
                                 m -= 1;
                             }
 
-                            string tableName = TypeOfTree;
-                            //SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                            //SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
                             //更新数据库中临近节点记录集
                             DelNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
                             //更换改变pid
@@ -635,7 +640,7 @@ namespace 脸滚键盘.自定义控件
         /// <param name="e"></param>
         private void Tv_DragOver(object sender, DragEventArgs e)
         {
-            TreeViewItem dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
+            //TreeViewItem dragItem = e.Data.GetData(typeof(TreeViewItem)) as TreeViewItem;
         }
 
         #endregion
@@ -716,12 +721,14 @@ namespace 脸滚键盘.自定义控件
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             if (selectedNode.IsDir == true)
             {
-                string[] files = null;
-                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                dlg.DefaultExt = ".txt";
-                dlg.Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*";
-                dlg.Multiselect = true;
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
+                {
+                    DefaultExt = ".txt",
+                    Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*",
+                    Multiselect = true
+                };
 
+                string[] files;
                 // 打开选择框选择
                 if (dlg.ShowDialog() == true)
                 {
@@ -733,7 +740,7 @@ namespace 脸滚键盘.自定义控件
                 }
                 string sql = string.Empty;
                 string tableName = TypeOfTree;
-                SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                 foreach (string srcFullFileName in files)
                 {
                     string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
@@ -746,7 +753,7 @@ namespace 脸滚键盘.自定义控件
                     sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent.Replace("'", "''"), newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
                 }
                 sqlConn.ExecuteNonQuery(sql);
-                sqlConn.Close();
+                
             }
         }
         #endregion

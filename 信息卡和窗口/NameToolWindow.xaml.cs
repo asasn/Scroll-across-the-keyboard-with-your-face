@@ -86,7 +86,7 @@ namespace 脸滚键盘.信息卡和窗口
             foreach (FileInfo NextFile in thefileInfo) //遍历文件
             {
                 string name = System.IO.Path.GetFileNameWithoutExtension(NextFile.FullName);
-                CheckBox ckBox = AddBank(wpBank, name, NextFile);
+                _ = AddBank(wpBank, name, NextFile);
             }
         }
 
@@ -209,7 +209,7 @@ namespace 脸滚键盘.信息卡和窗口
             string name = string.Empty;
 
 
-            if (rbStyleNormal.IsChecked == true)
+            if (RbStyleNormal.IsChecked == true)
             {
                 surname = GetSurname(surnameList);
                 if (nameList.Count == 0)
@@ -226,15 +226,15 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 //姓和名倒置，作为前后缀风格，比如xx真人
                 surname = GetAName(surnameList);
-                if (ckbSuffix.IsChecked == true)
+                if (CkbSuffix.IsChecked == true)
                 {
-                    if (string.IsNullOrWhiteSpace(tbSuffix.Text))
+                    if (string.IsNullOrWhiteSpace(TbSuffix.Text))
                     {
                         name = GetSurname(nameList);
                     }
                     else
                     {
-                        name = tbSuffix.Text;
+                        name = TbSuffix.Text;
                     }
                 }
             }
@@ -262,11 +262,11 @@ namespace 脸滚键盘.信息卡和窗口
             string name1 = string.Empty;
             string name2 = string.Empty;
 
-            if (ckbName1.IsChecked == true)
+            if (CkbName1.IsChecked == true)
             {//名字·其一
-                if (string.IsNullOrWhiteSpace(tbNameFirst.Text))
+                if (string.IsNullOrWhiteSpace(TbNameFirst.Text))
                 {
-                    while (name1.Length < cbName1Length.SelectedIndex + 1)
+                    while (name1.Length < CbName1Length.SelectedIndex + 1)
                     {
                         name1 += GenerateChineseWords(encoding);
                     };
@@ -274,14 +274,14 @@ namespace 脸滚键盘.信息卡和窗口
                 }
                 else
                 {
-                    name1 = tbNameFirst.Text;
+                    name1 = TbNameFirst.Text;
                 }
             }
 
             //名字·其二
-            if (ckbName2.IsChecked == true)
+            if (CkbName2.IsChecked == true)
             {
-                if (string.IsNullOrWhiteSpace(tbNameSecond.Text))
+                if (string.IsNullOrWhiteSpace(TbNameSecond.Text))
                 {
                     if (ckbNameRepeat.IsChecked == true)
                     {
@@ -298,7 +298,7 @@ namespace 脸滚键盘.信息卡和窗口
                 }
                 else
                 {
-                    name2 = tbNameSecond.Text;
+                    name2 = TbNameSecond.Text;
                 }
             }
 
@@ -322,25 +322,25 @@ namespace 脸滚键盘.信息卡和窗口
             string name2 = string.Empty;
 
             //名字·其一
-            if (ckbName1.IsChecked == true)
+            if (CkbName1.IsChecked == true)
             {
-                if (string.IsNullOrWhiteSpace(tbNameFirst.Text))
+                if (string.IsNullOrWhiteSpace(TbNameFirst.Text))
                 {
-                    while (name1.Length < cbName1Length.SelectedIndex + 1)
+                    while (name1.Length < CbName1Length.SelectedIndex + 1)
                     {
                         name1 += GetStringFromList(myList);
                     };
                 }
                 else
                 {
-                    name1 = tbNameFirst.Text;
+                    name1 = TbNameFirst.Text;
                 }
             }
 
             //名字·其二
-            if (ckbName2.IsChecked == true)
+            if (CkbName2.IsChecked == true)
             {
-                if (string.IsNullOrWhiteSpace(tbNameSecond.Text))
+                if (string.IsNullOrWhiteSpace(TbNameSecond.Text))
                 {
                     if (ckbNameRepeat.IsChecked == true)
                     {
@@ -356,7 +356,7 @@ namespace 脸滚键盘.信息卡和窗口
                 }
                 else
                 {
-                    name2 = tbNameSecond.Text;
+                    name2 = TbNameSecond.Text;
                 }
             }
 
@@ -402,8 +402,8 @@ namespace 脸滚键盘.信息卡和窗口
             WpShowWord.Children.Clear();
             foreach (char c in tb.Text)
             {
-                string pinyin = string.Empty;
-                if (false == string.IsNullOrWhiteSpace(pinyin = ReadFromPinyinDict(c.ToString())))
+                string pinyin = ReadFromPinyinDict(c.ToString());
+                if (false == string.IsNullOrWhiteSpace(pinyin))
                 {
                     //尝试在本地字典查找
                 }
@@ -411,7 +411,6 @@ namespace 脸滚键盘.信息卡和窗口
                 {
                     //未在本地字典发现，从网络上查找
                     pinyin = c.ToString() + "：";
-                    WebBrowser webb = new WebBrowser();
                     string urlStr = "https://www.zdic.net/hans/" + c.ToString();
                     string htmlText = WebOperate.GetHtmlText(urlStr);
                     string pattern = "(?<=<span class=\"z_d song\">)([\\s\\S]+?)(?=<span class=\"ptr\">)";
@@ -444,7 +443,6 @@ namespace 脸滚键盘.信息卡和窗口
         string ReadFromPinyinDict(string hanzi)
         {
             string filepath = Gval.Path.Resourses + "/语料/拼音字典/PinyinDict.txt";
-            string content = string.Empty;
             String line;
             StreamReader sr = new StreamReader(filepath, new UTF8Encoding(true));
             while ((line = sr.ReadLine()) != null)//按行读取 line为每行的数据
@@ -537,23 +535,23 @@ namespace 脸滚键盘.信息卡和窗口
         /// </summary>
         /// <param name="uIElement"></param>
         /// <returns></returns>
-        int GetCheckedBoxID(UIElement uIElement)
-        {
-            List<RadioButton> rbList = FindChirldHelper.FindVisualChild<RadioButton>(uIElement);
-            int t = 0;
-            foreach (RadioButton rb in rbList)
-            {
-                if (rb.IsChecked == true)
-                {
-                    break;
-                }
-                else
-                {
-                    t++;
-                }
-            }
-            return t;
-        }
+        //int GetCheckedBoxID(UIElement uIElement)
+        //{
+        //    List<RadioButton> rbList = FindChirldHelper.FindVisualChild<RadioButton>(uIElement);
+        //    int t = 0;
+        //    foreach (RadioButton rb in rbList)
+        //    {
+        //        if (rb.IsChecked == true)
+        //        {
+        //            break;
+        //        }
+        //        else
+        //        {
+        //            t++;
+        //        }
+        //    }
+        //    return t;
+        //}
 
         /// <summary>
         /// 获取选中的Uid（标记名称）
@@ -586,31 +584,31 @@ namespace 脸滚键盘.信息卡和窗口
 
             string surname = string.Empty;
 
-            if (ckbSurname.IsChecked == true)
+            if (CkbSurname.IsChecked == true)
             {
-                if (tbSurname.IsEnabled == true && false == string.IsNullOrWhiteSpace(tbSurname.Text))
+                if (TbSurname.IsEnabled == true && false == string.IsNullOrWhiteSpace(TbSurname.Text))
                 {
-                    surname += tbSurname.Text;
+                    surname += TbSurname.Text;
                 }
-                if (ckbSuffix.IsChecked == true && false == string.IsNullOrWhiteSpace(tbSuffix.Text))
+                if (CkbSuffix.IsChecked == true && false == string.IsNullOrWhiteSpace(TbSuffix.Text))
                 {
-                    surname += tbSuffix.Text;
+                    surname += TbSuffix.Text;
                 }
                 if (false == string.IsNullOrWhiteSpace(surname))
                 {
                     return surname;
                 }
 
-                if (rbStyleNormal.IsChecked == true)
+                if (RbStyleNormal.IsChecked == true)
                 {
-                    while (surname.Length != cbSurnameLength.SelectedIndex + 1)
+                    while (surname.Length != CbSurnameLength.SelectedIndex + 1)
                     {
                         surname = GetStringFromList(myList);
                     };
                 }
                 else
                 {
-                    while (surname.Length != cbSuffixLength.SelectedIndex + 1)
+                    while (surname.Length != CbSuffixLength.SelectedIndex + 1)
                     {
                         surname = GetStringFromList(myList);
                     };
@@ -631,7 +629,6 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return string.Empty;
             }
-            Random random = new Random();
             int index = new Random(Guid.NewGuid().GetHashCode()).Next(0, stringList.Count());
             return stringList[index];
         }
@@ -658,7 +655,7 @@ namespace 脸滚键盘.信息卡和窗口
             StreamReader reader = new StreamReader(fullFilePath, UnicodeEncoding.GetEncoding("utf-8"));
 
             //按行读取
-            string strLine = string.Empty;
+            string strLine;
             while ((strLine = reader.ReadLine()) != null)
             {
                 strLine = strLine.Trim().ToString();

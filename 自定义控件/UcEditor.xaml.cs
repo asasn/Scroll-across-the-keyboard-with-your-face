@@ -39,9 +39,9 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void textEditor_MouseHover(object sender, MouseEventArgs e)
+        private void TextEditor_MouseHover(object sender, MouseEventArgs e)
         {
-            var pos = textEditor.GetPositionFromPoint(e.GetPosition(textEditor));
+            var pos = TextEditor.GetPositionFromPoint(e.GetPosition(TextEditor));
             if (pos != null)
             {
                 //toolTip.PlacementTarget = this; // required for property inheritance
@@ -56,7 +56,7 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void textEditor_MouseHoverStopped(object sender, MouseEventArgs e)
+        private void TextEditor_MouseHoverStopped(object sender, MouseEventArgs e)
         {
             toolTip.IsOpen = false;
         }
@@ -71,9 +71,9 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void uc_Loaded(object sender, RoutedEventArgs e)
+        private void Uc_Loaded(object sender, RoutedEventArgs e)
         {
-            textEditor.TextArea.SelectionChanged += textEditor_TextArea_SelectionChanged;
+            TextEditor.TextArea.SelectionChanged += TextEditor_TextArea_SelectionChanged;
 
             if (TypeOfTree == "book")
             {
@@ -85,10 +85,10 @@ namespace 脸滚键盘.自定义控件
             }
 
             //快速搜索功能
-            //searchPanel =  SearchPanel.Install(textEditor.TextArea);
-            //searchPanel.UseRegex = true;
-            //searchPanel.Visibility = Visibility.Hidden;
-            //searchPanel.Open();
+            searchPanel = SearchPanel.Install(TextEditor.TextArea);
+            searchPanel.UseRegex = true;
+            searchPanel.Visibility = Visibility.Hidden;
+            searchPanel.Open();
         }
 
         public void LoadChapter(string curBookName, string typeOfTree)
@@ -97,15 +97,15 @@ namespace 脸滚键盘.自定义控件
             Gval.CurrentBook.CurNode = this.DataContext as TreeViewNode;
             TypeOfTree = typeOfTree;
             CurBookName = curBookName;
-            textEditor.Load(ConvertStringToStream(CurNode.NodeContent));
+            TextEditor.Load(ConvertStringToStream(CurNode.NodeContent));
 
             //光标移动至文末       
-            textEditor.ScrollToLine(textEditor.LineCount);
-            textEditor.SelectionLength = 0;
-            textEditor.SelectionStart = textEditor.Text.Length;
+            TextEditor.ScrollToLine(TextEditor.LineCount);
+            TextEditor.SelectionLength = 0;
+            TextEditor.SelectionStart = TextEditor.Text.Length;
             for (int i = 0; i < 5; i++)
             {
-                textEditor.ScrollToEnd();
+                TextEditor.ScrollToEnd();
             }
 
             SetRules();
@@ -117,11 +117,11 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         public void SetRules()
         {
-            textEditor.SyntaxHighlighting = null;
+            TextEditor.SyntaxHighlighting = null;
             string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
             Stream xshdStream = File.OpenRead(fullFileName);
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
-            textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
+            TextEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
             xshdReader.Close();
             xshdStream.Close();
 
@@ -133,16 +133,16 @@ namespace 脸滚键盘.自定义控件
                 {
                     string keyword;
                     string tableName = wp.Tag.ToString();
-                    SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
+                    SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                     SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName));
-                    IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
+                    IList<HighlightingRule> rules = TextEditor.SyntaxHighlighting.MainRuleSet.Rules;
                     while (reader.Read())
                     {
                         keyword = reader["名称"].ToString();
                         AddKeyword(rules, keyword, tableName);
                     }
                     reader.Close();
-                    sqlConn.Close();
+                    
                 }
             }
 
@@ -160,40 +160,42 @@ namespace 脸滚键盘.自定义控件
 
         void SetRules(IList<HighlightingRule> rules, string keyword, string colorName)
         {
-            HighlightingRule rule = new HighlightingRule();
-            rule.Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
-            rule.Regex = new Regex(keyword);
+            HighlightingRule rule = new HighlightingRule
+            {
+                Color = TextEditor.SyntaxHighlighting.GetNamedColor(colorName),
+                Regex = new Regex(keyword)
+            };
             rules.Add(rule);
         }
 
-        void SetSpan(string keyword, string colorName)
+        //void SetSpan(string keyword, string colorName)
+        //{
+        //    var spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
+        //    HighlightingSpan span = new HighlightingSpan();
+        //    span.SpanColor = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
+        //    span.StartExpression = new Regex(keyword);
+        //    span.EndExpression = new Regex("");
+        //    span.SpanColorIncludesStart = true;
+        //    span.SpanColorIncludesEnd = true;
+        //    spans.Add(span);
+        //}
+
+        private void Uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
-            HighlightingSpan span = new HighlightingSpan();
-            span.SpanColor = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
-            span.StartExpression = new Regex(keyword);
-            span.EndExpression = new Regex("");
-            span.SpanColorIncludesStart = true;
-            span.SpanColorIncludesEnd = true;
-            spans.Add(span);
+
         }
 
-        private void uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-
-        private void chapterNameBox_KeyUp(object sender, KeyEventArgs e)
+        private void ChapterNameBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 //转移焦点，触发标题栏失去焦点事件
-                textEditor.Focus();
+                TextEditor.Focus();
 
                 //光标移动至文末
-                textEditor.SelectionStart = textEditor.Text.Length;
-                textEditor.ScrollToLine(textEditor.LineCount);
-                textEditor.ScrollToEnd();
+                TextEditor.SelectionStart = TextEditor.Text.Length;
+                TextEditor.ScrollToLine(TextEditor.LineCount);
+                TextEditor.ScrollToEnd();
             }
         }
 
@@ -203,10 +205,10 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         void ShowTextInfo()
         {
-            words = WordCount(textEditor.Text);
+            words = WordCount(TextEditor.Text);
             if (lb1 != null && lb2 != null)
             {
-                lb1.Content = "段落：" + textEditor.Document.Lines.Count.ToString();
+                lb1.Content = "段落：" + TextEditor.Document.Lines.Count.ToString();
                 lb2.Content = "字数：" + words.ToString();
                 lbValue.Content = "价值：" + ((double)words / 1000 * Gval.CurrentBook.Price).ToString() + "元";
             }
@@ -225,32 +227,33 @@ namespace 脸滚键盘.自定义控件
             }
 
             string tableName = TypeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, CurBookName + ".db");
-            string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}', isDir={2}, NodeContent='{3}', WordsCount={4}, IsExpanded={5}, IsChecked={6} where Uid = '{7}';", tableName, CurNode.NodeName.Replace("'", "''"), CurNode.IsDir, textEditor.Text.Replace("'", "''"), words, CurNode.IsExpanded, CurNode.IsChecked, CurNode.Uid);
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+            string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}', isDir={2}, NodeContent='{3}', WordsCount={4}, IsExpanded={5}, IsChecked={6} where Uid = '{7}';", tableName, CurNode.NodeName.Replace("'", "''"), CurNode.IsDir, TextEditor.Text.Replace("'", "''"), words, CurNode.IsExpanded, CurNode.IsChecked, CurNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
 
-
-            CurNode.NodeContent = textEditor.Text;
+            CurNode.NodeContent = TextEditor.Text;
             CurNode.WordsCount = words;
 
-            btnSaveDoc.IsEnabled = false;
+            BtnSaveDoc.IsEnabled = false;
 
-            Console.WriteLine("保存至数据库");
+            //Console.WriteLine("保存至数据库");
             Gval.Uc.RoleCards.MarkNamesInChapter();
+
+            //在数据库占用和重复连接之间选择了一个平衡。保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
+            sqlConn.Close();
         }
 
 
 
 
 
-        private void textEditor_TextChanged(object sender, EventArgs e)
+        private void TextEditor_TextChanged(object sender, EventArgs e)
         {
             ShowTextInfo();
 
-            if (textEditor.TextArea.IsFocused == true && CurNode != null)
+            if (TextEditor.TextArea.IsFocused == true && CurNode != null)
             {
-                btnSaveDoc.IsEnabled = true;
+                BtnSaveDoc.IsEnabled = true;
             }
             if (PasteSign == true)
             {
@@ -265,23 +268,23 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void textEditor_KeyUp(object sender, KeyEventArgs e)
+        private void TextEditor_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && textEditor.TextArea.IsFocused == true)
+            if (e.Key == Key.Enter && TextEditor.TextArea.IsFocused == true)
             {
-                int a = textEditor.SelectionStart;
-                int b = textEditor.Text.Length;
-                string strA = textEditor.Text.Substring(0, a);
-                string strB = textEditor.Text.Substring(a, b - a);
+                int a = TextEditor.SelectionStart;
+                int b = TextEditor.Text.Length;
+                string strA = TextEditor.Text.Substring(0, a);
+                string strB = TextEditor.Text.Substring(a, b - a);
                 string strM = "\n　　";
 
                 //重新赋值给编辑区
-                textEditor.Text = strA + strM + strB.ToString();
+                TextEditor.Text = strA + strM + strB.ToString();
 
                 //光标移动至正确的编辑位置
-                textEditor.SelectionStart = a + strM.Length;
-                textEditor.LineDown();//滚动，行+1
-                textEditor.LineDown();//滚动，行+1
+                TextEditor.SelectionStart = a + strM.Length;
+                TextEditor.LineDown();//滚动，行+1
+                TextEditor.LineDown();//滚动，行+1
 
                 //自动保存（回车时）
                 SaveText();
@@ -289,7 +292,7 @@ namespace 脸滚键盘.自定义控件
             if (e.Key == Key.F9)
             {
                 //进行排版
-                ReformatText(textEditor);
+                ReformatText(TextEditor);
                 SaveText();
             }
             //进行了删除之后（太过频繁）
@@ -314,18 +317,18 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void textEditor_KeyDown(object sender, KeyEventArgs e)
+        private void TextEditor_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.S)
             {
                 //同时按下了Ctrl + S键（S要最后按，因为判断了此次事件的e.Key）
                 //修饰键只能按下Ctrl，如果还同时按下了其他修饰键，则不会进入
-                btnSaveText_Click(null, null);
+                BtnSaveText_Click(null, null);
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
             {
                 //如果被searchPanel占用就不要再设置
-                theDialog = FindReplaceDialog.ShowForReplace(textEditor);
+                theDialog = FindReplaceDialog.ShowForReplace(TextEditor);
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
             {
@@ -340,15 +343,15 @@ namespace 脸滚键盘.自定义控件
                 //如果被searchPanel占用就不要再设置
                 if (theDialog == null)
                 {
-                    theDialog = new FindReplaceDialog(textEditor);
+                    theDialog = new FindReplaceDialog(TextEditor);
                 }
-                theDialog.FindNext(textEditor.TextArea.Selection.GetText());
+                theDialog.FindNext(TextEditor.TextArea.Selection.GetText());
             }
             if (e.Key == Key.F4)
             {
                 if (searchPanel != null)
                 {
-                    searchPanel.SearchPattern = textEditor.SelectedText;
+                    searchPanel.SearchPattern = TextEditor.SelectedText;
                     searchPanel.FindPrevious();
                 }
             }
@@ -356,9 +359,9 @@ namespace 脸滚键盘.自定义控件
             {
                 if (searchPanel != null)
                 {
-                    searchPanel.SearchPattern = textEditor.SelectedText;
+                    searchPanel.SearchPattern = TextEditor.SelectedText;
                     searchPanel.FindPrevious();
-                    textEditor.Document.Replace(textEditor.SelectionStart, textEditor.SelectionLength, "测试");
+                    TextEditor.Document.Replace(TextEditor.SelectionStart, TextEditor.SelectionLength, "测试");
                     searchPanel.FindNext();
                 }
             }
@@ -366,20 +369,20 @@ namespace 脸滚键盘.自定义控件
             {
                 if (searchPanel != null)
                 {
-                    searchPanel.SearchPattern = textEditor.SelectedText;
+                    searchPanel.SearchPattern = TextEditor.SelectedText;
                     searchPanel.FindPrevious();
-                    textEditor.Document.Replace(textEditor.SelectionStart, textEditor.SelectionLength, "测试");
+                    TextEditor.Document.Replace(TextEditor.SelectionStart, TextEditor.SelectionLength, "测试");
                     searchPanel.FindPrevious();
                 }
             }
         }
 
-        private void textEditor_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void TextEditor_Executed(object sender, ExecutedRoutedEventArgs e)
         {
         }
 
         bool PasteSign;
-        private void textEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void TextEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             if (e.Command == ApplicationCommands.Cut ||
                  e.Command == ApplicationCommands.Paste
@@ -391,7 +394,7 @@ namespace 脸滚键盘.自定义控件
         }
 
         #region 右侧按钮面板
-        public void btnSaveText_Click(object sender, RoutedEventArgs e)
+        public void BtnSaveText_Click(object sender, RoutedEventArgs e)
         {
             if (CurNode == null)
             {
@@ -403,7 +406,7 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnCopy_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(textEditor.Text);
+            Clipboard.SetText(TextEditor.Text);
             HandyControl.Controls.Growl.Success("已复制本文档内容到剪贴板！");
         }
 
@@ -419,32 +422,32 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnPaste_Click(object sender, RoutedEventArgs e)
         {
-            string temp = textEditor.Text;
-            textEditor.Text = Clipboard.GetText();
+            string temp = TextEditor.Text;
+            TextEditor.Text = Clipboard.GetText();
             BtnUndo.DataContext =temp;
             BtnUndo.IsEnabled = true;
-            ReformatText(textEditor);
+            ReformatText(TextEditor);
             if (CurNode != null)
             {
-                btnSaveDoc.IsEnabled = true;
+                BtnSaveDoc.IsEnabled = true;
             }
             
         }
 
         private void BtnUndo_Click(object sender, RoutedEventArgs e)
         {
-            textEditor.Text = BtnUndo.DataContext.ToString();
-            ReformatText(textEditor);
+            TextEditor.Text = BtnUndo.DataContext.ToString();
+            ReformatText(TextEditor);
             BtnUndo.IsEnabled = false;
             if (CurNode != null)
             {
-                btnSaveDoc.IsEnabled = true;
+                BtnSaveDoc.IsEnabled = true;
             }
         }
 
         private void BtnFormat_Click(object sender, RoutedEventArgs e)
         {
-            ReformatText(textEditor);
+            ReformatText(TextEditor);
             SaveText();
         }
 
@@ -455,11 +458,11 @@ namespace 脸滚键盘.自定义控件
         #endregion
 
 
-        void textEditor_TextArea_SelectionChanged(object sender, EventArgs e)
+        void TextEditor_TextArea_SelectionChanged(object sender, EventArgs e)
         {
-            if (textEditor.SelectedText.Length > 0)
+            if (TextEditor.SelectedText.Length > 0)
             {
-                lb2.Content = "字数：" + WordCount(textEditor.SelectedText) + "/" + words.ToString();
+                lb2.Content = "字数：" + WordCount(TextEditor.SelectedText) + "/" + words.ToString();
             }
             else
             {

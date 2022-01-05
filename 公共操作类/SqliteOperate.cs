@@ -6,21 +6,23 @@ namespace 脸滚键盘.公共操作类
     public class SqliteOperate
     {
 
-        public SqliteOperate(string DbPath, string DbName = null)
+        public SqliteOperate(string dbPath, string dbName = null)
         {
             Close();
-            connection = CreateDatabaseConnection(DbPath, DbName);
+            connection = CreateDatabaseConnection(dbPath, dbName);
+            DbName = dbName;
             Gval.Flag.IsSqlconnOpening = true;
         }
 
         ~SqliteOperate()
         {
             Gval.Flag.IsSqlconnOpening = false;
-            //SQLiteConnection.ClearAllPools();
+            SQLiteConnection.ClearAllPools();
         }
 
         // 使用全局静态变量保存连接
-        private SQLiteConnection connection;
+        private readonly SQLiteConnection connection;
+        public string DbName;
 
         /// <summary>
         /// 数据库建立连接
@@ -42,7 +44,7 @@ namespace 脸滚键盘.公共操作类
             if (connection != null && connection.State != System.Data.ConnectionState.Open)
             {
                 connection.Open();
-                SQLiteCommand command = connection.CreateCommand();
+                //System.Console.WriteLine(string.Format("打开数据库 {0} 的连接", this.DbName));
             }
         }
 
@@ -52,6 +54,7 @@ namespace 脸滚键盘.公共操作类
             if (connection != null)
             {
                 connection.Close();
+                //System.Console.WriteLine(string.Format("关闭数据库 {0} 的连接", this.DbName));
             }
         }
 
@@ -93,12 +96,11 @@ namespace 脸滚键盘.公共操作类
 
                     // 执行查询会返回一个SQLiteDataReader对象
                     SQLiteDataReader reader = command.ExecuteReader();
-
+                    
                     return reader;
                     //reader.Read()方法会从读出一行匹配的数据到reader中。注意：是一行数据。
 
                 }
-                //tr.Commit();
             }
         }
 

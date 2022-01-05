@@ -25,9 +25,11 @@ namespace 脸滚键盘.控件方法类
             public event PropertyChangedEventHandler PropertyChanged;
             public void OnPropertyChanged([CallerMemberName] string propertyName = null)
             {
-                PropertyChangedEventHandler handler = PropertyChanged;
-                if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+                //未简化的委托调用
+                //PropertyChangedEventHandler handler = PropertyChanged;
+                //if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
 
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
                 //if (this.isButton == false && Gval.Flag.Loading == false)
                 //{
@@ -466,10 +468,11 @@ namespace 脸滚键盘.控件方法类
         {
 
             string guid = Guid.NewGuid().ToString();
-            TreeViewNode newNode = new TreeViewNode(guid, "新节点");
-            newNode.Pid = baseNode.Uid;
-            newNode.NodeContent = "　　";
-            int x = baseNode.ChildNodes.Count;
+            TreeViewNode newNode = new TreeViewNode(guid, "新节点")
+            {
+                Pid = baseNode.Uid,
+                NodeContent = "　　"
+            };
             if (string.IsNullOrEmpty(baseNode.Uid))
 
             {
@@ -539,32 +542,32 @@ namespace 脸滚键盘.控件方法类
         public static void AddNodeBySql(string curBookName, string typeOfTree, TreeViewNode newNode)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent.Replace("'", "''"), newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+            
         }
         #endregion
 
         #region 载入书籍
-        public static void SaveBySql(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
-        {
-            string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
-            foreach (TreeViewNode node in baseNode.ChildNodes)
-            {
-                SaveBySql(sqlConn, node);
-            }
-            sqlConn.Close();
-        }
+        //public static void SaveBySql(string curBookName, TreeViewNode baseNode)
+        //{
+        //    SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
+        //    foreach (TreeViewNode node in baseNode.ChildNodes)
+        //    {
+        //        SaveBySql(sqlConn, node);
+        //    }
+            
+        //}
 
-        public static void SaveBySql(SqliteOperate sqlConn, TreeViewNode baseNode)
-        {
-            foreach (TreeViewNode node in baseNode.ChildNodes)
-            {
-                SaveBySql(sqlConn, node);
-            }
-        }
+        //public static void SaveBySql(SqliteOperate sqlConn, TreeViewNode baseNode)
+        //{
+        //    foreach (TreeViewNode node in baseNode.ChildNodes)
+        //    {
+        //        SaveBySql(sqlConn, node);
+        //    }
+        //}
+
         /// <summary>
         /// 从数据库中递归载入节点记录
         /// </summary>
@@ -575,7 +578,7 @@ namespace 脸滚键盘.控件方法类
         public static void LoadBySql(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode TopNode)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN);", tableName);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("SELECT * FROM Tree_{0} where Pid='';", tableName);
@@ -605,11 +608,11 @@ namespace 脸滚键盘.控件方法类
                 {
                     node.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_knight.png";
                 }
-                LoadNode(node, TreeViewNodeList, TopNode, typeOfTree);
+                LoadNode(node, TreeViewNodeList, TopNode);
                 ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
-            sqlConn.Close();
+            
         }
 
         /// <summary>
@@ -618,9 +621,8 @@ namespace 脸滚键盘.控件方法类
         /// <param name="node"></param>
         /// <param name="TreeViewNodeList"></param>
         /// <param name="baseNode"></param>
-        static void LoadNode(TreeViewNode node, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode, string typeOfTree)
+        static void LoadNode(TreeViewNode node, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode baseNode)
         {
-            int x = baseNode.ChildNodes.Count;
             if (string.IsNullOrEmpty(baseNode.Uid))
             {
                 TreeViewNodeList.Add(node);
@@ -655,7 +657,7 @@ namespace 脸滚键盘.控件方法类
                     IsChecked = (bool)reader["IsChecked"],
                 };
                 node.IconPath = Gval.Path.Resourses + "/图标/目录树/ic_action_document.png";
-                LoadNode(node, TreeViewNodeList, parentNode, typeOfTree);
+                LoadNode(node, TreeViewNodeList, parentNode);
                 ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
@@ -663,17 +665,6 @@ namespace 脸滚键盘.控件方法类
         #endregion
 
         #region 在数据库中的其他操作
-        /// <summary>
-        /// 从数据库中删除当前选定的书籍记录
-        /// </summary>
-        public static void DelCurBookBySql()
-        {
-            string tableName = "books";
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, "index.db");
-            string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
-            sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
-        }
 
         /// <summary>
         /// 同级节点记录在数据库中对调顺序
@@ -685,7 +676,7 @@ namespace 脸滚键盘.控件方法类
         public static void SwapNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, TreeViewNode neighboringNode)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             //更新数据库中临近节点记录集
             string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8} where Uid = '{9}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, selectedNode.IsChecked, neighboringNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
@@ -693,7 +684,7 @@ namespace 脸滚键盘.控件方法类
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+
         }
         static string delSql;
         /// <summary>
@@ -706,13 +697,13 @@ namespace 脸滚键盘.控件方法类
         public static void DelNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, ObservableCollection<TreeViewNode> treeViewNodeList)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             delSql = string.Empty;
             RecursionDelBySql(curBookName, typeOfTree, selectedNode, sqlConn, treeViewNodeList);
             delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(delSql);
             treeViewNodeList.Remove(selectedNode);
-            sqlConn.Close();
+            
         }
 
 
@@ -745,10 +736,10 @@ namespace 脸滚键盘.控件方法类
         public static void ExpandedCollapsedBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+            
         }
 
         /// <summary>
@@ -760,10 +751,10 @@ namespace 脸滚键盘.控件方法类
         public static void CheckedBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode)
         {
             string tableName = typeOfTree;
-            SqliteOperate sqlConn = new SqliteOperate(Gval.Path.Books, curBookName + ".db");
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("UPDATE Tree_{0} set IsChecked={1} where Uid = '{2}';", tableName, selectedNode.IsChecked, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sqlConn.Close();
+            
         }
         #endregion
 
