@@ -226,13 +226,33 @@ namespace 脸滚键盘
         }
 
         #region 番茄时间
-        public string ShowTimeText { get { return String.Format("{0:D2}:{1:D2}", (int)stopWatch.Elapsed.TotalMinutes, stopWatch.Elapsed.Seconds); } }
-        Stopwatch stopWatch = new Stopwatch();
-        DispatcherTimer timer = new DispatcherTimer();
-        bool changeTag = false;
+        public string ShowTimeText { get { return String.Format("{0:D2}:{1:D2}", (int)StopWatch.Elapsed.TotalMinutes, StopWatch.Elapsed.Seconds); } }
+        Stopwatch StopWatch = new Stopwatch();
+        DispatcherTimer Timer = new DispatcherTimer();
+        bool TagChange = false;
+
+        /// <summary>
+        /// 事件：控件载入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnTime_Loaded(object sender, RoutedEventArgs e)
+        {
+            Timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(1000)
+            };
+            Timer.Tick += TimeRuner;
+        }
+
+        /// <summary>
+        /// 事件：点击开始，启动番茄时间的计时功能
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TomatoTimeStart_Click(object sender, RoutedEventArgs e)
         {
-            if (timer.IsEnabled)
+            if (Timer.IsEnabled)
             {
                 BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png"));
                 TomatoTimeStop_Click(null, null);
@@ -240,66 +260,90 @@ namespace 脸滚键盘
             else
             {
                 BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_stop.png"));
-                timer = new DispatcherTimer
-                {
-                    Interval = TimeSpan.FromMilliseconds(1000)
-                };
-                timer.Tick += TimeRuner;
-                timer.Start();
-                if (changeTag == true)
+                
+                if (TagChange == true)
                 {
                     SettingsOperate.Set("tomatoTime", CbTime.Value.ToString());
-                    changeTag = false;
+                    TagChange = false;
                 }
+
                 CbTime.Visibility = Visibility.Hidden;
-                mediaElement.Source = new Uri(Gval.Path.Resourses + "/声音/dida.wav", UriKind.Relative);
-                stopWatch.Start();
+                MeDida.Stop();
+                MeRing.Stop();
+                Timer.Start();
+                StopWatch.Start();
             }
         }
 
+        /// <summary>
+        /// 方法：每次间隔运行的内容
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimeRuner(object sender, EventArgs e)
         {
             TbTime.Text = ShowTimeText;
-            mediaElement.Stop();
-            mediaElement.Play();
+            MeDida.Stop();
+            MeDida.Play();
 
-            if ((int)stopWatch.Elapsed.TotalMinutes == CbTime.Value)
+            if ((int)StopWatch.Elapsed.TotalMinutes == CbTime.Value)
             {
-                mediaElement.Source = new Uri(Gval.Path.Resourses + "/声音/ring.wav", UriKind.Relative);
-                mediaElement.Play();
+                MeRing.Play();
                 TomatoTimeStart_Click(null, null);
             }
         }
 
-
+        /// <summary>
+        /// 停止计时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TomatoTimeStop_Click(object sender, RoutedEventArgs e)
         {
-            stopWatch = new Stopwatch();
-            timer.Tick -= TimeRuner;
-            timer.Stop();
+            StopWatch = new Stopwatch();
+            Timer.Stop();
             TbTime.Text = ShowTimeText;
         }
 
+        /// <summary>
+        /// 暂停计时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TomatoTimePause_Click(object sender, RoutedEventArgs e)
         {
-            stopWatch.Stop();
-            timer.Tick -= TimeRuner;
-            timer.Stop();
+            StopWatch.Stop();
+            Timer.Stop();
             TbTime.Text = ShowTimeText;
 
         }
 
+        /// <summary>
+        /// 事件：时间设置值更改
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CbTime_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
         {
-            changeTag = true;
+            TagChange = true;
         }
 
+        /// <summary>
+        /// 事件：时间设置值载入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CbTime_Loaded(object sender, RoutedEventArgs e)
         {
             double.TryParse(SettingsOperate.Get("tomatoTime"), out double value);
             CbTime.Value = value;
         }
 
+        /// <summary>
+        /// 事件：右键进入设置模式
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BorderTomatoTime_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (CbTime.Visibility == Visibility.Visible)
@@ -349,6 +393,7 @@ namespace 脸滚键盘
         {
 
         }
+
 
 
 

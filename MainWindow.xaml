@@ -91,11 +91,12 @@
                                     <ColumnDefinition Width="100*"/>
                                 </Grid.ColumnDefinitions>
                                 <Button Padding="0" BorderThickness="0" Grid.Column="0" x:Name="BtnStart" Click="TomatoTimeStart_Click" ToolTip="开始/停止（右键进入设置模式）" Height="Auto">
-                                    <Image x:Name="BtnTime" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png" />
+                                    <Image x:Name="BtnTime" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png" Loaded="BtnTime_Loaded" />
                                 </Button>
                                 <TextBlock  x:Name="TbTime"  Grid.Column="1" Padding="0" Text="00:00" VerticalAlignment="Center" Margin="0,0,5,0"/>
                                 <hc:NumericUpDown Maximum="99" Minimum="0" Padding="0" x:Name="CbTime" Visibility="Hidden" ValueChanged="CbTime_ValueChanged" Loaded="CbTime_Loaded" Grid.ColumnSpan="2" MinHeight="28"/>
-                                <MediaElement x:Name="mediaElement" Visibility="Hidden" LoadedBehavior="Manual"/>
+                                <MediaElement x:Name="MeDida" Source="pack://siteoforigin:,,,/Resourses/声音/dida.wav" Visibility="Hidden" LoadedBehavior="Manual"/>
+                                <MediaElement x:Name="MeRing" Source="pack://siteoforigin:,,,/Resourses/声音/ring.wav" Visibility="Hidden" LoadedBehavior="Manual"/>
                             </Grid>
                         </Border>
                         <Button Padding="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
