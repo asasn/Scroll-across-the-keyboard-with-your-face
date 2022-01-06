@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="uc" x:Class="脸滚键盘.自定义控件.UcEditor"
+﻿<UserControl x:Name="Uc" x:Class="脸滚键盘.自定义控件.UcEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -63,7 +63,7 @@
                 </Button>
             </WrapPanel>
 
-            <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=uc, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->
+            <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=Uc, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->
         </Grid>
     </hc:Card>
 </UserControl>

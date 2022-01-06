@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="uc" x:Class="脸滚键盘.自定义控件.UcTreeBook"
+﻿<UserControl x:Name="Uc" x:Class="脸滚键盘.自定义控件.UcTreeBook"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
 
-    <GroupBox Header="{Binding UcTitle, ElementName=uc, Mode=TwoWay}" Style="{StaticResource BaseStyle}">
+    <GroupBox Header="{Binding UcTitle, ElementName=Uc, Mode=TwoWay}" Style="{StaticResource BaseStyle}">
         <Grid>
             <ScrollViewer x:Name="Sv" Grid.Row="1" HorizontalScrollBarVisibility="Auto">
                 <TreeView x:Name="Tv" Grid.Row="1" Margin="5" TreeViewItem.Selected="TreeView_Selected" TreeViewItem.Expanded="Tv_Expanded" TreeViewItem.Collapsed="Tv_Collapsed"
