@@ -21,6 +21,12 @@
 图标：Androidicons Developer set 3.0
 >在`Resourses/图标`文件夹下，无需安装
 
+## 请注意：本软件可能使用网络连接的地方
+
+1.释义工具调用汉典页面：[汉典：https://www.zdic.net/](https://www.zdic.net/)
+
+2.起名工具，点选名字之后获取拼音（本地有拼音字典，无条目时才会从[汉典](https://www.zdic.net/)获取）
+
 ## 常用操作
 - 在**目录树**中
 
