@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using 脸滚键盘.信息卡和窗口;
@@ -43,7 +44,8 @@ namespace 脸滚键盘.公共操作类
 
         public struct Uc
         {
-            public static MainWindow MWindow;
+            public static MainWindow MainWin;
+            public static SplashWindow SpWin;
             public static Grid BooksPanel;
             public static HandyControl.Controls.TabControl TabControl;
             public static UcTreeBook TreeBook;
@@ -59,6 +61,11 @@ namespace 脸滚键盘.公共操作类
         public struct SQLClass
         {
             public static Dictionary<string, SqliteOperate> Pools = new Dictionary<string, SqliteOperate>();
+        }
+
+        public struct Threads
+        {
+            public static Thread Task1;
         }
     }
 }

@@ -101,12 +101,10 @@ namespace 脸滚键盘.自定义控件
             Tv.ItemsSource = TreeViewNodeList;
 
             Gval.Flag.Loading = true;
-
             //AddButtonNode(TreeViewNodeList, TopNode);
 
             //从数据库中载入数据
             LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
-
 
             Gval.Flag.Loading = false;
 
@@ -202,28 +200,28 @@ namespace 脸滚键盘.自定义控件
             //上下按钮可用/禁用
             if (selectedNode.IsButton == true)
             {
-                Gval.Uc.MWindow.BtnMoveUp.IsEnabled = false;
-                Gval.Uc.MWindow.BtnMoveDown.IsEnabled = false;
+                Gval.Uc.MainWin.BtnMoveUp.IsEnabled = false;
+                Gval.Uc.MainWin.BtnMoveDown.IsEnabled = false;
             }
             else
             {
-                Gval.Uc.MWindow.BtnMoveUp.Visibility = Visibility.Visible;
-                Gval.Uc.MWindow.BtnMoveDown.Visibility = Visibility.Visible;
+                Gval.Uc.MainWin.BtnMoveUp.Visibility = Visibility.Visible;
+                Gval.Uc.MainWin.BtnMoveDown.Visibility = Visibility.Visible;
                 if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == 0)
                 {
-                    Gval.Uc.MWindow.BtnMoveUp.IsEnabled = false;
+                    Gval.Uc.MainWin.BtnMoveUp.IsEnabled = false;
                 }
                 else
                 {
-                    Gval.Uc.MWindow.BtnMoveUp.IsEnabled = true;
+                    Gval.Uc.MainWin.BtnMoveUp.IsEnabled = true;
                 }
                 if (selectedNode.ParentNode.ChildNodes.IndexOf(selectedNode) == selectedNode.ParentNode.ChildNodes.Count - 1)
                 {
-                    Gval.Uc.MWindow.BtnMoveDown.IsEnabled = false;
+                    Gval.Uc.MainWin.BtnMoveDown.IsEnabled = false;
                 }
                 else
                 {
-                    Gval.Uc.MWindow.BtnMoveDown.IsEnabled = true;
+                    Gval.Uc.MainWin.BtnMoveDown.IsEnabled = true;
                 }
             }
         }
@@ -284,8 +282,8 @@ namespace 脸滚键盘.自定义控件
                         {
                             Gval.Uc.TreeMaterial = this;
                             MaterialWindow win = new MaterialWindow();
-                            win.Left = Gval.Uc.MWindow.Left + Gval.Uc.MWindow.ActualWidth / 2 - win.Width / 2;
-                            win.Top = Gval.Uc.MWindow.Top + 25;
+                            win.Left = Gval.Uc.MainWin.Left + Gval.Uc.MainWin.ActualWidth / 2 - win.Width / 2;
+                            win.Top = Gval.Uc.MainWin.Top + 25;
                             win.ShowDialog();
                             return;
                         }

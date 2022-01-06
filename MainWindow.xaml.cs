@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.Media;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,8 +29,8 @@ namespace 脸滚键盘
         public MainWindow()
         {
             InitializeComponent();
-            FileOperate.CreateFolder(Gval.Path.Books);
             RunningCheck();
+            FileOperate.CreateFolder(Gval.Path.Books);
             Gval.SQLClass.Pools.Add("index", new SqliteOperate(Gval.Path.Books, "index.db"));
         }
 
@@ -58,9 +60,8 @@ namespace 脸滚键盘
 
         private void Mw_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.MWindow = this;
+            Gval.Uc.MainWin = this;
             Gval.Uc.BooksPanel = this.BooksPanel;
-
         }
 
         private void UcTreeBook_Loaded(object sender, RoutedEventArgs e)
@@ -97,7 +98,7 @@ namespace 脸滚键盘
             if (tabItem != null)
             {
                 UcEditor ucEditor = tabItem.Content as UcEditor;
-                Gval.CurrentBook.CurNode = ucEditor.DataContext as TreeViewNode;                
+                Gval.CurrentBook.CurNode = ucEditor.DataContext as TreeViewNode;
             }
             else
             {
@@ -120,7 +121,7 @@ namespace 脸滚键盘
             {
                 sqlConn.Close();
             }
-            Application.Current.Shutdown();
+            Application.Current.Shutdown(0);
         }
 
         private void RoleCards_Loaded(object sender, RoutedEventArgs e)
@@ -138,7 +139,7 @@ namespace 脸滚键盘
             Gval.Uc.PublicRoleCards = sender as UcCards;
             Gval.Uc.PublicRoleCards.WpCards.Children.Clear();
             CardOperate.TryToBuildBaseTable("index", "角色");
-            Gval.Uc.PublicRoleCards.LoadCards("index", "角色");            
+            Gval.Uc.PublicRoleCards.LoadCards("index", "角色");
         }
 
         private void PublicOtherCards_Loaded(object sender, RoutedEventArgs e)
@@ -146,12 +147,10 @@ namespace 脸滚键盘
             Gval.Uc.PublicOtherCards = sender as UcCards;
             Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
             CardOperate.TryToBuildBaseTable("index", "其他");
-            Gval.Uc.PublicOtherCards.LoadCards("index", "其他");            
+            Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
         }
 
-
         #region 向上/向下调整节点
-
 
         /// <summary>
         /// 事件：向上调整节点位置按钮点击
@@ -260,7 +259,7 @@ namespace 脸滚键盘
             else
             {
                 BtnTime.Source = new BitmapImage(new Uri("pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_stop.png"));
-                
+
                 if (TagChange == true)
                 {
                     SettingsOperate.Set("tomatoTime", CbTime.Value.ToString());
@@ -397,8 +396,18 @@ namespace 脸滚键盘
 
 
 
+
+
         #endregion
 
-
+        /// <summary>
+        /// 事件：内容呈现（加载完成）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Mw_ContentRendered(object sender, EventArgs e)
+        {
+            this.Activate();
+        }
     }
 }

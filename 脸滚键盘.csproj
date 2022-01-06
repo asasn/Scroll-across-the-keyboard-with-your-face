@@ -106,6 +106,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="信息卡和窗口\BooksChooseWindow.xaml.cs">
       <DependentUpon>BooksChooseWindow.xaml</DependentUpon>
     </Compile>
@@ -157,6 +160,9 @@
     <Compile Include="自定义控件\UcHistoryBar.xaml.cs">
       <DependentUpon>UcHistoryBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="自定义控件\UcProgressBar.xaml.cs">
+      <DependentUpon>UcProgressBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="自定义控件\UcSearcher.xaml.cs">
       <DependentUpon>UcSearcher.xaml</DependentUpon>
     </Compile>
@@ -179,6 +185,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MyStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,6 +245,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcHistoryBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -626,6 +640,11 @@
     <None Include="Resourses\图标\ic_action_warning.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="Resourses\startup.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </SplashScreen>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

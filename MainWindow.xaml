@@ -7,7 +7,7 @@
         xmlns:gg="clr-namespace:脸滚键盘.公共操作类"
         xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:信息卡和窗口="clr-namespace:脸滚键盘.信息卡和窗口" x:Name="Mw" x:Class="脸滚键盘.MainWindow"
         mc:Ignorable="d" UseLayoutRounding="True" Closing="Window_Closing"
-        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Loaded="Mw_Loaded" >
+        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Loaded="Mw_Loaded" ContentRendered="Mw_ContentRendered" >
     <Grid x:Name="主面板">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -123,7 +123,7 @@
                         <Button Padding="0" Grid.Row="1" Grid.Column="6" x:Name="DBTool" Click="DBTool_Click" ToolTip="数据库管理" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_database.png"/>
                         </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="7" x:Name="AppSettings" Click="AppSettings_Click" ToolTip="程序设置" IsEnabled="False">
+                        <Button Padding="0" Grid.Row="1" Grid.Column="7" x:Name="AppSettings" Click="AppSettings_Click" ToolTip="程序设置" >
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_settings.png"/>
                         </Button>
                     </Grid>
@@ -177,6 +177,6 @@
                 </Grid>
             </Grid>
         </Grid>
-
+        <!--<自定义控件:UcProgressBar Background="AliceBlue" Grid.Column="2" CanvasSize="100" Width="100" Height="100"/>-->
     </Grid>
 </Window>

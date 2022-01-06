@@ -1,0 +1,13 @@
+﻿<Window x:Class="脸滚键盘.SplashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:脸滚键盘" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d" Background="Transparent"
+        Title="SplashWindow" Height="278" Width="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStyle="None">
+    <Grid>
+        <Image Source="pack://siteoforigin:,,,/Resourses/startup.jpg" />
+        <自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="150" Width="150" Height="150" TimeSpan="1" StepAngle="5" EllipseCount="20"/>
+    </Grid>
+</Window>
