@@ -75,7 +75,7 @@
                         <Button Padding="0" Grid.Column="1" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_search.png"/>
                         </Button>
-                        <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="内容提炼">
+                        <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="内容提炼" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_wizard.png"/>
                         </Button>
                         <Button Padding="0" Grid.Column="3" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="灵感工具" IsEnabled="False">
@@ -102,7 +102,7 @@
                         <Button Padding="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
                         </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="MapTool" Click="MapTool_Click" ToolTip="地图">
+                        <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="MapTool" Click="MapTool_Click" ToolTip="地图" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_map.png"/>
                         </Button>
                         <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="DesignTool" Click="DesignTool_Click" ToolTip="大纲设计" IsEnabled="False">
