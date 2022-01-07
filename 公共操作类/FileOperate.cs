@@ -14,7 +14,7 @@ namespace 脸滚键盘.公共操作类
         {
             if (false == FileOperate.IsFileExists(imgPath))
             {
-                return new BitmapImage();
+                return null;
             }
             BitmapImage bitmap = new BitmapImage();
             bitmap.BeginInit();

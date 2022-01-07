@@ -56,11 +56,15 @@ namespace 脸滚键盘.信息卡和窗口
                 string BookName = reader["Name"].ToString();
 
                 string imgPath = Gval.Path.Books + "/" + BookName + ".jpg";
+                if (false == FileOperate.IsFileExists(imgPath))
+                {
+                    imgPath = Gval.Path.Resourses + "/nullbookface.jpg";
+                }
                 Image imgBook = new Image
                 {
                     Source = FileOperate.GetImgObject(imgPath),
-                    Width = 144,
-                    Height = 192
+                    Width = 108,
+                    Height = 162,
                 };
                 HandyControl.Controls.Card bookCard = new HandyControl.Controls.Card
                 {
@@ -69,7 +73,7 @@ namespace 脸滚键盘.信息卡和窗口
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     Uid = BookUid,
                     Header = BookName,
-                    Content = imgBook
+                    Content = imgBook,
                 };
 
                 bookCard.MouseLeftButtonDown += CardSelected;

@@ -3,7 +3,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="查找和替换" WindowStartupLocation="CenterOwner"
         Width="300" SizeToContent="Height" ResizeMode="NoResize" 
-        WindowStyle="ToolWindow" ShowInTaskbar="False" Closed="Window_Closed" Topmost="True">
+        WindowStyle="ToolWindow" ShowInTaskbar="False" Closed="Window_Closed" Topmost="True" KeyDown="Window_KeyDown">
 
     <Grid Margin="0,4">
         <Grid.RowDefinitions>
@@ -17,16 +17,16 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TabControl Name="tabMain" Height="Auto" Grid.ColumnSpan="2">
-            <TabItem Header="查找" IsSelected="True">
+        <TabControl Name="TabMain" Height="Auto" Grid.ColumnSpan="2">
+            <TabItem x:Name="TabFind" Header="查找" IsSelected="True">
                 <StackPanel>
                     <TextBlock Margin="3">查找的文字：</TextBlock>
                     <TextBox Margin="3" Name="txtFind" KeyDown="TxtFind_KeyDown" />
                     <Button Margin="5" HorizontalAlignment="Right" 
-                    Width="80" Content="查找下一个" Click="FindNextClick" />
+                    Width="100" Content="查找下一个(F3)" Click="FindNextClick" />
                 </StackPanel>
             </TabItem>
-            <TabItem Header="替换">
+            <TabItem x:Name="TabReplace" Header="替换">
                 <StackPanel>
                     <TextBlock Margin="3">查找的文字：</TextBlock>
                     <TextBox Margin="3" Name="txtFind2" />
@@ -38,7 +38,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <Button Margin="5" HorizontalAlignment="Right" 
                         Width="80" Content="替换全部" Click="ReplaceAllClick" />
                         <Button Margin="5" HorizontalAlignment="Right" 
-                        Width="80" Content="下一个" Click="FindNextClick" />
+                        Width="80" Content="下一个(F3)" Click="FindNextClick" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>

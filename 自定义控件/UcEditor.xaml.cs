@@ -63,8 +63,16 @@ namespace 脸滚键盘.自定义控件
 
         string TypeOfTree;
         string CurBookName;
-        SearchPanel searchPanel;
         TreeViewNode CurNode;
+
+        SearchPanel searchPanel;
+        private SearchPanel SearchObj()
+        {
+            //快速搜索功能
+            SearchPanel searchPanel = SearchPanel.Install(TextEditor.TextArea);
+            searchPanel.Visibility = Visibility.Hidden;
+            return searchPanel;
+        }
 
         /// <summary>
         /// 事件：控件载入
@@ -84,11 +92,8 @@ namespace 脸滚键盘.自定义控件
                 lbValue.Visibility = Visibility.Hidden;
             }
 
-            //快速搜索功能
-            searchPanel = SearchPanel.Install(TextEditor.TextArea);
-            searchPanel.UseRegex = true;
-            searchPanel.Visibility = Visibility.Hidden;
-            searchPanel.Open();
+            //是否启用AvalonEdit自带的搜索面板
+            //searchPanel = SearchObj();
         }
 
         public void LoadChapter(string curBookName, string typeOfTree)
@@ -142,7 +147,7 @@ namespace 脸滚键盘.自定义控件
                         AddKeyword(rules, keyword, tableName);
                     }
                     reader.Close();
-                    
+
                 }
             }
 
@@ -310,6 +315,12 @@ namespace 脸滚键盘.自定义控件
             {
                 SaveText();
             }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+            {
+                //如果searchPanel面板存在，将会占用Ctrl+F的KeyDown事件，所以需要放在KeyUp来调用
+                theDialog = FindReplaceDialog.ShowForReplace(TextEditor);
+                theDialog.TabFind.IsSelected = true;
+            }
         }
         FindReplaceDialog theDialog;
         /// <summary>
@@ -327,8 +338,14 @@ namespace 脸滚键盘.自定义控件
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
             {
-                //如果被searchPanel占用就不要再设置
+                //如果searchPanel面板存在，将会占用此一快捷键，需要的功能放在KeyUp去调用
                 theDialog = FindReplaceDialog.ShowForReplace(TextEditor);
+                theDialog.TabFind.IsSelected = true;
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.H)
+            {
+                theDialog = FindReplaceDialog.ShowForReplace(TextEditor);
+                theDialog.TabReplace.IsSelected = true;
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.Z)
             {
@@ -345,35 +362,32 @@ namespace 脸滚键盘.自定义控件
                 {
                     theDialog = new FindReplaceDialog(TextEditor);
                 }
+                theDialog.cbSearchUp.IsChecked = false;
                 theDialog.FindNext(TextEditor.TextArea.Selection.GetText());
+
+                //searchPanel.SearchPattern = TextEditor.SelectedText;
+                //searchPanel.FindNext();
+                //if (searchPanel.IsClosed == true && string.IsNullOrEmpty(searchPanel.SearchPattern) == false)
+                //{
+                //    searchPanel.Open();
+                //}
             }
             if (e.Key == Key.F4)
             {
-                if (searchPanel != null)
+                //如果被searchPanel占用就不要再设置
+                if (theDialog == null)
                 {
-                    searchPanel.SearchPattern = TextEditor.SelectedText;
-                    searchPanel.FindPrevious();
+                    theDialog = new FindReplaceDialog(TextEditor);
                 }
-            }
-            if (e.Key == Key.F5)
-            {
-                if (searchPanel != null)
-                {
-                    searchPanel.SearchPattern = TextEditor.SelectedText;
-                    searchPanel.FindPrevious();
-                    TextEditor.Document.Replace(TextEditor.SelectionStart, TextEditor.SelectionLength, "测试");
-                    searchPanel.FindNext();
-                }
-            }
-            if (e.Key == Key.F6)
-            {
-                if (searchPanel != null)
-                {
-                    searchPanel.SearchPattern = TextEditor.SelectedText;
-                    searchPanel.FindPrevious();
-                    TextEditor.Document.Replace(TextEditor.SelectionStart, TextEditor.SelectionLength, "测试");
-                    searchPanel.FindPrevious();
-                }
+                theDialog.cbSearchUp.IsChecked = true;
+                theDialog.FindNext(TextEditor.TextArea.Selection.GetText());
+
+                //searchPanel.SearchPattern = TextEditor.SelectedText;
+                //searchPanel.FindPrevious();
+                //if (searchPanel.IsClosed == true && string.IsNullOrEmpty(searchPanel.SearchPattern) == false)
+                //{
+                //    searchPanel.Open();
+                //}
             }
         }
 
@@ -424,14 +438,14 @@ namespace 脸滚键盘.自定义控件
         {
             string temp = TextEditor.Text;
             TextEditor.Text = Clipboard.GetText();
-            BtnUndo.DataContext =temp;
+            BtnUndo.DataContext = temp;
             BtnUndo.IsEnabled = true;
             ReformatText(TextEditor);
             if (CurNode != null)
             {
                 BtnSaveDoc.IsEnabled = true;
             }
-            
+
         }
 
         private void BtnUndo_Click(object sender, RoutedEventArgs e)
@@ -469,7 +483,5 @@ namespace 脸滚键盘.自定义控件
                 lb2.Content = "字数：" + words.ToString();
             }
         }
-
-
     }
 }

@@ -173,5 +173,31 @@ namespace 脸滚键盘.信息卡和窗口
                 FindNextClick(null, null);
             }
         }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F3)
+            {
+                theDialog.cbSearchUp.IsChecked = false;
+                FindNextClick(null, null);
+            }
+            if (e.Key == Key.F4)
+            {
+                theDialog.cbSearchUp.IsChecked = true;
+                FindNextClick(null, null);
+            }
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+            {
+                TabFind.IsSelected = true;
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.H)
+            {
+                TabReplace.IsSelected = true;
+            }
+        }
     }
 }
