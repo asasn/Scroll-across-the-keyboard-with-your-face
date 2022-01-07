@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" Background="Transparent"
-        Title="SplashWindow" Height="278" Width="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStyle="None">
-    <Grid>
-        <Image Source="pack://siteoforigin:,,,/Resourses/startup.jpg" />
-        <自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="150" Width="150" Height="150" TimeSpan="1" StepAngle="5" EllipseCount="20"/>
+        Title="SplashWindow" Height="382" Width="618" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStyle="None" AllowsTransparency="True">
+    <Grid x:Name="GridMain" >
+        <!--<Image Source="pack://siteoforigin:,,,/Resourses/landscape.jpg" />-->
+        <自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="160" Width="200" Height="200" TimeSpan="1"/>
     </Grid>
 </Window>

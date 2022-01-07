@@ -67,5 +67,7 @@ namespace 脸滚键盘.公共操作类
         {
             public static Thread Task1;
         }
+
+        public static SplashScreen SpScreen;
     }
 }

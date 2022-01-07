@@ -13,7 +13,7 @@
                 <Setter Property="Width" Value="{Binding EclipseSize}"></Setter>
                 <Setter Property="Stretch" Value="Fill"></Setter>
                 <!--设置圆的颜色-->
-                <Setter Property="Fill" Value="White"></Setter>
+                <Setter Property="Fill" Value="LightSkyBlue"></Setter>
             </Style>
         </Grid.Resources>
         <StackPanel  HorizontalAlignment="Center" 

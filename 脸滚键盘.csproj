@@ -143,6 +143,7 @@
       <DependentUpon>SearchRetWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="公共操作类\CardOperate.cs" />
+    <Compile Include="公共操作类\Common.cs" />
     <Compile Include="公共操作类\FileOperate.cs" />
     <Compile Include="公共操作类\Gval.cs" />
     <Compile Include="公共操作类\SettingsOperate.cs" />
@@ -642,9 +643,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <SplashScreen Include="Resourses\startup.jpg">
+    <None Include="Resourses\brain.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </SplashScreen>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\landscape.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\nature.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

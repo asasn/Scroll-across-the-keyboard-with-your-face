@@ -29,21 +29,11 @@ namespace 脸滚键盘
         public MainWindow()
         {
             InitializeComponent();
-            RunningCheck();
+            
             FileOperate.CreateFolder(Gval.Path.Books);
             Gval.SQLClass.Pools.Add("index", new SqliteOperate(Gval.Path.Books, "index.db"));
         }
 
-        private void RunningCheck()
-        {
-            Process thisProc = Process.GetCurrentProcess();
-            if (Process.GetProcessesByName(thisProc.ProcessName).Length > 1)
-            {
-                MessageBox.Show("应用程序运行中");
-                Application.Current.Shutdown();
-                return;
-            }
-        }
 
         public string CurrentBookName
         {
@@ -407,6 +397,8 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void Mw_ContentRendered(object sender, EventArgs e)
         {
+            Gval.Uc.SpWin.Dispatcher.Invoke((Action)(() => Gval.Uc.SpWin.Close()));//在Gval.Uc.SpWin的线程上关闭SplashWindow
+
             this.Activate();
         }
     }
