@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口"
         xmlns:脸滚键盘="clr-namespace:脸滚键盘" x:Class="脸滚键盘.信息卡和窗口.BooksChooseWindow"
         mc:Ignorable="d"
-        Title="书籍选择" Height="450" Width="800" Background="#f5f5f5" Loaded="Window_Loaded">
+        Title="书籍选择" Height="450" Width="800" Background="#f5f5f5" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*"/>
@@ -93,6 +93,7 @@
             <Grid Grid.Row="8">
                 <Button x:Name="BtnDelBook" Content="删除选中的书籍" Click="BtnDelBook_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
+            <Image x:Name="ImgShow" Height="192" Grid.Row="5" Width="144" Grid.RowSpan="2"/>
         </Grid>
     </Grid>
 </Window>

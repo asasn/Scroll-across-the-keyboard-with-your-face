@@ -10,20 +10,18 @@ namespace 脸滚键盘.公共操作类
 {
     class FileOperate
     {
-        public static object GetImgObject(string imgPath)
+        public static BitmapImage GetImgObject(string imgPath)
         {
             if (false == FileOperate.IsFileExists(imgPath))
             {
-                return "未找到图片";
+                return new BitmapImage();
             }
-            BitmapImage img = new BitmapImage();
-
-            img.BeginInit();
-            img.UriSource = new Uri(imgPath);
-            img.EndInit();
-
-            Image imgShow = new Image() { Source = img };
-            return imgShow;
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.UriSource = new Uri(imgPath);
+            bitmap.EndInit();
+            return bitmap.Clone();
         }
 
         /// </summary>
@@ -151,12 +149,12 @@ namespace 脸滚键盘.公共操作类
             }
         }
 
-        /// <summary>
+        /// <summary>测试1
         /// 方法：文件重命名
         /// </summary>
         /// <param name="fOld"></param>
         /// <param name="fNew"></param>
-        public static void RenameDoc(string fOld, string fNew)
+        public static void RenameFile(string fOld, string fNew)
         {
             //原文件存在，且改名后的新文件不存在
             if (File.Exists(fOld) && false == File.Exists(fNew))

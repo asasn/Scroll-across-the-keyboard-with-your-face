@@ -43,7 +43,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            string curBookUid = SettingsOperate.Get("curBookUid");          
+            string curBookUid = SettingsOperate.Get("curBookUid");
             string tableName = "books";
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Name CHAR, Price DOUBLE, BornYear INTEGER, CurrentYear INTEGER);", tableName);
@@ -54,23 +54,26 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 string BookUid = reader["Uid"].ToString();
                 string BookName = reader["Name"].ToString();
-                HandyControl.Controls.Card bookCard = new HandyControl.Controls.Card();
-                WpBooks.Children.Add(bookCard);
-                //bookCard.Effect = 
-                bookCard.Margin = new Thickness(10, 10, 0, 0);
-                bookCard.Width = 180;
-                bookCard.Height = 240;
-                bookCard.VerticalAlignment = VerticalAlignment.Stretch;
-                bookCard.HorizontalAlignment = HorizontalAlignment.Stretch;
-                bookCard.Uid = BookUid;
-                bookCard.Header = BookName;
 
                 string imgPath = Gval.Path.Books + "/" + BookName + ".jpg";
-
-                bookCard.Content = FileOperate.GetImgObject(imgPath);
+                Image imgBook = new Image
+                {
+                    Source = FileOperate.GetImgObject(imgPath),
+                    Width = 144,
+                    Height = 192
+                };
+                HandyControl.Controls.Card bookCard = new HandyControl.Controls.Card
+                {
+                    Margin = new Thickness(10, 10, 0, 0),
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    Uid = BookUid,
+                    Header = BookName,
+                    Content = imgBook
+                };
 
                 bookCard.MouseLeftButtonDown += CardSelected;
-
+                WpBooks.Children.Add(bookCard);
                 if (BookUid == curBookUid)
                 {
                     ChoseBookChange(bookCard);
@@ -105,7 +108,7 @@ namespace 脸滚键盘.信息卡和窗口
                 Gval.CurrentBook.CurrentYear = Convert.ToInt32(reader["CurrentYear"]);
             }
             reader.Close();
-            
+
         }
 
         /// <summary>
@@ -122,7 +125,7 @@ namespace 脸滚键盘.信息卡和窗口
             }
             HandyControl.Controls.Card bookCard = sender as HandyControl.Controls.Card;
             Gval.Uc.TabControl.Items.Clear();
-            
+
             //在数据库占用和重复连接之间选择了一个平衡。保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
             foreach (SqliteOperate sqlConn in Gval.SQLClass.Pools.Values)
             {
@@ -142,6 +145,7 @@ namespace 脸滚键盘.信息卡和窗口
 
             bookCard.BorderBrush = Brushes.DodgerBlue;
             bookCard.BorderThickness = new Thickness(0, 5, 0, 5);
+            ImgShow.Source = (bookCard.Content as Image).Source;
 
             SettingsOperate.Set("curBookUid", bookCard.Uid);
             SettingsOperate.Set("curBookName", bookCard.Header.ToString());
@@ -181,7 +185,7 @@ namespace 脸滚键盘.信息卡和窗口
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
             string sql = string.Format("INSERT INTO Tree_{0} (Uid, Name, Price, BornYear, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), 0, 2000, 2021);
             sqlConn.ExecuteNonQuery(sql);
-            
+
 
             TbBuild.Clear();
             WpBooks.Children.Clear();
@@ -200,7 +204,7 @@ namespace 脸滚键盘.信息卡和窗口
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
             string sql = string.Format("UPDATE Tree_{0} set Price={1}, BornYear={2}, CurrentYear={3} where Uid = '{4}';", tableName, Convert.ToDouble(TbPrice.Text), Convert.ToInt32(TbBornYear.Text), Convert.ToInt32(TbCurrentYear.Text), Gval.CurrentBook.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            
+
             GetBookInfoForGval(Gval.CurrentBook.Uid);
         }
 
@@ -285,22 +289,26 @@ namespace 脸滚键盘.信息卡和窗口
                     Gval.SQLClass.Pools.Remove(Gval.CurrentBook.Name);
                 }
                 TbName.Text = FileOperate.ReplaceFileName(TbName.Text);
-                string oldName = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
-                string newName = Gval.Path.Books + "/" + TbName.Text + ".db";
+                string oldNameDB = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
+                string newNameDB = Gval.Path.Books + "/" + TbName.Text + ".db";
+                string oldNameJpg = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".jpg";
+                string newNameJpg = Gval.Path.Books + "/" + TbName.Text + ".jpg";
                 Gval.CurrentBook.Name = TbName.Text;
-                FileOperate.RenameDoc(oldName, newName);
+                FileOperate.RenameFile(oldNameDB, newNameDB);
+                FileOperate.RenameFile(oldNameJpg, newNameJpg);
+
                 string tableName = "books";
                 SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
                 string sql = string.Format("UPDATE Tree_{0} set Name='{1}' where Uid = '{2}';", tableName, TbName.Text.Replace("'", "''"), Gval.CurrentBook.Uid);
                 sqlConn.ExecuteNonQuery(sql);
-                
+
 
                 GetBookInfoForGval(Gval.CurrentBook.Uid);
                 (WpBooks.Tag as HandyControl.Controls.Card).Header = TbName.Text;
 
-                if (false == Gval.SQLClass.Pools.ContainsKey(Gval.CurrentBook.Name))
+                if (false == Gval.SQLClass.Pools.ContainsKey(TbName.Text))
                 {
-                    Gval.SQLClass.Pools.Add(Gval.CurrentBook.Name, new SqliteOperate(Gval.Path.Books, Gval.CurrentBook.Name + ".db")) ;
+                    Gval.SQLClass.Pools.Add(TbName.Text, new SqliteOperate(Gval.Path.Books, TbName.Text));
                 }
             }
         }
