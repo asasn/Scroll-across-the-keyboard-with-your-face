@@ -280,15 +280,16 @@ namespace 脸滚键盘.自定义控件
 
                         if (TypeOfTree == "book")
                         {
-                            string tableName = TypeOfTree;
-                            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
-                            string sql = string.Format("SELECT NodeContent FROM Tree_{0} where Uid='{1}';", tableName, selectedNode.Uid);
-                            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-                            while (reader.Read())
-                            {
-                                selectedNode.NodeContent = reader["NodeContent"].ToString();
-                            }
-                            reader.Close();
+                            ////载入节点内容
+                            //string tableName = TypeOfTree;
+                            //SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+                            //string sql = string.Format("SELECT NodeContent FROM Tree_{0} where Uid='{1}';", tableName, selectedNode.Uid);
+                            //SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+                            //while (reader.Read())
+                            //{
+                            //    selectedNode.NodeContent = reader["NodeContent"].ToString();
+                            //}
+                            //reader.Close();
 
                             foreach (HandyControl.Controls.TabItem item in Gval.Uc.TabControl.Items)
                             {
@@ -298,8 +299,6 @@ namespace 脸滚键盘.自定义控件
                                     return;
                                 }
                             }
-
-
 
                             UcEditor ucEditor = new UcEditor
                             {

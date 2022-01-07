@@ -583,7 +583,7 @@ namespace 脸滚键盘.控件方法类
             sql += string.Format("CREATE INDEX IF NOT EXISTS Uid ON Tree_{0}(Uid);", tableName); 
             sql += string.Format("CREATE INDEX IF NOT EXISTS Pid ON Tree_{0}(Pid);", tableName);
             sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("SELECT Uid, Pid, NodeName, IsDir, WordsCount, IsExpanded, IsChecked FROM Tree_{0} where Pid='';", tableName);
+            sql = string.Format("SELECT * FROM Tree_{0} where Pid='';", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -593,7 +593,7 @@ namespace 脸滚键盘.控件方法类
                     Pid = reader["Pid"].ToString(),
                     NodeName = reader["NodeName"].ToString(),
                     IsDir = (bool)reader["IsDir"],
-                    //NodeContent = reader["NodeContent"].ToString(),
+                    NodeContent = reader["NodeContent"].ToString(),
                     WordsCount = Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"],
                     IsChecked = (bool)reader["IsChecked"],
@@ -643,7 +643,7 @@ namespace 脸滚键盘.控件方法类
         static void ShowTree(SqliteOperate sqlConn, string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
         {
             string tableName = typeOfTree;
-            string sql = string.Format("SELECT Uid, Pid, NodeName, IsDir, WordsCount, IsExpanded, IsChecked FROM Tree_{0} where Pid='{1}';", tableName, parentNode.Uid);
+            string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, parentNode.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -653,7 +653,7 @@ namespace 脸滚键盘.控件方法类
                     Pid = reader["Pid"].ToString(),
                     NodeName = reader["NodeName"].ToString(),
                     IsDir = (bool)reader["IsDir"],
-                    //NodeContent = reader["NodeContent"].ToString(),
+                    NodeContent = reader["NodeContent"].ToString(),
                     WordsCount = Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"],
                     IsChecked = (bool)reader["IsChecked"],
