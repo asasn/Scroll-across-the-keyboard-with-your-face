@@ -23,7 +23,7 @@ namespace 脸滚键盘.控件方法类
             UcEditor ucEditor = tabItem.Content as UcEditor;
             if (ucEditor.BtnSaveDoc.IsEnabled == true)
             {
-                MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
                 if (dr == MessageBoxResult.Yes)
                 {
                     ucEditor.BtnSaveText_Click(null, null);

@@ -318,8 +318,8 @@ namespace 脸滚键盘.自定义控件
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
             {
                 //如果searchPanel面板存在，将会占用Ctrl+F的KeyDown事件，所以需要放在KeyUp来调用
-                theDialog = FindReplaceDialog.ShowForReplace(TextEditor);
-                theDialog.TabFind.IsSelected = true;
+                //theDialog = FindReplaceDialog.ShowForReplace(TextEditor);
+                //theDialog.TabFind.IsSelected = true;
             }
         }
         FindReplaceDialog theDialog;

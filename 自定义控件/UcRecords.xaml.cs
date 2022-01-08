@@ -25,9 +25,44 @@ namespace 脸滚键盘.自定义控件
             InitializeComponent();
         }
 
+
+        public String Title
+        {
+            get { return (String)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(String), typeof(UcRecords), new PropertyMetadata(string.Empty));
+
+
+
+
+
+        public bool IsCanSave
+        {
+            get { return (bool)GetValue(IsCanSaveProperty); }
+            set { SetValue(IsCanSaveProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsCanSave.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCanSaveProperty =
+            DependencyProperty.Register("IsCanSave", typeof(bool), typeof(UcRecords), new PropertyMetadata(false));
+
+
+
+
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            WpMain.Children.Add(new UcTipBox());
+            UcTipBox tipBox = new UcTipBox(WpMain, null); 
+        }
+
+
+
+        private void Uc_Loaded(object sender, RoutedEventArgs e)
+        {
+            LbName.Content = Title + "：";
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using 脸滚键盘.自定义控件;
 using static 脸滚键盘.控件方法类.UTreeView;
 
 namespace 脸滚键盘.公共操作类
@@ -34,7 +35,7 @@ namespace 脸滚键盘.公共操作类
             sqlConn.ExecuteNonQuery(sql);
             string sql2 = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, "别称");
             sqlConn.ExecuteNonQuery(sql2);
-            
+
         }
 
         ///// <summary>
@@ -64,12 +65,12 @@ namespace 脸滚键盘.公共操作类
             foreach (WrapPanel wp in wrapPanels)
             {
                 string sql = string.Empty;
-                foreach (TextBox tb in wp.Children)
+                foreach (UcTipBox tipBox in wp.Children)
                 {
-                    if (string.IsNullOrEmpty(tb.Uid))
+                    if (string.IsNullOrEmpty(tipBox.Uid))
                     {
                         //不存在记录
-                        if (false == string.IsNullOrEmpty(tb.Text))
+                        if (false == string.IsNullOrEmpty(tipBox.Text))
                         {
                             //将外面带入的sql语句提交，并且清空
                             sqlConn.ExecuteNonQuery(sql);
@@ -77,35 +78,35 @@ namespace 脸滚键盘.公共操作类
 
                             //编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
                             string guid = Guid.NewGuid().ToString();
-                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}, {1}id) values ('{2}', '{3}', '{4}');", tableName, wp.Uid, idValue, tb.Text.Replace("'", "''"), guid);
+                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}, {1}id) values ('{2}', '{3}', '{4}');", tableName, wp.Uid, idValue, tipBox.Text.Replace("'", "''"), guid);
                             sqlConn.ExecuteNonQuery(sql);
-                            tb.Uid = guid;
-                            sql = string.Empty; //注意清空，以免影响后续语句运行
-                            w++;
+                            tipBox.Uid = guid;
+                            sql = string.Empty; //注意清空，以免影响后续语句运行                            
                         }
                     }
                     else
                     {
                         //存在记录，为空时删除，不为空时更新
-                        if (string.IsNullOrEmpty(tb.Text))
+                        if (string.IsNullOrEmpty(tipBox.Text))
                         {
-                            sql += string.Format("delete from {0}{1}表 where {1}id = '{2}';", tableName, wp.Uid, tb.Uid);
-
+                            sql += string.Format("delete from {0}{1}表 where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid);
+                            w--;
                         }
                         else
                         {
-                            sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = '{2}';", tableName, wp.Uid, tb.Uid, tb.Text.Replace("'", "''"));
-                            w++;
-                        }
-
-
+                            if (tipBox.IsTextChange == true)
+                            {
+                                sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid, tipBox.Text.Replace("'", "''"));
+                            }                            
+                        }    
                     }
+                    w++;
                 }
                 sqlConn.ExecuteNonQuery(sql);
             }
             string sql2 = string.Format("update {0}主表 set 权重={1} where {0}id = '{2}';", tableName, w, idValue);
             sqlConn.ExecuteNonQuery(sql2);
-            
+
         }
 
 
@@ -125,41 +126,36 @@ namespace 脸滚键盘.公共操作类
                 wp.Children.Clear();
                 while (reader.Read())
                 {
-                    string t = reader.GetString(1);
-                    string n = reader.GetString(2);
-                    TextBox tb = CardOperate.AddTextBox();
-                    tb.GotFocus += Tb_GotFocus;
-                    tb.Text = t;
-                    tb.Uid = n.ToString();
-                    wp.Children.Add(tb);
+                    UcTipBox tipBox = new UcTipBox(wp, reader.GetString(1));
+                    tipBox.Uid = reader.GetString(2);             
                 }
                 reader.Close();
             }
-            
+
         }
 
         private static void Tb_GotFocus(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
-        public static TextBox AddTextBox()
-        {
-            TextBox tb = new TextBox
-            {
-                MinWidth = 30,
-                MinHeight = 0,
-                TextWrapping = TextWrapping.Wrap,
-                Text = "",
-                BorderThickness = new Thickness(0, 0, 0, 1),
-                Margin = new Thickness(10, 0, 0, 0),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                Padding = new Thickness(2)
-            };
-            HandyControl.Controls.BorderElement.SetCornerRadius(tb, new CornerRadius(0));
-            return tb;
-        }
+        //public static TextBox AddTextBox()
+        //{
+        //    TextBox tb = new TextBox
+        //    {
+        //        MinWidth = 30,
+        //        MinHeight = 0,
+        //        TextWrapping = TextWrapping.Wrap,
+        //        Text = "",
+        //        BorderThickness = new Thickness(0, 0, 0, 1),
+        //        Margin = new Thickness(10, 0, 0, 0),
+        //        HorizontalAlignment = HorizontalAlignment.Left,
+        //        VerticalAlignment = VerticalAlignment.Center,
+        //        Padding = new Thickness(2)
+        //    };
+        //    HandyControl.Controls.BorderElement.SetCornerRadius(tb, new CornerRadius(0));
+        //    return tb;
+        //}
 
 
     }

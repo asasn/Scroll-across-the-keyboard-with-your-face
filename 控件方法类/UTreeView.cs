@@ -904,7 +904,7 @@ namespace 脸滚键盘.控件方法类
         /// <summary>
         /// 获取父控件
         /// </summary>
-        public static TreeViewItem GetParentObjectEx<TreeViewItem>(DependencyObject obj) where TreeViewItem : FrameworkElement
+        public static T GetParentObjectEx<T>(DependencyObject obj) where T : FrameworkElement
         {
             if (obj == null)
             {
@@ -913,9 +913,9 @@ namespace 脸滚键盘.控件方法类
             DependencyObject parent = VisualTreeHelper.GetParent(obj);
             while (parent != null)
             {
-                if (parent is TreeViewItem)
+                if (parent is T)
                 {
-                    return (TreeViewItem)parent;
+                    return (T)parent;
                 }
                 parent = VisualTreeHelper.GetParent(parent);
             }

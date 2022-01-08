@@ -64,7 +64,7 @@ namespace 脸滚键盘.信息卡和窗口
             CurButton = curButton;
             TbName.Text = curButton.Content.ToString();
 
-            WrapPanel[] temp = { Wp别称, Wp描述, Wp阶级, Wp基类, Wp派生, Wp物品, Wp能力, Wp经历 };
+            WrapPanel[] temp = { 别称.WpMain, 描述.WpMain, 阶级.WpMain, 基类.WpMain, 派生.WpMain, 物品.WpMain, 能力.WpMain, 经历.WpMain };
             wrapPanels = temp;
 
             //填充窗口信息
@@ -139,15 +139,15 @@ namespace 脸滚键盘.信息卡和窗口
             card.Header = grid;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Button b = sender as Button;
-            string wpName = "Wp" + b.Uid;
-            WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
-            TextBox tb = CardOperate.AddTextBox();
-            tb.TextChanged += Tb_TextChanged;
-            wp.Children.Add(tb);
-        }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Button b = sender as Button;
+        //    string wpName = "Wp" + b.Uid;
+        //    WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
+        //    TextBox tb = CardOperate.AddTextBox();
+        //    tb.TextChanged += Tb_TextChanged;
+        //    wp.Children.Add(tb);
+        //}
 
         private void Tb_TextChanged(object sender, TextChangedEventArgs e)
         {

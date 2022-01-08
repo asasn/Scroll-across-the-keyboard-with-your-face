@@ -23,6 +23,7 @@ namespace 脸滚键盘
         public SplashWindow()
         {
             InitializeComponent();
+
         }
     }
 }

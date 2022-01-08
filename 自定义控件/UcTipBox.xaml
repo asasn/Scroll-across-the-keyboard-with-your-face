@@ -5,11 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘.自定义控件"
              xmlns:hc="https://handyorg.github.io/handycontrol" x:Class="脸滚键盘.自定义控件.UcTipBox"
-             mc:Ignorable="d" x:Name="Uc" >
+             mc:Ignorable="d" x:Name="Uc" KeyDown="Uc_KeyDown" >
     <UserControl.Resources>
         <Style x:Key="TextBoxStyle1" TargetType="{x:Type TextBox}">
-            <Setter Property="MinHeight" Value="22"/>
-            <Setter Property="MinWidth" Value="50"/>
+            <Setter Property="MinHeight" Value="21"/>
+            <Setter Property="MinWidth" Value="30"/>
             <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
             <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
@@ -46,5 +46,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <TextBox x:Name="Tb" Padding="0" Text="" TextWrapping="Wrap" Margin="10,0,0,0" Style="{DynamicResource TextBoxStyle1}"/>
+    <Grid>
+        <TextBox x:Name="Tb" Padding="0" Text="{Binding Text, ElementName=Uc, Mode=TwoWay}" TextWrapping="Wrap" Margin="0,0,10,0" Style="{DynamicResource TextBoxStyle1}" TextChanged="Tb_TextChanged"/>
+    </Grid>
 </UserControl>

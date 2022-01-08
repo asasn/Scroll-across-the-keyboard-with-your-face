@@ -29,6 +29,7 @@ namespace 脸滚键盘.信息卡和窗口
         WrapPanel[] wrapPanels;
         string CurBookName;
         string TypeOfTree;
+
         public struct ThisCard
         {
             public static string id;
@@ -62,7 +63,7 @@ namespace 脸滚键盘.信息卡和窗口
             CurButton = curButton;
             TbName.Text = curButton.Content.ToString();
 
-            WrapPanel[] temp = { Wp别称, Wp身份, Wp外观, Wp阶级, Wp所属, Wp物品, Wp能力, Wp经历 };
+            WrapPanel[] temp = { 别称.WpMain, 身份.WpMain, 外观.WpMain, 阶级.WpMain, 所属.WpMain, 物品.WpMain, 能力.WpMain, 经历.WpMain, };
             wrapPanels = temp;
 
             //填充窗口信息
@@ -137,15 +138,15 @@ namespace 脸滚键盘.信息卡和窗口
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Button b = sender as Button;
-            string wpName = "Wp" + b.Uid;
-            WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
-            TextBox tb = CardOperate.AddTextBox();
-            tb.TextChanged += Tb_TextChanged;
-            wp.Children.Add(tb);
-        }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Button b = sender as Button;
+        //    string wpName = "Wp" + b.Uid;
+        //    WrapPanel wp = gCard.FindName(wpName) as WrapPanel;
+        //    TextBox tb = CardOperate.AddTextBox();
+        //    tb.TextChanged += Tb_TextChanged;
+        //    wp.Children.Add(tb);
+        //}
 
         private void Tb_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -196,6 +197,23 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            if (BtnSave.IsEnabled == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("有数据尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    BtnSave_Click(null, null);
+                }
+                if (dr == MessageBoxResult.No)
+                {
+
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
+
             this.Close();            
         }
 

@@ -6,8 +6,17 @@
         xmlns:local="clr-namespace:脸滚键盘" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" Background="Transparent"
         Title="SplashWindow" Height="382" Width="618" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStyle="None" AllowsTransparency="True">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded" >
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Duration="00:00:01" Storyboard.TargetProperty="Opacity" From="0" To="1" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
     <Grid x:Name="GridMain" >
         <!--<Image Source="pack://siteoforigin:,,,/Resourses/landscape.jpg" />-->
-        <自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="160" Width="200" Height="200" TimeSpan="1"/>
+        <自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="200" TimeSpan="1"/>
     </Grid>
 </Window>

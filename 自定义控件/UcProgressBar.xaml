@@ -3,7 +3,7 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-       mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="100"
+       mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="200"
        Loaded="ProgressBarControl_OnLoaded">
 
     <Grid>
@@ -13,7 +13,7 @@
                 <Setter Property="Width" Value="{Binding EclipseSize}"></Setter>
                 <Setter Property="Stretch" Value="Fill"></Setter>
                 <!--设置圆的颜色-->
-                <Setter Property="Fill" Value="LightSkyBlue"></Setter>
+                <Setter Property="Fill" Value="DodgerBlue"></Setter>
             </Style>
         </Grid.Resources>
         <StackPanel  HorizontalAlignment="Center" 
