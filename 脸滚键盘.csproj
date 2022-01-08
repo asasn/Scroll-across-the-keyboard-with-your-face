@@ -164,11 +164,17 @@
     <Compile Include="自定义控件\UcProgressBar.xaml.cs">
       <DependentUpon>UcProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="自定义控件\UcRecords.xaml.cs">
+      <DependentUpon>UcRecords.xaml</DependentUpon>
+    </Compile>
     <Compile Include="自定义控件\UcScenesCard.xaml.cs">
       <DependentUpon>UcScenesCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcSearcher.xaml.cs">
       <DependentUpon>UcSearcher.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="自定义控件\UcTipBox.xaml.cs">
+      <DependentUpon>UcTipBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcTreeBook.xaml.cs">
       <DependentUpon>UcTreeBook.xaml</DependentUpon>
@@ -195,6 +201,10 @@
     <Page Include="SplashWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="信息卡和窗口\BooksChooseWindow.xaml">
       <SubType>Designer</SubType>
@@ -256,11 +266,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="自定义控件\UcRecords.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="自定义控件\UcScenesCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcSearcher.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcTipBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

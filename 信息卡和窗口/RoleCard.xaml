@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口" xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
-        xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="Uc" x:Class="脸滚键盘.信息卡和窗口.RoleCard"
+        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" x:Name="Uc" x:Class="脸滚键盘.信息卡和窗口.RoleCard"
         mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize" Background="Transparent" Effect="{StaticResource EffectShadow3}" 
         Title="角色信息卡" Width="300" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="400">
     <ScrollViewer MinHeight="400" VerticalAlignment="Top" >
@@ -40,7 +40,7 @@
                 <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb经历" Content="经历：" Grid.Row="8" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
                 <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb备注" Content="备注：" Grid.Row="9" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
                 <TextBox Padding="2" x:Name="TbName" TextChanged="Tb_TextChanged" hc:BorderElement.CornerRadius="0" Grid.Row="0" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2,0,0" MinHeight="0"/>
-                <TextBox Padding="2" x:Name="TbBornYear" hc:BorderElement.CornerRadius="0" Text="" Grid.Row="0" Grid.Column="1" MinWidth="20" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="175,2,0,0" MinHeight="0" input:InputMethod.IsInputMethodEnabled="False" TextChanged="TbBornYear_TextChanged" />
+                <TextBox Padding="2" x:Name="TbBornYear" hc:BorderElement.CornerRadius="0" Text="" Grid.Row="0" Grid.Column="1" MinWidth="20" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="175,2,0,0" MinHeight="0" InputMethod.IsInputMethodEnabled="False" TextChanged="TbBornYear_TextChanged" />
                 <WrapPanel x:Name="Wp别称" Uid="别称" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" ItemHeight="Auto" Margin="-5,2,0,0">
                     <TextBox Padding="2" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0" MinHeight="0"/>
                 </WrapPanel>
@@ -78,6 +78,8 @@
                 <Button Padding="2" x:Name="Btn经历" Uid="经历" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Grid.Column="2" Grid.Row="8" Margin="5" BorderThickness="0,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"/>
                 <Button Padding="2" x:Name="BtnSave" IsEnabled="False" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="BtnSave_Click" Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" />
                 <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="BtnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-20,-5,0" />
+
+                <自定义控件:UcRecords Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="2,56,0,-30" Grid.Row="9" VerticalAlignment="Top"/>
 
             </Grid>
         </hc:Card>
