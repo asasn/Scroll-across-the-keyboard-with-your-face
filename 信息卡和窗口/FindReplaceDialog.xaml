@@ -48,6 +48,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         Name="cbCaseSensitive" Content="匹配大小写" IsChecked="False" HorizontalAlignment="Left" />
         <CheckBox Grid.Row="2" Grid.Column="0" Margin="10,2" 
         Name="cbWholeWord" Content="匹配整个单词" IsChecked="False" HorizontalAlignment="Left" />
+        <CheckBox Grid.Row="3" Grid.Column="0" Margin="10,2" 
+        Name="cbLoop" Content="是否循环" IsChecked="False" HorizontalAlignment="Left" />
         <CheckBox Grid.Row="1" Grid.Column="1" Margin="10,2" 
         Name="cbRegex" Content="正则表达式" HorizontalAlignment="Left" />
         <CheckBox Grid.Row="2" Grid.Column="1" Margin="10,2" 

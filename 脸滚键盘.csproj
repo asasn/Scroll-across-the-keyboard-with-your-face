@@ -164,6 +164,9 @@
     <Compile Include="自定义控件\UcProgressBar.xaml.cs">
       <DependentUpon>UcProgressBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="自定义控件\UcScenesCard.xaml.cs">
+      <DependentUpon>UcScenesCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="自定义控件\UcSearcher.xaml.cs">
       <DependentUpon>UcSearcher.xaml</DependentUpon>
     </Compile>
@@ -250,6 +253,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcScenesCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

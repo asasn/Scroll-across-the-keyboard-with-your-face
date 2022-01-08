@@ -100,8 +100,9 @@ namespace 脸滚键盘.信息卡和窗口
             editor.SelectionStart : editor.SelectionStart + editor.SelectionLength;
             Match match = regex.Match(editor.Text, start);
 
-            if (!match.Success)  // start again from beginning or end
+            if (!match.Success && cbLoop.IsChecked == true)
             {
+                // 循环查找
                 if (regex.Options.HasFlag(RegexOptions.RightToLeft))
                     match = regex.Match(editor.Text, editor.Text.Length);
                 else
