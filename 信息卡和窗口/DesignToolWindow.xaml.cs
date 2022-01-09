@@ -89,7 +89,7 @@ namespace 脸滚键盘.信息卡和窗口
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             //尝试建立新表（IF NOT EXISTS）
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 场记大纲表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 名称 CHAR, 内容 CHAR);");
-            sql += string.Format("CREATE INDEX IF NOT EXISTS 场记大纲表Uid ON 大纲表 (Uid);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 场记大纲表Uid ON 场记大纲表(Uid);");
             sqlConn.ExecuteNonQuery(sql);
 
             sql = string.Format("select * from 场记大纲表 ORDER BY 索引;", tableName);
