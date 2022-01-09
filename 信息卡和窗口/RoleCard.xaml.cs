@@ -185,6 +185,7 @@ namespace 脸滚键盘.信息卡和窗口
                 string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, CurButton.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
+                //传递给父容器
                 CurButton.Content = TbName.Text;
 
                 CardOperate.SaveMainInfo(CurBookName, TypeOfTree, wrapPanels, CurButton.Uid);
@@ -192,7 +193,7 @@ namespace 脸滚键盘.信息卡和窗口
 
             Gval.Uc.RoleCards.RefreshKeyWords();
             Gval.Uc.RoleCards.MarkNamesInChapter();
-
+            
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)

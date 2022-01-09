@@ -34,51 +34,26 @@ namespace 脸滚键盘.自定义控件
             WpParent = wpParent;
             WpParent.Children.Add(this);
             Text = text;
-            IsTextChange = false;            
+            this.Tag = false;            
         }
 
-        public bool IsTextChange
-        {
-            get { return (bool)GetValue(IsTextChangeProperty); }
-            set { SetValue(IsTextChangeProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsTextChange.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsTextChangeProperty =
-            DependencyProperty.Register("IsTextChange", typeof(bool), typeof(UcTipBox), new PropertyMetadata(false, null, OnTextChange));
-
-        private static object OnTextChange(DependencyObject d, object baseValue)
-        {
-            return baseValue;
-        }
 
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            set { SetValue(TextProperty, value);}
         }
 
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(UcTipBox), new PropertyMetadata(string.Empty));
 
+
+
         private void Tb_TextChanged(object sender, TextChangedEventArgs e)
         {
-            IsTextChange = true;
-
-            //由于不会写属性变更事件，这里采用了强依赖的摆烂写法
-            try
-            {
-                TextBox tb = sender as TextBox;
-                UcTipBox tipBox = (tb.Parent as Grid).Parent as UcTipBox;
-                WrapPanel wp = tipBox.Parent as WrapPanel;
-                UcRecords record = (wp.Parent as Grid).Parent as UcRecords;
-                Grid gCard = record.Parent as Grid;
-                (gCard.FindName("BtnSave") as Button).IsEnabled = true;
-            }
-            catch (Exception)
-            {
-            }
+            //改变标志，向上传递给父控件容器
+            WpParent.Tag = this.Tag =true;
         }
 
 

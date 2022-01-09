@@ -88,19 +88,21 @@ namespace 脸滚键盘.公共操作类
                     {
                         //存在记录，为空时删除，不为空时更新
                         if (string.IsNullOrEmpty(tipBox.Text))
-                        {
+                        {                           
                             sql += string.Format("delete from {0}{1}表 where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid);
                             w--;
                         }
                         else
                         {
-                            if (tipBox.IsTextChange == true)
+                            if ((bool)tipBox.Tag == true)
                             {
+                                Console.WriteLine(tipBox.Text);
                                 sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid, tipBox.Text.Replace("'", "''"));
                             }                            
                         }    
                     }
                     w++;
+                    tipBox.Tag = false;
                 }
                 sqlConn.ExecuteNonQuery(sql);
             }
@@ -127,7 +129,7 @@ namespace 脸滚键盘.公共操作类
                 while (reader.Read())
                 {
                     UcTipBox tipBox = new UcTipBox(wp, reader.GetString(1));
-                    tipBox.Uid = reader.GetString(2);             
+                    tipBox.Uid = reader.GetString(2);
                 }
                 reader.Close();
             }

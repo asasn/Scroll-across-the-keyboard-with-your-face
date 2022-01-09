@@ -25,7 +25,6 @@ namespace 脸滚键盘.自定义控件
             InitializeComponent();
         }
 
-
         public String Title
         {
             get { return (String)GetValue(TitleProperty); }
@@ -35,10 +34,6 @@ namespace 脸滚键盘.自定义控件
         // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(String), typeof(UcRecords), new PropertyMetadata(string.Empty));
-
-
-
-
 
         public bool IsCanSave
         {
@@ -55,10 +50,8 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            UcTipBox tipBox = new UcTipBox(WpMain, null); 
+            UcTipBox tipBox = new UcTipBox(WpMain, null);
         }
-
-
 
         private void Uc_Loaded(object sender, RoutedEventArgs e)
         {

@@ -50,6 +50,7 @@ namespace 脸滚键盘
 
         private void Mw_Loaded(object sender, RoutedEventArgs e)
         {
+            this.Activate();
             Gval.Uc.MainWin = this;
             Gval.Uc.BooksPanel = this.BooksPanel;
         }
