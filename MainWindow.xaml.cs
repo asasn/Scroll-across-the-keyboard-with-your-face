@@ -29,7 +29,7 @@ namespace 脸滚键盘
         public MainWindow()
         {
             InitializeComponent();
-            
+
             FileOperate.CreateFolder(Gval.Path.Books);
             Gval.SQLClass.Pools.Add("index", new SqliteOperate(Gval.Path.Books, "index.db"));
         }
@@ -98,22 +98,7 @@ namespace 脸滚键盘
             Gval.Uc.RoleCards.MarkNamesInChapter();
         }
 
-        private void Window_Closing(object sender, EventArgs e)
-        {
-            if (Gval.Uc.TabControl != null)
-            {
-                foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
-                {
-                    tabItem.Focus();
-                    UEditor.TabItemClosing(tabItem, e);
-                }
-            }
-            foreach (SqliteOperate sqlConn in Gval.SQLClass.Pools.Values)
-            {
-                sqlConn.Close();
-            }
-            Application.Current.Shutdown(0);
-        }
+
 
         private void RoleCards_Loaded(object sender, RoutedEventArgs e)
         {
@@ -358,7 +343,7 @@ namespace 脸滚键盘
 
         private void DesignTool_Click(object sender, RoutedEventArgs e)
         {
-            DesignToolWindow win = new DesignToolWindow();
+            DesignToolWindow win = new DesignToolWindow(Gval.CurrentBook.Name, "book");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -399,6 +384,40 @@ namespace 脸滚键盘
         private void Mw_ContentRendered(object sender, EventArgs e)
         {
             Gval.Uc.SpWin.Dispatcher.Invoke((Action)(() => Gval.Uc.SpWin.Close()));//在Gval.Uc.SpWin的线程上关闭SplashWindow
+        }
+
+        private void Mw_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Gval.Uc.TabControl != null)
+            {
+                foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+                {
+                    tabItem.Focus();
+                    UcEditor ucEditor = tabItem.Content as UcEditor;
+                    if (ucEditor.BtnSaveDoc.IsEnabled == true)
+                    {
+                        MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                        if (dr == MessageBoxResult.Yes)
+                        {
+                            ucEditor.BtnSaveText_Click(null, null);
+                        }
+                        if (dr == MessageBoxResult.No)
+                        {
+
+                        }
+                        if (dr == MessageBoxResult.Cancel)
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+                    } 
+                }
+            }
+            foreach (SqliteOperate sqlConn in Gval.SQLClass.Pools.Values)
+            {
+                sqlConn.Close();
+            }
+            Application.Current.Shutdown(0);
         }
     }
 }

@@ -127,35 +127,7 @@ namespace 脸滚键盘.自定义控件
             }
         }
 
-        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            //ScrollViewer scrollviewer = sender as ScrollViewer;
-            //if (e.Delta > 0)
-            //{
-            //    scrollviewer.LineLeft();
-            //    scrollviewer.LineLeft();
-            //    scrollviewer.LineLeft();
-            //}
-            //else
-            //{
-            //    scrollviewer.LineRight();
-            //    scrollviewer.LineRight();
-            //    scrollviewer.LineRight();
-            //}
-            //if (e.Delta > 0)
-            //{
-            //    scrollviewer.LineUp();
-            //    scrollviewer.LineUp();
-            //    scrollviewer.LineUp();
-            //}
-            //else
-            //{
-            //    scrollviewer.LineDown();
-            //    scrollviewer.LineDown();
-            //    scrollviewer.LineDown();
-            //}
-            //e.Handled = true;
-        }
+
 
         private void BtnGoLeft_Click(object sender, RoutedEventArgs e)
         {
@@ -337,6 +309,41 @@ namespace 脸滚键盘.自定义控件
             };
 
             WpYears.RaiseEvent(eventArg);
+        }
+
+        /// <summary>
+        /// 鼠标滚轮控制左右
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            //ScrollViewer scrollviewer = sender as ScrollViewer;
+            //if (e.Delta > 0)
+            //{
+            //    scrollviewer.LineLeft();
+            //    scrollviewer.LineLeft();
+            //    scrollviewer.LineLeft();
+            //}
+            //else
+            //{
+            //    scrollviewer.LineRight();
+            //    scrollviewer.LineRight();
+            //    scrollviewer.LineRight();
+            //}
+            //if (e.Delta > 0)
+            //{
+            //    scrollviewer.LineUp();
+            //    scrollviewer.LineUp();
+            //    scrollviewer.LineUp();
+            //}
+            //else
+            //{
+            //    scrollviewer.LineDown();
+            //    scrollviewer.LineDown();
+            //    scrollviewer.LineDown();
+            //}
+            //e.Handled = true;
         }
     }
 }

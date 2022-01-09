@@ -25,7 +25,10 @@ namespace 脸滚键盘.信息卡和窗口
     /// </summary>
     public partial class RoleCard : Window
     {
-        Button CurButton;
+        /// <summary>
+        /// 父容器控件
+        /// </summary>
+        Button BtnParent;
         WrapPanel[] wrapPanels;
         string CurBookName;
         string TypeOfTree;
@@ -38,7 +41,7 @@ namespace 脸滚键盘.信息卡和窗口
             public static string 相对年龄;
         }
 
-        public RoleCard(string curBookName, string typeOfTree, Button curButton)
+        public RoleCard(string curBookName, string typeOfTree, Button btnParent)
         {
             InitializeComponent();
 
@@ -60,8 +63,8 @@ namespace 脸滚键盘.信息卡和窗口
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
 
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
-            CurButton = curButton;
-            TbName.Text = curButton.Content.ToString();
+            BtnParent = btnParent;
+            TbName.Text = btnParent.Content.ToString();
 
             WrapPanel[] temp = { 别称.WpMain, 身份.WpMain, 外观.WpMain, 阶级.WpMain, 所属.WpMain, 物品.WpMain, 能力.WpMain, 经历.WpMain, };
             wrapPanels = temp;
@@ -79,10 +82,10 @@ namespace 脸滚键盘.信息卡和窗口
         /// </summary>
         void GetDataAndFillCard()
         {
-            if (CurButton != null)
+            if (BtnParent != null)
             {
                 FillBaseInfo();
-                CardOperate.FillMainInfo(CurBookName, TypeOfTree, wrapPanels, CurButton.Uid);
+                CardOperate.FillMainInfo(CurBookName, TypeOfTree, wrapPanels, BtnParent.Uid);
 
             }
         }
@@ -91,7 +94,7 @@ namespace 脸滚键盘.信息卡和窗口
         {
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
-            string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, CurButton.Uid);
+            string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, BtnParent.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -161,7 +164,7 @@ namespace 脸滚键盘.信息卡和窗口
             SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbName.Text.Replace("'", "''")));
             while (reader.Read())
             {
-                if (CurButton.Uid != reader.GetString(0).ToString())
+                if (BtnParent.Uid != reader.GetString(0).ToString())
                 {
                     MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
                     reader.Close();
@@ -171,7 +174,7 @@ namespace 脸滚键盘.信息卡和窗口
             }
             reader.Close();
 
-            if (false == string.IsNullOrEmpty(CurButton.Content.ToString()))
+            if (false == string.IsNullOrEmpty(BtnParent.Content.ToString()))
             {
                 if (string.IsNullOrEmpty(ThisCard.weight))
                 {
@@ -182,13 +185,13 @@ namespace 脸滚键盘.信息卡和窗口
                     TbBornYear.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, CurButton.Uid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, BtnParent.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 //传递给父容器
-                CurButton.Content = TbName.Text;
+                BtnParent.Content = TbName.Text;
 
-                CardOperate.SaveMainInfo(CurBookName, TypeOfTree, wrapPanels, CurButton.Uid);
+                CardOperate.SaveMainInfo(CurBookName, TypeOfTree, wrapPanels, BtnParent.Uid);
             }
 
             Gval.Uc.RoleCards.RefreshKeyWords();

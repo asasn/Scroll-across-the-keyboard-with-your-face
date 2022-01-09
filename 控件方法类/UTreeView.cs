@@ -580,8 +580,8 @@ namespace 脸滚键盘.控件方法类
             string tableName = typeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN);", tableName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS Uid ON Tree_{0}(Uid);", tableName); 
-            sql += string.Format("CREATE INDEX IF NOT EXISTS Pid ON Tree_{0}(Pid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName); 
+            sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Pid ON Tree_{0}(Pid);", tableName);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("SELECT * FROM Tree_{0} where Pid='';", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);

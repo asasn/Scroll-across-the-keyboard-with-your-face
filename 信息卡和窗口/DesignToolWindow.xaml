@@ -4,16 +4,47 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口"
-        mc:Ignorable="d"
-        Title="DesignToolWindow" Height="450" Width="800">
-    <Grid>
+        mc:Ignorable="d" UseLayoutRounding="True"
+        Title="DesignToolWindow" Height="450" Width="800" PreviewMouseWheel="WpScenes_PreviewMouseWheel" >
+    <Grid Background="#FFF8F8F8">
         <Grid.RowDefinitions>
-            <RowDefinition Height="96*"/>
-            <RowDefinition Height="137*"/>
-            <RowDefinition Height="186*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="255"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="1" Background="AliceBlue">
-            <WrapPanel x:Name="WpScenes"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="100*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="TbShowTitle" TextWrapping="Wrap" />
+            <TextBox x:Name="TbShowName" TextWrapping="Wrap" Grid.Row="1" />
+            <TextBox x:Name="TbShowContent" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Grid.RowSpan="2" />
+            <Button x:Name="BtnSave" Grid.Column="2" Padding="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+                <Image Source="pack://siteoforigin:,,,/Resourses/图标/编辑器/ic_action_save.png" Width="36" Height="36" />
+            </Button>
+        </Grid>
+        <ScrollViewer x:Name="ScMain" Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="WpScenes" Loaded="WpScenes_Loaded"/>
         </ScrollViewer>
+        <Grid Grid.Row="2" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="TbTitle" />
+            <Button Padding="0" x:Name="BtnAddScene" Grid.Column="1" Click="BtnAddScene_Click">
+                <WrapPanel>
+                    <Label Padding="0" Content="添加" Background="Transparent" BorderThickness="0" Width="30"/>
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_add.png"/>
+                </WrapPanel>
+            </Button>
+        </Grid>
     </Grid>
 </Window>

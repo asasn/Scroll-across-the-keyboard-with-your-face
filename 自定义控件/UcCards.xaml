@@ -17,7 +17,9 @@
                 <!--<ColumnDefinition Width="30"/>-->
             </Grid.ColumnDefinitions>
             <TextBox x:Name="TbTab" TextWrapping="Wrap" KeyDown="TbTab_KeyDown"/>
-            <Button x:Name="BtnAdd" Grid.Column="1" Padding="5" Click="BtnAdd_Click" Style="{StaticResource ResourceKey=ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Content="添加" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center" />
+            <Button x:Name="BtnAdd" Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnAdd_Click" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center">
+                <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_add.png"/>
+            </Button>
         </Grid>
         <ScrollViewer Grid.Row="1">
             <WrapPanel x:Name="WpCards" Loaded="WpCards_Loaded"/>

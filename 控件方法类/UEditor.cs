@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using 脸滚键盘.公共操作类;
 using 脸滚键盘.自定义控件;
 
 namespace 脸滚键盘.控件方法类
