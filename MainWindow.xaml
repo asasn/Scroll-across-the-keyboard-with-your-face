@@ -45,7 +45,7 @@
             </Grid>
             <hc:TabControl x:Name="Editor" Margin="5" Effect="{StaticResource EffectShadow3}" IsAnimationEnabled="True"
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
-                           Loaded="Editor_Loaded" IsDraggable="True" SelectionChanged="Editor_SelectionChanged" />
+                           Loaded="Editor_Loaded" IsDraggable="True" SelectionChanged="Editor_SelectionChanged" Style="{DynamicResource TabControlStyle}"/>
             <Grid x:Name="右栏" Grid.Column="4" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
@@ -75,7 +75,7 @@
                         <Button Padding="0" Grid.Column="1" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_search.png"/>
                         </Button>
-                        <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="内容提炼" IsEnabled="False">
+                        <Button Padding="0" Grid.Column="2" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="内容提炼">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_wizard.png"/>
                         </Button>
                         <Button Padding="0" Grid.Column="3" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="灵感工具" IsEnabled="False">

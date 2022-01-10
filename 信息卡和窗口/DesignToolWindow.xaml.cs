@@ -33,13 +33,44 @@ namespace 脸滚键盘.信息卡和窗口
         string CurBookName;
         string TypeOfTree;
 
+
+
+        public UcScenesCard CurCard
+        {
+            get { return (UcScenesCard)GetValue(CurCardProperty); }
+            set { SetValue(CurCardProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurCard.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurCardProperty =
+            DependencyProperty.Register("CurCard", typeof(UcScenesCard), typeof(DesignToolWindow), new PropertyMetadata(null));
+
+
+
+
+        public UcScenesCard PreviousCard
+        {
+            get { return (UcScenesCard)GetValue(PreviousCardProperty); }
+            set { SetValue(PreviousCardProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PreviousCard.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PreviousCardProperty =
+            DependencyProperty.Register("PreviousCard", typeof(UcScenesCard), typeof(DesignToolWindow), new PropertyMetadata(null));
+
+
+
         private void BtnAddScene_Click(object sender, RoutedEventArgs e)
         {
             UcScenesCard sCard = new UcScenesCard();
             WpScenes.Children.Add(sCard);
-            sCard.TbTitle.Text = string.Format("第{0}幕 {1}", WpScenes.Children.IndexOf(sCard) + 1, TbTitle.Text);
+            sCard.StrIndex = string.Format("第{0}幕", WpScenes.Children.IndexOf(sCard) + 1);
+            sCard.StrTitile = string.Format("{0}", TbTitle.Text);
+            sCard.GotFocus += SCard_GotFocus;
+            sCard.LostFocus += SCard_LostFocus;
             TbTitle.Clear();
         }
+
 
         /// <summary>
         /// 鼠标滚轮控制滚动（增加了对左右滚动的处理）
@@ -88,7 +119,7 @@ namespace 脸滚键盘.信息卡和窗口
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             //尝试建立新表（IF NOT EXISTS）
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS 场记大纲表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 名称 CHAR, 内容 CHAR);");
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 场记大纲表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR);");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 场记大纲表Uid ON 场记大纲表(Uid);");
             sqlConn.ExecuteNonQuery(sql);
 
@@ -97,24 +128,115 @@ namespace 脸滚键盘.信息卡和窗口
             WpScenes.Children.Clear();
             while (reader.Read())
             {
-                UcScenesCard sCard = new UcScenesCard();
-                sCard.GotFocus += SCard_GotFocus;
-                sCard.Uid = reader["Uid"].ToString();
-                sCard.Index = Convert.ToInt32(reader["索引"]);
-                sCard.StrTitile = reader["标题"].ToString();
-                sCard.StrName = reader["名称"].ToString();
-                sCard.StrContent = reader["内容"].ToString();
+                UcScenesCard sCard = new UcScenesCard
+                {
+                    Uid = reader["Uid"].ToString(),
+                    Index = Convert.ToInt32(reader["索引"]),
+                    StrIndex = string.Format("第{0}幕", Convert.ToInt32(reader["索引"]) + 1),
+                    StrTitile = reader["标题"].ToString(),
+                    StrContent = reader["内容"].ToString()
+                };
                 WpScenes.Children.Add(sCard);
+                sCard.GotFocus += SCard_GotFocus;
+                sCard.LostFocus += SCard_LostFocus;
             }
             reader.Close();
         }
 
+
+        private void SCard_LostFocus(object sender, RoutedEventArgs e)
+        {
+            PreviousCard = sender as UcScenesCard;
+        }
+
         private void SCard_GotFocus(object sender, RoutedEventArgs e)
         {
-            UcScenesCard sCard = sender as UcScenesCard;
-            TbShowTitle.Text = sCard.StrTitile;
-            TbShowName.Text = sCard.StrName;
-            TbShowContent.Text = sCard.StrContent;
+            CurCard = sender as UcScenesCard;
+            TbShowIndex.Text = string.Format("第{0}幕", WpScenes.Children.IndexOf(CurCard) + 1);
+            TbShowTitle.Text = CurCard.StrTitile;
+            TbShowContent.Text = CurCard.StrContent;
+
+            CurCard.BorderBrush = Brushes.Orange;
+            CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
+            if (PreviousCard != null)
+            {
+                PreviousCard.BorderBrush = null;
+                PreviousCard.BorderThickness = new Thickness(0, 0, 0, 0);
+            }
+        }
+
+        private void TbShowTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CurCard == null)
+            {
+                return;
+            }
+            CurCard.StrTitile = TbShowTitle.Text;
+
+        }
+
+        private void TbShowContent_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (CurCard == null)
+            {
+                return;
+            }
+            CurCard.StrContent = TbShowContent.Text;
+        }
+
+        private void DelCard_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurCard == null)
+            {
+                return;
+            }
+            for (int i = WpScenes.Children.IndexOf(CurCard) + 1; i < WpScenes.Children.Count; i++)
+            {
+                (WpScenes.Children[i] as UcScenesCard).StrIndex = string.Format("第{0}幕", WpScenes.Children.IndexOf(WpScenes.Children[i] as UcScenesCard));
+            }
+            WpScenes.Children.Remove(CurCard);
+        }
+
+        private void WpScenes_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (CurCard == null)
+            {
+                return;
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
+            {
+                int i = WpScenes.Children.IndexOf(CurCard);
+                if (i > 0)
+                {
+                    string temp = CurCard.StrContent;
+                    CurCard.StrContent = (WpScenes.Children[i - 1] as UcScenesCard).StrContent;
+                    (WpScenes.Children[i - 1] as UcScenesCard).StrContent = temp;
+                    string temp2 = CurCard.StrTitile;
+                    CurCard.StrTitile = (WpScenes.Children[i - 1] as UcScenesCard).StrTitile;
+                    (WpScenes.Children[i - 1] as UcScenesCard).StrTitile = temp2;
+                    //string temp3 = CurCard.StrIndex;
+                    //CurCard.StrIndex = (WpScenes.Children[i - 1] as UcScenesCard).StrIndex;
+                    //(WpScenes.Children[i - 1] as UcScenesCard).StrIndex = temp3;
+                    (WpScenes.Children[i - 1] as UcScenesCard).TbIndex.Focus();
+                }
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.J)
+            {
+                int i = WpScenes.Children.IndexOf(CurCard);
+                if (i < WpScenes.Children.Count - 1)
+                {
+                    string temp = CurCard.StrContent;
+                    CurCard.StrContent = (WpScenes.Children[i + 1] as UcScenesCard).StrContent;
+                    (WpScenes.Children[i + 1] as UcScenesCard).StrContent = temp;
+                    string temp2 = CurCard.StrTitile;
+                    CurCard.StrTitile = (WpScenes.Children[i + 1] as UcScenesCard).StrTitile;
+                    (WpScenes.Children[i + 1] as UcScenesCard).StrTitile = temp2;
+                    //string temp3 = CurCard.StrIndex;
+                    //CurCard.StrIndex = (WpScenes.Children[i + 1] as UcScenesCard).StrIndex;
+                    //(WpScenes.Children[i + 1] as UcScenesCard).StrIndex = temp3;
+                    (WpScenes.Children[i + 1] as UcScenesCard).TbIndex.Focus();
+                }
+            }
         }
     }
 }

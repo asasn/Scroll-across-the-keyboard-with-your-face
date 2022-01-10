@@ -4,16 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
-             mc:Ignorable="d" Width="60" Height="255" GotFocus="Uc_GotFocus" LostFocus="Uc_LostFocus">
+             mc:Ignorable="d" Width="60" Height="255"  >
     <Grid >
         <Image Source="pack://siteoforigin:,,,/Resourses/场景/花纹.jpg" Stretch="Fill" />
-        <Grid Background="Transparent" Width="32">
+        <Grid Background="Transparent" Width="30">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="6"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBox Padding="0" Background="Transparent" BorderThickness="0" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitile, ElementName=Uc, Mode=TwoWay}" />
-            <TextBox Padding="0" Background="Transparent" BorderThickness="0" Grid.Column="1" x:Name="TbName" TextWrapping="Wrap" Text="{Binding StrName, ElementName=Uc, Mode=TwoWay}"/>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbIndex" TextWrapping="Wrap" Text="{Binding StrIndex, ElementName=Uc, Mode=TwoWay}"/>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" Grid.Column="2" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitile, ElementName=Uc, Mode=TwoWay}"/>
         </Grid>
     </Grid>
 </UserControl>

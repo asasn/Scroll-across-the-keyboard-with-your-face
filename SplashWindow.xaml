@@ -4,8 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
-        mc:Ignorable="d" Background="Transparent"
+        mc:Ignorable="d"
         Title="SplashWindow" Height="382" Width="618" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStyle="None" AllowsTransparency="True">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://siteoforigin:,,,/Resourses/mandala.png" Stretch="Uniform"/>
+    </Window.Background>
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded" >
             <BeginStoryboard>
@@ -17,6 +20,6 @@
     </Window.Triggers>
     <Grid x:Name="GridMain" >
         <!--<Image Source="pack://siteoforigin:,,,/Resourses/landscape.jpg" />-->
-        <自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="200" TimeSpan="1"/>
+        <自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="210" TimeSpan="1"/>
     </Grid>
 </Window>
