@@ -45,7 +45,9 @@
             </Grid>
             <hc:TabControl x:Name="Editor" Margin="5" Effect="{StaticResource EffectShadow3}" IsAnimationEnabled="True"
                            Grid.Column="2" Grid.RowSpan="2" IsTabFillEnabled="False" ShowCloseButton="True" 
-                           Loaded="Editor_Loaded" IsDraggable="True" SelectionChanged="Editor_SelectionChanged" Style="{DynamicResource TabControlStyle}"/>
+                           Loaded="Editor_Loaded" IsDraggable="True" SelectionChanged="Editor_SelectionChanged">
+            </hc:TabControl>
+            <!--<Image x:Name="AngleImg" Grid.Column="2" Source="pack://siteoforigin:,,,/Resourses/阴阳鱼.png" Loaded="AngleImg_Loaded" />-->
             <Grid x:Name="右栏" Grid.Column="4" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>

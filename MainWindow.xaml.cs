@@ -261,7 +261,7 @@ namespace 脸滚键盘
             MeDida.Stop();
             MeDida.Play();
 
-            if ((int)StopWatch.Elapsed.TotalMinutes == CbTime.Value)
+            if ((int)StopWatch.Elapsed.TotalMinutes >= CbTime.Value)
             {
                 MeRing.Play();
                 TomatoTimeStart_Click(null, null);
@@ -383,7 +383,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void Mw_ContentRendered(object sender, EventArgs e)
         {
-            Gval.Uc.SpWin.Dispatcher.Invoke((Action)(() => Gval.Uc.SpWin.Close()));//在Gval.Uc.SpWin的线程上关闭SplashWindow
+            //Gval.Uc.SpWin.Dispatcher.Invoke((Action)(() => Gval.Uc.SpWin.Close()));//在Gval.Uc.SpWin的线程上关闭SplashWindow
         }
 
         private void Mw_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -410,14 +410,51 @@ namespace 脸滚键盘
                             e.Cancel = true;
                             return;
                         }
-                    } 
+                    }
                 }
             }
             foreach (SqliteOperate sqlConn in Gval.SQLClass.Pools.Values)
             {
                 sqlConn.Close();
             }
+
+            Gval.Uc.SpWin.Dispatcher.Invoke(() => AngleImg_Loaded(null, null));//在Gval.Uc.SpWin的线程上关闭SplashWindow
+
             Application.Current.Shutdown(0);
         }
+
+
+        DispatcherTimer AngleTimer = new DispatcherTimer();
+        private void AngleImg_Loaded(object sender, RoutedEventArgs e)
+        {
+            AngleTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(10)
+            };
+            Gval.Uc.SpWin.AngleImg.Visibility = Visibility.Visible;
+            AngleTimer.Tick += Timer_Tick;
+            AngleTimer.Start();
+            Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = 535;
+        }
+
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Gval.Uc.SpWin.Angle += 10.8;
+            Gval.Uc.SpWin.AngleImg.RenderTransform = new RotateTransform(Gval.Uc.SpWin.Angle);
+            Gval.Uc.SpWin.ImgWidth -= 20;
+            Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = Gval.Uc.SpWin.ImgWidth;
+            Gval.Uc.SpWin.AngleImg.Opacity -= 0.01;
+            if (Gval.Uc.SpWin.ImgWidth <= 25)
+            {
+                AngleTimer.Stop();
+                AngleTimer.Tick -= Timer_Tick;
+            }
+            if (AngleTimer.IsEnabled == false)
+            {
+                Gval.Uc.SpWin.Close();
+            }
+        }
+
     }
 }

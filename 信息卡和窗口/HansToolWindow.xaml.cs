@@ -211,10 +211,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void TbHans_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                BtnGet.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            }
+ 
         }
 
 

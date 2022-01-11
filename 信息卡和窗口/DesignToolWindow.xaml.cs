@@ -17,7 +17,6 @@ using 脸滚键盘.自定义控件;
 
 namespace 脸滚键盘.信息卡和窗口
 {
-
     /// <summary>
     /// DesignToolWindow.xaml 的交互逻辑
     /// </summary>
@@ -62,13 +61,42 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void BtnAddScene_Click(object sender, RoutedEventArgs e)
         {
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+            string sql;
+
             UcScenesCard sCard = new UcScenesCard();
-            WpScenes.Children.Add(sCard);
+            if (CurCard == null || WpScenes.Children.Count == 0)
+            {
+                //追加至末尾
+                WpScenes.Children.Add(sCard);
+            }
+            else
+            {
+                //在指定位置插入
+                WpScenes.Children.Insert(CurCard.Index + 1, sCard);
+
+
+                int n = sCard.Index;
+                //更新索引
+                for (int i = n; i < WpScenes.Children.Count; i++)
+                {
+                    (WpScenes.Children[i] as UcScenesCard).Index = WpScenes.Children.IndexOf(WpScenes.Children[i] as UcScenesCard);
+                    (WpScenes.Children[i] as UcScenesCard).StrIndex = string.Format("第{0}幕", (WpScenes.Children[i] as UcScenesCard).Index + 1);
+                    sql = string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", (WpScenes.Children[i] as UcScenesCard).Index, (WpScenes.Children[i] as UcScenesCard).Uid);
+                    sqlConn.ExecuteNonQuery(sql);
+                }
+            }
+            sCard.Index = WpScenes.Children.IndexOf(sCard);
             sCard.StrIndex = string.Format("第{0}幕", WpScenes.Children.IndexOf(sCard) + 1);
             sCard.StrTitile = string.Format("{0}", TbTitle.Text);
             sCard.GotFocus += SCard_GotFocus;
             sCard.LostFocus += SCard_LostFocus;
             TbTitle.Clear();
+
+            sCard.Uid = Guid.NewGuid().ToString();
+            sql = string.Format("INSERT INTO  场记大纲表 (Uid , 索引, 标题, 内容) VALUES ('{0}', '{1}', '{2}', '{3}');", sCard.Uid, sCard.Index, sCard.StrTitile.Replace("'", "''"), sCard.StrContent.Replace("'", "''"));
+            sqlConn.ExecuteNonQuery(sql);
+            sCard.Focus();
         }
 
 
@@ -116,6 +144,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         private void WpScenes_Loaded(object sender, RoutedEventArgs e)
         {
+            WpScenes.Children.Clear();
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             //尝试建立新表（IF NOT EXISTS）
@@ -125,7 +154,6 @@ namespace 脸滚键盘.信息卡和窗口
 
             sql = string.Format("select * from 场记大纲表 ORDER BY 索引;", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-            WpScenes.Children.Clear();
             while (reader.Read())
             {
                 UcScenesCard sCard = new UcScenesCard
@@ -141,8 +169,12 @@ namespace 脸滚键盘.信息卡和窗口
                 sCard.LostFocus += SCard_LostFocus;
             }
             reader.Close();
+            if (WpScenes.Children.Count > 0)
+            {
+                (WpScenes.Children[WpScenes.Children.Count - 1] as UcScenesCard).Focus();
+                ScMain.ScrollToHorizontalOffset((60 * WpScenes.Children.Count) - ScMain.ActualWidth / 2);
+            }
         }
-
 
         private void SCard_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -152,9 +184,18 @@ namespace 脸滚键盘.信息卡和窗口
         private void SCard_GotFocus(object sender, RoutedEventArgs e)
         {
             CurCard = sender as UcScenesCard;
-            TbShowIndex.Text = string.Format("第{0}幕", WpScenes.Children.IndexOf(CurCard) + 1);
-            TbShowTitle.Text = CurCard.StrTitile;
-            TbShowContent.Text = CurCard.StrContent;
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+            string sql = string.Format("SELECT * FROM 场记大纲表 where Uid='{0}';", CurCard.Uid);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                CurCard.Uid = reader["Uid"].ToString();
+                CurCard.Index = Convert.ToInt32(reader["索引"]);
+                TbShowIndex.Text = CurCard.StrIndex = string.Format("第{0}幕", Convert.ToInt32(reader["索引"]) + 1);
+                TbShowTitle.Text = CurCard.StrTitile = reader["标题"].ToString();
+                TbShowContent.Text = CurCard.StrContent = reader["内容"].ToString();
+            }
+            reader.Close();
 
             CurCard.BorderBrush = Brushes.Orange;
             CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
@@ -163,6 +204,7 @@ namespace 脸滚键盘.信息卡和窗口
                 PreviousCard.BorderBrush = null;
                 PreviousCard.BorderThickness = new Thickness(0, 0, 0, 0);
             }
+            BtnSave.IsEnabled = false;
         }
 
         private void TbShowTitle_TextChanged(object sender, TextChangedEventArgs e)
@@ -171,8 +213,7 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return;
             }
-            CurCard.StrTitile = TbShowTitle.Text;
-
+            BtnSave.IsEnabled = true;
         }
 
         private void TbShowContent_TextChanged(object sender, TextChangedEventArgs e)
@@ -181,20 +222,49 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return;
             }
-            CurCard.StrContent = TbShowContent.Text;
+            BtnSave.IsEnabled = true;
         }
 
-        private void DelCard_Click(object sender, RoutedEventArgs e)
+        private void Command_DelCard_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (CurCard == null)
             {
                 return;
             }
-            for (int i = WpScenes.Children.IndexOf(CurCard) + 1; i < WpScenes.Children.Count; i++)
-            {
-                (WpScenes.Children[i] as UcScenesCard).StrIndex = string.Format("第{0}幕", WpScenes.Children.IndexOf(WpScenes.Children[i] as UcScenesCard));
-            }
+
+            string sql;
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+
+            int n = WpScenes.Children.IndexOf(CurCard);
             WpScenes.Children.Remove(CurCard);
+            sql = string.Format("DELETE FROM 场记大纲表 where Uid='{0}';", CurCard.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            if (WpScenes.Children.Count > 0)
+            {
+                if (n == WpScenes.Children.Count)
+                {
+                    (WpScenes.Children[n - 1] as UcScenesCard).Focus();
+                }
+                else
+                {
+                    (WpScenes.Children[n] as UcScenesCard).Focus();
+                }
+            }
+            else
+            {
+                TbShowIndex.Clear();
+                TbShowTitle.Clear();
+                TbShowContent.Clear();
+            }
+
+            //更新索引
+            for (int i = n; i < WpScenes.Children.Count; i++)
+            {
+                (WpScenes.Children[i] as UcScenesCard).Index = WpScenes.Children.IndexOf(WpScenes.Children[i] as UcScenesCard);
+                (WpScenes.Children[i] as UcScenesCard).StrIndex = string.Format("第{0}幕", (WpScenes.Children[i] as UcScenesCard).Index + 1);
+                sql = string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", (WpScenes.Children[i] as UcScenesCard).Index, (WpScenes.Children[i] as UcScenesCard).Uid);
+                sqlConn.ExecuteNonQuery(sql);
+            }
         }
 
         private void WpScenes_KeyDown(object sender, KeyEventArgs e)
@@ -202,6 +272,20 @@ namespace 脸滚键盘.信息卡和窗口
             if (CurCard == null)
             {
                 return;
+            }
+            if (e.Key == Key.Left || e.Key == Key.Up)
+            {
+                if (WpScenes.Children.IndexOf(CurCard) > 0)
+                {
+                    (WpScenes.Children[WpScenes.Children.IndexOf(CurCard) - 1] as UcScenesCard).Focus();
+                }
+            }
+            if (e.Key == Key.Right || e.Key == Key.Down)
+            {
+                if (WpScenes.Children.IndexOf(CurCard) < WpScenes.Children.Count - 1)
+                {
+                    (WpScenes.Children[WpScenes.Children.IndexOf(CurCard) + 1] as UcScenesCard).Focus();
+                }
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
             {
@@ -217,7 +301,16 @@ namespace 脸滚键盘.信息卡和窗口
                     //string temp3 = CurCard.StrIndex;
                     //CurCard.StrIndex = (WpScenes.Children[i - 1] as UcScenesCard).StrIndex;
                     //(WpScenes.Children[i - 1] as UcScenesCard).StrIndex = temp3;
-                    (WpScenes.Children[i - 1] as UcScenesCard).TbIndex.Focus();
+
+                    CurCard.Index--;
+                    (WpScenes.Children[i - 1] as UcScenesCard).Index++;
+
+                    SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+                    string sql = string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
+                    sql += string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", (WpScenes.Children[i - 1] as UcScenesCard).Index, (WpScenes.Children[i - 1] as UcScenesCard).Uid);
+                    sqlConn.ExecuteNonQuery(sql);
+
+                    (WpScenes.Children[i - 1] as UcScenesCard).Focus();
                 }
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.J)
@@ -234,8 +327,54 @@ namespace 脸滚键盘.信息卡和窗口
                     //string temp3 = CurCard.StrIndex;
                     //CurCard.StrIndex = (WpScenes.Children[i + 1] as UcScenesCard).StrIndex;
                     //(WpScenes.Children[i + 1] as UcScenesCard).StrIndex = temp3;
-                    (WpScenes.Children[i + 1] as UcScenesCard).TbIndex.Focus();
+
+                    CurCard.Index++;
+                    (WpScenes.Children[i + 1] as UcScenesCard).Index--;
+
+                    SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+                    string sql = string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
+                    sql += string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", (WpScenes.Children[i + 1] as UcScenesCard).Index, (WpScenes.Children[i + 1] as UcScenesCard).Uid);
+                    sqlConn.ExecuteNonQuery(sql);
+
+                    (WpScenes.Children[i + 1] as UcScenesCard).Focus();
                 }
+            }
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurCard == null)
+            {
+                return;
+            }
+            CurCard.StrTitile = TbShowTitle.Text;
+            CurCard.StrContent = TbShowContent.Text;
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+            string sql = string.Format("UPDATE 场记大纲表 set 标题='{0}', 内容='{1}' where Uid='{2}';", CurCard.StrTitile.Replace("'", "''"), CurCard.StrContent.Replace("'", "''"), CurCard.Uid);
+            sqlConn.ExecuteNonQuery(sql);
+            BtnSave.IsEnabled = false;
+        }
+
+        private void window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void window_Closed(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ScMain_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            //Console.WriteLine(ScMain.HorizontalOffset);
+        }
+
+        private void TbTitle_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnAddScene.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
     }

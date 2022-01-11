@@ -91,5 +91,10 @@ namespace 脸滚键盘.自定义控件
             tb.CaretIndex = text.Length;
         }
 
+        private void Uc_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //控件获取焦点（子元素已经设置为无法获取焦点）
+            this.Focus();
+        }
     }
 }
