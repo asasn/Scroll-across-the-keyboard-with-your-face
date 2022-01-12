@@ -53,13 +53,13 @@ namespace 脸滚键盘
         {
             Angle += 7.2;
             AngleImg.RenderTransform = new RotateTransform(Angle);
-            ImgWidth += 3;
+            ImgWidth += 2.5;
             AngleImg.Width = AngleImg.Height = ImgWidth;
             if (StopWatch.Elapsed.TotalSeconds >= 2)
             {
-                AngleImg.Opacity -= 0.02;
+                AngleImg.Opacity -= 0.01;
             }
-            if (StopWatch.Elapsed.TotalSeconds >= 7)
+            if (AngleImg.Opacity <= 0)
             {
                 StopWatch.Stop();
                 AngleTimer.Stop();

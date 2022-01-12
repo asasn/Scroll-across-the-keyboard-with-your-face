@@ -65,7 +65,7 @@ namespace 脸滚键盘.公共操作类
             foreach (WrapPanel wp in wrapPanels)
             {
                 string sql = string.Empty;
-                foreach (UcTipBox tipBox in wp.Children)
+                foreach (UcontrolTipBox tipBox in wp.Children)
                 {
                     if (string.IsNullOrEmpty(tipBox.Uid))
                     {
@@ -128,7 +128,7 @@ namespace 脸滚键盘.公共操作类
                 wp.Children.Clear();
                 while (reader.Read())
                 {
-                    UcTipBox tipBox = new UcTipBox(wp, reader.GetString(1));
+                    UcontrolTipBox tipBox = new UcontrolTipBox(wp, reader.GetString(1));
                     tipBox.Uid = reader.GetString(2);
                 }
                 reader.Close();

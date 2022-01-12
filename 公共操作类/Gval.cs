@@ -48,14 +48,14 @@ namespace 脸滚键盘.公共操作类
             public static SplashWindow SpWin;
             public static Grid BooksPanel;
             public static HandyControl.Controls.TabControl TabControl;
-            public static UcTreeBook TreeBook;
-            public static UcTreeBook TreeMaterial;
-            public static UcTreeBook TreeNote;
-            public static UcTreeTask TreeTask;
-            public static UcCards RoleCards;
-            public static UcCards OtherCards;
-            public static UcCards PublicRoleCards;
-            public static UcCards PublicOtherCards;
+            public static UcontrolTreeBook TreeBook;
+            public static UcontrolTreeBook TreeMaterial;
+            public static UcontrolTreeBook TreeNote;
+            public static UcontrolTreeTask TreeTask;
+            public static UcontrolCards RoleCards;
+            public static UcontrolCards OtherCards;
+            public static UcontrolCards PublicRoleCards;
+            public static UcontrolCards PublicOtherCards;
         }
 
         public struct SQLClass

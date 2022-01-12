@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口" xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
         xmlns:input="clr-namespace:System.Windows.Input;assembly=PresentationCore"
-        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" x:Name="Uc" x:Class="脸滚键盘.信息卡和窗口.InfoCard"
+        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" x:Name="Ucontrol" x:Class="脸滚键盘.信息卡和窗口.InfoCard"
         mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize" Background="Transparent" Effect="{StaticResource EffectShadow3}" 
         Title="角色信息卡" Width="300" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="400">
     <ScrollViewer MinHeight="400" VerticalAlignment="Top" >
@@ -30,14 +30,14 @@
                 </Grid.RowDefinitions>
                 <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="Lb名称" Content="名称：" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Margin="0,3,0,0"  />
                 <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb诞生年份" Content="诞生年份：" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="108,3,0,0"  />
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="别称" Title="别称" Grid.Row="1" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="描述" Title="描述" Grid.Row="2" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="阶级" Title="阶级" Grid.Row="3" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="基类" Title="基类" Grid.Row="4" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="派生" Title="派生" Grid.Row="5" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="物品" Title="物品" Grid.Row="6" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="能力" Title="能力" Grid.Row="7" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
-                <自定义控件:UcRecords Grid.ColumnSpan="3" x:Name="经历" Title="经历" Grid.Row="8" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="别称" Title="别称" Grid.Row="1" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="描述" Title="描述" Grid.Row="2" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="阶级" Title="阶级" Grid.Row="3" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="基类" Title="基类" Grid.Row="4" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="派生" Title="派生" Grid.Row="5" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="物品" Title="物品" Grid.Row="6" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="能力" Title="能力" Grid.Row="7" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
+                <自定义控件:UcontrolRecords Grid.ColumnSpan="3" x:Name="经历" Title="经历" Grid.Row="8" IsCanSave="{Binding IsEnabled, ElementName=BtnSave, Mode=TwoWay}"/>
                 <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb备注" Content="备注：" Grid.Row="9" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
                 <TextBox Padding="2" x:Name="TbName" TextChanged="Tb_TextChanged" hc:BorderElement.CornerRadius="0" Grid.Row="0" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2,0,0" MinHeight="0"/>
                 <TextBox Padding="2" x:Name="TbBornYear" hc:BorderElement.CornerRadius="0" Text="" Grid.Row="0" Grid.Column="1" MinWidth="20" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="175,2,0,0" MinHeight="0" input:InputMethod.IsInputMethodEnabled="False" TextChanged="TbBornYear_TextChanged" />

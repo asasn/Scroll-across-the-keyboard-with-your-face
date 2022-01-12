@@ -57,25 +57,25 @@ namespace 脸滚键盘
 
         private void UcTreeBook_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeBook = sender as UcTreeBook;
-            BooksChooseWindow win = new BooksChooseWindow();
+            Gval.Uc.TreeBook = sender as UcontrolTreeBook;
+            WindowBooksChoose win = new WindowBooksChoose();
             win.Window_Loaded(null, null);
         }
 
         private void UcTreeMaterial_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeMaterial = sender as UcTreeBook;
+            Gval.Uc.TreeMaterial = sender as UcontrolTreeBook;
             Gval.Uc.TreeMaterial.LoadBook("index", "material");
         }
 
         private void UcTreeNote_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeNote = sender as UcTreeBook;
+            Gval.Uc.TreeNote = sender as UcontrolTreeBook;
         }
 
         private void UcTreeTask_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeTask = sender as UcTreeTask;
+            Gval.Uc.TreeTask = sender as UcontrolTreeTask;
         }
 
         private void Editor_Loaded(object sender, RoutedEventArgs e)
@@ -88,7 +88,7 @@ namespace 脸滚键盘
             HandyControl.Controls.TabItem tabItem = Gval.Uc.TabControl.SelectedItem as HandyControl.Controls.TabItem;
             if (tabItem != null)
             {
-                UcEditor ucEditor = tabItem.Content as UcEditor;
+                UcontrolEditor ucEditor = tabItem.Content as UcontrolEditor;
                 Gval.CurrentBook.CurNode = ucEditor.DataContext as TreeViewNode;
             }
             else
@@ -102,17 +102,17 @@ namespace 脸滚键盘
 
         private void RoleCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.RoleCards = sender as UcCards;
+            Gval.Uc.RoleCards = sender as UcontrolCards;
         }
 
         private void OtherCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.OtherCards = sender as UcCards;
+            Gval.Uc.OtherCards = sender as UcontrolCards;
         }
 
         private void PublicRoleCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicRoleCards = sender as UcCards;
+            Gval.Uc.PublicRoleCards = sender as UcontrolCards;
             Gval.Uc.PublicRoleCards.WpCards.Children.Clear();
             CardOperate.TryToBuildBaseTable("index", "角色");
             Gval.Uc.PublicRoleCards.LoadCards("index", "角色");
@@ -120,7 +120,7 @@ namespace 脸滚键盘
 
         private void PublicOtherCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicOtherCards = sender as UcCards;
+            Gval.Uc.PublicOtherCards = sender as UcontrolCards;
             Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
             CardOperate.TryToBuildBaseTable("index", "其他");
             Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
@@ -154,7 +154,7 @@ namespace 脸滚键盘
         #region 工具栏
         private void BooksChoose_Click(object sender, RoutedEventArgs e)
         {
-            BooksChooseWindow win = new BooksChooseWindow
+            WindowBooksChoose win = new WindowBooksChoose
             {
                 Left = Mw.Left + 100,
                 Top = Mw.Top + 100
@@ -164,7 +164,7 @@ namespace 脸滚键盘
 
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
-            NameToolWindow win = new NameToolWindow();
+            WindowNameTool win = new WindowNameTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -172,7 +172,7 @@ namespace 脸滚键盘
 
         private void HansTool_Click(object sender, RoutedEventArgs e)
         {
-            HansToolWindow win = new HansToolWindow();
+            WindowHansTool win = new WindowHansTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -180,7 +180,7 @@ namespace 脸滚键盘
 
         private void CollectTool_Click(object sender, RoutedEventArgs e)
         {
-            CollectToolWindow win = new CollectToolWindow();
+            WindowCollectTool win = new WindowCollectTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -335,7 +335,7 @@ namespace 脸滚键盘
 
         private void MapTool_Click(object sender, RoutedEventArgs e)
         {
-            MapWindow win = new MapWindow();
+            WindowMapTool win = new WindowMapTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -343,7 +343,7 @@ namespace 脸滚键盘
 
         private void DesignTool_Click(object sender, RoutedEventArgs e)
         {
-            DesignToolWindow win = new DesignToolWindow(Gval.CurrentBook.Name, "book");
+            WindowDesignTool win = new WindowDesignTool(Gval.CurrentBook.Name, "book");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -393,7 +393,7 @@ namespace 脸滚键盘
                 foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
                 {
                     tabItem.Focus();
-                    UcEditor ucEditor = tabItem.Content as UcEditor;
+                    UcontrolEditor ucEditor = tabItem.Content as UcontrolEditor;
                     if (ucEditor.BtnSaveDoc.IsEnabled == true)
                     {
                         MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
@@ -434,18 +434,26 @@ namespace 脸滚键盘
             Gval.Uc.SpWin.AngleImg.Visibility = Visibility.Visible;
             AngleTimer.Tick += Timer_Tick;
             AngleTimer.Start();
-            Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = 535;
+            if (Gval.Uc.SpWin.AngleImg.Width > 535)
+            {
+                Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = 535;
+            }
+            Gval.Uc.SpWin.AngleImg.Opacity = 1;
         }
 
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Gval.Uc.SpWin.Angle += 10.8;
+            Gval.Uc.SpWin.Angle += 7.2;
             Gval.Uc.SpWin.AngleImg.RenderTransform = new RotateTransform(Gval.Uc.SpWin.Angle);
-            Gval.Uc.SpWin.ImgWidth -= 20;
+            Gval.Uc.SpWin.ImgWidth -= 10;
+            if (Gval.Uc.SpWin.ImgWidth < 0)
+            {
+                Gval.Uc.SpWin.ImgWidth = 0;
+            }
             Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = Gval.Uc.SpWin.ImgWidth;
             Gval.Uc.SpWin.AngleImg.Opacity -= 0.01;
-            if (Gval.Uc.SpWin.ImgWidth <= 25)
+            if (Gval.Uc.SpWin.AngleImg.Opacity <= 0)
             {
                 AngleTimer.Stop();
                 AngleTimer.Tick -= Timer_Tick;
