@@ -192,7 +192,10 @@ namespace 脸滚键盘
         }
         private void InspirationTool_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowNotesTool win = new WindowNotesTool("index", "book");
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
+            win.ShowDialog();
         }
 
         private void RecycleBin_Click(object sender, RoutedEventArgs e)
@@ -343,7 +346,7 @@ namespace 脸滚键盘
 
         private void DesignTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowDesignTool win = new WindowDesignTool(Gval.CurrentBook.Name, "book");
+            WindowScenes win = new WindowScenes(Gval.CurrentBook.Name, "book");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();

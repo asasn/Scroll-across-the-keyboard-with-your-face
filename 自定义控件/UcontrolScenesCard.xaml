@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" Width="60" Height="255" Focusable="True" MouseDown="Uc_MouseDown"  >
     <Grid >
-        <Image Source="pack://siteoforigin:,,,/Resourses/场景/花纹.jpg" Stretch="Fill" />
-        <Grid Background="Transparent" Width="30">
+        <Image Source="pack://siteoforigin:,,,/Resourses/场景/竖版花纹.png" Stretch="Fill" />
+        <Grid Background="Transparent" Width="40" Height="180" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="6"/>
+                <ColumnDefinition Width="4"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbIndex" TextWrapping="Wrap" Text="{Binding StrIndex, ElementName=Ucontrol, Mode=TwoWay}" Focusable="False"/>
-            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" Grid.Column="2" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitile, ElementName=Ucontrol, Mode=TwoWay}" Focusable="False"/>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbIndex" TextWrapping="Wrap" Text="{Binding StrIndex, ElementName=Ucontrol, Mode=TwoWay}" Focusable="False" Width="12" MinHeight="12"/>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" Grid.Column="2" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitile, ElementName=Ucontrol, Mode=TwoWay}" Focusable="False" Width="12" MinHeight="12"/>
         </Grid>
     </Grid>
 </UserControl>

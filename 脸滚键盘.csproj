@@ -115,8 +115,8 @@
     <Compile Include="信息卡和窗口\WindowCollectTool.xaml.cs">
       <DependentUpon>WindowCollectTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowDesignTool.xaml.cs">
-      <DependentUpon>WindowDesignTool.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WindowScenes.xaml.cs">
+      <DependentUpon>WindowScenes.xaml</DependentUpon>
     </Compile>
     <Compile Include="信息卡和窗口\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
@@ -126,6 +126,9 @@
     </Compile>
     <Compile Include="信息卡和窗口\InfoCard.xaml.cs">
       <DependentUpon>InfoCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="信息卡和窗口\WindowNotesTool.xaml.cs">
+      <DependentUpon>WindowNotesTool.xaml</DependentUpon>
     </Compile>
     <Compile Include="信息卡和窗口\WindowMapTool.xaml.cs">
       <DependentUpon>WindowMapTool.xaml</DependentUpon>
@@ -166,6 +169,9 @@
     </Compile>
     <Compile Include="自定义控件\UcontrolRecords.xaml.cs">
       <DependentUpon>UcontrolRecords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="自定义控件\UcontrolNotes.xaml.cs">
+      <DependentUpon>UcontrolNotes.xaml</DependentUpon>
     </Compile>
     <Compile Include="自定义控件\UcontrolScenesCard.xaml.cs">
       <DependentUpon>UcontrolScenesCard.xaml</DependentUpon>
@@ -214,7 +220,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowDesignTool.xaml">
+    <Page Include="信息卡和窗口\WindowScenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,6 +233,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="信息卡和窗口\InfoCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="信息卡和窗口\WindowNotesTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -269,6 +279,10 @@
     <Page Include="自定义控件\UcontrolRecords.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="自定义控件\UcontrolNotes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="自定义控件\UcontrolScenesCard.xaml">
       <SubType>Designer</SubType>
@@ -740,27 +754,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resourses\场景\花纹.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourses\场景\花纹横版.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourses\场景\花纹2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourses\场景\花纹2横版.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resourses\场景\分隔条.png">
+    <None Include="Resourses\场景\分隔条横向.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -776,6 +770,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resourses\阴阳鱼.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\场景\分隔条纵向.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resourses\场景\横版花纹.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resourses\场景\竖版花纹.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

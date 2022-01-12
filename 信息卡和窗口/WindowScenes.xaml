@@ -4,14 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘.信息卡和窗口"
-        xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="window" x:Class="脸滚键盘.信息卡和窗口.WindowDesignTool"
+        xmlns:hc="https://handyorg.github.io/handycontrol" x:Name="window" x:Class="脸滚键盘.信息卡和窗口.WindowScenes"
         mc:Ignorable="d" UseLayoutRounding="True"
         Title="场记大纲" Height="450" Width="800" PreviewMouseWheel="WpScenes_PreviewMouseWheel" Loaded="Window_Loaded" Closed="window_Closed" >
     <Grid x:Name="GridMain" Background="#FFF8F8F8">
         <Grid.RowDefinitions>
             <RowDefinition Height="255"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="85"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <ScrollViewer x:Name="ScMain" Grid.Row="0" HorizontalScrollBarVisibility="Auto" ScrollChanged="ScMain_ScrollChanged">
@@ -29,10 +30,10 @@
                 </WrapPanel.InputBindings>
             </WrapPanel>
         </ScrollViewer>
-        <Image Source="pack://siteoforigin:,,,/Resourses/场景/分隔条.png" Height="25" VerticalAlignment="Top" Grid.Row="1" Margin="0,0,-8,0" />
+        <Image Source="pack://siteoforigin:,,,/Resourses/场景/分隔条横向.png" Grid.Row="1" Stretch="Fill" />
         <Grid Grid.Row="2">
             <TextBox x:Name="TbShowIndex" IsReadOnly="True" Padding="0" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" Height="30" Margin="30,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="30" Width="200" />
-            <TextBox x:Name="TbShowTitle" Padding="0" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" Margin="30,25,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="100" TextChanged="TbShowTitle_TextChanged" Width="200"/>
+            <TextBox x:Name="TbShowTitle" Padding="0" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" Margin="30,25,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="100" TextChanged="TbShowTitle_TextChanged" Width="200" KeyDown="TbShowTitle_KeyDown"/>
             <Grid Margin="260,0,125,15">
                 <TextBox x:Name="TbShowContent" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Grid.RowSpan="2" TextChanged="TbShowContent_TextChanged" VerticalAlignment="Top"/>
             </Grid>
@@ -43,8 +44,8 @@
                 </WrapPanel>
             </Button>
         </Grid>
-        <Image Source="pack://siteoforigin:,,,/Resourses/场景/分隔条.png" Height="25" VerticalAlignment="Bottom" Grid.Row="2" Margin="0,0,-8,0"/>
-        <Grid Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image Source="pack://siteoforigin:,,,/Resourses/场景/分隔条横向.png" Grid.Row="3" Stretch="Fill"/>
+        <Grid Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="60"/>
