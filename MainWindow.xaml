@@ -82,7 +82,7 @@
                         </Button>
                         <Button Padding="0" Grid.Row="0" Grid.Column="3" x:Name="AnchorTool" Click="AnchorTool_Click" ToolTip="锚点工具" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_anchor.png"/>
-                        </Button> 
+                        </Button>
                         <Button Padding="0" Grid.Row="0" Grid.Column="4" x:Name="PuzzleTool" Click="PuzzleTool_Click" ToolTip="拼图工具" IsEnabled="False">
                             <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
                         </Button>
@@ -134,18 +134,20 @@
             </Grid>
         </Grid>
         <GridSplitter x:Name="右分隔条" Grid.Column="3" HorizontalAlignment="Stretch"/>
-        <hc:TabControl Grid.Column="4" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
-            <hc:TabItem Header="资料库">
-                <自定义控件:UcontrolTreeBook Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
-            </hc:TabItem>
-            <hc:TabItem Header="公共角色卡">
-                <自定义控件:UcontrolCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
-            </hc:TabItem>
-            <hc:TabItem Header="公共信息卡">
-                <自定义控件:UcontrolCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
-            </hc:TabItem>
-        </hc:TabControl>
-        <Grid>
+        <Grid x:Name="GridTab" Grid.Column="4">
+            <hc:TabControl x:Name="tabControl" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
+                <hc:TabItem x:Name="tabItem" Header="资料库" >
+                    <自定义控件:UcontrolTreeBook Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
+                </hc:TabItem>
+                <hc:TabItem Header="公共角色卡">
+                    <自定义控件:UcontrolCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
+                </hc:TabItem>
+                <hc:TabItem Header="公共信息卡">
+                    <自定义控件:UcontrolCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
+                </hc:TabItem>
+            </hc:TabControl>
+        </Grid>
+        <Grid x:Name="GridBook">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="100*"/>

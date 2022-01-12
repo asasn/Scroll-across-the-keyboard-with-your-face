@@ -456,16 +456,12 @@ namespace 脸滚键盘
             }
             Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = Gval.Uc.SpWin.ImgWidth;
             Gval.Uc.SpWin.AngleImg.Opacity -= 0.01;
-            if (Gval.Uc.SpWin.AngleImg.Opacity <= 0)
+            if (Gval.Uc.SpWin.AngleImg.Opacity <= 0 || Gval.Uc.SpWin.ImgWidth <= 25)
             {
                 AngleTimer.Stop();
                 AngleTimer.Tick -= Timer_Tick;
-            }
-            if (AngleTimer.IsEnabled == false)
-            {
                 Gval.Uc.SpWin.Close();
             }
         }
-
     }
 }

@@ -8,17 +8,17 @@
              d:DesignHeight="450" d:DesignWidth="300">
 
     <GroupBox Header="{Binding UcTitle, ElementName=Ucontrol, Mode=TwoWay}" Style="{StaticResource BaseStyle}">
-        <Grid>
+        <Grid x:Name="grid">
             <ScrollViewer x:Name="Sv" Grid.Row="1" HorizontalScrollBarVisibility="Auto">
                 <TreeView x:Name="Tv" Grid.Row="1" Margin="5" TreeViewItem.Selected="TreeView_Selected" TreeViewItem.Expanded="Tv_Expanded" TreeViewItem.Collapsed="Tv_Collapsed"
                       ItemsSource="{Binding Path=TreeViewNodeList}" MouseDoubleClick="Tv_MouseDoubleClick" Loaded="Tv_Loaded" Style="{DynamicResource BookTreeViewStyle}" KeyDown="Tv_KeyDown" MouseMove="Tv_MouseMove" DragOver="Tv_DragOver" DragEnter="Tv_DragEnter" DragLeave="Tv_DragLeave" Drop="Tv_Drop" MouseLeftButtonDown="Tv_MouseLeftButtonDown" PreviewMouseWheel="Tv_PreviewMouseWheel">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
-                            <Grid x:Name="GridLine" Margin="0,0,5,0">
+                            <Grid x:Name="GridLine" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="192"/>
-                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="100*"/>
+                                    <ColumnDefinition Width="Auto" MinWidth="30" MaxWidth="50"/>
                                 </Grid.ColumnDefinitions>
                                 <Image x:Name="Icon" Grid.Column="0" Source="{Binding IconPath, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" MouseLeftButtonDown="Icon_MouseLeftButtonDown"/>
                                 <TextBlock Grid.Column="1" x:Name="TbkName" Text="{Binding NodeName, Mode=TwoWay}" VerticalAlignment="Center"/>
