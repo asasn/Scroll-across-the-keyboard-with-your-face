@@ -100,13 +100,11 @@ namespace 脸滚键盘.自定义控件
             //数据源加载节点列表
             Tv.ItemsSource = TreeViewNodeList;
 
-            Gval.Flag.Loading = true;
             //AddButtonNode(TreeViewNodeList, TopNode);
 
             //从数据库中载入数据
             LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
 
-            Gval.Flag.Loading = false;
 
             if (Tv != null)
             {

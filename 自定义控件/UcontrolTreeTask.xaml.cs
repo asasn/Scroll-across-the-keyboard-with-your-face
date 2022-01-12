@@ -67,15 +67,12 @@ namespace 脸滚键盘.自定义控件
             };
 
 
-            Gval.Flag.Loading = true;
-
             //AddButtonNode(TreeViewNodeList, TopNode);
 
             //从数据库中载入数据
             LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
 
 
-            Gval.Flag.Loading = false;
 
             //滚动至末尾
             //Sv.ScrollToEnd();

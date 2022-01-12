@@ -30,7 +30,9 @@ namespace 脸滚键盘
                 Interval = TimeSpan.FromMilliseconds(10)
             };
             AngleTimer.Tick += Timer_Tick;
+            Gval.Flag.Loading = true;
         }
+
         Stopwatch StopWatch = new Stopwatch();
         public DispatcherTimer AngleTimer = new DispatcherTimer();
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -53,11 +55,11 @@ namespace 脸滚键盘
         {
             Angle += 7.2;
             AngleImg.RenderTransform = new RotateTransform(Angle);
-            ImgWidth += 2.5;
+            ImgWidth += 3;
             AngleImg.Width = AngleImg.Height = ImgWidth;
-            if (StopWatch.Elapsed.TotalSeconds >= 2)
+            if (Gval.Flag.Loading == false)
             {
-                AngleImg.Opacity -= 0.01;
+                AngleImg.Opacity -= 0.02;
             }
             if (AngleImg.Opacity <= 0)
             {
@@ -65,7 +67,7 @@ namespace 脸滚键盘
                 AngleTimer.Stop();
                 AngleTimer.Tick -= Timer_Tick;
                 AngleImg.Visibility = Visibility.Hidden;
-                AngleImg.Opacity = 1;
+                AngleImg.Opacity = 1;                
             }
         }
 

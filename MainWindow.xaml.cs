@@ -387,6 +387,8 @@ namespace 脸滚键盘
         private void Mw_ContentRendered(object sender, EventArgs e)
         {
             //Gval.Uc.SpWin.Dispatcher.Invoke((Action)(() => Gval.Uc.SpWin.Close()));//在Gval.Uc.SpWin的线程上关闭SplashWindow
+            Gval.Flag.Loading = false;
+
         }
 
         private void Mw_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -420,7 +422,6 @@ namespace 脸滚键盘
             {
                 sqlConn.Close();
             }
-
             Gval.Uc.SpWin.Dispatcher.Invoke(() => AngleImg_Loaded(null, null));//在Gval.Uc.SpWin的线程上关闭SplashWindow
 
             Application.Current.Shutdown(0);

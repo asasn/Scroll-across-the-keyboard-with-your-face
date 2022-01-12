@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:脸滚键盘" xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" Background="Transparent"
-        Title="SplashWindow" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
+        Title="SplashWindow" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStyle="None" AllowsTransparency="True" Loaded="Window_Loaded" Closed="Window_Closed" WindowStartupLocation="CenterScreen" Focusable="False">
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded" >
             <BeginStoryboard>
@@ -17,6 +17,6 @@
     </Window.Triggers>
     <Grid x:Name="GridMain" RenderTransformOrigin="0.5,0.5" >
         <Image x:Name="AngleImg" Source="pack://siteoforigin:,,,/Resourses/阴阳鱼.png" Width="0" Height="0" MaxWidth="535" MaxHeight="535"  />
-        <!--<自定义控件:UcProgressBar  Grid.Column="2" CanvasSize="210" TimeSpan="1"/>-->
+        <!--<自定义控件:UcontrolProgressBar  Grid.Column="2" CanvasSize="210" TimeSpan="1"/>-->
     </Grid>
 </Window>

@@ -9,7 +9,7 @@ namespace 脸滚键盘.公共操作类
 {
     class Common
     {
-        public static void CreateSplashWindow()
+        public  static Thread CreateSplashWindow()
         {
             Thread t = new Thread(() =>
             {
@@ -18,6 +18,7 @@ namespace 脸滚键盘.公共操作类
             });
             t.SetApartmentState(ApartmentState.STA);//设置单线程
             t.Start();
+            return t;
         }
     }
 }

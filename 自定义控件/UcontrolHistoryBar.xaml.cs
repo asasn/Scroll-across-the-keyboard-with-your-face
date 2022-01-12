@@ -50,11 +50,7 @@ namespace 脸滚键盘.自定义控件
             TbYear.Visibility = Visibility.Hidden;
             TbYear.Uid = "";
             OnYearsPanel = true;
-
-
             Sv.ScrollToEnd();
-
-            Gval.Flag.Loading = true;
 
             string tableName = typeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
@@ -68,9 +64,6 @@ namespace 脸滚键盘.自定义控件
                 WpYears.Children.Add(BtnTag);
             }
             reader.Close();
-
-
-            Gval.Flag.Loading = false;
         }
 
         private void DeleteMenu_Click(object sender, RoutedEventArgs e)

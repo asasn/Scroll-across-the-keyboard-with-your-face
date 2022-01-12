@@ -177,9 +177,10 @@ namespace 脸滚键盘.信息卡和窗口
                 sCard.LostFocus += SCard_LostFocus;
             }
             reader.Close();
+            int n = Convert.ToInt32(MySettings.Get(CurBookName, "WpNotesFocusIndex"));
             if (WpNotes.Children.Count > 0)
             {
-                (WpNotes.Children[WpNotes.Children.Count - 1] as UcontrolNotes).Focus();
+                (WpNotes.Children[n] as UcontrolNotes).Focus();
                 ScMain.ScrollToHorizontalOffset((60 * WpNotes.Children.Count) - ScMain.ActualWidth / 2);
             }
         }
@@ -213,6 +214,7 @@ namespace 脸滚键盘.信息卡和窗口
                 PreviousCard.BorderThickness = new Thickness(0, 0, 0, 0);
             }
             BtnSave.IsEnabled = false;
+            MySettings.Set(CurBookName, "WpNotesFocusIndex", CurCard.Index.ToString());
         }
 
         private void TbShowTitle_TextChanged(object sender, TextChangedEventArgs e)

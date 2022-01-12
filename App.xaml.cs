@@ -20,7 +20,7 @@ namespace 脸滚键盘
         protected override void OnStartup(StartupEventArgs e)
         {
             RunningCheck();
-            Common.CreateSplashWindow();
+            Gval.Threads.Task1 = Common.CreateSplashWindow();
 
             base.OnStartup(e);
         }

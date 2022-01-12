@@ -173,7 +173,6 @@ namespace 脸滚键盘.自定义控件
             //};
 
 
-            Gval.Flag.Loading = true;
 
             string tableName = typeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
@@ -186,9 +185,6 @@ namespace 脸滚键盘.自定义控件
             }
             reader.Close();
             
-
-
-            Gval.Flag.Loading = false;
         }
 
         private void DeleteMenu_Click(object sender, RoutedEventArgs e)
