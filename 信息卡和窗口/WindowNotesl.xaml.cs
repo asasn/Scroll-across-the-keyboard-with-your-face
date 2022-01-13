@@ -20,9 +20,9 @@ namespace 脸滚键盘.信息卡和窗口
     /// <summary>
     /// DesignToolWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class WindowNotesTool : Window
+    public partial class WindowNotes : Window
     {
-        public WindowNotesTool(string curBookName, string typeOfTree)
+        public WindowNotes(string curBookName, string typeOfTree)
         {
             InitializeComponent();
             CurBookName = curBookName;
@@ -42,7 +42,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         // Using a DependencyProperty as the backing store for CurCard.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurCardProperty =
-            DependencyProperty.Register("CurCard", typeof(UcontrolNotes), typeof(WindowNotesTool), new PropertyMetadata(null));
+            DependencyProperty.Register("CurCard", typeof(UcontrolNotes), typeof(WindowNotes), new PropertyMetadata(null));
 
 
 
@@ -55,7 +55,7 @@ namespace 脸滚键盘.信息卡和窗口
 
         // Using a DependencyProperty as the backing store for PreviousCard.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PreviousCardProperty =
-            DependencyProperty.Register("PreviousCard", typeof(UcontrolNotes), typeof(WindowNotesTool), new PropertyMetadata(null));
+            DependencyProperty.Register("PreviousCard", typeof(UcontrolNotes), typeof(WindowNotes), new PropertyMetadata(null));
 
 
 

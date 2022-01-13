@@ -192,7 +192,7 @@ namespace 脸滚键盘
         }
         private void InspirationTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowNotesTool win = new WindowNotesTool("index", "book");
+            WindowNotes win = new WindowNotes("index", "book");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();

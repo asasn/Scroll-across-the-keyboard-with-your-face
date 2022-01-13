@@ -127,8 +127,8 @@
     <Compile Include="信息卡和窗口\InfoCard.xaml.cs">
       <DependentUpon>InfoCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowNotesTool.xaml.cs">
-      <DependentUpon>WindowNotesTool.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WindowNotesl.xaml.cs">
+      <DependentUpon>WindowNotesl.xaml</DependentUpon>
     </Compile>
     <Compile Include="信息卡和窗口\WindowMapTool.xaml.cs">
       <DependentUpon>WindowMapTool.xaml</DependentUpon>
@@ -236,7 +236,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowNotesTool.xaml">
+    <Page Include="信息卡和窗口\WindowNotesl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
