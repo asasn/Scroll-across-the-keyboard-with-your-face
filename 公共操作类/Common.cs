@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using 脸滚键盘.自定义控件;
 
 namespace 脸滚键盘.公共操作类
 {
@@ -20,5 +22,7 @@ namespace 脸滚键盘.公共操作类
             t.Start();
             return t;
         }
+
+
     }
 }

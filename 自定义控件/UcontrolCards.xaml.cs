@@ -56,9 +56,13 @@ namespace 脸滚键盘.自定义控件
             SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbTab.Text.Replace("'", "''")));
             while (reader.Read())
             {
+                if ((bool)reader["IsDel"] == true)
+                {
+                    continue;
+                }
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
                 reader.Close();
-                
+
                 return;
             }
             reader.Close();
@@ -71,11 +75,11 @@ namespace 脸滚键盘.自定义控件
 
             string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, BtnTag.Uid, BtnTag.Content.ToString().Replace("'", "''"));
             sqlConn.ExecuteNonQuery(sql);
-            
+
 
             RefreshKeyWords();
             MarkNamesInChapter();
-            
+
         }
 
         /// <summary>
@@ -91,33 +95,24 @@ namespace 脸滚键盘.自定义控件
             WrapPanel[] wps = { Gval.Uc.RoleCards.WpCards, Gval.Uc.OtherCards.WpCards };
             foreach (WrapPanel wp in wps)
             {
-                string tableName = wp.Tag.ToString();
-                SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
-                SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName));
-                while (reader.Read())
+
+                foreach (Button button in wp.Children)
                 {
-                    string name = reader["名称"].ToString();
-                    foreach (Button button in wp.Children)
+                    if (CurNode.NodeContent.Contains(button.Content.ToString()) || IsContainsNickname(button.ToolTip.ToString(), CurNode.NodeContent))
                     {
-                        if (name == button.Content.ToString())
-                        {
-                            if (CurNode.NodeContent.Contains(name) || IsContainsNickname(button.DataContext.ToString(), CurNode.NodeContent))
-                            {
-                                //button.Background = Brushes.Honeydew;
-                                //button.BorderBrush = Brushes.Khaki;
-                                button.Background = Brushes.Cornsilk;
-                            }
-                            else
-                            {
-                                //button.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
-                                button.Background = Brushes.White;
-                            }
-                        }
+                        //button.Background = Brushes.Honeydew;
+                        //button.BorderBrush = Brushes.Khaki;
+                        button.Background = Brushes.Cornsilk;
+                    }
+                    else
+                    {
+                        //button.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+                        button.Background = Brushes.White;
                     }
                 }
-                reader.Close();
             }
         }
+
         /// <summary>
         /// 判断文章内是否包含别称
         /// </summary>
@@ -173,6 +168,7 @@ namespace 脸滚键盘.自定义控件
             //};
 
 
+            CardOperate.TryToBuildBaseTable(curBookName, typeOfTree);
 
             string tableName = typeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
@@ -180,11 +176,15 @@ namespace 脸滚键盘.自定义控件
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
+                if ((bool)reader["IsDel"] == true)
+                {
+                    continue;
+                }
                 Button BtnTag = AddNode(reader[string.Format("{0}id", tableName)].ToString(), reader["名称"].ToString());
                 WpCards.Children.Add(BtnTag);
             }
             reader.Close();
-            
+
         }
 
         private void DeleteMenu_Click(object sender, RoutedEventArgs e)
@@ -195,9 +195,10 @@ namespace 脸滚键盘.自定义控件
 
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
-            string sql = string.Format("DELETE from {0}主表 where {0}id='{1}';", tableName, BtnTag.Uid);
+            //回收站：string sql = string.Format("DELETE from {0}主表 where {0}id='{1}';", tableName, BtnTag.Uid);
+            string sql = string.Format("update {0}主表 set IsDel=True where {0}id='{1}';", tableName, BtnTag.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            
+
 
             RefreshKeyWords();
             MarkNamesInChapter();
@@ -237,9 +238,9 @@ namespace 脸滚键盘.自定义控件
             {
                 Header = "删除"
             };
-            deleteMenu.Click += DeleteMenu_Click; 
+            deleteMenu.Click += DeleteMenu_Click;
             aMenu.Items.Add(deleteMenu);
-            BtnTag.ContextMenu = aMenu; 
+            BtnTag.ContextMenu = aMenu;
 
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
@@ -247,16 +248,11 @@ namespace 脸滚键盘.自定义控件
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
-                string name = reader["别称"].ToString();
-                BtnTag.DataContext += name + " ";
+                BtnTag.ToolTip += reader["别称"].ToString() + " ";
             }
-            BtnTag.DataContext += "";//防止为空，避免之后的判断
-            if (false == string.IsNullOrWhiteSpace(BtnTag.DataContext.ToString()))
-            {
-                BtnTag.ToolTip = BtnTag.DataContext.ToString();
-            }
+            BtnTag.ToolTip += "";//防止为空，避免之后的判断
             reader.Close();
-            
+
             return BtnTag;
         }
     }

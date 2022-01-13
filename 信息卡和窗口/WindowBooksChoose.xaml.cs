@@ -44,14 +44,19 @@ namespace 脸滚键盘.信息卡和窗口
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
             string curBookUid = SettingsOperate.Get("curBookUid");
-            string tableName = "books";
+            string tableName = "allbooks";
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Name CHAR, Price DOUBLE, BornYear INTEGER, CurrentYear INTEGER);", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Name CHAR, Price DOUBLE, BornYear INTEGER, CurrentYear INTEGER, IsDel BOOLEAN DEFAULT (false));", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName); 
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("SELECT * FROM Tree_{0};", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
+                if ((bool)reader["IsDel"] == true)
+                {
+                    continue;
+                }
                 string BookUid = reader["Uid"].ToString();
                 string BookName = reader["Name"].ToString();
 
@@ -94,7 +99,7 @@ namespace 脸滚键盘.信息卡和窗口
         void GetBookInfoForGval(string uid)
         {
             Gval.CurrentBook.Uid = uid;
-            string tableName = "books";
+            string tableName = "allbooks";
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
             string sql = string.Format("SELECT * FROM Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
@@ -162,9 +167,8 @@ namespace 脸滚键盘.信息卡和窗口
             Gval.Uc.TreeNote.LoadBook(Gval.CurrentBook.Name, "note");
             //Gval.Uc.HistoryBar.LoadYears(Gval.CurrentBook.Name, "history");            
             Gval.Uc.TreeTask.LoadBook(Gval.CurrentBook.Name, "task");
-            CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "角色");
+           
             Gval.Uc.RoleCards.LoadCards(Gval.CurrentBook.Name, "角色");
-            CardOperate.TryToBuildBaseTable(Gval.CurrentBook.Name, "其他");
             Gval.Uc.OtherCards.LoadCards(Gval.CurrentBook.Name, "其他");
 
             Gval.Uc.MainWin.TbkCurBookName.Visibility = Visibility.Hidden;
@@ -184,7 +188,7 @@ namespace 脸滚键盘.信息卡和窗口
                 MessageBox.Show("该书籍已经存在\n请换一个新书名！", "Tip", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
                 return;
             }
-            string tableName = "books";
+            string tableName = "allbooks";
             string guid = Guid.NewGuid().ToString();
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
             string sql = string.Format("INSERT INTO Tree_{0} (Uid, Name, Price, BornYear, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), 0, 2000, 2021);
@@ -204,7 +208,7 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 return;
             }
-            string tableName = "books";
+            string tableName = "allbooks";
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
             string sql = string.Format("UPDATE Tree_{0} set Price={1}, BornYear={2}, CurrentYear={3} where Uid = '{4}';", tableName, Convert.ToDouble(TbPrice.Text), Convert.ToInt32(TbBornYear.Text), Convert.ToInt32(TbCurrentYear.Text), Gval.CurrentBook.Uid);
             sqlConn.ExecuteNonQuery(sql);
@@ -230,7 +234,7 @@ namespace 脸滚键盘.信息卡和窗口
                 Gval.SQLClass.Pools[(WpBooks.Tag as HandyControl.Controls.Card).Header.ToString()].Close();
                 Gval.SQLClass.Pools.Remove((WpBooks.Tag as HandyControl.Controls.Card).Header.ToString());
             }
-            FileOperate.DeleteFile(Gval.Path.Books + "/" + (WpBooks.Tag as HandyControl.Controls.Card).Header.ToString() + ".db");
+            //回收站：FileOperate.DeleteFile(Gval.Path.Books + "/" + (WpBooks.Tag as HandyControl.Controls.Card).Header.ToString() + ".db");
             DelCurBookBySql();
             WpBooks.Children.Clear();
             Window_Loaded(null, null);
@@ -245,9 +249,10 @@ namespace 脸滚键盘.信息卡和窗口
         /// </summary>
         private static void DelCurBookBySql()
         {
-            string tableName = "books";
+            string tableName = "allbooks";
             SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
-            string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
+            //回收站：string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
+            string sql = string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, Gval.CurrentBook.Uid);
             sqlConn.ExecuteNonQuery(sql);
         }
 
@@ -301,7 +306,7 @@ namespace 脸滚键盘.信息卡和窗口
                 FileOperate.RenameFile(oldNameDB, newNameDB);
                 FileOperate.RenameFile(oldNameJpg, newNameJpg);
 
-                string tableName = "books";
+                string tableName = "allbooks";
                 SqliteOperate sqlConn = Gval.SQLClass.Pools["index"];
                 string sql = string.Format("UPDATE Tree_{0} set Name='{1}' where Uid = '{2}';", tableName, TbName.Text.Replace("'", "''"), Gval.CurrentBook.Uid);
                 sqlConn.ExecuteNonQuery(sql);

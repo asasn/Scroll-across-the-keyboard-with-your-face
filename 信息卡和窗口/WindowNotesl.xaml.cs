@@ -59,6 +59,31 @@ namespace 脸滚键盘.信息卡和窗口
 
 
 
+        /// <summary>
+        /// 更新索引
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="n"></param>
+        /// <param name="Wp"></param>
+        int UpdateIndex(int n, string tableName, SqliteOperate sqlConn, WrapPanel Wp)
+        {
+            int numOfDel = 0;
+            for (int i = n; i < Wp.Children.Count; i++)
+            {
+                (Wp.Children[i] as UcontrolNotes).Index = Wp.Children.IndexOf(Wp.Children[i] as UcontrolNotes);
+                (Wp.Children[i] as UcontrolNotes).StrIndex = string.Format("编号：{0}", (Wp.Children[i] as UcontrolNotes).Index + 1);
+            }
+            string sql = string.Format("SELECT COUNT(IsDel) FROM {0} where IsDel=True;", tableName);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                numOfDel = Convert.ToInt32(reader["COUNT(IsDel)"]);
+            }
+            reader.Close();
+            return numOfDel;
+        }
+
+
         private void BtnAddScene_Click(object sender, RoutedEventArgs e)
         {
             if (CurBookName == null)
@@ -66,8 +91,7 @@ namespace 脸滚键盘.信息卡和窗口
                 return;
             }
 
-            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
-            string sql;
+
 
             UcontrolNotes sCard = new UcontrolNotes();
             if (CurCard == null || WpNotes.Children.Count == 0)
@@ -79,27 +103,20 @@ namespace 脸滚键盘.信息卡和窗口
             {
                 //在指定位置插入
                 WpNotes.Children.Insert(CurCard.Index + 1, sCard);
-
-
-                int n = sCard.Index;
-                //更新索引
-                for (int i = n; i < WpNotes.Children.Count; i++)
-                {
-                    (WpNotes.Children[i] as UcontrolNotes).Index = WpNotes.Children.IndexOf(WpNotes.Children[i] as UcontrolNotes);
-                    (WpNotes.Children[i] as UcontrolNotes).StrIndex = string.Format("编号：{0}", (WpNotes.Children[i] as UcontrolNotes).Index + 1);
-                    sql = string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i] as UcontrolNotes).Index, (WpNotes.Children[i] as UcontrolNotes).Uid);
-                    sqlConn.ExecuteNonQuery(sql);
-                }
             }
+
             sCard.Index = WpNotes.Children.IndexOf(sCard);
-            sCard.StrIndex = string.Format("编号：{0}", WpNotes.Children.IndexOf(sCard) + 1);
+            sCard.StrIndex = string.Format("编号：{0}", sCard.Index + 1);
             sCard.StrTitile = string.Format("{0}", TbTitle.Text);
             sCard.GotFocus += SCard_GotFocus;
             sCard.LostFocus += SCard_LostFocus;
             TbTitle.Clear();
 
+            //sCard.Index + NumOfDel这里给新纪录索引补上了被删除的数量
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+            int numOfDel = UpdateIndex(sCard.Index, "随手记录表", sqlConn, WpNotes);
             sCard.Uid = Guid.NewGuid().ToString();
-            sql = string.Format("INSERT INTO  随手记录表 (Uid , 索引, 标题, 内容) VALUES ('{0}', '{1}', '{2}', '{3}');", sCard.Uid, sCard.Index, sCard.StrTitile.Replace("'", "''"), sCard.StrContent.Replace("'", "''"));
+            string sql = string.Format("INSERT INTO  随手记录表 (Uid , 索引, 标题, 内容) VALUES ('{0}', '{1}', '{2}', '{3}');", sCard.Uid, sCard.Index + numOfDel, sCard.StrTitile.Replace("'", "''"), sCard.StrContent.Replace("'", "''"));
             sqlConn.ExecuteNonQuery(sql);
             sCard.Focus();
         }
@@ -156,7 +173,7 @@ namespace 脸滚键盘.信息卡和窗口
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
             //尝试建立新表（IF NOT EXISTS）
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR);");
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 随手记录表Uid ON 随手记录表(Uid);");
             sqlConn.ExecuteNonQuery(sql);
 
@@ -164,15 +181,19 @@ namespace 脸滚键盘.信息卡和窗口
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
+                if ((bool)reader["IsDel"] == true)
+                {
+                    continue;
+                }
                 UcontrolNotes sCard = new UcontrolNotes
                 {
                     Uid = reader["Uid"].ToString(),
-                    Index = Convert.ToInt32(reader["索引"]),
-                    StrIndex = string.Format("编号：{0}", Convert.ToInt32(reader["索引"]) + 1),
                     StrTitile = reader["标题"].ToString(),
                     StrContent = reader["内容"].ToString()
                 };
                 WpNotes.Children.Add(sCard);
+                sCard.Index = WpNotes.Children.IndexOf(sCard);
+                sCard.StrIndex = string.Format("编号：{0}", sCard.Index + 1);
                 sCard.GotFocus += SCard_GotFocus;
                 sCard.LostFocus += SCard_LostFocus;
             }
@@ -193,18 +214,18 @@ namespace 脸滚键盘.信息卡和窗口
         private void SCard_GotFocus(object sender, RoutedEventArgs e)
         {
             CurCard = sender as UcontrolNotes;
-            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
-            string sql = string.Format("SELECT * FROM 随手记录表 where Uid='{0}';", CurCard.Uid);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-            while (reader.Read())
-            {
-                CurCard.Uid = reader["Uid"].ToString();
-                CurCard.Index = Convert.ToInt32(reader["索引"]);
-                TbShowIndex.Text = CurCard.StrIndex = string.Format("编号：{0}", Convert.ToInt32(reader["索引"]) + 1);
-                TbShowTitle.Text = CurCard.StrTitile = reader["标题"].ToString();
-                TbShowContent.Text = CurCard.StrContent = reader["内容"].ToString();
-            }
-            reader.Close();
+            //SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+            //string sql = string.Format("SELECT * FROM 随手记录表 where Uid='{0}';", CurCard.Uid);
+            //SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            //while (reader.Read())
+            //{
+            //    CurCard.Uid = reader["Uid"].ToString();
+            //    CurCard.Index = Convert.ToInt32(reader["索引"]);
+            //    TbShowIndex.Text = CurCard.StrIndex = string.Format("编号：{0}", Convert.ToInt32(reader["索引"]) + 1);
+            //    TbShowTitle.Text = CurCard.StrTitile = reader["标题"].ToString();
+            //    TbShowContent.Text = CurCard.StrContent = reader["内容"].ToString();
+            //}
+            //reader.Close();
 
             CurCard.BorderBrush = Brushes.Orange;
             CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
@@ -214,6 +235,7 @@ namespace 脸滚键盘.信息卡和窗口
                 PreviousCard.BorderThickness = new Thickness(0, 0, 0, 0);
             }
             BtnSave.IsEnabled = false;
+            CurCard.Index = WpNotes.Children.IndexOf(CurCard);
             MySettings.Set(CurBookName, "WpNotesFocusIndex", CurCard.Index.ToString());
         }
 
@@ -247,7 +269,8 @@ namespace 脸滚键盘.信息卡和窗口
 
             int n = WpNotes.Children.IndexOf(CurCard);
             WpNotes.Children.Remove(CurCard);
-            sql = string.Format("DELETE FROM 随手记录表 where Uid='{0}';", CurCard.Uid);
+            //回收站sql = string.Format("DELETE FROM 随手记录表 where Uid='{0}';", CurCard.Uid);
+            sql = string.Format("update 随手记录表 set IsDel=True where Uid='{0}';", CurCard.Uid);
             sqlConn.ExecuteNonQuery(sql);
             if (WpNotes.Children.Count > 0)
             {
@@ -267,14 +290,7 @@ namespace 脸滚键盘.信息卡和窗口
                 TbShowContent.Clear();
             }
 
-            //更新索引
-            for (int i = n; i < WpNotes.Children.Count; i++)
-            {
-                (WpNotes.Children[i] as UcontrolNotes).Index = WpNotes.Children.IndexOf(WpNotes.Children[i] as UcontrolNotes);
-                (WpNotes.Children[i] as UcontrolNotes).StrIndex = string.Format("编号：{0}", (WpNotes.Children[i] as UcontrolNotes).Index + 1);
-                sql = string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i] as UcontrolNotes).Index, (WpNotes.Children[i] as UcontrolNotes).Uid);
-                sqlConn.ExecuteNonQuery(sql);
-            }
+            _ = UpdateIndex(n, "随手记录表", sqlConn, WpNotes);
         }
 
         private void WpNotes_KeyDown(object sender, KeyEventArgs e)

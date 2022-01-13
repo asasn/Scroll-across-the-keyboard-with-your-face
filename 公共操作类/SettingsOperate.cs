@@ -35,7 +35,7 @@ namespace 脸滚键盘.公共操作类
             }
 
             string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}设置表 (Key CHAR PRIMARY KEY, Value CHAR);", TableName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS Key ON {0}设置表(Key);", TableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}设置表Key ON {0}设置表(Key);", TableName);
             SqlConn.ExecuteNonQuery(sql);
         }
 

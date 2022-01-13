@@ -161,9 +161,6 @@
     <Compile Include="自定义控件\UcontrolCards.xaml.cs">
       <DependentUpon>UcontrolCards.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolHistoryBar.xaml.cs">
-      <DependentUpon>UcontrolHistoryBar.xaml</DependentUpon>
-    </Compile>
     <Compile Include="自定义控件\UcontrolProgressBar.xaml.cs">
       <DependentUpon>UcontrolProgressBar.xaml</DependentUpon>
     </Compile>
@@ -265,10 +262,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="自定义控件\UcontrolCards.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UcontrolHistoryBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

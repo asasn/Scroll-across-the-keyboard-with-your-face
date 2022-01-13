@@ -114,7 +114,6 @@ namespace 脸滚键盘
         {
             Gval.Uc.PublicRoleCards = sender as UcontrolCards;
             Gval.Uc.PublicRoleCards.WpCards.Children.Clear();
-            CardOperate.TryToBuildBaseTable("index", "角色");
             Gval.Uc.PublicRoleCards.LoadCards("index", "角色");
         }
 
@@ -122,7 +121,6 @@ namespace 脸滚键盘
         {
             Gval.Uc.PublicOtherCards = sender as UcontrolCards;
             Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
-            CardOperate.TryToBuildBaseTable("index", "其他");
             Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
         }
 

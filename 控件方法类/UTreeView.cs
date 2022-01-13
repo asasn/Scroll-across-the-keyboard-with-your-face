@@ -579,7 +579,7 @@ namespace 脸滚键盘.控件方法类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN);", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN, IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName); 
             sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Pid ON Tree_{0}(Pid);", tableName);
             sqlConn.ExecuteNonQuery(sql);
@@ -587,6 +587,10 @@ namespace 脸滚键盘.控件方法类
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
+                if ((bool)reader["IsDel"] == true)
+                {
+                    continue;
+                }                
                 TreeViewNode node = new TreeViewNode
                 {
                     Uid = reader["Uid"].ToString(),
@@ -647,6 +651,10 @@ namespace 脸滚键盘.控件方法类
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
+                if ((bool)reader["IsDel"] == true)
+                {
+                    continue;
+                }
                 TreeViewNode node = new TreeViewNode
                 {
                     Uid = reader["Uid"].ToString(),
@@ -702,7 +710,8 @@ namespace 脸滚键盘.控件方法类
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             delSql = string.Empty;
             RecursionDelBySql(curBookName, typeOfTree, selectedNode, sqlConn, treeViewNodeList);
-            delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, selectedNode.Uid);
+            //回收站：delSql += string.Format("DELETE FROM Tree_{0} where Uid='{1}';", tableName, selectedNode.Uid);
+            delSql += string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(delSql);
             treeViewNodeList.Remove(selectedNode);
             
@@ -721,8 +730,8 @@ namespace 脸滚键盘.控件方法类
                 for (int i = 0; i < baseNode.ChildNodes.Count; i++)
                 {
                     string tableName = typeOfTree;
-                    delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
-                    //sqlConn.ExecuteNonQuery(sql);
+                    //回收站：delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
+                    delSql += string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, baseNode.ChildNodes[i].Uid);
                     RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
                     treeViewNodeList.Remove(baseNode.ChildNodes[i]);
                 }

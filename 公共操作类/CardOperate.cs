@@ -31,11 +31,11 @@ namespace 脸滚键盘.公共操作类
         {
             string tableName = typeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE,备注 TEXT,权重 INTEGER,相对年龄 CHAR);", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE, 备注 TEXT, 权重 INTEGER, 相对年龄 CHAR, IsDel BOOLEAN DEFAULT (false));", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表{0}id ON {0}主表({0}id);", tableName);
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, "别称");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, "别称");
             sqlConn.ExecuteNonQuery(sql);
-            string sql2 = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, "别称");
-            sqlConn.ExecuteNonQuery(sql2);
-
         }
 
         ///// <summary>
@@ -88,7 +88,7 @@ namespace 脸滚键盘.公共操作类
                     {
                         //存在记录，为空时删除，不为空时更新
                         if (string.IsNullOrEmpty(tipBox.Text))
-                        {                           
+                        {
                             sql += string.Format("delete from {0}{1}表 where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid);
                             w--;
                         }
@@ -98,8 +98,8 @@ namespace 脸滚键盘.公共操作类
                             {
                                 Console.WriteLine(tipBox.Text);
                                 sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid, tipBox.Text.Replace("'", "''"));
-                            }                            
-                        }    
+                            }
+                        }
                     }
                     w++;
                     tipBox.Tag = false;
@@ -121,13 +121,14 @@ namespace 脸滚键盘.公共操作类
             {
                 //尝试建立新表（IF NOT EXISTS）
                 string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, wp.Uid);
+                sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, wp.Uid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 sql = string.Format("select * from {0}{1}表 where {0}id = '{2}';", tableName, wp.Uid, idValue);
                 SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
                 wp.Children.Clear();
                 while (reader.Read())
-                {
+                {                    
                     UcontrolTipBox tipBox = new UcontrolTipBox(wp, reader.GetString(1));
                     tipBox.Uid = reader.GetString(2);
                 }
