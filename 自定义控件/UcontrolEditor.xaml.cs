@@ -238,7 +238,7 @@ namespace 脸滚键盘.自定义控件
 
             CurNode.NodeContent = TextEditor.Text;
             CurNode.WordsCount = words;
-
+            Gval.CurrentBook.CurNode = CurNode;
             BtnSaveDoc.IsEnabled = false;
 
             //Console.WriteLine("保存至数据库");

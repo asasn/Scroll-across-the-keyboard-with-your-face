@@ -77,7 +77,7 @@ namespace 脸滚键盘.信息卡和窗口
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
-                numOfDel = Convert.ToInt32(reader["Isdel"]);
+                numOfDel = Convert.ToInt32(reader["COUNT(IsDel)"]);
             }
             reader.Close();
             return numOfDel;

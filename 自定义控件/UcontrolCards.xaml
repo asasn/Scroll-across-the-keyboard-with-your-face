@@ -22,7 +22,7 @@
             </Button>
         </Grid>
         <ScrollViewer Grid.Row="1">
-            <WrapPanel x:Name="WpCards" Loaded="WpCards_Loaded"/>
+            <WrapPanel x:Name="WpCards" Loaded="WpCards_Loaded" Tag="{Binding TypeOfTree, ElementName=Ucontrol}" />
         </ScrollViewer>
 
     </Grid>

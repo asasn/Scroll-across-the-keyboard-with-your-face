@@ -12,7 +12,7 @@
             <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Label Padding="2" Style="{StaticResource LabelInfo}"  BorderThickness="0" x:Name="LbName" VerticalAlignment="Top" Margin="0,3" MinWidth="40" MinHeight="19"/>
-        <WrapPanel Grid.Column="1" x:Name="WpMain" MinWidth="200" MinHeight="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Uid="{Binding Title, ElementName=Ucontrol, Mode=TwoWay}" Tag="{Binding IsCanSave, ElementName=Ucontrol, Mode=TwoWay}"/>        
+        <WrapPanel Grid.Column="1" x:Name="WpMain" MinWidth="200" MinHeight="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Tag="{Binding Title, ElementName=Ucontrol, Mode=OneWay}" />        
         <Button Grid.Column="2" x:Name="BtnAdd"  Background="Transparent" Padding="1" BorderThickness="0" Foreground="Orange" Height="15" Width="15" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Click="BtnAdd_Click"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5"/>
     </Grid>
 </UserControl>

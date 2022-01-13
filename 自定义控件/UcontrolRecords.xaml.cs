@@ -50,7 +50,7 @@ namespace 脸滚键盘.自定义控件
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            UcontrolTipBox tipBox = new UcontrolTipBox(WpMain, null);
+            UcontrolTipBox tipBox = new UcontrolTipBox(this, null);
         }
 
         private void Uc_Loaded(object sender, RoutedEventArgs e)

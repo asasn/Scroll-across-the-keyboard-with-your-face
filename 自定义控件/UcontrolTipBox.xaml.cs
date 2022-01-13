@@ -21,18 +21,18 @@ namespace 脸滚键盘.自定义控件
     /// </summary>
     public partial class UcontrolTipBox : UserControl
     {
-        WrapPanel WpParent;
+        UcontrolRecords UcRecords;
 
         /// <summary>
         /// 信息卡文字记录控件
         /// </summary>
         /// <param name="wpParent">父控件容器</param>
         /// <param name="text">填入的内容</param>
-        public UcontrolTipBox(WrapPanel wpParent, string text)
+        public UcontrolTipBox(UcontrolRecords ucRecords, string text)
         {
             InitializeComponent();
-            WpParent = wpParent;
-            WpParent.Children.Add(this);
+            UcRecords = ucRecords;
+            UcRecords.WpMain.Children.Add(this);
             Text = text;
             this.Tag = false;            
         }
@@ -53,7 +53,8 @@ namespace 脸滚键盘.自定义控件
         private void Tb_TextChanged(object sender, TextChangedEventArgs e)
         {
             //改变标志，向上传递给父控件容器
-            WpParent.Tag = this.Tag =true;
+            this.Tag = true;
+            UcRecords.IsCanSave = true;
         }
 
 
@@ -61,24 +62,24 @@ namespace 脸滚键盘.自定义控件
         {
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
             {
-                int i = WpParent.Children.IndexOf(this);
+                int i = UcRecords.WpMain.Children.IndexOf(this);
                 if (i > 0)
                 {
-                    string temp = (WpParent.Children[i - 1] as UcontrolTipBox).Text;
-                    (WpParent.Children[i - 1] as UcontrolTipBox).Text = this.Text;
-                    (WpParent.Children[i] as UcontrolTipBox).Text = temp;
-                    (WpParent.Children[i - 1] as UcontrolTipBox).Tb.Focus();
+                    string temp = (UcRecords.WpMain.Children[i - 1] as UcontrolTipBox).Text;
+                    (UcRecords.WpMain.Children[i - 1] as UcontrolTipBox).Text = this.Text;
+                    (UcRecords.WpMain.Children[i] as UcontrolTipBox).Text = temp;
+                    (UcRecords.WpMain.Children[i - 1] as UcontrolTipBox).Tb.Focus();
                 }
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.J)
             {
-                int i = WpParent.Children.IndexOf(this);
-                if (i < WpParent.Children.Count - 1)
+                int i = UcRecords.WpMain.Children.IndexOf(this);
+                if (i < UcRecords.WpMain.Children.Count - 1)
                 {
-                    string temp = (WpParent.Children[i + 1] as UcontrolTipBox).Text;
-                    (WpParent.Children[i + 1] as UcontrolTipBox).Text = this.Text;
-                    (WpParent.Children[i] as UcontrolTipBox).Text = temp;
-                    (WpParent.Children[i + 1] as UcontrolTipBox).Tb.Focus();
+                    string temp = (UcRecords.WpMain.Children[i + 1] as UcontrolTipBox).Text;
+                    (UcRecords.WpMain.Children[i + 1] as UcontrolTipBox).Text = this.Text;
+                    (UcRecords.WpMain.Children[i] as UcontrolTipBox).Text = temp;
+                    (UcRecords.WpMain.Children[i + 1] as UcontrolTipBox).Tb.Focus();
                 }
             }
         }

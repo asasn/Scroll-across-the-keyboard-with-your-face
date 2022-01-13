@@ -78,7 +78,7 @@ namespace 脸滚键盘.公共操作类
 
                             //编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
                             string guid = Guid.NewGuid().ToString();
-                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}, {1}id) values ('{2}', '{3}', '{4}');", tableName, wp.Uid, idValue, tipBox.Text.Replace("'", "''"), guid);
+                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}, {1}id) values ('{2}', '{3}', '{4}');", tableName, wp.Tag.ToString(), idValue, tipBox.Text.Replace("'", "''"), guid);
                             sqlConn.ExecuteNonQuery(sql);
                             tipBox.Uid = guid;
                             sql = string.Empty; //注意清空，以免影响后续语句运行                            
@@ -89,15 +89,14 @@ namespace 脸滚键盘.公共操作类
                         //存在记录，为空时删除，不为空时更新
                         if (string.IsNullOrEmpty(tipBox.Text))
                         {
-                            sql += string.Format("delete from {0}{1}表 where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid);
+                            sql += string.Format("delete from {0}{1}表 where {1}id = '{2}';", tableName, wp.Tag.ToString(), tipBox.Uid);
                             w--;
                         }
                         else
                         {
                             if ((bool)tipBox.Tag == true)
                             {
-                                Console.WriteLine(tipBox.Text);
-                                sql += string.Format("update {0}{1}表 set {1}='{3}' where {1}id = '{2}';", tableName, wp.Uid, tipBox.Uid, tipBox.Text.Replace("'", "''"));
+                                sql += string.Format("update {0}{1}表 set {1}='{2}' where {1}id = '{3}';", tableName, wp.Tag.ToString(), tipBox.Text.Replace("'", "''"), tipBox.Uid);
                             }
                         }
                     }
@@ -120,16 +119,17 @@ namespace 脸滚键盘.公共操作类
             foreach (WrapPanel wp in wrapPanels)
             {
                 //尝试建立新表（IF NOT EXISTS）
-                string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, wp.Uid);
-                sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, wp.Uid);
+                string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, wp.Tag.ToString());
+                sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, wp.Tag.ToString());
                 sqlConn.ExecuteNonQuery(sql);
 
-                sql = string.Format("select * from {0}{1}表 where {0}id = '{2}';", tableName, wp.Uid, idValue);
+                sql = string.Format("select * from {0}{1}表 where {0}id = '{2}';", tableName, wp.Tag.ToString(), idValue);
                 SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
                 wp.Children.Clear();
                 while (reader.Read())
-                {                    
-                    UcontrolTipBox tipBox = new UcontrolTipBox(wp, reader.GetString(1));
+                {
+                    UcontrolRecords ucRecords = (wp.Parent as Grid).Parent as UcontrolRecords;
+                    UcontrolTipBox tipBox = new UcontrolTipBox(ucRecords, reader.GetString(1));
                     tipBox.Uid = reader.GetString(2);
                 }
                 reader.Close();

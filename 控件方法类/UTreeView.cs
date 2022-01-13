@@ -251,6 +251,22 @@ namespace 脸滚键盘.控件方法类
                 }
             }
 
+            private bool isDel = false;
+            /// <summary>
+            /// 是否已经被删除（默认fale）
+            /// </summary>
+            public bool IsDel
+            {
+                get
+                {
+                    return isDel;
+                }
+                set
+                {
+                    isDel = value;
+                    OnPropertyChanged("IsDel");
+                }
+            }
 
             private bool isButton;
             /// <summary>
@@ -471,7 +487,7 @@ namespace 脸滚键盘.控件方法类
             TreeViewNode newNode = new TreeViewNode(guid, "新节点")
             {
                 Pid = baseNode.Uid,
-                NodeContent = "　　"
+                NodeContent = ""
             };
             if (string.IsNullOrEmpty(baseNode.Uid))
 
@@ -688,9 +704,9 @@ namespace 脸滚键盘.控件方法类
             string tableName = typeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
             //更新数据库中临近节点记录集
-            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8} where Uid = '{9}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, selectedNode.IsChecked, neighboringNode.Uid);
+            string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8}, IsDel={9} where Uid = '{10}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, selectedNode.IsChecked, selectedNode.IsDel, neighboringNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
-            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8} where Uid = '{9}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, neighboringNode.IsChecked, selectedNode.Uid);
+            sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8}, IsDel={9}  where Uid = '{10}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, neighboringNode.IsChecked, neighboringNode.IsDel, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
             sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(sql);
@@ -714,9 +730,7 @@ namespace 脸滚键盘.控件方法类
             delSql += string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, selectedNode.Uid);
             sqlConn.ExecuteNonQuery(delSql);
             treeViewNodeList.Remove(selectedNode);
-            
         }
-
 
         /// <summary>
         /// 方法：递归删除子节点
@@ -732,6 +746,45 @@ namespace 脸滚键盘.控件方法类
                     string tableName = typeOfTree;
                     //回收站：delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
                     delSql += string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, baseNode.ChildNodes[i].Uid);
+                    RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
+                    treeViewNodeList.Remove(baseNode.ChildNodes[i]);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 移动节点所需的方法
+        /// </summary>
+        /// <param name="curBookName"></param>
+        /// <param name="typeOfTree"></param>
+        /// <param name="dragNode"></param>
+        /// <param name="treeViewNodeList"></param>
+        public static void MoveNodeBySql(string curBookName, string typeOfTree, TreeViewNode dragNode, ObservableCollection<TreeViewNode> treeViewNodeList)
+        {
+            string tableName = typeOfTree;
+            SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
+            delSql = string.Empty;
+            RecursionMoveBySql(curBookName, typeOfTree, dragNode, sqlConn, treeViewNodeList);
+            delSql += string.Format("DELETE FROM Tree_{0} where Uid='{1}';", tableName, dragNode.Uid);
+            sqlConn.ExecuteNonQuery(delSql);
+            treeViewNodeList.Remove(dragNode);
+            AddNodeBySql(curBookName, typeOfTree, dragNode);
+        }
+
+        /// <summary>
+        /// 方法：递归移动子节点
+        /// </summary>
+        /// <param name="baseNode"></param>
+        /// <param name="sqlConn"></param>
+        static void RecursionMoveBySql(string curBookName, string typeOfTree, TreeViewNode baseNode, SqliteOperate sqlConn, ObservableCollection<TreeViewNode> treeViewNodeList)
+        {
+            if (baseNode.IsDir == true)
+            {
+                for (int i = 0; i < baseNode.ChildNodes.Count; i++)
+                {
+                    string tableName = typeOfTree;
+                    delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
                     RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
                     treeViewNodeList.Remove(baseNode.ChildNodes[i]);
                 }

@@ -572,12 +572,10 @@ namespace 脸滚键盘.自定义控件
                                 m -= 1;
                             }
 
-                            //SqliteOperate sqlConn = Gval.SQLClass.Pools[curBookName];
-                            //更新数据库中临近节点记录集
-                            DelNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
                             //更换改变pid
                             dragNode.Pid = dropNode.Uid;
-                            AddNodeBySql(CurBookName, TypeOfTree, dragNode);
+                            //更新数据库中临近节点记录集
+                            MoveNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
 
                             //节点索引交换位置
                             SwapNode(m, dragNode, dropNode, TreeViewNodeList);

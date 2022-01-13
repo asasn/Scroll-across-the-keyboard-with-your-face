@@ -58,7 +58,7 @@ namespace 脸滚键盘.公共操作类
         /// <param name="newDocFullName"></param>
         public static void CreateNewDoc(string newDocFullName)
         {
-            WriteToTxt(newDocFullName, "　　");
+            WriteToTxt(newDocFullName, "");
         }
 
         /// <summary>

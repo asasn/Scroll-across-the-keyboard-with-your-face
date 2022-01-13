@@ -87,21 +87,33 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         public void MarkNamesInChapter()
         {
-            if (CurBookName == null || Gval.CurrentBook.CurNode == null)
+            if (CurBookName == null)
             {
                 return;
             }
-            TreeViewNode CurNode = Gval.CurrentBook.CurNode;
+            TreeViewNode curNode = Gval.CurrentBook.CurNode;
+            if (curNode == null)
+            {
+                curNode = new TreeViewNode();
+            }
             WrapPanel[] wps = { Gval.Uc.RoleCards.WpCards, Gval.Uc.OtherCards.WpCards };
             foreach (WrapPanel wp in wps)
             {
-
                 foreach (Button button in wp.Children)
                 {
-                    if (CurNode.NodeContent.Contains(button.Content.ToString()) || IsContainsNickname(button.ToolTip.ToString(), CurNode.NodeContent))
+                    //先清空ToolTip的内容
+                    button.ToolTip = null;
+                    string tableName = wp.Tag.ToString();
+                    SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
+                    string sql = string.Format("SELECT 别称 FROM {0}别称表 where {0}id='{1}';", tableName, button.Uid);
+                    SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+                    while (reader.Read())
                     {
-                        //button.Background = Brushes.Honeydew;
-                        //button.BorderBrush = Brushes.Khaki;
+                        button.ToolTip += reader["别称"].ToString() + " ";
+                    }
+                    reader.Close();
+                    if (curNode.NodeContent.Contains(button.Content.ToString()) || IsContainsNickname(button.ToolTip, curNode.NodeContent))
+                    {
                         button.Background = Brushes.Cornsilk;
                     }
                     else
@@ -119,9 +131,13 @@ namespace 脸滚键盘.自定义控件
         /// <param name="dataStr"></param>
         /// <param name="nodeContent"></param>
         /// <returns></returns>
-        bool IsContainsNickname(string dataStr, string nodeContent)
+        bool IsContainsNickname(object toolTip, string nodeContent)
         {
-            string[] sArray = dataStr.Split(new char[] { ' ' });
+            if (toolTip == null)
+            {
+                return false;
+            }
+            string[] sArray = toolTip.ToString().Split(new char[] { ' ' });
             foreach (string ss in sArray)
             {
                 if (false == string.IsNullOrWhiteSpace(ss.Trim()) && nodeContent.Contains(ss.Trim()))
@@ -219,7 +235,7 @@ namespace 脸滚键盘.自定义控件
 
         Button AddNode(string guid, string content)
         {
-            Button BtnTag = new Button
+            Button button = new Button
             {
                 Uid = guid,
                 Content = content,
@@ -227,11 +243,11 @@ namespace 脸滚键盘.自定义控件
                 Padding = new Thickness(2),
                 Margin = new Thickness(5, 5, 2, 2),
             };
-            BtnTag.Click += BtnTag_Click;
+            button.Click += BtnTag_Click;
 
             ContextMenu aMenu = new ContextMenu
             {
-                DataContext = BtnTag
+                DataContext = button
             };
 
             MenuItem deleteMenu = new MenuItem
@@ -240,7 +256,7 @@ namespace 脸滚键盘.自定义控件
             };
             deleteMenu.Click += DeleteMenu_Click;
             aMenu.Items.Add(deleteMenu);
-            BtnTag.ContextMenu = aMenu;
+            button.ContextMenu = aMenu;
 
             string tableName = TypeOfTree;
             SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
@@ -248,12 +264,10 @@ namespace 脸滚键盘.自定义控件
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
-                BtnTag.ToolTip += reader["别称"].ToString() + " ";
+                button.ToolTip += reader["别称"].ToString() + " ";
             }
-            BtnTag.ToolTip += "";//防止为空，避免之后的判断
             reader.Close();
-
-            return BtnTag;
+            return button;
         }
     }
 }
