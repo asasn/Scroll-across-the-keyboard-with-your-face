@@ -212,19 +212,9 @@ namespace 脸滚键盘.信息卡和窗口
         private void SCard_GotFocus(object sender, RoutedEventArgs e)
         {
             CurCard = sender as UcontrolScenesCard;
-            SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
-            string sql = string.Format("SELECT * FROM 场记大纲表 where Uid='{0}';", CurCard.Uid);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-            while (reader.Read())
-            {
-                CurCard.Uid = reader["Uid"].ToString();
-                CurCard.Index = Convert.ToInt32(reader["索引"]);
-                TbShowIndex.Text = CurCard.StrIndex = string.Format("第{0}幕", Convert.ToInt32(reader["索引"]) + 1);
-                TbShowTitle.Text = CurCard.StrTitile = reader["标题"].ToString();
-                TbShowContent.Text = CurCard.StrContent = reader["内容"].ToString();
-            }
-            reader.Close();
-
+            TbShowIndex.Text = CurCard.StrIndex;
+            TbShowTitle.Text = CurCard.StrTitile;
+            TbShowContent.Text = CurCard.StrContent;
             CurCard.BorderBrush = Brushes.Orange;
             CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
             if (PreviousCard != null)
