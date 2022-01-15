@@ -253,21 +253,8 @@ namespace 脸滚键盘.自定义控件
         {
             if (e.Key == Key.Enter && TextEditor.TextArea.IsFocused == true)
             {
-                int a = TextEditor.SelectionStart;
-                int b = TextEditor.Text.Length;
-                string strA = TextEditor.Text.Substring(0, a);
-                string strB = TextEditor.Text.Substring(a, b - a);
-                string strM = "\n　　";
-
-                //重新赋值给编辑区
-                TextEditor.Text = strA + strM + strB.ToString();
-
-                //光标移动至正确的编辑位置
-                TextEditor.SelectionStart = a + strM.Length;
+                TextEditor.Document.Insert(TextEditor.SelectionStart, "\n　　");
                 TextEditor.LineDown();//滚动，行+1
-                TextEditor.LineDown();//滚动，行+1
-
-                //自动保存（回车时）
                 SaveText();
             }
             if (e.Key == Key.F9)

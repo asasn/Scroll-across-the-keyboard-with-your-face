@@ -19,14 +19,14 @@
             <avalonEdit:TextEditor Grid.Row="0"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
             Name="TextEditor" ShowLineNumbers="True"
-            SyntaxHighlighting="C#"
+            SyntaxHighlighting="Text"
             WordWrap="True"
             FontFamily="宋体" Background="#FFFDFDFD"
             FontSize="12pt" TextChanged="TextEditor_TextChanged" KeyUp="TextEditor_KeyUp" KeyDown="TextEditor_KeyDown" CommandManager.Executed="TextEditor_Executed"  CommandManager.PreviewExecuted="TextEditor_PreviewExecuted" MouseHover="TextEditor_MouseHover" MouseHoverStopped="TextEditor_MouseHoverStopped" >
                 <avalonEdit:TextEditor.Options>
                     <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
-                </avalonEdit:TextEditor.Options>
+                </avalonEdit:TextEditor.Options>                
             </avalonEdit:TextEditor>
             <Grid Grid.Row="1" Background="#FFFAFAFA">
                 <Grid.ColumnDefinitions>
@@ -62,8 +62,6 @@
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/编辑器/ic_action_bookmark.png" Width="20" Height="20" />
                 </Button>
             </WrapPanel>
-
-            <!--<TextBox x:Name="tbHidden" HorizontalAlignment="Left" Height="23" Margin="-136,247,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding TbText, ElementName=Ucontrol, Mode=TwoWay}" TextChanged="tbHidden_TextChanged"/>-->
         </Grid>
     </hc:Card>
 </UserControl>
