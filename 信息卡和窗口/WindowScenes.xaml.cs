@@ -71,7 +71,7 @@ namespace 脸滚键盘.信息卡和窗口
             for (int i = n; i < Wp.Children.Count; i++)
             {
                 (Wp.Children[i] as UcontrolScenesCard).Index = Wp.Children.IndexOf(Wp.Children[i] as UcontrolScenesCard);
-                (Wp.Children[i] as UcontrolScenesCard).StrIndex = string.Format("编号：{0}", (Wp.Children[i] as UcontrolScenesCard).Index + 1);
+                (Wp.Children[i] as UcontrolScenesCard).StrIndex = string.Format("第{0}幕", (Wp.Children[i] as UcontrolScenesCard).Index + 1);
             }
             string sql = string.Format("SELECT COUNT(IsDel) FROM {0} where IsDel=True;", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
@@ -117,7 +117,6 @@ namespace 脸滚键盘.信息卡和窗口
             sqlConn.ExecuteNonQuery(sql);
             sCard.Focus();
         }
-
 
         /// <summary>
         /// 鼠标滚轮控制滚动（增加了对左右滚动的处理）

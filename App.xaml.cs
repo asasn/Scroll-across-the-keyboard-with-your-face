@@ -38,7 +38,7 @@ namespace 脸滚键盘
                         if (p.Id != thisProc.Id)
                         {
                             //强制Kill其他同名进程
-                            p.Close();
+                            p.Kill();
                         }
                     }
                 }

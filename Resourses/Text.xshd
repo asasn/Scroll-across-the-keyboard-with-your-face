@@ -19,9 +19,10 @@
     <Rule color="符号" >
       ‘.*?’|".*?"|'.*?'|《.*?》|（.*?）|【.*?】|\(.*?\)|\[.*?\]|\{.*?\}
     </Rule>
-    <Keywords color="标记">
+    <!--<Keywords color="标记">
       <Word>测试文本</Word>
       <Word>测试文本</Word>
-    </Keywords>
+    </Keywords>-->
+
   </RuleSet>
 </SyntaxDefinition>

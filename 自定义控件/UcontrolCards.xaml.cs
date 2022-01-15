@@ -41,7 +41,7 @@ namespace 脸滚键盘.自定义控件
             foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
             {
                 UcontrolEditor ucEditor = tabItem.Content as UcontrolEditor;
-                ucEditor.SetRules();
+                ucEditor.SetEditorColorRules();
             }
         }
 

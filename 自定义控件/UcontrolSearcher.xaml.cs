@@ -73,35 +73,6 @@ namespace 脸滚键盘.自定义控件
             DependencyProperty.Register("CurNode", typeof(TreeViewNode), typeof(UcontrolSearcher), new PropertyMetadata(null));
 
 
-
-
-
-        public string KeyWords
-        {
-            get { return (string)GetValue(KeyWordsProperty); }
-            set { SetValue(KeyWordsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for KeyWords.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty KeyWordsProperty =
-            DependencyProperty.Register("KeyWords", typeof(string), typeof(UcontrolSearcher), new PropertyMetadata(string.Empty));
-
-
-
-
-        public string Pattern
-        {
-            get { return (string)GetValue(PatternProperty); }
-            set { SetValue(PatternProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Pattern.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PatternProperty =
-            DependencyProperty.Register("Pattern", typeof(string), typeof(UcontrolSearcher), new PropertyMetadata(string.Empty));
-
-
-
-
         public string UcTag
         {
             get { return (string)GetValue(UcTagProperty); }
@@ -127,10 +98,6 @@ namespace 脸滚键盘.自定义控件
             //初始化列表框
             ListBoxOfResults.Items.Clear();
 
-            //每次搜索的关键词
-            KeyWords = TbKeyWords.Text;
-            Pattern = TbKeyWords.Text;
-
             if (CbMaterial.IsChecked == true)
             {
                 //搜索资料库
@@ -152,13 +119,16 @@ namespace 脸滚键盘.自定义控件
             //搜索参数初始化
             InitSearch();
 
-            //输入检校（空字符串时退出）
+            //输入检校（空字符串或者为 * 时退出）
             if (string.IsNullOrEmpty(TbKeyWords.Text.Trim()))
             {
                 return;
             }
-
-
+            //输入检校（正则表达式错误）
+            if (CbRegex.IsChecked == true && GetMatchRets("") == null)
+            {
+                return;
+            }
 
             //生成搜索结果列表
             if (RadButton1.IsChecked == true)
@@ -185,7 +155,7 @@ namespace 脸滚键盘.自定义控件
         #region 在列表框中添加结果集
 
         /// <summary>
-        /// 获取结果集主函数
+        /// 递归获取结果集主函数
         /// </summary>
         /// <param name="baseNode"></param>
         private void GetResultMain(TreeViewNode baseNode)
@@ -223,7 +193,6 @@ namespace 脸滚键盘.自定义控件
             //正则模式
             if (CbRegex.IsChecked == true)
             {
-
                 Matches = GetMatchRets(node.NodeContent);
                 ListItemName = string.Join(" ", Matches);
             }
@@ -242,6 +211,13 @@ namespace 脸滚键盘.自定义控件
                 ListItemName = string.Join(" ", Matches);
             }
 
+
+            if (Matches.Length > 99)
+            {
+                Console.WriteLine("匹配结果太多，无意义，所以丢弃结果不用");
+                return;
+            }
+
             //获取和定义列表项
             if (false == string.IsNullOrEmpty(ListItemName))
             {
@@ -251,8 +227,8 @@ namespace 脸滚键盘.自定义控件
                     DataContext = node.NodeContent,
                     Tag = Matches
                 };
+                ListBoxOfResults.Items.Add(lbItem); 
                 SetItemToolTip(lbItem);
-                ListBoxOfResults.Items.Add(lbItem);
             }
         }
 
@@ -263,12 +239,23 @@ namespace 脸滚键盘.自定义控件
         /// <returns></returns>
         string[] GetMatchRets(string NodeContent)
         {
+            MatchCollection matchRets;
+            try
+            {
+                matchRets = Regex.Matches(NodeContent, TbKeyWords.Text);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("正则表达式错误！");
+                return null;
+            }
+
             if (string.IsNullOrEmpty(NodeContent))
             {
                 return new List<string>().ToArray();
             }
 
-            MatchCollection matchRets = Regex.Matches(NodeContent, Pattern);
+
             if (matchRets.Count > 0)
             {
                 List<string> listResult = new List<string>();
@@ -295,7 +282,7 @@ namespace 脸滚键盘.自定义控件
         string[] GetModeAndRets(string NodeContent)
         {
             List<string> rets = new List<string>();
-            string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
             bool ret = true;
             foreach (var mystr in keysArray)
@@ -312,7 +299,7 @@ namespace 脸滚键盘.自定义控件
             }
             if (ret == true)
             {
-                return KeyWords.Split(' ');
+                return TbKeyWords.Text.Split(' ');
             }
             else
             {
@@ -328,7 +315,7 @@ namespace 脸滚键盘.自定义控件
         string[] GetModeOrRets(string NodeContent)
         {
             List<string> rets = new List<string>();
-            string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
             foreach (var mystr in keysArray)
             {
                 if (false == string.IsNullOrEmpty(mystr))
@@ -375,49 +362,33 @@ namespace 脸滚键盘.自定义控件
         /// </summary>
         private void SetKeyWordsColor()
         {
-            textEditor.SyntaxHighlighting = null;
+            TextEditor.SyntaxHighlighting = null;
             string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
             Stream xshdStream = File.OpenRead(fullFileName);
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
-            textEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
+            TextEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
             xshdReader.Close();
             xshdStream.Close();
 
+            //读取文件内的自带规则
+            //IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
+            //IList<HighlightingSpan> spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
             //清空文件内的自带规则
-            textEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
-            textEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
+            TextEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
+            TextEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
 
-            IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
-            foreach (string word in Matches)
+            foreach (string keyword in Matches)
             {
-                AddKeyword(rules, word, "搜索");
+                Common.AddKeyWordForEditor(TextEditor, keyword, "搜索");
             }
-        }
-
-        /// <summary>
-        /// 添加一个变色关键词
-        /// </summary>
-        /// <param name="keyword"></param>
-        void AddKeyword(IList<HighlightingRule> rules, string keyword, string colorName)
-        {
-            if (string.IsNullOrWhiteSpace(keyword))
-            {
-                return;
-            }
-            HighlightingRule rule = new HighlightingRule
-            {
-                Color = textEditor.SyntaxHighlighting.GetNamedColor(colorName),
-                Regex = new Regex(keyword)
-            };
-            rules.Add(rule);
         }
 
         #endregion
 
-        TextEditor textEditor = new TextEditor();
+        TextEditor TextEditor = new TextEditor();
         /// <summary>
-        /// 给列表项添加悬浮内容
         /// </summary>
+        /// 给列表项添加悬浮内容
         /// <param name="sender"></param>
         /// <param name="e"></param>
         void SetItemToolTip(ListBoxItem lbItem)
@@ -431,14 +402,14 @@ namespace 脸滚键盘.自定义控件
             };
             tEdit.Options.WordWrapIndentation = 4;
             tEdit.Options.InheritWordWrapIndentation = false;
-            textEditor = tEdit;
+            TextEditor = tEdit;
             string lines = GetStrOnLines(lbItem.DataContext.ToString());
-            textEditor.Text = lines;
+            TextEditor.Text = lines;
             SetKeyWordsColor();
 
             ToolTip ttp = new ToolTip
             {
-                Content = textEditor
+                Content = TextEditor
             };
             lbItem.ToolTip = ttp;
         }
@@ -473,7 +444,7 @@ namespace 脸滚键盘.自定义控件
             //与模式
             if (CbAnd.IsChecked == true)
             {
-                string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 foreach (string line in sArrayNoEmpty)
                 {
                     bool isAll = false;
@@ -496,7 +467,7 @@ namespace 脸滚键盘.自定义控件
             //或模式
             if (CbOr.IsChecked == true)
             {
-                string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 foreach (string line in sArrayNoEmpty)
                 {
                     foreach (string mystr in keysArray)

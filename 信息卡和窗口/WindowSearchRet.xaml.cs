@@ -52,38 +52,24 @@ namespace 脸滚键盘.信息卡和窗口
             string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
             Stream xshdStream = File.OpenRead(fullFileName);
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
-            TextEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);            
+            TextEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
             xshdReader.Close();
             xshdStream.Close();
 
+            //读取文件内的自带规则
+            //IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
+            //IList<HighlightingSpan> spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
             //清空文件内的自带规则
             TextEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
             TextEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
 
-            IList<HighlightingRule> rules = TextEditor.SyntaxHighlighting.MainRuleSet.Rules;
-            foreach (string word in Matches)
+            foreach (string keyword in Matches)
             {
-                AddKeyword(rules, word, "搜索");
+                Common.AddKeyWordForEditor(TextEditor, keyword, "搜索");
             }
         }
 
-        /// <summary>
-        /// 添加一个变色关键词
-        /// </summary>
-        /// <param name="keyword"></param>
-        void AddKeyword(IList<HighlightingRule> rules, string keyword, string colorName)
-        {
-            if (string.IsNullOrWhiteSpace(keyword))
-            {
-                return;
-            }
-            HighlightingRule rule = new HighlightingRule
-            {
-                Color = TextEditor.SyntaxHighlighting.GetNamedColor(colorName),
-                Regex = new Regex(keyword)
-            };
-            rules.Add(rule);
-        } 
+
 
     }
 }

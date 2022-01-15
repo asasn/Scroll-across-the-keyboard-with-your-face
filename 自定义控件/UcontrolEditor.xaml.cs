@@ -113,14 +113,14 @@ namespace 脸滚键盘.自定义控件
                 TextEditor.ScrollToEnd();
             }
 
-            SetRules();
+            SetEditorColorRules();
         }
 
 
         /// <summary>
         /// 根据文件设置语法规则
         /// </summary>
-        public void SetRules()
+        public void SetEditorColorRules()
         {
             TextEditor.SyntaxHighlighting = null;
             string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
@@ -130,9 +130,17 @@ namespace 脸滚键盘.自定义控件
             xshdReader.Close();
             xshdStream.Close();
 
+            //读取文件内的自带规则
+            //IList<HighlightingRule> rules = TextEditor.SyntaxHighlighting.MainRuleSet.Rules;
+            //IList<HighlightingSpan> spans = TextEditor.SyntaxHighlighting.MainRuleSet.Spans;
+            //清空文件内的自带规则
+            //textEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
+            //textEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
+
             if (Gval.Uc.RoleCards != null && Gval.Uc.OtherCards != null)
             {
-                WrapPanel[] wps = { Gval.Uc.RoleCards.WpCards, Gval.Uc.OtherCards.WpCards };
+                //这里的顺序决定着着色的最终效果，应把角色放在后面
+                WrapPanel[] wps = { Gval.Uc.OtherCards.WpCards, Gval.Uc.RoleCards.WpCards };
 
                 foreach (WrapPanel wp in wps)
                 {
@@ -140,50 +148,18 @@ namespace 脸滚键盘.自定义控件
                     string tableName = wp.Tag.ToString();
                     SqliteOperate sqlConn = Gval.SQLClass.Pools[CurBookName];
                     SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName));
-                    IList<HighlightingRule> rules = TextEditor.SyntaxHighlighting.MainRuleSet.Rules;
+                    
                     while (reader.Read())
                     {
                         keyword = reader["名称"].ToString();
-                        AddKeyword(rules, keyword, tableName);
+                        Common.AddKeyWordForEditor(TextEditor, keyword, tableName);
                     }
                     reader.Close();
-
                 }
             }
 
         }
 
-        /// <summary>
-        /// 添加一个变色关键词
-        /// </summary>
-        /// <param name="keyword"></param>
-        void AddKeyword(IList<HighlightingRule> rules, string keyword, string colorName)
-        {
-
-            SetRules(rules, keyword, colorName);
-        }
-
-        void SetRules(IList<HighlightingRule> rules, string keyword, string colorName)
-        {
-            HighlightingRule rule = new HighlightingRule
-            {
-                Color = TextEditor.SyntaxHighlighting.GetNamedColor(colorName),
-                Regex = new Regex(keyword)
-            };
-            rules.Add(rule);
-        }
-
-        //void SetSpan(string keyword, string colorName)
-        //{
-        //    var spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
-        //    HighlightingSpan span = new HighlightingSpan();
-        //    span.SpanColor = textEditor.SyntaxHighlighting.GetNamedColor(colorName);
-        //    span.StartExpression = new Regex(keyword);
-        //    span.EndExpression = new Regex("");
-        //    span.SpanColorIncludesStart = true;
-        //    span.SpanColorIncludesEnd = true;
-        //    spans.Add(span);
-        //}
 
         private void Uc_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
