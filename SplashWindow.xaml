@@ -17,6 +17,6 @@
     </Window.Triggers>
     <Grid x:Name="GridMain" RenderTransformOrigin="0.5,0.5" >
         <Image x:Name="AngleImg" Source="pack://siteoforigin:,,,/Resourses/阴阳鱼.png" Width="0" Height="0" MaxWidth="535" MaxHeight="535"  />
-        <!--<自定义控件:UcontrolProgressBar  Grid.Column="2" CanvasSize="210" TimeSpan="1"/>-->
+        <!--<自定义控件:UProgressBar  Grid.Column="2" CanvasSize="210" TimeSpan="1"/>-->
     </Grid>
 </Window>

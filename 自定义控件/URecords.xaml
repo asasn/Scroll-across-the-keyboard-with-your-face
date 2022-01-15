@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="脸滚键盘.自定义控件.URecords"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" x:Name="ThisControl" Loaded="Uc_Loaded" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="38"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Label Padding="2" Style="{StaticResource LabelInfo}"  BorderThickness="0" x:Name="LbName" VerticalAlignment="Top" Margin="0,3" MinWidth="40" MinHeight="19"/>
+        <WrapPanel Grid.Column="1" x:Name="WpMain" MinWidth="200" MinHeight="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Tag="{Binding Title, ElementName=ThisControl, Mode=OneWay}" />        
+        <Button Grid.Column="2" x:Name="BtnAdd"  Background="Transparent" Padding="1" BorderThickness="0" Foreground="Orange" Height="15" Width="15" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Click="BtnAdd_Click"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5"/>
+    </Grid>
+</UserControl>

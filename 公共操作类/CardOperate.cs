@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using 脸滚键盘.自定义控件;
-using static 脸滚键盘.控件方法类.UTreeView;
+using static 脸滚键盘.控件方法类.CTreeView;
 
 namespace 脸滚键盘.公共操作类
 {
@@ -65,7 +65,7 @@ namespace 脸滚键盘.公共操作类
             foreach (WrapPanel wp in wrapPanels)
             {
                 string sql = string.Empty;
-                foreach (UcontrolTipBox tipBox in wp.Children)
+                foreach (UTipBox tipBox in wp.Children)
                 {
                     if (string.IsNullOrEmpty(tipBox.Uid))
                     {
@@ -128,8 +128,8 @@ namespace 脸滚键盘.公共操作类
                 wp.Children.Clear();
                 while (reader.Read())
                 {
-                    UcontrolRecords ucRecords = (wp.Parent as Grid).Parent as UcontrolRecords;
-                    UcontrolTipBox tipBox = new UcontrolTipBox(ucRecords, reader.GetString(1));
+                    URecords ucRecords = (wp.Parent as Grid).Parent as URecords;
+                    UTipBox tipBox = new UTipBox(ucRecords, reader.GetString(1));
                     tipBox.Uid = reader.GetString(2);
                 }
                 reader.Close();

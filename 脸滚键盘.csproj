@@ -109,41 +109,41 @@
     <Compile Include="SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowBooksChoose.xaml.cs">
-      <DependentUpon>WindowBooksChoose.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WBooksChoose.xaml.cs">
+      <DependentUpon>WBooksChoose.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowCollectTool.xaml.cs">
-      <DependentUpon>WindowCollectTool.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WCollectTool.xaml.cs">
+      <DependentUpon>WCollectTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowScenes.xaml.cs">
-      <DependentUpon>WindowScenes.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WScenes.xaml.cs">
+      <DependentUpon>WScenes.xaml</DependentUpon>
     </Compile>
     <Compile Include="信息卡和窗口\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowHansTool.xaml.cs">
-      <DependentUpon>WindowHansTool.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WHansTool.xaml.cs">
+      <DependentUpon>WHansTool.xaml</DependentUpon>
     </Compile>
     <Compile Include="信息卡和窗口\InfoCard.xaml.cs">
       <DependentUpon>InfoCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowNotesl.xaml.cs">
-      <DependentUpon>WindowNotesl.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WNotesl.xaml.cs">
+      <DependentUpon>WNotesl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowMapTool.xaml.cs">
-      <DependentUpon>WindowMapTool.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WMapTool.xaml.cs">
+      <DependentUpon>WMapTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowMaterial.xaml.cs">
-      <DependentUpon>WindowMaterial.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WMaterial.xaml.cs">
+      <DependentUpon>WMaterial.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowNameTool.xaml.cs">
-      <DependentUpon>WindowNameTool.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WNameTool.xaml.cs">
+      <DependentUpon>WNameTool.xaml</DependentUpon>
     </Compile>
     <Compile Include="信息卡和窗口\RoleCard.xaml.cs">
       <DependentUpon>RoleCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WindowSearchRet.xaml.cs">
-      <DependentUpon>WindowSearchRet.xaml</DependentUpon>
+    <Compile Include="信息卡和窗口\WSearchResult.xaml.cs">
+      <DependentUpon>WSearchResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="公共操作类\CardOperate.cs" />
     <Compile Include="公共操作类\Common.cs" />
@@ -152,38 +152,38 @@
     <Compile Include="公共操作类\SettingsOperate.cs" />
     <Compile Include="公共操作类\SqliteOperate.cs" />
     <Compile Include="公共操作类\WebOperate.cs" />
-    <Compile Include="控件方法类\UEditor.cs" />
-    <Compile Include="控件方法类\UTreeView.cs" />
+    <Compile Include="控件方法类\CEditor.cs" />
+    <Compile Include="控件方法类\CTreeView.cs" />
     <Compile Include="自定义控件\MyCommand.cs" />
-    <Compile Include="自定义控件\UcontrolEditor.xaml.cs">
-      <DependentUpon>UcontrolEditor.xaml</DependentUpon>
+    <Compile Include="自定义控件\UEditor.xaml.cs">
+      <DependentUpon>UEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolCards.xaml.cs">
-      <DependentUpon>UcontrolCards.xaml</DependentUpon>
+    <Compile Include="自定义控件\UCards.xaml.cs">
+      <DependentUpon>UCards.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolProgressBar.xaml.cs">
-      <DependentUpon>UcontrolProgressBar.xaml</DependentUpon>
+    <Compile Include="自定义控件\UProgressBar.xaml.cs">
+      <DependentUpon>UProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolRecords.xaml.cs">
-      <DependentUpon>UcontrolRecords.xaml</DependentUpon>
+    <Compile Include="自定义控件\URecords.xaml.cs">
+      <DependentUpon>URecords.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolNotes.xaml.cs">
-      <DependentUpon>UcontrolNotes.xaml</DependentUpon>
+    <Compile Include="自定义控件\UNotes.xaml.cs">
+      <DependentUpon>UNotes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolScenesCard.xaml.cs">
-      <DependentUpon>UcontrolScenesCard.xaml</DependentUpon>
+    <Compile Include="自定义控件\UScenes.xaml.cs">
+      <DependentUpon>UScenes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolSearcher.xaml.cs">
-      <DependentUpon>UcontrolSearcher.xaml</DependentUpon>
+    <Compile Include="自定义控件\USearcher.xaml.cs">
+      <DependentUpon>USearcher.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolTipBox.xaml.cs">
-      <DependentUpon>UcontrolTipBox.xaml</DependentUpon>
+    <Compile Include="自定义控件\UTipBox.xaml.cs">
+      <DependentUpon>UTipBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolTreeBook.xaml.cs">
-      <DependentUpon>UcontrolTreeBook.xaml</DependentUpon>
+    <Compile Include="自定义控件\UTreeBook.xaml.cs">
+      <DependentUpon>UTreeBook.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UcontrolTreeTask.xaml.cs">
-      <DependentUpon>UcontrolTreeTask.xaml</DependentUpon>
+    <Compile Include="自定义控件\UTreeTask.xaml.cs">
+      <DependentUpon>UTreeTask.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -209,15 +209,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="信息卡和窗口\WindowBooksChoose.xaml">
+    <Page Include="信息卡和窗口\WBooksChoose.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowCollectTool.xaml">
+    <Page Include="信息卡和窗口\WCollectTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowScenes.xaml">
+    <Page Include="信息卡和窗口\WScenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,7 +225,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowHansTool.xaml">
+    <Page Include="信息卡和窗口\WHansTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -233,19 +233,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowNotesl.xaml">
+    <Page Include="信息卡和窗口\WNotesl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowMapTool.xaml">
+    <Page Include="信息卡和窗口\WMapTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowMaterial.xaml">
+    <Page Include="信息卡和窗口\WMaterial.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowNameTool.xaml">
+    <Page Include="信息卡和窗口\WNameTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -253,47 +253,47 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WindowSearchRet.xaml">
+    <Page Include="信息卡和窗口\WSearchResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolEditor.xaml">
+    <Page Include="自定义控件\UEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolCards.xaml">
+    <Page Include="自定义控件\UCards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolProgressBar.xaml">
+    <Page Include="自定义控件\UProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolRecords.xaml">
+    <Page Include="自定义控件\URecords.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolNotes.xaml">
+    <Page Include="自定义控件\UNotes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="自定义控件\UcontrolScenesCard.xaml">
+    <Page Include="自定义控件\UScenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolSearcher.xaml">
+    <Page Include="自定义控件\USearcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolTipBox.xaml">
+    <Page Include="自定义控件\UTipBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolTreeBook.xaml">
+    <Page Include="自定义控件\UTreeBook.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UcontrolTreeTask.xaml">
+    <Page Include="自定义控件\UTreeTask.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

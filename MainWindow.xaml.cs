@@ -15,7 +15,7 @@ using 脸滚键盘.信息卡和窗口;
 using 脸滚键盘.公共操作类;
 using 脸滚键盘.控件方法类;
 using 脸滚键盘.自定义控件;
-using static 脸滚键盘.控件方法类.UTreeView;
+using static 脸滚键盘.控件方法类.CTreeView;
 
 namespace 脸滚键盘
 {
@@ -57,25 +57,25 @@ namespace 脸滚键盘
 
         private void UcTreeBook_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeBook = sender as UcontrolTreeBook;
-            WindowBooksChoose win = new WindowBooksChoose();
+            Gval.Uc.TreeBook = sender as UTreeBook;
+            WBooksChoose win = new WBooksChoose();
             win.Window_Loaded(null, null);
         }
 
         private void UcTreeMaterial_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeMaterial = sender as UcontrolTreeBook;
+            Gval.Uc.TreeMaterial = sender as UTreeBook;
             Gval.Uc.TreeMaterial.LoadBook("index", "material");
         }
 
         private void UcTreeNote_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeNote = sender as UcontrolTreeBook;
+            Gval.Uc.TreeNote = sender as UTreeBook;
         }
 
         private void UcTreeTask_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeTask = sender as UcontrolTreeTask;
+            Gval.Uc.TreeTask = sender as UTreeTask;
         }
 
         private void Editor_Loaded(object sender, RoutedEventArgs e)
@@ -88,7 +88,7 @@ namespace 脸滚键盘
             HandyControl.Controls.TabItem tabItem = Gval.Uc.TabControl.SelectedItem as HandyControl.Controls.TabItem;
             if (tabItem != null)
             {
-                UcontrolEditor ucEditor = tabItem.Content as UcontrolEditor;
+                UEditor ucEditor = tabItem.Content as UEditor;
                 Gval.CurrentBook.CurNode = ucEditor.DataContext as TreeViewNode;
             }
             else
@@ -102,24 +102,24 @@ namespace 脸滚键盘
 
         private void RoleCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.RoleCards = sender as UcontrolCards;
+            Gval.Uc.RoleCards = sender as UCards;
         }
 
         private void OtherCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.OtherCards = sender as UcontrolCards;
+            Gval.Uc.OtherCards = sender as UCards;
         }
 
         private void PublicRoleCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicRoleCards = sender as UcontrolCards;
+            Gval.Uc.PublicRoleCards = sender as UCards;
             Gval.Uc.PublicRoleCards.WpCards.Children.Clear();
             Gval.Uc.PublicRoleCards.LoadCards("index", "角色");
         }
 
         private void PublicOtherCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicOtherCards = sender as UcontrolCards;
+            Gval.Uc.PublicOtherCards = sender as UCards;
             Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
             Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
         }
@@ -133,7 +133,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
         {
-            UTreeView.NodeMoveUp(Gval.CurrentBook.Name, "book", (TreeViewNode)Gval.Uc.TreeBook.Tv.SelectedItem, Gval.Uc.TreeBook.TreeViewNodeList);
+            CTreeView.NodeMoveUp(Gval.CurrentBook.Name, "book", (TreeViewNode)Gval.Uc.TreeBook.Tv.SelectedItem, Gval.Uc.TreeBook.TreeViewNodeList);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
         {
-            UTreeView.NodeMoveDown(Gval.CurrentBook.Name, "book", (TreeViewNode)Gval.Uc.TreeBook.Tv.SelectedItem, Gval.Uc.TreeBook.TreeViewNodeList);
+            CTreeView.NodeMoveDown(Gval.CurrentBook.Name, "book", (TreeViewNode)Gval.Uc.TreeBook.Tv.SelectedItem, Gval.Uc.TreeBook.TreeViewNodeList);
         }
 
 
@@ -152,7 +152,7 @@ namespace 脸滚键盘
         #region 工具栏
         private void BooksChoose_Click(object sender, RoutedEventArgs e)
         {
-            WindowBooksChoose win = new WindowBooksChoose
+            WBooksChoose win = new WBooksChoose
             {
                 Left = Mw.Left + 100,
                 Top = Mw.Top + 100
@@ -162,7 +162,7 @@ namespace 脸滚键盘
 
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowNameTool win = new WindowNameTool();
+            WNameTool win = new WNameTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -170,7 +170,7 @@ namespace 脸滚键盘
 
         private void HansTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowHansTool win = new WindowHansTool();
+            WHansTool win = new WHansTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -178,7 +178,7 @@ namespace 脸滚键盘
 
         private void CollectTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowCollectTool win = new WindowCollectTool();
+            WCollectTool win = new WCollectTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -190,7 +190,7 @@ namespace 脸滚键盘
         }
         private void InspirationTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowNotes win = new WindowNotes("index", "book");
+            WNotes win = new WNotes("index", "book");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -336,7 +336,7 @@ namespace 脸滚键盘
 
         private void MapTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowMapTool win = new WindowMapTool();
+            WMapTool win = new WMapTool();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -344,7 +344,7 @@ namespace 脸滚键盘
 
         private void DesignTool_Click(object sender, RoutedEventArgs e)
         {
-            WindowScenes win = new WindowScenes(Gval.CurrentBook.Name, "book");
+            WScenes win = new WScenes(Gval.CurrentBook.Name, "book");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -396,7 +396,7 @@ namespace 脸滚键盘
                 foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
                 {
                     tabItem.Focus();
-                    UcontrolEditor ucEditor = tabItem.Content as UcontrolEditor;
+                    UEditor ucEditor = tabItem.Content as UEditor;
                     if (ucEditor.BtnSaveDoc.IsEnabled == true)
                     {
                         MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);

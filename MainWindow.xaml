@@ -33,13 +33,13 @@
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <自定义控件:UcontrolSearcher/>
+                <自定义控件:USearcher/>
                 <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
                     <hc:TabItem Header="本书角色信息卡">
-                        <自定义控件:UcontrolCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
+                        <自定义控件:UCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
                     </hc:TabItem>
                     <hc:TabItem Header="本书其他信息卡">
-                        <自定义控件:UcontrolCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
+                        <自定义控件:UCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                     </hc:TabItem>
                 </hc:TabControl>
             </Grid>
@@ -54,7 +54,7 @@
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <自定义控件:UcontrolTreeBook Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
+                <自定义控件:UTreeBook Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
                 <Border x:Name="BorderToolBar" Grid.Row="1" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Margin="0,5">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -130,20 +130,20 @@
                         </Button>
                     </Grid>
                 </Border>
-                <自定义控件:UcontrolTreeTask Grid.Row="2" Loaded="UcTreeTask_Loaded" />
+                <自定义控件:UTreeTask Grid.Row="2" Loaded="UcTreeTask_Loaded" />
             </Grid>
         </Grid>
         <GridSplitter x:Name="右分隔条" Grid.Column="3" HorizontalAlignment="Stretch"/>
         <Grid x:Name="GridTab" Grid.Column="4">
             <hc:TabControl x:Name="tabControl" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
                 <hc:TabItem x:Name="tabItem" Header="资料库" >
-                    <自定义控件:UcontrolTreeBook Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
+                    <自定义控件:UTreeBook Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
                 </hc:TabItem>
                 <hc:TabItem Header="公共角色卡">
-                    <自定义控件:UcontrolCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
+                    <自定义控件:UCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
                 </hc:TabItem>
                 <hc:TabItem Header="公共信息卡">
-                    <自定义控件:UcontrolCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
+                    <自定义控件:UCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
                 </hc:TabItem>
             </hc:TabControl>
         </Grid>
@@ -152,7 +152,7 @@
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <自定义控件:UcontrolTreeBook x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1" UcTitle="目录树"/>
+            <自定义控件:UTreeBook x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1" UcTitle="目录树"/>
             <Grid x:Name="BooksPanel" Margin="10,0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>

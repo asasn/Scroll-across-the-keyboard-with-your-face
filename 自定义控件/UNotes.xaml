@@ -1,0 +1,20 @@
+﻿<UserControl x:Name="ThisControl" x:Class="脸滚键盘.自定义控件.UNotes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" Width="255" Height="60" Focusable="True" MouseDown="Uc_MouseDown" RenderTransformOrigin="1,1"  >
+    <Grid >
+        <Image Source="pack://siteoforigin:,,,/Resourses/场景/横版花纹.png" Stretch="Fill" />
+        <Grid Background="Transparent" Height="40" Width="180">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="4"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbIndex" TextWrapping="Wrap" Text="{Binding StrIndex, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" MinHeight="12"/>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitile, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" Grid.Row="2" MinHeight="12"/>
+        </Grid>
+    </Grid>
+</UserControl>
