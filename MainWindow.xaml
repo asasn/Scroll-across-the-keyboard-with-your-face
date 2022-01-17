@@ -1,13 +1,16 @@
-﻿<Window
+﻿<Window x:Name="Mw" x:Class="NSMain.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:脸滚键盘"
-        xmlns:gg="clr-namespace:脸滚键盘.公共操作类"
-        xmlns:自定义控件="clr-namespace:脸滚键盘.自定义控件" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:信息卡和窗口="clr-namespace:脸滚键盘.信息卡和窗口" x:Name="Mw" x:Class="脸滚键盘.MainWindow"
+        xmlns:hc="https://handyorg.github.io/handycontrol" 
+        xmlns:NSTreeViewPlus="clr-namespace:NSMain.TreeViewPlus"
+        xmlns:NSSearcher="clr-namespace:NSMain.Searcher" 
+        xmlns:NSCards="clr-namespace:NSMain.Cards"
         mc:Ignorable="d" UseLayoutRounding="True"
-        Title="脸滚键盘——优秀的小说创作解决方案" Height="1000" Width="1800" WindowState="Maximized" Loaded="Mw_Loaded" ContentRendered="Mw_ContentRendered" Closing="Mw_Closing" >
+        Title="脸滚键盘——优秀的小说创作解决方案" 
+        Height="1000" Width="1800" 
+        WindowState="Maximized" Loaded="Mw_Loaded" ContentRendered="Mw_ContentRendered" Closing="Mw_Closing" >
     <Grid x:Name="主面板">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -33,13 +36,13 @@
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <自定义控件:USearcher/>
+                <NSSearcher:USearcher/>
                 <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
                     <hc:TabItem Header="本书角色信息卡">
-                        <自定义控件:UCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
+                        <NSCards:UCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
                     </hc:TabItem>
                     <hc:TabItem Header="本书其他信息卡">
-                        <自定义控件:UCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
+                        <NSCards:UCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
                     </hc:TabItem>
                 </hc:TabControl>
             </Grid>
@@ -54,7 +57,7 @@
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <自定义控件:UTreeBook Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
+                <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
                 <Border x:Name="BorderToolBar" Grid.Row="1" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Margin="0,5">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -130,20 +133,20 @@
                         </Button>
                     </Grid>
                 </Border>
-                <自定义控件:UTreeTask Grid.Row="2" Loaded="UcTreeTask_Loaded" />
+                <NSTreeViewPlus:UTreeViewPlus Grid.Row="2" Loaded="UcTreeTask_Loaded" UcTitle="任务清单 - 线索"/>
             </Grid>
         </Grid>
         <GridSplitter x:Name="右分隔条" Grid.Column="3" HorizontalAlignment="Stretch"/>
         <Grid x:Name="GridTab" Grid.Column="4">
             <hc:TabControl x:Name="tabControl" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
                 <hc:TabItem x:Name="tabItem" Header="资料库" >
-                    <自定义控件:UTreeBook Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
+                    <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
                 </hc:TabItem>
                 <hc:TabItem Header="公共角色卡">
-                    <自定义控件:UCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
+                    <NSCards:UCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
                 </hc:TabItem>
                 <hc:TabItem Header="公共信息卡">
-                    <自定义控件:UCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
+                    <NSCards:UCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
                 </hc:TabItem>
             </hc:TabControl>
         </Grid>
@@ -152,7 +155,7 @@
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <自定义控件:UTreeBook x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1" UcTitle="目录树"/>
+            <NSTreeViewPlus:UTreeViewPlus x:Name="ucTreeBook" Loaded="UcTreeBook_Loaded" Grid.Row="1" UcTitle="目录树"/>
             <Grid x:Name="BooksPanel" Margin="10,0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
@@ -181,6 +184,6 @@
                 </Grid>
             </Grid>
         </Grid>
-        <!--<自定义控件:UcProgressBar Background="AliceBlue" Grid.Column="2" CanvasSize="100" Width="100" Height="100"/>-->
+        <!--<UcProgressBar Background="AliceBlue" Grid.Column="2" CanvasSize="100" Width="100" Height="100"/>-->
     </Grid>
 </Window>

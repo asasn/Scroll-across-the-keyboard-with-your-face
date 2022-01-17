@@ -1,0 +1,43 @@
+﻿<Window x:Class="NSMain.Cards.WCards"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NSMain.Cards" xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:NSPublicModule="clr-namespace:NSMain.Bricks"
+        mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize" Background="Transparent" Effect="{StaticResource EffectShadow3}" 
+        Title="信息卡窗体" Width="300" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="200" Loaded="Window_Loaded">
+    <ScrollViewer MinHeight="200" VerticalAlignment="Top" >
+        <hc:Card x:Name="card" Header=""  Margin="5">
+            <Grid x:Name="gCard" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition MinHeight="50" Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40*"/>
+                        <ColumnDefinition Width="232*"/>
+                        <ColumnDefinition Width="26*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="Lb名称" Content="名称：" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="38" Margin="0,3,0,0"  />
+                    <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb诞生年份" Content="诞生年份：" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="62" Margin="108,3,0,0"  />
+                    <Button Padding="2" x:Name="BtnSave" IsEnabled="False" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" />
+                    <TextBox Padding="2" x:Name="TbName" TextChanged="Tb_TextChanged" hc:BorderElement.CornerRadius="0"  Grid.Row="0" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,2,0,0" MinHeight="0"/>
+                    <TextBox Padding="2" x:Name="TbBornYear" hc:BorderElement.CornerRadius="0"  Text="" Grid.Row="0" Grid.Column="1" MinWidth="20" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="175,2,0,0" MinHeight="0" InputMethod.IsInputMethodEnabled="False" TextChanged="TbBornYear_TextChanged" />
+                </Grid>
+                <Grid Grid.Row="1">
+                    <WrapPanel x:Name="WpMain" ></WrapPanel>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb备注" Content="备注："  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="38" Margin="0,3,0,0" />
+                    <WrapPanel MinHeight="50" x:Name="Wp备注" Uid="备注" Grid.Row="9" Grid.Column="1" ItemHeight="Auto" Margin="33,2,0,0">
+                        <TextBox Padding="2" hc:BorderElement.CornerRadius="0"  x:Name="Tb备注" TextChanged="Tb_TextChanged" MinWidth="200" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" Margin="10,0,0,0" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0"/>
+                    </WrapPanel>
+                </Grid>
+                <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="BtnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-20,-5,0" />
+            </Grid>
+        </hc:Card>
+    </ScrollViewer>
+</Window>

@@ -1,15 +1,13 @@
-﻿using System;
-using System.ComponentModel;
+﻿using NSMain.Bricks;
+using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using 脸滚键盘.公共操作类;
 
-namespace 脸滚键盘
+namespace NSMain
 {
 
     /// <summary>
@@ -20,7 +18,7 @@ namespace 脸滚键盘
         protected override void OnStartup(StartupEventArgs e)
         {
             RunningCheck();
-            Gval.Threads.Task1 = Common.CreateSplashWindow();
+            GlobalVal.Threads.Task1 = CommonMethod.CreateSplashWindow();
 
             base.OnStartup(e);
         }
@@ -53,12 +51,51 @@ namespace 脸滚键盘
     }
 
 
+    /// <summary>
+    /// 字符串决定传递不同的元素
+    /// </summary>
+    public class UItemConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            try
+            {
+                if (value.ToString().Contains("任务"))
+                {
+                    return new UItemTask();
+                }
+                else
+                {
+                    return new UItemDoc();
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            if ((value as TextBlock).Foreground == Brushes.Silver)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
 
     /// <summary>
     /// 布尔值反转
     /// </summary>
     [ValueConversion(typeof(bool), typeof(bool))]
-    public class InverseBooleanConverter : IValueConverter
+    public class InverseBoolean : IValueConverter
     {
         #region IValueConverter Members
 

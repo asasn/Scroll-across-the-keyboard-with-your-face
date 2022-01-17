@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{10DD155E-7201-44AE-A2D1-0721E9089660}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>脸滚键盘</RootNamespace>
+    <RootNamespace>NSMain</RootNamespace>
     <AssemblyName>脸滚键盘</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,7 +55,7 @@
     <ApplicationIcon>Resourses\图标\ic_action_book_xxhdpi.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>脸滚键盘.App</StartupObject>
+    <StartupObject>NSMain.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
@@ -106,85 +106,97 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bricks\UItemDoc.xaml.cs">
+      <DependentUpon>UItemDoc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bricks\UItemTask.xaml.cs">
+      <DependentUpon>UItemTask.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Cards\WCards.xaml.cs">
+      <DependentUpon>WCards.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WBooksChoose.xaml.cs">
+    <Compile Include="Tools\WBooksChoose.xaml.cs">
       <DependentUpon>WBooksChoose.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WCollectTool.xaml.cs">
-      <DependentUpon>WCollectTool.xaml</DependentUpon>
+    <Compile Include="Tools\WToolCollect.xaml.cs">
+      <DependentUpon>WToolCollect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WScenes.xaml.cs">
+    <Compile Include="Scenes\WScenes.xaml.cs">
       <DependentUpon>WScenes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\FindReplaceDialog.xaml.cs">
+    <Compile Include="Editor\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WHansTool.xaml.cs">
-      <DependentUpon>WHansTool.xaml</DependentUpon>
+    <Compile Include="Tools\WToolHans.xaml.cs">
+      <DependentUpon>WToolHans.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\InfoCard.xaml.cs">
-      <DependentUpon>InfoCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="信息卡和窗口\WNotesl.xaml.cs">
+    <Compile Include="Notes\WNotesl.xaml.cs">
       <DependentUpon>WNotesl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WMapTool.xaml.cs">
-      <DependentUpon>WMapTool.xaml</DependentUpon>
+    <Compile Include="Tools\WToolMap.xaml.cs">
+      <DependentUpon>WToolMap.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WMaterial.xaml.cs">
+    <Compile Include="TreeViewPlus\WMaterial.xaml.cs">
       <DependentUpon>WMaterial.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\WNameTool.xaml.cs">
-      <DependentUpon>WNameTool.xaml</DependentUpon>
+    <Compile Include="Tools\WToolMakeName.xaml.cs">
+      <DependentUpon>WToolMakeName.xaml</DependentUpon>
     </Compile>
-    <Compile Include="信息卡和窗口\RoleCard.xaml.cs">
-      <DependentUpon>RoleCard.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="信息卡和窗口\WSearchResult.xaml.cs">
+    <Compile Include="Searcher\WSearchResult.xaml.cs">
       <DependentUpon>WSearchResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="公共操作类\CardOperate.cs" />
-    <Compile Include="公共操作类\Common.cs" />
-    <Compile Include="公共操作类\FileOperate.cs" />
-    <Compile Include="公共操作类\Gval.cs" />
-    <Compile Include="公共操作类\SettingsOperate.cs" />
-    <Compile Include="公共操作类\SqliteOperate.cs" />
-    <Compile Include="公共操作类\WebOperate.cs" />
-    <Compile Include="控件方法类\CEditor.cs" />
-    <Compile Include="控件方法类\CTreeView.cs" />
-    <Compile Include="自定义控件\MyCommand.cs" />
-    <Compile Include="自定义控件\UEditor.xaml.cs">
+    <Compile Include="Bricks\CardOperate.cs" />
+    <Compile Include="Bricks\CommonMethod.cs" />
+    <Compile Include="Bricks\CFileOperate.cs" />
+    <Compile Include="Bricks\CGlobalVal.cs" />
+    <Compile Include="Bricks\CSettings.cs" />
+    <Compile Include="Bricks\CSqlitePlus.cs" />
+    <Compile Include="Bricks\WebOperate.cs" />
+    <Compile Include="Editor\CEditor.cs" />
+    <Compile Include="Bricks\CTreeView.cs" />
+    <Compile Include="MyCommand.cs" />
+    <Compile Include="Editor\UEditor.xaml.cs">
       <DependentUpon>UEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UCards.xaml.cs">
+    <Compile Include="Cards\UCards.xaml.cs">
       <DependentUpon>UCards.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UProgressBar.xaml.cs">
+    <Compile Include="Bricks\UProgressBar.xaml.cs">
       <DependentUpon>UProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\URecords.xaml.cs">
-      <DependentUpon>URecords.xaml</DependentUpon>
+    <Compile Include="Bricks\UBoxRecords.xaml.cs">
+      <DependentUpon>UBoxRecords.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UNotes.xaml.cs">
+    <Compile Include="Notes\UNotes.xaml.cs">
       <DependentUpon>UNotes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UScenes.xaml.cs">
+    <Compile Include="Scenes\UScenes.xaml.cs">
       <DependentUpon>UScenes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\USearcher.xaml.cs">
+    <Compile Include="Searcher\USearcher.xaml.cs">
       <DependentUpon>USearcher.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UTipBox.xaml.cs">
-      <DependentUpon>UTipBox.xaml</DependentUpon>
+    <Compile Include="Bricks\UBoxTips.xaml.cs">
+      <DependentUpon>UBoxTips.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UTreeBook.xaml.cs">
-      <DependentUpon>UTreeBook.xaml</DependentUpon>
+    <Compile Include="TreeViewPlus\UTreeViewPlus.xaml.cs">
+      <DependentUpon>UTreeViewPlus.xaml</DependentUpon>
     </Compile>
-    <Compile Include="自定义控件\UTreeTask.xaml.cs">
-      <DependentUpon>UTreeTask.xaml</DependentUpon>
-    </Compile>
+    <Page Include="Bricks\UItemDoc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bricks\UItemTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\WCards.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -205,95 +217,79 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="信息卡和窗口\WBooksChoose.xaml">
+    <Page Include="Tools\WBooksChoose.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WCollectTool.xaml">
+    <Page Include="Tools\WToolCollect.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WScenes.xaml">
+    <Page Include="Scenes\WScenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\FindReplaceDialog.xaml">
+    <Page Include="Editor\FindReplaceDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WHansTool.xaml">
+    <Page Include="Tools\WToolHans.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\InfoCard.xaml">
+    <Page Include="Notes\WNotesl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WNotesl.xaml">
+    <Page Include="Tools\WToolMap.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WMapTool.xaml">
+    <Page Include="TreeViewPlus\WMaterial.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WMaterial.xaml">
+    <Page Include="Tools\WToolMakeName.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WNameTool.xaml">
+    <Page Include="Searcher\WSearchResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\RoleCard.xaml">
+    <Page Include="Editor\UEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="信息卡和窗口\WSearchResult.xaml">
+    <Page Include="Cards\UCards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UEditor.xaml">
+    <Page Include="Bricks\UProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UCards.xaml">
+    <Page Include="Bricks\UBoxRecords.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UProgressBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\URecords.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UNotes.xaml">
+    <Page Include="Notes\UNotes.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="自定义控件\UScenes.xaml">
+    <Page Include="Scenes\UScenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\USearcher.xaml">
+    <Page Include="Searcher\USearcher.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UTipBox.xaml">
+    <Page Include="Bricks\UBoxTips.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="自定义控件\UTreeBook.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="自定义控件\UTreeTask.xaml">
+    <Page Include="TreeViewPlus\UTreeViewPlus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -779,6 +775,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

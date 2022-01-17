@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
+﻿using NSMain.Bricks;
+using NSMain.Cards;
+using NSMain.Editor;
+using NSMain.Notes;
+using NSMain.Scenes;
+using NSMain.Tools;
+using NSMain.TreeViewPlus;
+using System;
 using System.Diagnostics;
-using System.Media;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using 脸滚键盘.信息卡和窗口;
-using 脸滚键盘.公共操作类;
-using 脸滚键盘.控件方法类;
-using 脸滚键盘.自定义控件;
-using static 脸滚键盘.控件方法类.CTreeView;
+using static NSMain.Bricks.CTreeView;
 
-namespace 脸滚键盘
+namespace NSMain
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
@@ -30,8 +28,8 @@ namespace 脸滚键盘
         {
             InitializeComponent();
 
-            FileOperate.CreateFolder(Gval.Path.Books);
-            Gval.SQLClass.Pools.Add("index", new SqliteOperate(Gval.Path.Books, "index.db"));
+            CFileOperate.CreateFolder(GlobalVal.Path.Books);
+            GlobalVal.SQLClass.Pools.Add("index", new CSqlitePlus(GlobalVal.Path.Books, "index.db"));
         }
 
 
@@ -51,77 +49,77 @@ namespace 脸滚键盘
         private void Mw_Loaded(object sender, RoutedEventArgs e)
         {
             this.Activate();
-            Gval.Uc.MainWin = this;
-            Gval.Uc.BooksPanel = this.BooksPanel;
+            GlobalVal.Uc.MainWin = this;
+            GlobalVal.Uc.BooksPanel = this.BooksPanel;
         }
 
         private void UcTreeBook_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeBook = sender as UTreeBook;
+            GlobalVal.Uc.TreeBook = sender as UTreeViewPlus;
             WBooksChoose win = new WBooksChoose();
             win.Window_Loaded(null, null);
         }
 
         private void UcTreeMaterial_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeMaterial = sender as UTreeBook;
-            Gval.Uc.TreeMaterial.LoadBook("index", "material");
+            GlobalVal.Uc.TreeMaterial = sender as UTreeViewPlus;
+            GlobalVal.Uc.TreeMaterial.LoadBook("index", "material");
         }
 
         private void UcTreeNote_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeNote = sender as UTreeBook;
+            GlobalVal.Uc.TreeNote = sender as UTreeViewPlus;
         }
 
         private void UcTreeTask_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TreeTask = sender as UTreeTask;
+            GlobalVal.Uc.TreeTask = sender as UTreeViewPlus;
         }
 
         private void Editor_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.TabControl = sender as HandyControl.Controls.TabControl;
+            GlobalVal.Uc.TabControl = sender as HandyControl.Controls.TabControl;
         }
 
         private void Editor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            HandyControl.Controls.TabItem tabItem = Gval.Uc.TabControl.SelectedItem as HandyControl.Controls.TabItem;
+            HandyControl.Controls.TabItem tabItem = GlobalVal.Uc.TabControl.SelectedItem as HandyControl.Controls.TabItem;
             if (tabItem != null)
             {
                 UEditor ucEditor = tabItem.Content as UEditor;
-                Gval.CurrentBook.CurNode = ucEditor.DataContext as TreeViewNode;
+                GlobalVal.CurrentBook.CurNode = ucEditor.DataContext as TreeViewNode;
             }
             else
             {
-                Gval.CurrentBook.CurNode = new TreeViewNode();
+                GlobalVal.CurrentBook.CurNode = new TreeViewNode();
             }
-            Gval.Uc.RoleCards.MarkNamesInChapter();
+            GlobalVal.Uc.RoleCards.MarkNamesInChapter();
         }
 
 
 
         private void RoleCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.RoleCards = sender as UCards;
+            GlobalVal.Uc.RoleCards = sender as UCards;
         }
 
         private void OtherCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.OtherCards = sender as UCards;
+            GlobalVal.Uc.OtherCards = sender as UCards;
         }
 
         private void PublicRoleCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicRoleCards = sender as UCards;
-            Gval.Uc.PublicRoleCards.WpCards.Children.Clear();
-            Gval.Uc.PublicRoleCards.LoadCards("index", "角色");
+            GlobalVal.Uc.PublicRoleCards = sender as UCards;
+            GlobalVal.Uc.PublicRoleCards.WpCards.Children.Clear();
+            GlobalVal.Uc.PublicRoleCards.LoadCards("index", "角色");
         }
 
         private void PublicOtherCards_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.Uc.PublicOtherCards = sender as UCards;
-            Gval.Uc.PublicOtherCards.WpCards.Children.Clear();
-            Gval.Uc.PublicOtherCards.LoadCards("index", "其他");
+            GlobalVal.Uc.PublicOtherCards = sender as UCards;
+            GlobalVal.Uc.PublicOtherCards.WpCards.Children.Clear();
+            GlobalVal.Uc.PublicOtherCards.LoadCards("index", "其他");
         }
 
         #region 向上/向下调整节点
@@ -133,7 +131,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
         {
-            CTreeView.NodeMoveUp(Gval.CurrentBook.Name, "book", (TreeViewNode)Gval.Uc.TreeBook.Tv.SelectedItem, Gval.Uc.TreeBook.TreeViewNodeList);
+            CTreeView.NodeMoveUp(GlobalVal.CurrentBook.Name, "book", (TreeViewNode)GlobalVal.Uc.TreeBook.Tv.SelectedItem, GlobalVal.Uc.TreeBook.TreeViewNodeList);
         }
 
         /// <summary>
@@ -143,7 +141,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
         {
-            CTreeView.NodeMoveDown(Gval.CurrentBook.Name, "book", (TreeViewNode)Gval.Uc.TreeBook.Tv.SelectedItem, Gval.Uc.TreeBook.TreeViewNodeList);
+            CTreeView.NodeMoveDown(GlobalVal.CurrentBook.Name, "book", (TreeViewNode)GlobalVal.Uc.TreeBook.Tv.SelectedItem, GlobalVal.Uc.TreeBook.TreeViewNodeList);
         }
 
 
@@ -162,7 +160,7 @@ namespace 脸滚键盘
 
         private void NameTool_Click(object sender, RoutedEventArgs e)
         {
-            WNameTool win = new WNameTool();
+            WToolMakeName win = new WToolMakeName();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -170,7 +168,7 @@ namespace 脸滚键盘
 
         private void HansTool_Click(object sender, RoutedEventArgs e)
         {
-            WHansTool win = new WHansTool();
+            WToolHans win = new WToolHans();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -178,7 +176,7 @@ namespace 脸滚键盘
 
         private void CollectTool_Click(object sender, RoutedEventArgs e)
         {
-            WCollectTool win = new WCollectTool();
+            WToolCollect win = new WToolCollect();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -239,7 +237,7 @@ namespace 脸滚键盘
 
                 if (TagChange == true)
                 {
-                    SettingsOperate.Set("tomatoTime", CbTime.Value.ToString());
+                    CSettings.Set("tomatoTime", CbTime.Value.ToString());
                     TagChange = false;
                 }
 
@@ -311,7 +309,7 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void CbTime_Loaded(object sender, RoutedEventArgs e)
         {
-            double.TryParse(SettingsOperate.Get("tomatoTime"), out double value);
+            double.TryParse(CSettings.Get("tomatoTime"), out double value);
             CbTime.Value = value;
         }
 
@@ -336,7 +334,7 @@ namespace 脸滚键盘
 
         private void MapTool_Click(object sender, RoutedEventArgs e)
         {
-            WMapTool win = new WMapTool();
+            WToolMap win = new WToolMap();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -344,7 +342,7 @@ namespace 脸滚键盘
 
         private void DesignTool_Click(object sender, RoutedEventArgs e)
         {
-            WScenes win = new WScenes(Gval.CurrentBook.Name, "book");
+            WScenes win = new WScenes(GlobalVal.CurrentBook.Name, "book");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -384,16 +382,16 @@ namespace 脸滚键盘
         /// <param name="e"></param>
         private void Mw_ContentRendered(object sender, EventArgs e)
         {
-            //Gval.Uc.SpWin.Dispatcher.Invoke((Action)(() => Gval.Uc.SpWin.Close()));//在Gval.Uc.SpWin的线程上关闭SplashWindow
-            Gval.Flag.Loading = false;
+            //GlobalVal.Uc.SpWin.Dispatcher.Invoke((Action)(() => GlobalVal.Uc.SpWin.Close()));//在GlobalVal.Uc.SpWin的线程上关闭SplashWindow
+            GlobalVal.Flag.Loading = false;
 
         }
 
         private void Mw_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Gval.Uc.TabControl != null)
+            if (GlobalVal.Uc.TabControl != null)
             {
-                foreach (HandyControl.Controls.TabItem tabItem in Gval.Uc.TabControl.Items)
+                foreach (HandyControl.Controls.TabItem tabItem in GlobalVal.Uc.TabControl.Items)
                 {
                     tabItem.Focus();
                     UEditor ucEditor = tabItem.Content as UEditor;
@@ -416,11 +414,11 @@ namespace 脸滚键盘
                     }
                 }
             }
-            foreach (SqliteOperate sqlConn in Gval.SQLClass.Pools.Values)
+            foreach (CSqlitePlus sqlConn in GlobalVal.SQLClass.Pools.Values)
             {
                 sqlConn.Close();
             }
-            Gval.Uc.SpWin.Dispatcher.Invoke(() => AngleImg_Loaded(null, null));//在Gval.Uc.SpWin的线程上关闭SplashWindow
+            GlobalVal.Uc.SpWin.Dispatcher.Invoke(() => AngleImg_Loaded(null, null));//在GlobalVal.Uc.SpWin的线程上关闭SplashWindow
 
             Application.Current.Shutdown(0);
         }
@@ -433,33 +431,33 @@ namespace 脸滚键盘
             {
                 Interval = TimeSpan.FromMilliseconds(10)
             };
-            Gval.Uc.SpWin.AngleImg.Visibility = Visibility.Visible;
+            GlobalVal.Uc.SpWin.AngleImg.Visibility = Visibility.Visible;
             AngleTimer.Tick += Timer_Tick;
             AngleTimer.Start();
-            if (Gval.Uc.SpWin.AngleImg.Width > 535)
+            if (GlobalVal.Uc.SpWin.AngleImg.Width > 535)
             {
-                Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = 535;
+                GlobalVal.Uc.SpWin.AngleImg.Width = GlobalVal.Uc.SpWin.AngleImg.Height = 535;
             }
-            Gval.Uc.SpWin.AngleImg.Opacity = 1;
+            GlobalVal.Uc.SpWin.AngleImg.Opacity = 1;
         }
 
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            Gval.Uc.SpWin.Angle += 7.2;
-            Gval.Uc.SpWin.AngleImg.RenderTransform = new RotateTransform(Gval.Uc.SpWin.Angle);
-            Gval.Uc.SpWin.ImgWidth -= 10;
-            if (Gval.Uc.SpWin.ImgWidth < 0)
+            GlobalVal.Uc.SpWin.Angle += 7.2;
+            GlobalVal.Uc.SpWin.AngleImg.RenderTransform = new RotateTransform(GlobalVal.Uc.SpWin.Angle);
+            GlobalVal.Uc.SpWin.ImgWidth -= 10;
+            if (GlobalVal.Uc.SpWin.ImgWidth < 0)
             {
-                Gval.Uc.SpWin.ImgWidth = 0;
+                GlobalVal.Uc.SpWin.ImgWidth = 0;
             }
-            Gval.Uc.SpWin.AngleImg.Width = Gval.Uc.SpWin.AngleImg.Height = Gval.Uc.SpWin.ImgWidth;
-            Gval.Uc.SpWin.AngleImg.Opacity -= 0.01;
-            if (Gval.Uc.SpWin.AngleImg.Opacity <= 0 || Gval.Uc.SpWin.ImgWidth <= 25)
+            GlobalVal.Uc.SpWin.AngleImg.Width = GlobalVal.Uc.SpWin.AngleImg.Height = GlobalVal.Uc.SpWin.ImgWidth;
+            GlobalVal.Uc.SpWin.AngleImg.Opacity -= 0.01;
+            if (GlobalVal.Uc.SpWin.AngleImg.Opacity <= 0 || GlobalVal.Uc.SpWin.ImgWidth <= 25)
             {
                 AngleTimer.Stop();
                 AngleTimer.Tick -= Timer_Tick;
-                Gval.Uc.SpWin.Close();
+                GlobalVal.Uc.SpWin.Close();
             }
         }
     }

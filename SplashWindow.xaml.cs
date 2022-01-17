@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NSMain.Bricks;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using 脸滚键盘.公共操作类;
 
-namespace 脸滚键盘
+namespace NSMain
 {
     /// <summary>
     /// SplashWindow.xaml 的交互逻辑
@@ -30,7 +20,7 @@ namespace 脸滚键盘
                 Interval = TimeSpan.FromMilliseconds(10)
             };
             AngleTimer.Tick += Timer_Tick;
-            Gval.Flag.Loading = true;
+            GlobalVal.Flag.Loading = true;
         }
 
         Stopwatch StopWatch = new Stopwatch();
@@ -57,7 +47,7 @@ namespace 脸滚键盘
             AngleImg.RenderTransform = new RotateTransform(Angle);
             ImgWidth += 3;
             AngleImg.Width = AngleImg.Height = ImgWidth;
-            if (Gval.Flag.Loading == false)
+            if (GlobalVal.Flag.Loading == false)
             {
                 AngleImg.Opacity -= 0.02;
             }
@@ -67,7 +57,7 @@ namespace 脸滚键盘
                 AngleTimer.Stop();
                 AngleTimer.Tick -= Timer_Tick;
                 AngleImg.Visibility = Visibility.Hidden;
-                AngleImg.Opacity = 1;                
+                AngleImg.Opacity = 1;
             }
         }
 

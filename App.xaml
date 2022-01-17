@@ -1,7 +1,6 @@
-﻿<Application x:Class="脸滚键盘.App"
+﻿<Application x:Class="NSMain.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:脸滚键盘" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:NSMain"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -12,7 +11,7 @@
             </ResourceDictionary.MergedDictionaries>
             <local:VisibilityConverter x:Key="VisibilityConverter"/>
             <local:ColorConverter x:Key="ColorConverter"/>
-            <local:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <local:InverseBoolean x:Key="InverseBoolean"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

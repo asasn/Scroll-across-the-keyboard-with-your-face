@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="NSMain.Bricks.UItemTask"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NSMain.Bricks"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="278">
+    <Grid x:Name="GridLine">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="206"/>
+        </Grid.ColumnDefinitions>
+        <CheckBox x:Name="Ck" IsChecked="{Binding IsChecked, Mode=TwoWay}" Checked="Ck_Checked" Unchecked="Ck_Unchecked" Click="Ck_Click"/>
+        <TextBox Grid.Column="1" Padding="0" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}, ElementName=Ck}" x:Name="TbReName" Background="Transparent" BorderThickness="0" IsReadOnly="True" Text="{Binding NodeName, Mode=TwoWay}"  VerticalAlignment="Center" KeyDown="TbReName_KeyDown" LostFocus="TbReName_LostFocus"  Cursor="Hand" Focusable="False" />
+    </Grid>
+</UserControl>
