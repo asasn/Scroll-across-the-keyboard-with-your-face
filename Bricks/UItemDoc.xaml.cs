@@ -78,13 +78,13 @@ namespace NSMain.Bricks
                 CurBookName = (this.Parent as UserControl).Uid;
                 TypeOfTree = (this.Parent as UserControl).Tag.ToString();
             }
-
             TreeViewNode selectedNode = TbReName.DataContext as TreeViewNode;
             selectedNode.NodeName = TbReName.Text;
             if (selectedNode != null)
             {
                 TbReName.Visibility = Visibility.Hidden;
                 TbReName.Focusable = false;
+                selectedNode.TheItem.Focus();
 
                 string tableName = TypeOfTree;
                 CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];

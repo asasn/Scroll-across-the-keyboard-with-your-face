@@ -200,7 +200,7 @@ namespace NSMain.TreeViewPlus
             TextBlock TbkName = CTreeView.FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
             if (TbReName != null)
             {
-                //TbReName.Visibility = Visibility.Hidden;
+                TbReName.Visibility = Visibility.Hidden;
                 //TbkName.Visibility = Visibility.Visible;
                 
             }
@@ -639,7 +639,7 @@ namespace NSMain.TreeViewPlus
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((sender as TreeView).ContextMenu.IsLoaded == true || (TbReName != null && TbReName.Visibility == Visibility.Hidden))
+            if ((sender as TreeView).ContextMenu.IsLoaded == true || (TbReName != null && TbReName.Visibility == Visibility.Visible))
             {
                 return;
             }
