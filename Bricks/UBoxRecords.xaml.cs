@@ -1,12 +1,24 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace NSMain.Bricks
 {
     /// <summary>
-    /// UcRecords.xaml 的交互逻辑
+    /// UBoxRecords.xaml 的交互逻辑
     /// </summary>
     public partial class UBoxRecords : UserControl
     {
@@ -16,41 +28,97 @@ namespace NSMain.Bricks
         }
 
 
-
-        public String Title
+        public string Pid
         {
-            get { return (String)GetValue(TitleProperty); }
-            set { SetValue(TitleProperty, value); }
+            get { return (string)GetValue(PidProperty); }
+            set { SetValue(PidProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(String), typeof(UBoxRecords), new PropertyMetadata(string.Empty));
+        // Using a DependencyProperty as the backing store for Pid.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PidProperty =
+            DependencyProperty.Register("Pid", typeof(string), typeof(UBoxRecords), new PropertyMetadata(null));
 
-        public bool IsCanSave
+        public Button BtnSave
         {
-            get { return (bool)GetValue(IsCanSaveProperty); }
-            set { SetValue(IsCanSaveProperty, value); }
+            get { return (Button)GetValue(BtnSaveProperty); }
+            set { SetValue(BtnSaveProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsCanSave.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsCanSaveProperty =
-            DependencyProperty.Register("IsCanSave", typeof(bool), typeof(UBoxRecords), new PropertyMetadata(false));
+        // Using a DependencyProperty as the backing store for BtnSave.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BtnSaveProperty =
+            DependencyProperty.Register("BtnSave", typeof(Button), typeof(UBoxRecords), new PropertyMetadata(null));
 
 
-        internal void SetBinding(bool isCanSave, Binding boolBinding)
+
+        public string CurBookName
         {
-            this.SetBinding(IsCanSaveProperty, boolBinding);
+            get { return (string)GetValue(CurBookNameProperty); }
+            set { SetValue(CurBookNameProperty, value); }
         }
 
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        // Using a DependencyProperty as the backing store for CurBookName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurBookNameProperty =
+            DependencyProperty.Register("CurBookName", typeof(string), typeof(UBoxRecords), new PropertyMetadata(null));
+
+
+
+        public string TypeOfTree
         {
-            UBoxTips tipBox = new UBoxTips(this, null);
+            get { return (string)GetValue(TypeOfTreeProperty); }
+            set { SetValue(TypeOfTreeProperty, value); }
         }
 
-        private void Uc_Loaded(object sender, RoutedEventArgs e)
+        // Using a DependencyProperty as the backing store for TypeOfTree.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TypeOfTreeProperty =
+            DependencyProperty.Register("TypeOfTree", typeof(string), typeof(UBoxRecords), new PropertyMetadata(null));
+
+
+        public void WpMain_Fill(object sender, RoutedEventArgs e)
         {
-            LbName.Content = Title + "：";
+            ArrayList wps = new ArrayList();
+            if (TypeOfTree == "角色")
+            {
+                wps.Add("别称");
+                wps.Add("身份");
+                wps.Add("外观");
+                wps.Add("阶级");
+                wps.Add("所属");
+                wps.Add("物品");
+                wps.Add("能力");
+                wps.Add("经历");
+            }
+            if (TypeOfTree == "其他")
+            {
+                wps.Add("别称");
+                wps.Add("描述");
+                wps.Add("阶级");
+                wps.Add("基类");
+                wps.Add("派生");
+                wps.Add("物品");
+                wps.Add("能力");
+                wps.Add("经历");
+            }
+
+            foreach (string t in wps)
+            {
+                URecord uRecord = new URecord();
+                uRecord.Title = t;
+                uRecord.Name = t;
+                Binding boolBinding = new Binding
+                {
+                    Source = BtnSave,
+                    Path = new PropertyPath("IsEnabled"),
+                    Mode = BindingMode.TwoWay
+                };
+                uRecord.SetBinding(uRecord.IsCanSave, boolBinding);//对绑定目标的目标属性进行绑定   
+
+                WpMain.Children.Add(uRecord);
+            }
+
+            CCards.FillMainInfo(CurBookName, TypeOfTree, this.WpMain.Children, Pid);
+
+            //填充信息之后，将保存状态拨回，以实现初始化
+            BtnSave.IsEnabled = false;
         }
     }
 }

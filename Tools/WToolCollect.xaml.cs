@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using static NSMain.Bricks.CTreeView;
+using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace NSMain.Tools
 {

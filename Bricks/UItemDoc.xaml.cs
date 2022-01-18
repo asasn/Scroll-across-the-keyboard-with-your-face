@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static NSMain.Bricks.CTreeView;
+using static NSMain.TreeViewPlus.CNodeModule;
 using NSMain.TreeViewPlus;
 
 namespace NSMain.Bricks
@@ -53,6 +53,20 @@ namespace NSMain.Bricks
             DependencyProperty.Register("TypeOfTree", typeof(string), typeof(UItemDoc), new PropertyMetadata(null));
 
 
+        
+        /// <summary>
+        /// 点击图标伸展/缩回
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewNode selectedNode = (sender as Image).DataContext as TreeViewNode;
+            if (selectedNode != null && selectedNode.IsDir == true)
+            {
+                selectedNode.IsExpanded = !selectedNode.IsExpanded;
+            }
+        }
 
 
 
@@ -69,10 +83,8 @@ namespace NSMain.Bricks
             selectedNode.NodeName = TbReName.Text;
             if (selectedNode != null)
             {
-                TbReName.IsReadOnly = true;
+                TbReName.Visibility = Visibility.Hidden;
                 TbReName.Focusable = false;
-                TbReName.Background = Brushes.Transparent;
-                TbReName.Cursor = Cursors.Hand;
 
                 string tableName = TypeOfTree;
                 CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
@@ -82,10 +94,7 @@ namespace NSMain.Bricks
             }
         }
 
-        private void Icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
 
-        }
 
         private void TbReName_KeyDown(object sender, KeyEventArgs e)
         {
@@ -94,13 +103,13 @@ namespace NSMain.Bricks
                  e.Key == Key.Enter
                  )
             {
-                TbReName.IsReadOnly = true;
+                TbReName.Visibility = Visibility.Hidden;
                 TbReName.Focusable = false;
-                TbReName.Background = Brushes.Transparent;
-                TbReName.Cursor = Cursors.Hand;
+
                 e.Handled = true;
             }
         }
+
 
     }
 }

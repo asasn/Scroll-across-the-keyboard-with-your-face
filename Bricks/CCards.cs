@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace NSMain.Bricks
 {
-    class CardOperate
+    class CCards
     {
         public static void SetWindowsMiddle(MouseButtonEventArgs e, Window card)
         {
@@ -55,11 +55,11 @@ namespace NSMain.Bricks
             string tableName = typeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
             int w = 0;
-            foreach (UBoxRecords box in wrapPanels)
+            foreach (URecord box in wrapPanels)
             {
                 WrapPanel wp = box.WpMain;
                 string sql = string.Empty;
-                foreach (UBoxTips tipBox in wp.Children)
+                foreach (UTip tipBox in wp.Children)
                 {
                     if (string.IsNullOrEmpty(tipBox.Uid))
                     {
@@ -106,11 +106,11 @@ namespace NSMain.Bricks
 
 
 
-        public static void FillMainInfo(string curBookName, string typeOfTree, UIElementCollection wrapPanels, string idValue)
+        public static void FillMainInfo(string curBookName, string typeOfTree, UIElementCollection wrapPanels, string pid)
         {
             string tableName = typeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
-            foreach (UBoxRecords box in wrapPanels)
+            foreach (URecord box in wrapPanels)
             {
                 WrapPanel wp = box.WpMain;
                 //尝试建立新表（IF NOT EXISTS）
@@ -118,13 +118,13 @@ namespace NSMain.Bricks
                 sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, wp.Tag.ToString());
                 sqlConn.ExecuteNonQuery(sql);
 
-                sql = string.Format("select * from {0}{1}表 where {0}id = '{2}';", tableName, wp.Tag.ToString(), idValue);
+                sql = string.Format("select * from {0}{1}表 where {0}id = '{2}';", tableName, wp.Tag.ToString(), pid);
                 SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
                 wp.Children.Clear();
                 while (reader.Read())
                 {
-                    UBoxRecords ucRecords = (wp.Parent as Grid).Parent as UBoxRecords;
-                    UBoxTips tipBox = new UBoxTips(ucRecords, reader.GetString(1));
+                    URecord uRecord = (wp.Parent as Grid).Parent as URecord;
+                    UTip tipBox = new UTip(uRecord, reader.GetString(1));
                     tipBox.Uid = reader.GetString(2);
                 }
                 reader.Close();

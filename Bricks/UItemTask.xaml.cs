@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NSMain.TreeViewPlus;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static NSMain.Bricks.CTreeView;
+using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace NSMain.Bricks
 {
@@ -80,7 +81,7 @@ namespace NSMain.Bricks
             //Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
             //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
-            CheckedBySql(CurBookName, TypeOfTree, selectedNode);
+            CTreeView.CheckedBySql(CurBookName, TypeOfTree, selectedNode);
         }
 
         private void Ck_Click(object sender, RoutedEventArgs e)
@@ -91,7 +92,7 @@ namespace NSMain.Bricks
                 TypeOfTree = (this.Parent as UserControl).Tag.ToString();
             }
             CheckBox Ck = sender as CheckBox;
-            TreeViewItem item = GetParentObjectEx<TreeViewItem>(Ck as DependencyObject) as TreeViewItem;
+            TreeViewItem item = CTreeView.GetParentObjectEx<TreeViewItem>(Ck as DependencyObject) as TreeViewItem;
             //Grid grid = GetParentObjectEx<Grid>(Ck as DependencyObject) as Grid;
             //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
@@ -145,10 +146,8 @@ namespace NSMain.Bricks
                  e.Key == Key.Enter
                  )
             {
-                TbReName.IsReadOnly = true;
-                TbReName.Focusable = false;
-                TbReName.Background = Brushes.Transparent;
-                TbReName.Cursor = Cursors.Hand;
+                TbReName.Visibility = Visibility.Hidden;
+
                 e.Handled = true;
             }
         }
@@ -165,10 +164,7 @@ namespace NSMain.Bricks
             selectedNode.NodeName = TbReName.Text;
             if (selectedNode != null)
             {
-                TbReName.IsReadOnly = true;
-                TbReName.Focusable = false;
-                TbReName.Background = Brushes.Transparent;
-                TbReName.Cursor = Cursors.Hand;
+                TbReName.Visibility = Visibility.Hidden;
 
                 string tableName = TypeOfTree;
                 CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];

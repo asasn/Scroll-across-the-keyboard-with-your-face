@@ -50,7 +50,7 @@ namespace NSMain.Editor
         }
 
         /// <summary>
-        /// 公共方法：获取最大行数
+        /// 获取最大行数
         /// </summary>
         public static int GetMaxLineNum(TextBox tb)
         {
@@ -79,7 +79,7 @@ namespace NSMain.Editor
         }
 
         /// <summary>
-        /// 公共方法：文字排版，并重新赋值给编辑框
+        /// 文字排版，并重新赋值给编辑框
         /// </summary>
         /// <param name="tb"></param>
         public static void TypeSetting(TextEditor tb)
@@ -112,7 +112,7 @@ namespace NSMain.Editor
         }
 
         /// <summary>
-        /// 公共方法：字数统计
+        /// 字数统计
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
@@ -135,7 +135,7 @@ namespace NSMain.Editor
         }
 
         /// <summary>
-        /// 公共方法：判断是否存在可见字符串
+        /// 判断是否存在可见字符串
         /// </summary>
         /// <param name="StrContert"></param>
         /// <returns></returns>

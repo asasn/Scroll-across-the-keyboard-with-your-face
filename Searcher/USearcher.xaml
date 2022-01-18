@@ -39,7 +39,7 @@
                 <TextBox Padding="0" hc:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="TbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="TbKeyWords_KeyDown"/>
                 <Button Padding="2" x:Name="BtnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="50" Click="BtnSearch_Click" Height="30" />
             </Grid>
-            <ListBox  x:Name="ListBoxOfResults" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick" Style="{DynamicResource ListBoxStyle}" >
+            <ListBox  x:Name="ListBoxOfResults" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="ToolTipService.ShowDuration" Value="60000"/>

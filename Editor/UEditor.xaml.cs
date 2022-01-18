@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
-using static NSMain.Bricks.CTreeView;
+using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace NSMain.Editor
 {

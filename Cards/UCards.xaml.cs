@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using static NSMain.Bricks.CTreeView;
+using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace NSMain.Cards
 {
@@ -178,7 +178,7 @@ namespace NSMain.Cards
             //};
 
 
-            CardOperate.TryToBuildBaseTable(curBookName, typeOfTree);
+            CCards.TryToBuildBaseTable(curBookName, typeOfTree);
 
             string tableName = typeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];

@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,6 @@ namespace NSMain.Cards
         {
             InitializeComponent();
 
-
             if (CurBookName == "index")
             {
                 this.Left = 305;
@@ -53,15 +53,68 @@ namespace NSMain.Cards
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
 
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
+            Pid = btnParent.Uid;
+            TbName.Text = PName = btnParent.Content.ToString();
             BtnParent = btnParent;
-            TbName.Text = btnParent.Content.ToString();
-
-
-
-            
+            UBtnSave = this.BtnSave;
+            MyRecords.BtnSave = BtnSave;
+            MyRecords.Pid = Pid;
         }
 
-        Button BtnParent;
+
+
+
+        public string PName
+        {
+            get { return (string)GetValue(PNameProperty); }
+            set { SetValue(PNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PNameProperty =
+            DependencyProperty.Register("PName", typeof(string), typeof(WCards), new PropertyMetadata(null));
+
+
+
+
+        public string Pid
+        {
+            get { return (string)GetValue(PidProperty); }
+            set { SetValue(PidProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Pid.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PidProperty =
+            DependencyProperty.Register("Pid", typeof(string), typeof(WCards), new PropertyMetadata(null));
+
+
+
+        public Button BtnParent
+        {
+            get { return (Button)GetValue(BtnParentProperty); }
+            set { SetValue(BtnParentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for BtnParent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BtnParentProperty =
+            DependencyProperty.Register("BtnParent", typeof(Button), typeof(WCards), new PropertyMetadata(null));
+
+
+
+
+
+        public Button UBtnSave
+        {
+            get { return (Button)GetValue(UBtnSaveProperty); }
+            set { SetValue(UBtnSaveProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for UBtnSave.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UBtnSaveProperty =
+            DependencyProperty.Register("UBtnSave", typeof(Button), typeof(WCards), new PropertyMetadata(null));
+
+
+
 
         public string CurBookName
         {
@@ -90,12 +143,11 @@ namespace NSMain.Cards
         /// </summary>
         void GetDataAndFillCard()
         {
-            if (BtnParent != null)
+            if (false == string.IsNullOrEmpty(this.Pid))
             {
                 FillBaseInfo();
-                CardOperate.FillMainInfo(CurBookName, TypeOfTree, WpMain.Children, BtnParent.Uid);
-
-               //填充信息之后，将保存状态拨回，以实现初始化
+                MyRecords.WpMain_Fill(null, null);
+                //填充信息之后，将保存状态拨回，以实现初始化
                 BtnSave.IsEnabled = false;
             }
         }
@@ -104,7 +156,7 @@ namespace NSMain.Cards
         {
             string tableName = TypeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, BtnParent.Uid);
+            string sql = string.Format("select * from {0}主表 where {0}id = '{1}';", tableName, this.Pid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -130,76 +182,20 @@ namespace NSMain.Cards
 
 
             int realAge = GlobalVal.CurrentBook.CurrentYear - int.Parse(TbBornYear.Text);
-            Grid grid = new Grid();
-            TextBlock lb1 = new TextBlock();
-            TextBlock lb2 = new TextBlock();
-            lb1.Text = "权重：";
-            lb2.Text = "真实年龄：";
-            lb1.Margin = new Thickness(7, 0, 0, 0);
-            lb2.Margin = new Thickness(152, 0, 0, 0);
-            TextBlock tbk1 = new TextBlock();
-            TextBlock tbk2 = new TextBlock();
-            tbk1.Text = ThisCard.weight;
-            tbk2.Text = realAge.ToString(); ;
-            tbk1.Margin = new Thickness(50, 0, 0, 0);
-            tbk2.Margin = new Thickness(219, 0, 0, 0);
-            grid.Children.Add(lb1);
-            grid.Children.Add(lb2);
-            grid.Children.Add(tbk1);
-            grid.Children.Add(tbk2);
-            card.Header = grid;
+            card.Header = "　权重：" + ThisCard.weight.ToString();
+            TbRealYear.Text = realAge.ToString();
         }
 
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ArrayList wps = new ArrayList();
-            if (TypeOfTree == "角色")
-            {
-                wps.Add("别称");
-                wps.Add("身份");
-                wps.Add("外观");
-                wps.Add("阶级");
-                wps.Add("所属");
-                wps.Add("物品");
-                wps.Add("能力");
-                wps.Add("经历");
-            }
-            if (TypeOfTree == "其他")
-            {
-                wps.Add("别称");
-                wps.Add("描述");
-                wps.Add("阶级");
-                wps.Add("基类");
-                wps.Add("派生");
-                wps.Add("物品");
-                wps.Add("能力");
-                wps.Add("经历");
-            }
 
-            foreach (string t in wps)
-            {
-                UBoxRecords uRecords = new UBoxRecords();
-                uRecords.Title = t;
-                uRecords.Name = t;
-                Binding boolBinding = new Binding
-                {
-                    Source = BtnSave,
-                    Path = new PropertyPath("IsEnabled"),
-                    Mode = BindingMode.TwoWay
-                };
-                uRecords.SetBinding(uRecords.IsCanSave, boolBinding);//对绑定目标的目标属性进行绑定   
-
-                WpMain.Children.Add(uRecords);
-            }
-
-            //填充窗口信息
-            GetDataAndFillCard();
         }
 
         private void Tb_TextChanged(object sender, TextChangedEventArgs e)
         {
             BtnSave.IsEnabled = true;
+
         }
 
         private void TbBornYear_TextChanged(object sender, TextChangedEventArgs e)
@@ -209,9 +205,6 @@ namespace NSMain.Cards
             tb.Text = str.ToString();
 
             BtnSave.IsEnabled = true;
-
-
-          
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -244,7 +237,7 @@ namespace NSMain.Cards
             SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbName.Text.Replace("'", "''")));
             while (reader.Read())
             {
-                if (BtnParent.Uid != reader.GetString(0).ToString())
+                if (this.Pid != reader.GetString(0).ToString())
                 {
                     MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
                     reader.Close();
@@ -254,7 +247,7 @@ namespace NSMain.Cards
             }
             reader.Close();
 
-            if (false == string.IsNullOrEmpty(BtnParent.Content.ToString()))
+            if (false == string.IsNullOrEmpty(this.PName))
             {
                 if (string.IsNullOrEmpty(ThisCard.weight))
                 {
@@ -265,17 +258,24 @@ namespace NSMain.Cards
                     TbBornYear.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, BtnParent.Uid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, this.Pid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 //传递给父容器
-                BtnParent.Content = TbName.Text;
+                BtnParent.Content = PName = TbName.Text;
 
-                CardOperate.SaveMainInfo(CurBookName, TypeOfTree, WpMain.Children, BtnParent.Uid);
+                CCards.SaveMainInfo(CurBookName, TypeOfTree, MyRecords.WpMain.Children, Pid);
             }
 
             GlobalVal.Uc.RoleCards.RefreshKeyWords();
             GlobalVal.Uc.RoleCards.MarkNamesInChapter();
         }
+
+        private void MyRecords_Loaded(object sender, RoutedEventArgs e)
+        {   
+            //填充窗口信息
+            GetDataAndFillCard();
+        }
+
     }
 }

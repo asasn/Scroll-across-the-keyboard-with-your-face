@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using static NSMain.Bricks.CTreeView;
+using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace NSMain.TreeViewPlus
 {
@@ -128,7 +128,7 @@ namespace NSMain.TreeViewPlus
             //AddButtonNode(TreeViewNodeList, TopNode);
 
             //从数据库中载入数据
-            LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
+            CTreeView.LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
 
 
             if (Tv != null)
@@ -141,24 +141,11 @@ namespace NSMain.TreeViewPlus
         #region 字段和属性
 
         TextBox TbReName;
-
+        TextBlock TbkName;
         #endregion
 
 
-        #region 节点展开/缩回
-        /// <summary>
-        /// 点击图标伸展/缩回
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Icon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            TreeViewNode selectedNode = (sender as Image).DataContext as TreeViewNode;
-            if (selectedNode != null && selectedNode.IsDir == true && selectedNode.IsButton == false)
-            {
-                selectedNode.IsExpanded = !selectedNode.IsExpanded;
-            }
-        }
+
 
         /// <summary>
         /// 节点展开
@@ -174,7 +161,7 @@ namespace NSMain.TreeViewPlus
                 {
                     selectedNode.IconPath = GlobalVal.Path.Resourses + "/图标/目录树/ic_action_folder_open.png";
                 }
-                ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
+                CTreeView.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
 
@@ -192,10 +179,9 @@ namespace NSMain.TreeViewPlus
                 {
                     selectedNode.IconPath = GlobalVal.Path.Resourses + "/图标/目录树/ic_action_folder_closed.png";
                 }
-                ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
+                CTreeView.ExpandedCollapsedBySql(CurBookName, TypeOfTree, selectedNode);
             }
         }
-        #endregion
 
         #region 节点选择/双击
 
@@ -210,12 +196,13 @@ namespace NSMain.TreeViewPlus
 
             //Grid grid = FindChild<Grid>(selectedItem as DependencyObject, "GridLine");
             //TextBlock showNameTextBox = FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
-            TextBox TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-
+            TextBox TbReName = CTreeView.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+            TextBlock TbkName = CTreeView.FindChild<TextBlock>(selectedItem as DependencyObject, "TbkName");
             if (TbReName != null)
             {
-                TbReName.IsReadOnly = true;
-                TbReName.Focusable = false;
+                //TbReName.Visibility = Visibility.Hidden;
+                //TbkName.Visibility = Visibility.Visible;
+                
             }
 
 
@@ -251,14 +238,14 @@ namespace NSMain.TreeViewPlus
         private void Tv_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
-            TreeViewItem selectedItem = GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
+            TreeViewItem selectedItem = CTreeView.GetParentObjectEx<TreeViewItem>(e.OriginalSource as DependencyObject) as TreeViewItem;
 
             if (selectedNode != null)
             {
                 if (selectedNode.IsButton == true)
                 {
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                    AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                    TreeViewNode newNode = CTreeView.AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                    CTreeView.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                     newNode.IsSelected = true;
                     //TextBlock showNameTextBox = FindChild<TextBlock>(newNode.TheItem as DependencyObject, "showName");
                     //showNameTextBox.Visibility = Visibility.Hidden;
@@ -283,7 +270,7 @@ namespace NSMain.TreeViewPlus
                         selectedNode.IsExpanded = !selectedNode.IsExpanded;
 
                         //获取节点对应的路径
-                        string nodePath = GetPath(selectedNode);
+                        string nodePath = CTreeView.GetPath(selectedNode);
 
                         if (TypeOfTree == "note" || TypeOfTree == "task")
                         {
@@ -402,13 +389,10 @@ namespace NSMain.TreeViewPlus
             {
                 if (e.Key == Key.F2)
                 {
-                    TbReName = FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
-                    TbReName.SelectAll();
-                    TbReName.IsReadOnly = false;
-                    TbReName.Focusable = true;
-                    TbReName.Background = Brushes.White;
-                    TbReName.Cursor = Cursors.IBeam;
+                    TbReName = CTreeView.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                    TbReName.Visibility = Visibility.Visible;
                     TbReName.Focus();
+                    TbReName.SelectAll();
                 }
                 if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
                 {
@@ -437,10 +421,7 @@ namespace NSMain.TreeViewPlus
             //TreeViewNode selectedNode = this.Tv.SelectedItem as TreeViewNode;
             if (TbReName != null)
             {
-                TbReName.IsReadOnly = true;
-                TbReName.Focusable = false;
-                TbReName.Background = Brushes.Transparent;
-                TbReName.Cursor = Cursors.Hand;
+                TbReName.Visibility = Visibility.Hidden;
             }
         }
         #endregion
@@ -467,7 +448,7 @@ namespace NSMain.TreeViewPlus
             }
 
             //在数据库中删除节点记录
-            DelNodeBySql(CurBookName, TypeOfTree, selectedNode, TreeViewNodeList);
+            CTreeView.DelNodeBySql(CurBookName, TypeOfTree, selectedNode, TreeViewNodeList);
 
             //在视图中删除节点，这里注意删除和获取索引号的先后顺序
             TreeViewNode parentNode = selectedNode.ParentNode;
@@ -547,13 +528,13 @@ namespace NSMain.TreeViewPlus
                 TreeViewNode dragNode = container.DataContext as TreeViewNode;
                 if (orginLevel == -1)
                 {
-                    orginLevel = GetLevel(dragNode);
+                    orginLevel = CTreeView.GetLevel(dragNode);
                 }
                 if (orginItem == new TreeViewItem())
                 {
                     orginItem = container;
                 }
-                dropLevel = GetLevel(dragNode);
+                dropLevel = CTreeView.GetLevel(dragNode);
 
 
                 if (container != null)
@@ -602,7 +583,7 @@ namespace NSMain.TreeViewPlus
                     if (dropNode.IsButton == false && dragNode != dropNode)
                     {
                         //放入目标目录（源级别要更深，才能往浅的目标拖动）
-                        if (GetLevel(dragNode) > GetLevel(dropNode))
+                        if (CTreeView.GetLevel(dragNode) > CTreeView.GetLevel(dropNode))
                         {
                             Console.WriteLine("放入目标目录");
                             int m = dropNode.ChildNodes.Count;
@@ -615,10 +596,10 @@ namespace NSMain.TreeViewPlus
                             //更换改变pid
                             dragNode.Pid = dropNode.Uid;
                             //更新数据库中临近节点记录集
-                            MoveNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
+                            CTreeView.MoveNodeBySql(CurBookName, TypeOfTree, dragNode, TreeViewNodeList);
 
                             //节点索引交换位置
-                            SwapNode(m, dragNode, dropNode, TreeViewNodeList);
+                            CTreeView.SwapNode(m, dragNode, dropNode, TreeViewNodeList);
                         }
                         //同级调换
                         //if (GetLevel(dropNode) == GetLevel(dragNode))
@@ -658,12 +639,12 @@ namespace NSMain.TreeViewPlus
         /// <param name="e"></param>
         private void Tv_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((sender as TreeView).ContextMenu.IsLoaded == true || (TbReName != null && TbReName.IsReadOnly == true))
+            if ((sender as TreeView).ContextMenu.IsLoaded == true || (TbReName != null && TbReName.Visibility == Visibility.Hidden))
             {
                 return;
             }
 
-            MouseMoveMethod(Tv, e, _lastMouseDown);
+            CTreeView.MouseMoveMethod(Tv, e, _lastMouseDown);
         }
 
         /// <summary>
@@ -714,14 +695,14 @@ namespace NSMain.TreeViewPlus
             TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
             if (selectedNode == null)
             {
-                TreeViewNode newNode = AddNewNode(TreeViewNodeList, TopNode, TypeOfTree);
-                AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                TreeViewNode newNode = CTreeView.AddNewNode(TreeViewNodeList, TopNode, TypeOfTree);
+                CTreeView.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
             else
             {
-                TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                TreeViewNode newNode = CTreeView.AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                CTreeView.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
         }
@@ -732,14 +713,14 @@ namespace NSMain.TreeViewPlus
             if (selectedNode.IsDir == true)
             {
                 selectedNode.IsExpanded = true;
-                TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
-                AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                TreeViewNode newNode = CTreeView.AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                CTreeView.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
             else
             {
-                TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
-                AddNodeBySql(CurBookName, TypeOfTree, newNode);
+                TreeViewNode newNode = CTreeView.AddNewNode(TreeViewNodeList, selectedNode.ParentNode, TypeOfTree);
+                CTreeView.AddNodeBySql(CurBookName, TypeOfTree, newNode);
                 newNode.IsSelected = true;
             }
         }
@@ -779,7 +760,7 @@ namespace NSMain.TreeViewPlus
                 {
                     string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
 
-                    TreeViewNode newNode = AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
+                    TreeViewNode newNode = CTreeView.AddNewNode(TreeViewNodeList, selectedNode, TypeOfTree);
                     newNode.NodeName = title;
                     newNode.NodeContent = CFileOperate.ReadFromTxt(srcFullFileName);
                     newNode.WordsCount = CEditor.CountWords(newNode.NodeContent);

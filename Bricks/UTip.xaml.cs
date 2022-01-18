@@ -7,20 +7,20 @@ namespace NSMain.Bricks
     /// <summary>
     /// UcTipBox.xaml 的交互逻辑
     /// </summary>
-    public partial class UBoxTips : UserControl
+    public partial class UTip : UserControl
     {
-        UBoxRecords UcRecords;
+        URecord UcRecord;
 
         /// <summary>
         /// 信息卡文字记录控件
         /// </summary>
         /// <param name="wpParent">父控件容器</param>
         /// <param name="text">填入的内容</param>
-        public UBoxTips(UBoxRecords ucRecords, string text)
+        public UTip(URecord ucRecord, string text)
         {
             InitializeComponent();
-            UcRecords = ucRecords;
-            UcRecords.WpMain.Children.Add(this);
+            UcRecord = ucRecord;
+            UcRecord.WpMain.Children.Add(this);
             Text = text;
             this.Tag = false;
         }
@@ -34,7 +34,7 @@ namespace NSMain.Bricks
 
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(UBoxTips), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Text", typeof(string), typeof(UTip), new PropertyMetadata(string.Empty));
 
 
 
@@ -42,7 +42,7 @@ namespace NSMain.Bricks
         {
             //改变标志，向上传递给父控件容器
             this.Tag = true;
-            UcRecords.IsCanSave = true;
+            UcRecord.IsCanSave = true;
         }
 
 
@@ -50,24 +50,24 @@ namespace NSMain.Bricks
         {
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
             {
-                int i = UcRecords.WpMain.Children.IndexOf(this);
+                int i = UcRecord.WpMain.Children.IndexOf(this);
                 if (i > 0)
                 {
-                    string temp = (UcRecords.WpMain.Children[i - 1] as UBoxTips).Text;
-                    (UcRecords.WpMain.Children[i - 1] as UBoxTips).Text = this.Text;
-                    (UcRecords.WpMain.Children[i] as UBoxTips).Text = temp;
-                    (UcRecords.WpMain.Children[i - 1] as UBoxTips).Tb.Focus();
+                    string temp = (UcRecord.WpMain.Children[i - 1] as UTip).Text;
+                    (UcRecord.WpMain.Children[i - 1] as UTip).Text = this.Text;
+                    (UcRecord.WpMain.Children[i] as UTip).Text = temp;
+                    (UcRecord.WpMain.Children[i - 1] as UTip).Tb.Focus();
                 }
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.J)
             {
-                int i = UcRecords.WpMain.Children.IndexOf(this);
-                if (i < UcRecords.WpMain.Children.Count - 1)
+                int i = UcRecord.WpMain.Children.IndexOf(this);
+                if (i < UcRecord.WpMain.Children.Count - 1)
                 {
-                    string temp = (UcRecords.WpMain.Children[i + 1] as UBoxTips).Text;
-                    (UcRecords.WpMain.Children[i + 1] as UBoxTips).Text = this.Text;
-                    (UcRecords.WpMain.Children[i] as UBoxTips).Text = temp;
-                    (UcRecords.WpMain.Children[i + 1] as UBoxTips).Tb.Focus();
+                    string temp = (UcRecord.WpMain.Children[i + 1] as UTip).Text;
+                    (UcRecord.WpMain.Children[i + 1] as UTip).Text = this.Text;
+                    (UcRecord.WpMain.Children[i] as UTip).Text = temp;
+                    (UcRecord.WpMain.Children[i + 1] as UTip).Tb.Focus();
                 }
             }
         }

@@ -58,8 +58,8 @@
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
                 <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
-                <Border x:Name="BorderToolBar" Grid.Row="1" Background="#FAFAFA" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="5" Margin="0,5">
-                    <Grid>
+                <Border x:Name="BorderToolBar" Grid.Row="1"  BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5" Margin="0,5">
+                    <Grid Width="290"> 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -68,85 +68,105 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition/>                            
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="0" x:Name="MapTool" Click="MapTool_Click" ToolTip="地图" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_map.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="1" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="内容提炼" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_wizard.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="2" x:Name="DesignTool" Click="DesignTool_Click" ToolTip="场记大纲" >
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_knight.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="3" x:Name="AnchorTool" Click="AnchorTool_Click" ToolTip="锚点工具" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_anchor.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="4" x:Name="PuzzleTool" Click="PuzzleTool_Click" ToolTip="拼图工具" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="5" x:Name="UnKnowTool" ToolTip="未知" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lab.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="6" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bookmark.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="0"  x:Name="NameTool" Click="NameTool_Click" ToolTip="起名工具" >
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_user.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_search.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="2" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="随手记录">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bulb.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="3" x:Name="LockTool" Click="LockTool_Click" ToolTip="加锁" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lock_closed.png"/>
-                        </Button>
-                        <Border x:Name="BorderTomatoTime" Grid.Row="1" Grid.Column="4" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2"  ToolTip="番茄时间" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown" Height="30" HorizontalAlignment="Center" >
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="28"/>
-                                    <ColumnDefinition Width="100*"/>
-                                </Grid.ColumnDefinitions>
-                                <Button Padding="0" BorderThickness="0" Grid.Column="0" x:Name="BtnStart" Click="TomatoTimeStart_Click" ToolTip="开始/停止（右键进入设置模式）" Height="Auto">
-                                    <Image x:Name="BtnTime" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png" Loaded="BtnTime_Loaded" />
-                                </Button>
-                                <TextBlock  x:Name="TbTime"  Grid.Column="1" Padding="0" Text="00:00" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                                <hc:NumericUpDown Maximum="99" Minimum="0" Padding="0" x:Name="CbTime" Visibility="Hidden" ValueChanged="CbTime_ValueChanged" Loaded="CbTime_Loaded" Grid.ColumnSpan="2" MinHeight="28"/>
-                                <MediaElement x:Name="MeDida" Source="pack://siteoforigin:,,,/Resourses/声音/dida.wav" Visibility="Hidden" LoadedBehavior="Manual"/>
-                                <MediaElement x:Name="MeRing" Source="pack://siteoforigin:,,,/Resourses/声音/ring.wav" Visibility="Hidden" LoadedBehavior="Manual"/>
-                            </Grid>
-                        </Border>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="6" x:Name="DBTool" Click="DBTool_Click" ToolTip="数据库管理" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_database.png"/>
-                        </Button>
-                        <Button Padding="0" Grid.Row="1" Grid.Column="7" x:Name="AppSettings" Click="AppSettings_Click" ToolTip="程序设置" IsEnabled="False">
-                            <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_settings.png"/>
-                        </Button>
+                        <Grid Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button Padding="0" Grid.Row="0" Grid.Column="0" x:Name="MapTool" Click="MapTool_Click" ToolTip="地图" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_map.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="0" Grid.Column="1" x:Name="CollectTool" Click="CollectTool_Click" ToolTip="内容提炼" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_wizard.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="DesignTool" Click="DesignTool_Click" ToolTip="场记大纲" >
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_knight.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="PuzzleTool" Click="PuzzleTool_Click" ToolTip="设定集·拼图工具">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
+                            </Button>
+                        </Grid>
+                        <Grid Grid.Column="2" Grid.ColumnSpan="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button Padding="0" Grid.Row="0" Grid.Column="0"  x:Name="NameTool" Click="NameTool_Click" ToolTip="起名工具" >
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_user.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_search.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="0" Grid.Column="1" x:Name="AnchorTool" Click="AnchorTool_Click" ToolTip="锚点工具" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_anchor.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="0" Grid.Column="2" x:Name="UnKnowTool" ToolTip="未知" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lab.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="2" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bookmark.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
+                            </Button>
+                            <Border x:Name="BorderTomatoTime" Grid.Column="3" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2"  ToolTip="番茄时间" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown" Height="30" HorizontalAlignment="Center" >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="28"/>
+                                        <ColumnDefinition Width="100*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Padding="0" BorderThickness="0" Grid.Column="0" x:Name="BtnStart" Click="TomatoTimeStart_Click" ToolTip="开始/停止（右键进入设置模式）" Height="Auto">
+                                        <Image x:Name="BtnTime" Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_playback_play.png" Loaded="BtnTime_Loaded" />
+                                    </Button>
+                                    <TextBlock  x:Name="TbTime"  Grid.Column="1" Padding="0" Text="00:00" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                    <hc:NumericUpDown Maximum="99" Minimum="0" Padding="0" x:Name="CbTime" Visibility="Hidden" ValueChanged="CbTime_ValueChanged" Loaded="CbTime_Loaded" Grid.ColumnSpan="2" MinHeight="28"/>
+                                    <MediaElement x:Name="MeDida" Source="pack://siteoforigin:,,,/Resourses/声音/dida.wav" Visibility="Hidden" LoadedBehavior="Manual"/>
+                                    <MediaElement x:Name="MeRing" Source="pack://siteoforigin:,,,/Resourses/声音/ring.wav" Visibility="Hidden" LoadedBehavior="Manual"/>
+                                </Grid>
+                            </Border>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="随手记录">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bulb.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="3" x:Name="LockTool" Click="LockTool_Click" ToolTip="加锁" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lock_closed.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="4" x:Name="DBTool" Click="DBTool_Click" ToolTip="数据库管理" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_database.png"/>
+                            </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="5" x:Name="AppSettings" Click="AppSettings_Click" ToolTip="程序设置" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_settings.png"/>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </Border>
                 <NSTreeViewPlus:UTreeViewPlus Grid.Row="2" Loaded="UcTreeTask_Loaded" UcTitle="任务清单 - 线索"/>
             </Grid>
         </Grid>
         <GridSplitter x:Name="右分隔条" Grid.Column="3" HorizontalAlignment="Stretch"/>
-        <Grid x:Name="GridTab" Grid.Column="4">
+        <Grid x:Name="GridTab" Grid.Column="4" Background="#FAFAFA">
             <hc:TabControl x:Name="tabControl" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}" >
                 <hc:TabItem x:Name="tabItem" Header="资料库" >
-                    <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeMaterial_Loaded" UcTitle="资料库"/>
+                    <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeMaterial_Loaded" UcTitle="资料库" Background="#FAFAFA"/>
                 </hc:TabItem>
                 <hc:TabItem Header="公共角色卡">
-                    <NSCards:UCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded"/>
+                    <NSCards:UCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded" Background="#FAFAFA"/>
                 </hc:TabItem>
                 <hc:TabItem Header="公共信息卡">
-                    <NSCards:UCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded"/>
+                    <NSCards:UCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded" Background="#FAFAFA"/>
                 </hc:TabItem>
             </hc:TabControl>
         </Grid>

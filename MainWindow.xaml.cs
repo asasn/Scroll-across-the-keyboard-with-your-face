@@ -13,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using static NSMain.Bricks.CTreeView;
+using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace NSMain
 {
@@ -184,7 +184,10 @@ namespace NSMain
 
         private void PuzzleTool_Click(object sender, RoutedEventArgs e)
         {
-
+            WPuzzles win = new WPuzzles();
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
+            win.ShowDialog();
         }
         private void InspirationTool_Click(object sender, RoutedEventArgs e)
         {
