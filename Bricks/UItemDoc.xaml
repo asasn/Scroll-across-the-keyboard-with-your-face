@@ -14,7 +14,7 @@
         </Grid.ColumnDefinitions>
         <Image x:Name="Icon" Grid.Column="0" Source="{Binding IconPath, Mode=TwoWay}" MouseLeftButtonDown="Icon_MouseLeftButtonDown"/>
         <TextBlock Grid.Column="1" x:Name="TbkName" Text="{Binding NodeName, Mode=TwoWay}" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" x:Name="TbReName" Text="{Binding Text, ElementName=TbkName, Mode=TwoWay}" Visibility="Hidden" VerticalAlignment="Center" KeyDown="TbReName_KeyDown" LostFocus="TbReName_LostFocus"/>
+        <TextBox Grid.Column="1" x:Name="TbReName" Text="{Binding Text, ElementName=TbkName, Mode=TwoWay}" Visibility="Hidden" VerticalAlignment="Center" KeyDown="TbReName_KeyDown" LostFocus="TbReName_LostFocus" TextChanged="TbReName_TextChanged"/>
         <TextBlock Grid.Column="2" x:Name="TbkCount" Foreground="Silver" Text="{Binding WordsCount}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

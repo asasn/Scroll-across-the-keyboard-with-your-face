@@ -392,7 +392,8 @@ namespace NSMain.TreeViewPlus
                     TbReName = CTreeView.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
                     TbReName.Visibility = Visibility.Visible;
                     TbReName.Focus();
-                    TbReName.SelectAll();
+                    TbReName.Select(TbReName.Text.Length, 0);
+                    TbReName.Tag = false;
                 }
                 if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
                 {

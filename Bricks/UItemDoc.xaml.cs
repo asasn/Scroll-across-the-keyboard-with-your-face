@@ -53,7 +53,8 @@ namespace NSMain.Bricks
             DependencyProperty.Register("TypeOfTree", typeof(string), typeof(UItemDoc), new PropertyMetadata(null));
 
 
-        
+
+
         /// <summary>
         /// 点击图标伸展/缩回
         /// </summary>
@@ -80,18 +81,15 @@ namespace NSMain.Bricks
             }
             TreeViewNode selectedNode = TbReName.DataContext as TreeViewNode;
             selectedNode.NodeName = TbReName.Text;
-            if (selectedNode != null)
+            TbReName.Visibility = Visibility.Hidden;
+            if (selectedNode != null && (bool)TbReName.Tag == true)
             {
-                TbReName.Visibility = Visibility.Hidden;
-                TbReName.Focusable = false;
-                selectedNode.TheItem.Focus();
-
                 string tableName = TypeOfTree;
                 CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
-
             }
+            TbReName.Tag = false;
         }
 
 
@@ -104,12 +102,14 @@ namespace NSMain.Bricks
                  )
             {
                 TbReName.Visibility = Visibility.Hidden;
-                TbReName.Focusable = false;
 
                 e.Handled = true;
             }
         }
 
-
+        private void TbReName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TbReName.Tag = true;
+        }
     }
 }

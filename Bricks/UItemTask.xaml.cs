@@ -162,17 +162,20 @@ namespace NSMain.Bricks
 
             TreeViewNode selectedNode = TbReName.DataContext as TreeViewNode;
             selectedNode.NodeName = TbReName.Text;
-            if (selectedNode != null)
+            TbReName.Visibility = Visibility.Hidden;
+            if (selectedNode != null && (bool)TbReName.Tag  == true)
             {
-                TbReName.Visibility = Visibility.Hidden;
-
                 string tableName = TypeOfTree;
                 CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
                 sqlConn.ExecuteNonQuery(sql);
-
             }
+            TbReName.Tag = false;
+        }
 
+        private void TbReName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TbReName.Tag = true;
         }
     }
 }

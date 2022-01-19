@@ -95,14 +95,18 @@ namespace NSMain.Editor
             CurBookName = curBookName;
             TextEditor.Load(CEditor.ConvertStringToStream(CurNode.NodeContent));
 
-            //光标移动至文末       
-            TextEditor.ScrollToLine(TextEditor.LineCount);
-            TextEditor.SelectionLength = 0;
-            TextEditor.SelectionStart = TextEditor.Text.Length;
-            for (int i = 0; i < 5; i++)
+            if (TypeOfTree == "book")
             {
-                TextEditor.ScrollToEnd();
+                //光标移动至文末
+                TextEditor.ScrollToLine(TextEditor.LineCount);
+                TextEditor.SelectionLength = 0;
+                TextEditor.SelectionStart = TextEditor.Text.Length;
+                for (int i = 0; i < 5; i++)
+                {
+                    TextEditor.ScrollToEnd();
+                }
             }
+
 
             SetEditorColorRules();
         }
@@ -421,10 +425,7 @@ namespace NSMain.Editor
             方法丨编辑区文字保存();
         }
 
-        private void BtnMark_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
         #endregion
 
 

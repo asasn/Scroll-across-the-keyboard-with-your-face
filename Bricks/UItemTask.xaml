@@ -13,6 +13,6 @@
         </Grid.ColumnDefinitions>
         <CheckBox x:Name="Ck" IsChecked="{Binding IsChecked, Mode=TwoWay}" Checked="Ck_Checked" Unchecked="Ck_Unchecked" Click="Ck_Click"/>
         <TextBlock Grid.Column="1" x:Name="TbkName" Text="{Binding NodeName, Mode=TwoWay}" VerticalAlignment="Center"/>
-        <TextBox Grid.Column="1" x:Name="TbReName" Text="{Binding Text, ElementName=TbkName, Mode=TwoWay}" Visibility="Hidden" VerticalAlignment="Center" KeyDown="TbReName_KeyDown" LostFocus="TbReName_LostFocus"/>
+        <TextBox Grid.Column="1" x:Name="TbReName" Text="{Binding Text, ElementName=TbkName, Mode=TwoWay}" Visibility="Hidden" VerticalAlignment="Center" KeyDown="TbReName_KeyDown" LostFocus="TbReName_LostFocus" TextChanged="TbReName_TextChanged"/>
     </Grid>
 </UserControl>
