@@ -123,8 +123,7 @@ namespace NSMain.Bricks
                 wp.Children.Clear();
                 while (reader.Read())
                 {
-                    URecord uRecord = (wp.Parent as Grid).Parent as URecord;
-                    UTip tipBox = new UTip(uRecord, reader.GetString(1));
+                    UTip tipBox = new UTip(box, reader.GetString(1));
                     tipBox.Uid = reader.GetString(2);
                 }
                 reader.Close();

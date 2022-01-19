@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NSMain.Tools"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:local="clr-namespace:NSMain.Tools" xmlns:bricks="clr-namespace:NSMain.Bricks"
         mc:Ignorable="d"
         Title="WPuzzles" Height="450" Width="800">
-    <TabControl x:Name="TabMain" Loaded="TabMain_Loaded" >
+    <TabControl x:Name="TabMain" >
+        <TabItem x:Name="tabItem" Header="世界观·基本构成">
+            <bricks:UPage x:Name="Page1" TypeOfTree="设定集" Loaded="Page1_Loaded"/>
+        </TabItem>
 
     </TabControl>
 </Window>

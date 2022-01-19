@@ -1,6 +1,7 @@
 ﻿using NSMain.Bricks;
 using NSMain.Cards;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,14 +27,20 @@ namespace NSMain.Tools
             InitializeComponent();
         }
 
-        private void TabMain_Loaded(object sender, RoutedEventArgs e)
+
+
+        private void Page1_Loaded(object sender, RoutedEventArgs e)
         {
-            URecord uRecords = new URecord();
-            uRecords.Title = "测试";
-            TabItem tabItem = new TabItem();
-            tabItem.Header = "测试";
-            tabItem.Content = uRecords;
-            TabMain.Items.Add(tabItem);
+            ArrayList wps = new ArrayList();
+
+            wps.Add("历史");
+            wps.Add("当代");
+            wps.Add("力量体系");
+            wps.Add("洲陆");
+            wps.Add("阶级");
+            wps.Add("度量衡");
+
+            Page1.MyRecords.WpMain_Build(wps);
         }
     }
 }

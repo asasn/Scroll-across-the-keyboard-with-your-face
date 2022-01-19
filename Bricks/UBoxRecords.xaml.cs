@@ -73,32 +73,8 @@ namespace NSMain.Bricks
             DependencyProperty.Register("TypeOfTree", typeof(string), typeof(UBoxRecords), new PropertyMetadata(null));
 
 
-        public void WpMain_Fill(object sender, RoutedEventArgs e)
+        public void WpMain_Build(ArrayList wps)
         {
-            ArrayList wps = new ArrayList();
-            if (TypeOfTree == "角色")
-            {
-                wps.Add("别称");
-                wps.Add("身份");
-                wps.Add("外观");
-                wps.Add("阶级");
-                wps.Add("所属");
-                wps.Add("物品");
-                wps.Add("能力");
-                wps.Add("经历");
-            }
-            if (TypeOfTree == "其他")
-            {
-                wps.Add("别称");
-                wps.Add("描述");
-                wps.Add("阶级");
-                wps.Add("基类");
-                wps.Add("派生");
-                wps.Add("物品");
-                wps.Add("能力");
-                wps.Add("经历");
-            }
-
             foreach (string t in wps)
             {
                 URecord uRecord = new URecord();
@@ -113,12 +89,15 @@ namespace NSMain.Bricks
                 uRecord.SetBinding(uRecord.IsCanSave, boolBinding);//对绑定目标的目标属性进行绑定   
 
                 WpMain.Children.Add(uRecord);
+
+                Binding widthBinding = new Binding
+                {
+                    Source = WpMain,
+                    Path = new PropertyPath("Width"),
+                    Mode = BindingMode.TwoWay
+                };
+                uRecord.SetBinding(WidthProperty, widthBinding);//对绑定目标的目标属性进行绑定
             }
-
-            CCards.FillMainInfo(CurBookName, TypeOfTree, this.WpMain.Children, Pid);
-
-            //填充信息之后，将保存状态拨回，以实现初始化
-            BtnSave.IsEnabled = false;
         }
     }
 }
