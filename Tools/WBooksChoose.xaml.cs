@@ -161,7 +161,7 @@ namespace NSMain.Tools
 
             GlobalVal.Uc.RoleCards.LoadCards(GlobalVal.CurrentBook.Name, "角色");
             GlobalVal.Uc.OtherCards.LoadCards(GlobalVal.CurrentBook.Name, "其他");
-
+            GlobalVal.Uc.WorldCards.LoadCards(GlobalVal.CurrentBook.Name, "世界");
             GlobalVal.Uc.MainWin.TbkCurBookName.Visibility = Visibility.Hidden;
             GlobalVal.Uc.MainWin.TbkCurBookName2.Text = GlobalVal.CurrentBook.Name;
             GlobalVal.Uc.MainWin.TbkCurBookName2.Visibility = Visibility.Visible;

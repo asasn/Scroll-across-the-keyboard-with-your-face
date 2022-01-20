@@ -27,20 +27,11 @@ namespace NSMain.Tools
             InitializeComponent();
         }
 
-
-
-        private void Page1_Loaded(object sender, RoutedEventArgs e)
+        private void UCards_Loaded(object sender, RoutedEventArgs e)
         {
-            ArrayList wps = new ArrayList();
-
-            wps.Add("历史");
-            wps.Add("当代");
-            wps.Add("力量体系");
-            wps.Add("洲陆");
-            wps.Add("阶级");
-            wps.Add("度量衡");
-
-            Page1.MyRecords.WpMain_Build(wps);
+            GlobalVal.Uc.WorldCards = sender as UCards;
+            GlobalVal.Uc.WorldCards.WpCards.Children.Clear();
+            GlobalVal.Uc.WorldCards.LoadCards(GlobalVal.CurrentBook.Name, "世界");
         }
     }
 }

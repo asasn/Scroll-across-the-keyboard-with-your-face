@@ -141,18 +141,6 @@ namespace NSMain.Cards
         private void BtnTag_Click(object sender, RoutedEventArgs e)
         {
             Button BtnTag = sender as Button;
-            if (TypeOfTree == "角色")
-            {
-                //RoleCard roleCard = new RoleCard(CurBookName, TypeOfTree, BtnTag);
-                //roleCard.Show();
-            }
-            if (TypeOfTree == "其他")
-            {
-                //InfoCard infoCard = new InfoCard(CurBookName, TypeOfTree, BtnTag);
-                //infoCard.Show();
-
-            }
-
             WCards wCards = new WCards(CurBookName, TypeOfTree, BtnTag);
             wCards.Show();
         }

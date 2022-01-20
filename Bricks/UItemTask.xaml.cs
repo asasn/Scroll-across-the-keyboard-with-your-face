@@ -68,6 +68,7 @@ namespace NSMain.Bricks
             //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             CTreeView.CheckedBySql(CurBookName, TypeOfTree, selectedNode);
+            TbkName.IsEnabled = false;
         }
 
         private void Ck_Unchecked(object sender, RoutedEventArgs e)

@@ -115,8 +115,8 @@
     <Compile Include="Bricks\UItemTask.xaml.cs">
       <DependentUpon>UItemTask.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Bricks\UPage.xaml.cs">
-      <DependentUpon>UPage.xaml</DependentUpon>
+    <Compile Include="Cards\UCard.xaml.cs">
+      <DependentUpon>UCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cards\WCards.xaml.cs">
       <DependentUpon>WCards.xaml</DependentUpon>
@@ -207,7 +207,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Bricks\UPage.xaml">
+    <Page Include="Cards\UCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

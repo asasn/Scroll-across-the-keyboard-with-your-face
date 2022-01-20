@@ -10,7 +10,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <Grid MaxWidth="300">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*"/>
                 <!--<ColumnDefinition Width="30"/>-->

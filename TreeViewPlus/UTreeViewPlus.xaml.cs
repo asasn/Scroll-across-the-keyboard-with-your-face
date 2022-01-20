@@ -389,11 +389,18 @@ namespace NSMain.TreeViewPlus
             {
                 if (e.Key == Key.F2)
                 {
+                    CheckBox Ck = CTreeView.FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
+                    if (Ck.IsChecked == true)
+                    {
+                        return;
+                    }
                     TbReName = CTreeView.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
                     TbReName.Visibility = Visibility.Visible;
                     TbReName.Focus();
                     TbReName.Select(TbReName.Text.Length, 0);
                     TbReName.Tag = false;
+
+
                 }
                 if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
                 {

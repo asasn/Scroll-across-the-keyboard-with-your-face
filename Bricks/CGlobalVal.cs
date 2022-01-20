@@ -1,4 +1,5 @@
 ﻿using NSMain.Cards;
+using NSMain.Searcher;
 using NSMain.TreeViewPlus;
 using System;
 using System.Collections.Generic;
@@ -48,14 +49,17 @@ namespace NSMain.Bricks
             public static SplashWindow SpWin;
             public static Grid BooksPanel;
             public static HandyControl.Controls.TabControl TabControl;
+            public static USearcher Searcher;
             public static UTreeViewPlus TreeBook;
             public static UTreeViewPlus TreeMaterial;
             public static UTreeViewPlus TreeNote;
             public static UTreeViewPlus TreeTask;
             public static UCards RoleCards;
             public static UCards OtherCards;
+            public static UCards WorldCards;
             public static UCards PublicRoleCards;
             public static UCards PublicOtherCards;
+            public static UCards PublicWorldCards;
         }
 
         public struct SQLClass

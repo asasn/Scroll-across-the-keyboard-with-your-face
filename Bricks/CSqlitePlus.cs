@@ -72,9 +72,25 @@ namespace NSMain.Bricks
                 using (SQLiteCommand command = connection.CreateCommand())
                 {
                     command.CommandText = sql;
-                    command.ExecuteNonQuery();
+                    try
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Console.WriteLine(string.Format("\nSQL语句可能存在错误！\n{0}", ex));
+                    }
+                    
                 }
-                tr.Commit();
+                try
+                {
+                    tr.Commit();
+                }
+                catch (System.Exception ex)
+                {
+                    System.Console.WriteLine(string.Format("\n本次提交失败！\n{0}",ex));
+                }
+                
             }
         }
 
@@ -93,12 +109,16 @@ namespace NSMain.Bricks
                 {
 
                     command.CommandText = sql;
-
-                    // 执行查询会返回一个SQLiteDataReader对象
-                    SQLiteDataReader reader = command.ExecuteReader();
-
-                    return reader;
-                    //reader.Read()方法会从读出一行匹配的数据到reader中。注意：是一行数据。
+                    try
+                    {
+                        // 执行查询，返回一个SQLiteDataReader对象
+                        return command.ExecuteReader();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Console.WriteLine(string.Format("\nSQL语句可能存在错误！\n{0}", ex));
+                        return null;
+                    }
 
                 }
             }

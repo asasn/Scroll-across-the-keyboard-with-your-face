@@ -24,7 +24,7 @@ namespace NSMain.Bricks
         {
             string tableName = typeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE, 备注 TEXT, 权重 INTEGER, 相对年龄 CHAR, IsDel BOOLEAN DEFAULT (false));", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE, 备注 TEXT, 权重 INTEGER DEFAULT (0), 诞生年份 CHAR, IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表{0}id ON {0}主表({0}id);", tableName);
             sql += string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, "别称");
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, "别称");

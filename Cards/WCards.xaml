@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:NSMain.Cards" xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:NSPublicModule="clr-namespace:NSMain.Bricks"
         mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize" Background="Transparent" Effect="{StaticResource EffectShadow3}" 
-        Title="信息卡窗体" Width="300" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="200" Loaded="Window_Loaded">
-    <ScrollViewer MinHeight="200" VerticalAlignment="Top" >
+        Title="信息卡窗体" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="185" d:DesignWidth="300" Loaded="Window_Loaded" MaxWidth="300">
+    <ScrollViewer VerticalAlignment="Top" >
         <hc:Card x:Name="card" Header=""  Margin="5">
             <Grid x:Name="gCard" Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition MinHeight="25" Height="Auto"/>
-                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition x:Name="R1" MinHeight="25" Height="0"/>
                     <RowDefinition MinHeight="25" Height="Auto"/>
                     <RowDefinition MinHeight="50" Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -42,7 +42,7 @@
                 <Grid Grid.Row="3">
                     <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb备注" Content="备注"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="2,3,2,0" MinWidth="30" />
                     <WrapPanel MinHeight="50" x:Name="Wp备注" Uid="备注" Grid.Row="9" Grid.Column="1" ItemHeight="Auto" Margin="36,2,0,0">
-                        <TextBox Padding="2" hc:BorderElement.CornerRadius="0"  x:Name="Tb备注" TextChanged="Tb_TextChanged" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0" MinWidth="242"/>
+                        <TextBox Padding="2" hc:BorderElement.CornerRadius="0"  x:Name="Tb备注" TextChanged="Tb_TextChanged" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0" MinWidth="{Binding ActualWidth, ElementName=Wp备注, Mode=OneWay}"/>
                     </WrapPanel>
                 </Grid>
                 <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="BtnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-21,-5,0" />

@@ -60,7 +60,7 @@ namespace NSMain
         {
             try
             {
-                if (value.ToString().Contains("任务"))
+                if (value.ToString() == "task")
                 {
                     return new UItemTask();
                 }

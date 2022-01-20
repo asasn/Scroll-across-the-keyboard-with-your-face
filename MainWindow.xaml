@@ -36,13 +36,16 @@
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <NSSearcher:USearcher/>
+                <NSSearcher:USearcher Loaded="USearcher_Loaded" />
                 <hc:TabControl Grid.Row="1" IsTabFillEnabled="True" Style="{StaticResource TabControlInLine}">
-                    <hc:TabItem Header="本书角色信息卡">
+                    <hc:TabItem Header="本书角色">
                         <NSCards:UCards x:Name="RoleCards" Loaded="RoleCards_Loaded"/>
                     </hc:TabItem>
-                    <hc:TabItem Header="本书其他信息卡">
+                    <hc:TabItem Header="本书其他">
                         <NSCards:UCards x:Name="OtherCards" Loaded="OtherCards_Loaded"/>
+                    </hc:TabItem>
+                    <hc:TabItem Header="世界设定">
+                        <NSCards:UCards x:Name="WorldCards" Loaded="WorldCards_Loaded"/>
                     </hc:TabItem>
                 </hc:TabControl>
             </Grid>
@@ -162,11 +165,14 @@
                 <hc:TabItem x:Name="tabItem" Header="资料库" >
                     <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeMaterial_Loaded" UcTitle="资料库" Background="#FAFAFA"/>
                 </hc:TabItem>
-                <hc:TabItem Header="公共角色卡">
+                <hc:TabItem Header="公共角色">
                     <NSCards:UCards x:Name="PublicRoleCards" Loaded="PublicRoleCards_Loaded" Background="#FAFAFA"/>
                 </hc:TabItem>
-                <hc:TabItem Header="公共信息卡">
+                <hc:TabItem Header="公共信息">
                     <NSCards:UCards x:Name="PublicOtherCards" Loaded="PublicOtherCards_Loaded" Background="#FAFAFA"/>
+                </hc:TabItem>
+                <hc:TabItem Header="公共世界">
+                    <NSCards:UCards x:Name="PublicWorldCards" Loaded="PublicWorldCards_Loaded" Background="#FAFAFA"/>
                 </hc:TabItem>
             </hc:TabControl>
         </Grid>

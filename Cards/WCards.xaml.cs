@@ -28,21 +28,21 @@ namespace NSMain.Cards
             public static string id;
             public static string weight;
             public static string realAge;
-            public static string 相对年龄;
+            public static string 诞生年份;
         }
 
         public WCards(string curBookName, string typeOfTree, Button btnParent)
         {
             InitializeComponent();
 
-            if (CurBookName == "index")
+            if (curBookName == "index")
             {
-                this.Left = 305;
+                this.Left = GlobalVal.Uc.TreeNote.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).X;
                 this.Top = 115;
             }
             else
             {
-                this.Left = 305;
+                this.Left = GlobalVal.Uc.Searcher.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).X;
                 this.Top = 115;
             }
 
@@ -168,6 +168,12 @@ namespace NSMain.Cards
                     wps.Add("能力");
                     wps.Add("经历");
                 }
+                if (TypeOfTree == "世界")
+                {
+                    wps.Add("描述");
+                    R1.MinHeight = 0;
+                }
+
                 MyRecords.WpMain_Build(wps);
 
                 FillBaseInfo();                
@@ -190,17 +196,21 @@ namespace NSMain.Cards
                 {
                     Tb备注.Text = reader["备注"].ToString();
                 }
-                if (reader["权重"].ToString() != "")
+                if (reader["权重"].ToString() == "")
+                {
+                    ThisCard.weight = "0";
+                }
+                else
                 {
                     ThisCard.weight = reader["权重"].ToString();
                 }
-                if (reader["相对年龄"].ToString() == "")
+                if (reader["诞生年份"].ToString() == "")
                 {
                     TbBornYear.Text = "0";
                 }
                 else
                 {
-                    TbBornYear.Text = reader["相对年龄"].ToString();
+                    TbBornYear.Text = reader["诞生年份"].ToString();
                 }
 
             }
@@ -284,7 +294,7 @@ namespace NSMain.Cards
                     TbBornYear.Text = 0.ToString();
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 相对年龄={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, this.Pid);
+                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 诞生年份={4} where {0}id = '{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, this.Pid);
                 sqlConn.ExecuteNonQuery(sql);
 
                 //传递给父容器

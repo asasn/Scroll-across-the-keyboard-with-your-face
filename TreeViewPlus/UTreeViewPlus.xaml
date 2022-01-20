@@ -19,7 +19,7 @@
                     PreviewMouseWheel="Tv_PreviewMouseWheel" Style="{DynamicResource TreeBookStyle}">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}" >
-                            <UserControl Content="{Binding UcTitle, Converter={StaticResource UItemConverter}, ElementName=ThisControl}" Tag="{Binding TypeOfTree, ElementName=ThisControl}" Uid="{Binding CurBookName, ElementName=ThisControl}"/>
+                            <UserControl Content="{Binding TypeOfTree, Converter={StaticResource UItemConverter}, ElementName=ThisControl}" Tag="{Binding TypeOfTree, ElementName=ThisControl}" Uid="{Binding CurBookName, ElementName=ThisControl}"/>
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>
                     <TreeView.ContextMenu>

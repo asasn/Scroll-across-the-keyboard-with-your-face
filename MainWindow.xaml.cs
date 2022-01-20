@@ -3,6 +3,7 @@ using NSMain.Cards;
 using NSMain.Editor;
 using NSMain.Notes;
 using NSMain.Scenes;
+using NSMain.Searcher;
 using NSMain.Tools;
 using NSMain.TreeViewPlus;
 using System;
@@ -96,7 +97,10 @@ namespace NSMain
             GlobalVal.Uc.RoleCards.MarkNamesInChapter();
         }
 
-
+        private void USearcher_Loaded(object sender, RoutedEventArgs e)
+        {
+            GlobalVal.Uc.Searcher = sender as USearcher;
+        }
 
         private void RoleCards_Loaded(object sender, RoutedEventArgs e)
         {
@@ -106,6 +110,11 @@ namespace NSMain
         private void OtherCards_Loaded(object sender, RoutedEventArgs e)
         {
             GlobalVal.Uc.OtherCards = sender as UCards;
+        }
+
+        private void WorldCards_Loaded(object sender, RoutedEventArgs e)
+        {
+            GlobalVal.Uc.WorldCards = sender as UCards;
         }
 
         private void PublicRoleCards_Loaded(object sender, RoutedEventArgs e)
@@ -121,7 +130,12 @@ namespace NSMain
             GlobalVal.Uc.PublicOtherCards.WpCards.Children.Clear();
             GlobalVal.Uc.PublicOtherCards.LoadCards("index", "其他");
         }
-
+        private void PublicWorldCards_Loaded(object sender, RoutedEventArgs e)
+        {
+            GlobalVal.Uc.PublicWorldCards = sender as UCards;
+            GlobalVal.Uc.PublicWorldCards.WpCards.Children.Clear();
+            GlobalVal.Uc.PublicWorldCards.LoadCards("index", "世界");
+        }
         #region 向上/向下调整节点
 
         /// <summary>
@@ -463,5 +477,7 @@ namespace NSMain
                 GlobalVal.Uc.SpWin.Close();
             }
         }
+
+
     }
 }

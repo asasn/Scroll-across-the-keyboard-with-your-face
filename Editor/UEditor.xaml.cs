@@ -216,9 +216,9 @@ namespace NSMain.Editor
                 //在数据库占用和重复连接之间选择了一个平衡。保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
                 sqlConn.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("本次保存失败！");
+                Console.WriteLine(string.Format("本次保存失败！\n{0}", ex));
             }
         }
 
