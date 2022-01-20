@@ -68,7 +68,8 @@ namespace NSMain.Bricks
             //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             CTreeView.CheckedBySql(CurBookName, TypeOfTree, selectedNode);
-            TbkName.IsEnabled = false;
+            
+            TbkName.Foreground = Brushes.Silver;
         }
 
         private void Ck_Unchecked(object sender, RoutedEventArgs e)
@@ -83,6 +84,8 @@ namespace NSMain.Bricks
             //TextBlock TbkName = FindChild<TextBlock>(grid as DependencyObject, "TbkName");
             TreeViewNode selectedNode = Ck.DataContext as TreeViewNode;
             CTreeView.CheckedBySql(CurBookName, TypeOfTree, selectedNode);
+            
+            TbkName.Foreground = Brushes.Black;
         }
 
         private void Ck_Click(object sender, RoutedEventArgs e)
