@@ -91,7 +91,7 @@
                             <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="DesignTool" Click="DesignTool_Click" ToolTip="场记大纲" >
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_knight.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="PuzzleTool" Click="PuzzleTool_Click" ToolTip="设定集·拼图工具">
+                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="PuzzleTool" Click="PuzzleTool_Click" ToolTip="拼图工具" IsEnabled="False">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
                             </Button>
                         </Grid>
@@ -123,7 +123,7 @@
                             <Button Padding="0" Grid.Row="1" Grid.Column="2" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bookmark.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站" IsEnabled="False">
+                            <Button Padding="0" Grid.Row="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
                             </Button>
                             <Border x:Name="BorderTomatoTime" Grid.Column="3" BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" Grid.ColumnSpan="2"  ToolTip="番茄时间" Background="White" MouseRightButtonDown="BorderTomatoTime_MouseRightButtonDown" Height="30" HorizontalAlignment="Center" >

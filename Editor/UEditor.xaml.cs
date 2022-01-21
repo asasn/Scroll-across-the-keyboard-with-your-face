@@ -132,10 +132,10 @@ namespace NSMain.Editor
             //textEditor.SyntaxHighlighting.MainRuleSet.Rules.Clear();
             //textEditor.SyntaxHighlighting.MainRuleSet.Spans.Clear();
 
-            if (GlobalVal.Uc.RoleCards != null && GlobalVal.Uc.OtherCards != null)
+            if (GlobalVal.Uc.RoleCards != null && GlobalVal.Uc.OtherCards != null && GlobalVal.Uc.WorldCards != null)
             {
                 //这里的顺序决定着着色的最终效果，应把角色放在后面
-                WrapPanel[] wps = { GlobalVal.Uc.OtherCards.WpCards, GlobalVal.Uc.RoleCards.WpCards };
+                WrapPanel[] wps = { GlobalVal.Uc.WorldCards.WpCards, GlobalVal.Uc.OtherCards.WpCards, GlobalVal.Uc.RoleCards.WpCards };
 
                 foreach (WrapPanel wp in wps)
                 {

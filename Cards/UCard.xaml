@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NSMain.Cards" Style="{StaticResource ButtonDashedInfo}"
+             xmlns:local="clr-namespace:NSMain.Cards" Style="{StaticResource ButtonDashedBaseStyle}"
              mc:Ignorable="d" Margin="5,5,2,2" Padding="0" MinWidth="30" Height="25">
 
 </Button>

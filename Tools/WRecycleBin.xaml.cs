@@ -1,7 +1,4 @@
-﻿using NSMain.Bricks;
-using NSMain.Cards;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,16 +15,21 @@ using System.Windows.Shapes;
 namespace NSMain.Tools
 {
     /// <summary>
-    /// WPuzzles.xaml 的交互逻辑
+    /// WRecycleBin.xaml 的交互逻辑
     /// </summary>
-    public partial class WPuzzles : Window
+    public partial class WRecycleBin : Window
     {
-        public WPuzzles()
+        public WRecycleBin()
         {
             InitializeComponent();
         }
 
-        private void UCards_Loaded(object sender, RoutedEventArgs e)
+        private void TabMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void dtOutlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

@@ -6,6 +6,6 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:NSMain.Tools" xmlns:bricks="clr-namespace:NSMain.Bricks" xmlns:cards="clr-namespace:NSMain.Cards"
         mc:Ignorable="d"
-        Title="WPuzzles" Height="450" Width="800">
-    <cards:UCards Loaded="UCards_Loaded"/>
+        Title="拼图工具" Height="450" Width="800" ResizeMode="NoResize">
+    
 </Window>

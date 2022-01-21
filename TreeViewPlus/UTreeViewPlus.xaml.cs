@@ -390,7 +390,7 @@ namespace NSMain.TreeViewPlus
                 if (e.Key == Key.F2)
                 {
                     CheckBox Ck = CTreeView.FindChild<CheckBox>(selectedItem as DependencyObject, "Ck");
-                    if (Ck.IsChecked == true)
+                    if (Ck != null && Ck.IsChecked == true)
                     {
                         return;
                     }

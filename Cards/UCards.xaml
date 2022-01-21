@@ -3,19 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <Grid MaxWidth="300">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100*"/>
-                <!--<ColumnDefinition Width="30"/>-->
-            </Grid.ColumnDefinitions>
-            <TextBox x:Name="TbTab" TextWrapping="Wrap" KeyDown="TbTab_KeyDown"/>
+            <TextBox x:Name="TbTab" hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" KeyDown="TbTab_KeyDown" BorderThickness="0,0,0,1" />
             <Button x:Name="BtnAdd" Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnAdd_Click" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center">
                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_add.png"/>
             </Button>

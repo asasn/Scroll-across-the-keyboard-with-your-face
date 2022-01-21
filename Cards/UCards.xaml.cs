@@ -43,13 +43,9 @@ namespace NSMain.Cards
             }
             string tableName = TypeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbTab.Text.Replace("'", "''")));
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表)  where 名称='{1}' ORDER BY LENGTH(名称) DESC;", tableName, TbTab.Text.Replace("'", "''"))); 
             while (reader.Read())
             {
-                if ((bool)reader["IsDel"] == true)
-                {
-                    continue;
-                }
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
                 reader.Close();
 
@@ -86,7 +82,7 @@ namespace NSMain.Cards
             {
                 curNode = new TreeViewNode();
             }
-            WrapPanel[] wps = { GlobalVal.Uc.RoleCards.WpCards, GlobalVal.Uc.OtherCards.WpCards };
+            WrapPanel[] wps = { GlobalVal.Uc.RoleCards.WpCards, GlobalVal.Uc.OtherCards.WpCards, GlobalVal.Uc.WorldCards.WpCards };
             foreach (WrapPanel wp in wps)
             {
                 foreach (Button button in wp.Children)
@@ -142,7 +138,7 @@ namespace NSMain.Cards
         {
             Button BtnTag = sender as Button;
             WCards wCards = new WCards(CurBookName, TypeOfTree, BtnTag);
-            wCards.Show();
+            wCards.ShowDialog();
         }
 
         public void LoadCards(string curBookName, string typeOfTree)

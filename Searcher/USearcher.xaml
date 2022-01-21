@@ -11,7 +11,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Margin="5" >
@@ -32,16 +32,14 @@
                 <RadioButton x:Name="CbRegex" Content="正则模式" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
             </Grid>
             <Grid Grid.Row="1" Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="75*"/>
-                    <ColumnDefinition Width="25*"/>
-                </Grid.ColumnDefinitions>
                 <TextBox Padding="0" hc:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="TbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="TbKeyWords_KeyDown"/>
-                <Button Padding="2" x:Name="BtnSearch" Content="搜索" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="50" Click="BtnSearch_Click" Height="30" />
+                <Button x:Name="BtnSearch" Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnSearch_Click" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center">
+                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_search.png"/>
+                </Button>
             </Grid>
             <ListBox  x:Name="ListBoxOfResults" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
                 <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem">
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
                         <Setter Property="ToolTipService.ShowDuration" Value="60000"/>
                     </Style>
                 </ListBox.ItemContainerStyle>

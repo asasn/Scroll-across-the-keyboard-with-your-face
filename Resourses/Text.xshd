@@ -2,14 +2,14 @@
 <SyntaxDefinition name="Text" extensions=".txt" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
   <!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
   <!--fontWeight="bold" fontFamily="行楷" foreground="#0000CD"-->
-  <Color name="符号" foreground="#fff99157" />
-  <Color name="标记" foreground="blue" />
+  <Color name="符号" foreground="#f99157" />
+  <Color name="标记" foreground="Blue" />
   <Color name="对话" foreground="#b8860b" />
-  <Color name="角色" fontFamily="宋体" foreground="blue"/>
-  <Color name="敏感" foreground="red"/>
+  <Color name="角色" fontFamily="宋体" foreground="Blue"/>
+  <Color name="敏感" foreground="Red"/>
   <Color name="搜索" background="#40FF40"/>
-  <Color name="其他" foreground="#FF8C00"/>
-  <!--<Color name="其他" foreground="#FFA500"/>-->
+  <Color name="其他" foreground="Violet"/>
+  <Color name="世界" foreground="Orange"/>
   <!-- This is the main ruleset. -->
   <RuleSet>
     <Span color="对话" multiline="true">

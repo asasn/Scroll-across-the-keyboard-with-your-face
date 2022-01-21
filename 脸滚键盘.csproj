@@ -130,6 +130,9 @@
     <Compile Include="Tools\WPuzzles.xaml.cs">
       <DependentUpon>WPuzzles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tools\WRecycleBin.xaml.cs">
+      <DependentUpon>WRecycleBin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tools\WToolCollect.xaml.cs">
       <DependentUpon>WToolCollect.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tools\WPuzzles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tools\WRecycleBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -213,6 +213,10 @@ namespace NSMain
 
         private void RecycleBin_Click(object sender, RoutedEventArgs e)
         {
+            WRecycleBin win = new WRecycleBin();
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
+            win.ShowDialog();
 
         }
 

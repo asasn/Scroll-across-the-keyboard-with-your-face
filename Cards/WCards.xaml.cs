@@ -170,6 +170,7 @@ namespace NSMain.Cards
                 }
                 if (TypeOfTree == "世界")
                 {
+                    wps.Add("别称");
                     wps.Add("描述");
                     R1.MinHeight = 0;
                 }
