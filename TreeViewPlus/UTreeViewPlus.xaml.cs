@@ -272,7 +272,7 @@ namespace NSMain.TreeViewPlus
                         //获取节点对应的路径
                         string nodePath = CTreeView.GetPath(selectedNode);
 
-                        if (TypeOfTree == "note" || TypeOfTree == "task")
+                        if (TypeOfTree == "history" || TypeOfTree == "task")
                         {
                             return;
                         }

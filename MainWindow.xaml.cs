@@ -67,9 +67,9 @@ namespace NSMain
             GlobalVal.Uc.TreeMaterial.LoadBook("index", "material");
         }
 
-        private void UcTreeNote_Loaded(object sender, RoutedEventArgs e)
+        private void UcTreeHistory_Loaded(object sender, RoutedEventArgs e)
         {
-            GlobalVal.Uc.TreeNote = sender as UTreeViewPlus;
+            GlobalVal.Uc.TreeHistory = sender as UTreeViewPlus;
         }
 
         private void UcTreeTask_Loaded(object sender, RoutedEventArgs e)

@@ -37,7 +37,7 @@ namespace NSMain.Cards
 
             if (curBookName == "index")
             {
-                this.Left = GlobalVal.Uc.TreeNote.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).X;
+                this.Left = GlobalVal.Uc.TreeHistory.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).X;
                 this.Top = 115;
             }
             else

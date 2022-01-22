@@ -1,5 +1,9 @@
-﻿using System;
+﻿using NSMain.Bricks;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,14 +28,16 @@ namespace NSMain.Tools
             InitializeComponent();
         }
 
-        private void TabMain_Loaded(object sender, RoutedEventArgs e)
+        private void Udl1_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            UDelList udl = sender as UDelList;
+            udl.Udl1_Loaded();
         }
 
-        private void dtOutlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Udl2_Loaded(object sender, RoutedEventArgs e)
         {
-
+            UDelList udl = sender as UDelList;
+            udl.Udl2_Loaded();
         }
     }
 }

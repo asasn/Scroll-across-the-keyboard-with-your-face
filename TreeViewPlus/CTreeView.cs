@@ -149,7 +149,7 @@ namespace NSMain.TreeViewPlus
             }
             if (newNode.IsDir == true)
             {
-                if (typeOfTree == "note")
+                if (typeOfTree == "history")
                 {
                     newNode.IconPath = GlobalVal.Path.Resourses + "/图标/目录树/ic_action_knight.png";
                 }
@@ -275,7 +275,7 @@ namespace NSMain.TreeViewPlus
                 {
                     node.IconPath = GlobalVal.Path.Resourses + "/图标/目录树/ic_action_folder_closed.png";
                 }
-                if (typeOfTree == "note")
+                if (typeOfTree == "history")
                 {
                     node.IconPath = GlobalVal.Path.Resourses + "/图标/目录树/ic_action_knight.png";
                 }

@@ -60,7 +60,7 @@
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeNote_Loaded" UcTitle="记事板"/>
+                <NSTreeViewPlus:UTreeViewPlus Loaded="UcTreeHistory_Loaded" UcTitle="历史年表"/>
                 <Border x:Name="BorderToolBar" Grid.Row="1"  BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5" Margin="0,5">
                     <Grid Width="290"> 
                         <Grid.ColumnDefinitions>

@@ -50,9 +50,9 @@ namespace NSMain.Bricks
             public static Grid BooksPanel;
             public static HandyControl.Controls.TabControl TabControl;
             public static USearcher Searcher;
-            public static UTreeViewPlus TreeBook;
             public static UTreeViewPlus TreeMaterial;
-            public static UTreeViewPlus TreeNote;
+            public static UTreeViewPlus TreeBook;
+            public static UTreeViewPlus TreeHistory;
             public static UTreeViewPlus TreeTask;
             public static UCards RoleCards;
             public static UCards OtherCards;

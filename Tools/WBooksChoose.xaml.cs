@@ -155,8 +155,7 @@ namespace NSMain.Tools
             }
             GetBookInfoForGval(bookCard.Uid);
             GlobalVal.Uc.TreeBook.LoadBook(GlobalVal.CurrentBook.Name, "book");
-            GlobalVal.Uc.TreeNote.LoadBook(GlobalVal.CurrentBook.Name, "note");
-            //GlobalVal.Uc.HistoryBar.LoadYears(GlobalVal.CurrentBook.Name, "history");            
+            GlobalVal.Uc.TreeHistory.LoadBook(GlobalVal.CurrentBook.Name, "history");         
             GlobalVal.Uc.TreeTask.LoadBook(GlobalVal.CurrentBook.Name, "task");
 
             GlobalVal.Uc.RoleCards.LoadCards(GlobalVal.CurrentBook.Name, "角色");

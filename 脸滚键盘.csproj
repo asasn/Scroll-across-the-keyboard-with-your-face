@@ -109,6 +109,9 @@
     <Compile Include="Bricks\UBoxRecords.xaml.cs">
       <DependentUpon>UBoxRecords.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bricks\UDelList.xaml.cs">
+      <DependentUpon>UDelList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Bricks\UItemDoc.xaml.cs">
       <DependentUpon>UItemDoc.xaml</DependentUpon>
     </Compile>
@@ -199,6 +202,10 @@
       <DependentUpon>UTreeViewPlus.xaml</DependentUpon>
     </Compile>
     <Page Include="Bricks\UBoxRecords.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bricks\UDelList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

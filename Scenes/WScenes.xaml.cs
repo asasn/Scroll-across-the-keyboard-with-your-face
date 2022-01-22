@@ -192,6 +192,7 @@ namespace NSMain.Scenes
                 (WpScenes.Children[n] as UScenes).Focus();
                 ScMain.ScrollToHorizontalOffset((60 * WpScenes.Children.Count) - ScMain.ActualWidth / 2);
             }
+
         }
 
         private void SCard_LostFocus(object sender, RoutedEventArgs e)

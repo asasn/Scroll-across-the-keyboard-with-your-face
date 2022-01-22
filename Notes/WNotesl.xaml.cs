@@ -195,6 +195,7 @@ namespace NSMain.Notes
                 (WpNotes.Children[n] as UNotes).Focus();
                 ScMain.ScrollToHorizontalOffset((60 * WpNotes.Children.Count) - ScMain.ActualWidth / 2);
             }
+
         }
 
         private void SCard_LostFocus(object sender, RoutedEventArgs e)
