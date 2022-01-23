@@ -121,6 +121,9 @@
     <Compile Include="Cards\UCard.xaml.cs">
       <DependentUpon>UCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Cards\WCardEdit.xaml.cs">
+      <DependentUpon>WCardEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Cards\WCards.xaml.cs">
       <DependentUpon>WCards.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Cards\UCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Cards\WCardEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

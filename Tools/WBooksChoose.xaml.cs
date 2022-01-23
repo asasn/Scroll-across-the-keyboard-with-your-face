@@ -172,7 +172,7 @@ namespace NSMain.Tools
             {
                 return;
             }
-            TbBuild.Text = CFileOperate.ReplaceFileName(TbBuild.Text);
+            string newBookName = TbBuild.Text = CFileOperate.ReplaceFileName(TbBuild.Text);
             if (CFileOperate.IsFileExists(GlobalVal.Path.Books + "/" + TbBuild.Text + ".db") == true)
             {
                 MessageBox.Show("该书籍已经存在\n请换一个新书名！", "Tip", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
@@ -188,9 +188,97 @@ namespace NSMain.Tools
             TbBuild.Clear();
             WpBooks.Children.Clear();
             Window_Loaded(null, null);
+
+            if (false == GlobalVal.SQLClass.Pools.ContainsKey(newBookName))
+            {
+                GlobalVal.SQLClass.Pools.Add(newBookName, new CSqlitePlus(GlobalVal.Path.Books, newBookName + ".db"));
+            }
+
+            TryToBuildSettingTable("index");
+            TryToBuildSettingTable(newBookName);
+
+            TryToBuildNotesTable("index");
+            TryToBuildScenesTable(newBookName);
+            
+            TryToBuildCardTable("index", "角色");
+            TryToBuildCardTable("index", "其他");
+            TryToBuildCardTable("index", "世界");
+            TryToBuildCardTable(newBookName, "角色");
+            TryToBuildCardTable(newBookName, "其他");
+            TryToBuildCardTable(newBookName, "世界");
+
+            TryToBuildTreeTable("index", "material");
+            TryToBuildTreeTable(newBookName, "book");
+            TryToBuildTreeTable(newBookName, "history");
+            TryToBuildTreeTable(newBookName, "task");
         }
 
+        void TryToBuildTreeTable(string curBookName, string typeOfTree)
+        {
+            string tableName = typeOfTree;
+            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN, IsDel BOOLEAN DEFAULT (false));", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Pid ON Tree_{0}(Pid);", tableName);
+            sqlConn.ExecuteNonQuery(sql);
+        }
 
+        void TryToBuildScenesTable(string curBookName)
+        {
+            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            //尝试建立新表（IF NOT EXISTS）
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 场记大纲表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 场记大纲表Uid ON 场记大纲表(Uid);");
+            sqlConn.ExecuteNonQuery(sql);
+        }
+
+        void TryToBuildNotesTable(string curBookName)
+        {
+            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            //尝试建立新表（IF NOT EXISTS）
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 随手记录表Uid ON 随手记录表(Uid);");
+            sqlConn.ExecuteNonQuery(sql);
+        }
+        public static void TryToBuildCardTable(string curBookName, string typeOfTree)
+        {
+            string tableName = typeOfTree;
+            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 TEXT, 权重 INTEGER DEFAULT (0), 诞生年份 CHAR, IsDel BOOLEAN DEFAULT (false));", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表Uid ON {0}主表(Uid);", tableName);
+
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0}属性表 (Uid CHAR PRIMARY KEY, Text CHAR NOT NULL UNIQUE);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}属性表Uid ON {0}属性表(Uid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}属性表Text ON {0}属性表(Text);", tableName);
+
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0}从表 (Uid CHAR PRIMARY KEY, Pid CHAR REFERENCES {0}主表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Tid CHAR REFERENCES {0}属性表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Text CHAR);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Uid ON {0}从表(Uid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Pid ON {0}从表(Pid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Tid ON {0}从表(Tid);", tableName);
+
+            string guid = Guid.NewGuid().ToString();
+            sql += string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, guid, "别称");
+
+            sqlConn.ExecuteNonQuery(sql);
+        }
+
+        void TryToBuildSettingTable(string curBookName)
+        {
+            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            string tableName = string.Empty;
+            if (curBookName == "index")
+            {
+                tableName = "公共";
+            }
+            else
+            {
+                tableName = "本书";
+            }
+
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}设置表 (Key CHAR PRIMARY KEY, Value CHAR);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}设置表Key ON {0}设置表(Key);", tableName);
+            sqlConn.ExecuteNonQuery(sql);
+        }
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {

@@ -43,7 +43,7 @@ namespace NSMain.Cards
             }
             string tableName = TypeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表)  where 名称='{1}' ORDER BY LENGTH(名称) DESC;", tableName, TbTab.Text.Replace("'", "''"))); 
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称'))  where 名称='{1}' ORDER BY LENGTH(名称) DESC;", tableName, TbTab.Text.Replace("'", "''"))); 
             while (reader.Read())
             {
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
@@ -59,7 +59,7 @@ namespace NSMain.Cards
 
             TbTab.Clear();
 
-            string sql = string.Format("insert or ignore into {0}主表 ({0}id, 名称) values ('{1}', '{2}');", tableName, BtnTag.Uid, BtnTag.Content.ToString().Replace("'", "''"));
+            string sql = string.Format("insert or ignore into {0}主表 (Uid, 名称) values ('{1}', '{2}');", tableName, BtnTag.Uid, BtnTag.Content.ToString().Replace("'", "''"));
             sqlConn.ExecuteNonQuery(sql);
 
 
@@ -87,17 +87,6 @@ namespace NSMain.Cards
             {
                 foreach (Button button in wp.Children)
                 {
-                    //先清空ToolTip的内容
-                    button.ToolTip = null;
-                    string tableName = wp.Tag.ToString();
-                    CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-                    string sql = string.Format("SELECT 别称 FROM {0}别称表 where {0}id='{1}';", tableName, button.Uid);
-                    SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
-                    while (reader.Read())
-                    {
-                        button.ToolTip += reader["别称"].ToString() + " ";
-                    }
-                    reader.Close();
                     if (curNode.NodeContent.Contains(button.Content.ToString()) || IsContainsNickname(button.ToolTip, curNode.NodeContent))
                     {
                         button.Background = Brushes.Cornsilk;
@@ -162,8 +151,6 @@ namespace NSMain.Cards
             //};
 
 
-            CCards.TryToBuildBaseTable(curBookName, typeOfTree);
-
             string tableName = typeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("SELECT * FROM {0}主表 ORDER BY 权重 DESC", tableName);
@@ -174,11 +161,13 @@ namespace NSMain.Cards
                 {
                     continue;
                 }
-                Button BtnTag = AddNode(reader[string.Format("{0}id", tableName)].ToString(), reader["名称"].ToString());
+                Button BtnTag = AddNode(reader["Uid"].ToString(), reader["名称"].ToString());
                 WpCards.Children.Add(BtnTag);
             }
             reader.Close();
 
+            RefreshKeyWords();
+            MarkNamesInChapter();
         }
 
         private void DeleteMenu_Click(object sender, RoutedEventArgs e)
@@ -189,8 +178,7 @@ namespace NSMain.Cards
 
             string tableName = TypeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            //回收站：string sql = string.Format("DELETE from {0}主表 where {0}id='{1}';", tableName, BtnTag.Uid);
-            string sql = string.Format("update {0}主表 set IsDel=True where {0}id='{1}';", tableName, BtnTag.Uid);
+            string sql = string.Format("update {0}主表 set IsDel=True where Uid='{1}';", tableName, BtnTag.Uid);
             sqlConn.ExecuteNonQuery(sql);
 
 
@@ -238,14 +226,20 @@ namespace NSMain.Cards
 
             string tableName = TypeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            string sql = string.Format("SELECT * FROM {0}别称表 where {0}id='{1}';", tableName, guid);
+            string sql = string.Format("SELECT * FROM {0}从表 where Pid='{1}' and Tid=(select Uid from {0}属性表 where Text='别称');", tableName, guid);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
-                button.ToolTip += reader["别称"].ToString() + " ";
+                button.ToolTip += reader["Text"].ToString() + " ";
             }
             reader.Close();
             return button;
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            WCardEdit we = new WCardEdit(CurBookName, TypeOfTree);
+            we.ShowDialog();
         }
     }
 }

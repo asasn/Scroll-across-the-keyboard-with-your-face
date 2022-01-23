@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,32 @@ namespace NSMain.Bricks
             InitializeComponent();
         }
 
+
+
+        public string CurBookName
+        {
+            get { return (string)GetValue(CurBookNameProperty); }
+            set { SetValue(CurBookNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurBookName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurBookNameProperty =
+            DependencyProperty.Register("CurBookName", typeof(string), typeof(UDelList), new PropertyMetadata(null));
+
+
+
+        public string TypeOfTree
+        {
+            get { return (string)GetValue(TypeOfTreeProperty); }
+            set { SetValue(TypeOfTreeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TypeOfTree.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TypeOfTreeProperty =
+            DependencyProperty.Register("TypeOfTree", typeof(string), typeof(UDelList), new PropertyMetadata(null));
+
+
+
         public ObservableCollection<Member> memberData = new ObservableCollection<Member>();
         public class Member
         {
@@ -49,7 +76,7 @@ namespace NSMain.Bricks
                 {
                     Uid = reader["Uid"].ToString(),
                     Name = reader["标题"].ToString(),
-                    Owner = string.Format("{0}/{1}", curBookName, tableName),
+                    Owner = string.Format("{0}", tableName),
                     CurBookName = curBookName,
                     TableName = tableName,
                 });
@@ -57,10 +84,10 @@ namespace NSMain.Bricks
             reader.Close();
         }
 
-        public void LoadNodeList(string curBookName, string tableName)
+        public void LoadTreeList(string curBookName, string tableName)
         {
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("SELECT * FROM {0} where IsDel=True;", tableName);
+            string sql = string.Format("SELECT * FROM Tree_{0} where IsDel=True;", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -68,7 +95,7 @@ namespace NSMain.Bricks
                 {
                     Uid = reader["Uid"].ToString(),
                     Name = reader["NodeName"].ToString(),
-                    Owner = string.Format("{0}/{1}", curBookName, tableName),
+                    Owner = string.Format("{0}", tableName),
                     CurBookName = curBookName,
                     TableName = tableName,
                 });
@@ -76,36 +103,131 @@ namespace NSMain.Bricks
             reader.Close();
         }
 
-
-        public void Udl1_Loaded()
+        public void LoadCardList(string curBookName, string tableName)
         {
-            memberData.Clear();
-            LoadNoteList("index", "随手记录表");
-            LoadNodeList("index", "Tree_material");
-            DG.DataContext = memberData;
+            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("SELECT * FROM {0}主表 where IsDel=True;", tableName);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                memberData.Add(new Member()
+                {
+                    Uid = reader["Uid"].ToString(),
+                    Name = reader["名称"].ToString(),
+                    Owner = string.Format("{0}", tableName),
+                    CurBookName = curBookName,
+                    TableName = tableName,
+                });
+            }
+            reader.Close();
         }
 
-        public void Udl2_Loaded()
+        private void DG_Loaded(object sender, RoutedEventArgs e)
         {
+            bool designTime = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
+            if (designTime)
+                return;//设计模式下返回，不再执行代码
             memberData.Clear();
-            LoadNoteList(GlobalVal.CurrentBook.Name, "场记大纲表");
-            LoadNodeList(GlobalVal.CurrentBook.Name, "Tree_book");
-            LoadNodeList(GlobalVal.CurrentBook.Name, "Tree_history");
-            LoadNodeList(GlobalVal.CurrentBook.Name, "Tree_task");
+            if (CurBookName == "index")
+            {
+                LoadNoteList("index", "随手记录表");
+                LoadTreeList("index", "material");
+                LoadCardList("index", "角色");
+                LoadCardList("index", "其他");
+                LoadCardList("index", "世界");
+            }
+            else
+            {
+                LoadNoteList(GlobalVal.CurrentBook.Name, "场记大纲表");
+                LoadTreeList(GlobalVal.CurrentBook.Name, "book");
+                LoadTreeList(GlobalVal.CurrentBook.Name, "history");
+                LoadTreeList(GlobalVal.CurrentBook.Name, "task");
+                LoadCardList(GlobalVal.CurrentBook.Name, "角色");
+                LoadCardList(GlobalVal.CurrentBook.Name, "其他");
+                LoadCardList(GlobalVal.CurrentBook.Name, "世界");
+            }
             DG.DataContext = memberData;
         }
 
 
         private void BtnRestore_Click(object sender, RoutedEventArgs e)
         {
+            ArrayList arrayList = new ArrayList();
+
             //从集合中倒序删除，防止索引号错误引起的跳过
             for (int i = DG.SelectedItems.Count - 1; i >= 0; i--)
             {
                 Member item = DG.SelectedItems[i] as Member;
                 CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[item.CurBookName];
-                string sql = string.Format("update {0} set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
-                sqlConn.ExecuteNonQuery(sql);
+                if (false == arrayList.Contains(item.TableName))
+                {
+                    arrayList.Add(item.TableName);
+                }
+                string sql = string.Empty;
+                if (item.TableName == "场记大纲表" || item.TableName == "随手记录表")
+                {
+                    sql = string.Format("update {0} set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
+                }
+                if (item.TableName == "角色" || item.TableName == "其他" || item.TableName == "世界")
+                {
+                    sql = string.Format("update {0}主表 set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
+                }
+                if (item.TableName == "book" || item.TableName == "history" || item.TableName == "task")
+                {
+                    sql = string.Format("update Tree_{0} set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
+                }
                 memberData.Remove(item);
+                sqlConn.ExecuteNonQuery(sql);
+            }
+
+            foreach (string tableName in arrayList)
+            {
+                if (CurBookName == "index")
+                {
+                    if (tableName == "material")
+                    {
+                        GlobalVal.Uc.TreeMaterial.LoadBook("index", "material");
+                    }
+                    if (tableName == "角色")
+                    {
+                        GlobalVal.Uc.PublicRoleCards.LoadCards("index", tableName);
+                    }
+                    if (tableName == "其他")
+                    {
+                        GlobalVal.Uc.PublicOtherCards.LoadCards("index", tableName);
+                    }
+                    if (tableName == "世界")
+                    {
+                        GlobalVal.Uc.PublicWorldCards.LoadCards("index", tableName);
+                    }
+                }
+                else
+                {
+                    if (tableName == "book")
+                    {
+                        GlobalVal.Uc.TreeBook.LoadBook(GlobalVal.CurrentBook.Name, tableName);
+                    }
+                    if (tableName == "history")
+                    {
+                        GlobalVal.Uc.TreeHistory.LoadBook(GlobalVal.CurrentBook.Name, tableName);
+                    }
+                    if (tableName == "task")
+                    {
+                        GlobalVal.Uc.TreeTask.LoadBook(GlobalVal.CurrentBook.Name, tableName);
+                    }
+                    if (tableName == "角色")
+                    {
+                        GlobalVal.Uc.RoleCards.LoadCards(GlobalVal.CurrentBook.Name, tableName);
+                    }
+                    if (tableName == "其他")
+                    {
+                        GlobalVal.Uc.OtherCards.LoadCards(GlobalVal.CurrentBook.Name, tableName);
+                    }
+                    if (tableName == "世界")
+                    {
+                        GlobalVal.Uc.WorldCards.LoadCards(GlobalVal.CurrentBook.Name, tableName);
+                    }
+                }
             }
         }
 
@@ -116,7 +238,19 @@ namespace NSMain.Bricks
             {
                 Member item = DG.SelectedItems[i] as Member;
                 CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[item.CurBookName];
-                string sql = string.Format("DELETE FROM {0} where Uid='{1}';", item.TableName, item.Uid);
+                string sql = string.Empty;
+                if (item.TableName == "场记大纲表" || item.TableName == "随手记录表")
+                {
+                    sql = string.Format("DELETE FROM {0} where Uid='{1}';", item.TableName, item.Uid);
+                }
+                if (item.TableName == "角色" || item.TableName == "其他" || item.TableName == "世界")
+                {
+                    sql = string.Format("DELETE FROM {0}主表 where Uid='{1}';", item.TableName, item.Uid);
+                }
+                if (item.TableName == "book" || item.TableName == "history" || item.TableName == "task")
+                {
+                    sql = string.Format("DELETE FROM Tree_{0} where Uid='{1}';", item.TableName, item.Uid);
+                }
                 sqlConn.ExecuteNonQuery(sql);
                 memberData.Remove(item);
             }
@@ -125,6 +259,49 @@ namespace NSMain.Bricks
         private void DG_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DG.SelectedItem = null;
+        }
+
+        /// <summary>
+        /// 执行压缩数据库
+        /// </summary>
+        /// <returns>压缩数据库</returns>
+        public static void ExecuteZip(CSqlitePlus cSqlite)
+        {
+            SQLiteConnection connection = cSqlite.connection;
+            SQLiteCommand cmd = new SQLiteCommand("VACUUM", connection);
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch (System.Data.SQLite.SQLiteException E)
+            {
+
+            }
+        }
+
+        private void BtnZip_Click(object sender, RoutedEventArgs e)
+        {
+            ExecuteZip(GlobalVal.SQLClass.Pools[CurBookName]);
+            LbSize_Loaded(null, null);
+        }
+
+
+        private void LbSize_Loaded(object sender, RoutedEventArgs e)
+        {
+            System.IO.FileInfo fileInfo = null;
+            try
+            {
+                fileInfo = new System.IO.FileInfo(GlobalVal.Path.Books + "\\" + CurBookName + ".db");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (fileInfo != null && fileInfo.Exists)
+            {
+                decimal fileSize = Math.Round(Convert.ToDecimal(fileInfo.Length / 1024.0 / 1024.0), 2, MidpointRounding.AwayFromZero);
+                LbSize.Content = string.Format("数据库大小：{0}mb", fileSize);
+            }
         }
     }
 }

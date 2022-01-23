@@ -151,6 +151,8 @@ namespace NSMain.Scenes
             e.Handled = true;
         }
 
+
+
         private void WpScenes_Loaded(object sender, RoutedEventArgs e)
         {
             if (CurBookName == null)
@@ -158,14 +160,10 @@ namespace NSMain.Scenes
                 return;
             }
             WpScenes.Children.Clear();
+
             string tableName = TypeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            //尝试建立新表（IF NOT EXISTS）
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS 场记大纲表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
-            sql += string.Format("CREATE INDEX IF NOT EXISTS 场记大纲表Uid ON 场记大纲表(Uid);");
-            sqlConn.ExecuteNonQuery(sql);
-
-            sql = string.Format("select * from 场记大纲表 ORDER BY 索引;", tableName);
+            string sql = string.Format("select * from 场记大纲表 ORDER BY 索引;", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {

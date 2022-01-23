@@ -13,8 +13,11 @@
         </Grid.RowDefinitions>
         <Grid MaxWidth="300">
             <TextBox x:Name="TbTab" hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" KeyDown="TbTab_KeyDown" BorderThickness="0,0,0,1" />
-            <Button x:Name="BtnAdd" Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnAdd_Click" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center">
+            <Button x:Name="BtnAdd" Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnAdd_Click" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,30,0">
                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_add.png"/>
+            </Button>
+            <Button x:Name="BtnEdit" Grid.Column="1" BorderThickness="0" Padding="4" Click="BtnEdit_Click" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center">
+                <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_edit.png"/>
             </Button>
         </Grid>
         <ScrollViewer Grid.Row="1">

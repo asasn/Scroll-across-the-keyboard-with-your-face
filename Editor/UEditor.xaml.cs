@@ -142,8 +142,7 @@ namespace NSMain.Editor
                     string keyword;
                     string tableName = wp.Tag.ToString();
                     CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-                    SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT 别称 FROM {0}别称表) ORDER BY LENGTH(名称) DESC;", tableName));
-
+                    SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称')) ORDER BY LENGTH(名称) DESC;", tableName));
                     while (reader.Read())
                     {
                         keyword = reader["名称"].ToString();

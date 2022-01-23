@@ -163,12 +163,7 @@ namespace NSMain.Notes
             WpNotes.Children.Clear();
             string tableName = TypeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            //尝试建立新表（IF NOT EXISTS）
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
-            sql += string.Format("CREATE INDEX IF NOT EXISTS 随手记录表Uid ON 随手记录表(Uid);");
-            sqlConn.ExecuteNonQuery(sql);
-
-            sql = string.Format("select * from 随手记录表 ORDER BY 索引;", tableName);
+            string sql = string.Format("select * from 随手记录表 ORDER BY 索引;", tableName);
             SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
             while (reader.Read())
             {

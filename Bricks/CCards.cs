@@ -20,16 +20,7 @@ namespace NSMain.Bricks
         }
 
 
-        public static void TryToBuildBaseTable(string curBookName, string typeOfTree)
-        {
-            string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 ({0}id PRIMARY KEY, 名称 CHAR UNIQUE, 备注 TEXT, 权重 INTEGER DEFAULT (0), 诞生年份 CHAR, IsDel BOOLEAN DEFAULT (false));", tableName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表{0}id ON {0}主表({0}id);", tableName);
-            sql += string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, "别称");
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, "别称");
-            sqlConn.ExecuteNonQuery(sql);
-        }
+
 
         ///// <summary>
         ///// 在数据库中添加一个信息卡
@@ -48,17 +39,64 @@ namespace NSMain.Bricks
         //    return newNode.NodeName;
 
         //}
-
-
-        public static void SaveMainInfo(string curBookName, string typeOfTree, UIElementCollection wrapPanels, string idValue)
+        public static void SaveNickName(string curBookName, string typeOfTree, URecord uRecord, string pid)
         {
             string tableName = typeOfTree;
             CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
             int w = 0;
-            foreach (URecord box in wrapPanels)
+
+            string sql = string.Empty;
+            foreach (UTip tipBox in uRecord.WpMain.Children)
             {
-                WrapPanel wp = box.WpMain;
-                string sql = string.Empty;
+                if (string.IsNullOrEmpty(tipBox.Uid))
+                {
+                    //不存在记录
+                    if (false == string.IsNullOrEmpty(tipBox.Text))
+                    {
+                        //将外面带入的sql语句提交，并且清空
+                        sqlConn.ExecuteNonQuery(sql);
+                        sql = string.Empty;
+
+                        //编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
+                        string guid = tipBox.Uid = Guid.NewGuid().ToString();
+                        sql = string.Format("insert or ignore into {0}从表 (Uid, Pid, Tid, Text) values ('{1}', '{2}', '{3}', '{4}');", tableName, guid, pid, uRecord.Uid, tipBox.Text.Replace("'", "''"));
+                        sqlConn.ExecuteNonQuery(sql);
+                        sql = string.Empty; //注意清空，以免影响后续语句运行                            
+                    }
+                }
+                else
+                {
+                    //存在记录，为空时删除，不为空时更新
+                    if (string.IsNullOrEmpty(tipBox.Text))
+                    {
+                        sql += string.Format("delete from {0}从表 where Uid='{1}';", tableName, tipBox.Uid);
+                        w--;
+                    }
+                    else
+                    {
+                        if ((bool)tipBox.Tag == true)
+                        {
+                            sql += string.Format("update {0}从表 set Text='{1}' where Uid='{2}' AND Pid='{3}' AND Tid='{4}';", tableName, tipBox.Text.Replace("'", "''"), tipBox.Uid, pid, uRecord.Uid);
+                        }
+                    }
+                }
+                w++;
+                tipBox.Tag = false;
+            }
+            sqlConn.ExecuteNonQuery(sql);
+
+        }
+
+        public static void SaveMainInfo(string curBookName, string typeOfTree, UIElementCollection wrapPanels, string pid)
+        {
+            string tableName = typeOfTree;
+            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            int w = 0; 
+            string sql = string.Empty;
+            foreach (URecord uRecord in wrapPanels)
+            {
+                WrapPanel wp = uRecord.WpMain;
+                sql = string.Empty;
                 foreach (UTip tipBox in wp.Children)
                 {
                     if (string.IsNullOrEmpty(tipBox.Uid))
@@ -71,10 +109,9 @@ namespace NSMain.Bricks
                             sql = string.Empty;
 
                             //编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
-                            string guid = Guid.NewGuid().ToString();
-                            sql = string.Format("insert or ignore into {0}{1}表 ({0}id, {1}, {1}id) values ('{2}', '{3}', '{4}');", tableName, wp.Tag.ToString(), idValue, tipBox.Text.Replace("'", "''"), guid);
+                            string guid = tipBox.Uid = Guid.NewGuid().ToString();
+                            sql = string.Format("insert or ignore into {0}从表 (Uid, Pid, Tid, Text) values ('{1}', '{2}', '{3}', '{4}');", tableName, guid, pid, uRecord.Uid, tipBox.Text.Replace("'", "''"));
                             sqlConn.ExecuteNonQuery(sql);
-                            tipBox.Uid = guid;
                             sql = string.Empty; //注意清空，以免影响后续语句运行                            
                         }
                     }
@@ -83,14 +120,14 @@ namespace NSMain.Bricks
                         //存在记录，为空时删除，不为空时更新
                         if (string.IsNullOrEmpty(tipBox.Text))
                         {
-                            sql += string.Format("delete from {0}{1}表 where {1}id = '{2}';", tableName, wp.Tag.ToString(), tipBox.Uid);
+                            sql += string.Format("delete from {0}从表 where Uid='{1}';", tableName, tipBox.Uid);
                             w--;
                         }
                         else
                         {
                             if ((bool)tipBox.Tag == true)
                             {
-                                sql += string.Format("update {0}{1}表 set {1}='{2}' where {1}id = '{3}';", tableName, wp.Tag.ToString(), tipBox.Text.Replace("'", "''"), tipBox.Uid);
+                                sql += string.Format("update {0}从表 set Text='{1}' where Uid='{2}' AND Pid='{3}' AND Tid='{4}';", tableName, tipBox.Text.Replace("'", "''"), tipBox.Uid, pid, uRecord.Uid);
                             }
                         }
                     }
@@ -99,8 +136,16 @@ namespace NSMain.Bricks
                 }
                 sqlConn.ExecuteNonQuery(sql);
             }
-            string sql2 = string.Format("update {0}主表 set 权重={1} where {0}id = '{2}';", tableName, w, idValue);
-            sqlConn.ExecuteNonQuery(sql2);
+
+            sql = string.Format("select * from {0}从表 where Pid='{1}' AND Tid=(select Uid from {0}属性表 where Text='别称');", tableName, pid);
+            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                w += 1;
+            }
+            reader.Close();
+            sql = string.Format("update {0}主表 set 权重={1} where Uid='{2}';", tableName, w, pid);
+            sqlConn.ExecuteNonQuery(sql);
 
         }
 
@@ -113,18 +158,13 @@ namespace NSMain.Bricks
             foreach (URecord box in wrapPanels)
             {
                 WrapPanel wp = box.WpMain;
-                //尝试建立新表（IF NOT EXISTS）
-                string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}{1}表 ({0}id CHAR REFERENCES {0}主表 ({0}id) ON DELETE CASCADE ON UPDATE CASCADE,{1} CHAR,{1}id CHAR PRIMARY KEY);", tableName, wp.Tag.ToString());
-                sql += string.Format("CREATE INDEX IF NOT EXISTS {0}{1}表{0}id ON {0}{1}表({0}id);", tableName, wp.Tag.ToString());
-                sqlConn.ExecuteNonQuery(sql);
-
-                sql = string.Format("select * from {0}{1}表 where {0}id = '{2}';", tableName, wp.Tag.ToString(), pid);
+                string sql = string.Format("select * from {0}从表 where Tid='{1}' AND Pid='{2}';", tableName, box.Uid, pid);
                 SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
                 wp.Children.Clear();
                 while (reader.Read())
                 {
-                    UTip tipBox = new UTip(box, reader.GetString(1));
-                    tipBox.Uid = reader.GetString(2);
+                    UTip tipBox = new UTip(box, reader["Text"].ToString());
+                    tipBox.Uid = reader["Uid"].ToString();
                 }
                 reader.Close();
             }

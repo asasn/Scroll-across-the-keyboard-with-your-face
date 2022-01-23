@@ -26,18 +26,21 @@ namespace NSMain.Tools
         public WRecycleBin()
         {
             InitializeComponent();
+            CurBookName = GlobalVal.CurrentBook.Name;
         }
 
-        private void Udl1_Loaded(object sender, RoutedEventArgs e)
+
+
+        public string CurBookName
         {
-            UDelList udl = sender as UDelList;
-            udl.Udl1_Loaded();
+            get { return (string)GetValue(CurBookNameProperty); }
+            set { SetValue(CurBookNameProperty, value); }
         }
 
-        private void Udl2_Loaded(object sender, RoutedEventArgs e)
-        {
-            UDelList udl = sender as UDelList;
-            udl.Udl2_Loaded();
-        }
+        // Using a DependencyProperty as the backing store for CurBookName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurBookNameProperty =
+            DependencyProperty.Register("CurBookName", typeof(string), typeof(WRecycleBin), new PropertyMetadata(null));
+
+
     }
 }

@@ -75,11 +75,14 @@ namespace NSMain.Bricks
 
         public void WpMain_Build(ArrayList wps)
         {
-            foreach (string t in wps)
+            foreach (Cards.WCards.属性条目 t in wps)
             {
-                URecord uRecord = new URecord();
-                uRecord.Title = t;
-                uRecord.Name = t;
+                URecord uRecord = new URecord
+                {
+                    Title = t.Text,
+                    Name = t.Text,
+                    Uid = t.Uid
+                };
                 Binding boolBinding = new Binding
                 {
                     Source = BtnSave,

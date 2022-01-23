@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -53,9 +54,13 @@ namespace NSMain.Bricks
                 int i = UcRecord.WpMain.Children.IndexOf(this);
                 if (i > 0)
                 {
-                    string temp = (UcRecord.WpMain.Children[i - 1] as UTip).Text;
-                    (UcRecord.WpMain.Children[i - 1] as UTip).Text = this.Text;
-                    (UcRecord.WpMain.Children[i] as UTip).Text = temp;
+                    //因为数据库中相关字段设置了唯一约束，需要多用足两个临时变量来交换，确保交换过程不会冲突
+                    string tempPrevious = (UcRecord.WpMain.Children[i - 1] as UTip).Text;
+                    string tempThis = (UcRecord.WpMain.Children[i] as UTip).Text;
+                    (UcRecord.WpMain.Children[i - 1] as UTip).Text = Guid.NewGuid().ToString();
+                    (UcRecord.WpMain.Children[i] as UTip).Text = Guid.NewGuid().ToString();
+                    (UcRecord.WpMain.Children[i - 1] as UTip).Text = tempThis;
+                    (UcRecord.WpMain.Children[i] as UTip).Text = tempPrevious;                   
                     (UcRecord.WpMain.Children[i - 1] as UTip).Tb.Focus();
                 }
             }
@@ -64,9 +69,12 @@ namespace NSMain.Bricks
                 int i = UcRecord.WpMain.Children.IndexOf(this);
                 if (i < UcRecord.WpMain.Children.Count - 1)
                 {
-                    string temp = (UcRecord.WpMain.Children[i + 1] as UTip).Text;
-                    (UcRecord.WpMain.Children[i + 1] as UTip).Text = this.Text;
-                    (UcRecord.WpMain.Children[i] as UTip).Text = temp;
+                    string tempNext = (UcRecord.WpMain.Children[i + 1] as UTip).Text;
+                    string tempThis = (UcRecord.WpMain.Children[i] as UTip).Text;
+                    (UcRecord.WpMain.Children[i + 1] as UTip).Text = Guid.NewGuid().ToString();
+                    (UcRecord.WpMain.Children[i] as UTip).Text = Guid.NewGuid().ToString();
+                    (UcRecord.WpMain.Children[i + 1] as UTip).Text = tempThis;
+                    (UcRecord.WpMain.Children[i] as UTip).Text = tempNext;
                     (UcRecord.WpMain.Children[i + 1] as UTip).Tb.Focus();
                 }
             }

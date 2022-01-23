@@ -10,10 +10,10 @@
     <Grid>
         <TabControl x:Name="TabMain" TabStripPlacement="Left" Style="{StaticResource TabControlCapsuleSolid}" SelectedIndex="1">
             <TabItem x:Name="ItemPublic" Header="公共">
-                <bricks:UDelList x:Name="Udl1" Loaded="Udl1_Loaded"/>
+                <bricks:UDelList x:Name="Udl1" CurBookName="index"/>
             </TabItem>
             <TabItem x:Name="ItemCurrent" Header="当前书籍">
-                <bricks:UDelList x:Name="Udl2" Loaded="Udl2_Loaded"/>
+                <bricks:UDelList x:Name="Udl2" CurBookName="{Binding CurBookName, ElementName=window}"/>
             </TabItem>
 
         </TabControl>

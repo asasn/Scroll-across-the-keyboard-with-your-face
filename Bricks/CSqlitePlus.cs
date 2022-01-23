@@ -21,7 +21,7 @@ namespace NSMain.Bricks
         }
 
         // 使用全局静态变量保存连接
-        private readonly SQLiteConnection connection;
+        public readonly SQLiteConnection connection;
         public string DbName;
 
         /// <summary>

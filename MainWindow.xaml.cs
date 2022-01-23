@@ -120,20 +120,17 @@ namespace NSMain
         private void PublicRoleCards_Loaded(object sender, RoutedEventArgs e)
         {
             GlobalVal.Uc.PublicRoleCards = sender as UCards;
-            GlobalVal.Uc.PublicRoleCards.WpCards.Children.Clear();
             GlobalVal.Uc.PublicRoleCards.LoadCards("index", "角色");
         }
 
         private void PublicOtherCards_Loaded(object sender, RoutedEventArgs e)
         {
             GlobalVal.Uc.PublicOtherCards = sender as UCards;
-            GlobalVal.Uc.PublicOtherCards.WpCards.Children.Clear();
             GlobalVal.Uc.PublicOtherCards.LoadCards("index", "其他");
         }
         private void PublicWorldCards_Loaded(object sender, RoutedEventArgs e)
         {
             GlobalVal.Uc.PublicWorldCards = sender as UCards;
-            GlobalVal.Uc.PublicWorldCards.WpCards.Children.Clear();
             GlobalVal.Uc.PublicWorldCards.LoadCards("index", "世界");
         }
         #region 向上/向下调整节点

@@ -6,15 +6,17 @@
         xmlns:local="clr-namespace:NSMain.Cards" xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:NSPublicModule="clr-namespace:NSMain.Bricks"
         mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize" Background="Transparent" Effect="{StaticResource EffectShadow3}" 
-        Title="信息卡窗体" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="185" d:DesignWidth="300" Loaded="Window_Loaded" MaxWidth="300">
+        Title="信息卡窗体" Topmost="True" AllowsTransparency="True" WindowStyle="None"  d:DesignWidth="300" Loaded="Window_Loaded" MaxWidth="300">
     <ScrollViewer VerticalAlignment="Top" >
         <hc:Card x:Name="card" Header=""  Margin="5">
             <Grid x:Name="gCard" Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition MinHeight="25" Height="Auto"/>
-                    <RowDefinition x:Name="R1" MinHeight="25" Height="0"/>
                     <RowDefinition MinHeight="25" Height="Auto"/>
-                    <RowDefinition MinHeight="50" Height="Auto"/>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition x:Name="R1" MinHeight="25" Height="Auto"/>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition MinHeight="45" Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -23,9 +25,9 @@
                         <ColumnDefinition Width="20"/>
                     </Grid.ColumnDefinitions>
                     <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="Lb名称" Content="名称" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,3" MinWidth="30"  />
-                     <Button Padding="2" x:Name="BtnSave" IsEnabled="False" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" />
+                    <Button Padding="2" x:Name="BtnSave" IsEnabled="False" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" />
                     <TextBox Padding="2" x:Name="TbName" TextChanged="Tb_TextChanged" hc:BorderElement.CornerRadius="0"  Grid.Row="0" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" MinHeight="0"/>
-                    </Grid>
+                </Grid>
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50*"/>
@@ -36,16 +38,17 @@
                     <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb真实年龄" Content="真实年龄" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,3,2,0" Grid.Column="1"  />
                     <TextBox Padding="2" x:Name="TbRealYear" hc:BorderElement.CornerRadius="0"  Text="" BorderThickness="0,0,0,1" TextWrapping="Wrap" VerticalAlignment="Top" MinHeight="0" InputMethod.IsInputMethodEnabled="False" TextChanged="TbBornYear_TextChanged" Margin="58,2,0,0" MinWidth="30" HorizontalAlignment="Left" Grid.Column="1" IsReadOnly="True" />
                 </Grid>
-                <Grid x:Name="GridMain" Grid.Row="2" >
+                <NSPublicModule:URecord x:Name="Nickname" Title="别称" IsCanSave="{Binding IsEnabled,ElementName=BtnSave,Mode=TwoWay}" Loaded="Nickname_Loaded" Grid.Row="2"/>
+                <Grid x:Name="GridMain" Grid.Row="3" >
                     <NSPublicModule:UBoxRecords x:Name="MyRecords" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="MyRecords_Loaded"/>
                 </Grid>
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="4">
                     <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb备注" Content="备注"  HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="2,3,2,0" MinWidth="30" />
-                    <WrapPanel MinHeight="50" x:Name="Wp备注" Uid="备注" Grid.Row="9" Grid.Column="1" ItemHeight="Auto" Margin="36,2,0,0">
+                    <WrapPanel x:Name="Wp备注" Uid="备注" Grid.Row="9" Grid.Column="1" Margin="36,2,0,0">
                         <TextBox Padding="2" hc:BorderElement.CornerRadius="0"  x:Name="Tb备注" TextChanged="Tb_TextChanged" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0" MinWidth="{Binding ActualWidth, ElementName=Wp备注, Mode=OneWay}"/>
                     </WrapPanel>
                 </Grid>
-                <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" Grid.Column="1" BorderThickness="0,0,0,0" Click="BtnClose_Click"  Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-21,-5,0" />
+                <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,-20,-5,0" />
             </Grid>
         </hc:Card>
     </ScrollViewer>
