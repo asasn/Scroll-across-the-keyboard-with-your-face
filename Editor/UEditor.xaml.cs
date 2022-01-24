@@ -141,8 +141,8 @@ namespace NSMain.Editor
                 {
                     string keyword;
                     string tableName = wp.Tag.ToString();
-                    CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-                    SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称')) ORDER BY LENGTH(名称) DESC;", tableName));
+                    CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+                    SQLiteDataReader reader = cSqlite.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称')) ORDER BY LENGTH(名称) DESC;", tableName));
                     while (reader.Read())
                     {
                         keyword = reader["名称"].ToString();
@@ -209,11 +209,11 @@ namespace NSMain.Editor
             {
                 //Console.WriteLine("保存至数据库");
                 string tableName = TypeOfTree;
-                CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}', isDir={2}, NodeContent='{3}', WordsCount={4}, IsExpanded={5}, IsChecked={6} where Uid = '{7}';", tableName, CurNode.NodeName.Replace("'", "''"), CurNode.IsDir, TextEditor.Text.Replace("'", "''"), words, CurNode.IsExpanded, CurNode.IsChecked, CurNode.Uid);
-                sqlConn.ExecuteNonQuery(sql);
+                cSqlite.ExecuteNonQuery(sql);
                 //在数据库占用和重复连接之间选择了一个平衡。保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
-                sqlConn.Close();
+                cSqlite.Close();
             }
             catch (Exception ex)
             {

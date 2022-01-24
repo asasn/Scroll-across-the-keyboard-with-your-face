@@ -21,7 +21,7 @@ namespace NSMain.Bricks
         }
 
         // 使用全局静态变量保存连接
-        public readonly SQLiteConnection connection;
+        private readonly SQLiteConnection connection;
         public string DbName;
 
         /// <summary>
@@ -78,9 +78,9 @@ namespace NSMain.Bricks
                     }
                     catch (System.Exception ex)
                     {
-                        System.Console.WriteLine(string.Format("\nSQL语句可能存在错误！\n{0}", ex));
+                        System.Console.WriteLine(ex.Message);
                     }
-                    
+
                 }
                 try
                 {
@@ -88,9 +88,9 @@ namespace NSMain.Bricks
                 }
                 catch (System.Exception ex)
                 {
-                    System.Console.WriteLine(string.Format("\n本次提交失败！\n{0}",ex));
+                    System.Console.WriteLine(ex.Message);
                 }
-                
+
             }
         }
 
@@ -116,30 +116,31 @@ namespace NSMain.Bricks
                     }
                     catch (System.Exception ex)
                     {
-                        System.Console.WriteLine(string.Format("\nSQL语句可能存在错误！\n{0}", ex));
+                        System.Console.WriteLine(ex.Message);
                         return null;
                     }
-
                 }
             }
         }
 
+
         /// <summary>
-        /// 获取最后添加记录的uid
+        /// 压缩数据库
         /// </summary>
-        /// <returns></returns>
-        public int GetLastUid(string tableName)
+        /// <param name="cSqlite"></param>
+        public void Vacuum()
         {
-            string sql = string.Format("select last_insert_rowid() from {0};", tableName);
-            SQLiteDataReader reader = ExecuteQuery(sql);
-            int lastuid = -1;
-            while (reader.Read())
+            SQLiteCommand cmd = new SQLiteCommand("VACUUM", connection);
+            try
             {
-                lastuid = reader.GetInt32(0);
+                cmd.ExecuteNonQuery();
             }
-            reader.Close();
-            return lastuid;
+            catch (SQLiteException ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
         }
+
 
     }
 }

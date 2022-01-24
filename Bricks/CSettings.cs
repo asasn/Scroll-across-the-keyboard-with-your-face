@@ -22,32 +22,41 @@ namespace NSMain.Bricks
 
     public class MySettings
     {
-        private static void InitMySettings(string bookName)
+        /// <summary>
+        /// 初始化填入的参数
+        /// </summary>
+        /// <param name="curBookName"></param>
+        private static void InitParameters(string curBookName)
         {
-            SqlConn = GlobalVal.SQLClass.Pools[bookName];
-            if (bookName == "index")
+            Parameters.CSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            if (curBookName == "index")
             {
-                TableName = "公共";
+                Parameters.TableName = "公共";
             }
             else
             {
-                TableName = "本书";
+                Parameters.TableName = "本书";
             }
-
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}设置表 (Key CHAR PRIMARY KEY, Value CHAR);", TableName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}设置表Key ON {0}设置表(Key);", TableName);
-            SqlConn.ExecuteNonQuery(sql);
         }
 
-        static string TableName;
-        static CSqlitePlus SqlConn;
-
-        public static string Get(string bookName, string key)
+        public static class Parameters
         {
-            InitMySettings(bookName);
+            public static string TableName;
+            public static CSqlitePlus CSqlite;
+        }
+
+        /// <summary>
+        /// 获取设置值
+        /// </summary>
+        /// <param name="curBookName">当前工作的书籍名称</param>
+        /// <param name="key">设置键</param>
+        /// <returns></returns>
+        public static string Get(string curBookName, string key)
+        {
+            InitParameters(curBookName);
             string value = null;
-            string sql = string.Format("SELECT * FROM {0}设置表 where Key='{1}';", TableName, key.Replace("'", "''"));
-            SQLiteDataReader reader = SqlConn.ExecuteQuery(sql);
+            string sql = string.Format("SELECT * FROM {0}设置表 where Key='{1}';", Parameters.TableName, key.Replace("'", "''"));
+            SQLiteDataReader reader = Parameters.CSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 value = reader["Value"].ToString();
@@ -56,11 +65,17 @@ namespace NSMain.Bricks
             return value;
         }
 
-        public static void Set(string bookName, string key, string value)
+        /// <summary>
+        /// 保存设置值
+        /// </summary>
+        /// <param name="curBookName">当前工作的书籍名称</param>
+        /// <param name="key">设置键</param>
+        /// <param name="value">设置值</param>
+        public static void Set(string curBookName, string key, string value)
         {
-            InitMySettings(bookName);
-            string sql = string.Format("REPLACE INTO {0}设置表 (Key, Value) VALUES ('{1}', '{2}');", TableName, key.Replace("'", "''"), value.Replace("'", "''"));
-            SqlConn.ExecuteNonQuery(sql);
+            InitParameters(curBookName);
+            string sql = string.Format("REPLACE INTO {0}设置表 (Key, Value) VALUES ('{1}', '{2}');", Parameters.TableName, key.Replace("'", "''"), value.Replace("'", "''"));
+            Parameters.CSqlite.ExecuteNonQuery(sql);
         }
 
 

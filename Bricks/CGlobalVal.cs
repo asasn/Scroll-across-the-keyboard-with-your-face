@@ -29,9 +29,9 @@ namespace NSMain.Bricks
 
             public static double Price;
 
-            public static int BornYear;
+            public static long BornYear;
 
-            public static int CurrentYear;
+            public static long CurrentYear;
 
             public static TreeViewNode CurNode;
         }

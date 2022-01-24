@@ -62,24 +62,6 @@ namespace NSMain.Notes
             DependencyProperty.Register("StrTitile", typeof(string), typeof(UNotes), new PropertyMetadata(string.Empty));
 
 
-
-
-        private void VerticalDisplay(object sender, TextChangedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            string str = tb.Text;
-            string text = "";
-            foreach (char c in str)
-            {
-                if (false == string.IsNullOrWhiteSpace(c.ToString()))
-                {
-                    text += c.ToString() + "\n";
-                }
-            }
-            tb.Text = text;
-            tb.CaretIndex = text.Length;
-        }
-
         private void Uc_MouseDown(object sender, MouseButtonEventArgs e)
         {
             //控件获取焦点（子元素已经设置为无法获取焦点）

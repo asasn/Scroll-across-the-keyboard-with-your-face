@@ -67,9 +67,9 @@ namespace NSMain.Bricks
 
         public void LoadNoteList(string curBookName, string tableName)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("SELECT * FROM {0} where IsDel=True;", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 memberData.Add(new Member()
@@ -86,9 +86,9 @@ namespace NSMain.Bricks
 
         public void LoadTreeList(string curBookName, string tableName)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("SELECT * FROM Tree_{0} where IsDel=True;", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 memberData.Add(new Member()
@@ -105,9 +105,9 @@ namespace NSMain.Bricks
 
         public void LoadCardList(string curBookName, string tableName)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("SELECT * FROM {0}主表 where IsDel=True;", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 memberData.Add(new Member()
@@ -158,7 +158,7 @@ namespace NSMain.Bricks
             for (int i = DG.SelectedItems.Count - 1; i >= 0; i--)
             {
                 Member item = DG.SelectedItems[i] as Member;
-                CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[item.CurBookName];
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[item.CurBookName];
                 if (false == arrayList.Contains(item.TableName))
                 {
                     arrayList.Add(item.TableName);
@@ -177,7 +177,7 @@ namespace NSMain.Bricks
                     sql = string.Format("update Tree_{0} set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
                 }
                 memberData.Remove(item);
-                sqlConn.ExecuteNonQuery(sql);
+                cSqlite.ExecuteNonQuery(sql);
             }
 
             foreach (string tableName in arrayList)
@@ -237,7 +237,7 @@ namespace NSMain.Bricks
             for (int i = DG.SelectedItems.Count - 1; i >= 0; i--)
             {
                 Member item = DG.SelectedItems[i] as Member;
-                CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[item.CurBookName];
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[item.CurBookName];
                 string sql = string.Empty;
                 if (item.TableName == "场记大纲表" || item.TableName == "随手记录表")
                 {
@@ -251,7 +251,7 @@ namespace NSMain.Bricks
                 {
                     sql = string.Format("DELETE FROM Tree_{0} where Uid='{1}';", item.TableName, item.Uid);
                 }
-                sqlConn.ExecuteNonQuery(sql);
+                cSqlite.ExecuteNonQuery(sql);
                 memberData.Remove(item);
             }
         }
@@ -261,27 +261,11 @@ namespace NSMain.Bricks
             DG.SelectedItem = null;
         }
 
-        /// <summary>
-        /// 执行压缩数据库
-        /// </summary>
-        /// <returns>压缩数据库</returns>
-        public static void ExecuteZip(CSqlitePlus cSqlite)
-        {
-            SQLiteConnection connection = cSqlite.connection;
-            SQLiteCommand cmd = new SQLiteCommand("VACUUM", connection);
-            try
-            {
-                cmd.ExecuteNonQuery();
-            }
-            catch (System.Data.SQLite.SQLiteException E)
-            {
 
-            }
-        }
 
         private void BtnZip_Click(object sender, RoutedEventArgs e)
         {
-            ExecuteZip(GlobalVal.SQLClass.Pools[CurBookName]);
+            GlobalVal.SQLClass.Pools[CurBookName].Vacuum();
             LbSize_Loaded(null, null);
         }
 

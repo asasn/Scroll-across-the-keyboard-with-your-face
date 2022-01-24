@@ -157,9 +157,9 @@ namespace NSMain.Cards
                 ArrayList wps = new ArrayList();
 
                 string tableName = TypeOfTree;
-                CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                 string sql = string.Format("select * from {0}属性表;", tableName);
-                SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+                SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
                 while (reader.Read())
                 {
                     if (reader["Text"].ToString() == "别称")
@@ -193,9 +193,9 @@ namespace NSMain.Cards
         void FillBaseInfo()
         {
             string tableName = TypeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string sql = string.Format("select * from {0}主表 where Uid='{1}';", tableName, this.Pid);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 if (reader["备注"].ToString() != "")
@@ -223,8 +223,8 @@ namespace NSMain.Cards
             reader.Close();
 
 
-            int realAge = GlobalVal.CurrentBook.CurrentYear - int.Parse(TbBornYear.Text);
-            card.Header = "　权重：" + ThisCard.weight.ToString();
+            long realAge = GlobalVal.CurrentBook.CurrentYear - long.Parse(TbBornYear.Text);
+            card.Header = " 权重：" + ThisCard.weight.ToString();
             TbRealYear.Text = realAge.ToString();
 
         }
@@ -232,18 +232,18 @@ namespace NSMain.Cards
         private void Nickname_Loaded(object sender, RoutedEventArgs e)
         {
             string tableName = TypeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+            cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
 
             WrapPanel wp = Nickname.WpMain;
             string sql = string.Format("select * from {0}属性表 where Text='别称';", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 Nickname.Uid = reader["Uid"].ToString();
             }
             sql = string.Format("select * from {0}从表 where Pid='{1}' AND Tid='{2}';", tableName, this.Pid, Nickname.Uid);
-            reader = sqlConn.ExecuteQuery(sql);
+            reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 UTip tipBox = new UTip(Nickname, reader["Text"].ToString());
@@ -268,7 +268,7 @@ namespace NSMain.Cards
         private void TbBornYear_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            int.TryParse(tb.Text, out int str);
+            long.TryParse(tb.Text, out long str);
             tb.Text = str.ToString();
 
             BtnSave.IsEnabled = true;
@@ -298,10 +298,10 @@ namespace NSMain.Cards
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            BtnSave.IsEnabled = false;
+            
             string tableName = TypeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbName.Text.Replace("'", "''")));
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbName.Text.Replace("'", "''")));
             while (reader.Read())
             {
                 if (this.Pid != reader.GetString(0).ToString())
@@ -326,7 +326,7 @@ namespace NSMain.Cards
                 }
 
                 string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 诞生年份={4} where Uid='{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, this.Pid);
-                sqlConn.ExecuteNonQuery(sql);
+                cSqlite.ExecuteNonQuery(sql);
 
                 //传递给父容器
                 BtnParent.Content = PName = TbName.Text;
@@ -336,18 +336,31 @@ namespace NSMain.Cards
 
                 //先清空ToolTip的内容
                 BtnParent.ToolTip = null;
-                sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                 sql = string.Format("SELECT Text FROM {0}从表 where Pid='{1}' AND Tid=(select Uid from {0}属性表 where Text='别称');", tableName, BtnParent.Uid);
-                reader = sqlConn.ExecuteQuery(sql);
+                reader = cSqlite.ExecuteQuery(sql);
                 while (reader.Read())
                 {
                     BtnParent.ToolTip += reader["Text"].ToString() + " ";
                 }
                 reader.Close();
+
+
+                sql = string.Format("SELECT * FROM {0}主表 where Uid='{1}';", tableName, this.Pid);
+                reader = cSqlite.ExecuteQuery(sql);
+                while (reader.Read())
+                {
+                    ThisCard.weight = reader["权重"].ToString();
+                }
+                reader.Close();
+                long realAge = GlobalVal.CurrentBook.CurrentYear - long.Parse(TbBornYear.Text);
+                card.Header = " 权重：" + ThisCard.weight.ToString();
+                TbRealYear.Text = realAge.ToString();
             }
 
             GlobalVal.Uc.RoleCards.RefreshKeyWords();
             GlobalVal.Uc.RoleCards.MarkNamesInChapter();
+            BtnSave.IsEnabled = false;
         }
 
         private void MyRecords_Loaded(object sender, RoutedEventArgs e)

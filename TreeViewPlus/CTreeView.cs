@@ -207,9 +207,9 @@ namespace NSMain.TreeViewPlus
         public static void AddNodeBySql(string curBookName, string typeOfTree, TreeViewNode newNode)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName.Replace("'", "''"), newNode.IsDir, newNode.NodeContent.Replace("'", "''"), newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
         }
         #endregion
@@ -219,19 +219,19 @@ namespace NSMain.TreeViewPlus
         #region 载入书籍
         //public static void SaveBySql(string curBookName, TreeViewNode baseNode)
         //{
-        //    SqliteOperate sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+        //    SqliteOperate cSqlite = GlobalVal.SQLClass.Pools[curBookName];
         //    foreach (TreeViewNode node in baseNode.ChildNodes)
         //    {
-        //        SaveBySql(sqlConn, node);
+        //        SaveBySql(cSqlite, node);
         //    }
 
         //}
 
-        //public static void SaveBySql(SqliteOperate sqlConn, TreeViewNode baseNode)
+        //public static void SaveBySql(SqliteOperate cSqlite, TreeViewNode baseNode)
         //{
         //    foreach (TreeViewNode node in baseNode.ChildNodes)
         //    {
-        //        SaveBySql(sqlConn, node);
+        //        SaveBySql(cSqlite, node);
         //    }
         //}
 
@@ -245,9 +245,9 @@ namespace NSMain.TreeViewPlus
         public static void LoadBySql(string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode TopNode)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("SELECT * FROM Tree_{0} where Pid='';", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 if ((bool)reader["IsDel"] == true)
@@ -278,7 +278,7 @@ namespace NSMain.TreeViewPlus
                     node.IconPath = GlobalVal.Path.Resourses + "/图标/目录树/ic_action_knight.png";
                 }
                 LoadNode(node, TreeViewNodeList, TopNode);
-                ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
+                ShowTree(cSqlite, curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
 
@@ -307,11 +307,11 @@ namespace NSMain.TreeViewPlus
         /// <param name="typeOfTree"></param>
         /// <param name="TreeViewNodeList"></param>
         /// <param name="parentNode"></param>
-        static void ShowTree(CSqlitePlus sqlConn, string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
+        static void ShowTree(CSqlitePlus cSqlite, string curBookName, string typeOfTree, ObservableCollection<TreeViewNode> TreeViewNodeList, TreeViewNode parentNode)
         {
             string tableName = typeOfTree;
             string sql = string.Format("SELECT * FROM Tree_{0} where Pid='{1}';", tableName, parentNode.Uid);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 if ((bool)reader["IsDel"] == true)
@@ -331,7 +331,7 @@ namespace NSMain.TreeViewPlus
                 };
                 node.IconPath = GlobalVal.Path.Resourses + "/图标/目录树/ic_action_document.png";
                 LoadNode(node, TreeViewNodeList, parentNode);
-                ShowTree(sqlConn, curBookName, typeOfTree, TreeViewNodeList, node);
+                ShowTree(cSqlite, curBookName, typeOfTree, TreeViewNodeList, node);
             }
             reader.Close();
         }
@@ -349,14 +349,14 @@ namespace NSMain.TreeViewPlus
         public static void SwapNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, TreeViewNode neighboringNode)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             //更新数据库中临近节点记录集
             string sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8}, IsDel={9} where Uid = '{10}';", tableName, "temp", neighboringNode.Pid, selectedNode.NodeName, selectedNode.IsDir, selectedNode.NodeContent, selectedNode.WordsCount, selectedNode.IsExpanded, selectedNode.IsChecked, selectedNode.IsDel, neighboringNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
             sql = string.Format("UPDATE Tree_{0} set Uid='{1}', Pid='{2}', NodeName='{3}', isDir={4}, NodeContent='{5}', WordsCount={6}, IsExpanded={7}, IsChecked={8}, IsDel={9}  where Uid = '{10}';", tableName, neighboringNode.Uid, neighboringNode.Pid, neighboringNode.NodeName, neighboringNode.IsDir, neighboringNode.NodeContent, neighboringNode.WordsCount, neighboringNode.IsExpanded, neighboringNode.IsChecked, neighboringNode.IsDel, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
             sql = string.Format("UPDATE Tree_{0} set Uid='{1}' where Uid = 'temp';", tableName, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
         }
         static string delSql;
@@ -370,12 +370,12 @@ namespace NSMain.TreeViewPlus
         public static void DelNodeBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode, ObservableCollection<TreeViewNode> treeViewNodeList)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             delSql = string.Empty;
-            RecursionDelBySql(curBookName, typeOfTree, selectedNode, sqlConn, treeViewNodeList);
+            RecursionDelBySql(curBookName, typeOfTree, selectedNode, cSqlite, treeViewNodeList);
             //回收站：delSql += string.Format("DELETE FROM Tree_{0} where Uid='{1}';", tableName, selectedNode.Uid);
             delSql += string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(delSql);
+            cSqlite.ExecuteNonQuery(delSql);
             treeViewNodeList.Remove(selectedNode);
         }
 
@@ -383,8 +383,8 @@ namespace NSMain.TreeViewPlus
         /// 方法：递归删除子节点
         /// </summary>
         /// <param name="baseNode"></param>
-        /// <param name="sqlConn"></param>
-        static void RecursionDelBySql(string curBookName, string typeOfTree, TreeViewNode baseNode, CSqlitePlus sqlConn, ObservableCollection<TreeViewNode> treeViewNodeList)
+        /// <param name="cSqlite"></param>
+        static void RecursionDelBySql(string curBookName, string typeOfTree, TreeViewNode baseNode, CSqlitePlus cSqlite, ObservableCollection<TreeViewNode> treeViewNodeList)
         {
             if (baseNode.IsDir == true)
             {
@@ -393,7 +393,7 @@ namespace NSMain.TreeViewPlus
                     string tableName = typeOfTree;
                     //回收站：delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
                     delSql += string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, baseNode.ChildNodes[i].Uid);
-                    RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
+                    RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], cSqlite, treeViewNodeList);
                     treeViewNodeList.Remove(baseNode.ChildNodes[i]);
                 }
             }
@@ -410,11 +410,11 @@ namespace NSMain.TreeViewPlus
         public static void MoveNodeBySql(string curBookName, string typeOfTree, TreeViewNode dragNode, ObservableCollection<TreeViewNode> treeViewNodeList)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             delSql = string.Empty;
-            RecursionMoveBySql(curBookName, typeOfTree, dragNode, sqlConn, treeViewNodeList);
+            RecursionMoveBySql(curBookName, typeOfTree, dragNode, cSqlite, treeViewNodeList);
             delSql += string.Format("DELETE FROM Tree_{0} where Uid='{1}';", tableName, dragNode.Uid);
-            sqlConn.ExecuteNonQuery(delSql);
+            cSqlite.ExecuteNonQuery(delSql);
             treeViewNodeList.Remove(dragNode);
             AddNodeBySql(curBookName, typeOfTree, dragNode);
         }
@@ -423,8 +423,8 @@ namespace NSMain.TreeViewPlus
         /// 方法：递归移动子节点
         /// </summary>
         /// <param name="baseNode"></param>
-        /// <param name="sqlConn"></param>
-        static void RecursionMoveBySql(string curBookName, string typeOfTree, TreeViewNode baseNode, CSqlitePlus sqlConn, ObservableCollection<TreeViewNode> treeViewNodeList)
+        /// <param name="cSqlite"></param>
+        static void RecursionMoveBySql(string curBookName, string typeOfTree, TreeViewNode baseNode, CSqlitePlus cSqlite, ObservableCollection<TreeViewNode> treeViewNodeList)
         {
             if (baseNode.IsDir == true)
             {
@@ -432,7 +432,7 @@ namespace NSMain.TreeViewPlus
                 {
                     string tableName = typeOfTree;
                     delSql += string.Format("DELETE FROM Tree_{0} where Uid = '{1}';", tableName, baseNode.ChildNodes[i].Uid);
-                    RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], sqlConn, treeViewNodeList);
+                    RecursionDelBySql(curBookName, typeOfTree, baseNode.ChildNodes[i], cSqlite, treeViewNodeList);
                     treeViewNodeList.Remove(baseNode.ChildNodes[i]);
                 }
             }
@@ -447,9 +447,9 @@ namespace NSMain.TreeViewPlus
         public static void ExpandedCollapsedBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
         }
 
@@ -462,9 +462,9 @@ namespace NSMain.TreeViewPlus
         public static void CheckedBySql(string curBookName, string typeOfTree, TreeViewNode selectedNode)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("UPDATE Tree_{0} set IsChecked={1} where Uid = '{2}';", tableName, selectedNode.IsChecked, selectedNode.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
         }
         #endregion

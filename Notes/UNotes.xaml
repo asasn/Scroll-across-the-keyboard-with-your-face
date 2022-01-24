@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" Width="255" Height="60" Focusable="True" MouseDown="Uc_MouseDown">
+             mc:Ignorable="d" Width="255" Height="60" Focusable="True" MouseDown="Uc_MouseDown" Cursor="Hand">
     <Grid >
         <Image Source="pack://siteoforigin:,,,/Resourses/场景/横版花纹.png" Stretch="Fill" />
         <Grid Background="Transparent" Height="40" Width="180">

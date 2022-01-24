@@ -36,12 +36,12 @@ namespace NSMain.Tools
         {
             string curBookUid = CSettings.Get("curBookUid");
             string tableName = "allbooks";
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools["index"];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Name CHAR, Price DOUBLE, BornYear INTEGER, CurrentYear INTEGER, IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
             sql = string.Format("SELECT * FROM Tree_{0};", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 if ((bool)reader["IsDel"] == true)
@@ -91,9 +91,9 @@ namespace NSMain.Tools
         {
             GlobalVal.CurrentBook.Uid = uid;
             string tableName = "allbooks";
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools["index"];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
             string sql = string.Format("SELECT * FROM Tree_{0} where Uid='{1}';", tableName, GlobalVal.CurrentBook.Uid);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 TbUid.Text = reader["Uid"].ToString();
@@ -127,9 +127,9 @@ namespace NSMain.Tools
             GlobalVal.Uc.TabControl.Items.Clear();
 
             //在数据库占用和重复连接之间选择了一个平衡。保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
-            foreach (CSqlitePlus sqlConn in GlobalVal.SQLClass.Pools.Values)
+            foreach (CSqlitePlus cSqlite in GlobalVal.SQLClass.Pools.Values)
             {
-                sqlConn.Close();
+                cSqlite.Close();
             }
 
             ChoseBookChange(bookCard);
@@ -180,9 +180,9 @@ namespace NSMain.Tools
             }
             string tableName = "allbooks";
             string guid = Guid.NewGuid().ToString();
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools["index"];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
             string sql = string.Format("INSERT INTO Tree_{0} (Uid, Name, Price, BornYear, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), 0, 2000, 2021);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
 
             TbBuild.Clear();
@@ -216,35 +216,35 @@ namespace NSMain.Tools
         void TryToBuildTreeTable(string curBookName, string typeOfTree)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN, IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Pid ON Tree_{0}(Pid);", tableName);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         void TryToBuildScenesTable(string curBookName)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             //尝试建立新表（IF NOT EXISTS）
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 场记大纲表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 场记大纲表Uid ON 场记大纲表(Uid);");
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         void TryToBuildNotesTable(string curBookName)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             //尝试建立新表（IF NOT EXISTS）
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 随手记录表Uid ON 随手记录表(Uid);");
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
         }
         public static void TryToBuildCardTable(string curBookName, string typeOfTree)
         {
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 TEXT, 权重 INTEGER DEFAULT (0), 诞生年份 CHAR, IsDel BOOLEAN DEFAULT (false));", tableName);
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 CHAR, 权重 INTEGER DEFAULT (0), 诞生年份 INTEGER, IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表Uid ON {0}主表(Uid);", tableName);
 
             sql += string.Format("CREATE TABLE IF NOT EXISTS {0}属性表 (Uid CHAR PRIMARY KEY, Text CHAR NOT NULL UNIQUE);", tableName);
@@ -259,12 +259,12 @@ namespace NSMain.Tools
             string guid = Guid.NewGuid().ToString();
             sql += string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, guid, "别称");
 
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         void TryToBuildSettingTable(string curBookName)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string tableName = string.Empty;
             if (curBookName == "index")
             {
@@ -277,7 +277,7 @@ namespace NSMain.Tools
 
             string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}设置表 (Key CHAR PRIMARY KEY, Value CHAR);", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}设置表Key ON {0}设置表(Key);", tableName);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
@@ -287,9 +287,9 @@ namespace NSMain.Tools
                 return;
             }
             string tableName = "allbooks";
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools["index"];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
             string sql = string.Format("UPDATE Tree_{0} set Price={1}, BornYear={2}, CurrentYear={3} where Uid = '{4}';", tableName, Convert.ToDouble(TbPrice.Text), Convert.ToInt32(TbBornYear.Text), Convert.ToInt32(TbCurrentYear.Text), GlobalVal.CurrentBook.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
             GetBookInfoForGval(GlobalVal.CurrentBook.Uid);
         }
@@ -328,23 +328,23 @@ namespace NSMain.Tools
         private static void DelCurBookBySql()
         {
             string tableName = "allbooks";
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools["index"];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
             //回收站：string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, GlobalVal.CurrentBook.Uid);
             string sql = string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, GlobalVal.CurrentBook.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         private void TbCurBookBornYear_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            int.TryParse(tb.Text, out int str);
+            long.TryParse(tb.Text, out long str);
             tb.Text = str.ToString();
         }
 
         private void TbCurBookCurrentYear_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            int.TryParse(tb.Text, out int str);
+            long.TryParse(tb.Text, out long str);
             tb.Text = str.ToString();
         }
 
@@ -385,9 +385,9 @@ namespace NSMain.Tools
                 CFileOperate.RenameFile(oldNameJpg, newNameJpg);
 
                 string tableName = "allbooks";
-                CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools["index"];
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
                 string sql = string.Format("UPDATE Tree_{0} set Name='{1}' where Uid = '{2}';", tableName, TbName.Text.Replace("'", "''"), GlobalVal.CurrentBook.Uid);
-                sqlConn.ExecuteNonQuery(sql);
+                cSqlite.ExecuteNonQuery(sql);
 
 
                 GetBookInfoForGval(GlobalVal.CurrentBook.Uid);
@@ -415,14 +415,14 @@ namespace NSMain.Tools
         private void TbBornYear_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            int.TryParse(tb.Text, out int str);
+            long.TryParse(tb.Text, out long str);
             tb.Text = str.ToString();
         }
 
         private void TbCurrentYear_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            int.TryParse(tb.Text, out int str);
+            long.TryParse(tb.Text, out long str);
             tb.Text = str.ToString();
         }
 

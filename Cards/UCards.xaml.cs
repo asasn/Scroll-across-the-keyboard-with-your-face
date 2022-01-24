@@ -42,8 +42,8 @@ namespace NSMain.Cards
                 return;
             }
             string tableName = TypeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称'))  where 名称='{1}' ORDER BY LENGTH(名称) DESC;", tableName, TbTab.Text.Replace("'", "''"))); 
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称'))  where 名称='{1}' ORDER BY LENGTH(名称) DESC;", tableName, TbTab.Text.Replace("'", "''"))); 
             while (reader.Read())
             {
                 MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
@@ -60,7 +60,7 @@ namespace NSMain.Cards
             TbTab.Clear();
 
             string sql = string.Format("insert or ignore into {0}主表 (Uid, 名称) values ('{1}', '{2}');", tableName, BtnTag.Uid, BtnTag.Content.ToString().Replace("'", "''"));
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
 
             RefreshKeyWords();
@@ -89,7 +89,7 @@ namespace NSMain.Cards
                 {
                     if (curNode.NodeContent.Contains(button.Content.ToString()) || IsContainsNickname(button.ToolTip, curNode.NodeContent))
                     {
-                        button.Background = Brushes.Cornsilk;
+                        button.Background = Brushes.LightGoldenrodYellow;
                     }
                     else
                     {
@@ -152,9 +152,9 @@ namespace NSMain.Cards
 
 
             string tableName = typeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("SELECT * FROM {0}主表 ORDER BY 权重 DESC", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 if ((bool)reader["IsDel"] == true)
@@ -177,9 +177,9 @@ namespace NSMain.Cards
             WpCards.Children.Remove(BtnTag);
 
             string tableName = TypeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string sql = string.Format("update {0}主表 set IsDel=True where Uid='{1}';", tableName, BtnTag.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
 
 
             RefreshKeyWords();
@@ -225,9 +225,9 @@ namespace NSMain.Cards
             button.ContextMenu = aMenu;
 
             string tableName = TypeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string sql = string.Format("SELECT * FROM {0}从表 where Pid='{1}' and Tid=(select Uid from {0}属性表 where Text='别称');", tableName, guid);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 button.ToolTip += reader["Text"].ToString() + " ";

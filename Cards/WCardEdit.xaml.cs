@@ -75,12 +75,12 @@ namespace NSMain.Cards
 
         private void URecord_Loaded(object sender, RoutedEventArgs e)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string tableName = TypeOfTree;
             string sql;
 
             sql = string.Format("SELECT * FROM {0}属性表;", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 if (reader["Text"].ToString() == "别称")
@@ -95,7 +95,7 @@ namespace NSMain.Cards
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string tableName = TypeOfTree;
             string sql = string.Empty;
             foreach (UTip tipBox in MyURecord.WpMain.Children)
@@ -105,7 +105,7 @@ namespace NSMain.Cards
                     //不存在记录 
                     string guid = tipBox.Uid = Guid.NewGuid().ToString();
                     sql = string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, guid, tipBox.Text.Replace("'", "''"));
-                    sqlConn.ExecuteNonQuery(sql);
+                    cSqlite.ExecuteNonQuery(sql);
                     sql = string.Empty; //注意清空，以免影响后续语句运行
                 }
                 else
@@ -126,7 +126,7 @@ namespace NSMain.Cards
                 }
                 tipBox.Tag = false;
             }
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
             BtnSave.IsEnabled = false;
         }
 

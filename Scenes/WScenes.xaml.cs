@@ -56,7 +56,7 @@ namespace NSMain.Scenes
         /// <typeparam name="T"></typeparam>
         /// <param name="n"></param>
         /// <param name="Wp"></param>
-        int UpdateIndex(int n, string tableName, CSqlitePlus sqlConn, WrapPanel Wp)
+        int UpdateIndex(int n, string tableName, CSqlitePlus cSqlite, WrapPanel Wp)
         {
             int numOfDel = 0;
             for (int i = n; i < Wp.Children.Count; i++)
@@ -65,7 +65,7 @@ namespace NSMain.Scenes
                 (Wp.Children[i] as UScenes).StrIndex = string.Format("第{0}幕", (Wp.Children[i] as UScenes).Index + 1);
             }
             string sql = string.Format("SELECT COUNT(IsDel) FROM {0} where IsDel=True;", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 numOfDel = Convert.ToInt32(reader["COUNT(IsDel)"]);
@@ -101,11 +101,11 @@ namespace NSMain.Scenes
             TbTitle.Clear();
 
             //sCard.Index + NumOfDel这里给新纪录索引补上了被删除的数量
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
-            int numOfDel = UpdateIndex(sCard.Index, "场记大纲表", sqlConn, WpScenes);
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+            int numOfDel = UpdateIndex(sCard.Index, "场记大纲表", cSqlite, WpScenes);
             sCard.Uid = Guid.NewGuid().ToString();
             string sql = string.Format("INSERT INTO  场记大纲表 (Uid , 索引, 标题, 内容) VALUES ('{0}', '{1}', '{2}', '{3}');", sCard.Uid, sCard.Index + numOfDel, sCard.StrTitile.Replace("'", "''"), sCard.StrContent.Replace("'", "''"));
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
             sCard.Focus();
         }
 
@@ -162,9 +162,9 @@ namespace NSMain.Scenes
             WpScenes.Children.Clear();
 
             string tableName = TypeOfTree;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string sql = string.Format("select * from 场记大纲表 ORDER BY 索引;", tableName);
-            SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
                 if ((bool)reader["IsDel"] == true)
@@ -240,13 +240,13 @@ namespace NSMain.Scenes
                 return;
             }
 
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
 
             int n = WpScenes.Children.IndexOf(CurCard);
             WpScenes.Children.Remove(CurCard);
             //回收站：string sql = string.Format("DELETE FROM 场记大纲表 where Uid='{0}';", CurCard.Uid);
             string sql = string.Format("update 场记大纲表 set IsDel=True where Uid='{0}';", CurCard.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
             if (WpScenes.Children.Count > 0)
             {
                 if (n == WpScenes.Children.Count)
@@ -265,7 +265,7 @@ namespace NSMain.Scenes
                 TbShowContent.Clear();
             }
 
-            _ = UpdateIndex(n, "场记大纲表", sqlConn, WpScenes);
+            _ = UpdateIndex(n, "场记大纲表", cSqlite, WpScenes);
         }
 
         private void WpScenes_KeyDown(object sender, KeyEventArgs e)
@@ -306,10 +306,10 @@ namespace NSMain.Scenes
                     CurCard.Index--;
                     (WpScenes.Children[i - 1] as UScenes).Index++;
 
-                    CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                    CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                     string sql = string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
                     sql += string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", (WpScenes.Children[i - 1] as UScenes).Index, (WpScenes.Children[i - 1] as UScenes).Uid);
-                    sqlConn.ExecuteNonQuery(sql);
+                    cSqlite.ExecuteNonQuery(sql);
 
                     (WpScenes.Children[i - 1] as UScenes).Focus();
                 }
@@ -332,10 +332,10 @@ namespace NSMain.Scenes
                     CurCard.Index++;
                     (WpScenes.Children[i + 1] as UScenes).Index--;
 
-                    CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                    CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                     string sql = string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
                     sql += string.Format("UPDATE 场记大纲表 set 索引='{0}' where Uid='{1}';", (WpScenes.Children[i + 1] as UScenes).Index, (WpScenes.Children[i + 1] as UScenes).Uid);
-                    sqlConn.ExecuteNonQuery(sql);
+                    cSqlite.ExecuteNonQuery(sql);
 
                     (WpScenes.Children[i + 1] as UScenes).Focus();
                 }
@@ -350,9 +350,9 @@ namespace NSMain.Scenes
             }
             CurCard.StrTitile = TbShowTitle.Text;
             CurCard.StrContent = TbShowContent.Text;
-            CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string sql = string.Format("UPDATE 场记大纲表 set 标题='{0}', 内容='{1}' where Uid='{2}';", CurCard.StrTitile.Replace("'", "''"), CurCard.StrContent.Replace("'", "''"), CurCard.Uid);
-            sqlConn.ExecuteNonQuery(sql);
+            cSqlite.ExecuteNonQuery(sql);
             BtnSave.IsEnabled = false;
         }
 

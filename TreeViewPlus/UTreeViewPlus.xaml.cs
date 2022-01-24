@@ -259,9 +259,9 @@ namespace NSMain.TreeViewPlus
                     if (selectedNode.IsDir == true)
                     {
                         //string tableName = TypeOfTree;
-                        //SqliteOperate sqlConn = GlobalVal.SQLClass.Pools[curBookName];
+                        //SqliteOperate cSqlite = GlobalVal.SQLClass.Pools[curBookName];
                         //string sql = string.Format("UPDATE Tree_{0} set IsExpanded={1} where Uid = '{2}';", tableName, selectedNode.IsExpanded, selectedNode.Uid);
-                        //sqlConn.ExecuteNonQuery(sql);
+                        //cSqlite.ExecuteNonQuery(sql);
                         //
                     }
                     else
@@ -291,9 +291,9 @@ namespace NSMain.TreeViewPlus
                         {
                             ////载入节点内容
                             //string tableName = TypeOfTree;
-                            //SqliteOperate sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                            //SqliteOperate cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                             //string sql = string.Format("SELECT NodeContent FROM Tree_{0} where Uid='{1}';", tableName, selectedNode.Uid);
-                            //SQLiteDataReader reader = sqlConn.ExecuteQuery(sql);
+                            //SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
                             //while (reader.Read())
                             //{
                             //    selectedNode.NodeContent = reader["NodeContent"].ToString();
@@ -374,9 +374,9 @@ namespace NSMain.TreeViewPlus
             //    TbkName.Visibility = Visibility.Visible;
 
             //    string tableName = TypeOfTree;
-            //    CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+            //    CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             //    string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
-            //    sqlConn.ExecuteNonQuery(sql);
+            //    cSqlite.ExecuteNonQuery(sql);
 
             //}
         }
@@ -448,7 +448,7 @@ namespace NSMain.TreeViewPlus
             }
             if (selectedNode.IsDir == true)
             {
-                MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n将会不经回收站直接删除，请进行确认！\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+                MessageBoxResult dr = MessageBox.Show("真的要进行删除吗？\n如需恢复，请在回收站找回", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
                 if (dr == MessageBoxResult.Cancel)
                 {
                     return;
@@ -763,7 +763,7 @@ namespace NSMain.TreeViewPlus
                 }
                 string sql = string.Empty;
                 string tableName = TypeOfTree;
-                CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                 foreach (string srcFullFileName in files)
                 {
                     string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
@@ -775,7 +775,7 @@ namespace NSMain.TreeViewPlus
                     //合并提交的SQL语句，使用+=来赋值
                     sql += string.Format("INSERT INTO Tree_{0} (Uid, Pid, NodeName, isDir, NodeContent, WordsCount, IsExpanded, IsChecked) VALUES ('{1}', '{2}', '{3}', {4}, '{5}', {6}, {7}, {8});", tableName, newNode.Uid, newNode.Pid, newNode.NodeName, newNode.IsDir, newNode.NodeContent.Replace("'", "''"), newNode.WordsCount, newNode.IsExpanded, newNode.IsChecked);
                 }
-                sqlConn.ExecuteNonQuery(sql);
+                cSqlite.ExecuteNonQuery(sql);
 
             }
         }

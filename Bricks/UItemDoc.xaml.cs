@@ -85,9 +85,9 @@ namespace NSMain.Bricks
             if (selectedNode != null && (bool)TbReName.Tag == true)
             {
                 string tableName = TypeOfTree;
-                CSqlitePlus sqlConn = GlobalVal.SQLClass.Pools[CurBookName];
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                 string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, selectedNode.NodeName.Replace("'", "''"), selectedNode.Uid);
-                sqlConn.ExecuteNonQuery(sql);
+                cSqlite.ExecuteNonQuery(sql);
             }
             TbReName.Tag = false;
         }

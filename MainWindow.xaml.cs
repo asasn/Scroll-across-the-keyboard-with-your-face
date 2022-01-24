@@ -432,9 +432,9 @@ namespace NSMain
                     }
                 }
             }
-            foreach (CSqlitePlus sqlConn in GlobalVal.SQLClass.Pools.Values)
+            foreach (CSqlitePlus cSqlite in GlobalVal.SQLClass.Pools.Values)
             {
-                sqlConn.Close();
+                cSqlite.Close();
             }
             GlobalVal.Uc.SpWin.Dispatcher.Invoke(() => AngleImg_Loaded(null, null));//在GlobalVal.Uc.SpWin的线程上关闭SplashWindow
 

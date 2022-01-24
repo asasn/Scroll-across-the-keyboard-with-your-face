@@ -49,7 +49,7 @@ namespace NSMain
             AngleImg.Width = AngleImg.Height = ImgWidth;
             if (GlobalVal.Flag.Loading == false)
             {
-                AngleImg.Opacity -= 0.02;
+                AngleImg.Opacity -= 0.025;
             }
             if (AngleImg.Opacity <= 0)
             {
