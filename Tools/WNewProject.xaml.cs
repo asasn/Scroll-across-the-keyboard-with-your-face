@@ -21,9 +21,9 @@ namespace NSMain.Tools
     /// <summary>
     /// WPuzzles.xaml 的交互逻辑
     /// </summary>
-    public partial class WPuzzles : Window
+    public partial class WNewProject : Window
     {
-        public WPuzzles()
+        public WNewProject()
         {
             InitializeComponent();
         }

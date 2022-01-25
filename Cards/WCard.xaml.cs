@@ -21,7 +21,7 @@ namespace NSMain.Cards
     /// <summary>
     /// WCards.xaml 的交互逻辑
     /// </summary>
-    public partial class WCards : Window
+    public partial class WCard : Window
     {
         public struct ThisCard
         {
@@ -31,7 +31,7 @@ namespace NSMain.Cards
             public static string 诞生年份;
         }
 
-        public WCards(string curBookName, string typeOfTree, Button btnParent)
+        public WCard(string curBookName, string typeOfTree, Button btnParent)
         {
             InitializeComponent();
 
@@ -73,7 +73,7 @@ namespace NSMain.Cards
 
         // Using a DependencyProperty as the backing store for PName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PNameProperty =
-            DependencyProperty.Register("PName", typeof(string), typeof(WCards), new PropertyMetadata(null));
+            DependencyProperty.Register("PName", typeof(string), typeof(WCard), new PropertyMetadata(null));
 
 
 
@@ -86,7 +86,7 @@ namespace NSMain.Cards
 
         // Using a DependencyProperty as the backing store for Pid.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PidProperty =
-            DependencyProperty.Register("Pid", typeof(string), typeof(WCards), new PropertyMetadata(null));
+            DependencyProperty.Register("Pid", typeof(string), typeof(WCard), new PropertyMetadata(null));
 
 
 
@@ -98,7 +98,7 @@ namespace NSMain.Cards
 
         // Using a DependencyProperty as the backing store for BtnParent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BtnParentProperty =
-            DependencyProperty.Register("BtnParent", typeof(Button), typeof(WCards), new PropertyMetadata(null));
+            DependencyProperty.Register("BtnParent", typeof(Button), typeof(WCard), new PropertyMetadata(null));
 
 
 
@@ -112,7 +112,7 @@ namespace NSMain.Cards
 
         // Using a DependencyProperty as the backing store for UBtnSave.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty UBtnSaveProperty =
-            DependencyProperty.Register("UBtnSave", typeof(Button), typeof(WCards), new PropertyMetadata(null));
+            DependencyProperty.Register("UBtnSave", typeof(Button), typeof(WCard), new PropertyMetadata(null));
 
 
 
@@ -125,7 +125,7 @@ namespace NSMain.Cards
 
         // Using a DependencyProperty as the backing store for CurBookName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurBookNameProperty =
-            DependencyProperty.Register("CurBookName", typeof(string), typeof(WCards), new PropertyMetadata(null));
+            DependencyProperty.Register("CurBookName", typeof(string), typeof(WCard), new PropertyMetadata(null));
 
 
 
@@ -137,7 +137,7 @@ namespace NSMain.Cards
 
         // Using a DependencyProperty as the backing store for TypeOfTree.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TypeOfTreeProperty =
-            DependencyProperty.Register("TypeOfTree", typeof(string), typeof(WCards), new PropertyMetadata(null));
+            DependencyProperty.Register("TypeOfTree", typeof(string), typeof(WCard), new PropertyMetadata(null));
 
 
 

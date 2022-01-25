@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NSMain.Notes
+namespace NSMain.Bricks
 {
     /// <summary>
     /// UcScenesCard.xaml 的交互逻辑
     /// </summary>
-    public partial class UNotes : UserControl
+    public partial class UNoteVertical : UserControl
     {
-        public UNotes()
+        public UNoteVertical()
         {
             InitializeComponent();
         }
@@ -22,7 +22,7 @@ namespace NSMain.Notes
 
         // Using a DependencyProperty as the backing store for Index.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IndexProperty =
-            DependencyProperty.Register("Index", typeof(int), typeof(UNotes), new PropertyMetadata(0));
+            DependencyProperty.Register("Index", typeof(int), typeof(UNoteVertical), new PropertyMetadata(0));
 
 
 
@@ -36,7 +36,7 @@ namespace NSMain.Notes
 
         // Using a DependencyProperty as the backing store for StrIndex.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StrIndexProperty =
-            DependencyProperty.Register("StrIndex", typeof(string), typeof(UNotes), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("StrIndex", typeof(string), typeof(UNoteVertical), new PropertyMetadata(string.Empty));
 
 
 
@@ -48,7 +48,7 @@ namespace NSMain.Notes
 
         // Using a DependencyProperty as the backing store for StrContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StrContentProperty =
-            DependencyProperty.Register("StrContent", typeof(string), typeof(UNotes), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("StrContent", typeof(string), typeof(UNoteVertical), new PropertyMetadata(string.Empty));
 
 
         public string StrTitile
@@ -59,8 +59,26 @@ namespace NSMain.Notes
 
         // Using a DependencyProperty as the backing store for StrTitile.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StrTitileProperty =
-            DependencyProperty.Register("StrTitile", typeof(string), typeof(UNotes), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("StrTitile", typeof(string), typeof(UNoteVertical), new PropertyMetadata(string.Empty));
 
+
+
+
+        private void VerticalDisplay(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            string str = tb.Text;
+            string text = "";
+            foreach (char c in str)
+            {
+                if (false == string.IsNullOrWhiteSpace(c.ToString()))
+                {
+                    text += c.ToString() + "\n";
+                }
+            }
+            tb.Text = text;
+            tb.CaretIndex = text.Length;
+        }
 
         private void Uc_MouseDown(object sender, MouseButtonEventArgs e)
         {

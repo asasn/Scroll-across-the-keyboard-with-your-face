@@ -1,4 +1,6 @@
 ﻿using NSMain.Cards;
+using NSMain.Notes;
+using NSMain.Scenes;
 using NSMain.Searcher;
 using NSMain.TreeViewPlus;
 using System;
@@ -10,6 +12,9 @@ using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace NSMain.Bricks
 {
+    /// <summary>
+    /// 公共变量和操作对象
+    /// </summary>
     class GlobalVal
     {
         public struct Path
@@ -54,6 +59,8 @@ namespace NSMain.Bricks
             public static UTreeViewPlus TreeBook;
             public static UTreeViewPlus TreeHistory;
             public static UTreeViewPlus TreeTask;
+            public static WNotes Notes;
+            public static WScenes Scenes;
             public static UCards RoleCards;
             public static UCards OtherCards;
             public static UCards WorldCards;

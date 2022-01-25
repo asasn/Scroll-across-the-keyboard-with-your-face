@@ -106,6 +106,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Bricks\UBoxNotes.xaml.cs">
+      <DependentUpon>UBoxNotes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Bricks\UBoxRecords.xaml.cs">
       <DependentUpon>UBoxRecords.xaml</DependentUpon>
     </Compile>
@@ -124,8 +127,8 @@
     <Compile Include="Cards\WCardEdit.xaml.cs">
       <DependentUpon>WCardEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Cards\WCards.xaml.cs">
-      <DependentUpon>WCards.xaml</DependentUpon>
+    <Compile Include="Cards\WCard.xaml.cs">
+      <DependentUpon>WCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
@@ -133,8 +136,8 @@
     <Compile Include="Tools\WBooksChoose.xaml.cs">
       <DependentUpon>WBooksChoose.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tools\WPuzzles.xaml.cs">
-      <DependentUpon>WPuzzles.xaml</DependentUpon>
+    <Compile Include="Tools\WNewProject.xaml.cs">
+      <DependentUpon>WNewProject.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tools\WRecycleBin.xaml.cs">
       <DependentUpon>WRecycleBin.xaml</DependentUpon>
@@ -189,11 +192,11 @@
     <Compile Include="Bricks\URecord.xaml.cs">
       <DependentUpon>URecord.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Notes\UNotes.xaml.cs">
-      <DependentUpon>UNotes.xaml</DependentUpon>
+    <Compile Include="Bricks\UNoteHorizontal.xaml.cs">
+      <DependentUpon>UNoteHorizontal.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Scenes\UScenes.xaml.cs">
-      <DependentUpon>UScenes.xaml</DependentUpon>
+    <Compile Include="Bricks\UNoteVertical.xaml.cs">
+      <DependentUpon>UNoteVertical.xaml</DependentUpon>
     </Compile>
     <Compile Include="Searcher\USearcher.xaml.cs">
       <DependentUpon>USearcher.xaml</DependentUpon>
@@ -204,6 +207,10 @@
     <Compile Include="TreeViewPlus\UTreeViewPlus.xaml.cs">
       <DependentUpon>UTreeViewPlus.xaml</DependentUpon>
     </Compile>
+    <Page Include="Bricks\UBoxNotes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Bricks\UBoxRecords.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,7 +235,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Cards\WCards.xaml">
+    <Page Include="Cards\WCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,7 +263,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Tools\WPuzzles.xaml">
+    <Page Include="Tools\WNewProject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -316,11 +323,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Notes\UNotes.xaml">
+    <Page Include="Bricks\UNoteHorizontal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Scenes\UScenes.xaml">
+    <Page Include="Bricks\UNoteVertical.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

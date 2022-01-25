@@ -75,7 +75,7 @@ namespace NSMain.Bricks
 
         public void WpMain_Build(ArrayList wps)
         {
-            foreach (Cards.WCards.属性条目 t in wps)
+            foreach (Cards.WCard.属性条目 t in wps)
             {
                 URecord uRecord = new URecord
                 {

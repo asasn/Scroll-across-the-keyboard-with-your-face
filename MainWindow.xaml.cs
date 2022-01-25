@@ -193,9 +193,9 @@ namespace NSMain
             win.ShowDialog();
         }
 
-        private void PuzzleTool_Click(object sender, RoutedEventArgs e)
+        private void NewProject_Click(object sender, RoutedEventArgs e)
         {
-            WPuzzles win = new WPuzzles();
+            WNewProject win = new WNewProject();
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();

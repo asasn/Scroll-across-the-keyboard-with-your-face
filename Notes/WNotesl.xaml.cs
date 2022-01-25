@@ -18,6 +18,7 @@ namespace NSMain.Notes
             InitializeComponent();
             CurBookName = curBookName;
             TypeOfTree = typeOfTree;
+            GlobalVal.Uc.Notes = this;
         }
 
         string CurBookName;
@@ -25,28 +26,28 @@ namespace NSMain.Notes
 
 
 
-        public UNotes CurCard
+        public UNoteHorizontal CurCard
         {
-            get { return (UNotes)GetValue(CurCardProperty); }
+            get { return (UNoteHorizontal)GetValue(CurCardProperty); }
             set { SetValue(CurCardProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for CurCard.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurCardProperty =
-            DependencyProperty.Register("CurCard", typeof(UNotes), typeof(WNotes), new PropertyMetadata(null));
+            DependencyProperty.Register("CurCard", typeof(UNoteHorizontal), typeof(WNotes), new PropertyMetadata(null));
 
 
 
 
-        public UNotes PreviousCard
+        public UNoteHorizontal PreviousCard
         {
-            get { return (UNotes)GetValue(PreviousCardProperty); }
+            get { return (UNoteHorizontal)GetValue(PreviousCardProperty); }
             set { SetValue(PreviousCardProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for PreviousCard.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PreviousCardProperty =
-            DependencyProperty.Register("PreviousCard", typeof(UNotes), typeof(WNotes), new PropertyMetadata(null));
+            DependencyProperty.Register("PreviousCard", typeof(UNoteHorizontal), typeof(WNotes), new PropertyMetadata(null));
 
 
 
@@ -61,8 +62,8 @@ namespace NSMain.Notes
             int numOfDel = 0;
             for (int i = n; i < Wp.Children.Count; i++)
             {
-                (Wp.Children[i] as UNotes).Index = Wp.Children.IndexOf(Wp.Children[i] as UNotes);
-                (Wp.Children[i] as UNotes).StrIndex = string.Format("编号：{0}", (Wp.Children[i] as UNotes).Index + 1);
+                (Wp.Children[i] as UNoteHorizontal).Index = Wp.Children.IndexOf(Wp.Children[i] as UNoteHorizontal);
+                (Wp.Children[i] as UNoteHorizontal).StrIndex = string.Format("编号：{0}", (Wp.Children[i] as UNoteHorizontal).Index + 1);
             }
             string sql = string.Format("SELECT COUNT(IsDel) FROM {0} where IsDel=True;", tableName);
             SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
@@ -84,7 +85,7 @@ namespace NSMain.Notes
 
 
 
-            UNotes sCard = new UNotes();
+            UNoteHorizontal sCard = new UNoteHorizontal();
             if (CurCard == null || WpNotes.Children.Count == 0)
             {
                 //追加至末尾
@@ -171,7 +172,7 @@ namespace NSMain.Notes
                 {
                     continue;
                 }
-                UNotes sCard = new UNotes
+                UNoteHorizontal sCard = new UNoteHorizontal
                 {
                     Uid = reader["Uid"].ToString(),
                     StrTitile = reader["标题"].ToString(),
@@ -187,7 +188,7 @@ namespace NSMain.Notes
             int n = Convert.ToInt32(MySettings.Get(CurBookName, "WpNotesFocusIndex"));
             if (WpNotes.Children.Count > 0)
             {
-                (WpNotes.Children[n] as UNotes).Focus();
+                (WpNotes.Children[n] as UNoteHorizontal).Focus();
                 ScMain.ScrollToHorizontalOffset((60 * WpNotes.Children.Count) - ScMain.ActualWidth / 2);
             }
 
@@ -195,22 +196,23 @@ namespace NSMain.Notes
 
         private void SCard_LostFocus(object sender, RoutedEventArgs e)
         {
-            PreviousCard = sender as UNotes;
+            PreviousCard = sender as UNoteHorizontal;
         }
 
         private void SCard_GotFocus(object sender, RoutedEventArgs e)
         {
-            CurCard = sender as UNotes;
+            CurCard = sender as UNoteHorizontal;
+            CurCard.Index = WpNotes.Children.IndexOf(CurCard);
             TbShowIndex.Text = CurCard.StrIndex;
             TbShowTitle.Text = CurCard.StrTitile;
             TbShowContent.Text = CurCard.StrContent;
-            CurCard.BorderBrush = Brushes.Orange;
-            CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
             if (PreviousCard != null)
             {
                 PreviousCard.BorderBrush = null;
                 PreviousCard.BorderThickness = new Thickness(0, 0, 0, 0);
             }
+            CurCard.BorderBrush = Brushes.Orange;
+            CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
             BtnSave.IsEnabled = false;
             CurCard.Index = WpNotes.Children.IndexOf(CurCard);
             MySettings.Set(CurBookName, "WpNotesFocusIndex", CurCard.Index.ToString());
@@ -253,11 +255,11 @@ namespace NSMain.Notes
             {
                 if (n == WpNotes.Children.Count)
                 {
-                    (WpNotes.Children[n - 1] as UNotes).Focus();
+                    (WpNotes.Children[n - 1] as UNoteHorizontal).Focus();
                 }
                 else
                 {
-                    (WpNotes.Children[n] as UNotes).Focus();
+                    (WpNotes.Children[n] as UNoteHorizontal).Focus();
                 }
             }
             else
@@ -280,14 +282,14 @@ namespace NSMain.Notes
             {
                 if (WpNotes.Children.IndexOf(CurCard) > 0)
                 {
-                    (WpNotes.Children[WpNotes.Children.IndexOf(CurCard) - 1] as UNotes).Focus();
+                    (WpNotes.Children[WpNotes.Children.IndexOf(CurCard) - 1] as UNoteHorizontal).Focus();
                 }
             }
             if (e.Key == Key.Right || e.Key == Key.Down)
             {
                 if (WpNotes.Children.IndexOf(CurCard) < WpNotes.Children.Count - 1)
                 {
-                    (WpNotes.Children[WpNotes.Children.IndexOf(CurCard) + 1] as UNotes).Focus();
+                    (WpNotes.Children[WpNotes.Children.IndexOf(CurCard) + 1] as UNoteHorizontal).Focus();
                 }
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.U)
@@ -296,24 +298,24 @@ namespace NSMain.Notes
                 if (i > 0)
                 {
                     string temp = CurCard.StrContent;
-                    CurCard.StrContent = (WpNotes.Children[i - 1] as UNotes).StrContent;
-                    (WpNotes.Children[i - 1] as UNotes).StrContent = temp;
+                    CurCard.StrContent = (WpNotes.Children[i - 1] as UNoteHorizontal).StrContent;
+                    (WpNotes.Children[i - 1] as UNoteHorizontal).StrContent = temp;
                     string temp2 = CurCard.StrTitile;
-                    CurCard.StrTitile = (WpNotes.Children[i - 1] as UNotes).StrTitile;
-                    (WpNotes.Children[i - 1] as UNotes).StrTitile = temp2;
+                    CurCard.StrTitile = (WpNotes.Children[i - 1] as UNoteHorizontal).StrTitile;
+                    (WpNotes.Children[i - 1] as UNoteHorizontal).StrTitile = temp2;
                     //string temp3 = CurCard.StrIndex;
                     //CurCard.StrIndex = (WpNotes.Children[i - 1] as UcScenesCard).StrIndex;
                     //(WpNotes.Children[i - 1] as UcScenesCard).StrIndex = temp3;
 
                     CurCard.Index--;
-                    (WpNotes.Children[i - 1] as UNotes).Index++;
+                    (WpNotes.Children[i - 1] as UNoteHorizontal).Index++;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                     string sql = string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
-                    sql += string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i - 1] as UNotes).Index, (WpNotes.Children[i - 1] as UNotes).Uid);
+                    sql += string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i - 1] as UNoteHorizontal).Index, (WpNotes.Children[i - 1] as UNoteHorizontal).Uid);
                     cSqlite.ExecuteNonQuery(sql);
 
-                    (WpNotes.Children[i - 1] as UNotes).Focus();
+                    (WpNotes.Children[i - 1] as UNoteHorizontal).Focus();
                 }
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.J)
@@ -322,24 +324,24 @@ namespace NSMain.Notes
                 if (i < WpNotes.Children.Count - 1)
                 {
                     string temp = CurCard.StrContent;
-                    CurCard.StrContent = (WpNotes.Children[i + 1] as UNotes).StrContent;
-                    (WpNotes.Children[i + 1] as UNotes).StrContent = temp;
+                    CurCard.StrContent = (WpNotes.Children[i + 1] as UNoteHorizontal).StrContent;
+                    (WpNotes.Children[i + 1] as UNoteHorizontal).StrContent = temp;
                     string temp2 = CurCard.StrTitile;
-                    CurCard.StrTitile = (WpNotes.Children[i + 1] as UNotes).StrTitile;
-                    (WpNotes.Children[i + 1] as UNotes).StrTitile = temp2;
+                    CurCard.StrTitile = (WpNotes.Children[i + 1] as UNoteHorizontal).StrTitile;
+                    (WpNotes.Children[i + 1] as UNoteHorizontal).StrTitile = temp2;
                     //string temp3 = CurCard.StrIndex;
                     //CurCard.StrIndex = (WpNotes.Children[i + 1] as UcScenesCard).StrIndex;
                     //(WpNotes.Children[i + 1] as UcScenesCard).StrIndex = temp3;
 
                     CurCard.Index++;
-                    (WpNotes.Children[i + 1] as UNotes).Index--;
+                    (WpNotes.Children[i + 1] as UNoteHorizontal).Index--;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
                     string sql = string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
-                    sql += string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i + 1] as UNotes).Index, (WpNotes.Children[i + 1] as UNotes).Uid);
+                    sql += string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i + 1] as UNoteHorizontal).Index, (WpNotes.Children[i + 1] as UNoteHorizontal).Uid);
                     cSqlite.ExecuteNonQuery(sql);
 
-                    (WpNotes.Children[i + 1] as UNotes).Focus();
+                    (WpNotes.Children[i + 1] as UNoteHorizontal).Focus();
                 }
             }
         }

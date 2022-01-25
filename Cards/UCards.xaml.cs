@@ -126,7 +126,7 @@ namespace NSMain.Cards
         private void BtnTag_Click(object sender, RoutedEventArgs e)
         {
             Button BtnTag = sender as Button;
-            WCards wCards = new WCards(CurBookName, TypeOfTree, BtnTag);
+            WCard wCards = new WCard(CurBookName, TypeOfTree, BtnTag);
             wCards.ShowDialog();
         }
 

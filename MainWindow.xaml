@@ -91,8 +91,8 @@
                             <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="DesignTool" Click="DesignTool_Click" ToolTip="场记大纲" >
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_knight.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="PuzzleTool" Click="PuzzleTool_Click" ToolTip="拼图工具" IsEnabled="False">
-                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bookmark.png"/>
                             </Button>
                         </Grid>
                         <Grid Grid.Column="2" Grid.ColumnSpan="6">
@@ -114,14 +114,17 @@
                             <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_search.png"/>
                             </Button>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="UnKnowTool" ToolTip="未知" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lab.png"/>
+                            </Button>
                             <Button Padding="0" Grid.Row="0" Grid.Column="1" x:Name="AnchorTool" Click="AnchorTool_Click" ToolTip="锚点工具" IsEnabled="False">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_anchor.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="0" Grid.Column="2" x:Name="UnKnowTool" ToolTip="未知" IsEnabled="False">
-                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lab.png"/>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="2" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="随手记录">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bulb.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="1" Grid.Column="2" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
-                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bookmark.png"/>
+                            <Button Padding="0" Grid.Row="0" Grid.Column="2" x:Name="NewProject" Click="NewProject_Click" ToolTip="新题材·储备">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
                             </Button>
                             <Button Padding="0" Grid.Row="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_trash.png"/>
@@ -141,9 +144,7 @@
                                     <MediaElement x:Name="MeRing" Source="pack://siteoforigin:,,,/Resourses/声音/ring.wav" Visibility="Hidden" LoadedBehavior="Manual"/>
                                 </Grid>
                             </Border>
-                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="随手记录">
-                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bulb.png"/>
-                            </Button>
+
                             <Button Padding="0" Grid.Row="1" Grid.Column="3" x:Name="LockTool" Click="LockTool_Click" ToolTip="加锁" IsEnabled="False">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lock_closed.png"/>
                             </Button>
