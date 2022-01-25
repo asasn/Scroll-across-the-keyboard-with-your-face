@@ -10,14 +10,14 @@
     <Grid x:Name="gMain">
         <hc:Card x:Name="card" Header=" 权重：" VerticalAlignment="Top" Margin="4">
             <ScrollViewer >
-                <Grid x:Name="gCard" Margin="2">
+                <Grid x:Name="gCard" Margin="2,2,2,2">
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition x:Name="R1" MinHeight="25" Height="Auto"/>
                         <RowDefinition MinHeight="25" Height="Auto"/>
-                        <RowDefinition Height="45"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -48,6 +48,9 @@
                         <WrapPanel x:Name="Wp备注" Uid="备注" Grid.Row="9" Grid.Column="1" Margin="36,2,0,0">
                             <TextBox Padding="2" hc:BorderElement.CornerRadius="0"  x:Name="Tb备注" TextChanged="Tb_TextChanged" BorderThickness="0,0,0,1" TextWrapping="Wrap" Text="" VerticalAlignment="Top" AcceptsReturn="True" MinHeight="0" MinWidth="{Binding ActualWidth, ElementName=Wp备注, Mode=OneWay}"/>
                         </WrapPanel>
+                    </Grid>
+                    <Grid Grid.Row="5">
+                        <Label Content="" Foreground="Red" BorderThickness="0" VerticalAlignment="Top" />
                     </Grid>
                 </Grid>
             </ScrollViewer>

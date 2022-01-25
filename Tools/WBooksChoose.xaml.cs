@@ -37,7 +37,7 @@ namespace NSMain.Tools
             string curBookUid = CSettings.Get("curBookUid");
             string tableName = "allbooks";
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Name CHAR, Price DOUBLE, BornYear INTEGER, CurrentYear INTEGER, IsDel BOOLEAN DEFAULT (false));", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, NodeName CHAR NOT NULL, Introduction CHAR, Price DOUBLE, CurrentYear INTEGER DEFAULT (0), IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName);
             cSqlite.ExecuteNonQuery(sql);
             sql = string.Format("SELECT * FROM Tree_{0};", tableName);
@@ -49,7 +49,7 @@ namespace NSMain.Tools
                     continue;
                 }
                 string BookUid = reader["Uid"].ToString();
-                string BookName = reader["Name"].ToString();
+                string BookName = reader["NodeName"].ToString();
 
                 string imgPath = GlobalVal.Path.Books + "/" + BookName + ".jpg";
                 if (false == CFileOperate.IsFileExists(imgPath))
@@ -70,6 +70,7 @@ namespace NSMain.Tools
                     Uid = BookUid,
                     Header = BookName,
                     Content = imgBook,
+                    Cursor = Cursors.Hand,
                 };
 
                 bookCard.MouseLeftButtonDown += CardSelected;
@@ -87,7 +88,7 @@ namespace NSMain.Tools
         /// 根据Uid获取当前书籍信息，并填入Gval公共类当中
         /// </summary>
         /// <param name="uid"></param>
-        void GetBookInfoForGval(string uid)
+        void GetCurBookInfoForGlobalVal(string uid)
         {
             GlobalVal.CurrentBook.Uid = uid;
             string tableName = "allbooks";
@@ -97,17 +98,34 @@ namespace NSMain.Tools
             while (reader.Read())
             {
                 TbUid.Text = reader["Uid"].ToString();
-                TbName.Text = reader["Name"].ToString();
+                TbName.Text = reader["NodeName"].ToString();
+                TbIntroduction.Text = reader["Introduction"].ToString();
                 TbPrice.Text = reader["Price"].ToString();
-                TbBornYear.Text = reader["BornYear"].ToString();
                 TbCurrentYear.Text = reader["CurrentYear"].ToString();
 
-                GlobalVal.CurrentBook.Name = reader["Name"].ToString();
+                GlobalVal.CurrentBook.Name = reader["NodeName"].ToString();
+                GlobalVal.CurrentBook.Introduction = reader["Introduction"].ToString();
                 GlobalVal.CurrentBook.Price = Convert.ToDouble(reader["Price"]);
-                GlobalVal.CurrentBook.BornYear = Convert.ToInt32(reader["BornYear"]);
                 GlobalVal.CurrentBook.CurrentYear = Convert.ToInt32(reader["CurrentYear"]);
+
             }
             reader.Close();
+
+        }
+
+
+        /// <summary>
+        /// 当前选择的书籍为空时，GlobalVal指向null
+        /// </summary>
+        /// <param name="uid"></param>
+        void GetCurBookInfoForGlobalVal()
+        {
+            GlobalVal.CurrentBook.Uid = null;
+            GlobalVal.CurrentBook.Name = null;
+            GlobalVal.CurrentBook.Introduction = null;
+            GlobalVal.CurrentBook.Price = double.NaN;
+            GlobalVal.CurrentBook.CurrentYear = 0;
+            GlobalVal.CurrentBook.CurNode = null;
 
         }
 
@@ -120,8 +138,7 @@ namespace NSMain.Tools
         {
             foreach (HandyControl.Controls.Card item in WpBooks.Children)
             {
-                item.BorderBrush = null;
-                item.BorderThickness = new Thickness(0, 0, 0, 0);
+                item.Background = Brushes.White;
             }
             HandyControl.Controls.Card bookCard = sender as HandyControl.Controls.Card;
             GlobalVal.Uc.TabControl.Items.Clear();
@@ -143,8 +160,8 @@ namespace NSMain.Tools
         {
             WpBooks.Tag = bookCard;
 
-            bookCard.BorderBrush = Brushes.DodgerBlue;
-            bookCard.BorderThickness = new Thickness(0, 5, 0, 5);
+            bookCard.Background = Brushes.DodgerBlue;
+
             ImgShow.Source = (bookCard.Content as Image).Source;
 
             CSettings.Set("curBookUid", bookCard.Uid);
@@ -153,9 +170,9 @@ namespace NSMain.Tools
             {
                 GlobalVal.SQLClass.Pools.Add(bookCard.Header.ToString(), new CSqlitePlus(GlobalVal.Path.Books, bookCard.Header.ToString() + ".db"));
             }
-            GetBookInfoForGval(bookCard.Uid);
+            GetCurBookInfoForGlobalVal(bookCard.Uid);
             GlobalVal.Uc.TreeBook.LoadBook(GlobalVal.CurrentBook.Name, "book");
-            GlobalVal.Uc.TreeHistory.LoadBook(GlobalVal.CurrentBook.Name, "history");         
+            GlobalVal.Uc.TreeHistory.LoadBook(GlobalVal.CurrentBook.Name, "history");
             GlobalVal.Uc.TreeTask.LoadBook(GlobalVal.CurrentBook.Name, "task");
 
             GlobalVal.Uc.RoleCards.LoadCards(GlobalVal.CurrentBook.Name, "角色");
@@ -181,7 +198,7 @@ namespace NSMain.Tools
             string tableName = "allbooks";
             string guid = Guid.NewGuid().ToString();
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
-            string sql = string.Format("INSERT INTO Tree_{0} (Uid, Name, Price, BornYear, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), 0, 2000, 2021);
+            string sql = string.Format("INSERT INTO Tree_{0} (Uid, NodeName, Introduction, Price, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), TbIntroduction.Text.Replace("'", "''"), 0, 2021);
             cSqlite.ExecuteNonQuery(sql);
 
 
@@ -199,7 +216,7 @@ namespace NSMain.Tools
 
             TryToBuildNotesTable("index");
             TryToBuildScenesTable(newBookName);
-            
+
             TryToBuildCardTable("index", "角色");
             TryToBuildCardTable("index", "其他");
             TryToBuildCardTable("index", "世界");
@@ -244,7 +261,7 @@ namespace NSMain.Tools
         {
             string tableName = typeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 CHAR, 权重 INTEGER DEFAULT (0), 诞生年份 INTEGER, IsDel BOOLEAN DEFAULT (false));", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 CHAR, 权重 INTEGER DEFAULT (0), 诞生年份 INTEGER DEFAULT (0), IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表Uid ON {0}主表(Uid);", tableName);
 
             sql += string.Format("CREATE TABLE IF NOT EXISTS {0}属性表 (Uid CHAR PRIMARY KEY, Text CHAR NOT NULL UNIQUE);", tableName);
@@ -282,16 +299,16 @@ namespace NSMain.Tools
 
         private void BtnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TbPrice.Text) || string.IsNullOrWhiteSpace(TbBornYear.Text) || string.IsNullOrWhiteSpace(TbCurrentYear.Text) || WpBooks.Tag == null)
+            if (WpBooks.Tag == null)
             {
                 return;
             }
             string tableName = "allbooks";
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
-            string sql = string.Format("UPDATE Tree_{0} set Price={1}, BornYear={2}, CurrentYear={3} where Uid = '{4}';", tableName, Convert.ToDouble(TbPrice.Text), Convert.ToInt32(TbBornYear.Text), Convert.ToInt32(TbCurrentYear.Text), GlobalVal.CurrentBook.Uid);
+            string sql = string.Format("UPDATE Tree_{0} set Introduction='{1}', Price={2}, CurrentYear={3} where Uid = '{4}';", tableName, TbIntroduction.Text.Replace("'", "''"), Convert.ToDouble(TbPrice.Text), Convert.ToInt32(TbCurrentYear.Text), GlobalVal.CurrentBook.Uid);
             cSqlite.ExecuteNonQuery(sql);
 
-            GetBookInfoForGval(GlobalVal.CurrentBook.Uid);
+            GetCurBookInfoForGlobalVal(GlobalVal.CurrentBook.Uid);
         }
 
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
@@ -320,6 +337,8 @@ namespace NSMain.Tools
             GlobalVal.Uc.MainWin.TbkCurBookName2.Visibility = Visibility.Hidden;
             GlobalVal.Uc.MainWin.TbkCurBookName.Text = "<<<点击选择或者创建书籍";
             GlobalVal.Uc.MainWin.TbkCurBookName.Visibility = Visibility.Visible;
+
+            GetCurBookInfoForGlobalVal();
         }
 
         /// <summary>
@@ -332,27 +351,6 @@ namespace NSMain.Tools
             //回收站：string sql = string.Format("DELETE from Tree_{0} where Uid='{1}';", tableName, GlobalVal.CurrentBook.Uid);
             string sql = string.Format("update Tree_{0} set IsDel=True where Uid='{1}';", tableName, GlobalVal.CurrentBook.Uid);
             cSqlite.ExecuteNonQuery(sql);
-        }
-
-        private void TbCurBookBornYear_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            long.TryParse(tb.Text, out long str);
-            tb.Text = str.ToString();
-        }
-
-        private void TbCurBookCurrentYear_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            long.TryParse(tb.Text, out long str);
-            tb.Text = str.ToString();
-        }
-
-        private void TbCurBookPrice_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            double.TryParse(tb.Text, out double str);
-            tb.Text = str.ToString();
         }
 
         private void BtnName_Click(object sender, RoutedEventArgs e)
@@ -386,11 +384,11 @@ namespace NSMain.Tools
 
                 string tableName = "allbooks";
                 CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
-                string sql = string.Format("UPDATE Tree_{0} set Name='{1}' where Uid = '{2}';", tableName, TbName.Text.Replace("'", "''"), GlobalVal.CurrentBook.Uid);
+                string sql = string.Format("UPDATE Tree_{0} set NodeName='{1}' where Uid = '{2}';", tableName, TbName.Text.Replace("'", "''"), GlobalVal.CurrentBook.Uid);
                 cSqlite.ExecuteNonQuery(sql);
 
 
-                GetBookInfoForGval(GlobalVal.CurrentBook.Uid);
+                GetCurBookInfoForGlobalVal(GlobalVal.CurrentBook.Uid);
                 (WpBooks.Tag as HandyControl.Controls.Card).Header = TbName.Text;
 
                 if (false == GlobalVal.SQLClass.Pools.ContainsKey(TbName.Text))
@@ -412,11 +410,9 @@ namespace NSMain.Tools
             tb.Text = str.ToString();
         }
 
-        private void TbBornYear_TextChanged(object sender, TextChangedEventArgs e)
+        private void TbIntroduction_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            long.TryParse(tb.Text, out long str);
-            tb.Text = str.ToString();
         }
 
         private void TbCurrentYear_TextChanged(object sender, TextChangedEventArgs e)

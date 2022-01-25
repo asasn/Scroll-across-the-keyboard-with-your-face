@@ -70,7 +70,6 @@ namespace NSMain.Cards
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-
         }
 
         private void URecord_Loaded(object sender, RoutedEventArgs e)
@@ -91,22 +90,57 @@ namespace NSMain.Cards
                 uTip.Uid = reader["Uid"].ToString();
             }
             reader.Close();
+
+            //填充信息之后，将保存状态拨回，以实现初始化
+            BtnSave.IsEnabled = false;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            LbShow.Visibility = Visibility.Hidden;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string tableName = TypeOfTree;
             string sql = string.Empty;
             foreach (UTip tipBox in MyURecord.WpMain.Children)
             {
+                foreach (UTip tipBox2 in MyURecord.WpMain.Children)
+                {
+                    int i = MyURecord.WpMain.Children.IndexOf(tipBox);
+                    int n = MyURecord.WpMain.Children.IndexOf(tipBox2);
+                    if (i != n && tipBox.Text == tipBox2.Text && false == string.IsNullOrEmpty(tipBox.Text))
+                    {
+                        tipBox.Tag = false;
+                        LbShow.Visibility = Visibility.Visible;
+                        LbShow.Content = "存在重复项，不予保存";
+                        break;
+                    }
+                }
+                if (tipBox.Text == "别称")
+                {
+                    tipBox.Tag = false;
+                    LbShow.Visibility = Visibility;
+                    LbShow.Content = "存在重复项，不予保存";
+                }
+                if (false == string.IsNullOrEmpty(tipBox.Text) && LbShow.Visibility == Visibility.Visible)
+                {
+                    return;
+                }
+                if (string.IsNullOrEmpty(tipBox.Text))
+                {
+                    tipBox.Visibility = Visibility.Collapsed;
+                }
                 if (string.IsNullOrEmpty(tipBox.Uid))
                 {
-                    //不存在记录 
-                    string guid = tipBox.Uid = Guid.NewGuid().ToString();
-                    sql = string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, guid, tipBox.Text.Replace("'", "''"));
-                    cSqlite.ExecuteNonQuery(sql);
-                    sql = string.Empty; //注意清空，以免影响后续语句运行
+                    if (false == string.IsNullOrEmpty(tipBox.Text))
+                    {
+                        //将外面带入的sql语句提交，并且清空
+                        cSqlite.ExecuteNonQuery(sql);
+                        sql = string.Empty;
+                        string guid = tipBox.Uid = Guid.NewGuid().ToString();
+                        sql = string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, guid, tipBox.Text.Replace("'", "''"));
+                        cSqlite.ExecuteNonQuery(sql);
+                        sql = string.Empty; //注意清空，以免影响后续语句运行
+                    }
                 }
                 else
                 {

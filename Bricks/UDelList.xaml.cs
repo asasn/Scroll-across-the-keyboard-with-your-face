@@ -124,6 +124,10 @@ namespace NSMain.Bricks
 
         private void DG_Loaded(object sender, RoutedEventArgs e)
         {
+            if (CurBookName == null)
+            {
+                return;
+            }
             bool designTime = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
             if (designTime)
                 return;//设计模式下返回，不再执行代码
@@ -131,6 +135,7 @@ namespace NSMain.Bricks
             if (CurBookName == "index")
             {
                 LoadNoteList("index", "随手记录表");
+                LoadTreeList("index", "allbooks");
                 LoadTreeList("index", "material");
                 LoadCardList("index", "角色");
                 LoadCardList("index", "其他");
@@ -152,6 +157,10 @@ namespace NSMain.Bricks
 
         private void BtnRestore_Click(object sender, RoutedEventArgs e)
         {
+            if (CurBookName == null)
+            {
+                return;
+            }
             ArrayList arrayList = new ArrayList();
 
             //从集合中倒序删除，防止索引号错误引起的跳过
@@ -172,7 +181,7 @@ namespace NSMain.Bricks
                 {
                     sql = string.Format("update {0}主表 set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
                 }
-                if (item.TableName == "book" || item.TableName == "history" || item.TableName == "task")
+                if (item.TableName == "book" || item.TableName == "history" || item.TableName == "task" || item.TableName == "allbooks" || item.TableName == "material")
                 {
                     sql = string.Format("update Tree_{0} set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
                 }
@@ -233,6 +242,10 @@ namespace NSMain.Bricks
 
         private void BtnDel_Click(object sender, RoutedEventArgs e)
         {
+            if (CurBookName == null)
+            {
+                return;
+            }
             //从集合中倒序删除，防止索引号错误引起的跳过
             for (int i = DG.SelectedItems.Count - 1; i >= 0; i--)
             {
@@ -247,7 +260,7 @@ namespace NSMain.Bricks
                 {
                     sql = string.Format("DELETE FROM {0}主表 where Uid='{1}';", item.TableName, item.Uid);
                 }
-                if (item.TableName == "book" || item.TableName == "history" || item.TableName == "task")
+                if (item.TableName == "book" || item.TableName == "history" || item.TableName == "task" || item.TableName == "allbooks" || item.TableName == "material")
                 {
                     sql = string.Format("DELETE FROM Tree_{0} where Uid='{1}';", item.TableName, item.Uid);
                 }
@@ -265,6 +278,10 @@ namespace NSMain.Bricks
 
         private void BtnZip_Click(object sender, RoutedEventArgs e)
         {
+            if (CurBookName == null)
+            {
+                return;
+            }
             GlobalVal.SQLClass.Pools[CurBookName].Vacuum();
             LbSize_Loaded(null, null);
         }

@@ -304,7 +304,7 @@ namespace NSMain.Cards
             SQLiteDataReader reader = cSqlite.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbName.Text.Replace("'", "''")));
             while (reader.Read())
             {
-                if (this.Pid != reader.GetString(0).ToString())
+                if (this.Pid != reader["Uid"].ToString())
                 {
                     MessageBox.Show("数据库中已经存在同名不同id条目，请修改成为其他名称！");
                     reader.Close();

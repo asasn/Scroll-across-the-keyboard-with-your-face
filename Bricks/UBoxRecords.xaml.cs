@@ -80,7 +80,6 @@ namespace NSMain.Bricks
                 URecord uRecord = new URecord
                 {
                     Title = t.Text,
-                    Name = t.Text,
                     Uid = t.Uid
                 };
                 Binding boolBinding = new Binding

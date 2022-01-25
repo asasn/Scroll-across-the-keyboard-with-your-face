@@ -72,7 +72,6 @@ namespace NSMain.Cards
                 {
                     if (string.IsNullOrEmpty(tipBox.Uid))
                     {
-                        //不存在记录
                         if (false == string.IsNullOrEmpty(tipBox.Text))
                         {
                             //将外面带入的sql语句提交，并且清空

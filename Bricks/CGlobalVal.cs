@@ -29,7 +29,7 @@ namespace NSMain.Bricks
 
             public static double Price;
 
-            public static long BornYear;
+            public static string Introduction;
 
             public static long CurrentYear;
 
