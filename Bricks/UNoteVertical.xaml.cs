@@ -26,8 +26,6 @@ namespace NSMain.Bricks
 
 
 
-
-
         public string StrIndex
         {
             get { return (string)GetValue(StrIndexProperty); }
@@ -51,39 +49,19 @@ namespace NSMain.Bricks
             DependencyProperty.Register("StrContent", typeof(string), typeof(UNoteVertical), new PropertyMetadata(string.Empty));
 
 
-        public string StrTitile
+
+
+        public string StrTitle
         {
-            get { return (string)GetValue(StrTitileProperty); }
-            set { SetValue(StrTitileProperty, value); }
+            get { return (string)GetValue(StrTitleProperty); }
+            set { SetValue(StrTitleProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for StrTitile.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty StrTitileProperty =
-            DependencyProperty.Register("StrTitile", typeof(string), typeof(UNoteVertical), new PropertyMetadata(string.Empty));
+        // Using a DependencyProperty as the backing store for StrTitle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StrTitleProperty =
+            DependencyProperty.Register("StrTitle", typeof(string), typeof(UNoteVertical), new PropertyMetadata(string.Empty));
 
 
 
-
-        private void VerticalDisplay(object sender, TextChangedEventArgs e)
-        {
-            TextBox tb = sender as TextBox;
-            string str = tb.Text;
-            string text = "";
-            foreach (char c in str)
-            {
-                if (false == string.IsNullOrWhiteSpace(c.ToString()))
-                {
-                    text += c.ToString() + "\n";
-                }
-            }
-            tb.Text = text;
-            tb.CaretIndex = text.Length;
-        }
-
-        private void Uc_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //控件获取焦点（子元素已经设置为无法获取焦点）
-            this.Focus();
-        }
     }
 }

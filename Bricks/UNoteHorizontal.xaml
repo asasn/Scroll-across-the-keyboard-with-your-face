@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" Width="255" Height="60" Focusable="True" MouseDown="Uc_MouseDown" Cursor="Hand">
+             mc:Ignorable="d" Width="255" Height="60" Cursor="Hand">
     <Grid >
         <Image Source="pack://siteoforigin:,,,/Resourses/场景/横版花纹.png" Stretch="Fill" />
         <Grid Background="Transparent" Height="40" Width="180" Cursor="Hand">
@@ -13,7 +13,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbIndex" TextWrapping="Wrap" Text="{Binding StrIndex, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" MinHeight="12" Cursor="Hand"/>
-            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitile, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" Grid.Row="2" MinHeight="12" Cursor="Hand"/>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitle, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" Grid.Row="2" MinHeight="12" Cursor="Hand"/>
         </Grid>
     </Grid>
 </UserControl>

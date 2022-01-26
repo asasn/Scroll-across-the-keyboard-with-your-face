@@ -121,6 +121,12 @@
     <Compile Include="Bricks\UItemTask.xaml.cs">
       <DependentUpon>UItemTask.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bricks\UNote.xaml.cs">
+      <DependentUpon>UNote.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Bricks\UNotes.xaml.cs">
+      <DependentUpon>UNotes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Cards\UCard.xaml.cs">
       <DependentUpon>UCard.xaml</DependentUpon>
     </Compile>
@@ -224,6 +230,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Bricks\UItemTask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bricks\UNote.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bricks\UNotes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

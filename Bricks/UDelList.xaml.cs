@@ -254,7 +254,8 @@ namespace NSMain.Bricks
                 string sql = string.Empty;
                 if (item.TableName == "场记大纲表" || item.TableName == "随手记录表")
                 {
-                    sql = string.Format("DELETE FROM {0} where Uid='{1}';", item.TableName, item.Uid);
+                    sql = string.Format("UPDATE {0} SET 索引=索引-1 where 索引 > (SELECT 索引 FROM {0} where Uid='{1}');", item.TableName, item.Uid);
+                    sql += string.Format("DELETE FROM {0} where Uid='{1}';", item.TableName, item.Uid);
                 }
                 if (item.TableName == "角色" || item.TableName == "其他" || item.TableName == "世界")
                 {
