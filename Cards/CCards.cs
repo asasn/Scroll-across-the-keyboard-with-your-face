@@ -9,7 +9,12 @@ namespace NSMain.Cards
 {
     class CCards
     {
-       
+        public class 属性条目
+        {
+            public string Uid { get; set; }
+            public string Text { get; set; }
+        }
+
         public static void SaveNickName(string curBookName, string typeOfTree, URecord uRecord, string pid)
         {
             string tableName = typeOfTree;
@@ -62,7 +67,7 @@ namespace NSMain.Cards
         {
             string tableName = typeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            int w = 0; 
+            int w = 0;
             string sql = string.Empty;
             foreach (URecord uRecord in wrapPanels)
             {
@@ -70,6 +75,10 @@ namespace NSMain.Cards
                 sql = string.Empty;
                 foreach (UTip tipBox in wp.Children)
                 {
+                    if (string.IsNullOrEmpty(tipBox.Text))
+                    {
+                        tipBox.Visibility = Visibility.Collapsed;
+                    }
                     if (string.IsNullOrEmpty(tipBox.Uid))
                     {
                         if (false == string.IsNullOrEmpty(tipBox.Text))

@@ -9,12 +9,12 @@
     <hc:Card>
         <Grid Background="#FFFAFAFA">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="20"/>
+                <ColumnDefinition x:Name="Column0" Width="100*"/>
+                <ColumnDefinition x:Name="Column1" Width="20"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="100*"/>
-                <RowDefinition Height="30"/>
+                <RowDefinition x:Name="Row0" Height="100*"/>
+                <RowDefinition x:Name="Row1" Height="30"/>
             </Grid.RowDefinitions>
             <avalonEdit:TextEditor Grid.Row="0"
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"

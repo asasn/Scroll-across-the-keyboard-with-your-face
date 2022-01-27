@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NSMain.Cards;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -75,7 +76,7 @@ namespace NSMain.Bricks
 
         public void WpMain_Build(ArrayList wps)
         {
-            foreach (Cards.WCard.属性条目 t in wps)
+            foreach (CCards.属性条目 t in wps)
             {
                 URecord uRecord = new URecord
                 {

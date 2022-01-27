@@ -141,11 +141,7 @@ namespace NSMain.Cards
 
 
 
-        public class 属性条目
-        {
-            public string Uid { get; set; }
-            public string Text { get; set; }
-        }
+
 
         /// <summary>
         /// 显示信息卡的主流程：从数据库中获取信息以填充卡片
@@ -166,7 +162,7 @@ namespace NSMain.Cards
                     {
                         continue;
                     }
-                    wps.Add(new 属性条目()
+                    wps.Add(new CCards.属性条目()
                     {
                         Uid = reader["Uid"].ToString(),
                         Text = reader["Text"].ToString(),
@@ -367,6 +363,11 @@ namespace NSMain.Cards
         {
             //填充窗口信息
             GetDataAndFillCard();
+        }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+           Common.Scroll.ScrollIt(sender, e);
         }
 
 

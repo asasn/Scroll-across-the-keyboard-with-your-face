@@ -102,19 +102,17 @@ namespace NSMain.Bricks
         {
             if (Toward == (int)Towards.Horizontal)
             {
-                ThisControl.Content = new UNoteHorizontal()
+                this.Content = new UNoteHorizontal()
                 {
                     Uid = this.Uid,
                     StrIndex = this.StrIndex,
                     StrTitle = this.StrTitle,
                     StrContent = this.StrContent,
-
-
                 };
             }
             if (Toward == (int)Towards.Vertical)
             {
-                ThisControl.Content = new UNoteVertical()
+                this.Content = new UNoteVertical()
                 {
                     Uid = this.Uid,
                     StrIndex = this.StrIndex,
@@ -123,9 +121,11 @@ namespace NSMain.Bricks
                 };
             }
 
-            SetBinding(ThisControl, StrIndexProperty, ThisControl.Content, "StrIndex");
-            SetBinding(ThisControl, StrTitleProperty, ThisControl.Content, "StrTitle");
-            SetBinding(ThisControl, StrContentProperty, ThisControl.Content, "StrContent");
+            SetBinding(this, StrIndexProperty, this.Content, "StrIndex");
+            SetBinding(this, StrTitleProperty, this.Content, "StrTitle");
+            SetBinding(this, StrContentProperty, this.Content, "StrContent");
+            SetBinding(this, WidthProperty, this.Content, "Width");
+            SetBinding(this, HeightProperty, this.Content, "Height");
         }
 
         void SetBinding(UNote origin, DependencyProperty property, object source, string propertyPath)

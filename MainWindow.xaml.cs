@@ -195,14 +195,23 @@ namespace NSMain
 
         private void NewProject_Click(object sender, RoutedEventArgs e)
         {
-            WNewProject win = new WNewProject();
+            WNewProjects win = new WNewProjects("index", "projects");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
         }
         private void InspirationTool_Click(object sender, RoutedEventArgs e)
         {
-            WNotes win = new WNotes("index", "book");
+            WNotes win = new WNotes("index", "notes");
+            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
+            win.Top = Mw.Top + 25;
+            win.ShowDialog();
+        }
+
+
+        private void DesignTool_Click(object sender, RoutedEventArgs e)
+        {
+            WScenes win = new WScenes(GlobalVal.CurrentBook.Name, "scenes");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
@@ -358,13 +367,6 @@ namespace NSMain
             win.ShowDialog();
         }
 
-        private void DesignTool_Click(object sender, RoutedEventArgs e)
-        {
-            WScenes win = new WScenes(GlobalVal.CurrentBook.Name, "book");
-            win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
-            win.Top = Mw.Top + 25;
-            win.ShowDialog();
-        }
 
         private void AnchorTool_Click(object sender, RoutedEventArgs e)
         {

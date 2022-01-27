@@ -9,7 +9,7 @@
         Title="信息卡窗体" Topmost="True" AllowsTransparency="True" WindowStyle="None" d:DesignHeight="180" d:DesignWidth="300" Loaded="Window_Loaded" MaxWidth="300" MaxHeight="759">
     <Grid x:Name="gMain">
         <hc:Card x:Name="card" Header=" 权重：" VerticalAlignment="Top" Margin="4">
-            <ScrollViewer >
+            <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                 <Grid x:Name="gCard" Margin="2,2,2,2">
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="25" Height="Auto"/>
@@ -39,7 +39,7 @@
                         <Label Padding="2" Style="{StaticResource LabelInfo}" x:Name="Lb真实年龄" Content="岁数" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,3,2,0" Grid.Column="1" MinWidth="30"  />
                         <TextBox Padding="2" x:Name="TbRealYear" hc:BorderElement.CornerRadius="0"  Text="" BorderThickness="0,0,0,1" TextWrapping="Wrap" VerticalAlignment="Top" MinHeight="0" InputMethod.IsInputMethodEnabled="False" TextChanged="TbBornYear_TextChanged" Margin="36,2,0,0" MinWidth="30" HorizontalAlignment="Left" Grid.Column="1" IsReadOnly="True" />
                     </Grid>
-                    <NSPublicModule:URecord x:Name="Nickname" Title="别称" IsCanSave="{Binding IsEnabled,ElementName=BtnSave,Mode=TwoWay}" Loaded="Nickname_Loaded" Grid.Row="2"/>
+                    <NSPublicModule:URecord x:Name="Nickname" Title="别称" IsCanSave="{Binding IsEnabled,ElementName=BtnSave, Mode=TwoWay}" Loaded="Nickname_Loaded" Grid.Row="2"/>
                     <Grid x:Name="GridMain" Grid.Row="3" >
                         <NSPublicModule:UBoxRecords x:Name="MyRecords" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="MyRecords_Loaded"/>
                     </Grid>

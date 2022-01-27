@@ -177,7 +177,7 @@
       <DependentUpon>WSearchResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="Cards\CCards.cs" />
-    <Compile Include="Bricks\CommonMethod.cs" />
+    <Compile Include="Bricks\Common.cs" />
     <Compile Include="Bricks\CFileOperate.cs" />
     <Compile Include="Bricks\CGlobalVal.cs" />
     <Compile Include="Bricks\CSettings.cs" />

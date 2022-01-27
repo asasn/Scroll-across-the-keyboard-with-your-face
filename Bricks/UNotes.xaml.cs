@@ -19,7 +19,7 @@ namespace NSMain.Bricks
     /// <summary>
     /// UNotes.xaml 的交互逻辑
     /// </summary>
-    public partial class UNotes : WrapPanel
+    public partial class UNotes : UserControl
     {
         public UNotes()
         {
@@ -131,11 +131,15 @@ namespace NSMain.Bricks
             int n = WpNotes.Children.IndexOf(CurCard);
             WpNotes.Children.Remove(CurCard);
             string tableName = string.Empty;
-            if (CurBookName == "index")
+            if (TypeOfTree == "notes")
             {
                 tableName = "随手记录表";
             }
-            else
+            if (TypeOfTree == "projects")
+            {
+                tableName = "题材主表";
+            }
+            if (TypeOfTree == "scenes")
             {
                 tableName = "场记大纲表";
             }
@@ -172,13 +176,21 @@ namespace NSMain.Bricks
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             string sql = string.Empty;
             string tableName = string.Empty;
-            if (CurBookName == "index")
+            if (TypeOfTree == "notes")
             {
                 tableName = "随手记录表";
             }
-            else
+            if (TypeOfTree == "projects")
+            {
+                tableName = "题材主表";
+            }
+            if (TypeOfTree == "scenes")
             {
                 tableName = "场记大纲表";
+                Sv.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                Sv.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                Sv.PreviewMouseWheel += Sv_PreviewMouseWheel;
+                WpNotes.Margin = new Thickness(0, 0, 300, 0);
             }
             sql = string.Format("select * from {0} ORDER BY 索引;", tableName);
 
@@ -204,11 +216,19 @@ namespace NSMain.Bricks
 
             }
             reader.Close();
-            int n = Convert.ToInt32(MySettings.Get(CurBookName, "WpNotesFocusIndex"));
+            int n = Convert.ToInt32(MySettings.Get(CurBookName, tableName + "CurIndex"));
             if (WpNotes.Children.Count > 0)
             {
                 (WpNotes.Children[n] as UNote).Focus();
+                Sv.ScrollToHorizontalOffset((60 * (n+1)) - Sv.ActualWidth / 2);
+                Sv.ScrollToVerticalOffset((60 * (n + 1)) - Sv.ActualHeight / 2);
             }
+            this.IsCanSave = false;
+        }
+
+        private void Sv_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            Common.Scroll.ScrollLR(sender, e);
         }
 
         private void SCard_LostFocus(object sender, RoutedEventArgs e)
@@ -227,7 +247,20 @@ namespace NSMain.Bricks
             CurCard.BorderBrush = Brushes.Orange;
             CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
             CurCard.Index = WpNotes.Children.IndexOf(CurCard);
-            MySettings.Set(CurBookName, "WpNotesFocusIndex", CurCard.Index.ToString());
+            string tableName = string.Empty;
+            if (TypeOfTree == "notes")
+            {
+                tableName = "随手记录表";
+            }
+            if (TypeOfTree == "projects")
+            {
+                tableName = "题材主表";
+            }
+            if (TypeOfTree == "scenes")
+            {
+                tableName = "场记大纲表";
+            }
+            MySettings.Set(CurBookName, tableName + "CurIndex", CurCard.Index.ToString());
             this.IsCanSave = false;
         }
 
@@ -236,6 +269,19 @@ namespace NSMain.Bricks
             if (CurCard == null)
             {
                 return;
+            }
+            string tableName = string.Empty;
+            if (TypeOfTree == "notes")
+            {
+                tableName = "随手记录表";
+            }
+            if (TypeOfTree == "projects")
+            {
+                tableName = "题材主表";
+            }
+            if (TypeOfTree == "scenes")
+            {
+                tableName = "场记大纲表";
             }
             if (e.Key == Key.Left || e.Key == Key.Up)
             {
@@ -270,8 +316,9 @@ namespace NSMain.Bricks
                     (WpNotes.Children[i - 1] as UNote).Index++;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-                    string sql = string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
-                    sql += string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i - 1] as UNote).Index, (WpNotes.Children[i - 1] as UNote).Uid);
+
+                    string sql = string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, CurCard.Index, CurCard.Uid);
+                    sql += string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, (WpNotes.Children[i - 1] as UNote).Index, (WpNotes.Children[i - 1] as UNote).Uid);
                     cSqlite.ExecuteNonQuery(sql);
 
                     (WpNotes.Children[i - 1] as UNote).Focus();
@@ -296,8 +343,8 @@ namespace NSMain.Bricks
                     (WpNotes.Children[i + 1] as UNote).Index--;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-                    string sql = string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", CurCard.Index, CurCard.Uid);
-                    sql += string.Format("UPDATE 随手记录表 set 索引='{0}' where Uid='{1}';", (WpNotes.Children[i + 1] as UNote).Index, (WpNotes.Children[i + 1] as UNote).Uid);
+                    string sql = string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, CurCard.Index, CurCard.Uid);
+                    sql += string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, (WpNotes.Children[i + 1] as UNote).Index, (WpNotes.Children[i + 1] as UNote).Uid);
                     cSqlite.ExecuteNonQuery(sql);
 
                     (WpNotes.Children[i + 1] as UNote).Focus();
@@ -314,6 +361,7 @@ namespace NSMain.Bricks
             {
                 //追加至末尾
                 WpNotes.Children.Add(sCard);
+                CurCard = sCard;
             }
             else
             {
@@ -332,17 +380,28 @@ namespace NSMain.Bricks
 
             string sql = string.Empty;
             string tableName = string.Empty;
-            if (CurBookName == "index")
+            if (TypeOfTree == "notes")
             {
                 tableName = "随手记录表";
             }
-            else
+            if (TypeOfTree == "projects")
+            {
+                tableName = "题材主表";
+            }
+            if (TypeOfTree == "scenes")
             {
                 tableName = "场记大纲表";
             }
             UpdateIndex(sCard.Index, tableName, cSqlite, WpNotes);
             sql = string.Format("UPDATE {0} SET 索引=索引+1 where 索引 > (SELECT 索引 FROM {0} where Uid = '{1}');", tableName, CurCard.Uid);
-            sql += string.Format("INSERT INTO {0} (Uid , 索引, 标题, 内容) VALUES ('{1}', (SELECT 索引 FROM {0} where Uid = '{2}') + 1, '{3}', '{4}');", tableName, sCard.Uid, CurCard.Uid, sCard.StrTitle.Replace("'", "''"), sCard.StrContent.Replace("'", "''"));
+            if (WpNotes.Children.Count > 1)
+            {
+                sql += string.Format("INSERT INTO {0} (Uid , 索引, 标题, 内容) VALUES ('{1}', (SELECT 索引 FROM {0} where Uid = '{2}') + 1, '{3}', '{4}');", tableName, sCard.Uid, CurCard.Uid, sCard.StrTitle.Replace("'", "''"), sCard.StrContent.Replace("'", "''"));
+            }
+            else
+            {
+                sql += string.Format("INSERT INTO {0} (Uid , 索引, 标题, 内容) VALUES ('{1}', '{2}', '{3}', '{4}');", tableName, sCard.Uid, 0, sCard.StrTitle.Replace("'", "''"), sCard.StrContent.Replace("'", "''"));
+            }
             cSqlite.ExecuteNonQuery(sql);
             sCard.Focus();
         }

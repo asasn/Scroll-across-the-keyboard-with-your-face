@@ -3,26 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:bricks="clr-namespace:NSMain.Bricks"
-        x:Name="window" 
+        x:Name="window" Background="#FFF8F8F8"
         mc:Ignorable="d" UseLayoutRounding="True"
-        Title="场记大纲" Height="450" Width="800">
-    <Grid x:Name="GridMain" Background="#FFF8F8F8">
+        Title="场记大纲" Height="450" Width="800" Closing="window_Closing">
+    <Grid x:Name="GridMain">
         <Grid.RowDefinitions>
             <RowDefinition Height="255"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="85"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
-        <bricks:UNotes x:Name="WpMain" Toward="1" CurBookName="{Binding CurBookName,ElementName=window}" TypeOfTree="{Binding TypeOfTree, ElementName=window}"/>
+        <bricks:UNotes x:Name="WpMain" Toward="1" IsCanSave="{Binding IsEnabled,ElementName=BtnSave, Mode=TwoWay}" CurBookName="{Binding CurBookName,ElementName=window}" TypeOfTree="{Binding TypeOfTree, ElementName=window}"/>
         <Image Source="pack://siteoforigin:,,,/Resourses/场景/分隔条横向.png" Grid.Row="1" Stretch="Fill" />
         <Grid Grid.Row="2">
             <TextBox x:Name="TbShowIndex" IsReadOnly="True" Padding="0" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" Height="30" Margin="30,-5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="30" Width="200" Text="{Binding CurCard.StrIndex,ElementName=WpMain, Mode=TwoWay}"/>
             <TextBox x:Name="TbShowTitle" Padding="0" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" Margin="30,25,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="100" TextChanged="TbShowTitle_TextChanged" Text="{Binding CurCard.StrTitle,ElementName=WpMain, Mode=TwoWay}" Width="200" KeyDown="TbShowTitle_KeyDown"/>
-            <Grid Margin="260,0,125,15">
-                <TextBox x:Name="TbShowContent" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Grid.RowSpan="2" TextChanged="TbShowContent_TextChanged" Text="{Binding CurCard.StrContent,ElementName=WpMain, Mode=TwoWay}" VerticalAlignment="Top"/>
+            <Grid Margin="260,-5,125,0">
+                <TextBox x:Name="TbShowContent" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" Grid.Column="1" Grid.RowSpan="2" TextChanged="TbShowContent_TxtChanged" Text="{Binding CurCard.StrContent,ElementName=WpMain, Mode=TwoWay}" VerticalAlignment="Top"/>
             </Grid>
-            <Button x:Name="BtnSave" BorderThickness="1" Grid.Column="2" Padding="0" VerticalAlignment="Top" Height="30" Click="BtnSave_Click" IsEnabled="False" HorizontalAlignment="Right" Margin="10,0,30,0">
+            <Button x:Name="BtnSave" BorderThickness="1" Grid.Column="2" Padding="0" VerticalAlignment="Center" Height="30" Click="BtnSave_Click" IsEnabled="False" HorizontalAlignment="Right" Margin="10,0,30,0">
                 <WrapPanel Margin="10,0,0,0">
                     <Label Content="保存" Padding="0" BorderThickness="0" Background="Transparent"/>
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_save.png"/>

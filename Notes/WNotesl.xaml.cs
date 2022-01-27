@@ -102,5 +102,24 @@ namespace NSMain.Notes
             }
         }
 
+        private void window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (BtnSave.IsEnabled == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("有数据尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    BtnSave_Click(null, null);
+                }
+                if (dr == MessageBoxResult.No)
+                {
+
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
     }
 }

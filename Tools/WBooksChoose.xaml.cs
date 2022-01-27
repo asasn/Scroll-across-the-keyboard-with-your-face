@@ -210,24 +210,37 @@ namespace NSMain.Tools
             {
                 GlobalVal.SQLClass.Pools.Add(newBookName, new CSqlitePlus(GlobalVal.Path.Books, newBookName + ".db"));
             }
-
-            TryToBuildSettingTable("index");
-            TryToBuildSettingTable(newBookName);
-
+            TryToBuildTreeTable("index", "material");
+            TryToBuildProjectTable("index");
             TryToBuildNotesTable("index");
-            TryToBuildScenesTable(newBookName);
-
+            TryToBuildSettingTable("index");
             TryToBuildCardTable("index", "角色");
             TryToBuildCardTable("index", "其他");
             TryToBuildCardTable("index", "世界");
+
+
+            TryToBuildSettingTable(newBookName);            
+            TryToBuildScenesTable(newBookName);
             TryToBuildCardTable(newBookName, "角色");
             TryToBuildCardTable(newBookName, "其他");
             TryToBuildCardTable(newBookName, "世界");
+            TryToBuildNewBookCards(newBookName);
 
-            TryToBuildTreeTable("index", "material");
             TryToBuildTreeTable(newBookName, "book");
             TryToBuildTreeTable(newBookName, "history");
             TryToBuildTreeTable(newBookName, "task");
+        }
+
+        void TryToBuildProjectTable(string curBookName="index")
+        {
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 题材主表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材主表Uid ON 题材主表(Uid);");
+            sql += string.Format("CREATE TABLE IF NOT EXISTS 题材从表 (Uid CHAR PRIMARY KEY, Pid CHAR REFERENCES {0}主表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Tid CHAR, Text CHAR);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Uid ON 题材从表(Uid);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Pid ON 题材从表(Pid);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Tid ON 题材从表(Tid);");
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         void TryToBuildTreeTable(string curBookName, string typeOfTree)
@@ -243,21 +256,19 @@ namespace NSMain.Tools
         void TryToBuildScenesTable(string curBookName)
         {
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            //尝试建立新表（IF NOT EXISTS）
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 场记大纲表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 场记大纲表Uid ON 场记大纲表(Uid);");
             cSqlite.ExecuteNonQuery(sql);
         }
 
-        void TryToBuildNotesTable(string curBookName)
+        void TryToBuildNotesTable(string curBookName="index")
         {
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            //尝试建立新表（IF NOT EXISTS）
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 随手记录表Uid ON 随手记录表(Uid);");
             cSqlite.ExecuteNonQuery(sql);
         }
-        public static void TryToBuildCardTable(string curBookName, string typeOfTree)
+        void TryToBuildCardTable(string curBookName, string typeOfTree)
         {
             string tableName = typeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
@@ -273,9 +284,18 @@ namespace NSMain.Tools
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Pid ON {0}从表(Pid);", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Tid ON {0}从表(Tid);", tableName);
 
-            string guid = Guid.NewGuid().ToString();
-            sql += string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, guid, "别称");
+            sql += string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, Guid.NewGuid().ToString(), "别称");
 
+            cSqlite.ExecuteNonQuery(sql);
+        }
+
+        void TryToBuildNewBookCards(string curBookName)
+        {
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("insert or ignore into {0} (Uid, 名称) values ('{1}', '{2}');", "角色主表", Guid.NewGuid().ToString(), "主角");
+            sql += string.Format("insert or ignore into {0} (Uid, 名称) values ('{1}', '{2}');", "世界主表", Guid.NewGuid().ToString(), "主题");
+            sql += string.Format("insert or ignore into {0} (Uid, 名称) values ('{1}', '{2}');", "世界主表", Guid.NewGuid().ToString(), "风格");
+            sql += string.Format("insert or ignore into {0} (Uid, 名称) values ('{1}', '{2}');", "世界主表", Guid.NewGuid().ToString(), "卖点");
             cSqlite.ExecuteNonQuery(sql);
         }
 

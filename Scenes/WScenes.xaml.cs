@@ -72,7 +72,14 @@ namespace NSMain.Scenes
             BtnSave.IsEnabled = true;
         }
 
-
+        private void TbShowContent_TxtChanged(object sender, TextChangedEventArgs e)
+        {
+            if (WpMain.CurCard == null)
+            {
+                return;
+            }
+            BtnSave.IsEnabled = true;
+        }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -103,5 +110,24 @@ namespace NSMain.Scenes
             }
         }
 
+        private void window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (BtnSave.IsEnabled == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("有数据尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    BtnSave_Click(null, null);
+                }
+                if (dr == MessageBoxResult.No)
+                {
+
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
     }
 }

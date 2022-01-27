@@ -123,7 +123,7 @@
                             <Button Padding="0" Grid.Row="1" Grid.Column="2" x:Name="InspirationTool" Click="InspirationTool_Click" ToolTip="随手记录">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bulb.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="0" Grid.Column="2" x:Name="NewProject" Click="NewProject_Click" ToolTip="新题材·储备">
+                            <Button Padding="0" Grid.Row="0" Grid.Column="2" x:Name="NewProject" Click="NewProject_Click" ToolTip="新书题材·储备">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_puzzle.png"/>
                             </Button>
                             <Button Padding="0" Grid.Row="0" Grid.Column="7" x:Name="RecycleBin" Click="RecycleBin_Click" ToolTip="回收站">

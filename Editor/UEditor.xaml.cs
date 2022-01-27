@@ -146,7 +146,7 @@ namespace NSMain.Editor
                     while (reader.Read())
                     {
                         keyword = reader["名称"].ToString();
-                        CommonMethod.AddKeyWordForEditor(TextEditor, keyword, tableName);
+                        Common.AddKeyWordForEditor(TextEditor, keyword, tableName);
                     }
                     reader.Close();
                 }

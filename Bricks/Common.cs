@@ -5,13 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NSMain.Bricks
 {
     /// <summary>
     /// 公共操作类：通用
     /// </summary>
-    class CommonMethod
+    class Common
     {
         public static Thread CreateSplashWindow()
         {
@@ -77,6 +80,75 @@ namespace NSMain.Bricks
                 return;
             }
             SetRules(textEdit, keyword, colorName);
+        }
+
+        /// <summary>
+        /// 滚动条
+        /// </summary>
+        public static class Scroll
+        {
+            /// <summary>
+            /// 接受鼠标滚动事件
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            public static void ScrollIt(object sender, MouseWheelEventArgs e)
+            {
+                ScrollViewer scrollviewer = sender as ScrollViewer;
+                var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta)
+                {
+                    RoutedEvent = UIElement.MouseWheelEvent,
+
+                    Source = sender
+                };
+
+                scrollviewer.RaiseEvent(eventArg);
+            }
+
+            /// <summary>
+            /// 根据鼠标滚动上下卷动
+            /// </summary>
+            /// <param name="sender"></param>
+            public static void ScrollUD(object sender, MouseWheelEventArgs e)
+            {
+                ScrollViewer scrollviewer = sender as ScrollViewer;
+                if (e.Delta > 0)
+                {
+                    scrollviewer.LineUp();
+                    scrollviewer.LineUp();
+                    scrollviewer.LineUp();
+                }
+                else
+                {
+                    scrollviewer.LineDown();
+                    scrollviewer.LineDown();
+                    scrollviewer.LineDown();
+                }
+                e.Handled = true;
+            }
+
+            /// <summary>
+            /// 根据鼠标滚动左右卷动
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            public static void ScrollLR(object sender, MouseWheelEventArgs e)
+            {
+                ScrollViewer scrollviewer = sender as ScrollViewer;
+                if (e.Delta > 0)
+                {
+                    scrollviewer.LineLeft();
+                    scrollviewer.LineLeft();
+                    scrollviewer.LineLeft();
+                }
+                else
+                {
+                    scrollviewer.LineRight();
+                    scrollviewer.LineRight();
+                    scrollviewer.LineRight();
+                }
+                e.Handled = true;
+            }
         }
     }
 }

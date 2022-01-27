@@ -9,11 +9,11 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="36"/>
-            <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition x:Name="Column1" Width="100*"/>
+            <ColumnDefinition Width="24"/>
         </Grid.ColumnDefinitions>
         <Label Padding="2" Style="{StaticResource LabelInfo}"  BorderThickness="0" x:Name="LbName" VerticalAlignment="Top" MinHeight="19" Margin="2,3,2,0" HorizontalAlignment="Left" MinWidth="30"/>
-        <WrapPanel Grid.Column="1" x:Name="WpMain" VerticalAlignment="Top" Margin="0,0,1,0" Tag="{Binding Title, ElementName=ThisControl}" MinHeight="25" />
-        <Button x:Name="BtnAdd"  Background="Transparent" Padding="1" BorderThickness="0" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Click="BtnAdd_Click"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,2,0" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <WrapPanel Grid.Column="1" x:Name="WpMain" VerticalAlignment="Top" Tag="{Binding Title, ElementName=ThisControl}" MinHeight="25" />
+        <Button x:Name="BtnAdd"  Background="Transparent" Padding="1" BorderThickness="0" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Click="BtnAdd_Click"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0" Grid.Column="1" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

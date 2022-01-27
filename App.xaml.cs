@@ -18,7 +18,7 @@ namespace NSMain
         protected override void OnStartup(StartupEventArgs e)
         {
             RunningCheck();
-            GlobalVal.Threads.Task1 = CommonMethod.CreateSplashWindow();
+            GlobalVal.Threads.Task1 = Common.CreateSplashWindow();
 
             base.OnStartup(e);
         }

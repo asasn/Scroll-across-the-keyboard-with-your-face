@@ -2,6 +2,7 @@
 using NSMain.Notes;
 using NSMain.Scenes;
 using NSMain.Searcher;
+using NSMain.Tools;
 using NSMain.TreeViewPlus;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,7 @@ namespace NSMain.Bricks
             public static UTreeViewPlus TreeTask;
             public static WNotes Notes;
             public static WScenes Scenes;
+            public static WNewProjects NewProjects;
             public static UCards RoleCards;
             public static UCards OtherCards;
             public static UCards WorldCards;
@@ -80,5 +82,7 @@ namespace NSMain.Bricks
         }
 
         public static SplashScreen SpScreen;
+
+
     }
 }

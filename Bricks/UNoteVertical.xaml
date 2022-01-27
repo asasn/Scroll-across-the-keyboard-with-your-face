@@ -12,7 +12,7 @@
                 <ColumnDefinition Width="4"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbIndex" TextWrapping="Wrap" Text="{Binding StrIndex, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" Width="12" MinHeight="12" Cursor="Hand"/>
+            <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" x:Name="TbIndex" TextWrapping="Wrap" Text="{Binding StrIndex, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" Width="12" MinHeight="12" Cursor="Hand" IsEnabled="False"/>
             <TextBox Padding="0" Background="Transparent" BorderThickness="0" IsReadOnly="True" Grid.Column="2" x:Name="TbTitle" TextWrapping="Wrap" Text="{Binding StrTitle, ElementName=ThisControl, Mode=TwoWay}" Focusable="False" Width="12" MinHeight="12" Cursor="Hand"/>
         </Grid>
     </Grid>

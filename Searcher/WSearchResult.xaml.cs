@@ -51,7 +51,7 @@ namespace NSMain.Searcher
 
             foreach (string keyword in Matches)
             {
-                CommonMethod.AddKeyWordForEditor(TextEditor, keyword, "搜索");
+                Common.AddKeyWordForEditor(TextEditor, keyword, "搜索");
             }
         }
 
