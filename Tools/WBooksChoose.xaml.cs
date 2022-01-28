@@ -211,16 +211,17 @@ namespace NSMain.Tools
                 GlobalVal.SQLClass.Pools.Add(newBookName, new CSqlitePlus(GlobalVal.Path.Books, newBookName + ".db"));
             }
             TryToBuildTreeTable("index", "material");
-            TryToBuildProjectTable("index");
+            TryToBuildNewProjectTable("index");
             TryToBuildNotesTable("index");
             TryToBuildSettingTable("index");
             TryToBuildCardTable("index", "角色");
             TryToBuildCardTable("index", "其他");
             TryToBuildCardTable("index", "世界");
 
-
-            TryToBuildSettingTable(newBookName);            
+            TryToBuildMapsTable(newBookName);
             TryToBuildScenesTable(newBookName);
+            TryToBuildSettingTable(newBookName);
+
             TryToBuildCardTable(newBookName, "角色");
             TryToBuildCardTable(newBookName, "其他");
             TryToBuildCardTable(newBookName, "世界");
@@ -231,7 +232,7 @@ namespace NSMain.Tools
             TryToBuildTreeTable(newBookName, "task");
         }
 
-        void TryToBuildProjectTable(string curBookName="index")
+        void TryToBuildNewProjectTable(string curBookName = "index")
         {
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 题材主表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
@@ -261,7 +262,15 @@ namespace NSMain.Tools
             cSqlite.ExecuteNonQuery(sql);
         }
 
-        void TryToBuildNotesTable(string curBookName="index")
+        void TryToBuildMapsTable(string curBookName)
+        {
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 地图地点表 (Md5 CHAR PRIMARY KEY, 名称 CHAR, 备注 CHAR, PointX INTEGER DEFAULT (0), PointY INTEGER DEFAULT (0),IsDel BOOLEAN DEFAULT (false));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 地图地点表Md5 ON 地图地点表(Md5);");
+            cSqlite.ExecuteNonQuery(sql);
+        }
+
+        void TryToBuildNotesTable(string curBookName = "index")
         {
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");

@@ -84,55 +84,6 @@ namespace NSMain.Tools
             BtnSave.IsEnabled = true;
         }
 
-        //void SaveThis(UIElementCollection wrapPanels, string pid)
-        //{
-        //    string tableName = "题材";
-        //    CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-        //    int w = 0;
-        //    string sql = string.Empty;
-        //    foreach (URecord uRecord in wrapPanels)
-        //    {
-        //        WrapPanel wp = uRecord.WpMain;
-        //        sql = string.Empty;
-        //        foreach (UTip tipBox in wp.Children)
-        //        {
-        //            if (string.IsNullOrEmpty(tipBox.Uid))
-        //            {
-        //                if (false == string.IsNullOrEmpty(tipBox.Text))
-        //                {
-        //                    将外面带入的sql语句提交，并且清空
-        //                    cSqlite.ExecuteNonQuery(sql);
-        //                    sql = string.Empty;
-
-        //                    编辑框不为空，插入，这里的sql语句使用单条语句，以便获取最后填入的id
-        //                    string guid = tipBox.Uid = Guid.NewGuid().ToString();
-        //                    sql = string.Format("insert or ignore into {0}从表 (Uid, Pid, Tid, Text) values ('{1}', '{2}', '{3}', '{4}');", tableName, guid, pid, uRecord.Uid, tipBox.Text.Replace("'", "''"));
-        //                    cSqlite.ExecuteNonQuery(sql);
-        //                    sql = string.Empty; //注意清空，以免影响后续语句运行                            
-        //                }
-        //            }
-        //            else
-        //            {
-        //                存在记录，为空时删除，不为空时更新
-        //                if (string.IsNullOrEmpty(tipBox.Text))
-        //                {
-        //                    sql += string.Format("delete from {0}从表 where Uid='{1}';", tableName, tipBox.Uid);
-        //                    w--;
-        //                }
-        //                else
-        //                {
-        //                    if ((bool)tipBox.Tag == true)
-        //                    {
-        //                        sql += string.Format("update {0}从表 set Text='{1}' where Uid='{2}' AND Pid='{3}' AND Tid='{4}';", tableName, tipBox.Text.Replace("'", "''"), tipBox.Uid, pid, uRecord.Uid);
-        //                    }
-        //                }
-        //            }
-        //            w++;
-        //            tipBox.Tag = false;
-        //        }
-        //        cSqlite.ExecuteNonQuery(sql);
-        //    }
-        //}
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {

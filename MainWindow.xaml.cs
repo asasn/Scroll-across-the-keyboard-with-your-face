@@ -361,7 +361,7 @@ namespace NSMain
 
         private void MapTool_Click(object sender, RoutedEventArgs e)
         {
-            WToolMap win = new WToolMap();
+            WToolMap win = new WToolMap(GlobalVal.CurrentBook.Name, "maps");
             win.Left = Mw.Left + Mw.ActualWidth / 2 - win.Width / 2;
             win.Top = Mw.Top + 25;
             win.ShowDialog();
