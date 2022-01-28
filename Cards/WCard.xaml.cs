@@ -327,7 +327,8 @@ namespace NSMain.Cards
                 //传递给父容器
                 BtnParent.Content = PName = TbName.Text;
                 CCards.SaveNickName(CurBookName, TypeOfTree, Nickname, Pid);
-                CCards.SaveMainInfo(CurBookName, TypeOfTree, MyRecords.WpMain.Children, Pid);
+                int w = CCards.SaveMainInfo(CurBookName, TypeOfTree, MyRecords.WpMain.Children, Pid);
+                CCards.ReNewWeight(CurBookName, TypeOfTree, w, Pid);
 
 
                 //先清空ToolTip的内容

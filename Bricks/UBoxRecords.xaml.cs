@@ -102,5 +102,6 @@ namespace NSMain.Bricks
                 uRecord.SetBinding(WidthProperty, widthBinding);//对绑定目标的目标属性进行绑定
             }
         }
+
     }
 }

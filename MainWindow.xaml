@@ -91,8 +91,8 @@
                             <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="DesignTool" Click="DesignTool_Click" ToolTip="场记大纲" >
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_knight.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
-                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bookmark.png"/>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="UnKnowTool" ToolTip="未知" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lab.png"/>
                             </Button>
                         </Grid>
                         <Grid Grid.Column="2" Grid.ColumnSpan="6">
@@ -114,8 +114,8 @@
                             <Button Padding="0" Grid.Row="1" Grid.Column="0" x:Name="HansTool" Click="HansTool_Click" ToolTip="字词释义">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_search.png"/>
                             </Button>
-                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="UnKnowTool" ToolTip="未知" IsEnabled="False">
-                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_lab.png"/>
+                            <Button Padding="0" Grid.Row="1" Grid.Column="1" x:Name="UnKnowTool2"  ToolTip="未知" IsEnabled="False">
+                                <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_bookmark.png"/>
                             </Button>
                             <Button Padding="0" Grid.Row="0" Grid.Column="1" x:Name="AnchorTool" Click="AnchorTool_Click" ToolTip="锚点工具" IsEnabled="False">
                                 <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_anchor.png"/>

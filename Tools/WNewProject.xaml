@@ -48,14 +48,26 @@
             <TextBox x:Name="TbShowIndex" IsReadOnly="True" Padding="0" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" Height="30" MinWidth="30" Width="100" HorizontalAlignment="Left" Text="{Binding CurCard.StrIndex,ElementName=WpMain, Mode=TwoWay}"/>
             <TextBox x:Name="TbShowTitle" Padding="0" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="200" Text="{Binding CurCard.StrTitle,ElementName=WpMain, Mode=TwoWay}" TextChanged="TbShowTitle_TextChanged" Grid.Row="1" KeyDown="TbShowTitle_KeyDown" MaxWidth="395"/>
             <TabControl Grid.Row="3" Background="Transparent">
-                <TabItem Header="简介" Height="30" Background="Transparent">
+                <TabItem Header="简介" Background="Transparent">
                     <TextBox x:Name="TbShowContent" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding CurCard.StrContent,ElementName=WpMain, Mode=TwoWay}" VerticalAlignment="Top" Grid.Row="2"/>
                 </TabItem>
-                <TabItem Header="要素" Height="30" Background="Transparent">
-                    <bricks:UBoxRecords x:Name="R1" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R1_Loaded" />
+                <TabItem Header="主题和风格" Background="Transparent">
+                    <bricks:UBoxRecords x:Name="R1" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R1_Loaded"/>
                 </TabItem>
-                <TabItem Header="分卷大纲" Height="30" Background="Transparent">
-                    <bricks:UBoxRecords x:Name="R2" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R2_Loaded" Grid.Column="2" />
+                <TabItem Header="分卷大纲" Background="Transparent">
+                    <bricks:UBoxRecords x:Name="R2" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R2_Loaded"/>
+                </TabItem>
+                <TabItem Header="主要角色" Background="Transparent">
+                    <bricks:UBoxRecords x:Name="R3" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R3_Loaded"/>
+                </TabItem>
+                <TabItem Header="线索" Background="Transparent">
+                    <bricks:UBoxRecords x:Name="R4" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R4_Loaded"/>
+                </TabItem>
+                <TabItem Header="卖点" Background="Transparent">
+                    <bricks:UBoxRecords x:Name="R5" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R5_Loaded"/>
+                </TabItem>
+                <TabItem Header="金手指" Background="Transparent">
+                    <bricks:UBoxRecords x:Name="R6" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R6_Loaded"/>
                 </TabItem>
             </TabControl>
         </Grid>

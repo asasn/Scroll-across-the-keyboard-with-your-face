@@ -82,6 +82,7 @@ namespace NSMain.Bricks
             SetRules(textEdit, keyword, colorName);
         }
 
+
         /// <summary>
         /// 滚动条
         /// </summary>

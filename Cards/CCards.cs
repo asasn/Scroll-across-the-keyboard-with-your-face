@@ -63,9 +63,8 @@ namespace NSMain.Cards
 
         }
 
-        public static void SaveMainInfo(string curBookName, string typeOfTree, UIElementCollection wrapPanels, string pid)
+        public static int SaveMainInfo(string curBookName, string tableName, UIElementCollection wrapPanels, string pid)
         {
-            string tableName = typeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             int w = 0;
             string sql = string.Empty;
@@ -115,8 +114,14 @@ namespace NSMain.Cards
                 }
                 cSqlite.ExecuteNonQuery(sql);
             }
+            return w;
+        }
 
-            sql = string.Format("select * from {0}从表 where Pid='{1}' AND Tid=(select Uid from {0}属性表 where Text='别称');", tableName, pid);
+        public static void ReNewWeight(string curBookName, string typeOfTree, int w, string pid)
+        {
+            string tableName = typeOfTree;
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("select * from {0}从表 where Pid='{1}' AND Tid=(select Uid from {0}属性表 where Text='别称');", tableName, pid);
             SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -125,10 +130,7 @@ namespace NSMain.Cards
             reader.Close();
             sql = string.Format("update {0}主表 set 权重={1} where Uid='{2}';", tableName, w, pid);
             cSqlite.ExecuteNonQuery(sql);
-
         }
-
-
 
         public static void FillMainInfo(string curBookName, string typeOfTree, UIElementCollection wrapPanels, string pid)
         {
