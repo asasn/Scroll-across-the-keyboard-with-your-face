@@ -265,8 +265,9 @@ namespace NSMain.Tools
         void TryToBuildMapsTable(string curBookName)
         {
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS 地图地点表 (Md5 CHAR PRIMARY KEY, 名称 CHAR, 备注 CHAR, PointX INTEGER DEFAULT (0), PointY INTEGER DEFAULT (0),IsDel BOOLEAN DEFAULT (false));");
-            sql += string.Format("CREATE INDEX IF NOT EXISTS 地图地点表Md5 ON 地图地点表(Md5);");
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 地图地点表 (Uid CHAR PRIMARY KEY, Pid CHAR, 名称 CHAR, 备注 CHAR, PointX INTEGER DEFAULT (0), PointY INTEGER DEFAULT (0),IsDel BOOLEAN DEFAULT (false));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 地图地点表Uid ON 地图地点表(Uid);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 地图地点表Pid ON 地图地点表(Pid);");
             cSqlite.ExecuteNonQuery(sql);
         }
 

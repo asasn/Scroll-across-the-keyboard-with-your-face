@@ -37,7 +37,7 @@
                     <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_search.png"/>
                 </Button>
             </Grid>
-            <ListBox  x:Name="ListBoxOfResults" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
+            <ListBox  x:Name="ListBoxOfResults" ToolTipService.ShowDuration="60000" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
                         <Setter Property="ToolTipService.ShowDuration" Value="60000"/>

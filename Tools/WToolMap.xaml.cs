@@ -60,11 +60,13 @@ namespace NSMain.Tools
             MapImage.Source = CFileOperate.GetImgObject(imgPath);
         }
 
-        Button CreateLocation(double pointX, double pointY)
+        Button CreateLocation(string uid, string title, string tip, double pointX, double pointY)
         {
             //为了免除各种麻烦，这里不进行最大值最小值的设定，一概随缩放比率增大缩小
             double sideLength = 24.0;
             Button btnLocation = new Button();
+            btnLocation.Uid = uid;
+            ToolTipService.SetShowDuration(btnLocation, 60000);
             btnLocation.Padding = new Thickness(0);
             btnLocation.Background = Brushes.Transparent;
             btnLocation.Width = btnLocation.Height = sideLength * Scale;
@@ -134,12 +136,12 @@ namespace NSMain.Tools
             string imgMd5 = MySettings.Get(CurBookName, "CurMapMd5");
             SetCurMap(imgPath);
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-            string sql = string.Format("select * from 地图地点表 where Md5='{0}';", imgMd5);
+            string sql = string.Format("select * from 地图地点表 where Pid='{0}';", imgMd5);
             SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             MapGrid.Children.Clear();
             while (reader.Read())
             {
-                Button btnLocation = CreateLocation(Convert.ToDouble(reader["PointX"]), Convert.ToDouble(reader["PointY"]));
+                Button btnLocation = CreateLocation(reader["Uid"].ToString(), reader["名称"].ToString(), reader["备注"].ToString(), Convert.ToDouble(reader["PointX"]), Convert.ToDouble(reader["PointY"]));
 
             }
             reader.Close();
@@ -150,7 +152,7 @@ namespace NSMain.Tools
             Button btn = sender as Button;
             if (IsMoving == true)
             {
-                Point offsetPoint = e.GetPosition(this.MapGrid);
+                Point offsetPoint = e.GetPosition(MapGrid);
                 btn.Margin = new Thickness(offsetPoint.X - btn.ActualWidth / 2, offsetPoint.Y - btn.ActualHeight * 0.8, 0, 0);
             }
         }
@@ -164,6 +166,12 @@ namespace NSMain.Tools
         private void BtnLocation_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             IsMoving = false;
+            Button btn = sender as Button;
+            double pointX = (btn.Margin.Left + (btn.Width / 2));
+            double pointY = (btn.Margin.Top + (btn.Height * 0.8));
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+            string sql = string.Format("UPDATE 地图地点表 SET PointX='{0}', PointY='{1}' where Uid='{2}';", pointX / Scale, pointY / Scale, btn.Uid);
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         private void BtnLocation_Click(object sender, RoutedEventArgs e)
@@ -172,6 +180,9 @@ namespace NSMain.Tools
             if (IsDeleting == true)
             {
                 MapGrid.Children.Remove(btn);
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+                string sql = string.Format("DELETE FROM 地图地点表 where Uid='{0}';", btn.Uid);
+                cSqlite.ExecuteNonQuery(sql);
             }
         }
 
@@ -197,7 +208,12 @@ namespace NSMain.Tools
             if (IsCreating == true)
             {
                 Point point = Mouse.GetPosition(MapGrid);
-                CreateLocation(point.X, point.Y);
+                Button btn = CreateLocation(Guid.NewGuid().ToString(), "", "", point.X, point.Y);
+                double pointX = (btn.Margin.Left + (btn.Width / 2));
+                double pointY = (btn.Margin.Top + (btn.Height * 0.8));
+                CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+                string sql = string.Format("INSERT INTO 地图地点表 (Uid, Pid , 名称, 备注, PointX, PointY) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');", btn.Uid, MySettings.Get(CurBookName, "CurMapMd5"), "", "", pointX / Scale, pointY / Scale);
+                cSqlite.ExecuteNonQuery(sql);
             }
         }
 
