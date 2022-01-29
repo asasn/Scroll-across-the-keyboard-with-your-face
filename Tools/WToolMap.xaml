@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="MapWindow" Height="450" Width="800">
+        mc:Ignorable="d" MouseRightButtonDown="window_MouseRightButtonDown"
+        Title="MapWindow" Height="450" Width="800" MinWidth="800" MinHeight="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="R1" Height="30"/>
@@ -14,14 +14,19 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Label Background="AliceBlue" BorderThickness="0" x:Name="LbImagePath" MinWidth="100" MinHeight="30" Content="测试" Grid.Column="1"/>
             <Button x:Name="BtnChooseFile" Click="BtnChooseFile_Click" HorizontalAlignment="Center" Content="选择文件" Grid.Column="2"/>
             <Button x:Name="BtnCreate" Content="新地点" Width="75" Click="BtnCreate_Click" Grid.Column="3"/>
+            <Button x:Name="BtnDel" Content="删除地点" Width="75" Click="BtnDel_Click" Grid.Column="4"/>
+
         </Grid>
-        <Image Grid.Row="1" x:Name="MapImage" Loaded="MapImage_Loaded" MouseLeftButtonDown="MapImage_MouseLeftButtonDown"/>
+        <ScrollViewer x:Name="MapSv" Grid.Row="1">
+            <Image Grid.Row="1" x:Name="MapImage" Loaded="MapImage_Loaded" MouseLeftButtonDown="MapImage_MouseLeftButtonDown"/>
+        </ScrollViewer>
         <Grid Grid.Row="1" x:Name="MapGrid" SizeChanged="MapGrid_SizeChanged" Width="{Binding ActualWidth, ElementName=MapImage}" Height="{Binding ActualHeight, ElementName=MapImage}" Margin="{Binding Margin, ElementName=MapImage}"/>
     </Grid>
 </Window>

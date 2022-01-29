@@ -87,6 +87,7 @@ namespace NSMain.Tools
         }
 
 
+
         private void MapGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (e.PreviousSize.Width == 0)
@@ -147,48 +148,87 @@ namespace NSMain.Tools
         private void BtnLocation_MouseMove(object sender, MouseEventArgs e)
         {
             Button btn = sender as Button;
-            if (btn.Tag != null && (bool)btn.Tag == true)
+            if (IsMoving == true)
             {
                 Point offsetPoint = e.GetPosition(this.MapGrid);
-                btn.Margin = new Thickness(offsetPoint.X - btn.ActualWidth / 2, offsetPoint.Y - btn.ActualHeight / 2, 0, 0);
+                btn.Margin = new Thickness(offsetPoint.X - btn.ActualWidth / 2, offsetPoint.Y - btn.ActualHeight * 0.8, 0, 0);
             }
         }
 
+        bool IsMoving = false;
         private void BtnLocation_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Button btn = sender as Button;
-            btn.Tag = true;
+            IsMoving = true;
         }
 
         private void BtnLocation_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Button btn = sender as Button;
-            btn.Tag = false;
+            IsMoving = false;
         }
 
         private void BtnLocation_Click(object sender, RoutedEventArgs e)
         {
-
+            Button btn = sender as Button;
+            if (IsDeleting == true)
+            {
+                MapGrid.Children.Remove(btn);
+            }
         }
 
-        bool flagCreate = false;
+        bool IsCreating = false;
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
-            window.Cursor = Cursors.Cross;
-            flagCreate = true;
+            if (IsCreating == true)
+            {
+                window.Cursor = null;
+                IsCreating = false;
+            }
+            else
+            {
+                window.Cursor = Cursors.Cross;
+                IsCreating = true;
+            }
+
         }
 
 
         private void MapImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (flagCreate == true)
+            if (IsCreating == true)
             {
                 Point point = Mouse.GetPosition(MapGrid);
                 CreateLocation(point.X, point.Y);
-                flagCreate = false;
+            }
+        }
+
+
+        private void window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (IsCreating == true)
+            {
+                IsCreating = false;
                 window.Cursor = null;
             }
+            if (IsDeleting == true)
+            {
+                IsDeleting = false;
+                window.Cursor = null;
+            }
+        }
 
+        bool IsDeleting = false;
+        private void BtnDel_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsDeleting == true)
+            {
+                window.Cursor = null;
+                IsDeleting = false;
+            }
+            else
+            {
+                window.Cursor = Cursors.Hand;
+                IsDeleting = true;
+            }
         }
 
     }

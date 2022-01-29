@@ -1,0 +1,23 @@
+﻿<UserControl x:Name="Btn" x:Class="NSMain.Bricks.ULocation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NSMain.Bricks" ToolTipService.ShowDuration="60000"
+             mc:Ignorable="d" Padding="0" BorderThickness="0" 
+             HorizontalAlignment="Left" VerticalAlignment="Top" Width="24" Height="24">
+    <Button  Background="Transparent" Padding="0" MouseRightButtonUp="Btn_MouseRightButtonUp" MouseMove="Btn_MouseMove" BorderThickness="0" 
+        MouseRightButtonDown="Btn_MouseRightButtonDown" Click="Btn_Click">
+        <Image Source="pack://siteoforigin:,,,/Resourses/图标/工具栏/ic_action_location.png"/>
+        <!--<Button.Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Green"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="Red"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Button.Style>-->
+    </Button>
+</UserControl>
