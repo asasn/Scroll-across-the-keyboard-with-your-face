@@ -63,11 +63,14 @@
                 <TabItem Header="线索" Background="Transparent">
                     <bricks:UBoxRecords x:Name="R4" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R4_Loaded"/>
                 </TabItem>
-                <TabItem Header="卖点" Background="Transparent">
+                <TabItem Header="卖点与金手指" Background="Transparent">
                     <bricks:UBoxRecords x:Name="R5" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R5_Loaded"/>
                 </TabItem>
-                <TabItem Header="金手指" Background="Transparent">
+                <TabItem Header="世界" Background="Transparent">
                     <bricks:UBoxRecords x:Name="R6" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R6_Loaded"/>
+                </TabItem>
+                <TabItem Header="相关设定" Background="Transparent">
+                    <bricks:UBoxRecords x:Name="R7" CurBookName="{Binding CurBookName, ElementName=window, Mode=TwoWay}" TypeOfTree="{Binding TypeOfTree, ElementName=window,Mode=TwoWay}" Loaded="R7_Loaded"/>
                 </TabItem>
             </TabControl>
         </Grid>

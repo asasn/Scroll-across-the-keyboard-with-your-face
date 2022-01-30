@@ -1,5 +1,6 @@
 ﻿using NSMain.Bricks;
 using System;
+using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
@@ -114,20 +115,7 @@ namespace NSMain.Tools
         }
 
 
-        /// <summary>
-        /// 当前选择的书籍为空时，GlobalVal指向null
-        /// </summary>
-        /// <param name="uid"></param>
-        void GetCurBookInfoForGlobalVal()
-        {
-            GlobalVal.CurrentBook.Uid = null;
-            GlobalVal.CurrentBook.Name = null;
-            GlobalVal.CurrentBook.Introduction = null;
-            GlobalVal.CurrentBook.Price = double.NaN;
-            GlobalVal.CurrentBook.CurrentYear = 0;
-            GlobalVal.CurrentBook.CurNode = null;
 
-        }
 
         /// <summary>
         /// 选择当前书籍卡片
@@ -198,7 +186,7 @@ namespace NSMain.Tools
             string tableName = "allbooks";
             string guid = Guid.NewGuid().ToString();
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools["index"];
-            string sql = string.Format("INSERT INTO Tree_{0} (Uid, NodeName, Introduction, Price, CurrentYear) VALUES ('{1}', '{2}', {3}, {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), TbIntroduction.Text.Replace("'", "''"), 0, 2021);
+            string sql = string.Format("INSERT INTO Tree_{0} (Uid, NodeName, Introduction, Price, CurrentYear) VALUES ('{1}', '{2}', '{3}', {4}, {5});", tableName, guid, TbBuild.Text.Replace("'", "''"), "", 0, 2021);
             cSqlite.ExecuteNonQuery(sql);
 
 
@@ -237,7 +225,7 @@ namespace NSMain.Tools
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
             string sql = string.Format("CREATE TABLE IF NOT EXISTS 题材主表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 题材主表Uid ON 题材主表(Uid);");
-            sql += string.Format("CREATE TABLE IF NOT EXISTS 题材从表 (Uid CHAR PRIMARY KEY, Pid CHAR REFERENCES {0}主表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Tid CHAR, Text CHAR);");
+            sql += string.Format("CREATE TABLE IF NOT EXISTS 题材从表 (Uid CHAR PRIMARY KEY, Pid CHAR REFERENCES 题材主表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Tid CHAR, Text CHAR);");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Uid ON 题材从表(Uid);");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Pid ON 题材从表(Pid);");
             sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Tid ON 题材从表(Tid);");
@@ -353,22 +341,54 @@ namespace NSMain.Tools
                 return;
             }
 
-            //关闭数据库连接并从字典中删除
+            //回收站：FileOperate.DeleteFile(GlobalVal.Path.Books + "/" + (WpBooks.Tag as HandyControl.Controls.Card).Header.ToString() + ".db");
+            DelCurBookBySql();
+            (WpBooks.Tag as HandyControl.Controls.Card).Header.ToString();
+            WpBooks.Children.Clear();
+            Window_Loaded(null, null);
+            (WpBooks.Tag as HandyControl.Controls.Card).Header.ToString();
+            //关闭数据库连接并从字典中删除（注意执行此操作的位置，这里要避免取值被清空，或者关闭之后重新因为删除语句而打开）
             if (true == GlobalVal.SQLClass.Pools.ContainsKey((WpBooks.Tag as HandyControl.Controls.Card).Header.ToString()))
             {
                 GlobalVal.SQLClass.Pools[(WpBooks.Tag as HandyControl.Controls.Card).Header.ToString()].Close();
                 GlobalVal.SQLClass.Pools.Remove((WpBooks.Tag as HandyControl.Controls.Card).Header.ToString());
             }
-            //回收站：FileOperate.DeleteFile(GlobalVal.Path.Books + "/" + (WpBooks.Tag as HandyControl.Controls.Card).Header.ToString() + ".db");
-            DelCurBookBySql();
-            WpBooks.Children.Clear();
-            Window_Loaded(null, null);
-
+            Console.WriteLine((WpBooks.Tag as HandyControl.Controls.Card).Header.ToString());
             GlobalVal.Uc.MainWin.TbkCurBookName2.Visibility = Visibility.Hidden;
             GlobalVal.Uc.MainWin.TbkCurBookName.Text = "<<<点击选择或者创建书籍";
             GlobalVal.Uc.MainWin.TbkCurBookName.Visibility = Visibility.Visible;
 
             GetCurBookInfoForGlobalVal();
+            ClearBookControl();
+
+
+
+        }
+
+        /// <summary>
+        /// 当前选择的书籍为空时，GlobalVal指向null
+        /// </summary>
+        /// <param name="uid"></param>
+        private void GetCurBookInfoForGlobalVal()
+        {
+            GlobalVal.CurrentBook.Uid = null;
+            GlobalVal.CurrentBook.Name = null;
+            GlobalVal.CurrentBook.Introduction = null;
+            GlobalVal.CurrentBook.Price = double.NaN;
+            GlobalVal.CurrentBook.CurrentYear = 0;
+            GlobalVal.CurrentBook.CurNode = null;
+
+        }
+
+        private void ClearBookControl()
+        {  
+            GlobalVal.Uc.TreeBook.Tv.ItemsSource = new ObservableCollection<TreeViewPlus.CNodeModule.TreeViewNode>();
+            GlobalVal.Uc.TreeHistory.Tv.ItemsSource = new ObservableCollection<TreeViewPlus.CNodeModule.TreeViewNode>();
+            GlobalVal.Uc.TreeTask.Tv.ItemsSource = new ObservableCollection<TreeViewPlus.CNodeModule.TreeViewNode>();
+            GlobalVal.Uc.Searcher.ListBoxOfResults.Items.Clear();
+            GlobalVal.Uc.RoleCards.WpCards.Children.Clear();
+            GlobalVal.Uc.OtherCards.WpCards.Children.Clear();
+            GlobalVal.Uc.WorldCards.WpCards.Children.Clear();
         }
 
         /// <summary>

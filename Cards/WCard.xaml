@@ -12,24 +12,34 @@
             <ScrollViewer PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
                 <Grid x:Name="gCard" Margin="2,2,2,2">
                     <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="25" Height="Auto"/>
-                        <RowDefinition MinHeight="25" Height="Auto"/>
-                        <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition x:Name="R1" MinHeight="25" Height="Auto"/>
-                        <RowDefinition MinHeight="25" Height="Auto"/>
-                        <RowDefinition MinHeight="25" Height="Auto"/>
+                        <RowDefinition x:Name="R2" MinHeight="25" Height="Auto"/>
+                        <RowDefinition x:Name="R3" MinHeight="25" Height="Auto"/>
+                        <RowDefinition x:Name="R4" MinHeight="25" Height="Auto" />
+                        <RowDefinition x:Name="R5" MinHeight="25" Height="Auto"/>
+                        <RowDefinition x:Name="R6" MinHeight="25" Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="36"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Label Padding="2" Style="{StaticResource LabelPrimary}" x:Name="Lb名称" Content="名称" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,3" MinWidth="30"  />
                         <Button Padding="2" x:Name="BtnSave" IsEnabled="False" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" />
+                        <Button Padding="2" x:Name="BtnSee" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSee_Click" Width="20" Height="20" Grid.Column="3" >
+                            <Border Background="Transparent" Height="16" Padding="4" Width="16">
+                                <Path x:Name="ExpandPath" Data="M508.89325,762.93166 A65.039498,65.039498,0,0,1,462.47259,743.44582 L97.125746,371.00402 C71.982728,345.3697 72.372878,304.18717 98.007197,279.04415 123.65597,253.87946 164.81682,254.29851 189.96706,279.92561 L508.90047,605.05084 827.83388,279.92561 A65.025048,65.025048,0,0,1,920.6752,371.00402 L555.31391,743.44582 A65.025048,65.025048,0,0,1,508.89325,762.93166 z" Fill="Goldenrod"  RenderTransformOrigin="0.5,0.5" Stretch="Uniform">
+                                    <Path.RenderTransform>
+                                        <RotateTransform Angle="-90"/>
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Border>
+                        </Button>
                         <TextBox Padding="2" x:Name="TbName" TextChanged="Tb_TextChanged" hc:BorderElement.CornerRadius="0"  Grid.Row="0" Grid.Column="1" MinWidth="30" BorderThickness="0,0,0,1" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,2,0,0" MinHeight="0"/>
                     </Grid>
-                    <Grid Grid.Row="1">
+                    <Grid x:Name="GridYear" Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50*"/>
                             <ColumnDefinition Width="50*"/>

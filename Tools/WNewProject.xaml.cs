@@ -100,6 +100,7 @@ namespace NSMain.Tools
             CCards.SaveMainInfo(CurBookName, "题材", R4.WpMain.Children, WpMain.CurCard.Uid);
             CCards.SaveMainInfo(CurBookName, "题材", R5.WpMain.Children, WpMain.CurCard.Uid);
             CCards.SaveMainInfo(CurBookName, "题材", R6.WpMain.Children, WpMain.CurCard.Uid);
+            CCards.SaveMainInfo(CurBookName, "题材", R7.WpMain.Children, WpMain.CurCard.Uid);
             BtnSave.IsEnabled = false;
         }
 
@@ -166,15 +167,22 @@ namespace NSMain.Tools
 
         private void R5_Loaded(object sender, RoutedEventArgs e)
         {
-            ArrayList headers = new ArrayList() {"卖点", };
+            ArrayList headers = new ArrayList() {"卖点", "金手指" ,};
             LoadBoxRecords(R5, headers);
         }
 
         private void R6_Loaded(object sender, RoutedEventArgs e)
         {
-            ArrayList headers = new ArrayList() { "金手指", };
+            ArrayList headers = new ArrayList() { "阶级", };
             LoadBoxRecords(R6, headers);
         }
+
+        private void R7_Loaded(object sender, RoutedEventArgs e)
+        {
+            ArrayList headers = new ArrayList() { "设定", };
+            LoadBoxRecords(R7, headers);
+        }
+
         private void WpMain_GotFocus(object sender, RoutedEventArgs e)
         {
             R1_Loaded(null, null);
@@ -183,6 +191,7 @@ namespace NSMain.Tools
             R4_Loaded(null, null);
             R5_Loaded(null, null);
             R6_Loaded(null, null);
+            R7_Loaded(null, null);
         }
 
         private void window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

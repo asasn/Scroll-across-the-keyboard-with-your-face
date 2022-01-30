@@ -267,6 +267,10 @@ namespace NSMain.Bricks
                 }
                 cSqlite.ExecuteNonQuery(sql);
                 memberData.Remove(item);
+                if (item.TableName == "allbooks")
+                {
+                    CFileOperate.DeleteFile(GlobalVal.Path.Books + "/" + item.Name + ".db");
+                }
             }
         }
 

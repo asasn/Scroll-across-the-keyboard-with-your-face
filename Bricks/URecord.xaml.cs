@@ -53,5 +53,16 @@ namespace NSMain.Bricks
         {
             LbName.Content = Title;
         }
+
+        private void LbName_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            string content = string.Empty;
+            foreach (UTip uTip in WpMain.Children)
+            {
+                content += uTip.Text + "\n";
+            }
+            Clipboard.SetText(content);
+            HandyControl.Controls.Growl.SuccessGlobal("已复制Record内容到剪贴板！");
+        }
     }
 }

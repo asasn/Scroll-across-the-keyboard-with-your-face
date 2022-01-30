@@ -25,10 +25,10 @@ namespace NSMain.Cards
     {
         public struct ThisCard
         {
-            public static string id;
-            public static string weight;
-            public static string realAge;
-            public static string 诞生年份;
+            public static string Uid;
+            public static string Weight;
+            public static string RealAge;
+            public static string BornYear;
         }
 
         public WCard(string curBookName, string typeOfTree, Button btnParent)
@@ -50,7 +50,6 @@ namespace NSMain.Cards
 
             CurBookName = curBookName;
             TypeOfTree = typeOfTree;
-
 
 
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
@@ -198,17 +197,17 @@ namespace NSMain.Cards
                 {
                     Tb备注.Text = reader["备注"].ToString();
                 }
-                if (reader["权重"].ToString() == "")
+                if (string.IsNullOrEmpty(reader["权重"].ToString()) == true)
                 {
-                    ThisCard.weight = "0";
+                    ThisCard.Weight = "0";
                 }
                 else
                 {
-                    ThisCard.weight = reader["权重"].ToString();
+                    ThisCard.Weight = reader["权重"].ToString();
                 }
-                if (reader["诞生年份"].ToString() == "")
+                if (string.IsNullOrEmpty(reader["诞生年份"].ToString()) == true)
                 {
-                    TbBornYear.Text = "0";
+                    TbBornYear.Text = null;
                 }
                 else
                 {
@@ -218,11 +217,19 @@ namespace NSMain.Cards
             }
             reader.Close();
 
+            card.Header = " 权重：" + ThisCard.Weight.ToString();
+            if (string.IsNullOrEmpty(TbBornYear.Text) == false)
+            {
+                long realAge = GlobalVal.CurrentBook.CurrentYear - long.Parse(TbBornYear.Text);
+                TbRealYear.Text = realAge.ToString();
+            }
 
-            long realAge = GlobalVal.CurrentBook.CurrentYear - long.Parse(TbBornYear.Text);
-            card.Header = " 权重：" + ThisCard.weight.ToString();
-            TbRealYear.Text = realAge.ToString();
 
+            if (string.IsNullOrEmpty(TbBornYear.Text) == true)
+            {
+                GridYear.Visibility = Visibility.Collapsed;
+                R2.MinHeight = 0;
+            }
         }
 
         private void Nickname_Loaded(object sender, RoutedEventArgs e)
@@ -246,6 +253,11 @@ namespace NSMain.Cards
                 tipBox.Uid = reader["Uid"].ToString();
             }
             reader.Close();
+            if (Nickname.WpMain.Children.Count == 0)
+            {
+                Nickname.Visibility = Visibility.Collapsed;
+                R3.MinHeight = 0;
+            }
         }
 
 
@@ -264,8 +276,16 @@ namespace NSMain.Cards
         private void TbBornYear_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox tb = sender as TextBox;
-            long.TryParse(tb.Text, out long str);
-            tb.Text = str.ToString();
+            bool hasValue = long.TryParse(tb.Text, out long str);
+            if (hasValue == true)
+            {
+                tb.Text = str.ToString();
+            }
+            else
+            {
+                tb.Text = null;
+            }
+
 
             BtnSave.IsEnabled = true;
         }
@@ -294,7 +314,7 @@ namespace NSMain.Cards
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            
+
             string tableName = TypeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
             SQLiteDataReader reader = cSqlite.ExecuteQuery(string.Format("select * from {0}主表 where 名称='{1}'", tableName, TbName.Text.Replace("'", "''")));
@@ -312,16 +332,18 @@ namespace NSMain.Cards
 
             if (false == string.IsNullOrEmpty(this.PName))
             {
-                if (string.IsNullOrEmpty(ThisCard.weight))
+                string sql = string.Empty;
+                if (string.IsNullOrEmpty(ThisCard.Weight))
                 {
-                    ThisCard.weight = 0.ToString();
+                    ThisCard.Weight = 0.ToString();
                 }
-                if (string.IsNullOrEmpty(TbBornYear.Text))
+                if (string.IsNullOrEmpty(TbBornYear.Text) == true)
                 {
-                    TbBornYear.Text = 0.ToString();
+                    ThisCard.BornYear = "null";
+                    TbRealYear.Text = null;
                 }
 
-                string sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重={3}, 诞生年份={4} where Uid='{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.weight, TbBornYear.Text, this.Pid);
+                sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重='{3}', 诞生年份={4} where Uid='{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.Weight, ThisCard.BornYear, this.Pid);
                 cSqlite.ExecuteNonQuery(sql);
 
                 //传递给父容器
@@ -347,12 +369,15 @@ namespace NSMain.Cards
                 reader = cSqlite.ExecuteQuery(sql);
                 while (reader.Read())
                 {
-                    ThisCard.weight = reader["权重"].ToString();
+                    ThisCard.Weight = reader["权重"].ToString();
                 }
                 reader.Close();
-                long realAge = GlobalVal.CurrentBook.CurrentYear - long.Parse(TbBornYear.Text);
-                card.Header = " 权重：" + ThisCard.weight.ToString();
-                TbRealYear.Text = realAge.ToString();
+                card.Header = " 权重：" + ThisCard.Weight.ToString();
+                if (string.IsNullOrEmpty(TbBornYear.Text) == false)
+                {
+                    long realAge = GlobalVal.CurrentBook.CurrentYear - long.Parse(TbBornYear.Text);
+                    TbRealYear.Text = realAge.ToString();
+                }
             }
 
             GlobalVal.Uc.RoleCards.RefreshKeyWords();
@@ -364,13 +389,92 @@ namespace NSMain.Cards
         {
             //填充窗口信息
             GetDataAndFillCard();
+
+            if (MyRecords.WpMain.Children.Count == 0)
+            {
+                MyRecords.Visibility = Visibility.Collapsed;
+            }
+            bool hasShow = false;
+            foreach (URecord uRecord in MyRecords.WpMain.Children)
+            {
+                if (uRecord.WpMain.Children.Count == 0)
+                {
+                    uRecord.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    hasShow = true;
+                }
+            }
+            if (hasShow == false)
+            {
+                GridMain.Visibility = Visibility.Collapsed;
+                R4.MinHeight = 0;
+            }
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-           Common.Scroll.ScrollIt(sender, e);
+            Common.Scroll.ScrollIt(sender, e);
         }
 
-
+        bool IsShow = false;
+        private void BtnSee_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsShow == true)
+            {
+                if (string.IsNullOrEmpty(TbBornYear.Text) == true)
+                {
+                    GridYear.Visibility = Visibility.Collapsed;
+                    R2.MinHeight = 0;
+                }
+                if (Nickname.WpMain.Children.Count == 0)
+                {
+                    Nickname.Visibility = Visibility.Collapsed;
+                    R2.MinHeight = 0;
+                }
+                bool hasShow = false;
+                foreach (URecord uRecord in MyRecords.WpMain.Children)
+                {
+                    if (uRecord.WpMain.Children.Count == 0)
+                    {
+                        uRecord.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        hasShow = true;
+                    }
+                }
+                if (hasShow == false)
+                {
+                    GridMain.Visibility = Visibility.Collapsed;
+                    R4.MinHeight = 0;
+                }
+                IsShow = false;
+                ExpandPath.RenderTransform = new RotateTransform(-90);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(TbBornYear.Text) == true)
+                {
+                    GridYear.Visibility = Visibility.Visible;
+                    R2.MinHeight = 0;
+                }
+                if (Nickname.WpMain.Children.Count == 0)
+                {
+                    Nickname.Visibility = Visibility.Visible;
+                }
+                foreach (URecord uRecord in MyRecords.WpMain.Children)
+                {
+                    if (uRecord.WpMain.Children.Count == 0)
+                    {
+                        uRecord.Visibility = Visibility.Visible;
+                    }
+                }
+                GridMain.Visibility = Visibility;
+                IsShow = true;
+                ExpandPath.RenderTransform = new RotateTransform();
+            }
+        }
     }
 }

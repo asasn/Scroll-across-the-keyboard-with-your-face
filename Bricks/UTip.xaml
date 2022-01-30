@@ -8,6 +8,6 @@
              mc:Ignorable="d" x:Name="ThisControl" KeyDown="Uc_KeyDown">
    
     <Grid MinWidth="30">
-        <TextBox x:Name="Tb" Background="Transparent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" Text="{Binding Text, ElementName=ThisControl, Mode=TwoWay}" TextWrapping="Wrap" Margin="0,0,10,0" TextChanged="Tb_TextChanged" MinHeight="21" />
+        <TextBox x:Name="Tb" Background="Transparent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" Text="{Binding Text, ElementName=ThisControl, Mode=TwoWay}" TextWrapping="Wrap" Margin="0,0,10,0" TextChanged="Tb_TextChanged" MinHeight="21" AcceptsReturn="True" />
     </Grid>
 </UserControl>

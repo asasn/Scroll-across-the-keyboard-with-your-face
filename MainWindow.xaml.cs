@@ -161,6 +161,12 @@ namespace NSMain
         #region 工具栏
         private void BooksChoose_Click(object sender, RoutedEventArgs e)
         {
+            if (GlobalVal.Uc.TabControl.Items.Count > 0)
+            {
+                MessageBoxResult dr = MessageBox.Show("请在选择其他书籍之前关闭编辑区", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+                return;
+            }
+
             WBooksChoose win = new WBooksChoose
             {
                 Left = Mw.Left + 100,
