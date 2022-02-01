@@ -148,6 +148,8 @@ namespace NSMain.Editor
 
         public static FindReplaceDialog ShowForReplace(TextEditor editor)
         {
+            theDialog.Left = GlobalVal.Uc.TreeHistory.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).X;
+            System.Console.WriteLine(theDialog.Left);
             if (theDialog == null)
             {
                 theDialog = new FindReplaceDialog(editor);

@@ -219,8 +219,17 @@ namespace NSMain.Bricks
             int n = Convert.ToInt32(MySettings.Get(CurBookName, tableName + "CurIndex"));
             if (WpNotes.Children.Count > 0)
             {
-                (WpNotes.Children[n] as UNote).Focus();
-                Sv.ScrollToHorizontalOffset((60 * (n+1)) - Sv.ActualWidth / 2);
+                try
+                {
+                    (WpNotes.Children[n] as UNote).Focus();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    (WpNotes.Children[0] as UNote).Focus();
+                }
+                
+                Sv.ScrollToHorizontalOffset((60 * (n + 1)) - Sv.ActualWidth / 2);
                 Sv.ScrollToVerticalOffset((60 * (n + 1)) - Sv.ActualHeight / 2);
             }
             this.IsCanSave = false;
@@ -244,9 +253,10 @@ namespace NSMain.Bricks
                 PreviousCard.BorderBrush = null;
                 PreviousCard.BorderThickness = new Thickness(0, 0, 0, 0);
             }
+
             CurCard.BorderBrush = Brushes.Orange;
             CurCard.BorderThickness = new Thickness(2, 2, 2, 2);
-            CurCard.Index = WpNotes.Children.IndexOf(CurCard);
+
             string tableName = string.Empty;
             if (TypeOfTree == "notes")
             {
@@ -260,7 +270,7 @@ namespace NSMain.Bricks
             {
                 tableName = "场记大纲表";
             }
-            MySettings.Set(CurBookName, tableName + "CurIndex", CurCard.Index.ToString());
+            MySettings.Set(CurBookName, tableName + "CurIndex", WpNotes.Children.IndexOf(CurCard).ToString());
             this.IsCanSave = false;
         }
 
@@ -302,26 +312,19 @@ namespace NSMain.Bricks
                 int i = WpNotes.Children.IndexOf(CurCard);
                 if (i > 0)
                 {
-                    string temp = CurCard.StrContent;
-                    CurCard.StrContent = (WpNotes.Children[i - 1] as UNote).StrContent;
-                    (WpNotes.Children[i - 1] as UNote).StrContent = temp;
-                    string temp2 = CurCard.StrTitle;
-                    CurCard.StrTitle = (WpNotes.Children[i - 1] as UNote).StrTitle;
-                    (WpNotes.Children[i - 1] as UNote).StrTitle = temp2;
-                    //string temp3 = CurCard.StrIndex;
-                    //CurCard.StrIndex = (WpNotes.Children[i - 1] as UcScenesCard).StrIndex;
-                    //(WpNotes.Children[i - 1] as UcScenesCard).StrIndex = temp3;
-
-                    CurCard.Index--;
-                    (WpNotes.Children[i - 1] as UNote).Index++;
+                    WpNotes.Children.Remove(CurCard);
+                    WpNotes.Children.Insert(i - 1, CurCard);
+                    string temp = CurCard.StrIndex;
+                    CurCard.StrIndex = (WpNotes.Children[i] as UNote).StrIndex;
+                    (WpNotes.Children[i] as UNote).StrIndex = temp;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-
-                    string sql = string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, CurCard.Index, CurCard.Uid);
-                    sql += string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, (WpNotes.Children[i - 1] as UNote).Index, (WpNotes.Children[i - 1] as UNote).Uid);
+                    string sql = string.Format("UPDATE {0} set Uid='{1}' where Uid='{2}';", tableName, "temp", CurCard.Uid);
                     cSqlite.ExecuteNonQuery(sql);
-
-                    (WpNotes.Children[i - 1] as UNote).Focus();
+                    sql = string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, CurCard.Uid, CurCard.StrTitle, CurCard.StrContent, (WpNotes.Children[i] as UNote).Uid);
+                    sql += string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, (WpNotes.Children[i] as UNote).Uid, (WpNotes.Children[i] as UNote).StrTitle, (WpNotes.Children[i] as UNote).StrContent, "temp");
+                    cSqlite.ExecuteNonQuery(sql);
+                    SCard_GotFocus(CurCard,null);
                 }
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.J)
@@ -329,25 +332,19 @@ namespace NSMain.Bricks
                 int i = WpNotes.Children.IndexOf(CurCard);
                 if (i < WpNotes.Children.Count - 1)
                 {
-                    string temp = CurCard.StrContent;
-                    CurCard.StrContent = (WpNotes.Children[i + 1] as UNote).StrContent;
-                    (WpNotes.Children[i + 1] as UNote).StrContent = temp;
-                    string temp2 = CurCard.StrTitle;
-                    CurCard.StrTitle = (WpNotes.Children[i + 1] as UNote).StrTitle;
-                    (WpNotes.Children[i + 1] as UNote).StrTitle = temp2;
-                    //string temp3 = CurCard.StrIndex;
-                    //CurCard.StrIndex = (WpNotes.Children[i + 1] as UcScenesCard).StrIndex;
-                    //(WpNotes.Children[i + 1] as UcScenesCard).StrIndex = temp3;
-
-                    CurCard.Index++;
-                    (WpNotes.Children[i + 1] as UNote).Index--;
+                    WpNotes.Children.Remove(CurCard);
+                    WpNotes.Children.Insert(i + 1, CurCard);
+                    string temp = CurCard.StrIndex;
+                    CurCard.StrIndex = (WpNotes.Children[i] as UNote).StrIndex;
+                    (WpNotes.Children[i] as UNote).StrIndex = temp;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-                    string sql = string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, CurCard.Index, CurCard.Uid);
-                    sql += string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, (WpNotes.Children[i + 1] as UNote).Index, (WpNotes.Children[i + 1] as UNote).Uid);
+                    string sql = string.Format("UPDATE {0} set Uid='{1}' where Uid='{2}';", tableName, "temp", CurCard.Uid);
                     cSqlite.ExecuteNonQuery(sql);
-
-                    (WpNotes.Children[i + 1] as UNote).Focus();
+                    sql = string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, CurCard.Uid, CurCard.StrTitle, CurCard.StrContent, (WpNotes.Children[i] as UNote).Uid);
+                    sql += string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, (WpNotes.Children[i] as UNote).Uid, (WpNotes.Children[i] as UNote).StrTitle, (WpNotes.Children[i] as UNote).StrContent, "temp");
+                    cSqlite.ExecuteNonQuery(sql);
+                    SCard_GotFocus(CurCard, null);
                 }
             }
         }
