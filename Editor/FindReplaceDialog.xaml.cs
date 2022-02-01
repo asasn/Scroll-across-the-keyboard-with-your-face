@@ -26,7 +26,6 @@ namespace NSMain.Editor
         public FindReplaceDialog(TextEditor editor)
         {
             InitializeComponent();
-
             this.editor = editor;
 
             txtFind.Text = txtFind2.Text = textToFind;
@@ -148,12 +147,13 @@ namespace NSMain.Editor
 
         public static FindReplaceDialog ShowForReplace(TextEditor editor)
         {
-            theDialog.Left = GlobalVal.Uc.TreeHistory.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).X;
-            System.Console.WriteLine(theDialog.Left);
             if (theDialog == null)
             {
                 theDialog = new FindReplaceDialog(editor);
                 theDialog.Show();
+
+                theDialog.Left = GlobalVal.Uc.ToolBar.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).X;
+                theDialog.Top = GlobalVal.Uc.ToolBar.TranslatePoint(new Point(), GlobalVal.Uc.MainWin).Y;
             }
             else
             {

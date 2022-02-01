@@ -487,6 +487,9 @@ namespace NSMain
             }
         }
 
-
+        private void BorderToolBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            GlobalVal.Uc.ToolBar = sender as Border;
+        }
     }
 }

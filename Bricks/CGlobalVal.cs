@@ -54,6 +54,7 @@ namespace NSMain.Bricks
             public static MainWindow MainWin;
             public static SplashWindow SpWin;
             public static Grid BooksPanel;
+            public static Border ToolBar;
             public static HandyControl.Controls.TabControl TabControl;
             public static USearcher Searcher;
             public static UTreeViewPlus TreeMaterial;
