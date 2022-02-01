@@ -136,6 +136,7 @@ namespace NSMain.Tools
                 });
             }
             uBR.WpMain_Build(uRecords);
+            uBR.WpMain.ItemWidth = double.NaN;
             CCards.FillMainInfo(CurBookName, "题材", uBR.WpMain.Children, WpMain.CurCard.Uid);
             BtnSave.IsEnabled = false;
         }
@@ -149,7 +150,11 @@ namespace NSMain.Tools
 
         private void R2_Loaded(object sender, RoutedEventArgs e)
         {
-            ArrayList headers = new ArrayList() { "大纲", };
+            if (R2 == null)
+            {
+                return;
+            }
+            ArrayList headers = new ArrayList() { "大纲" };
             LoadBoxRecords(R2, headers);
         }
 
@@ -213,7 +218,6 @@ namespace NSMain.Tools
                 }
             }
         }
-
 
     }
 }

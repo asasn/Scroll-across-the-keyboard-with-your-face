@@ -1,8 +1,10 @@
 ﻿using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Document;
+using NSMain.Bricks;
 using System.Media;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NSMain.Editor
@@ -200,5 +202,42 @@ namespace NSMain.Editor
                 TabReplace.IsSelected = true;
             }
         }
+
+
+        bool IsLoading = true;
+        private void CheckBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            string flag = MySettings.Get("index", string.Format("{0}_{1}", this.GetType().Name, cb.Name));
+            if (flag == "yes")
+            {
+                cb.IsChecked = true;
+            }
+            if (flag == "no")
+            {
+                cb.IsChecked = false;
+            }
+            IsLoading = false;
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (IsLoading == false)
+            {
+                CheckBox cb = sender as CheckBox;
+                MySettings.Set("index", string.Format("{0}_{1}", this.GetType().Name, cb.Name), "yes");
+            }
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (IsLoading == false)
+            {
+                CheckBox cb = sender as CheckBox;
+                MySettings.Set("index", string.Format("{0}_{1}", this.GetType().Name, cb.Name), "no");
+            }
+        }
+
+
     }
 }

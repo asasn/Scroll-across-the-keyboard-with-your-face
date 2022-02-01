@@ -47,7 +47,7 @@
             </Button>
             <TextBox x:Name="TbShowIndex" IsReadOnly="True" Padding="0" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" Height="30" MinWidth="30" Width="100" HorizontalAlignment="Left" Text="{Binding CurCard.StrIndex,ElementName=WpMain, Mode=TwoWay}"/>
             <TextBox x:Name="TbShowTitle" Padding="0" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" MinWidth="200" Text="{Binding CurCard.StrTitle,ElementName=WpMain, Mode=TwoWay}" TextChanged="TbShowTitle_TextChanged" Grid.Row="1" KeyDown="TbShowTitle_KeyDown" MaxWidth="395"/>
-            <TabControl Grid.Row="3" Background="Transparent">
+            <TabControl Grid.Row="3" Background="Transparent" VirtualizingPanel.IsVirtualizing="True">
                 <TabItem Header="简介" Background="Transparent">
                     <TextBox x:Name="TbShowContent" Background="Transparent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding CurCard.StrContent,ElementName=WpMain, Mode=TwoWay}" VerticalAlignment="Top" Grid.Row="2"/>
                 </TabItem>

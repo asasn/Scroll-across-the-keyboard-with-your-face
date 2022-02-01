@@ -46,7 +46,6 @@ namespace NSMain.Bricks
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             UTip tipBox = new UTip(this, null);
-            tipBox.Margin = new Thickness(0, 2, 0, 0);
         }
 
         private void Uc_Loaded(object sender, RoutedEventArgs e)

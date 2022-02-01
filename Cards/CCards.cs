@@ -136,20 +136,19 @@ namespace NSMain.Cards
         {
             string tableName = typeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            SQLiteDataReader reader = null;
-            foreach (URecord box in wrapPanels)
+            foreach (URecord uRecord in wrapPanels)
             {
-                WrapPanel wp = box.WpMain;
-                string sql = string.Format("select * from {0}从表 where Tid='{1}' AND Pid='{2}';", tableName, box.Uid, pid);
-                reader = cSqlite.ExecuteQuery(sql);
-                wp.Children.Clear();
+                string sql = string.Format("select * from {0}从表 where Tid='{1}' AND Pid='{2}';", tableName, uRecord.Uid, pid);
+                SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
+                uRecord.WpMain.Children.Clear();
                 while (reader.Read())
                 {
-                    UTip tipBox = new UTip(box, reader["Text"].ToString());
+                    UTip tipBox = new UTip(uRecord, reader["Text"].ToString());
                     tipBox.Uid = reader["Uid"].ToString();
                 }
+                reader.Close();
             }
-            reader.Close();
+            
         }
 
 

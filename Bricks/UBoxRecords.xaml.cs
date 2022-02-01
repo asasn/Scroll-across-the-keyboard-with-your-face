@@ -21,7 +21,7 @@ namespace NSMain.Bricks
     /// <summary>
     /// UBoxRecords.xaml 的交互逻辑
     /// </summary>
-    public partial class UBoxRecords : UserControl
+    public partial class UBoxRecords : ScrollViewer
     {
         public UBoxRecords()
         {
@@ -83,6 +83,8 @@ namespace NSMain.Bricks
                     Title = t.Text,
                     Uid = t.Uid
                 };
+                WpMain.Children.Add(uRecord);
+
                 Binding boolBinding = new Binding
                 {
                     Source = BtnSave,
@@ -90,8 +92,6 @@ namespace NSMain.Bricks
                     Mode = BindingMode.TwoWay
                 };
                 uRecord.SetBinding(uRecord.IsCanSave, boolBinding);//对绑定目标的目标属性进行绑定   
-
-                WpMain.Children.Add(uRecord);
 
                 Binding widthBinding = new Binding
                 {

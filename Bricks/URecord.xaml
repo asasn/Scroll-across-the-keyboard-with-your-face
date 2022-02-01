@@ -13,7 +13,7 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Label Padding="2" Style="{StaticResource LabelInfo}"  BorderThickness="0" x:Name="LbName" VerticalAlignment="Top" MinHeight="19" Margin="2,3,2,0" HorizontalAlignment="Left" MinWidth="30" MouseDoubleClick="LbName_MouseDoubleClick"/>
-        <WrapPanel Grid.Column="1" x:Name="WpMain" VerticalAlignment="Top" Tag="{Binding Title, ElementName=ThisControl}" MinHeight="25" />
+        <WrapPanel Grid.Column="1" x:Name="WpMain" Tag="{Binding Title, ElementName=ThisControl}" />
         <Button x:Name="BtnAdd"  Background="Transparent" Padding="1" BorderThickness="0" Foreground="Orange" Height="14" Width="14" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource AddGeometry}" Click="BtnAdd_Click"  HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,3,5" Grid.Column="1" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

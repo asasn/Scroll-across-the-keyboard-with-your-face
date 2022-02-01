@@ -116,20 +116,11 @@ namespace NSMain.TreeViewPlus
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
             TopNode = new TreeViewNode { Uid = "", IsDir = true };
 
-            //数据源加载节点列表
-            Tv.ItemsSource = TreeViewNodeList;
-
-            if (typeOfTree == "task")
-            {
-
-            }
-
-
-            //AddButtonNode(TreeViewNodeList, TopNode);
-
             //从数据库中载入数据
             CTreeView.LoadBySql(CurBookName, TypeOfTree, TreeViewNodeList, TopNode);
 
+            //数据源加载节点列表
+            Tv.ItemsSource = TreeViewNodeList;
 
             if (Tv != null)
             {
@@ -396,9 +387,17 @@ namespace NSMain.TreeViewPlus
                     }
                     TbReName = CTreeView.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
                     TbReName.Visibility = Visibility.Visible;
-                    TbReName.Focus();
-                    TbReName.Select(TbReName.Text.Length, 0);
+                    TbReName.Focus();                    
                     TbReName.Tag = false;
+                    if (selectedNode.NodeName == "新节点")
+                    {
+                        TbReName.SelectAll();
+                    }
+                    else
+                    {
+                        TbReName.Select(TbReName.Text.Length, 0);
+                    }
+                    
 
 
                 }

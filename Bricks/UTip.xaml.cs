@@ -8,9 +8,8 @@ namespace NSMain.Bricks
     /// <summary>
     /// UcTipBox.xaml 的交互逻辑
     /// </summary>
-    public partial class UTip : UserControl
+    public partial class UTip : TextBox
     {
-        URecord UcRecord;
 
         /// <summary>
         /// 信息卡文字记录控件
@@ -20,22 +19,27 @@ namespace NSMain.Bricks
         public UTip(URecord ucRecord, string text)
         {
             InitializeComponent();
+            ucRecord.WpMain.Children.Add(this);
             UcRecord = ucRecord;
-            UcRecord.WpMain.Children.Add(this);
             Text = text;
             this.Tag = false;
         }
 
 
-        public string Text
+
+
+
+        public URecord UcRecord
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get { return (URecord)GetValue(UcRecordProperty); }
+            set { SetValue(UcRecordProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(UTip), new PropertyMetadata(string.Empty));
+        // Using a DependencyProperty as the backing store for UcRecord.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UcRecordProperty =
+            DependencyProperty.Register("UcRecord", typeof(URecord), typeof(UTip), new PropertyMetadata(null));
+
+
 
 
 
