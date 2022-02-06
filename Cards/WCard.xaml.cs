@@ -342,6 +342,10 @@ namespace NSMain.Cards
                     ThisCard.BornYear = "null";
                     TbRealYear.Text = null;
                 }
+                else
+                {
+                    ThisCard.BornYear = TbBornYear.Text;
+                }
 
                 sql = string.Format("update {0}主表 set 名称='{1}', 备注='{2}', 权重='{3}', 诞生年份={4} where Uid='{5}';", tableName, TbName.Text.Replace("'", "''"), Tb备注.Text.Replace("'", "''"), ThisCard.Weight, ThisCard.BornYear, this.Pid);
                 cSqlite.ExecuteNonQuery(sql);
