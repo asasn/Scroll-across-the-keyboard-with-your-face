@@ -35,15 +35,12 @@ namespace NSMain.Cards
             }
         }
 
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (TypeOfTree == null || string.IsNullOrEmpty(TbTab.Text))
+            if (TypeOfTree == null)
             {
                 return;
             }
-            string tableName = TypeOfTree;
-            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-
             //查找是否已经存在相关的条目
             foreach (Button card in WpCards.Children)
             {
@@ -52,7 +49,7 @@ namespace NSMain.Cards
                 {
                     IsContains = true;
                 }
-                if (card.ToolTip != null)
+                if (card.ToolTip != null && string.IsNullOrWhiteSpace(TbTab.Text) == false)
                 {
                     string[] sArray = card.ToolTip.ToString().Split(new char[] { ' ' });
                     foreach (string ss in sArray)
@@ -74,9 +71,24 @@ namespace NSMain.Cards
                     card.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
                 }
             }
+        }
 
-
-
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (TypeOfTree == null || string.IsNullOrEmpty(TbTab.Text))
+            {
+                return;
+            }
+            string tableName = TypeOfTree;
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+            SQLiteDataReader reader = cSqlite.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称'))  where 名称='{1}' ORDER BY LENGTH(名称) DESC;", tableName, TbTab.Text.Replace("'", "''")));
+            while (reader.Read())
+            {
+                MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
+                reader.Close();
+                return;
+            }
+            reader.Close();
 
             string guid = Guid.NewGuid().ToString();
             Button BtnTag = AddNode(guid, TbTab.Text);
@@ -220,7 +232,7 @@ namespace NSMain.Cards
         {
             if (e.Key == Key.Enter)
             {
-                BtnAdd_Click(null, null);
+                BtnSearch_Click(null, null);
             }
         }
 
