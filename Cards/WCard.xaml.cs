@@ -59,6 +59,8 @@ namespace NSMain.Cards
             UBtnSave = this.BtnSave;
             MyRecords.BtnSave = BtnSave;
             MyRecords.Pid = Pid;
+
+            btnParent.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
         }
 
 

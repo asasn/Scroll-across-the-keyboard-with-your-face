@@ -43,15 +43,40 @@ namespace NSMain.Cards
             }
             string tableName = TypeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-            SQLiteDataReader reader = cSqlite.ExecuteQuery(string.Format("SELECT 名称 FROM (SELECT 名称 FROM {0}主表 UNION SELECT Text FROM {0}从表 where Tid=(select Uid from {0}属性表 where Text='别称'))  where 名称='{1}' ORDER BY LENGTH(名称) DESC;", tableName, TbTab.Text.Replace("'", "''"))); 
-            while (reader.Read())
-            {
-                MessageBox.Show("数据库中已经存在同名条目，请修改成为其他名称！");
-                reader.Close();
 
-                return;
+            //查找是否已经存在相关的条目
+            foreach (Button card in WpCards.Children)
+            {
+                bool IsContains = false;
+                if (card.Content.ToString() == TbTab.Text)
+                {
+                    IsContains = true;
+                }
+                if (card.ToolTip != null)
+                {
+                    string[] sArray = card.ToolTip.ToString().Split(new char[] { ' ' });
+                    foreach (string ss in sArray)
+                    {
+                        if (ss == TbTab.Text)
+                        {
+                            IsContains = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (IsContains == true)
+                {
+                    card.BorderBrush = Brushes.Gold;
+                }
+                else
+                {
+                    card.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+                }
             }
-            reader.Close();
+
+
+
 
             string guid = Guid.NewGuid().ToString();
             Button BtnTag = AddNode(guid, TbTab.Text);
