@@ -31,7 +31,7 @@ namespace NSMain.Cards
             public static string BornYear;
         }
 
-        public WCard(string curBookName, string typeOfTree, Button btnParent)
+        public WCard(string curBookName, string typeOfTree, UCard uCard)
         {
             InitializeComponent();
 
@@ -53,14 +53,14 @@ namespace NSMain.Cards
 
 
             //根据外来调用传入的参数填充变量，以备给类成员方法使用
-            Pid = btnParent.Uid;
-            TbName.Text = PName = btnParent.Content.ToString();
-            BtnParent = btnParent;
+            Pid = uCard.Uid;
+            TbName.Text = PName = uCard.Content.ToString();
+            BtnParent = uCard;
             UBtnSave = this.BtnSave;
             MyRecords.BtnSave = BtnSave;
             MyRecords.Pid = Pid;
 
-            btnParent.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+            uCard.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
         }
 
 
@@ -91,15 +91,15 @@ namespace NSMain.Cards
 
 
 
-        public Button BtnParent
+        public UCard BtnParent
         {
-            get { return (Button)GetValue(BtnParentProperty); }
+            get { return (UCard)GetValue(BtnParentProperty); }
             set { SetValue(BtnParentProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for BtnParent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BtnParentProperty =
-            DependencyProperty.Register("BtnParent", typeof(Button), typeof(WCard), new PropertyMetadata(null));
+            DependencyProperty.Register("BtnParent", typeof(UCard), typeof(WCard), new PropertyMetadata(null));
 
 
 

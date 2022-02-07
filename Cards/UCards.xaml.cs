@@ -42,16 +42,16 @@ namespace NSMain.Cards
                 return;
             }
             //查找是否已经存在相关的条目
-            foreach (Button card in WpCards.Children)
+            foreach (UCard uCard in WpCards.Children)
             {
                 bool IsContains = false;
-                if (card.Content.ToString() == TbTab.Text)
+                if (uCard.Content.ToString() == TbTab.Text)
                 {
                     IsContains = true;
                 }
-                if (card.ToolTip != null && string.IsNullOrWhiteSpace(TbTab.Text) == false)
+                if (uCard.ToolTip != null && string.IsNullOrWhiteSpace(TbTab.Text) == false)
                 {
-                    string[] sArray = card.ToolTip.ToString().Split(new char[] { ' ' });
+                    string[] sArray = uCard.ToolTip.ToString().Split(new char[] { ' ' });
                     foreach (string ss in sArray)
                     {
                         if (ss == TbTab.Text)
@@ -64,11 +64,11 @@ namespace NSMain.Cards
 
                 if (IsContains == true)
                 {
-                    card.BorderBrush = Brushes.Gold;
+                    uCard.BorderBrush = Brushes.Gold;
                 }
                 else
                 {
-                    card.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+                    uCard.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
                 }
             }
         }
@@ -90,8 +90,7 @@ namespace NSMain.Cards
             }
             reader.Close();
 
-            string guid = Guid.NewGuid().ToString();
-            Button BtnTag = AddNode(guid, TbTab.Text);
+            UCard BtnTag = new UCard(Guid.NewGuid().ToString(), TbTab.Text, TypeOfTree, CurBookName, this);
             WpCards.Children.Add(BtnTag);
 
             TbTab.Clear();
@@ -122,16 +121,16 @@ namespace NSMain.Cards
             WrapPanel[] wps = { GlobalVal.Uc.RoleCards.WpCards, GlobalVal.Uc.OtherCards.WpCards, GlobalVal.Uc.WorldCards.WpCards };
             foreach (WrapPanel wp in wps)
             {
-                foreach (Button button in wp.Children)
+                foreach (UCard uCard in wp.Children)
                 {
-                    if (curNode.NodeContent.Contains(button.Content.ToString()) || IsContainsNickname(button.ToolTip, curNode.NodeContent))
+                    if (curNode.NodeContent.Contains(uCard.Content.ToString()) || IsContainsNickname(uCard.ToolTip, curNode.NodeContent))
                     {
-                        button.Background = Brushes.LightGoldenrodYellow;
+                        uCard.Background = Brushes.LightGoldenrodYellow;
                     }
                     else
                     {
                         //button.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
-                        button.Background = Brushes.White;
+                        uCard.Background = Brushes.White;
                     }
                 }
             }
@@ -160,12 +159,12 @@ namespace NSMain.Cards
             return false;
         }
 
-        private void BtnTag_Click(object sender, RoutedEventArgs e)
-        {
-            Button BtnTag = sender as Button;
-            WCard wCards = new WCard(CurBookName, TypeOfTree, BtnTag);
-            wCards.ShowDialog();
-        }
+        //private void BtnTag_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Button BtnTag = sender as Button;
+        //    WCard wCards = new WCard(CurBookName, TypeOfTree, BtnTag);
+        //    wCards.ShowDialog();
+        //}
 
         public void LoadCards(string curBookName, string typeOfTree)
         {
@@ -198,7 +197,8 @@ namespace NSMain.Cards
                 {
                     continue;
                 }
-                Button BtnTag = AddNode(reader["Uid"].ToString(), reader["名称"].ToString());
+
+                UCard BtnTag = new UCard(reader["Uid"].ToString(), reader["名称"].ToString(), TypeOfTree, CurBookName, this);
                 WpCards.Children.Add(BtnTag);
             }
             reader.Close();
@@ -207,21 +207,21 @@ namespace NSMain.Cards
             MarkNamesInChapter();
         }
 
-        private void DeleteMenu_Click(object sender, RoutedEventArgs e)
-        {
-            Button BtnTag = (sender as MenuItem).DataContext as Button;
-            Console.WriteLine(BtnTag.Uid);
-            WpCards.Children.Remove(BtnTag);
+        //private void DeleteMenu_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Button BtnTag = (sender as MenuItem).DataContext as Button;
+        //    Console.WriteLine(BtnTag.Uid);
+        //    WpCards.Children.Remove(BtnTag);
 
-            string tableName = TypeOfTree;
-            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-            string sql = string.Format("update {0}主表 set IsDel=True where Uid='{1}';", tableName, BtnTag.Uid);
-            cSqlite.ExecuteNonQuery(sql);
+        //    string tableName = TypeOfTree;
+        //    CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+        //    string sql = string.Format("update {0}主表 set IsDel=True where Uid='{1}';", tableName, BtnTag.Uid);
+        //    cSqlite.ExecuteNonQuery(sql);
 
 
-            RefreshKeyWords();
-            MarkNamesInChapter();
-        }
+        //    RefreshKeyWords();
+        //    MarkNamesInChapter();
+        //}
 
         private void WpCards_Loaded(object sender, RoutedEventArgs e)
         {
@@ -236,42 +236,42 @@ namespace NSMain.Cards
             }
         }
 
-        Button AddNode(string guid, string content)
-        {
-            Button button = new Button
-            {
-                Uid = guid,
-                Content = content,
-                Height = 25,
-                Padding = new Thickness(2),
-                Margin = new Thickness(5, 5, 2, 2),
-            };
-            button.Click += BtnTag_Click;
+        //Button AddNode(string guid, string content)
+        //{
+        //    Button button = new Button
+        //    {
+        //        Uid = guid,
+        //        Content = content,
+        //        Height = 25,
+        //        Padding = new Thickness(2),
+        //        Margin = new Thickness(5, 5, 2, 2),
+        //    };
+        //    button.Click += BtnTag_Click;
 
-            ContextMenu aMenu = new ContextMenu
-            {
-                DataContext = button
-            };
+        //    ContextMenu aMenu = new ContextMenu
+        //    {
+        //        DataContext = button
+        //    };
 
-            MenuItem deleteMenu = new MenuItem
-            {
-                Header = "删除"
-            };
-            deleteMenu.Click += DeleteMenu_Click;
-            aMenu.Items.Add(deleteMenu);
-            button.ContextMenu = aMenu;
+        //    MenuItem deleteMenu = new MenuItem
+        //    {
+        //        Header = "删除"
+        //    };
+        //    deleteMenu.Click += DeleteMenu_Click;
+        //    aMenu.Items.Add(deleteMenu);
+        //    button.ContextMenu = aMenu;
 
-            string tableName = TypeOfTree;
-            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-            string sql = string.Format("SELECT * FROM {0}从表 where Pid='{1}' and Tid=(select Uid from {0}属性表 where Text='别称');", tableName, guid);
-            SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
-            while (reader.Read())
-            {
-                button.ToolTip += reader["Text"].ToString() + " ";
-            }
-            reader.Close();
-            return button;
-        }
+        //    string tableName = TypeOfTree;
+        //    CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
+        //    string sql = string.Format("SELECT * FROM {0}从表 where Pid='{1}' and Tid=(select Uid from {0}属性表 where Text='别称');", tableName, guid);
+        //    SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
+        //    while (reader.Read())
+        //    {
+        //        button.ToolTip += reader["Text"].ToString() + " ";
+        //    }
+        //    reader.Close();
+        //    return button;
+        //}
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
