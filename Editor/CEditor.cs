@@ -85,8 +85,8 @@ namespace NSMain.Editor
         public static void TypeSetting(TextEditor tb)
         {
             string reText = "　　"; //开头是两个全角空格
-            string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t', '　', ' ' });
-            string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t'});
+            string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
             foreach (string lineStr in sArrayNoEmpty)
             {
                 //当前段落非空时，注意，这里的长度需要-1才是最后一个索引号
