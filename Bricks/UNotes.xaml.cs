@@ -317,12 +317,13 @@ namespace NSMain.Bricks
                     string temp = CurCard.StrIndex;
                     CurCard.StrIndex = (WpNotes.Children[i] as UNote).StrIndex;
                     (WpNotes.Children[i] as UNote).StrIndex = temp;
+                    int temp2 = CurCard.Index;
+                    CurCard.Index = (WpNotes.Children[i] as UNote).Index;
+                    (WpNotes.Children[i] as UNote).Index = temp2;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-                    string sql = string.Format("UPDATE {0} set Uid='{1}' where Uid='{2}';", tableName, "temp", CurCard.Uid);
-                    cSqlite.ExecuteNonQuery(sql);
-                    sql = string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, CurCard.Uid, CurCard.StrTitle, CurCard.StrContent, (WpNotes.Children[i] as UNote).Uid);
-                    sql += string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, (WpNotes.Children[i] as UNote).Uid, (WpNotes.Children[i] as UNote).StrTitle, (WpNotes.Children[i] as UNote).StrContent, "temp");
+                    string sql = string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, CurCard.Index, CurCard.Uid);
+                    sql += string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, (WpNotes.Children[i] as UNote).Index, (WpNotes.Children[i] as UNote).Uid);
                     cSqlite.ExecuteNonQuery(sql);
                     SCard_GotFocus(CurCard,null);
                 }
@@ -337,12 +338,13 @@ namespace NSMain.Bricks
                     string temp = CurCard.StrIndex;
                     CurCard.StrIndex = (WpNotes.Children[i] as UNote).StrIndex;
                     (WpNotes.Children[i] as UNote).StrIndex = temp;
+                    int temp2 = CurCard.Index;
+                    CurCard.Index = (WpNotes.Children[i] as UNote).Index;
+                    (WpNotes.Children[i] as UNote).Index = temp2;
 
                     CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[CurBookName];
-                    string sql = string.Format("UPDATE {0} set Uid='{1}' where Uid='{2}';", tableName, "temp", CurCard.Uid);
-                    cSqlite.ExecuteNonQuery(sql);
-                    sql = string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, CurCard.Uid, CurCard.StrTitle, CurCard.StrContent, (WpNotes.Children[i] as UNote).Uid);
-                    sql += string.Format("UPDATE {0} set Uid='{1}', 标题='{2}', 内容='{3}' where Uid='{4}';", tableName, (WpNotes.Children[i] as UNote).Uid, (WpNotes.Children[i] as UNote).StrTitle, (WpNotes.Children[i] as UNote).StrContent, "temp");
+                    string sql = string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, CurCard.Index, CurCard.Uid);
+                    sql += string.Format("UPDATE {0} set 索引='{1}' where Uid='{2}';", tableName, (WpNotes.Children[i] as UNote).Index, (WpNotes.Children[i] as UNote).Uid);
                     cSqlite.ExecuteNonQuery(sql);
                     SCard_GotFocus(CurCard, null);
                 }
