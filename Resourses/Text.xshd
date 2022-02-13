@@ -9,7 +9,7 @@
   <Color name="敏感" foreground="Red"/>
   <Color name="角色" foreground="Blue" fontFamily="宋体" />  
   <Color name="其他" foreground="#0080FF"/>
-  <Color name="世界" foreground="#F0A000"/>
+  <Color name="世界" foreground="Orange"/>
   <!-- This is the main ruleset. -->
   <RuleSet>
     <Span color="对话" multiline="true">
