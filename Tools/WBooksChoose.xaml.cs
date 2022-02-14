@@ -107,14 +107,25 @@ namespace NSMain.Tools
                 GlobalVal.CurrentBook.Name = reader["NodeName"].ToString();
                 GlobalVal.CurrentBook.Introduction = reader["Introduction"].ToString();
                 GlobalVal.CurrentBook.Price = Convert.ToDouble(reader["Price"]);
-                GlobalVal.CurrentBook.CurrentYear = Convert.ToInt32(reader["CurrentYear"]);
+                GlobalVal.CurrentBook.CurrentYear = Convert.ToInt64(reader["CurrentYear"]);
 
             }
             reader.Close();
 
+
         }
 
-
+        void GetCurBookCurrentYear()
+        {
+            if (GlobalVal.Uc.TreeHistory != null && GlobalVal.Uc.TreeHistory.Tv.Items.Count > 0)
+            {
+                if ((GlobalVal.Uc.TreeHistory.Tv.Items.GetItemAt(GlobalVal.Uc.TreeHistory.Tv.Items.Count - 1) as TreeViewPlus.CNodeModule.TreeViewNode).NodeName.Contains("年"))
+                {
+                    TbCurrentYear.Text = (GlobalVal.Uc.TreeHistory.Tv.Items.GetItemAt(GlobalVal.Uc.TreeHistory.Tv.Items.Count - 1) as TreeViewPlus.CNodeModule.TreeViewNode).NodeName.Split('年')[0];
+                    GlobalVal.CurrentBook.CurrentYear = Convert.ToInt64(TbCurrentYear.Text);
+                }
+            }
+        }
 
 
         /// <summary>
@@ -158,7 +169,9 @@ namespace NSMain.Tools
             {
                 GlobalVal.SQLClass.Pools.Add(bookCard.Header.ToString(), new CSqlitePlus(GlobalVal.Path.Books, bookCard.Header.ToString() + ".db"));
             }
+
             GetCurBookInfoForGlobalVal(bookCard.Uid);
+
             GlobalVal.Uc.TreeBook.LoadBook(GlobalVal.CurrentBook.Name, "book");
             GlobalVal.Uc.TreeHistory.LoadBook(GlobalVal.CurrentBook.Name, "history");
             GlobalVal.Uc.TreeTask.LoadBook(GlobalVal.CurrentBook.Name, "task");
@@ -166,6 +179,9 @@ namespace NSMain.Tools
             GlobalVal.Uc.RoleCards.LoadCards(GlobalVal.CurrentBook.Name, "角色");
             GlobalVal.Uc.OtherCards.LoadCards(GlobalVal.CurrentBook.Name, "其他");
             GlobalVal.Uc.WorldCards.LoadCards(GlobalVal.CurrentBook.Name, "世界");
+
+            GetCurBookCurrentYear();
+
             GlobalVal.Uc.MainWin.TbkCurBookName.Visibility = Visibility.Hidden;
             GlobalVal.Uc.MainWin.TbkCurBookName2.Text = GlobalVal.CurrentBook.Name;
             GlobalVal.Uc.MainWin.TbkCurBookName2.Visibility = Visibility.Visible;
