@@ -121,8 +121,12 @@ namespace NSMain.Tools
             {
                 if ((GlobalVal.Uc.TreeHistory.Tv.Items.GetItemAt(GlobalVal.Uc.TreeHistory.Tv.Items.Count - 1) as TreeViewPlus.CNodeModule.TreeViewNode).NodeName.Contains("年"))
                 {
-                    TbCurrentYear.Text = (GlobalVal.Uc.TreeHistory.Tv.Items.GetItemAt(GlobalVal.Uc.TreeHistory.Tv.Items.Count - 1) as TreeViewPlus.CNodeModule.TreeViewNode).NodeName.Split('年')[0];
-                    GlobalVal.CurrentBook.CurrentYear = Convert.ToInt64(TbCurrentYear.Text);
+                    bool success = long.TryParse((GlobalVal.Uc.TreeHistory.Tv.Items.GetItemAt(GlobalVal.Uc.TreeHistory.Tv.Items.Count - 1) as TreeViewPlus.CNodeModule.TreeViewNode).NodeName.Split('年')[0], out long curYear);
+                    if (success == true)
+                    {
+                        TbCurrentYear.Text = curYear.ToString();
+                        GlobalVal.CurrentBook.CurrentYear = curYear;
+                    }
                 }
             }
         }
