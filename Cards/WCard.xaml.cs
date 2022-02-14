@@ -61,10 +61,24 @@ namespace NSMain.Cards
             MyRecords.Pid = Pid;
 
             uCard.BorderBrush = (Brush)new BrushConverter().ConvertFromString("#FFE0E0E0");
+            GetCurBookCurrentYear();
         }
 
 
-
+        void GetCurBookCurrentYear()
+        {
+            if (GlobalVal.Uc.TreeHistory != null && GlobalVal.Uc.TreeHistory.Tv.Items.Count > 0)
+            {
+                if ((GlobalVal.Uc.TreeHistory.Tv.Items.GetItemAt(GlobalVal.Uc.TreeHistory.Tv.Items.Count - 1) as TreeViewPlus.CNodeModule.TreeViewNode).NodeName.Contains("年"))
+                {
+                    bool success = long.TryParse((GlobalVal.Uc.TreeHistory.Tv.Items.GetItemAt(GlobalVal.Uc.TreeHistory.Tv.Items.Count - 1) as TreeViewPlus.CNodeModule.TreeViewNode).NodeName.Split('年')[0], out long curYear);
+                    if (success == true)
+                    {
+                        GlobalVal.CurrentBook.CurrentYear = curYear;
+                    }
+                }
+            }
+        }
 
         public string PName
         {
