@@ -189,7 +189,8 @@ namespace NSMain.Cards
 
             string tableName = typeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("SELECT * FROM {0}主表 ORDER BY 权重 DESC", tableName);
+            // ORDER BY 权重 DESC
+            string sql = string.Format("SELECT * FROM {0}主表", tableName);
             SQLiteDataReader reader = cSqlite.ExecuteQuery(sql);
             while (reader.Read())
             {

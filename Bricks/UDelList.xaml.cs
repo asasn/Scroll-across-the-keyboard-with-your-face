@@ -135,6 +135,7 @@ namespace NSMain.Bricks
             if (CurBookName == "index")
             {
                 LoadNoteList("index", "随手记录表");
+                LoadNoteList("index", "题材主表");
                 LoadTreeList("index", "allbooks");
                 LoadTreeList("index", "material");
                 LoadCardList("index", "角色");
@@ -173,7 +174,7 @@ namespace NSMain.Bricks
                     arrayList.Add(item.TableName);
                 }
                 string sql = string.Empty;
-                if (item.TableName == "场记大纲表" || item.TableName == "随手记录表")
+                if (item.TableName == "场记大纲表" || item.TableName == "随手记录表" || item.TableName == "题材主表")
                 {
                     sql = string.Format("update {0} set IsDel=False where Uid='{1}';", item.TableName, item.Uid);
                 }
@@ -252,7 +253,7 @@ namespace NSMain.Bricks
                 Member item = DG.SelectedItems[i] as Member;
                 CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[item.CurBookName];
                 string sql = string.Empty;
-                if (item.TableName == "场记大纲表" || item.TableName == "随手记录表")
+                if (item.TableName == "场记大纲表" || item.TableName == "随手记录表" || item.TableName == "题材主表")
                 {
                     sql = string.Format("UPDATE {0} SET 索引=索引-1 where 索引 > (SELECT 索引 FROM {0} where Uid='{1}');", item.TableName, item.Uid);
                     sql += string.Format("DELETE FROM {0} where Uid='{1}';", item.TableName, item.Uid);
