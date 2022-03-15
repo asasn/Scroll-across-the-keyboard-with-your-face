@@ -461,10 +461,10 @@ namespace NSMain.Tools
                 GetCurBookInfoForGlobalVal(GlobalVal.CurrentBook.Uid);
                 (WpBooks.Tag as HandyControl.Controls.Card).Header = TbName.Text;
 
-                if (false == GlobalVal.SQLClass.Pools.ContainsKey(TbName.Text))
-                {
-                    GlobalVal.SQLClass.Pools.Add(TbName.Text, new CSqlitePlus(GlobalVal.Path.Books, TbName.Text));
-                }
+                
+                ChoseBookChange(WpBooks.Tag as HandyControl.Controls.Card);
+
+                GlobalVal.Uc.MainWin.TbkCurBookName2.Text = TbName.Text;
             }
         }
 
