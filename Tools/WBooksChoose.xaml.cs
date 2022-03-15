@@ -72,6 +72,7 @@ namespace NSMain.Tools
                     Header = BookName,
                     Content = imgBook,
                     Cursor = Cursors.Hand,
+                    MaxWidth = imgBook.Width + 6,
                 };
 
                 bookCard.MouseLeftButtonDown += CardSelected;
