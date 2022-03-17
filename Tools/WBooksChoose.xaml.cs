@@ -291,7 +291,7 @@ namespace NSMain.Tools
         {
             string tableName = typeOfTree;
             CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
-            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 CHAR, 权重 INTEGER DEFAULT (0), 诞生年份 INTEGER DEFAULT (0), IsDel BOOLEAN DEFAULT (false));", tableName);
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 CHAR, 权重 INTEGER DEFAULT (0), 诞生年份 INTEGER, IsDel BOOLEAN DEFAULT (false));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表Uid ON {0}主表(Uid);", tableName);
 
             sql += string.Format("CREATE TABLE IF NOT EXISTS {0}属性表 (Uid CHAR PRIMARY KEY, Text CHAR NOT NULL UNIQUE);", tableName);
