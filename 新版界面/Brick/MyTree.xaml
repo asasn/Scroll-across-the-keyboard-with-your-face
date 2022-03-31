@@ -8,7 +8,14 @@
              d:DesignHeight="450" d:DesignWidth="300">
     <TreeView.ItemTemplate>
         <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildNodes}">
-            <ContentControl Content="{Binding Path=NodeName}"/>
+            <Border Margin="0" Padding="0">
+                <ContentControl Content="{Binding Path=NodeName}" ToolTip="测试" ToolTipService.ShowDuration="60000"/>
+            </Border>
         </HierarchicalDataTemplate>
     </TreeView.ItemTemplate>
+    <TreeView.ItemsPanel>
+        <ItemsPanelTemplate>
+            <VirtualizingStackPanel/>
+        </ItemsPanelTemplate>
+    </TreeView.ItemsPanel>
 </TreeView>

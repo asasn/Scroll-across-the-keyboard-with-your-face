@@ -46,7 +46,6 @@ namespace RootNS.Service
         {
             if (ItemIndex == 0 && CurrentBook.BoxDraft.Count == 0)
             {
-                CurrentBook.BoxDraft.Clear();
                 for (int i = 0; i < 20000; i++)
                 {
                     string text = @"三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎三人成虎
@@ -171,10 +170,9 @@ namespace RootNS.Service
         {
             if (ItemIndex == 1 && CurrentBook.BoxTemp.Count == 0)
             {
-                CurrentBook.BoxTemp.Clear();
                 for (int i = 0; i < 20000; i++)
                 {
-                    CurrentBook.BoxTemp.Add(new Node("临时目录"));
+                   CurrentBook.BoxTemp.Add(new Node("临时目录"));
                 }
             }
         }
@@ -184,8 +182,8 @@ namespace RootNS.Service
         {
             if (ItemIndex == 2 && CurrentBook.BoxPublished.Count == 0)
             {
-                CurrentBook.BoxPublished.Clear();
                 CurrentBook.BoxPublished.Add(new Node("正文目录"));
+                CurrentBook.BoxPublished[0].ChildNodes.Add(new Node("正文目录"));
             }
         }
         #endregion
@@ -195,7 +193,6 @@ namespace RootNS.Service
         {
             if (ItemIndex == 0 && CurrentBook.NoteOutline.Count == 0)
             {
-                CurrentBook.NoteOutline.Clear();
                 CurrentBook.NoteOutline.Add(new Node("大纲目录"));
             }
         }
@@ -204,7 +201,6 @@ namespace RootNS.Service
         {
             if (ItemIndex == 1 && CurrentBook.NoteMemorabilia.Count == 0)
             {
-                CurrentBook.NoteMemorabilia.Clear();
                 CurrentBook.NoteMemorabilia.Add(new Node("大事记"));
             }
         }
@@ -213,7 +209,6 @@ namespace RootNS.Service
         {
             if (ItemIndex == 2 && CurrentBook.NoteClues.Count == 0)
             {
-                CurrentBook.NoteClues.Clear();
                 CurrentBook.NoteClues.Add(new Node("人物线索"));
             }
         }
@@ -222,7 +217,6 @@ namespace RootNS.Service
         {
             if (ItemIndex == 3 && CurrentBook.NoteTemplate.Count == 0)
             {
-                CurrentBook.NoteTemplate.Clear();
                 CurrentBook.NoteTemplate.Add(new Node("文例"));
             }
         }
@@ -235,7 +229,6 @@ namespace RootNS.Service
         {
             if (ItemIndex == 0 && CurrentBook.CardRole.Count == 0)
             {
-                CurrentBook.CardRole.Clear();
                 CurrentBook.CardRole.Add(new Card("角色1"));
                 CurrentBook.CardRole.Add(new Card("角色2"));
                 CurrentBook.CardRole.Add(new Card("角色3"));
@@ -246,7 +239,6 @@ namespace RootNS.Service
         {
             if (ItemIndex == 1 && CurrentBook.CardOther.Count == 0)
             {
-                CurrentBook.CardOther.Clear();
                 CurrentBook.CardOther.Add(new Card("其他1"));
                 CurrentBook.CardOther.Add(new Card("其他2"));
                 CurrentBook.CardOther.Add(new Card("其他3"));
@@ -257,9 +249,13 @@ namespace RootNS.Service
         {
             if (ItemIndex == 2 && CurrentBook.CardWorld.Count == 0)
             {
-                CurrentBook.CardWorld.Clear();
                 CurrentBook.CardWorld.Add(new Card("世界1"));
                 CurrentBook.CardWorld.Add(new Card("世界2"));
+
+                for (int i = 0; i < 3000; i++)
+                {
+                    CurrentBook.CardWorld.Add(new Card("世界2"));
+                }
             }
         }
         #endregion

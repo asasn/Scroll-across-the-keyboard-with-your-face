@@ -6,28 +6,30 @@
              xmlns:local="clr-namespace:RootNS.Brick"
              mc:Ignorable="d" Background="#FFF5F5F5"
              d:DesignHeight="450" d:DesignWidth="300">
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <TextBox/>
-        <ItemsControl Background="#FFF5F5F5" ItemsSource="{Binding DataContext, ElementName=ThisControl}" Grid.Row="1">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" Background="AliceBlue"></WrapPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+            <ItemsControl ItemsSource="{Binding DataContext,ElementName=ThisControl}" Background="#B28BB2F1" VirtualizingPanel.IsVirtualizing="True">
+                <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border Padding="3">
-                        <WrapPanel>
-                            <Button Content="{Binding NodeName}"/>
-                        </WrapPanel>
-                    </Border>
+                            <Button Content="{Binding NodeName}" ToolTip="测试" ToolTipService.ShowDuration="60000">
+                            </Button>
+                        </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

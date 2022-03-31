@@ -20,7 +20,7 @@
             <ColumnDefinition Width="3"/>
             <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="目录树">
+        <GroupBox Header="目录树" Style="{StaticResource BaseStyle}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"/>
@@ -39,13 +39,13 @@
                     </Grid>
                 </Border>
                 <TabControl x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" DataContext="{Binding CurrentBook, ElementName=WinMain}">
-                    <TabItem Header="草稿箱" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="草稿箱">
                         <brick:MyTree ItemsSource="{Binding BoxDraft}"/>
                     </TabItem>
-                    <TabItem Header="暂存箱" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="暂存箱">
                         <brick:MyTree ItemsSource="{Binding BoxTemp}"/>
                     </TabItem>
-                    <TabItem Header="已发布" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="已发布">
                         <brick:MyTree ItemsSource="{Binding BoxPublished}"/>
                     </TabItem>
                 </TabControl>
@@ -59,40 +59,40 @@
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
-            <GroupBox Header="记事板">
+            <GroupBox Header="记事板" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabNote" Loaded="TabNote_Loaded" DataContext="{Binding CurrentBook, ElementName=WinMain}" SelectionChanged="TabNote_SelectionChanged" >
-                    <TabItem Header="情节大纲" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="情节大纲">
                         <brick:MyTree ItemsSource="{Binding NoteOutline}"/>
                     </TabItem>
-                    <TabItem Header="大事记" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="大事记">
                         <brick:MyTree ItemsSource="{Binding NoteMemorabilia}"/>
                     </TabItem>
-                    <TabItem Header="任务线索" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="任务线索">
                         <brick:MyTree ItemsSource="{Binding NoteClues}"/>
                     </TabItem>
-                    <TabItem Header="文例" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="文例">
                         <brick:MyTree ItemsSource="{Binding NoteTemplate}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
-            <GroupBox Header="工具栏 - 当前书籍" Grid.Row="2">
+            <GroupBox Header="工具栏 - 当前书籍" Grid.Row="2" Style="{StaticResource BaseStyle}">
                 <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5"/>
             </GroupBox>
-            <GroupBox Header="本书信息卡" Grid.Row="4">
+            <GroupBox Header="本书信息卡" Grid.Row="4" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabCard" Grid.Row="1" DataContext="{Binding CurrentBook, ElementName=WinMain}" Loaded="TabCard_Loaded" SelectionChanged="TabCard_SelectionChanged">
-                    <TabItem Header="本书角色" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="本书角色">
                         <brick:CardsBox DataContext="{Binding CardRole}"/>
                     </TabItem>
-                    <TabItem Header="本书其他" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="本书其他">
                         <brick:CardsBox DataContext="{Binding CardOther}"/>
                     </TabItem>
-                    <TabItem Header="本书世界" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="本书世界">
                         <brick:CardsBox DataContext="{Binding CardWorld}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
         </Grid>
-        <GroupBox Header="编辑区" Grid.Column="4">
+        <GroupBox Header="编辑区" Grid.Column="4" Style="{StaticResource BaseStyle}">
             <TabControl >
             </TabControl>
         </GroupBox>
@@ -104,11 +104,11 @@
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
-            <GroupBox Header="信息区" ></GroupBox>
-            <GroupBox Header="工具栏 - 全局" Grid.Row="2">
+            <GroupBox Header="信息区" Style="{StaticResource BaseStyle}"></GroupBox>
+            <GroupBox Header="工具栏 - 全局" Grid.Row="2" Style="{StaticResource BaseStyle}">
                 <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5"/>
             </GroupBox>
-            <GroupBox Header="搜索区" Grid.Row="4"></GroupBox>
+            <GroupBox Header="搜索区" Grid.Row="4" Style="{StaticResource BaseStyle}"></GroupBox>
         </Grid>
         <Grid Grid.Column="8">
             <Grid.RowDefinitions>
@@ -116,31 +116,31 @@
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
-            <GroupBox Header="资料和文库">
+            <GroupBox Header="资料和文库" Style="{StaticResource BaseStyle}">
                 <TabControl>
-                    <TabItem Header="范文" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="范文">
                         <Grid Background="#FFF5F5F5"/>
                     </TabItem>
-                    <TabItem Header="资料库" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="资料库">
                         <Grid Background="#FFF5F5F5"/>
                     </TabItem>
-                    <TabItem Header="题材库" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="题材库">
                         <Grid Background="#FFF5F5F5"/>
                     </TabItem>
-                    <TabItem Header="灵感记录" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="灵感记录">
                         <Grid Background="#FFF5F5F5"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
-            <GroupBox Grid.Row="2" Header="公共信息卡">
+            <GroupBox Grid.Row="2" Header="公共信息卡" Style="{StaticResource BaseStyle}">
                 <TabControl >
-                    <TabItem Header="公共角色" HorizontalAlignment="Left" Height="19" Margin="0" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="公共角色">
                         <Grid Background="#FFF5F5F5"/>
                     </TabItem>
-                    <TabItem Header="公共其他" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="公共其他">
                         <Grid Background="#FFF5F5F5"/>
                     </TabItem>
-                    <TabItem Header="公共世界" HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="59">
+                    <TabItem Header="公共世界">
                         <Grid Background="#FFF5F5F5"/>
                     </TabItem>
                 </TabControl>
