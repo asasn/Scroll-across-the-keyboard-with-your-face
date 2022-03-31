@@ -21,7 +21,7 @@
             </Button>
         </Grid>
         <ScrollViewer Grid.Row="1">
-            <WrapPanel x:Name="WpCards" Loaded="WpCards_Loaded"/>
+            <WrapPanel VirtualizingPanel.IsVirtualizing="True" x:Name="WpCards" Loaded="WpCards_Loaded"/>
         </ScrollViewer>
 
     </Grid>

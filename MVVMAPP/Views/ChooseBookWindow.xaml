@@ -1,0 +1,21 @@
+﻿<Window x:Class="MVVMAPP.Views.ChooseBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MVVMAPP.Views" xmlns:ii="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:viewmodels="clr-namespace:MVVMAPP.ViewModels"
+        mc:Ignorable="d"
+        Title="ChooseBookWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="TbName" Text="{Binding CurrentBook.Name}" Width="200" HorizontalAlignment="Center" VerticalAlignment="Center" Height="30">
+
+        </TextBox>
+        <Button Width="100" Height="30" Margin="296,160,396,229" Content="点击开始">
+            <ii:Interaction.Triggers>
+                <ii:EventTrigger EventName="Click">
+                    <ii:InvokeCommandAction Command="{Binding CommondButton_Click}" CommandParameter="{Binding Text, ElementName=TbName}"/>
+                </ii:EventTrigger>
+            </ii:Interaction.Triggers>
+        </Button>
+    </Grid>
+</Window>

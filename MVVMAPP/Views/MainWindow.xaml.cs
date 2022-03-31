@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVMAPP.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace MVVMAPP.Views
 {
     /// <summary>
-    /// NameTool.xaml 的交互逻辑
+    /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class NameTool : Window
+    public partial class MainWindow : Window
     {
-        public NameTool()
+        public MainWindow()
         {
             InitializeComponent();
         }
