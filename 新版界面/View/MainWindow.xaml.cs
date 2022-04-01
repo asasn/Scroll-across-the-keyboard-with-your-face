@@ -1,5 +1,4 @@
 ﻿using RootNS.Model;
-using RootNS.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +29,7 @@ namespace RootNS
         }
 
         public Book CurrentBook { get; set; } = Gval.Books.CurrentBook;
-
-        private void TabBookLoad(object sender)
-        {
-
-        }
+        public Material Material { get; set; } = Gval.Books.Material;
 
         private void TabBook_Loaded(object sender, RoutedEventArgs e)
         {
@@ -43,8 +38,7 @@ namespace RootNS
 
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BookService Service = new BookService(Gval.Books.CurrentBook, (sender as TabControl).SelectedIndex);
-            Service.LoadForTabBook();
+            CurrentBook.LoadForBookPart((sender as TabControl).SelectedIndex);
         }
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
@@ -54,8 +48,7 @@ namespace RootNS
 
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BookService Service = new BookService(Gval.Books.CurrentBook, (sender as TabControl).SelectedIndex);
-            Service.LoadForTabNote();
+            CurrentBook.LoadForBookNote((sender as TabControl).SelectedIndex);
         }
 
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
@@ -65,8 +58,27 @@ namespace RootNS
 
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BookService Service = new BookService(Gval.Books.CurrentBook, (sender as TabControl).SelectedIndex);
-            Service.LoadForTabCard();
+            CurrentBook.LoadForCardsBox(BookBase.WorkSpace.当前, (sender as TabControl).SelectedIndex);
+        }
+
+        private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
+        {
+            TabMaterial_SelectionChanged(sender, null);
+        }
+
+        private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Material.LoadForMaterialPart((sender as TabControl).SelectedIndex);
+        }
+
+        private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)
+        {
+            TabPublicCard_SelectionChanged(sender, null);
+        }
+
+        private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Material.LoadForCardsBox(BookBase.WorkSpace.公共, (sender as TabControl).SelectedIndex);
         }
     }
 }

@@ -117,31 +117,31 @@
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
             <GroupBox Header="资料和文库" Style="{StaticResource BaseStyle}">
-                <TabControl>
+                <TabControl x:Name="TabMaterial" DataContext="{Binding Material, ElementName=WinMain}" Loaded="TabMaterial_Loaded" SelectionChanged="TabMaterial_SelectionChanged" >
                     <TabItem Header="范文">
-                        <Grid Background="#FFF5F5F5"/>
+                        <brick:MyTree ItemsSource="{Binding BoxModel}"/>
                     </TabItem>
                     <TabItem Header="资料库">
-                        <Grid Background="#FFF5F5F5"/>
+                        <brick:MyTree ItemsSource="{Binding BoxMaterial}"/>
                     </TabItem>
                     <TabItem Header="题材库">
-                        <Grid Background="#FFF5F5F5"/>
+                        <brick:MyTree ItemsSource="{Binding BoxTheme}"/>
                     </TabItem>
                     <TabItem Header="灵感记录">
-                        <Grid Background="#FFF5F5F5"/>
+                        <brick:MyTree ItemsSource="{Binding BoxInspiration}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
-            <GroupBox Grid.Row="2" Header="公共信息卡" Style="{StaticResource BaseStyle}">
-                <TabControl >
+            <GroupBox Grid.Row="2" Header="公共信息卡" DataContext="{Binding Material, ElementName=WinMain}" Style="{StaticResource BaseStyle}">
+                <TabControl x:Name="TabPublicCard" Loaded="TabPublicCard_Loaded" SelectionChanged="TabPublicCard_SelectionChanged" >
                     <TabItem Header="公共角色">
-                        <Grid Background="#FFF5F5F5"/>
+                        <brick:CardsBox DataContext="{Binding CardRole}"/>
                     </TabItem>
                     <TabItem Header="公共其他">
-                        <Grid Background="#FFF5F5F5"/>
+                        <brick:CardsBox DataContext="{Binding CardOther}"/>
                     </TabItem>
                     <TabItem Header="公共世界">
-                        <Grid Background="#FFF5F5F5"/>
+                        <brick:CardsBox DataContext="{Binding CardWorld}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>

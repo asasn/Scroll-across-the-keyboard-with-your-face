@@ -12,17 +12,16 @@ namespace RootNS.Model
     /// <summary>
     /// 书籍类
     /// </summary>
-    public class Book : NotificationObject
+    public class Book : BookBase
     {
         public Book()
         {
-            Initialize();
+            Clear();
         }
-
         /// <summary>
-        /// 向外暴露的初始化方法，清空RootNode属性以生成一个新的书籍对象
+        /// 清空各部分根节点
         /// </summary>
-        public void Initialize()
+        public new void Clear()
         {
             BoxDraft.Clear();
             BoxTemp.Clear();
@@ -31,35 +30,23 @@ namespace RootNS.Model
             NoteMemorabilia.Clear();
             NoteClues.Clear();
             NoteTemplate.Clear();
-            CardRole.Clear();
-            CardOther.Clear();
-            CardWorld.Clear();
         }
 
-        private string _uid;
-
-        public string Uid
+        public enum PartItemTag
         {
-            get { return _uid; }
-            set
-            {
-                _uid = value;
-                this.RaisePropertyChanged("Uid");
-            }
+            草稿箱 = 0,
+            暂存箱 = 1,
+            已发布 = 2,
+            大纲 = 0,
         }
 
-        private string _name;
-
-        public string Name
+        public enum NoteItemTag
         {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                this.RaisePropertyChanged("Name");
-            }
+            大纲 = 0,
+            大事记 = 1,
+            线索 = 2,
+            文例 = 3
         }
-
         private double _pirce;
 
         public double Price
@@ -121,11 +108,65 @@ namespace RootNS.Model
         public ObservableCollection<Node> NoteTemplate { set; get; } = new ObservableCollection<Node>();
         #endregion
 
-        #region 信息卡
-        public ObservableCollection<Card> CardRole { set; get; } = new ObservableCollection<Card>();
-        public ObservableCollection<Card> CardOther { set; get; } = new ObservableCollection<Card>();
-        public ObservableCollection<Card> CardWorld { set; get; } = new ObservableCollection<Card>();
-        #endregion
 
+        public void LoadForBookPart(int index)
+        {
+            ItemIndex = index;
+            if (index == (int)PartItemTag.草稿箱)
+            {
+                LoadBookPart(BoxDraft, PartItemTag.草稿箱);
+            }
+            if (index == (int)PartItemTag.暂存箱)
+            {
+                LoadBookPart(BoxTemp, PartItemTag.暂存箱);
+            }
+            if (index == (int)PartItemTag.已发布)
+            {
+                LoadBookPart(BoxPublished, PartItemTag.已发布);
+            }
+        }
+
+        public void LoadForBookNote(int index)
+        {
+            ItemIndex = index;
+            if (index == (int)NoteItemTag.大纲)
+            {
+                LoadBookNote(NoteOutline, NoteItemTag.大纲);
+            }
+            if (index == (int)NoteItemTag.大事记)
+            {
+                LoadBookNote(NoteMemorabilia, NoteItemTag.大事记);
+            }
+            if (index == (int)NoteItemTag.线索)
+            {
+                LoadBookNote(NoteClues, NoteItemTag.线索);
+            }
+            if (index == (int)NoteItemTag.文例)
+            {
+                LoadBookNote(NoteTemplate, NoteItemTag.文例);
+            }
+        }
+
+        private void LoadBookNote(ObservableCollection<Node> nodes, NoteItemTag partTag)
+        {
+            if (nodes.Count == 0)
+            {
+                for (int i = 0; i <= (int)partTag; i++)
+                {
+                    nodes.Add(new Node(partTag.ToString()));
+                }
+            }
+        }
+
+        private void LoadBookPart(ObservableCollection<Node> nodes, PartItemTag partTag)
+        {
+            if (nodes.Count == 0)
+            {
+                for (int i = 0; i <= (int)partTag; i++)
+                {
+                    nodes.Add(new Node(partTag.ToString()));
+                }
+            }
+        }
     }
 }

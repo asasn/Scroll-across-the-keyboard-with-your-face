@@ -12,6 +12,7 @@ namespace RootNS.Model
         public struct Books
         {
             public static Book CurrentBook { get; set; } = new Book();
+            public static Material Material { get; set; } = new Material();
         }
 
     }
