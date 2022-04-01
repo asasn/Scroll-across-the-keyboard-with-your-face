@@ -11,7 +11,7 @@ namespace RootNS.Model
     {
         public Card(string name)
         {
-            _nodeName = name;
+            NodeName = name;
         }
 
         private string _nodeName;

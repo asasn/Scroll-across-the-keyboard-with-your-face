@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RootNS" xmlns:brick="clr-namespace:RootNS.Brick"
+        xmlns:mod="clr-namespace:RootNS.Model"
         mc:Ignorable="d" UseLayoutRounding="True"
         Title=""
         Height="1000" Width="1800" 
@@ -93,7 +94,17 @@
             </GroupBox>
         </Grid>
         <GroupBox Header="编辑区" Grid.Column="4" Style="{StaticResource BaseStyle}">
-            <TabControl >
+            <TabControl ItemsSource="{Binding CurrentBook.OpenDocList, ElementName=WinMain}" >
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding NodeName}" />
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <brick:MyEditor DataContext="{Binding}"/>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
             </TabControl>
         </GroupBox>
         <Grid Grid.Column="6">

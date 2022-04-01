@@ -24,12 +24,13 @@ namespace RootNS
         public MainWindow()
         {
             InitializeComponent();
-
-
+            CurrentBook.OpenDocList.Add(new Node("节点名字"));
+            CurrentBook.OpenDocList[0].NodeName = "333333333";
+            CurrentBook.OpenDocList[0].Content = "文章内容";
         }
 
-        public Book CurrentBook { get; set; } = Gval.Books.CurrentBook;
-        public Material Material { get; set; } = Gval.Books.Material;
+        public Book CurrentBook { get; set; } = Gval.CurrentBook;
+        public Material Material { get; set; } = Gval.Material;
 
         private void TabBook_Loaded(object sender, RoutedEventArgs e)
         {

@@ -12,7 +12,7 @@ namespace RootNS.Model
     {
         public Node(string name)
         {
-            _nodeName = name;
+            NodeName = name;
             ChildNodes = new ObservableCollection<Node>();
         }
 

@@ -8,12 +8,7 @@ namespace RootNS.Model
 {
     public static class Gval
     {
-        
-        public struct Books
-        {
-            public static Book CurrentBook { get; set; } = new Book();
-            public static Material Material { get; set; } = new Material();
-        }
-
+        public static Book CurrentBook { get; set; } = new Book("测试书籍");
+        public static Material Material { get; set; } = new Material();
     }
 }

@@ -14,9 +14,10 @@ namespace RootNS.Model
     /// </summary>
     public class Book : BookBase
     {
-        public Book()
+        public Book(string name)
         {
             Clear();
+            this.Name = name;
         }
         /// <summary>
         /// 清空各部分根节点
@@ -94,6 +95,7 @@ namespace RootNS.Model
                 this.RaisePropertyChanged("CoverPath");
             }
         }
+
 
         #region 目录树
         public ObservableCollection<Node> BoxDraft { set; get; } = new ObservableCollection<Node>();
