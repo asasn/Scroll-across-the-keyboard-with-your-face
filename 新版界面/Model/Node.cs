@@ -85,17 +85,17 @@ namespace RootNS.Model
             }
         }
 
-        private string _content;
+        private string _text;
         /// <summary>
-        /// 节点内容
+        /// 节点文字内容
         /// </summary>
-        public string Content
+        public string Text
         {
-            get { return _content; }
+            get { return _text; }
             set
             {
-                _content = value;
-                this.RaisePropertyChanged("Content");
+                _text = value;
+                this.RaisePropertyChanged("Text");
             }
         }
 
@@ -183,6 +183,19 @@ namespace RootNS.Model
             }
         }
 
+        private string _summary;
+        /// <summary>
+        /// 摘要说明
+        /// </summary>
+        public string Summary
+        {
+            get { return _summary; }
+            set
+            {
+                _summary = value;
+                this.RaisePropertyChanged("Summary");
+            }
+        }
 
 
 

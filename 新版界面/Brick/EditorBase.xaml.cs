@@ -97,7 +97,7 @@ namespace RootNS.Brick
 
         private void TextEditor_Loaded(object sender, RoutedEventArgs e)
         {
-            (sender as TextEditor).Text = (this.DataContext as Node).Content;
+            (sender as TextEditor).Text = (this.DataContext as Node).Text;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)

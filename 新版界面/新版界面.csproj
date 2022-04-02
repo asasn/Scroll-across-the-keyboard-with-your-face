@@ -106,7 +106,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Behavior\Load.cs" />
+    <Compile Include="Behavior\DataEntry.cs" />
+    <Compile Include="Behavior\DataExport.cs" />
     <Compile Include="Brick\CardsBox.xaml.cs">
       <DependentUpon>CardsBox.xaml</DependentUpon>
     </Compile>
@@ -130,7 +131,6 @@
     </Compile>
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\BookBase.cs" />
-    <Compile Include="Model\Card.cs" />
     <Compile Include="Model\Material.cs" />
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\NotificationObject.cs" />

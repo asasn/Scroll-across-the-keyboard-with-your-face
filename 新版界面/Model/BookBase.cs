@@ -76,9 +76,9 @@ namespace RootNS.Model
 
 
         #region 信息卡
-        public ObservableCollection<Card> CardRole { set; get; } = new ObservableCollection<Card>();
-        public ObservableCollection<Card> CardOther { set; get; } = new ObservableCollection<Card>();
-        public ObservableCollection<Card> CardWorld { set; get; } = new ObservableCollection<Card>();
+        public ObservableCollection<Node> CardRole { set; get; } = new ObservableCollection<Node>();
+        public ObservableCollection<Node> CardOther { set; get; } = new ObservableCollection<Node>();
+        public ObservableCollection<Node> CardWorld { set; get; } = new ObservableCollection<Node>();
 
         public void LoadForCardsBox(WorkSpace workSpace, int index)
         {
@@ -97,13 +97,13 @@ namespace RootNS.Model
             }
         }
 
-        private void LoadCardsBox(WorkSpace workSpace, ObservableCollection<Card> cards, CardItemTag partTag)
+        private void LoadCardsBox(WorkSpace workSpace, ObservableCollection<Node> cards, CardItemTag partTag)
         {
             if (cards.Count == 0)
             {
                 for (int i = 0; i <= (int)partTag; i++)
                 {
-                    cards.Add(new Card(workSpace.ToString() + partTag.ToString()));
+                    cards.Add(new Node(workSpace.ToString() + partTag.ToString()));
                 }
             }
         }

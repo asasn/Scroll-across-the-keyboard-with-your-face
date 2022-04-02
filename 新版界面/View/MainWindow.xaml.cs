@@ -39,7 +39,7 @@ namespace RootNS
             CurrentBook.BoxDraft[0].ChildNodes.Add(new Node("测试") { WordsCount = 99 });
             Gval.OpenedDocList.Add(new Node("打开的章节111111111111111111111111111111111"));
             Gval.OpenedDocList[0].NodeName = "333333333";
-            Gval.OpenedDocList[0].Content = "文章内容";
+            Gval.OpenedDocList[0].Text = "文章内容";
             Gval.OpenedDocList[0].WordsCount = 20;
             CurrentBook.NoteClues.Add(new Node("节点名字111111111111111111111111111111111111111"));
             CurrentBook.NoteClues[0].IsChecked = true;
