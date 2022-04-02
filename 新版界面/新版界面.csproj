@@ -66,11 +66,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Brick\EditorBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Brick\MyEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Brick\MyTree.xaml">
+    <Page Include="Brick\MyTreeClue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Brick\MyTreeBook.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Brick\NodeItemForClue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Brick\NodeItemForDoc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Style\TreeViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Style\TreeViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -82,14 +106,27 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behavior\Load.cs" />
     <Compile Include="Brick\CardsBox.xaml.cs">
       <DependentUpon>CardsBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brick\EditorBase.xaml.cs">
+      <DependentUpon>EditorBase.xaml</DependentUpon>
     </Compile>
     <Compile Include="Brick\MyEditor.xaml.cs">
       <DependentUpon>MyEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Brick\MyTree.xaml.cs">
-      <DependentUpon>MyTree.xaml</DependentUpon>
+    <Compile Include="Brick\MyTreeClue.xaml.cs">
+      <DependentUpon>MyTreeClue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brick\MyTreeBook.xaml.cs">
+      <DependentUpon>MyTreeBook.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brick\NodeItemForClue.xaml.cs">
+      <DependentUpon>NodeItemForClue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brick\NodeItemForDoc.xaml.cs">
+      <DependentUpon>NodeItemForDoc.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\BookBase.cs" />
@@ -122,6 +159,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Assets\androidicons.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -137,8 +175,6 @@
       <Name>脸滚键盘</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Behavior\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -129,27 +129,27 @@ namespace RootNS.Model
         /// <summary>
         /// 是否勾选
         /// </summary>
-        public bool IsChedked
+        public bool IsChecked
         {
             get { return _isChecked; }
             set
             {
                 _isChecked = value;
-                this.RaisePropertyChanged("IsChedked");
+                this.RaisePropertyChanged("IsChecked");
             }
         }
 
-        private bool _selected;
+        private bool _isSelected;
         /// <summary>
         /// 是否选中
         /// </summary>
-        public bool Selected
+        public bool IsSelected
         {
-            get { return _selected; }
+            get { return _isSelected; }
             set
             {
-                _selected = value;
-                this.RaisePropertyChanged("Selected");
+                _isSelected = value;
+                this.RaisePropertyChanged("IsSelected");
             }
         }
 

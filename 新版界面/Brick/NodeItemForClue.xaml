@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="RootNS.Brick.NodeItemForClue"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RootNS.Brick"
+             xmlns:root="clr-namespace:RootNS"
+             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="测试" ToolTipService.ShowDuration="60000"
+             d:DesignHeight="26" d:DesignWidth="278">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="26"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="26"/>
+        </Grid.ColumnDefinitions>
+        <ContentControl FontFamily="../Assets/#androidicons" FontSize="18" Content="&#59424;" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Padding="0" Background="Transparent" BorderThickness="0" Content="{Binding NodeName}" IsEnabled="{Binding IsChecked}" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+        <CheckBox Grid.Column="2" IsChecked="{Binding IsChecked}" HorizontalAlignment="Center" />
+    </Grid>
+</UserControl>

@@ -1,6 +1,7 @@
 ﻿using RootNS.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,13 +25,28 @@ namespace RootNS
         public MainWindow()
         {
             InitializeComponent();
-            CurrentBook.OpenDocList.Add(new Node("节点名字"));
-            CurrentBook.OpenDocList[0].NodeName = "333333333";
-            CurrentBook.OpenDocList[0].Content = "文章内容";
         }
 
         public Book CurrentBook { get; set; } = Gval.CurrentBook;
         public Material Material { get; set; } = Gval.Material;
+        public ObservableCollection<Node> OpenDocList { get; set; } = Gval.OpenedDocList;
+
+        private void WinMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+            CurrentBook.BoxDraft.Add(new Node("测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱"));
+            CurrentBook.BoxDraft[0].IsDir = true;
+            CurrentBook.BoxDraft[0].ChildNodes.Add(new Node("测试") { WordsCount = 99 });
+            Gval.OpenedDocList.Add(new Node("打开的章节111111111111111111111111111111111"));
+            Gval.OpenedDocList[0].NodeName = "333333333";
+            Gval.OpenedDocList[0].Content = "文章内容";
+            Gval.OpenedDocList[0].WordsCount = 20;
+            CurrentBook.NoteClues.Add(new Node("节点名字111111111111111111111111111111111111111"));
+            CurrentBook.NoteClues[0].IsChecked = true;
+            CurrentBook.NoteClues[0].ChildNodes.Add(new Node("节点名字"));
+        }
+
+
 
         private void TabBook_Loaded(object sender, RoutedEventArgs e)
         {
@@ -80,6 +96,11 @@ namespace RootNS
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Material.LoadForCardsBox(BookBase.WorkSpace.公共, (sender as TabControl).SelectedIndex);
+        }
+
+        private void BtnChoose_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

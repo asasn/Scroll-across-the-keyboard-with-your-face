@@ -164,7 +164,7 @@ namespace RootNS.Model
         {
             if (nodes.Count == 0)
             {
-                for (int i = 0; i <= (int)partTag; i++)
+                for (int i = 0; i <= 30; i++)
                 {
                     nodes.Add(new Node(partTag.ToString()));
                 }

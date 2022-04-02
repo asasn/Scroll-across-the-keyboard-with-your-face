@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RootNS" xmlns:brick="clr-namespace:RootNS.Brick"
-        xmlns:mod="clr-namespace:RootNS.Model"
+        xmlns:mod="clr-namespace:RootNS.Model" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" UseLayoutRounding="True"
         Title=""
         Height="1000" Width="1800" 
-        WindowState="Maximized">
+        WindowState="Maximized" Loaded="WinMain_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -34,20 +34,20 @@
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Margin="5" Content="点">
+                        <Button x:Name="BtnChoose" Margin="5" Content="点" Click="BtnChoose_Click">
                         </Button>
                         <TextBlock Text="{Binding CurrentBook.Name, ElementName=WinMain}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
                     </Grid>
                 </Border>
                 <TabControl x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" DataContext="{Binding CurrentBook, ElementName=WinMain}">
                     <TabItem Header="草稿箱">
-                        <brick:MyTree ItemsSource="{Binding BoxDraft}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxDraft}"/>
                     </TabItem>
                     <TabItem Header="暂存箱">
-                        <brick:MyTree ItemsSource="{Binding BoxTemp}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxTemp}"/>
                     </TabItem>
                     <TabItem Header="已发布">
-                        <brick:MyTree ItemsSource="{Binding BoxPublished}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxPublished}"/>
                     </TabItem>
                 </TabControl>
             </Grid>
@@ -63,16 +63,16 @@
             <GroupBox Header="记事板" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabNote" Loaded="TabNote_Loaded" DataContext="{Binding CurrentBook, ElementName=WinMain}" SelectionChanged="TabNote_SelectionChanged" >
                     <TabItem Header="情节大纲">
-                        <brick:MyTree ItemsSource="{Binding NoteOutline}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding NoteOutline}"/>
                     </TabItem>
                     <TabItem Header="大事记">
-                        <brick:MyTree ItemsSource="{Binding NoteMemorabilia}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding NoteMemorabilia}"/>
                     </TabItem>
                     <TabItem Header="任务线索">
-                        <brick:MyTree ItemsSource="{Binding NoteClues}"/>
+                        <brick:MyTreeClue ItemsSource="{Binding NoteClues}"/>
                     </TabItem>
                     <TabItem Header="文例">
-                        <brick:MyTree ItemsSource="{Binding NoteTemplate}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding NoteTemplate}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
@@ -93,19 +93,8 @@
                 </TabControl>
             </GroupBox>
         </Grid>
-        <GroupBox Header="编辑区" Grid.Column="4" Style="{StaticResource BaseStyle}">
-            <TabControl ItemsSource="{Binding CurrentBook.OpenDocList, ElementName=WinMain}" >
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding NodeName}" />
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <brick:MyEditor DataContext="{Binding}"/>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </TabControl>
+        <GroupBox Grid.Column="4" Style="{StaticResource BaseStyle}" Background="Transparent" BorderThickness="0">
+            <brick:MyEditor ItemsSource="{Binding OpenDocList, ElementName=WinMain}"/>
         </GroupBox>
         <Grid Grid.Column="6">
             <Grid.RowDefinitions>
@@ -130,16 +119,16 @@
             <GroupBox Header="资料和文库" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabMaterial" DataContext="{Binding Material, ElementName=WinMain}" Loaded="TabMaterial_Loaded" SelectionChanged="TabMaterial_SelectionChanged" >
                     <TabItem Header="范文">
-                        <brick:MyTree ItemsSource="{Binding BoxModel}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxModel}"/>
                     </TabItem>
                     <TabItem Header="资料库">
-                        <brick:MyTree ItemsSource="{Binding BoxMaterial}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxMaterial}"/>
                     </TabItem>
                     <TabItem Header="题材库">
-                        <brick:MyTree ItemsSource="{Binding BoxTheme}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxTheme}"/>
                     </TabItem>
                     <TabItem Header="灵感记录">
-                        <brick:MyTree ItemsSource="{Binding BoxInspiration}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxInspiration}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>

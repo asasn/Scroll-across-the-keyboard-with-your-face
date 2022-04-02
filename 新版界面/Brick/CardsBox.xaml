@@ -4,29 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RootNS.Brick"
-             mc:Ignorable="d" Background="#FFF5F5F5"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" Background="#FFFDFDFD"
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
-        <TextBox/>
+        <Border BorderBrush="Salmon" BorderThickness="0,0,0,1">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Background="Transparent" BorderThickness="0" />
+            <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0"/>
+            <Button x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0"/>
+            <Button x:Name="BtnLookMore" FontFamily="../Assets/#androidicons" Content="&#59555;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0"/>
+        </Grid>
+        </Border>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <ItemsControl ItemsSource="{Binding DataContext,ElementName=ThisControl}" Background="#B28BB2F1" VirtualizingPanel.IsVirtualizing="True">
+            <ItemsControl ItemsSource="{Binding DataContext,ElementName=ThisControl}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Padding="3">
-                            <Button Content="{Binding NodeName}" ToolTip="测试" ToolTipService.ShowDuration="60000">
+                    <DataTemplate>
+                        <Border Padding="2">
+                            <Button Padding="2" Content="{Binding NodeName}" ToolTip="测试" ToolTipService.ShowDuration="60000" Height="20">
                             </Button>
                         </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
     </Grid>

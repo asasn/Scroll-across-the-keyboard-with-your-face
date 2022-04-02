@@ -8,7 +8,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Style/TreeViewItemStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Style/TreeViewStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <local:CustomMultiValueConvertor x:Key="CustomMultiValueConvertor"/>
+            <local:IconCodeConvertToFontSize x:Key="IconCodeConvertToFontSize"/>
+            <local:BoolConvertorCount x:Key="BoolConvertorCount"/>
+            <local:TypeConvertToShowText x:Key="TypeConvertToShowText"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

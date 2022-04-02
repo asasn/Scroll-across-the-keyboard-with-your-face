@@ -19,7 +19,6 @@ namespace RootNS.Model
         /// </summary>
         public void Clear()
         {
-            OpenDocList.Clear();
             CardRole.Clear();
             CardOther.Clear();
             CardWorld.Clear();
@@ -74,10 +73,7 @@ namespace RootNS.Model
             }
         }
 
-        /// <summary>
-        /// 打开文档的集合
-        /// </summary>
-        public ObservableCollection<Node> OpenDocList { set; get; } = new ObservableCollection<Node>();
+
 
         #region 信息卡
         public ObservableCollection<Card> CardRole { set; get; } = new ObservableCollection<Card>();

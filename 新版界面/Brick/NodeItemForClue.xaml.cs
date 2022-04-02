@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace RootNS.Brick
 {
     /// <summary>
-    /// MyTree.xaml 的交互逻辑
+    /// NodeItemForDoc.xaml 的交互逻辑
     /// </summary>
-    public partial class MyTree : TreeView
+    public partial class NodeItemForClue : UserControl
     {
-        public MyTree()
+        public NodeItemForClue()
         {
             InitializeComponent();
         }
