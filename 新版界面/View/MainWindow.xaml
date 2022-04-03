@@ -85,13 +85,13 @@
             <GroupBox Header="本书信息卡" Grid.Row="4" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabCard" Grid.Row="1" DataContext="{Binding CurrentBook, ElementName=WinMain}" Loaded="TabCard_Loaded" SelectionChanged="TabCard_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="本书角色">
-                        <brick:CardsBox DataContext="{Binding CardRole.ChildNodes}"/>
+                        <brick:CardsBox DataContext="{Binding CardRole}"/>
                     </TabItem>
                     <TabItem Header="本书其他">
-                        <brick:CardsBox DataContext="{Binding CardOther.ChildNodes}"/>
+                        <brick:CardsBox DataContext="{Binding CardOther}"/>
                     </TabItem>
                     <TabItem Header="本书世界">
-                        <brick:CardsBox DataContext="{Binding CardWorld.ChildNodes}"/>
+                        <brick:CardsBox DataContext="{Binding CardWorld}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
@@ -138,13 +138,13 @@
             <GroupBox Grid.Row="2" Header="公共信息卡" DataContext="{Binding Material, ElementName=WinMain}" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabPublicCard" Loaded="TabPublicCard_Loaded" SelectionChanged="TabPublicCard_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="公共角色">
-                        <brick:CardsBox DataContext="{Binding CardRole.ChildNodes}"/>
+                        <brick:CardsBox DataContext="{Binding CardRole}"/>
                     </TabItem>
                     <TabItem Header="公共其他">
-                        <brick:CardsBox DataContext="{Binding CardOther.ChildNodes}"/>
+                        <brick:CardsBox DataContext="{Binding CardOther}"/>
                     </TabItem>
                     <TabItem Header="公共世界">
-                        <brick:CardsBox DataContext="{Binding CardWorld.ChildNodes}"/>
+                        <brick:CardsBox DataContext="{Binding CardWorld}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>

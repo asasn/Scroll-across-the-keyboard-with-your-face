@@ -27,11 +27,11 @@
         </Grid>
         </Border>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <ItemsControl ItemsSource="{Binding DataContext,ElementName=ThisControl}" VirtualizingPanel.IsVirtualizing="True">
+            <ItemsControl ItemsSource="{Binding ChildNodes}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2">
-                            <Button Padding="2" Content="{Binding Title}" ToolTip="测试" ToolTipService.ShowDuration="60000" Height="20">
+                            <Button Padding="2" Content="{Binding Title}" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Height="20">
                             </Button>
                         </Border>
                     </DataTemplate>
