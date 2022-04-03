@@ -11,7 +11,7 @@
     Effect="{StaticResource EffectShadow3}" Loaded="EditorTabControl_Loaded" SelectionChanged="ThisControl_SelectionChanged">
     <TabControl.ItemTemplate>
         <DataTemplate>
-            <TextBlock Text="{Binding NodeName}" />
+            <TextBlock Text="{Binding Title}" />
         </DataTemplate>
     </TabControl.ItemTemplate>
     <TabControl.ContentTemplate>

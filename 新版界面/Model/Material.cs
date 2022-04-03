@@ -7,22 +7,17 @@ using System.Threading.Tasks;
 
 namespace RootNS.Model
 {
-    public class Material:BookBase
+    public class Material : BookBase
     {
-        public Material()
-        {
-            Clear();
-        }
-
         /// <summary>
         /// 清空各部分根节点
         /// </summary>
         public new void Clear()
         {
-            BoxModel.Clear();
-            BoxMaterial.Clear();
-            BoxTheme.Clear();
-            BoxInspiration.Clear();
+            BoxModel.ChildNodes.Clear();
+            BoxMaterial.ChildNodes.Clear();
+            BoxTheme.ChildNodes.Clear();
+            BoxInspiration.ChildNodes.Clear();
         }
 
         public enum MaterialItemTag
@@ -34,10 +29,10 @@ namespace RootNS.Model
         }
 
         #region 目录树
-        public ObservableCollection<Node> BoxModel { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> BoxMaterial { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> BoxTheme { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> BoxInspiration { set; get; } = new ObservableCollection<Node>();
+        public Node BoxModel { set; get; } = new Node();
+        public Node BoxMaterial { set; get; } = new Node();
+        public Node BoxTheme { set; get; } = new Node();
+        public Node BoxInspiration { set; get; } = new Node();
         #endregion
 
         public void LoadForMaterialPart(int index)
@@ -62,15 +57,15 @@ namespace RootNS.Model
         }
 
 
-        private void LoadMPart(ObservableCollection<Node> nodes, MaterialItemTag partTag)
+        private void LoadMPart(Node rootNode, MaterialItemTag partFlag)
         {
-            if (nodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)partTag; i++)
+                for (int i = 0; i <= (int)partFlag; i++)
                 {
-                    nodes.Add(new Node(partTag.ToString()));
+                    rootNode.ChildNodes.Add(new Node() { Title = partFlag.ToString() });
                 }
-                
+
             }
         }
 

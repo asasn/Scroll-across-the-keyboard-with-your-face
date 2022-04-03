@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RootNS.Brick"
              xmlns:root="clr-namespace:RootNS"
-             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="测试" ToolTipService.ShowDuration="60000"
+             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="{Binding Index}" ToolTipService.ShowDuration="60000"
              d:DesignHeight="26" d:DesignWidth="278" MouseDoubleClick="ThisControl_MouseDoubleClick" MouseRightButtonDown="ThisControl_MouseRightButtonDown">
 
     <Grid>
@@ -24,7 +24,7 @@
                 </MultiBinding>
             </ContentControl.Content>
         </ContentControl>
-        <ContentControl Content="{Binding NodeName}" Grid.Column="1" VerticalAlignment="Center"/>
+        <ContentControl Content="{Binding Title}" Grid.Column="1" VerticalAlignment="Center"/>
         <Label Padding="0" Background="Transparent" BorderThickness="0" IsEnabled="False" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center">
             <ContentControl.Content>
                 <MultiBinding Converter="{StaticResource BoolConvertorCount}">

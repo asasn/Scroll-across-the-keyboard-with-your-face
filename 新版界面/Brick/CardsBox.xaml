@@ -31,7 +31,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2">
-                            <Button Padding="2" Content="{Binding NodeName}" ToolTip="测试" ToolTipService.ShowDuration="60000" Height="20">
+                            <Button Padding="2" Content="{Binding Title}" ToolTip="测试" ToolTipService.ShowDuration="60000" Height="20">
                             </Button>
                         </Border>
                     </DataTemplate>

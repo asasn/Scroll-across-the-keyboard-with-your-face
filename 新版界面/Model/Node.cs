@@ -10,29 +10,28 @@ namespace RootNS.Model
 {
     public class Node : NotificationObject
     {
-        public Node(string name)
+        public Node()
         {
-            NodeName = name;
-            ChildNodes = new ObservableCollection<Node>();
+            ChildNodes.CollectionChanged += new NotifyCollectionChangedEventHandler(OnMoreStuffChanged);
         }
 
-        private string _nodeName;
+        private string _title;
         /// <summary>
-        /// 节点名称/章节标题
+        /// 节点标题
         /// </summary>
-        public string NodeName
+        public string Title
         {
-            get { return _nodeName; }
+            get { return _title; }
             set
             {
-                _nodeName = value;
-                this.RaisePropertyChanged("NodeName");
+                _title = value;
+                this.RaisePropertyChanged("Title");
             }
         }
 
         private string _uid;
         /// <summary>
-        /// 自身标识码
+        /// 节点标识码
         /// </summary>
         public string Uid
         {
@@ -46,7 +45,7 @@ namespace RootNS.Model
 
         private string _pid;
         /// <summary>
-        /// 父id标识码
+        /// 父节点标识码
         /// </summary>
         public string Pid
         {
@@ -59,7 +58,9 @@ namespace RootNS.Model
         }
 
         private Node _parentNode;
-
+        /// <summary>
+        /// 父节点对象
+        /// </summary>
         public Node ParentNode
         {
             get { return _parentNode; }
@@ -169,19 +170,20 @@ namespace RootNS.Model
         }
 
 
-        private int _indexOfTabItem;
+        private int _index;
         /// <summary>
-        /// 隶属的TabItem容器index
+        /// 索引序号
         /// </summary>
-        public int IndexOfTabItem
+        public int Index
         {
-            get { return _indexOfTabItem; }
+            get { return _index; }
             set
             {
-                _indexOfTabItem = value;
-                this.RaisePropertyChanged("IndexOfTabItem");
+                _index = value;
+                this.RaisePropertyChanged("Index");
             }
         }
+
 
         private string _summary;
         /// <summary>
@@ -200,7 +202,9 @@ namespace RootNS.Model
 
 
         private ObservableCollection<Node> _childNodes = new ObservableCollection<Node>();
-
+        /// <summary>
+        /// 子节点动态数据集合
+        /// </summary>
         public ObservableCollection<Node> ChildNodes
         {
             get
@@ -208,9 +212,9 @@ namespace RootNS.Model
                 if (_childNodes == null)
                 {
                     _childNodes = new ObservableCollection<Node>();
-                    _childNodes.CollectionChanged += new NotifyCollectionChangedEventHandler(OnMoreStuffChanged);
                 }
-                return _childNodes;  }
+                return _childNodes;
+            }
             set
             {
                 _childNodes = value;
@@ -226,13 +230,17 @@ namespace RootNS.Model
                 this.IsDir = true;
                 stuff.Pid = this.Uid;
                 stuff.ParentNode = this;
-                this.WordsCount += 1;
+                stuff.Index = this.ChildNodes.Count - 1;
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 Node stuff = (Node)e.OldItems[0];
                 this.WordsCount -= 1;
                 stuff.IsDel = true;
+                for (int i = stuff.Index; i < this.ChildNodes.Count; i++)
+                {
+                    this.ChildNodes[i].Index -= 1;
+                }
             }
         }
     }

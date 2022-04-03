@@ -9,23 +9,20 @@ namespace RootNS.Model
 {
     public class BookBase : NotificationObject
     {
-        public BookBase()
-        {
-            Clear();
-        }
-
         /// <summary>
         /// 清空各部分根节点
         /// </summary>
         public void Clear()
         {
-            CardRole.Clear();
-            CardOther.Clear();
-            CardWorld.Clear();
+            CardRole.ChildNodes.Clear();
+            CardOther.ChildNodes.Clear();
+            CardWorld.ChildNodes.Clear();
         }
 
         private string _uid;
-
+        /// <summary>
+        /// 书籍标识码
+        /// </summary>
         public string Uid
         {
             get { return _uid; }
@@ -37,7 +34,9 @@ namespace RootNS.Model
         }
 
         private string _name;
-
+        /// <summary>
+        /// 书名
+        /// </summary>
         public string Name
         {
             get { return _name; }
@@ -48,13 +47,19 @@ namespace RootNS.Model
             }
         }
 
+        /// <summary>
+        /// 工作区
+        /// </summary>
         public enum WorkSpace
         {
             当前 = 0,
             公共 = 1
         }
 
-        public enum CardItemTag
+        /// <summary>
+        /// 信息卡片TabItem标志
+        /// </summary>
+        public enum CardItemFlag
         {
             角色 = 0,
             其他 = 1,
@@ -76,34 +81,34 @@ namespace RootNS.Model
 
 
         #region 信息卡
-        public ObservableCollection<Node> CardRole { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> CardOther { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> CardWorld { set; get; } = new ObservableCollection<Node>();
+        public Node CardRole { set; get; } = new Node();
+        public Node CardOther { set; get; } = new Node();
+        public Node CardWorld { set; get; } = new Node();
 
         public void LoadForCardsBox(WorkSpace workSpace, int index)
         {
             ItemIndex = index;
-            if (index == (int)CardItemTag.角色)
+            if (index == (int)CardItemFlag.角色)
             {
-                LoadCardsBox(workSpace, this.CardRole, CardItemTag.角色);
+                LoadCardsBox(workSpace, this.CardRole, CardItemFlag.角色);
             }
-            if (index == (int)CardItemTag.其他)
+            if (index == (int)CardItemFlag.其他)
             {
-                LoadCardsBox(workSpace, this.CardOther, CardItemTag.其他);
+                LoadCardsBox(workSpace, this.CardOther, CardItemFlag.其他);
             }
-            if (index == (int)CardItemTag.世界)
+            if (index == (int)CardItemFlag.世界)
             {
-                LoadCardsBox(workSpace, this.CardWorld, CardItemTag.世界);
+                LoadCardsBox(workSpace, this.CardWorld, CardItemFlag.世界);
             }
         }
 
-        private void LoadCardsBox(WorkSpace workSpace, ObservableCollection<Node> cards, CardItemTag partTag)
+        private void LoadCardsBox(WorkSpace workSpace, Node rootNode, CardItemFlag partFlag)
         {
-            if (cards.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)partTag; i++)
+                for (int i = 0; i <= (int)partFlag; i++)
                 {
-                    cards.Add(new Node(workSpace.ToString() + partTag.ToString()));
+                    rootNode.ChildNodes.Add(new Node() { Title = workSpace.ToString() + partFlag.ToString() });
                 }
             }
         }

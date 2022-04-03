@@ -135,7 +135,6 @@
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\NotificationObject.cs" />
     <Compile Include="Model\Gval.cs" />
-    <Compile Include="Model\Root.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

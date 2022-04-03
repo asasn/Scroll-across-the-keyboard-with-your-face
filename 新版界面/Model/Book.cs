@@ -14,26 +14,24 @@ namespace RootNS.Model
     /// </summary>
     public class Book : BookBase
     {
-        public Book(string name)
-        {
-            Clear();
-            this.Name = name;
-        }
         /// <summary>
         /// 清空各部分根节点
         /// </summary>
         public new void Clear()
         {
-            BoxDraft.Clear();
-            BoxTemp.Clear();
-            BoxPublished.Clear();
-            NoteOutline.Clear();
-            NoteMemorabilia.Clear();
-            NoteClues.Clear();
-            NoteTemplate.Clear();
+            BoxDraft.ChildNodes.Clear();
+            BoxTemp.ChildNodes.Clear();
+            BoxPublished.ChildNodes.Clear();
+            NoteOutline.ChildNodes.Clear();
+            NoteMemorabilia.ChildNodes.Clear();
+            NoteClues.ChildNodes.Clear();
+            NoteTemplate.ChildNodes.Clear();
         }
 
-        public enum PartItemTag
+        /// <summary>
+        /// 目录树TabItem标志
+        /// </summary>
+        public enum PartItemFlag
         {
             草稿箱 = 0,
             暂存箱 = 1,
@@ -41,15 +39,21 @@ namespace RootNS.Model
             大纲 = 0,
         }
 
-        public enum NoteItemTag
+        /// <summary>
+        /// 记事板TabItem标志标志
+        /// </summary>
+        public enum NoteItemFlag
         {
             大纲 = 0,
             大事记 = 1,
             线索 = 2,
             文例 = 3
         }
-        private double _pirce;
 
+        private double _pirce;
+        /// <summary>
+        /// 本书稿酬单价
+        /// </summary>
         public double Price
         {
             get { return _pirce; }
@@ -61,7 +65,9 @@ namespace RootNS.Model
         }
 
         private long _currentYear;
-
+        /// <summary>
+        /// 本书剧情年份
+        /// </summary>
         public long CurrentYear
         {
             get { return _currentYear; }
@@ -73,7 +79,9 @@ namespace RootNS.Model
         }
 
         private string _introduce;
-
+        /// <summary>
+        /// 书籍简介
+        /// </summary>
         public string Introduce
         {
             get { return _introduce; }
@@ -85,7 +93,9 @@ namespace RootNS.Model
         }
 
         private string _coverpath;
-
+        /// <summary>
+        /// 封面路径
+        /// </summary>
         public string CoverPath
         {
             get { return _coverpath; }
@@ -98,75 +108,82 @@ namespace RootNS.Model
 
 
         #region 目录树
-        public ObservableCollection<Node> BoxDraft { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> BoxTemp { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> BoxPublished { set; get; } = new ObservableCollection<Node>();
+        public Node BoxDraft { set; get; } = new Node();
+        public Node BoxTemp { set; get; } = new Node();
+        public Node BoxPublished { set; get; } = new Node();
         #endregion
 
         #region 记事板
-        public ObservableCollection<Node> NoteOutline { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> NoteMemorabilia { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> NoteClues { set; get; } = new ObservableCollection<Node>();
-        public ObservableCollection<Node> NoteTemplate { set; get; } = new ObservableCollection<Node>();
+        public Node NoteOutline { set; get; } = new Node();
+        public Node NoteMemorabilia { set; get; } = new Node();
+        public Node NoteClues { set; get; } = new Node();
+        public Node NoteTemplate { set; get; } = new Node();
         #endregion
 
-
+        /// <summary>
+        /// 载入目录树
+        /// </summary>
+        /// <param name="index"></param>
         public void LoadForBookPart(int index)
         {
             ItemIndex = index;
-            if (index == (int)PartItemTag.草稿箱)
+            if (index == (int)PartItemFlag.草稿箱)
             {
-                LoadBookPart(BoxDraft, PartItemTag.草稿箱);
+                LoadBookPart(BoxDraft, PartItemFlag.草稿箱);
             }
-            if (index == (int)PartItemTag.暂存箱)
+            if (index == (int)PartItemFlag.暂存箱)
             {
-                LoadBookPart(BoxTemp, PartItemTag.暂存箱);
+                LoadBookPart(BoxTemp, PartItemFlag.暂存箱);
             }
-            if (index == (int)PartItemTag.已发布)
+            if (index == (int)PartItemFlag.已发布)
             {
-                LoadBookPart(BoxPublished, PartItemTag.已发布);
+                LoadBookPart(BoxPublished, PartItemFlag.已发布);
             }
         }
 
+        /// <summary>
+        /// 载入记事板
+        /// </summary>
+        /// <param name="index"></param>
         public void LoadForBookNote(int index)
         {
             ItemIndex = index;
-            if (index == (int)NoteItemTag.大纲)
+            if (index == (int)NoteItemFlag.大纲)
             {
-                LoadBookNote(NoteOutline, NoteItemTag.大纲);
+                LoadBookNote(NoteOutline, NoteItemFlag.大纲);
             }
-            if (index == (int)NoteItemTag.大事记)
+            if (index == (int)NoteItemFlag.大事记)
             {
-                LoadBookNote(NoteMemorabilia, NoteItemTag.大事记);
+                LoadBookNote(NoteMemorabilia, NoteItemFlag.大事记);
             }
-            if (index == (int)NoteItemTag.线索)
+            if (index == (int)NoteItemFlag.线索)
             {
-                LoadBookNote(NoteClues, NoteItemTag.线索);
+                LoadBookNote(NoteClues, NoteItemFlag.线索);
             }
-            if (index == (int)NoteItemTag.文例)
+            if (index == (int)NoteItemFlag.文例)
             {
-                LoadBookNote(NoteTemplate, NoteItemTag.文例);
+                LoadBookNote(NoteTemplate, NoteItemFlag.文例);
             }
         }
 
-        private void LoadBookNote(ObservableCollection<Node> nodes, NoteItemTag partTag)
+        private void LoadBookNote(Node rootNode, NoteItemFlag partFlag)
         {
-            if (nodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)partTag; i++)
+                for (int i = 0; i <= (int)partFlag; i++)
                 {
-                    nodes.Add(new Node(partTag.ToString()));
+                    rootNode.ChildNodes.Add(new Node() { Title = partFlag.ToString() });
                 }
             }
         }
 
-        private void LoadBookPart(ObservableCollection<Node> nodes, PartItemTag partTag)
+        private void LoadBookPart(Node rootNode, PartItemFlag partTag)
         {
-            if (nodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
                 for (int i = 0; i <= 30; i++)
                 {
-                    nodes.Add(new Node(partTag.ToString()));
+                    rootNode.ChildNodes.Add(new Node() { Title = partTag.ToString() });
                 }
             }
         }

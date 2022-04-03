@@ -41,13 +41,13 @@
                 </Border>
                 <TabControl x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" DataContext="{Binding CurrentBook, ElementName=WinMain}">
                     <TabItem Header="草稿箱">
-                        <brick:MyTreeBook ItemsSource="{Binding BoxDraft}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxDraft.ChildNodes}"/>
                     </TabItem>
                     <TabItem Header="暂存箱">
-                        <brick:MyTreeBook ItemsSource="{Binding BoxTemp}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxTemp.ChildNodes}"/>
                     </TabItem>
                     <TabItem Header="已发布">
-                        <brick:MyTreeBook ItemsSource="{Binding BoxPublished}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding BoxPublished.ChildNodes}"/>
                     </TabItem>
                 </TabControl>
             </Grid>
@@ -63,16 +63,16 @@
             <GroupBox Header="记事板" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabNote" Loaded="TabNote_Loaded" DataContext="{Binding CurrentBook, ElementName=WinMain}" SelectionChanged="TabNote_SelectionChanged" >
                     <TabItem Header="情节大纲">
-                        <brick:MyTreeBook ItemsSource="{Binding NoteOutline}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding NoteOutline.ChildNodes}"/>
                     </TabItem>
                     <TabItem Header="大事记">
-                        <brick:MyTreeBook ItemsSource="{Binding NoteMemorabilia}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding NoteMemorabilia.ChildNodes}"/>
                     </TabItem>
                     <TabItem Header="任务线索">
-                        <brick:MyTreeClue ItemsSource="{Binding NoteClues}"/>
+                        <brick:MyTreeClue ItemsSource="{Binding NoteClues.ChildNodes}"/>
                     </TabItem>
                     <TabItem Header="文例">
-                        <brick:MyTreeBook ItemsSource="{Binding NoteTemplate}"/>
+                        <brick:MyTreeBook ItemsSource="{Binding NoteTemplate.ChildNodes}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
@@ -82,13 +82,13 @@
             <GroupBox Header="本书信息卡" Grid.Row="4" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabCard" Grid.Row="1" DataContext="{Binding CurrentBook, ElementName=WinMain}" Loaded="TabCard_Loaded" SelectionChanged="TabCard_SelectionChanged">
                     <TabItem Header="本书角色">
-                        <brick:CardsBox DataContext="{Binding CardRole}"/>
+                        <brick:CardsBox DataContext="{Binding CardRole.ChildNodes}"/>
                     </TabItem>
                     <TabItem Header="本书其他">
-                        <brick:CardsBox DataContext="{Binding CardOther}"/>
+                        <brick:CardsBox DataContext="{Binding CardOther.ChildNodes}"/>
                     </TabItem>
                     <TabItem Header="本书世界">
-                        <brick:CardsBox DataContext="{Binding CardWorld}"/>
+                        <brick:CardsBox DataContext="{Binding CardWorld.ChildNodes}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>

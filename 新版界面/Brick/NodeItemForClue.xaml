@@ -15,7 +15,7 @@
             <ColumnDefinition Width="26"/>
         </Grid.ColumnDefinitions>
         <ContentControl FontFamily="../Assets/#androidicons" FontSize="18" Content="&#59424;" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Label Padding="0" Background="Transparent" BorderThickness="0" Content="{Binding NodeName}" IsEnabled="{Binding IsChecked}" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+        <Label Padding="0" Background="Transparent" BorderThickness="0" Content="{Binding Title}" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
         <CheckBox Grid.Column="2" IsChecked="{Binding IsChecked}" HorizontalAlignment="Center" />
     </Grid>
 </UserControl>
