@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace RootNS.Model
 {
@@ -78,40 +79,53 @@ namespace RootNS.Model
             }
         }
 
-
+        private Node _selectedNode;
+        /// <summary>
+        /// 选中的节点
+        /// </summary>
+        public Node SelectedNode
+        {
+            get { return _selectedNode; }
+            set
+            {
+                _selectedNode = value;
+                this.RaisePropertyChanged("SelectedNode");
+            }
+        }
 
         #region 信息卡
+
+
         public Node CardRole { set; get; } = new Node();
         public Node CardOther { set; get; } = new Node();
         public Node CardWorld { set; get; } = new Node();
 
-        public void LoadForCardsBox(WorkSpace workSpace, int index)
+        public void LoadForCardsBox(TabControl tabControl, WorkSpace workSpace)
         {
-            ItemIndex = index;
-            if (index == (int)CardItemFlag.角色)
+            CardItemFlag flag = (CardItemFlag)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(CardItemFlag), tabControl.SelectedIndex);
+            Node rootNode = new Node();
+            if (tabControl.SelectedIndex == 0)
             {
-                LoadCardsBox(workSpace, this.CardRole, CardItemFlag.角色);
+                rootNode = CardRole;
             }
-            if (index == (int)CardItemFlag.其他)
+            if (tabControl.SelectedIndex == 1)
             {
-                LoadCardsBox(workSpace, this.CardOther, CardItemFlag.其他);
+                rootNode = CardOther;
             }
-            if (index == (int)CardItemFlag.世界)
+            if (tabControl.SelectedIndex == 2)
             {
-                LoadCardsBox(workSpace, this.CardWorld, CardItemFlag.世界);
+                rootNode = CardWorld;
             }
-        }
-
-        private void LoadCardsBox(WorkSpace workSpace, Node rootNode, CardItemFlag partFlag)
-        {
             if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)partFlag; i++)
+                for (int i = 0; i <= (int)flag; i++)
                 {
-                    rootNode.ChildNodes.Add(new Node() { Title = workSpace.ToString() + partFlag.ToString() });
+                    rootNode.ChildNodes.Add(new Node() { Title = workSpace.ToString() + flag.ToString() });
                 }
             }
         }
         #endregion
+
     }
 }

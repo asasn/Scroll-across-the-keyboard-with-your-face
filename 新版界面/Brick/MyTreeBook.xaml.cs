@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,5 +52,10 @@ namespace RootNS.Brick
             Console.WriteLine("import");
         }
 
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            Node selectedNode = (sender as TreeView).SelectedItem as Node;
+
+        }
     }
 }

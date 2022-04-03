@@ -4,10 +4,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:RootNS.Brick" xmlns:hc="https://handyorg.github.io/handycontrol" 
-    xmlns:behavior="clr-namespace:RootNS.Behavior"
+    xmlns:behavior="clr-namespace:RootNS.Behavior" ItemsSource="{Binding ChildNodes}"
     Background="#FFFEFEFE" BorderThickness="0" UseLayoutRounding="True"
     mc:Ignorable="d" VirtualizingPanel.IsVirtualizing="True"
-    d:DesignHeight="450" d:DesignWidth="300" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+    d:DesignHeight="450" d:DesignWidth="300" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItemChanged="TreeView_SelectedItemChanged">
 
     <TreeView.Resources>
         <RoutedUICommand x:Key="AddBrotherNode" Text="添加兄弟节点"/>

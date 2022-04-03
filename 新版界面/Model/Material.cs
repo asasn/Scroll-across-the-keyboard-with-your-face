@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace RootNS.Model
 {
@@ -14,7 +15,7 @@ namespace RootNS.Model
         /// </summary>
         public new void Clear()
         {
-            BoxModel.ChildNodes.Clear();
+            BoxExample.ChildNodes.Clear();
             BoxMaterial.ChildNodes.Clear();
             BoxTheme.ChildNodes.Clear();
             BoxInspiration.ChildNodes.Clear();
@@ -29,43 +30,43 @@ namespace RootNS.Model
         }
 
         #region 目录树
-        public Node BoxModel { set; get; } = new Node();
+        public Node BoxExample { set; get; } = new Node();
         public Node BoxMaterial { set; get; } = new Node();
         public Node BoxTheme { set; get; } = new Node();
         public Node BoxInspiration { set; get; } = new Node();
         #endregion
 
-        public void LoadForMaterialPart(int index)
+        /// <summary>
+        /// 载入资料库
+        /// </summary>
+        /// <param name="index"></param>
+        public void LoadForMaterialPart(TabControl tabControl)
         {
-            ItemIndex = index;
-            if (index == (int)MaterialItemTag.范文)
+            MaterialItemTag flag = (MaterialItemTag)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(MaterialItemTag), tabControl.SelectedIndex);
+            Node rootNode = new Node();
+            if (tabControl.SelectedIndex == 0)
             {
-                LoadMPart(BoxModel, MaterialItemTag.范文);
+                rootNode = BoxExample;
             }
-            if (index == (int)MaterialItemTag.资料)
+            if (tabControl.SelectedIndex == 1)
             {
-                LoadMPart(BoxMaterial, MaterialItemTag.资料);
+                rootNode = BoxMaterial;
             }
-            if (index == (int)MaterialItemTag.主题)
+            if (tabControl.SelectedIndex == 2)
             {
-                LoadMPart(BoxTheme, MaterialItemTag.主题);
+                rootNode = BoxTheme;
             }
-            if (index == (int)MaterialItemTag.灵感)
+            if (tabControl.SelectedIndex == 3)
             {
-                LoadMPart(BoxInspiration, MaterialItemTag.灵感);
+                rootNode = BoxInspiration;
             }
-        }
-
-
-        private void LoadMPart(Node rootNode, MaterialItemTag partFlag)
-        {
             if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)partFlag; i++)
+                for (int i = 0; i <= (int)flag; i++)
                 {
-                    rootNode.ChildNodes.Add(new Node() { Title = partFlag.ToString() });
+                    rootNode.ChildNodes.Add(new Node() { Title = itemName.ToString() });
                 }
-
             }
         }
 

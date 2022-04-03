@@ -26,6 +26,10 @@ namespace RootNS.Brick
         }
 
 
+        private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
+        {
+
+        }
 
         private void Command_AddBrotherNode_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -47,7 +51,7 @@ namespace RootNS.Brick
 
         }
 
-        private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
 
         }

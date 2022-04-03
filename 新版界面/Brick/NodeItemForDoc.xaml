@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RootNS.Brick"
              xmlns:root="clr-namespace:RootNS"
-             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="{Binding Index}" ToolTipService.ShowDuration="60000"
+             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="{Binding IsSelected}" ToolTipService.ShowDuration="60000"
              d:DesignHeight="26" d:DesignWidth="278" MouseDoubleClick="ThisControl_MouseDoubleClick" MouseRightButtonDown="ThisControl_MouseRightButtonDown">
 
     <Grid>

@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Style/TreeViewItemStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Style/TreeViewStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Style/TabControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:CustomMultiValueConvertor x:Key="CustomMultiValueConvertor"/>
             <local:IconCodeConvertToFontSize x:Key="IconCodeConvertToFontSize"/>

@@ -154,7 +154,6 @@ namespace RootNS.Model
             }
         }
 
-
         private bool _isDel;
         /// <summary>
         /// 是否删除
@@ -199,6 +198,17 @@ namespace RootNS.Model
             }
         }
 
+        private Node _rootNode;
+
+        public Node RootNode
+        {
+            get { return _rootNode; }
+            set
+            {
+                _rootNode = value;
+                this.RaisePropertyChanged("RootNode");
+            }
+        }
 
 
         private ObservableCollection<Node> _childNodes = new ObservableCollection<Node>();
@@ -231,6 +241,12 @@ namespace RootNS.Model
                 stuff.Pid = this.Uid;
                 stuff.ParentNode = this;
                 stuff.Index = this.ChildNodes.Count - 1;
+                Node pNode = stuff;
+                while (pNode.ParentNode != null)
+                {
+                    pNode = pNode.ParentNode;
+                }
+                stuff.RootNode = pNode;
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -242,6 +258,12 @@ namespace RootNS.Model
                     this.ChildNodes[i].Index -= 1;
                 }
             }
+        }
+
+
+        public void Remove(Node node)
+        {
+            this.ChildNodes.Remove(node);
         }
     }
 }

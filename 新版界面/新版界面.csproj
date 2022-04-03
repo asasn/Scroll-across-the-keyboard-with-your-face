@@ -90,6 +90,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Brick\Searcher.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Style\TabControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Style\TreeViewItemStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,6 +114,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behavior\BuildTable.cs" />
     <Compile Include="Behavior\DataEntry.cs" />
     <Compile Include="Behavior\DataExport.cs" />
     <Compile Include="Brick\CardsBox.xaml.cs">
@@ -128,6 +137,9 @@
     </Compile>
     <Compile Include="Brick\NodeItemForDoc.xaml.cs">
       <DependentUpon>NodeItemForDoc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brick\Searcher.xaml.cs">
+      <DependentUpon>Searcher.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\BookBase.cs" />

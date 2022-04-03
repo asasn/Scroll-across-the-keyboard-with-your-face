@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace RootNS.Model
 {
@@ -22,7 +23,7 @@ namespace RootNS.Model
             BoxDraft.ChildNodes.Clear();
             BoxTemp.ChildNodes.Clear();
             BoxPublished.ChildNodes.Clear();
-            NoteOutline.ChildNodes.Clear();
+            NoteStory.ChildNodes.Clear();
             NoteMemorabilia.ChildNodes.Clear();
             NoteClues.ChildNodes.Clear();
             NoteTemplate.ChildNodes.Clear();
@@ -44,10 +45,11 @@ namespace RootNS.Model
         /// </summary>
         public enum NoteItemFlag
         {
-            大纲 = 0,
-            大事记 = 1,
-            线索 = 2,
-            文例 = 3
+            大事记 = 0,
+            故事 = 1,
+            场景 = 2,
+            线索 = 3,
+            文例 = 4
         }
 
         private double _pirce;
@@ -114,30 +116,42 @@ namespace RootNS.Model
         #endregion
 
         #region 记事板
-        public Node NoteOutline { set; get; } = new Node();
         public Node NoteMemorabilia { set; get; } = new Node();
+        public Node NoteStory { set; get; } = new Node();
+        public Node NoteScenes { get; set; } = new Node();        
         public Node NoteClues { set; get; } = new Node();
         public Node NoteTemplate { set; get; } = new Node();
         #endregion
 
+
         /// <summary>
         /// 载入目录树
         /// </summary>
-        /// <param name="index"></param>
-        public void LoadForBookPart(int index)
+        /// <param name="rootNode"></param>
+        /// <param name="partTag"></param>
+        public void LoadBookPart(TabControl tabControl)
         {
-            ItemIndex = index;
-            if (index == (int)PartItemFlag.草稿箱)
+            PartItemFlag flag = (PartItemFlag)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(PartItemFlag), tabControl.SelectedIndex);
+            Node rootNode = new Node();
+            if (tabControl.SelectedIndex == 0)
             {
-                LoadBookPart(BoxDraft, PartItemFlag.草稿箱);
+                rootNode = BoxDraft;
             }
-            if (index == (int)PartItemFlag.暂存箱)
+            if (tabControl.SelectedIndex == 1)
             {
-                LoadBookPart(BoxTemp, PartItemFlag.暂存箱);
+                rootNode = BoxTemp;
             }
-            if (index == (int)PartItemFlag.已发布)
+            if (tabControl.SelectedIndex == 2)
             {
-                LoadBookPart(BoxPublished, PartItemFlag.已发布);
+                rootNode = BoxPublished;
+            }
+            if (rootNode.ChildNodes.Count == 0)
+            {
+                for (int i = 0; i <= (int)flag; i++)
+                {
+                    rootNode.ChildNodes.Add(new Node() { Title = itemName.ToString() });
+                }
             }
         }
 
@@ -145,47 +159,40 @@ namespace RootNS.Model
         /// 载入记事板
         /// </summary>
         /// <param name="index"></param>
-        public void LoadForBookNote(int index)
+        public void LoadBookNote(TabControl tabControl)
         {
-            ItemIndex = index;
-            if (index == (int)NoteItemFlag.大纲)
+            NoteItemFlag flag = (NoteItemFlag)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(NoteItemFlag), tabControl.SelectedIndex);
+            Node rootNode = new Node();
+            if (tabControl.SelectedIndex == 0)
             {
-                LoadBookNote(NoteOutline, NoteItemFlag.大纲);
+                rootNode = NoteMemorabilia;
             }
-            if (index == (int)NoteItemFlag.大事记)
+            if (tabControl.SelectedIndex == 1)
             {
-                LoadBookNote(NoteMemorabilia, NoteItemFlag.大事记);
+                rootNode = NoteStory;
             }
-            if (index == (int)NoteItemFlag.线索)
+            if (tabControl.SelectedIndex == 2)
             {
-                LoadBookNote(NoteClues, NoteItemFlag.线索);
+                rootNode = NoteScenes;
             }
-            if (index == (int)NoteItemFlag.文例)
+            if (tabControl.SelectedIndex == 3)
             {
-                LoadBookNote(NoteTemplate, NoteItemFlag.文例);
+                rootNode = NoteClues;
             }
-        }
-
-        private void LoadBookNote(Node rootNode, NoteItemFlag partFlag)
-        {
+            if (tabControl.SelectedIndex == 4)
+            {
+                rootNode = NoteTemplate;
+            }
             if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)partFlag; i++)
+                for (int i = 0; i <= (int)flag; i++)
                 {
-                    rootNode.ChildNodes.Add(new Node() { Title = partFlag.ToString() });
+                    rootNode.ChildNodes.Add(new Node() { Title = itemName.ToString() });
                 }
             }
         }
 
-        private void LoadBookPart(Node rootNode, PartItemFlag partTag)
-        {
-            if (rootNode.ChildNodes.Count == 0)
-            {
-                for (int i = 0; i <= 30; i++)
-                {
-                    rootNode.ChildNodes.Add(new Node() { Title = partTag.ToString() });
-                }
-            }
-        }
+
     }
 }

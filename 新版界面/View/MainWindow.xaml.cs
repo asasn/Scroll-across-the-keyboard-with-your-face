@@ -56,7 +56,7 @@ namespace RootNS
 
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentBook.LoadForBookPart((sender as TabControl).SelectedIndex);
+            CurrentBook.LoadBookPart(sender as TabControl);
         }
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
@@ -66,7 +66,7 @@ namespace RootNS
 
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentBook.LoadForBookNote((sender as TabControl).SelectedIndex);
+            CurrentBook.LoadBookNote(sender as TabControl);
         }
 
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
@@ -76,7 +76,7 @@ namespace RootNS
 
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentBook.LoadForCardsBox(BookBase.WorkSpace.当前, (sender as TabControl).SelectedIndex);
+            CurrentBook.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.当前);
         }
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
@@ -86,7 +86,7 @@ namespace RootNS
 
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Material.LoadForMaterialPart((sender as TabControl).SelectedIndex);
+            Material.LoadForMaterialPart(sender as TabControl);
         }
 
         private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)
@@ -96,13 +96,13 @@ namespace RootNS
 
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Material.LoadForCardsBox(BookBase.WorkSpace.公共, (sender as TabControl).SelectedIndex);
+            Material.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.公共);
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)
         {
             Node selectedNode = ((TabBook.SelectedItem as TabItem).Content as MyTreeBook).SelectedItem as Node;
-            selectedNode.ParentNode.ChildNodes.Remove(selectedNode);
+            selectedNode.ParentNode.Remove(selectedNode);
         }
     }
 }

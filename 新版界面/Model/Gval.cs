@@ -10,6 +10,18 @@ namespace RootNS.Model
 {
     public static class Gval
     {
+        /// <summary>
+        /// 程序路径
+        /// </summary>
+        public struct Path
+        {
+            public static string App { get { return Environment.CurrentDirectory; } }
+
+            public static string Books { get { return Environment.CurrentDirectory + "/books"; } }
+
+            public static string Resourses { get { return Environment.CurrentDirectory + "/Resourses"; } }
+        }
+
         public static Book CurrentBook { get; set; } = new Book();
         public static Material Material { get; set; } = new Material();
 
