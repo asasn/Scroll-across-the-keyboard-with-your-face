@@ -27,6 +27,46 @@ namespace RootNS.Brick
         private readonly SQLiteConnection connection;
         public string DbName;
         public bool IsSqlconnOpening;
+        public static Dictionary<string, CSqlitePlus> PoolDict { get; set; } = new Dictionary<string, CSqlitePlus>();
+
+        public struct PoolOperate
+        {
+            /// <summary>
+            /// 检校字典中是否存在数据库对象，如果不存在则添加
+            /// </summary>
+            /// <param name="dbPath"></param>
+            /// <param name="dbName"></param>
+            public static void Add(string dbName)
+            {
+                if (PoolDict.ContainsKey(dbName) == true)
+                {
+                    return;
+                }
+                else
+                {
+                    PoolDict.Add(dbName, new CSqlitePlus(Gval.Path.Books, dbName + ".db"));
+                }
+            }
+
+            /// <summary>
+            /// 关闭数据库连接并且从字典中删除
+            /// </summary>
+            /// <param name="keyName"></param>
+            public static void Remove(string keyName)
+            {
+                //关闭数据库连接并从字典中删除
+                if (PoolDict.ContainsKey(keyName) == true)
+                {
+                    PoolDict[keyName].Close();
+                    PoolDict.Remove(keyName);
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
 
         /// <summary>
         /// 数据库建立连接

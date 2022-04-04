@@ -81,6 +81,21 @@ namespace RootNS.Model
             }
         }
 
+
+        private string _summary;
+        /// <summary>
+        /// 书籍简介
+        /// </summary>
+        public string Summary
+        {
+            get { return _summary; }
+            set
+            {
+                _summary = value;
+                this.RaisePropertyChanged("Summary");
+            }
+        }
+
         private Node _selectedNode;
         /// <summary>
         /// 选中的节点

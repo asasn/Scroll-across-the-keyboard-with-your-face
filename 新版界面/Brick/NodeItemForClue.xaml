@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RootNS.Brick"
-             xmlns:root="clr-namespace:RootNS"
+             xmlns:root="clr-namespace:RootNS" Padding="0"
              mc:Ignorable="d" UseLayoutRounding="True" ToolTip="测试" ToolTipService.ShowDuration="60000"
              d:DesignHeight="26" d:DesignWidth="278">
 

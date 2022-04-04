@@ -13,6 +13,21 @@ namespace RootNS.Model
         public Node()
         {
             ChildNodes.CollectionChanged += new NotifyCollectionChangedEventHandler(OnMoreStuffChanged);
+            this.PropertyChanged += Node_PropertyChanged;
+        }
+
+        private void Node_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsDel")
+            {
+                if (this.IsDel == true)
+                {
+                    foreach (Node node in this.ChildNodes)
+                    {
+                        node.IsDel = true;
+                    }
+                }
+            }
         }
 
         private string _title;
@@ -268,6 +283,10 @@ namespace RootNS.Model
                 stuff.ParentNode = this;
                 stuff.Index = this.ChildNodes.Count - 1;
                 Node pNode = stuff;
+                if (this.IsDel == true)
+                {
+                    stuff.IsDel = true;
+                }
                 while (pNode.ParentNode != null)
                 {
                     pNode = pNode.ParentNode;

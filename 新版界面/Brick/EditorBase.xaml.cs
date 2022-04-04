@@ -29,7 +29,7 @@ namespace RootNS.Brick
         {
             InitializeComponent();
         }
-
+        public Book CurrentBook { get; set; } = Gval.CurrentBook;
         private void BtnUndo_Click(object sender, RoutedEventArgs e)
         {
 

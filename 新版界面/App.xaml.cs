@@ -68,7 +68,7 @@ namespace RootNS
         {
             if (value == null)
             {
-                return null;
+                return 16;
             }
             try
             {

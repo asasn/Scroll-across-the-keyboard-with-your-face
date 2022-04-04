@@ -80,19 +80,6 @@ namespace RootNS.Model
             }
         }
 
-        private string _introduce;
-        /// <summary>
-        /// 书籍简介
-        /// </summary>
-        public string Introduce
-        {
-            get { return _introduce; }
-            set
-            {
-                _introduce = value;
-                this.RaisePropertyChanged("Introduce");
-            }
-        }
 
         private string _coverpath;
         /// <summary>
@@ -108,7 +95,6 @@ namespace RootNS.Model
             }
         }
 
-
         #region 目录树
         public Node BoxDraft { set; get; } = new Node();
         public Node BoxTemp { set; get; } = new Node();
@@ -118,7 +104,7 @@ namespace RootNS.Model
         #region 记事板
         public Node NoteMemorabilia { set; get; } = new Node();
         public Node NoteStory { set; get; } = new Node();
-        public Node NoteScenes { get; set; } = new Node();        
+        public Node NoteScenes { get; set; } = new Node();
         public Node NoteClues { set; get; } = new Node();
         public Node NoteTemplate { set; get; } = new Node();
         #endregion
