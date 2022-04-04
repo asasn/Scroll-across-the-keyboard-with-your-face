@@ -1,4 +1,5 @@
-﻿using RootNS.Brick;
+﻿using RootNS.Behavior;
+using RootNS.Brick;
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace RootNS
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
         {
+            DataEntry.ReadyForBegin();
 
             CurrentBook.BoxDraft.ChildNodes.Add(new Node() { Title = "测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱" });
             CurrentBook.BoxDraft.ChildNodes[0].IsDir = true;

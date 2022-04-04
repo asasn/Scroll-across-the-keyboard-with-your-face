@@ -57,6 +57,32 @@ namespace RootNS.Model
             }
         }
 
+        private int _pointX;
+
+        public int PointX
+        {
+            get { return _pointX; }
+            set
+            {
+                _pointX = value;
+                this.RaisePropertyChanged("PointX");
+            }
+        }
+
+        private int _pointY;
+
+        public int PointY
+        {
+            get { return _pointY; }
+            set
+            {
+                _pointY = value;
+                this.RaisePropertyChanged("PointY");
+            }
+        }
+            
+
+
         private Node _parentNode;
         /// <summary>
         /// 父节点对象

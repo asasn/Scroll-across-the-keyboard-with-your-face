@@ -21,7 +21,7 @@ namespace RootNS.Model
             BoxInspiration.ChildNodes.Clear();
         }
 
-        public enum MaterialItemTag
+        public enum MaterialTabName
         {
             范文 = 0,
             资料 = 1,
@@ -42,8 +42,8 @@ namespace RootNS.Model
         /// <param name="index"></param>
         public void LoadForMaterialPart(TabControl tabControl)
         {
-            MaterialItemTag flag = (MaterialItemTag)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(MaterialItemTag), tabControl.SelectedIndex);
+            MaterialTabName flag = (MaterialTabName)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(MaterialTabName), tabControl.SelectedIndex);
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {

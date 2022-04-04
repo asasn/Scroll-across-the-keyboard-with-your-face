@@ -60,22 +60,24 @@ namespace RootNS.Model
         /// <summary>
         /// 信息卡片TabItem标志
         /// </summary>
-        public enum CardItemFlag
+        public enum CardTabName
         {
             角色 = 0,
             其他 = 1,
             世界 = 2
         }
 
-        private int _itemIndex;
-
-        public int ItemIndex
+        private int _index;
+        /// <summary>
+        /// 索引序号
+        /// </summary>
+        public int Index
         {
-            get { return _itemIndex; }
+            get { return _index; }
             set
             {
-                _itemIndex = value;
-                this.RaisePropertyChanged("ItemIndex");
+                _index = value;
+                this.RaisePropertyChanged("Index");
             }
         }
 
@@ -102,8 +104,8 @@ namespace RootNS.Model
 
         public void LoadForCardsBox(TabControl tabControl, WorkSpace workSpace)
         {
-            CardItemFlag flag = (CardItemFlag)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(CardItemFlag), tabControl.SelectedIndex);
+            CardTabName flag = (CardTabName)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(CardTabName), tabControl.SelectedIndex);
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {

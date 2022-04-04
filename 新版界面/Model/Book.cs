@@ -32,7 +32,7 @@ namespace RootNS.Model
         /// <summary>
         /// 目录树TabItem标志
         /// </summary>
-        public enum PartItemFlag
+        public enum ContentTabName
         {
             草稿箱 = 0,
             暂存箱 = 1,
@@ -43,7 +43,7 @@ namespace RootNS.Model
         /// <summary>
         /// 记事板TabItem标志标志
         /// </summary>
-        public enum NoteItemFlag
+        public enum NoteTabName
         {
             大事记 = 0,
             故事 = 1,
@@ -131,8 +131,8 @@ namespace RootNS.Model
         /// <param name="partTag"></param>
         public void LoadBookPart(TabControl tabControl)
         {
-            PartItemFlag flag = (PartItemFlag)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(PartItemFlag), tabControl.SelectedIndex);
+            ContentTabName flag = (ContentTabName)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(ContentTabName), tabControl.SelectedIndex);
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
@@ -161,8 +161,8 @@ namespace RootNS.Model
         /// <param name="index"></param>
         public void LoadBookNote(TabControl tabControl)
         {
-            NoteItemFlag flag = (NoteItemFlag)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(NoteItemFlag), tabControl.SelectedIndex);
+            NoteTabName flag = (NoteTabName)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(NoteTabName), tabControl.SelectedIndex);
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
