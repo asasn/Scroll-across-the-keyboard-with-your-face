@@ -36,7 +36,7 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="BtnChoose" Margin="5" Content="点" Click="BtnChoose_Click">
                         </Button>
-                        <TextBlock Text="{Binding CurrentBook.Name, ElementName=WinMain}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
+                        <TextBlock Text="{Binding CurrentBook.Name, ElementName=WinMain, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
                     </Grid>
                 </Border>
                 <TabControl x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" DataContext="{Binding CurrentBook, ElementName=WinMain}" Style="{DynamicResource TabControlStyle}">

@@ -34,6 +34,7 @@ namespace RootNS.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            BooksBank.Clear();
             string sql = string.Format("SELECT * FROM 书库 WHERE IsDel=False;");
             SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
             while (reader.Read())
@@ -132,5 +133,10 @@ namespace RootNS.View
 
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).Background = Brushes.Orange;
+            Gval.CurrentBook = BooksBank[0];
+        }
     }
 }

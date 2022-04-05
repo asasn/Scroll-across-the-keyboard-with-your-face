@@ -25,7 +25,7 @@ namespace RootNS.Model
 
         public static Book CurrentBook { get; set; } = new Book();
         public static Material Material { get; set; } = new Material();
-
+        public static ObservableCollection<Book> BooksBank { get; set; } = new ObservableCollection<Book>();
 
         public static string NewGuid()
         {
