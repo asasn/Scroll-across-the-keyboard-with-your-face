@@ -19,6 +19,7 @@ namespace RootNS.Model
             CardRole.ChildNodes.Clear();
             CardOther.ChildNodes.Clear();
             CardWorld.ChildNodes.Clear();
+            MapPoints.ChildNodes.Clear();
         }
 
         private string _uid;

@@ -17,8 +17,8 @@ namespace RootNS.Model
         {
             BoxExample.ChildNodes.Clear();
             BoxMaterial.ChildNodes.Clear();
-            BoxTheme.ChildNodes.Clear();
-            BoxInspiration.ChildNodes.Clear();
+            NoteTheme.ChildNodes.Clear();
+            NoteInspiration.ChildNodes.Clear();
         }
 
         public enum MaterialTabName
@@ -29,11 +29,11 @@ namespace RootNS.Model
             灵感 = 3
         }
 
-        #region 目录树
+        #region 资料库
         public Node BoxExample { set; get; } = new Node();
         public Node BoxMaterial { set; get; } = new Node();
-        public Node BoxTheme { set; get; } = new Node();
-        public Node BoxInspiration { set; get; } = new Node();
+        public Node NoteTheme { set; get; } = new Node();
+        public Node NoteInspiration { set; get; } = new Node();
         #endregion
 
         /// <summary>
@@ -55,11 +55,11 @@ namespace RootNS.Model
             }
             if (tabControl.SelectedIndex == 2)
             {
-                rootNode = BoxTheme;
+                rootNode = NoteTheme;
             }
             if (tabControl.SelectedIndex == 3)
             {
-                rootNode = BoxInspiration;
+                rootNode = NoteInspiration;
             }
             if (rootNode.ChildNodes.Count == 0)
             {
