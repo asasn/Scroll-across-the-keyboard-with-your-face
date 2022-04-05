@@ -14,7 +14,7 @@
             <ItemsControl ItemsSource="{Binding BooksBank, Mode=TwoWay, ElementName=ThisWindow}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Padding="1" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4">
+                        <Button Padding="1" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4" GotFocus="Button_GotFocus">
                             <hc:Card Padding="0" Header="{Binding Name}" MaxWidth="{Binding Width, ElementName=Cover}">
                                 <Image x:Name="Cover" Width="108" Height="162" />
                             </hc:Card>

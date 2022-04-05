@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace RootNS
 {
@@ -93,6 +94,43 @@ namespace RootNS
          System.Globalization.CultureInfo culture)
         {
             return null;
+        }
+    }
+
+    /// <summary>
+    /// 聚焦决定边框
+    /// </summary>
+    public class IsFocusedConvertToBrush : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Brushes.Orange;
+            }
+            try
+            {
+                //是焦点的时候，进行设置
+                if ((bool)value == true)
+                {
+                    return Brushes.Orange;
+                }
+                else
+                {
+                    return Brushes.Orange;
+                }
+            }
+            catch
+            {
+                return Brushes.Orange;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return false;
         }
     }
 

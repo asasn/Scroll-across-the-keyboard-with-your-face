@@ -29,7 +29,7 @@ namespace RootNS.Brick
 
 
         public Book CurrentBook { get; set; } = Gval.CurrentBook;
-        public Material Material { get; set; } = Gval.Material;
+        public Material Material { get; set; } = Gval.MaterialBook;
 
 
 

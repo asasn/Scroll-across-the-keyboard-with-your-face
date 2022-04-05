@@ -40,15 +40,9 @@ namespace RootNS
             CurrentBook.NoteClues.ChildNodes[0].ChildNodes.Add(new Node() { Title = "线索线索线索线索" });
         }
 
-        private Book _currentBook = Gval.CurrentBook;
+        public Book CurrentBook { get; set; } = Gval.CurrentBook;
 
-        public Book CurrentBook
-        {
-            get { return Gval.CurrentBook; }
-            set { Gval.CurrentBook = value; }
-        }
-
-        public Material Material { get; set; } = Gval.Material;
+        public Material Material { get; set; } = Gval.MaterialBook;
         public ObservableCollection<Node> OpenDocList { get; set; } = Gval.OpenedDocList;
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
@@ -115,9 +109,9 @@ namespace RootNS
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)
         {
+            Gval.CurrentBook.Name = "222";
             Window win = new Choose();
-            win.ShowDialog();
-            CurrentBook.Name = Gval.BooksBank[0].Name;
+            win.ShowDialog(); 
         }
     }
 }

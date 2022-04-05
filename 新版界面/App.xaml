@@ -17,6 +17,7 @@
             <local:IconCodeConvertToFontSize x:Key="IconCodeConvertToFontSize"/>
             <local:BoolConvertorCount x:Key="BoolConvertorCount"/>
             <local:TypeConvertToShowText x:Key="TypeConvertToShowText"/>
+            <local:IsFocusedConvertToBrush x:Key="IsFocusedConvertToBrush"/>
             <model:Gval x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>

@@ -135,8 +135,16 @@ namespace RootNS.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            (sender as Button).Background = Brushes.Orange;
-            Gval.CurrentBook.Name = BooksBank[0].Name;
+            Gval.CurrentBook = (sender as Button).DataContext as Book;
         }
+
+        Button PreviousButton = new Button();
+        private void Button_GotFocus(object sender, RoutedEventArgs e)
+        {
+            PreviousButton.BorderBrush = null;
+            (sender as Button).BorderBrush = Brushes.Orange;
+            PreviousButton = sender as Button;
+        }
+
     }
 }
