@@ -18,6 +18,7 @@ namespace RootNS.Behavior
             TableOperate.TryToBuildBookTables(bookName);
             string sql = string.Format("INSERT INTO 书库 (Uid, Index, Name) VALUES ('{0}', '{1}', '{2}');", newBook.Uid, newBook.Index, newBook.Name.Replace("'", "''"));
             CSqlitePlus.PoolDict[bookName].ExecuteNonQuery(sql);
+            Gval.BooksBank.Add(newBook);
             return newBook;
         }
     }

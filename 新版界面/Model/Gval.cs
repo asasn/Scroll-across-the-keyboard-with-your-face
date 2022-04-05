@@ -9,7 +9,7 @@ using System.Windows.Controls;
 
 namespace RootNS.Model
 {
-    public static class Gval
+    public class Gval
     {
         /// <summary>
         /// 程序路径

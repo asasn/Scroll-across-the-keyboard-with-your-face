@@ -136,7 +136,7 @@ namespace RootNS.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             (sender as Button).Background = Brushes.Orange;
-            Gval.CurrentBook = BooksBank[0];
+            Gval.CurrentBook.Name = BooksBank[0].Name;
         }
     }
 }

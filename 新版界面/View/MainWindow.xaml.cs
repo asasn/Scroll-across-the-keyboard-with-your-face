@@ -29,18 +29,25 @@ namespace RootNS
         {
             InitializeComponent();
 
+            CurrentBook.Name = "测试";
+
             CurrentBook.BoxDraft.ChildNodes.Add(new Node() { Title = "测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱" });
             CurrentBook.BoxDraft.ChildNodes[0].IsDir = true;
             CurrentBook.BoxDraft.ChildNodes[0].ChildNodes.Add(new Node() { Title = "测试", WordsCount = 99 });
-
             CurrentBook.BoxDraft.ChildNodes[0].IsDel = true;
-
             CurrentBook.NoteClues.ChildNodes.Add(new Node() { Title = "线索线索线索线索线索线索线索线索线索" });
             CurrentBook.NoteClues.ChildNodes[0].IsChecked = true;
             CurrentBook.NoteClues.ChildNodes[0].ChildNodes.Add(new Node() { Title = "线索线索线索线索" });
         }
 
-        public Book CurrentBook { get; set; } = Gval.CurrentBook;
+        private Book _currentBook = Gval.CurrentBook;
+
+        public Book CurrentBook
+        {
+            get { return Gval.CurrentBook; }
+            set { Gval.CurrentBook = value; }
+        }
+
         public Material Material { get; set; } = Gval.Material;
         public ObservableCollection<Node> OpenDocList { get; set; } = Gval.OpenedDocList;
 
@@ -110,6 +117,7 @@ namespace RootNS
         {
             Window win = new Choose();
             win.ShowDialog();
+            CurrentBook.Name = Gval.BooksBank[0].Name;
         }
     }
 }
