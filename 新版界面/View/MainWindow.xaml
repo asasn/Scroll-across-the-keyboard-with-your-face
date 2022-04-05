@@ -39,7 +39,7 @@
                         <TextBlock Text="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
                     </Grid>
                 </Border>
-                <TabControl x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" DataContext="{Binding CurrentBook, ElementName=WinMain}" Style="{DynamicResource TabControlStyle}">
+                <TabControl x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" DataContext="{Binding CurrentBook, Source={StaticResource GlobalSource}}" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="草稿箱">
                         <brick:MyTreeBook DataContext="{Binding BoxDraft}"/>
                     </TabItem>
@@ -61,7 +61,7 @@
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
             <GroupBox Header="记事板" Style="{StaticResource BaseStyle}">
-                <TabControl x:Name="TabNote" Loaded="TabNote_Loaded" DataContext="{Binding CurrentBook, ElementName=WinMain}" SelectionChanged="TabNote_SelectionChanged" Style="{DynamicResource TabControlStyle}">
+                <TabControl x:Name="TabNote" Loaded="TabNote_Loaded" DataContext="{Binding CurrentBook, Source={StaticResource GlobalSource}}" SelectionChanged="TabNote_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="大事记">
                         <brick:MyTreeBook DataContext="{Binding NoteMemorabilia}"/>
                     </TabItem>
@@ -83,7 +83,7 @@
                 <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5"/>
             </GroupBox>
             <GroupBox Header="本书信息卡" Grid.Row="4" Style="{StaticResource BaseStyle}">
-                <TabControl x:Name="TabCard" Grid.Row="1" DataContext="{Binding CurrentBook, ElementName=WinMain}" Loaded="TabCard_Loaded" SelectionChanged="TabCard_SelectionChanged" Style="{DynamicResource TabControlStyle}">
+                <TabControl x:Name="TabCard" Grid.Row="1" DataContext="{Binding CurrentBook, Source={StaticResource GlobalSource}}" Loaded="TabCard_Loaded" SelectionChanged="TabCard_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="本书角色">
                         <brick:CardsBox DataContext="{Binding CardRole}"/>
                     </TabItem>
@@ -120,7 +120,7 @@
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
             <GroupBox Header="资料和文库" Style="{StaticResource BaseStyle}">
-                <TabControl x:Name="TabMaterial" DataContext="{Binding Material, ElementName=WinMain}" Loaded="TabMaterial_Loaded" SelectionChanged="TabMaterial_SelectionChanged" Style="{DynamicResource TabControlStyle}">
+                <TabControl x:Name="TabMaterial" DataContext="{Binding MaterialBook, Source={StaticResource GlobalSource}}" Loaded="TabMaterial_Loaded" SelectionChanged="TabMaterial_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="范文">
                         <brick:MyTreeBook DataContext="{Binding BoxExample}"/>
                     </TabItem>
@@ -135,7 +135,7 @@
                     </TabItem>
                 </TabControl>
             </GroupBox>
-            <GroupBox Grid.Row="2" Header="公共信息卡" DataContext="{Binding Material, ElementName=WinMain}" Style="{StaticResource BaseStyle}">
+            <GroupBox Grid.Row="2" Header="公共信息卡" DataContext="{Binding MaterialBook, Source={StaticResource GlobalSource}}" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabPublicCard" Loaded="TabPublicCard_Loaded" SelectionChanged="TabPublicCard_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="公共角色">
                         <brick:CardsBox DataContext="{Binding CardRole}"/>

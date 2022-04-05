@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Brick;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -45,6 +46,25 @@ namespace RootNS.Model
             {
                 _name = value;
                 this.RaisePropertyChanged("Name");
+                string imgPath = Gval.Path.Books + "/" + _name + ".jpg";
+                if (false == CFileOperate.IsFileExists(imgPath))
+                {
+                    this.CoverPath = Gval.Path.Resourses + "/nullbookface.jpg";
+                }
+            }
+        }
+
+        private string _coverpath;
+        /// <summary>
+        /// 封面路径
+        /// </summary>
+        public string CoverPath
+        {
+            get { return _coverpath; }
+            set
+            {
+                _coverpath = value;
+                this.RaisePropertyChanged("CoverPath");
             }
         }
 
@@ -110,13 +130,27 @@ namespace RootNS.Model
             }
         }
 
+
+        private bool _isDel;
+
+        public bool IsDel
+        {
+            get { return _isDel; }
+            set
+            {
+                _isDel = value;
+                this.RaisePropertyChanged(nameof(IsDel));
+            }
+        }
+
+
         #region 信息卡
 
 
         public Node CardRole { set; get; } = new Node();
         public Node CardOther { set; get; } = new Node();
         public Node CardWorld { set; get; } = new Node();
-
+        public Node MapPoints { set; get; } = new Node();
         public void LoadForCardsBox(TabControl tabControl, WorkSpace workSpace)
         {
             CardTabName flag = (CardTabName)tabControl.SelectedIndex;

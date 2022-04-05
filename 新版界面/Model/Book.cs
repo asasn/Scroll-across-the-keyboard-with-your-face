@@ -32,12 +32,11 @@ namespace RootNS.Model
         /// <summary>
         /// 目录树TabItem标志
         /// </summary>
-        public enum ContentTabName
+        public enum ChapterTabName
         {
             草稿箱 = 0,
             暂存箱 = 1,
             已发布 = 2,
-            大纲 = 0,
         }
 
         /// <summary>
@@ -81,19 +80,7 @@ namespace RootNS.Model
         }
 
 
-        private string _coverpath;
-        /// <summary>
-        /// 封面路径
-        /// </summary>
-        public string CoverPath
-        {
-            get { return _coverpath; }
-            set
-            {
-                _coverpath = value;
-                this.RaisePropertyChanged("CoverPath");
-            }
-        }
+
 
         #region 目录树
         public Node BoxDraft { set; get; } = new Node();
@@ -117,8 +104,8 @@ namespace RootNS.Model
         /// <param name="partTag"></param>
         public void LoadBookPart(TabControl tabControl)
         {
-            ContentTabName flag = (ContentTabName)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(ContentTabName), tabControl.SelectedIndex);
+            ChapterTabName flag = (ChapterTabName)tabControl.SelectedIndex;
+            string itemName = Enum.GetName(typeof(ChapterTabName), tabControl.SelectedIndex);
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {

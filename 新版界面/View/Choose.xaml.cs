@@ -30,24 +30,9 @@ namespace RootNS.View
             InitializeComponent();
         }
 
-        public ObservableCollection<Book> BooksBank { get; set; } = new ObservableCollection<Book>();
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            BooksBank.Clear();
-            string sql = string.Format("SELECT * FROM 书库 WHERE IsDel=False;");
-            SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
-            while (reader.Read())
-            {
-                Book book = new Book();
-                book.Index = Convert.ToInt32(reader["Index"]);
-                book.Name = reader["Name"].ToString();
-                book.Summary = reader["Summary"].ToString();
-                book.Price = Convert.ToDouble(reader["Price"]);
-                book.CurrentYear = Convert.ToInt64(reader["CurrentYear"]);
-                BooksBank.Add(book);
-            }
-            reader.Close();
+            
         }
 
         private void BtnReName_Click(object sender, RoutedEventArgs e)
@@ -67,7 +52,15 @@ namespace RootNS.View
         {
             if (IsBookNameTrue(TbBuild) == true)
             {
-                DataExport.CreateNewBook(TbBuild.Text);
+                if (CFileOperate.IsFileExists(Gval.Path.Books + "/" + TbBuild.Text + ".db") == true)
+                {
+                    MessageBox.Show("该书籍已经存在\n请换一个新书名！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+                    return;
+                }
+                else
+                {
+                    DataExport.CreateNewBook(TbBuild.Text);
+                }
             }
         }
 
@@ -133,18 +126,22 @@ namespace RootNS.View
 
         }
 
+        Button PreviousButton = new Button();
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (Gval.CurrentBook != (sender as Button).DataContext as Book)
+            {
+                Gval.CurrentBook = (sender as Button).DataContext as Book;
+                DataEntry.LoadCurrentBookContent(Gval.CurrentBook);
+            }
             Gval.CurrentBook = (sender as Button).DataContext as Book;
-        }
-
-        Button PreviousButton = new Button();
-        private void Button_GotFocus(object sender, RoutedEventArgs e)
-        {
             PreviousButton.BorderBrush = null;
             (sender as Button).BorderBrush = Brushes.Orange;
             PreviousButton = sender as Button;
+            CSettingsOperate.Set("index", "CurBookUid", Gval.CurrentBook.Uid);
+
         }
+
 
     }
 }

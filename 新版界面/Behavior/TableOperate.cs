@@ -14,7 +14,7 @@ namespace RootNS.Behavior
         {
             string dbName = "index";
             string sql = string.Empty;
-            sql += string.Format("CREATE TABLE 书库 (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Name CHAR NOT NULL, Summary CHAR, Price DOUBLE DEFAULT (0), CurrentYear INTEGER DEFAULT (0), IsDel BOOLEAN);");
+            sql += string.Format("CREATE TABLE 书库 (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Name CHAR NOT NULL, Summary CHAR, Price DOUBLE DEFAULT (0), CurrentYear INTEGER DEFAULT (0), IsDel BOOLEAN DEFAULT(False));");
             sql += string.Format("CREATE INDEX 书库Uid ON 书库(Uid);");
             CSqlitePlus.PoolOperate.Add(dbName);
             CSqlitePlus.PoolDict[dbName].ExecuteNonQuery(sql);
@@ -38,7 +38,7 @@ namespace RootNS.Behavior
         private static string GetSqlStringForBookTables(string dbName)
         {
             string sql = string.Empty;
-            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Pid CHAR, Title CHAR, IsDir BOOLEAN, Text TEXT, Summary CHAR, TabName CHAR, PointX INTEGER, PointY INTEGER, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN, IsDel BOOLEAN);", dbName);
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Pid CHAR, Title CHAR, IsDir BOOLEAN DEFAULT(False), Text TEXT, Summary CHAR, TabName CHAR, PointX DOUBLE, PointY DOUBLE, WordsCount INTEGER, IsExpanded BOOLEAN DEFAULT(False), IsChecked BOOLEAN DEFAULT(False), IsDel BOOLEAN DEFAULT(False));", dbName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", dbName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Pid ON {0}(Pid);", dbName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}TabName ON {0}(TabName);", dbName);

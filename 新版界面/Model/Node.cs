@@ -72,9 +72,9 @@ namespace RootNS.Model
             }
         }
 
-        private int _pointX;
+        private double _pointX;
 
-        public int PointX
+        public double PointX
         {
             get { return _pointX; }
             set
@@ -84,9 +84,9 @@ namespace RootNS.Model
             }
         }
 
-        private int _pointY;
+        private double _pointY;
 
-        public int PointY
+        public double PointY
         {
             get { return _pointY; }
             set
@@ -208,6 +208,21 @@ namespace RootNS.Model
                 this.RaisePropertyChanged("IsDel");
             }
         }
+
+        private string _tabName;
+        /// <summary>
+        /// 页面名称
+        /// </summary>
+        public string TabName
+        {
+            get { return _tabName; }
+            set
+            {
+                _tabName = value;
+                this.RaisePropertyChanged(nameof(TabName));
+            }
+        }
+
 
 
         private int _index;

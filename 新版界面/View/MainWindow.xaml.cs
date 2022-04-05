@@ -29,30 +29,24 @@ namespace RootNS
         {
             InitializeComponent();
 
-            CurrentBook.Name = "测试";
 
-            CurrentBook.BoxDraft.ChildNodes.Add(new Node() { Title = "测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱" });
-            CurrentBook.BoxDraft.ChildNodes[0].IsDir = true;
-            CurrentBook.BoxDraft.ChildNodes[0].ChildNodes.Add(new Node() { Title = "测试", WordsCount = 99 });
-            CurrentBook.BoxDraft.ChildNodes[0].IsDel = true;
-            CurrentBook.NoteClues.ChildNodes.Add(new Node() { Title = "线索线索线索线索线索线索线索线索线索" });
-            CurrentBook.NoteClues.ChildNodes[0].IsChecked = true;
-            CurrentBook.NoteClues.ChildNodes[0].ChildNodes.Add(new Node() { Title = "线索线索线索线索" });
+            //CurrentBook.BoxDraft.ChildNodes.Add(new Node() { Title = "测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱" });
+            //CurrentBook.BoxDraft.ChildNodes[0].IsDir = true;
+            //CurrentBook.BoxDraft.ChildNodes[0].ChildNodes.Add(new Node() { Title = "测试", WordsCount = 99 });
+            //CurrentBook.BoxDraft.ChildNodes[0].IsDel = true;
+            //CurrentBook.NoteClues.ChildNodes.Add(new Node() { Title = "线索线索线索线索线索线索线索线索线索" });
+            //CurrentBook.NoteClues.ChildNodes[0].IsChecked = true;
+            //CurrentBook.NoteClues.ChildNodes[0].ChildNodes.Add(new Node() { Title = "线索线索线索线索" });
         }
-
-        public Book CurrentBook { get; set; } = Gval.CurrentBook;
-
-        public Material Material { get; set; } = Gval.MaterialBook;
-        public ObservableCollection<Node> OpenDocList { get; set; } = Gval.OpenedDocList;
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
         {
             DataEntry.ReadyForBegin();
 
-            Gval.OpenedDocList.Add(new Node() { Title = "打开的章节111111111111111111111111111111111" });
-            Gval.OpenedDocList[0].Title = "333333333";
-            Gval.OpenedDocList[0].Text = "文章内容";
-            Gval.OpenedDocList[0].WordsCount = 20;
+            //Gval.OpenedDocList.Add(new Node() { Title = "打开的章节111111111111111111111111111111111" });
+            //Gval.OpenedDocList[0].Title = "333333333";
+            //Gval.OpenedDocList[0].Text = "文章内容";
+            //Gval.OpenedDocList[0].WordsCount = 20;
         }
 
 
@@ -64,7 +58,7 @@ namespace RootNS
 
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentBook.LoadBookPart(sender as TabControl);
+            Gval.CurrentBook.LoadBookPart(sender as TabControl);
         }
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
@@ -74,7 +68,7 @@ namespace RootNS
 
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentBook.LoadBookNote(sender as TabControl);
+            Gval.CurrentBook.LoadBookNote(sender as TabControl);
         }
 
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
@@ -84,7 +78,7 @@ namespace RootNS
 
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CurrentBook.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.当前);
+            Gval.CurrentBook.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.当前);
         }
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
@@ -94,7 +88,7 @@ namespace RootNS
 
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Material.LoadForMaterialPart(sender as TabControl);
+            Gval.MaterialBook.LoadForMaterialPart(sender as TabControl);
         }
 
         private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)
@@ -104,12 +98,11 @@ namespace RootNS
 
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Material.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.公共);
+            Gval.MaterialBook.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.公共);
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)
         {
-            Gval.CurrentBook.Name = "222";
             Window win = new Choose();
             win.ShowDialog(); 
         }

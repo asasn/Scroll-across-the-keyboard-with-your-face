@@ -16,8 +16,8 @@ namespace RootNS.Behavior
             newBook.Uid = Gval.NewGuid();
             newBook.Name = bookName;
             TableOperate.TryToBuildBookTables(bookName);
-            string sql = string.Format("INSERT INTO 书库 (Uid, Index, Name) VALUES ('{0}', '{1}', '{2}');", newBook.Uid, newBook.Index, newBook.Name.Replace("'", "''"));
-            CSqlitePlus.PoolDict[bookName].ExecuteNonQuery(sql);
+            string sql = string.Format("INSERT INTO 书库 (Uid, [Index], Name) VALUES ('{0}', '{1}', '{2}');", newBook.Uid, newBook.Index, newBook.Name.Replace("'", "''"));
+            CSqlitePlus.PoolDict["index"].ExecuteNonQuery(sql);
             Gval.BooksBank.Add(newBook);
             return newBook;
         }
