@@ -59,7 +59,7 @@ namespace RootNS.Model
             }
         }
 
-        private string _pid;
+        private string _pid = String.Empty;
         /// <summary>
         /// 父节点标识码
         /// </summary>

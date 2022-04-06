@@ -29,6 +29,10 @@ namespace RootNS
         {
             InitializeComponent();
 
+            CFileOperate.CreateFolder(Gval.Path.Books);
+            CSqlitePlus.PoolOperate.Add("index");
+            TableOperate.TryToBuildIndexDatabase();
+            Gval.CurrentBook.Uid = CSettingsOperate.Get(Gval.MaterialBook.Name, "CurBookUid");
 
             //CurrentBook.BoxDraft.ChildNodes.Add(new Node() { Title = "测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱" });
             //CurrentBook.BoxDraft.ChildNodes[0].IsDir = true;
@@ -59,7 +63,8 @@ namespace RootNS
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.CurrentBook.LoadBookChapters(sender as TabControl);
+            Gval.CurrentBook.SelectedChapterTab = sender as TabControl;
+            Gval.CurrentBook.LoadBookChapters();
         }
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
@@ -70,7 +75,8 @@ namespace RootNS
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.CurrentBook.LoadBookNote(sender as TabControl);
+            Gval.CurrentBook.SelectedNoteTab = sender as TabControl;
+            Gval.CurrentBook.LoadBookNotes();
         }
 
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
@@ -81,7 +87,8 @@ namespace RootNS
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.CurrentBook.LoadForCardsBox(sender as TabControl);
+            Gval.CurrentBook.SelectedCardTab = sender as TabControl;
+            Gval.CurrentBook.LoadForCards();
         }
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
@@ -92,7 +99,8 @@ namespace RootNS
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = "index";
-            Gval.MaterialBook.LoadForMaterialPart(sender as TabControl);
+            Gval.MaterialBook.SelectedMaterialTab = sender as TabControl;
+            Gval.MaterialBook.LoadForMaterialPart();
         }
 
         private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)
@@ -103,7 +111,8 @@ namespace RootNS
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = "index";
-            Gval.MaterialBook.LoadForCardsBox(sender as TabControl);
+            Gval.MaterialBook.SelectedPublicCardTab = sender as TabControl;
+            Gval.MaterialBook.LoadForCards();
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)

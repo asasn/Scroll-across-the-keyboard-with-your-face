@@ -1,4 +1,5 @@
-﻿using RootNS.Brick;
+﻿using RootNS.Behavior;
+using RootNS.Brick;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -142,8 +143,17 @@ namespace RootNS.Model
         public Node CardOther { set; get; } = new Node() { TabName = CardTabName.其他.ToString() };
         public Node CardWorld { set; get; } = new Node() { TabName = CardTabName.世界.ToString() };
         public Node MapPoints { set; get; } = new Node() { TabName = "地图" };
-        public void LoadForCardsBox(TabControl tabControl)
+        public void LoadForCards()
         {
+            TabControl tabControl = new TabControl();
+            if (Gval.WorkSpace == "index")
+            {
+                tabControl = Gval.MaterialBook.SelectedPublicCardTab;
+            }
+            else
+            {
+                tabControl = Gval.CurrentBook.SelectedCardTab;
+            }
             CardTabName flag = (CardTabName)tabControl.SelectedIndex;
             string itemName = Enum.GetName(typeof(CardTabName), tabControl.SelectedIndex);
             Node rootNode = new Node();
@@ -161,10 +171,8 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)flag; i++)
-                {
-                    rootNode.ChildNodes.Add(new Node() { Title = Gval.WorkSpace + flag.ToString() });
-                }
+                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
+                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
             }
         }
         #endregion

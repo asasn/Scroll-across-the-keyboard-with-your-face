@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RootNS.Behavior;
+using RootNS.Brick;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,6 +23,29 @@ namespace RootNS.Model
             NoteInspiration.ChildNodes.Clear();
         }
 
+        private TabControl _selectedMaterialTab;
+
+        public TabControl SelectedMaterialTab
+        {
+            get { return _selectedMaterialTab; }
+            set
+            {
+                _selectedMaterialTab = value;
+            }
+        }
+
+
+        private TabControl _selectedPublicCardTab;
+
+        public TabControl SelectedPublicCardTab
+        {
+            get { return _selectedPublicCardTab; }
+            set
+            {
+                _selectedPublicCardTab = value;
+            }
+        }
+
         public enum MaterialTabName
         {
             范文 = 0,
@@ -40,8 +65,9 @@ namespace RootNS.Model
         /// 载入资料库
         /// </summary>
         /// <param name="index"></param>
-        public void LoadForMaterialPart(TabControl tabControl)
+        public void LoadForMaterialPart()
         {
+            TabControl tabControl = Gval.MaterialBook.SelectedMaterialTab;
             MaterialTabName flag = (MaterialTabName)tabControl.SelectedIndex;
             Gval.TableName = flag.ToString();
             Node rootNode = new Node();
@@ -63,10 +89,8 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                for (int i = 0; i <= (int)flag; i++)
-                {
-                    rootNode.ChildNodes.Add(new Node() { Title = flag.ToString() });
-                }
+                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
+                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
             }
         }
 

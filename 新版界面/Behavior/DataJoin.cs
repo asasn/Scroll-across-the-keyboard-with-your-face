@@ -16,12 +16,6 @@ namespace RootNS.Behavior
         /// </summary>
         public static void ReadyForBegin()
         {
-            Gval.BooksBank.Clear();
-            CFileOperate.CreateFolder(Gval.Path.Books);
-            CSqlitePlus.PoolOperate.Add("index");
-            TableOperate.TryToBuildIndexDatabase();
-            LoadMaterialContent(Gval.MaterialBook);
-            Gval.CurrentBook.Uid = CSettingsOperate.Get("index", "CurBookUid");
             string sql = string.Format("SELECT * FROM 书库;", Gval.CurrentBook.Uid);
             SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
             while (reader.Read())
@@ -39,42 +33,34 @@ namespace RootNS.Behavior
                 if (Gval.CurrentBook.Uid != null && Gval.CurrentBook.Uid == book.Uid)
                 {
                     Gval.CurrentBook = book;
-                    LoadCurrentBookContent(Gval.CurrentBook);
                 }
                 Gval.BooksBank.Add(book);
             }
-            reader.Close();            
+            reader.Close();
         }
 
-        private static void LoadMaterialContent(Material materialBook)
-        {
-            Gval.MaterialBook = materialBook;
-            materialBook.Name = "index";
-            CSqlitePlus.PoolOperate.Add(materialBook.Name);
-            FillInPart(materialBook.Name, null, materialBook.BoxExample);
-            FillInPart(materialBook.Name, null, materialBook.BoxMaterial);
-            FillInPart(materialBook.Name, null, materialBook.NoteTheme);
-            FillInPart(materialBook.Name, null, materialBook.NoteInspiration);
-            FillInPart(materialBook.Name, null, materialBook.CardRole);
-            FillInPart(materialBook.Name, null, materialBook.CardOther);
-            FillInPart(materialBook.Name, null, materialBook.CardWorld);
-            FillInPart(materialBook.Name, null, materialBook.MapPoints);
-        }
+        //public static void LoadMaterialContent()
+        //{
+        //    CSqlitePlus.PoolOperate.Add(Gval.MaterialBook.Name);
+        //    Gval.MaterialBook.LoadForMaterialPart();
+        //    Gval.MaterialBook.LoadForCards();
+        //}
 
-        public static void LoadCurrentBookContent(Book book)
+        public static void LoadCurrentBookContent()
         {
-            Gval.CurrentBook = book;
-            CSqlitePlus.PoolOperate.Add(book.Name);
-            FillInPart(book.Name, null, book.NoteTemplate);
-            FillInPart(book.Name, null, book.CardRole);
-            FillInPart(book.Name, null, book.CardOther);
-            FillInPart(book.Name, null, book.CardWorld);
-            FillInPart(book.Name, null, book.MapPoints);
+            CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
+            Gval.CurrentBook.LoadBookChapters();
+            Gval.CurrentBook.LoadBookNotes();
+            Gval.CurrentBook.LoadForCards();
         }
 
 
-        private static void FillInPart(string bookName, string pid, Node rootNode)
+        public static void FillInPart(string bookName, string pid, Node rootNode)
         {
+            if (string.IsNullOrWhiteSpace(bookName) == true)
+            {
+                return;
+            }
             string sql = string.Format("SELECT * FROM {0} WHERE TabName='{1}' AND Pid='{2}';", Gval.TableName, Gval.TableName, pid);
             SQLiteDataReader reader = CSqlitePlus.PoolDict[bookName].ExecuteQuery(sql);
             while (reader.Read())
@@ -84,14 +70,14 @@ namespace RootNS.Behavior
                     Uid = reader["Uid"].ToString(),
                     Index = Convert.ToInt32(reader["Index"]),
                     Pid = reader["Pid"].ToString(),
-                    Title = reader["Title"].ToString(),
+                    Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
                     IsDir = (bool)reader["IsDir"],
-                    Text = reader["Text"].ToString(),
-                    Summary = reader["Summary"].ToString(),
+                    Text = reader["Text"] == DBNull.Value ? null : reader["Text"].ToString(),
+                    Summary = reader["Summary"] == DBNull.Value ? null : reader["Summary"].ToString(),
                     TabName = reader["TabName"].ToString(),
-                    PointX = Convert.ToDouble(reader["PointX"]),
-                    PointY = Convert.ToDouble(reader["PointY"]),
-                    WordsCount = Convert.ToInt32(reader["WordsCount"]),
+                    PointX = reader["PointX"] == DBNull.Value ? double.NaN : Convert.ToDouble(reader["PointX"]),
+                    PointY = reader["PointY"] == DBNull.Value ? double.NaN : Convert.ToDouble(reader["PointY"]),
+                    WordsCount = reader["WordsCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"],
                     IsChecked = (bool)reader["IsChecked"],
                     IsDel = (bool)reader["IsDel"]

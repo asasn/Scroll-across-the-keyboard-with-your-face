@@ -32,6 +32,8 @@ namespace RootNS.Model
 
 
 
+
+
         private static Book _currentBook = new Book();
 
         public static Book CurrentBook
@@ -45,7 +47,7 @@ namespace RootNS.Model
         }
 
 
-        private static Material _materialBook = new Material();
+        private static Material _materialBook = new Material() { Name = "index" };
 
         public static Material MaterialBook
         {

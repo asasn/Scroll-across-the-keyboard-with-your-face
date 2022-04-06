@@ -132,7 +132,7 @@ namespace RootNS.View
             if (Gval.CurrentBook != (sender as Button).DataContext as Book)
             {
                 Gval.CurrentBook = (sender as Button).DataContext as Book;
-                DataJoin.LoadCurrentBookContent(Gval.CurrentBook);
+                DataJoin.LoadCurrentBookContent();
             }
             Gval.CurrentBook = (sender as Button).DataContext as Book;
             PreviousButton.BorderBrush = null;
