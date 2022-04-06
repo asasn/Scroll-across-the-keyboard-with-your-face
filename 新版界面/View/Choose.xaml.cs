@@ -59,7 +59,7 @@ namespace RootNS.View
                 }
                 else
                 {
-                    DataExport.CreateNewBook(TbBuild.Text);
+                    DataOut.CreateNewBook(TbBuild.Text);
                 }
             }
         }
@@ -132,7 +132,7 @@ namespace RootNS.View
             if (Gval.CurrentBook != (sender as Button).DataContext as Book)
             {
                 Gval.CurrentBook = (sender as Button).DataContext as Book;
-                DataEntry.LoadCurrentBookContent(Gval.CurrentBook);
+                DataJoin.LoadCurrentBookContent(Gval.CurrentBook);
             }
             Gval.CurrentBook = (sender as Button).DataContext as Book;
             PreviousButton.BorderBrush = null;

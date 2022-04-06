@@ -38,7 +38,7 @@ namespace RootNS.Brick
             /// <param name="dbName"></param>
             public static void Add(string dbName)
             {
-                if (PoolDict.ContainsKey(dbName) == true)
+                if (dbName == null || PoolDict.ContainsKey(dbName) == true)
                 {
                     return;
                 }

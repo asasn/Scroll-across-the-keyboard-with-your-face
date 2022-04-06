@@ -70,22 +70,13 @@ namespace RootNS.Model
         }
 
         /// <summary>
-        /// 工作区
-        /// </summary>
-        public enum WorkSpace
-        {
-            当前 = 0,
-            公共 = 1
-        }
-
-        /// <summary>
         /// 信息卡片TabItem标志
         /// </summary>
         public enum CardTabName
         {
-            角色 = 0,
-            其他 = 1,
-            世界 = 2
+            角色,
+            其他,
+            世界,
         }
 
         private int _index;
@@ -144,15 +135,14 @@ namespace RootNS.Model
             }
         }
 
-
         #region 信息卡
 
 
-        public Node CardRole { set; get; } = new Node();
-        public Node CardOther { set; get; } = new Node();
-        public Node CardWorld { set; get; } = new Node();
-        public Node MapPoints { set; get; } = new Node();
-        public void LoadForCardsBox(TabControl tabControl, WorkSpace workSpace)
+        public Node CardRole { set; get; } = new Node() { TabName = CardTabName.角色.ToString() };
+        public Node CardOther { set; get; } = new Node() { TabName = CardTabName.其他.ToString() };
+        public Node CardWorld { set; get; } = new Node() { TabName = CardTabName.世界.ToString() };
+        public Node MapPoints { set; get; } = new Node() { TabName = "地图" };
+        public void LoadForCardsBox(TabControl tabControl)
         {
             CardTabName flag = (CardTabName)tabControl.SelectedIndex;
             string itemName = Enum.GetName(typeof(CardTabName), tabControl.SelectedIndex);
@@ -173,7 +163,7 @@ namespace RootNS.Model
             {
                 for (int i = 0; i <= (int)flag; i++)
                 {
-                    rootNode.ChildNodes.Add(new Node() { Title = workSpace.ToString() + flag.ToString() });
+                    rootNode.ChildNodes.Add(new Node() { Title = Gval.WorkSpace + flag.ToString() });
                 }
             }
         }

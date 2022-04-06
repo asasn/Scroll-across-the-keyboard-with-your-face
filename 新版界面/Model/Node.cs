@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Behavior;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -95,7 +96,7 @@ namespace RootNS.Model
                 this.RaisePropertyChanged("PointY");
             }
         }
-            
+
 
 
         private Node _parentNode;
@@ -267,6 +268,24 @@ namespace RootNS.Model
         }
 
 
+        public Node AddChild(string title = "新节点")
+        {
+            Node node = new Node();
+            node.Title = title;
+            node.Uid = Gval.NewGuid();
+            this.ChildNodes.Add(node);
+            DataOut.CreateNewNode(node);
+            return node;
+        }
+
+        public void RemoveItSelf(string title = "新节点")
+        {
+            if (this.ParentNode != null)
+            {
+                this.ParentNode.ChildNodes.Remove(this);
+            }
+        }
+
         private ObservableCollection<Node> _childNodes = new ObservableCollection<Node>();
         /// <summary>
         /// 子节点动态数据集合
@@ -295,6 +314,7 @@ namespace RootNS.Model
                 Node stuff = (Node)e.NewItems[0];
                 this.IsDir = true;
                 stuff.Pid = this.Uid;
+                stuff.TabName = this.TabName;
                 stuff.ParentNode = this;
                 stuff.Index = this.ChildNodes.Count - 1;
                 Node pNode = stuff;
@@ -302,11 +322,14 @@ namespace RootNS.Model
                 {
                     stuff.IsDel = true;
                 }
-                while (pNode.ParentNode != null)
+                if (this.ParentNode == null)
                 {
-                    pNode = pNode.ParentNode;
+                    stuff.RootNode = this;
                 }
-                stuff.RootNode = pNode;
+                else
+                {
+                    stuff.RootNode = this.RootNode;
+                }
             }
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
@@ -321,9 +344,5 @@ namespace RootNS.Model
         }
 
 
-        public void Remove(Node node)
-        {
-            this.ChildNodes.Remove(node);
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RootNS.Model;
+﻿using RootNS.Brick;
+using RootNS.Model;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -59,6 +60,42 @@ namespace RootNS
             return null;
         }
     }
+
+    /// <summary>
+    /// TabName决定节点模板
+    /// </summary>
+    public class TabNameConvertToNodeTemplate : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return new NodeItemForDoc();
+            }
+            Node node = (Node)value;
+            try
+            {
+                if (node.TabName == "线索")
+                {
+                    return new NodeItemForClue();
+                }
+
+                return new NodeItemForDoc();
+            }
+            catch
+            {
+                return new NodeItemForDoc();
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
 
     /// <summary>
     /// 图标决定字号
@@ -186,7 +223,7 @@ namespace RootNS
             {
                 if ((bool)values[0] == true)
                 {
-                    return (values[1] as Node).ChildNodes.Count();                    
+                    return (values[1] as Node).ChildNodes.Count();
                 }
                 else
                 {

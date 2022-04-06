@@ -136,13 +136,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Brick\MyTreeClue.xaml">
+    <Page Include="Brick\MyTree.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Brick\MyTreeBook.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Brick\NodeItemForClue.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -184,8 +180,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Behavior\DataEntry.cs" />
-    <Compile Include="Behavior\DataExport.cs" />
+    <Compile Include="Behavior\DataJoin.cs" />
+    <Compile Include="Behavior\DataOut.cs" />
     <Compile Include="Behavior\TableOperate.cs" />
     <Compile Include="Brick\CardsBox.xaml.cs">
       <DependentUpon>CardsBox.xaml</DependentUpon>
@@ -199,11 +195,8 @@
     <Compile Include="Brick\MyEditor.xaml.cs">
       <DependentUpon>MyEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Brick\MyTreeClue.xaml.cs">
-      <DependentUpon>MyTreeClue.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Brick\MyTreeBook.xaml.cs">
-      <DependentUpon>MyTreeBook.xaml</DependentUpon>
+    <Compile Include="Brick\MyTree.xaml.cs">
+      <DependentUpon>MyTree.xaml</DependentUpon>
     </Compile>
     <Compile Include="Brick\NodeItemForClue.xaml.cs">
       <DependentUpon>NodeItemForClue.xaml</DependentUpon>

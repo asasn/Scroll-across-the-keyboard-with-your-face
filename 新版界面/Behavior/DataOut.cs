@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RootNS.Behavior
 {
-    class DataExport
+    class DataOut
     {
         public static Book CreateNewBook(string bookName)
         {
@@ -20,6 +20,13 @@ namespace RootNS.Behavior
             CSqlitePlus.PoolDict["index"].ExecuteNonQuery(sql);
             Gval.BooksBank.Add(newBook);
             return newBook;
+        }
+
+
+        public static void CreateNewNode(Node node)
+        {
+            string sql = string.Format("INSERT INTO {0} (Uid, [Index], Title) VALUES ('{1}', '{2}', '{3}');", Gval.TableName, node.Uid, node.Index, node.Title.Replace("'", "''"));
+            CSqlitePlus.PoolDict[Gval.WorkSpace].ExecuteNonQuery(sql);
         }
     }
 }

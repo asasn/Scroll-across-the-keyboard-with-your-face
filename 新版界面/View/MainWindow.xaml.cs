@@ -41,7 +41,7 @@ namespace RootNS
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
         {
-            DataEntry.ReadyForBegin();
+            DataJoin.ReadyForBegin();
 
             //Gval.OpenedDocList.Add(new Node() { Title = "打开的章节111111111111111111111111111111111" });
             //Gval.OpenedDocList[0].Title = "333333333";
@@ -58,7 +58,8 @@ namespace RootNS
 
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.CurrentBook.LoadBookPart(sender as TabControl);
+            Gval.WorkSpace = Gval.CurrentBook.Name;
+            Gval.CurrentBook.LoadBookChapters(sender as TabControl);
         }
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
@@ -68,6 +69,7 @@ namespace RootNS
 
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Gval.WorkSpace = Gval.CurrentBook.Name;
             Gval.CurrentBook.LoadBookNote(sender as TabControl);
         }
 
@@ -78,7 +80,8 @@ namespace RootNS
 
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.CurrentBook.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.当前);
+            Gval.WorkSpace = Gval.CurrentBook.Name;
+            Gval.CurrentBook.LoadForCardsBox(sender as TabControl);
         }
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
@@ -88,6 +91,7 @@ namespace RootNS
 
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Gval.WorkSpace = "index";
             Gval.MaterialBook.LoadForMaterialPart(sender as TabControl);
         }
 
@@ -98,7 +102,8 @@ namespace RootNS
 
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.MaterialBook.LoadForCardsBox(sender as TabControl, BookBase.WorkSpace.公共);
+            Gval.WorkSpace = "index";
+            Gval.MaterialBook.LoadForCardsBox(sender as TabControl);
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)

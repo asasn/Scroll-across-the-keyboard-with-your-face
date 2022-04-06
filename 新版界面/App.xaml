@@ -18,6 +18,7 @@
             <local:BoolConvertorCount x:Key="BoolConvertorCount"/>
             <local:TypeConvertToShowText x:Key="TypeConvertToShowText"/>
             <local:IsFocusedConvertToBrush x:Key="IsFocusedConvertToBrush"/>
+            <local:TabNameConvertToNodeTemplate x:Key="TabNameConvertToNodeTemplate"/>
             <model:Gval x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>

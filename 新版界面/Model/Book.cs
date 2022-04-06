@@ -34,9 +34,9 @@ namespace RootNS.Model
         /// </summary>
         public enum ChapterTabName
         {
-            草稿箱 = 0,
-            暂存箱 = 1,
-            已发布 = 2,
+            草稿箱,
+            暂存箱,
+            已发布,
         }
 
         /// <summary>
@@ -44,11 +44,11 @@ namespace RootNS.Model
         /// </summary>
         public enum NoteTabName
         {
-            大事记 = 0,
-            故事 = 1,
-            场景 = 2,
-            线索 = 3,
-            文例 = 4
+            大事记,
+            故事,
+            场景,
+            线索,
+            模板,
         }
 
         private double _pirce;
@@ -82,18 +82,19 @@ namespace RootNS.Model
 
 
 
+
         #region 目录树
-        public Node BoxDraft { set; get; } = new Node();
-        public Node BoxTemp { set; get; } = new Node();
-        public Node BoxPublished { set; get; } = new Node();
+        public Node BoxDraft { set; get; } = new Node() { TabName = ChapterTabName.草稿箱.ToString() };
+        public Node BoxTemp { set; get; } = new Node() { TabName = ChapterTabName.暂存箱.ToString() };
+        public Node BoxPublished { set; get; } = new Node() { TabName = ChapterTabName.已发布.ToString() };
         #endregion
 
         #region 记事板
-        public Node NoteMemorabilia { set; get; } = new Node();
-        public Node NoteStory { set; get; } = new Node();
-        public Node NoteScenes { get; set; } = new Node();
-        public Node NoteClues { set; get; } = new Node();
-        public Node NoteTemplate { set; get; } = new Node();
+        public Node NoteMemorabilia { set; get; } = new Node() { TabName = NoteTabName.大事记.ToString() };
+        public Node NoteStory { set; get; } = new Node() { TabName = NoteTabName.故事.ToString() };
+        public Node NoteScenes { get; set; } = new Node() { TabName = NoteTabName.场景.ToString() };
+        public Node NoteClues { set; get; } = new Node() { TabName = NoteTabName.线索.ToString() };
+        public Node NoteTemplate { set; get; } = new Node() { TabName = NoteTabName.模板.ToString() };
         #endregion
 
 
@@ -102,10 +103,10 @@ namespace RootNS.Model
         /// </summary>
         /// <param name="rootNode"></param>
         /// <param name="partTag"></param>
-        public void LoadBookPart(TabControl tabControl)
+        public void LoadBookChapters(TabControl tabControl)
         {
             ChapterTabName flag = (ChapterTabName)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(ChapterTabName), tabControl.SelectedIndex);
+            Gval.TableName = flag.ToString();
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
@@ -123,7 +124,7 @@ namespace RootNS.Model
             {
                 for (int i = 0; i <= (int)flag; i++)
                 {
-                    rootNode.ChildNodes.Add(new Node() { Title = itemName.ToString() });
+                    rootNode.ChildNodes.Add(new Node() { Title = flag.ToString() });
                 }
             }
         }
@@ -135,7 +136,7 @@ namespace RootNS.Model
         public void LoadBookNote(TabControl tabControl)
         {
             NoteTabName flag = (NoteTabName)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(NoteTabName), tabControl.SelectedIndex);
+            Gval.TableName = flag.ToString();
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
@@ -161,7 +162,7 @@ namespace RootNS.Model
             {
                 for (int i = 0; i <= (int)flag; i++)
                 {
-                    rootNode.ChildNodes.Add(new Node() { Title = itemName.ToString() });
+                    rootNode.ChildNodes.Add(new Node() { Title = flag.ToString() });
                 }
             }
         }

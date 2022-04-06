@@ -30,10 +30,10 @@ namespace RootNS.Model
         }
 
         #region 资料库
-        public Node BoxExample { set; get; } = new Node();
-        public Node BoxMaterial { set; get; } = new Node();
-        public Node NoteTheme { set; get; } = new Node();
-        public Node NoteInspiration { set; get; } = new Node();
+        public Node BoxExample { set; get; } = new Node() { TabName = MaterialTabName.范文.ToString() };
+        public Node BoxMaterial { set; get; } = new Node() { TabName = MaterialTabName.资料.ToString() };
+        public Node NoteTheme { set; get; } = new Node() { TabName = MaterialTabName.主题.ToString() };
+        public Node NoteInspiration { set; get; } = new Node() { TabName = MaterialTabName.灵感.ToString() };
         #endregion
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace RootNS.Model
         public void LoadForMaterialPart(TabControl tabControl)
         {
             MaterialTabName flag = (MaterialTabName)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(MaterialTabName), tabControl.SelectedIndex);
+            Gval.TableName = flag.ToString();
             Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
@@ -65,7 +65,7 @@ namespace RootNS.Model
             {
                 for (int i = 0; i <= (int)flag; i++)
                 {
-                    rootNode.ChildNodes.Add(new Node() { Title = itemName.ToString() });
+                    rootNode.ChildNodes.Add(new Node() { Title = flag.ToString() });
                 }
             }
         }

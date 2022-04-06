@@ -1,0 +1,108 @@
+﻿using RootNS.Brick;
+using RootNS.Model;
+using System;
+using System.Collections.Generic;
+using System.Data.SQLite;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RootNS.Behavior
+{
+    class DataJoin
+    {
+        /// <summary>
+        /// 窗口打开后，开始用户操作前的载入数据流程
+        /// </summary>
+        public static void ReadyForBegin()
+        {
+            Gval.BooksBank.Clear();
+            CFileOperate.CreateFolder(Gval.Path.Books);
+            CSqlitePlus.PoolOperate.Add("index");
+            TableOperate.TryToBuildIndexDatabase();
+            LoadMaterialContent(Gval.MaterialBook);
+            Gval.CurrentBook.Uid = CSettingsOperate.Get("index", "CurBookUid");
+            string sql = string.Format("SELECT * FROM 书库;", Gval.CurrentBook.Uid);
+            SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                Book book = new Book
+                {
+                    Uid = reader["Uid"].ToString(),
+                    Index = Convert.ToInt32(reader["Index"]),
+                    Name = reader["Name"].ToString(),
+                    Summary = reader["Summary"].ToString(),
+                    Price = Convert.ToDouble(reader["Price"]),
+                    CurrentYear = Convert.ToInt64(reader["CurrentYear"]),
+                    IsDel = (bool)reader["IsDel"]
+                };
+                if (Gval.CurrentBook.Uid != null && Gval.CurrentBook.Uid == book.Uid)
+                {
+                    Gval.CurrentBook = book;
+                    LoadCurrentBookContent(Gval.CurrentBook);
+                }
+                Gval.BooksBank.Add(book);
+            }
+            reader.Close();            
+        }
+
+        private static void LoadMaterialContent(Material materialBook)
+        {
+            Gval.MaterialBook = materialBook;
+            materialBook.Name = "index";
+            CSqlitePlus.PoolOperate.Add(materialBook.Name);
+            FillInPart(materialBook.Name, null, materialBook.BoxExample);
+            FillInPart(materialBook.Name, null, materialBook.BoxMaterial);
+            FillInPart(materialBook.Name, null, materialBook.NoteTheme);
+            FillInPart(materialBook.Name, null, materialBook.NoteInspiration);
+            FillInPart(materialBook.Name, null, materialBook.CardRole);
+            FillInPart(materialBook.Name, null, materialBook.CardOther);
+            FillInPart(materialBook.Name, null, materialBook.CardWorld);
+            FillInPart(materialBook.Name, null, materialBook.MapPoints);
+        }
+
+        public static void LoadCurrentBookContent(Book book)
+        {
+            Gval.CurrentBook = book;
+            CSqlitePlus.PoolOperate.Add(book.Name);
+            FillInPart(book.Name, null, book.NoteTemplate);
+            FillInPart(book.Name, null, book.CardRole);
+            FillInPart(book.Name, null, book.CardOther);
+            FillInPart(book.Name, null, book.CardWorld);
+            FillInPart(book.Name, null, book.MapPoints);
+        }
+
+
+        private static void FillInPart(string bookName, string pid, Node rootNode)
+        {
+            string sql = string.Format("SELECT * FROM {0} WHERE TabName='{1}' AND Pid='{2}';", Gval.TableName, Gval.TableName, pid);
+            SQLiteDataReader reader = CSqlitePlus.PoolDict[bookName].ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                Node node = new Node
+                {
+                    Uid = reader["Uid"].ToString(),
+                    Index = Convert.ToInt32(reader["Index"]),
+                    Pid = reader["Pid"].ToString(),
+                    Title = reader["Title"].ToString(),
+                    IsDir = (bool)reader["IsDir"],
+                    Text = reader["Text"].ToString(),
+                    Summary = reader["Summary"].ToString(),
+                    TabName = reader["TabName"].ToString(),
+                    PointX = Convert.ToDouble(reader["PointX"]),
+                    PointY = Convert.ToDouble(reader["PointY"]),
+                    WordsCount = Convert.ToInt32(reader["WordsCount"]),
+                    IsExpanded = (bool)reader["IsExpanded"],
+                    IsChecked = (bool)reader["IsChecked"],
+                    IsDel = (bool)reader["IsDel"]
+                };
+                rootNode.ChildNodes.Add(node);
+                FillInPart(bookName, node.Uid, node);
+            }
+            reader.Close();
+        }
+
+
+
+    }
+}

@@ -19,12 +19,13 @@ namespace RootNS.Brick
     /// <summary>
     /// MyTree.xaml 的交互逻辑
     /// </summary>
-    public partial class MyTreeBook : TreeView
+    public partial class MyTree : UserControl
     {
-        public MyTreeBook()
+        public MyTree()
         {
             InitializeComponent();
         }
+
 
         private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
         {
@@ -33,28 +34,68 @@ namespace RootNS.Brick
 
         private void Command_AddBrotherNode_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Console.WriteLine("+++");
 
         }
 
         private void Command_AddChildNode_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Console.WriteLine("child");
+
         }
 
         private void Command_Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Console.WriteLine("del");
+
         }
 
         private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Console.WriteLine("import");
+
         }
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            Node selectedNode = (sender as TreeView).SelectedItem as Node;
+
+        }
+
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (TreeNodes.SelectedItem != null)
+            {
+              (TreeNodes.SelectedItem as Node).AddChild();
+            }
+        }
+
+        private void BtnAddBrother_Click(object sender, RoutedEventArgs e)
+        {
+            if (TreeNodes.SelectedItem != null && (TreeNodes.SelectedItem as Node).RootNode != null)
+            {
+                (TreeNodes.SelectedItem as Node).ParentNode.AddChild();
+            }
+        }
+
+        private void BtnDel_Click(object sender, RoutedEventArgs e)
+        {
+            if (TreeNodes.SelectedItem != null)
+            {
+                (TreeNodes.SelectedItem as Node).RemoveItSelf();
+            }
+        }
+
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
+        {
+            if (TreeNodes.SelectedItem != null)
+            {
+                (TreeNodes.SelectedItem as Node).ChildNodes.Clear();
+            }
+        }
+
+        private void BtnUp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnDown_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

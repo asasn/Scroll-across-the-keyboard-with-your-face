@@ -24,5 +24,6 @@ namespace RootNS.Brick
         {
             InitializeComponent();
         }
+
     }
 }

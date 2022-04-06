@@ -69,6 +69,31 @@ namespace RootNS.Model
             }
         }
 
+        private static string _workSpace;
+
+        public static string WorkSpace
+        {
+            get { return _workSpace; }
+            set
+            {
+                _workSpace = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(WorkSpace)));
+            }
+        }
+
+        private static string _tableName;
+
+        public static string TableName
+        {
+            get { return _tableName; }
+            set
+            {
+                _tableName = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(TableName)));
+            }
+        }
+
+
 
 
         public static string NewGuid()
