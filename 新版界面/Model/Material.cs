@@ -23,28 +23,6 @@ namespace RootNS.Model
             NoteInspiration.ChildNodes.Clear();
         }
 
-        private TabControl _selectedMaterialTab;
-
-        public TabControl SelectedMaterialTab
-        {
-            get { return _selectedMaterialTab; }
-            set
-            {
-                _selectedMaterialTab = value;
-            }
-        }
-
-
-        private TabControl _selectedPublicCardTab;
-
-        public TabControl SelectedPublicCardTab
-        {
-            get { return _selectedPublicCardTab; }
-            set
-            {
-                _selectedPublicCardTab = value;
-            }
-        }
 
         public enum MaterialTabName
         {
@@ -67,7 +45,7 @@ namespace RootNS.Model
         /// <param name="index"></param>
         public void LoadForMaterialPart()
         {
-            TabControl tabControl = Gval.MaterialBook.SelectedMaterialTab;
+            TabControl tabControl = Gval.SelectedMaterialTab;
             MaterialTabName flag = (MaterialTabName)tabControl.SelectedIndex;
             Gval.TableName = flag.ToString();
             Node rootNode = new Node();

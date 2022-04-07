@@ -48,6 +48,7 @@ namespace RootNS.Behavior
 
         public static void LoadCurrentBookContent()
         {
+            Gval.WorkSpace = Gval.CurrentBook.Name;
             CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
             Gval.CurrentBook.LoadBookChapters();
             Gval.CurrentBook.LoadBookNotes();

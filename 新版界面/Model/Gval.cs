@@ -123,5 +123,67 @@ namespace RootNS.Model
 
 
         public static HandyControl.Controls.TabControl EditorTabControl;
+
+
+
+
+
+        private static TabControl _selectedChapterTab;
+
+        public static TabControl SelectedChapterTab
+        {
+            get { return _selectedChapterTab; }
+            set
+            {
+                _selectedChapterTab = value;
+            }
+        }
+
+        private static TabControl _selectedNoteTab;
+
+        public static TabControl SelectedNoteTab
+        {
+            get { return _selectedNoteTab; }
+            set
+            {
+                _selectedNoteTab = value;
+            }
+        }
+
+        private static TabControl _selectedCardTab;
+
+        public static TabControl SelectedCardTab
+        {
+            get { return _selectedCardTab; }
+            set
+            {
+                _selectedCardTab = value;
+            }
+        }
+
+
+
+        private static TabControl _selectedMaterialTab;
+
+        public static TabControl SelectedMaterialTab
+        {
+            get { return _selectedMaterialTab; }
+            set
+            {
+                _selectedMaterialTab = value;
+            }
+        }
+
+
+        private static TabControl _selectedPublicCardTab;
+
+        public static TabControl SelectedPublicCardTab
+        {
+            get { return _selectedPublicCardTab; }
+            set
+            {
+                _selectedPublicCardTab = value;
+            }
+        }
     }
 }

@@ -82,38 +82,6 @@ namespace RootNS.Model
         }
 
 
-        private TabControl _selectedChapterTab;
-
-        public TabControl SelectedChapterTab
-        {
-            get { return _selectedChapterTab; }
-            set
-            {
-                _selectedChapterTab = value;
-            }
-        }
-
-        private TabControl _selectedNoteTab;
-
-        public TabControl SelectedNoteTab
-        {
-            get { return _selectedNoteTab; }
-            set
-            {
-                _selectedNoteTab = value;
-            }
-        }
-
-        private TabControl _selectedCardTab;
-
-        public TabControl SelectedCardTab
-        {
-            get { return _selectedCardTab; }
-            set
-            {
-                _selectedCardTab = value;
-            }
-        }
 
 
         #region 目录树
@@ -138,7 +106,7 @@ namespace RootNS.Model
         /// <param name="partTag"></param>
         public void LoadBookChapters()
         {
-            TabControl tabControl = Gval.CurrentBook.SelectedChapterTab;
+            TabControl tabControl = Gval.SelectedChapterTab;
             ChapterTabName flag = (ChapterTabName)tabControl.SelectedIndex;
             Gval.TableName = flag.ToString();
             Node rootNode = new Node();
@@ -156,8 +124,8 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
-                DataJoin.FillInPart(Gval.CurrentBook.Name, null, rootNode);
+                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
+                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
             }
         }
 
@@ -167,7 +135,7 @@ namespace RootNS.Model
         /// <param name="index"></param>
         public void LoadBookNotes()
         {
-            TabControl tabControl = Gval.CurrentBook.SelectedNoteTab;
+            TabControl tabControl = Gval.SelectedNoteTab;
             NoteTabName flag = (NoteTabName)tabControl.SelectedIndex;
             Gval.TableName = flag.ToString();
             Node rootNode = new Node();
@@ -193,8 +161,8 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
-                DataJoin.FillInPart(Gval.CurrentBook.Name, null, rootNode);
+                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
+                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
             }
         }
 

@@ -148,11 +148,11 @@ namespace RootNS.Model
             TabControl tabControl = new TabControl();
             if (Gval.WorkSpace == "index")
             {
-                tabControl = Gval.MaterialBook.SelectedPublicCardTab;
+                tabControl = Gval.SelectedPublicCardTab;
             }
             else
             {
-                tabControl = Gval.CurrentBook.SelectedCardTab;
+                tabControl = Gval.SelectedCardTab;
             }
             CardTabName flag = (CardTabName)tabControl.SelectedIndex;
             string itemName = Enum.GetName(typeof(CardTabName), tabControl.SelectedIndex);

@@ -63,7 +63,7 @@ namespace RootNS
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.CurrentBook.SelectedChapterTab = sender as TabControl;
+            Gval.SelectedChapterTab = sender as TabControl;
             Gval.CurrentBook.LoadBookChapters();
         }
 
@@ -75,7 +75,7 @@ namespace RootNS
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.CurrentBook.SelectedNoteTab = sender as TabControl;
+            Gval.SelectedNoteTab = sender as TabControl;
             Gval.CurrentBook.LoadBookNotes();
         }
 
@@ -87,7 +87,7 @@ namespace RootNS
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.CurrentBook.SelectedCardTab = sender as TabControl;
+            Gval.SelectedCardTab = sender as TabControl;
             Gval.CurrentBook.LoadForCards();
         }
 
@@ -99,7 +99,7 @@ namespace RootNS
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = "index";
-            Gval.MaterialBook.SelectedMaterialTab = sender as TabControl;
+            Gval.SelectedMaterialTab = sender as TabControl;
             Gval.MaterialBook.LoadForMaterialPart();
         }
 
@@ -111,7 +111,7 @@ namespace RootNS
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.WorkSpace = "index";
-            Gval.MaterialBook.SelectedPublicCardTab = sender as TabControl;
+            Gval.SelectedPublicCardTab = sender as TabControl;
             Gval.MaterialBook.LoadForCards();
         }
 
