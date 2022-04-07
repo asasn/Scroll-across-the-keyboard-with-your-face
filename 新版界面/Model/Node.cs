@@ -224,7 +224,19 @@ namespace RootNS.Model
             }
         }
 
-
+        private string _ownerName;
+        /// <summary>
+        /// 页面名称
+        /// </summary>
+        public string OwnerName
+        {
+            get { return _ownerName; }
+            set
+            {
+                _ownerName = value;
+                this.RaisePropertyChanged(nameof(OwnerName));
+            }
+        }
 
         private int _index;
         /// <summary>
@@ -268,17 +280,22 @@ namespace RootNS.Model
         }
 
 
-        public Node AddChild(string title = "新节点")
+        public Node AddNode(Node node)
         {
-            Node node = new Node();
-            node.Title = title;
-            node.Uid = Gval.NewGuid();
+            if (node.Title == null)
+            {
+                node.Title = "新" + this.TabName;
+            }
+            if (node.Uid == null)
+            {
+                node.Uid = Gval.NewGuid();
+            }
             this.ChildNodes.Add(node);
             DataOut.CreateNewNode(node);
             return node;
         }
 
-        public void RemoveItSelf(string title = "新节点")
+        public void RemoveItSelf()
         {
             if (this.ParentNode != null)
             {
@@ -315,6 +332,7 @@ namespace RootNS.Model
                 this.IsDir = true;
                 stuff.Pid = this.Uid;
                 stuff.TabName = this.TabName;
+                stuff.OwnerName = this.OwnerName;
                 stuff.ParentNode = this;
                 stuff.Index = this.ChildNodes.Count - 1;
                 Node pNode = stuff;

@@ -29,6 +29,10 @@ namespace RootNS.Model
             NoteMemorabilia.ChildNodes.Clear();
             NoteClues.ChildNodes.Clear();
             NoteTemplate.ChildNodes.Clear();
+            CardRole.ChildNodes.Clear();
+            CardOther.ChildNodes.Clear();
+            CardWorld.ChildNodes.Clear();
+            MapPoints.ChildNodes.Clear();
         }
 
         /// <summary>
@@ -36,8 +40,8 @@ namespace RootNS.Model
         /// </summary>
         public enum ChapterTabName
         {
-            草稿箱,
-            暂存箱,
+            草稿,
+            暂存,
             已发布,
         }
 
@@ -85,8 +89,8 @@ namespace RootNS.Model
 
 
         #region 目录树
-        public Node BoxDraft { set; get; } = new Node() { TabName = ChapterTabName.草稿箱.ToString() };
-        public Node BoxTemp { set; get; } = new Node() { TabName = ChapterTabName.暂存箱.ToString() };
+        public Node BoxDraft { set; get; } = new Node() { TabName = ChapterTabName.草稿.ToString() };
+        public Node BoxTemp { set; get; } = new Node() { TabName = ChapterTabName.暂存.ToString() };
         public Node BoxPublished { set; get; } = new Node() { TabName = ChapterTabName.已发布.ToString() };
         #endregion
 
@@ -98,6 +102,12 @@ namespace RootNS.Model
         public Node NoteTemplate { set; get; } = new Node() { TabName = NoteTabName.模板.ToString() };
         #endregion
 
+        #region 信息卡
+        public Node CardRole { set; get; } = new Node() { TabName = CardTabName.角色.ToString() };
+        public Node CardOther { set; get; } = new Node() { TabName = CardTabName.其他.ToString() };
+        public Node CardWorld { set; get; } = new Node() { TabName = CardTabName.世界.ToString() };
+        public Node MapPoints { set; get; } = new Node() { TabName = CardTabName.地图.ToString() };
+        #endregion
 
         /// <summary>
         /// 载入目录树
@@ -107,25 +117,22 @@ namespace RootNS.Model
         public void LoadBookChapters()
         {
             TabControl tabControl = Gval.SelectedChapterTab;
-            ChapterTabName flag = (ChapterTabName)tabControl.SelectedIndex;
-            Gval.TableName = flag.ToString();
-            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                rootNode = BoxDraft;
+                Gval.CurrentRootNode = Gval.CurrentBook.BoxDraft;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                rootNode = BoxTemp;
+                Gval.CurrentRootNode = Gval.CurrentBook.BoxTemp;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                rootNode = BoxPublished;
+                Gval.CurrentRootNode = Gval.CurrentBook.BoxPublished;
             }
-            if (rootNode.ChildNodes.Count == 0)
+            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
-                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
+                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
+                DataJoin.FillInPart(null, Gval.CurrentRootNode);
             }
         }
 
@@ -136,33 +143,52 @@ namespace RootNS.Model
         public void LoadBookNotes()
         {
             TabControl tabControl = Gval.SelectedNoteTab;
-            NoteTabName flag = (NoteTabName)tabControl.SelectedIndex;
-            Gval.TableName = flag.ToString();
-            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                rootNode = NoteMemorabilia;
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteMemorabilia;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                rootNode = NoteStory;
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteStory;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                rootNode = NoteScenes;
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteScenes;
             }
             if (tabControl.SelectedIndex == 3)
             {
-                rootNode = NoteClues;
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteClues;
             }
             if (tabControl.SelectedIndex == 4)
             {
-                rootNode = NoteTemplate;
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteTemplate;
             }
-            if (rootNode.ChildNodes.Count == 0)
+            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
-                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
+                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
+                DataJoin.FillInPart(null, Gval.CurrentRootNode);
+            }
+        }
+ 
+        public void LoadForCards()
+        {
+            TabControl tabControl = Gval.SelectedCardTab;
+            if (tabControl.SelectedIndex == 0)
+            {
+                Gval.CurrentRootNode = CardRole;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                Gval.CurrentRootNode = CardOther;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                Gval.CurrentRootNode = CardWorld;
+            }
+            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
+            {
+                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
+                DataJoin.FillInPart(null, Gval.CurrentRootNode);
             }
         }
 

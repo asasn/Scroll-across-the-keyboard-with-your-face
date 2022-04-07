@@ -55,6 +55,24 @@ namespace RootNS
 
 
 
+        private void TabBook_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
+            TabControl tabControl = Gval.SelectedChapterTab = sender as TabControl;
+            if (tabControl.SelectedIndex == 0)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.BoxDraft;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.BoxTemp;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.BoxPublished;
+            }
+        }
+
         private void TabBook_Loaded(object sender, RoutedEventArgs e)
         {
             TabBook_SelectionChanged(sender, null);
@@ -62,9 +80,34 @@ namespace RootNS
 
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.SelectedChapterTab = sender as TabControl;
+            TabBook_GotFocus(sender, null);
             Gval.CurrentBook.LoadBookChapters();
+        }
+
+        private void TabNote_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
+            TabControl tabControl = Gval.SelectedNoteTab = sender as TabControl;
+            if (tabControl.SelectedIndex == 0)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteMemorabilia;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteStory;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteStory;
+            }
+            if (tabControl.SelectedIndex == 3)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteScenes;
+            }
+            if (tabControl.SelectedIndex == 4)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.NoteTemplate;
+            }
         }
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
@@ -74,9 +117,25 @@ namespace RootNS
 
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.SelectedNoteTab = sender as TabControl;
+            TabNote_GotFocus(sender, null);
             Gval.CurrentBook.LoadBookNotes();
+        }
+        private void TabCard_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
+            TabControl tabControl = Gval.SelectedCardTab = sender as TabControl;
+            if (tabControl.SelectedIndex == 0)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.CardRole;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.CardOther;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                Gval.CurrentRootNode = Gval.CurrentBook.CardWorld;
+            }
         }
 
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
@@ -86,9 +145,30 @@ namespace RootNS
 
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.WorkSpace = Gval.CurrentBook.Name;
-            Gval.SelectedCardTab = sender as TabControl;
+            TabCard_GotFocus(sender, null);
             Gval.CurrentBook.LoadForCards();
+        }
+
+        private void TabMaterial_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CSqlitePlus.PoolOperate.Add("index");
+            TabControl tabControl = Gval.SelectedMaterialTab = sender as TabControl;
+            if (tabControl.SelectedIndex == 0)
+            {
+                Gval.CurrentRootNode = Gval.MaterialBook.BoxExample;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                Gval.CurrentRootNode = Gval.MaterialBook.BoxMaterial;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                Gval.CurrentRootNode = Gval.MaterialBook.NoteTheme;
+            }
+            if (tabControl.SelectedIndex == 3)
+            {
+                Gval.CurrentRootNode = Gval.MaterialBook.NoteInspiration;
+            }
         }
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
@@ -98,9 +178,26 @@ namespace RootNS
 
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.WorkSpace = "index";
-            Gval.SelectedMaterialTab = sender as TabControl;
+            TabMaterial_GotFocus(sender, null);
             Gval.MaterialBook.LoadForMaterialPart();
+        }
+
+        private void TabPublicCard_GotFocus(object sender, RoutedEventArgs e)
+        {
+            CSqlitePlus.PoolOperate.Add("index");
+            TabControl tabControl = Gval.SelectedPublicCardTab = sender as TabControl;
+            if (tabControl.SelectedIndex == 0)
+            {
+                Gval.CurrentRootNode = Gval.MaterialBook.PublicCardWorld;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                Gval.CurrentRootNode = Gval.MaterialBook.PublicCardOther;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                Gval.CurrentRootNode = Gval.MaterialBook.PublicCardWorld;
+            }
         }
 
         private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)
@@ -110,15 +207,16 @@ namespace RootNS
 
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Gval.WorkSpace = "index";
-            Gval.SelectedPublicCardTab = sender as TabControl;
+            TabPublicCard_GotFocus(sender, null);
             Gval.MaterialBook.LoadForCards();
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)
         {
             Window win = new Choose();
-            win.ShowDialog(); 
+            win.ShowDialog();
         }
+
+
     }
 }

@@ -71,32 +71,6 @@ namespace RootNS.Model
             }
         }
 
-        private static string _workSpace;
-
-        public static string WorkSpace
-        {
-            get { return _workSpace; }
-            set
-            {
-                _workSpace = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(WorkSpace)));
-            }
-        }
-
-        private static string _tableName;
-
-        public static string TableName
-        {
-            get { return _tableName; }
-            set
-            {
-                _tableName = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(TableName)));
-            }
-        }
-
-
-
 
         public static string NewGuid()
         {
@@ -125,7 +99,16 @@ namespace RootNS.Model
         public static HandyControl.Controls.TabControl EditorTabControl;
 
 
+        private static Node _currentRootNode;
 
+        public static Node CurrentRootNode
+        {
+            get { return _currentRootNode; }
+            set
+            {
+                _currentRootNode = value;
+            }
+        }
 
 
         private static TabControl _selectedChapterTab;

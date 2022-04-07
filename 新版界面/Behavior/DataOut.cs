@@ -25,8 +25,8 @@ namespace RootNS.Behavior
 
         public static void CreateNewNode(Node node)
         {
-            string sql = string.Format("INSERT INTO {0} (Uid, [Index], Pid, Title, TabName) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}');", Gval.TableName, node.Uid, node.Index, node.Pid, node.Title.Replace("'", "''"), node.TabName);
-            CSqlitePlus.PoolDict[Gval.WorkSpace].ExecuteNonQuery(sql);
+            string sql = string.Format("INSERT INTO {0} (Uid, [Index], Pid, Title, TabName) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}');", node.TabName, node.Uid, node.Index, node.Pid, node.Title.Replace("'", "''"), node.TabName);
+            CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
     }
 }

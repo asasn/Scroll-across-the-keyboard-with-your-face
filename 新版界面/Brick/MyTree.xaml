@@ -14,12 +14,12 @@
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-            <Button x:Name="BtnAddChild" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAdd_Click"/>
-            <Button x:Name="BtnAddBrother" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddBrother_Click"/>
-            <Button x:Name="BtnDel" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
-            <Button x:Name="BtnClear" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnClear_Click"/>
-            <Button x:Name="BtnUp" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUp_Click"/>
-            <Button x:Name="BtnDown" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDown_Click"/>
+            <Button x:Name="BtnFolder" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
+            <Button x:Name="BtnAddDoc" FontFamily="../Assets/#androidicons" Content="&#59477;" FontSize="15" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddDoc_Click"/>
+            <Button x:Name="BtnDel" FontFamily="../Assets/#androidicons" Content="&#59420;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
+            <Button x:Name="BtnClear" FontFamily="../Assets/#androidicons" Content="&#59463;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnClear_Click"/>
+            <Button x:Name="BtnUp" FontFamily="../Assets/#androidicons" Content="&#59432;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUp_Click"/>
+            <Button x:Name="BtnDown" FontFamily="../Assets/#androidicons" Content="&#59433;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDown_Click"/>
         </StackPanel>
         <TreeView x:Name="TreeNodes" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItemChanged="TreeView_SelectedItemChanged" Grid.RowSpan="2" Grid.Row="1">
             <TreeView.Resources>

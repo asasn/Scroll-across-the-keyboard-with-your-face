@@ -21,6 +21,10 @@ namespace RootNS.Model
             BoxMaterial.ChildNodes.Clear();
             NoteTheme.ChildNodes.Clear();
             NoteInspiration.ChildNodes.Clear();
+            PublicCardRole.ChildNodes.Clear();
+            PublicCardOther.ChildNodes.Clear();
+            PublicCardWorld.ChildNodes.Clear();
+            PublicMapPoints.ChildNodes.Clear();
         }
 
 
@@ -33,11 +37,18 @@ namespace RootNS.Model
         }
 
         #region 资料库
-        public Node BoxExample { set; get; } = new Node() { TabName = MaterialTabName.范文.ToString() };
-        public Node BoxMaterial { set; get; } = new Node() { TabName = MaterialTabName.资料.ToString() };
-        public Node NoteTheme { set; get; } = new Node() { TabName = MaterialTabName.主题.ToString() };
-        public Node NoteInspiration { set; get; } = new Node() { TabName = MaterialTabName.灵感.ToString() };
+        public Node BoxExample { set; get; } = new Node() { TabName = MaterialTabName.范文.ToString(), OwnerName = "index" };
+        public Node BoxMaterial { set; get; } = new Node() { TabName = MaterialTabName.资料.ToString(), OwnerName = "index" };
+        public Node NoteTheme { set; get; } = new Node() { TabName = MaterialTabName.主题.ToString(), OwnerName = "index" };
+        public Node NoteInspiration { set; get; } = new Node() { TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
         #endregion
+        #region 信息卡
+        public Node PublicCardRole { set; get; } = new Node() { TabName = CardTabName.角色.ToString(), OwnerName = "index" };
+        public Node PublicCardOther { set; get; } = new Node() { TabName = CardTabName.其他.ToString(), OwnerName = "index" };
+        public Node PublicCardWorld { set; get; } = new Node() { TabName = CardTabName.世界.ToString(), OwnerName = "index" };
+        public Node PublicMapPoints { set; get; } = new Node() { TabName = CardTabName.地图.ToString(), OwnerName = "index" };
+        #endregion
+
 
         /// <summary>
         /// 载入资料库
@@ -46,31 +57,50 @@ namespace RootNS.Model
         public void LoadForMaterialPart()
         {
             TabControl tabControl = Gval.SelectedMaterialTab;
-            MaterialTabName flag = (MaterialTabName)tabControl.SelectedIndex;
-            Gval.TableName = flag.ToString();
-            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                rootNode = BoxExample;
+                Gval.CurrentRootNode = BoxExample;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                rootNode = BoxMaterial;
+                Gval.CurrentRootNode = BoxMaterial;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                rootNode = NoteTheme;
+                Gval.CurrentRootNode = NoteTheme;
             }
             if (tabControl.SelectedIndex == 3)
             {
-                rootNode = NoteInspiration;
+                Gval.CurrentRootNode = NoteInspiration;
             }
-            if (rootNode.ChildNodes.Count == 0)
+            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
-                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
+                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
+                DataJoin.FillInPart(null, Gval.CurrentRootNode);
             }
         }
 
+
+        public void LoadForCards()
+        {
+            TabControl tabControl = Gval.SelectedCardTab;
+            if (tabControl.SelectedIndex == 0)
+            {
+                Gval.CurrentRootNode = PublicCardRole;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                Gval.CurrentRootNode = PublicCardOther;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                Gval.CurrentRootNode = PublicCardWorld;
+            }
+            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
+            {
+                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
+                DataJoin.FillInPart(null, Gval.CurrentRootNode);
+            }
+        }
     }
 }

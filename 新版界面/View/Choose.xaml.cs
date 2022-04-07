@@ -132,16 +132,12 @@ namespace RootNS.View
             if (Gval.CurrentBook != (sender as Button).DataContext as Book)
             {
                 Gval.CurrentBook = (sender as Button).DataContext as Book;
-                DataJoin.LoadCurrentBookContent();
+                DataJoin.LoadCurrentBookContent(Gval.CurrentBook);
+                PreviousButton.BorderBrush = null;
+                (sender as Button).BorderBrush = Brushes.Orange;
+                PreviousButton = sender as Button;
+                CSettingsOperate.Set("index", "CurBookUid", Gval.CurrentBook.Uid);
             }
-            Gval.CurrentBook = (sender as Button).DataContext as Book;
-            PreviousButton.BorderBrush = null;
-            (sender as Button).BorderBrush = Brushes.Orange;
-            PreviousButton = sender as Button;
-            CSettingsOperate.Set("index", "CurBookUid", Gval.CurrentBook.Uid);
-
         }
-
-
     }
 }

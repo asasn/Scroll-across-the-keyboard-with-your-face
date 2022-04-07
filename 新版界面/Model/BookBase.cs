@@ -17,10 +17,7 @@ namespace RootNS.Model
         /// </summary>
         public void Clear()
         {
-            CardRole.ChildNodes.Clear();
-            CardOther.ChildNodes.Clear();
-            CardWorld.ChildNodes.Clear();
-            MapPoints.ChildNodes.Clear();
+
         }
 
         private string _uid;
@@ -78,6 +75,7 @@ namespace RootNS.Model
             角色,
             其他,
             世界,
+            地图,
         }
 
         private int _index;
@@ -136,46 +134,7 @@ namespace RootNS.Model
             }
         }
 
-        #region 信息卡
-
-
-        public Node CardRole { set; get; } = new Node() { TabName = CardTabName.角色.ToString() };
-        public Node CardOther { set; get; } = new Node() { TabName = CardTabName.其他.ToString() };
-        public Node CardWorld { set; get; } = new Node() { TabName = CardTabName.世界.ToString() };
-        public Node MapPoints { set; get; } = new Node() { TabName = "地图" };
-        public void LoadForCards()
-        {
-            TabControl tabControl = new TabControl();
-            if (Gval.WorkSpace == "index")
-            {
-                tabControl = Gval.SelectedPublicCardTab;
-            }
-            else
-            {
-                tabControl = Gval.SelectedCardTab;
-            }
-            CardTabName flag = (CardTabName)tabControl.SelectedIndex;
-            string itemName = Enum.GetName(typeof(CardTabName), tabControl.SelectedIndex);
-            Node rootNode = new Node();
-            if (tabControl.SelectedIndex == 0)
-            {
-                rootNode = CardRole;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                rootNode = CardOther;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                rootNode = CardWorld;
-            }
-            if (rootNode.ChildNodes.Count == 0)
-            {
-                CSqlitePlus.PoolOperate.Add(Gval.WorkSpace);
-                DataJoin.FillInPart(Gval.WorkSpace, null, rootNode);
-            }
-        }
-        #endregion
+  
 
     }
 }

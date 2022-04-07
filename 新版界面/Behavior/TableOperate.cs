@@ -65,8 +65,8 @@ namespace RootNS.Behavior
         private static string GetSqlStringForCreateBooksBankTable()
         {
             string sql = string.Empty;
-            sql += string.Format("CREATE TABLE 书库 (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Name CHAR NOT NULL, Summary CHAR, Price DOUBLE DEFAULT (0), CurrentYear INTEGER DEFAULT (0), IsDel BOOLEAN DEFAULT(False));");
-            sql += string.Format("CREATE INDEX 书库Uid ON 书库(Uid);");
+            sql += string.Format("CREATE TABLE IF NOT EXISTS 书库 (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Name CHAR NOT NULL, Summary CHAR, Price DOUBLE DEFAULT (0), CurrentYear INTEGER DEFAULT (0), IsDel BOOLEAN DEFAULT(False));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 书库Uid ON 书库(Uid);");
             return sql;
         }
 

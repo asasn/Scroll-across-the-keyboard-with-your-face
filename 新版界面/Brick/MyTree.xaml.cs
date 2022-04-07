@@ -59,18 +59,12 @@ namespace RootNS.Brick
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem != null)
-            {
-              (TreeNodes.SelectedItem as Node).AddChild();
-            }
+
         }
 
         private void BtnAddBrother_Click(object sender, RoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem != null && (TreeNodes.SelectedItem as Node).RootNode != null)
-            {
-                (TreeNodes.SelectedItem as Node).ParentNode.AddChild();
-            }
+
         }
 
         private void BtnDel_Click(object sender, RoutedEventArgs e)
@@ -97,6 +91,26 @@ namespace RootNS.Brick
         private void BtnDown_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void BtnFolder_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (((sender as Button).DataContext as Node).OwnerName != "index" && string.IsNullOrEmpty(Gval.CurrentBook.Uid) == true)
+            {
+                return;
+            }
+            Node node = new Node();
+            ((sender as Button).DataContext as Node).AddNode(node);
+        }
+
+        private void BtnAddDoc_Click(object sender, RoutedEventArgs e)
+        {
+            if (TreeNodes.SelectedItem != null && (TreeNodes.SelectedItem as Node).RootNode != null)
+            {
+                Node node = new Node();
+                (TreeNodes.SelectedItem as Node).ParentNode.AddNode(node);
+            }
         }
     }
 }

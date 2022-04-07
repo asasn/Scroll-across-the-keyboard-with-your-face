@@ -16,7 +16,7 @@ namespace RootNS.Behavior
         /// </summary>
         public static void ReadyForBegin()
         {
-            string sql = string.Format("SELECT * FROM 书库;", Gval.CurrentBook.Uid);
+            string sql = string.Format("SELECT * FROM 书库;");
             SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -28,11 +28,12 @@ namespace RootNS.Behavior
                     Summary = reader["Summary"].ToString(),
                     Price = Convert.ToDouble(reader["Price"]),
                     CurrentYear = Convert.ToInt64(reader["CurrentYear"]),
-                    IsDel = (bool)reader["IsDel"]
+                    IsDel = (bool)reader["IsDel"],
                 };
                 if (Gval.CurrentBook.Uid != null && Gval.CurrentBook.Uid == book.Uid)
                 {
                     Gval.CurrentBook = book;
+                    DataJoin.InitRootNodes(book);
                 }
                 Gval.BooksBank.Add(book);
             }
@@ -46,24 +47,46 @@ namespace RootNS.Behavior
         //    Gval.MaterialBook.LoadForCards();
         //}
 
-        public static void LoadCurrentBookContent()
+        public static void LoadCurrentBookContent(Book book)
         {
-            Gval.WorkSpace = Gval.CurrentBook.Name;
             CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
-            Gval.CurrentBook.LoadBookChapters();
-            Gval.CurrentBook.LoadBookNotes();
-            Gval.CurrentBook.LoadForCards();
+            string sql = string.Format("SELECT * FROM 书库 WHERE Uid='{0}';", book.Uid);
+            SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                book.Uid = reader["Uid"].ToString();
+                book.Index = Convert.ToInt32(reader["Index"]);
+                book.Name = reader["Name"].ToString();
+                book.Summary = reader["Summary"].ToString();
+                book.Price = Convert.ToDouble(reader["Price"]);
+                book.CurrentYear = Convert.ToInt64(reader["CurrentYear"]);
+                book.IsDel = (bool)reader["IsDel"];
+            }
+            reader.Close();
+            DataJoin.InitRootNodes(book);
+            book.LoadBookChapters();
+            book.LoadBookNotes();
+            book.LoadForCards();
+        }
+
+        public static void InitRootNodes(Book book)
+        {
+            Node[] rootNodes = { book.BoxDraft, book.BoxTemp, book.BoxPublished, book.NoteMemorabilia, book.NoteStory, book.NoteScenes, book.NoteClues, book.NoteTemplate, book.CardRole, book.CardOther, book.CardWorld, book.MapPoints };
+            foreach (Node node in rootNodes)
+            {
+                node.OwnerName = book.Name;
+            }
         }
 
 
-        public static void FillInPart(string bookName, string pid, Node rootNode)
+        public static void FillInPart(string pid, Node rootNode)
         {
-            if (string.IsNullOrWhiteSpace(bookName) == true)
+            if (Gval.CurrentBook.Name == null && rootNode.OwnerName != "index")
             {
                 return;
             }
-            string sql = string.Format("SELECT * FROM {0} WHERE TabName='{1}' AND Pid='{2}';", Gval.TableName, Gval.TableName, pid);
-            SQLiteDataReader reader = CSqlitePlus.PoolDict[bookName].ExecuteQuery(sql);
+            string sql = string.Format("SELECT * FROM {0} WHERE TabName='{1}' AND Pid='{2}';", rootNode.TabName, rootNode.TabName, pid);
+            SQLiteDataReader reader = CSqlitePlus.PoolDict[rootNode.OwnerName].ExecuteQuery(sql);
             while (reader.Read())
             {
                 Node node = new Node
@@ -84,7 +107,7 @@ namespace RootNS.Behavior
                     IsDel = (bool)reader["IsDel"]
                 };
                 rootNode.ChildNodes.Add(node);
-                FillInPart(bookName, node.Uid, node);
+                FillInPart(node.Uid, node);
             }
             reader.Close();
         }
