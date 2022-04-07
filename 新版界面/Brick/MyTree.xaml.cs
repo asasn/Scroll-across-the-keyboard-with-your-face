@@ -101,6 +101,7 @@ namespace RootNS.Brick
                 return;
             }
             Node node = new Node();
+            node.IsDir = true;
             ((sender as Button).DataContext as Node).AddNode(node);
         }
 
@@ -109,7 +110,14 @@ namespace RootNS.Brick
             if (TreeNodes.SelectedItem != null && (TreeNodes.SelectedItem as Node).RootNode != null)
             {
                 Node node = new Node();
-                (TreeNodes.SelectedItem as Node).ParentNode.AddNode(node);
+                if ((TreeNodes.SelectedItem as Node).IsDir == true)
+                {
+                    (TreeNodes.SelectedItem as Node).AddNode(node);
+                }
+                else
+                {
+                    (TreeNodes.SelectedItem as Node).ParentNode.AddNode(node);
+                }
             }
         }
     }
