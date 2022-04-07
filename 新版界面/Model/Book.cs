@@ -117,22 +117,23 @@ namespace RootNS.Model
         public void LoadBookChapters()
         {
             TabControl tabControl = Gval.SelectedChapterTab;
+            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.BoxDraft;
+                rootNode = Gval.CurrentBook.BoxDraft;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.BoxTemp;
+                rootNode = Gval.CurrentBook.BoxTemp;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.BoxPublished;
+                rootNode = Gval.CurrentBook.BoxPublished;
             }
-            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
-                DataJoin.FillInPart(null, Gval.CurrentRootNode);
+                CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
+                DataJoin.FillInPart(null, rootNode);
             }
         }
 
@@ -143,52 +144,57 @@ namespace RootNS.Model
         public void LoadBookNotes()
         {
             TabControl tabControl = Gval.SelectedNoteTab;
+            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteMemorabilia;
+                rootNode = Gval.CurrentBook.NoteMemorabilia;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteStory;
+                rootNode = Gval.CurrentBook.NoteStory;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteScenes;
+                rootNode = Gval.CurrentBook.NoteScenes;
             }
             if (tabControl.SelectedIndex == 3)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteClues;
+                rootNode = Gval.CurrentBook.NoteClues;
             }
             if (tabControl.SelectedIndex == 4)
             {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteTemplate;
+                rootNode = Gval.CurrentBook.NoteTemplate;
             }
-            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
-                DataJoin.FillInPart(null, Gval.CurrentRootNode);
+                CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
+                DataJoin.FillInPart(null, rootNode);
             }
         }
  
+        /// <summary>
+        /// 载入信息卡
+        /// </summary>
         public void LoadForCards()
         {
             TabControl tabControl = Gval.SelectedCardTab;
+            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                Gval.CurrentRootNode = CardRole;
+                rootNode = CardRole;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                Gval.CurrentRootNode = CardOther;
+                rootNode = CardOther;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                Gval.CurrentRootNode = CardWorld;
+                rootNode = CardWorld;
             }
-            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
-                DataJoin.FillInPart(null, Gval.CurrentRootNode);
+                CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
+                DataJoin.FillInPart(null, rootNode);
             }
         }
 

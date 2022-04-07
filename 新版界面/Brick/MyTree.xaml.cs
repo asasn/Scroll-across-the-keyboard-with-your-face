@@ -71,7 +71,21 @@ namespace RootNS.Brick
         {
             if (TreeNodes.SelectedItem != null)
             {
-                (TreeNodes.SelectedItem as Node).RemoveItSelf();
+                Node delNode = TreeNodes.SelectedItem as Node;
+                delNode.RemoveItSelf();
+                int i = 0;
+                if (delNode.ParentNode.ChildNodes.Count > 0)
+                {
+                    if (delNode.Index >= 0)
+                    {
+                        i = delNode.Index;
+                    }
+                    if (delNode.Index == delNode.ParentNode.ChildNodes.Count)
+                    {
+                        i = delNode.Index - 1;
+                    }
+                    delNode.ParentNode.ChildNodes[i].IsSelected = true;
+                }
             }
         }
 

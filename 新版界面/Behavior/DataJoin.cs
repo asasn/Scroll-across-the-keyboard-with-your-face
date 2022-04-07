@@ -14,9 +14,19 @@ namespace RootNS.Behavior
         /// <summary>
         /// 窗口打开后，开始用户操作前的载入数据流程
         /// </summary>
-        public static void ReadyForBegin()
+        public static void ReadyForBaseInfo()
+        {
+            CFileOperate.CreateFolder(Gval.Path.Books);
+            TableOperate.TryToBuildIndexDatabase();
+            Gval.CurrentBook.Uid = CSettingsOperate.Get(Gval.MaterialBook.Name, "CurBookUid");
+            LoadBooksBankHeader();
+        }
+
+
+        private static void LoadBooksBankHeader()
         {
             string sql = string.Format("SELECT * FROM 书库;");
+            CSqlitePlus.PoolOperate.Add("index");
             SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
             while (reader.Read())
             {
@@ -40,12 +50,6 @@ namespace RootNS.Behavior
             reader.Close();
         }
 
-        //public static void LoadMaterialContent()
-        //{
-        //    CSqlitePlus.PoolOperate.Add(Gval.MaterialBook.Name);
-        //    Gval.MaterialBook.LoadForMaterialPart();
-        //    Gval.MaterialBook.LoadForCards();
-        //}
 
         public static void LoadCurrentBookContent(Book book)
         {
@@ -69,7 +73,7 @@ namespace RootNS.Behavior
             book.LoadForCards();
         }
 
-        public static void InitRootNodes(Book book)
+        private static void InitRootNodes(Book book)
         {
             Node[] rootNodes = { book.BoxDraft, book.BoxTemp, book.BoxPublished, book.NoteMemorabilia, book.NoteStory, book.NoteScenes, book.NoteClues, book.NoteTemplate, book.CardRole, book.CardOther, book.CardWorld, book.MapPoints };
             foreach (Node node in rootNodes)

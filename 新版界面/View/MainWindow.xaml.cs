@@ -28,49 +28,18 @@ namespace RootNS
         public MainWindow()
         {
             InitializeComponent();
-
-            CFileOperate.CreateFolder(Gval.Path.Books);
-            CSqlitePlus.PoolOperate.Add("index");
-            TableOperate.TryToBuildIndexDatabase();
-            Gval.CurrentBook.Uid = CSettingsOperate.Get(Gval.MaterialBook.Name, "CurBookUid");
-
-            //CurrentBook.BoxDraft.ChildNodes.Add(new Node() { Title = "测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱测试草稿箱" });
-            //CurrentBook.BoxDraft.ChildNodes[0].IsDir = true;
-            //CurrentBook.BoxDraft.ChildNodes[0].ChildNodes.Add(new Node() { Title = "测试", WordsCount = 99 });
-            //CurrentBook.BoxDraft.ChildNodes[0].IsDel = true;
-            //CurrentBook.NoteClues.ChildNodes.Add(new Node() { Title = "线索线索线索线索线索线索线索线索线索" });
-            //CurrentBook.NoteClues.ChildNodes[0].IsChecked = true;
-            //CurrentBook.NoteClues.ChildNodes[0].ChildNodes.Add(new Node() { Title = "线索线索线索线索" });
         }
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
         {
-            DataJoin.ReadyForBegin();
-
-            //Gval.OpenedDocList.Add(new Node() { Title = "打开的章节111111111111111111111111111111111" });
-            //Gval.OpenedDocList[0].Title = "333333333";
-            //Gval.OpenedDocList[0].Text = "文章内容";
-            //Gval.OpenedDocList[0].WordsCount = 20;
+            DataJoin.ReadyForBaseInfo();
         }
 
 
 
         private void TabBook_GotFocus(object sender, RoutedEventArgs e)
         {
-            CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
-            TabControl tabControl = Gval.SelectedChapterTab = sender as TabControl;
-            if (tabControl.SelectedIndex == 0)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.BoxDraft;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.BoxTemp;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.BoxPublished;
-            }
+            Gval.SelectedChapterTab = sender as TabControl;
         }
 
         private void TabBook_Loaded(object sender, RoutedEventArgs e)
@@ -86,28 +55,7 @@ namespace RootNS
 
         private void TabNote_GotFocus(object sender, RoutedEventArgs e)
         {
-            CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
-            TabControl tabControl = Gval.SelectedNoteTab = sender as TabControl;
-            if (tabControl.SelectedIndex == 0)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteMemorabilia;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteStory;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteStory;
-            }
-            if (tabControl.SelectedIndex == 3)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteScenes;
-            }
-            if (tabControl.SelectedIndex == 4)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.NoteTemplate;
-            }
+            Gval.SelectedNoteTab = sender as TabControl;
         }
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
@@ -122,20 +70,7 @@ namespace RootNS
         }
         private void TabCard_GotFocus(object sender, RoutedEventArgs e)
         {
-            CSqlitePlus.PoolOperate.Add(Gval.CurrentBook.Name);
-            TabControl tabControl = Gval.SelectedCardTab = sender as TabControl;
-            if (tabControl.SelectedIndex == 0)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.CardRole;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.CardOther;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                Gval.CurrentRootNode = Gval.CurrentBook.CardWorld;
-            }
+            Gval.SelectedCardTab = sender as TabControl;
         }
 
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
@@ -151,24 +86,7 @@ namespace RootNS
 
         private void TabMaterial_GotFocus(object sender, RoutedEventArgs e)
         {
-            CSqlitePlus.PoolOperate.Add("index");
-            TabControl tabControl = Gval.SelectedMaterialTab = sender as TabControl;
-            if (tabControl.SelectedIndex == 0)
-            {
-                Gval.CurrentRootNode = Gval.MaterialBook.BoxExample;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                Gval.CurrentRootNode = Gval.MaterialBook.BoxMaterial;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                Gval.CurrentRootNode = Gval.MaterialBook.NoteTheme;
-            }
-            if (tabControl.SelectedIndex == 3)
-            {
-                Gval.CurrentRootNode = Gval.MaterialBook.NoteInspiration;
-            }
+            Gval.SelectedMaterialTab = sender as TabControl;
         }
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
@@ -184,20 +102,7 @@ namespace RootNS
 
         private void TabPublicCard_GotFocus(object sender, RoutedEventArgs e)
         {
-            CSqlitePlus.PoolOperate.Add("index");
-            TabControl tabControl = Gval.SelectedPublicCardTab = sender as TabControl;
-            if (tabControl.SelectedIndex == 0)
-            {
-                Gval.CurrentRootNode = Gval.MaterialBook.PublicCardWorld;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                Gval.CurrentRootNode = Gval.MaterialBook.PublicCardOther;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                Gval.CurrentRootNode = Gval.MaterialBook.PublicCardWorld;
-            }
+            Gval.SelectedPublicCardTab = sender as TabControl;
         }
 
         private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)

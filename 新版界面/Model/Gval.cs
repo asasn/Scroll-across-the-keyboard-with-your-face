@@ -99,17 +99,6 @@ namespace RootNS.Model
         public static HandyControl.Controls.TabControl EditorTabControl;
 
 
-        private static Node _currentRootNode;
-
-        public static Node CurrentRootNode
-        {
-            get { return _currentRootNode; }
-            set
-            {
-                _currentRootNode = value;
-            }
-        }
-
 
         private static TabControl _selectedChapterTab;
 

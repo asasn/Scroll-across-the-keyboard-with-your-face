@@ -57,49 +57,53 @@ namespace RootNS.Model
         public void LoadForMaterialPart()
         {
             TabControl tabControl = Gval.SelectedMaterialTab;
+            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                Gval.CurrentRootNode = BoxExample;
+                rootNode = BoxExample;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                Gval.CurrentRootNode = BoxMaterial;
+                rootNode = BoxMaterial;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                Gval.CurrentRootNode = NoteTheme;
+                rootNode = NoteTheme;
             }
             if (tabControl.SelectedIndex == 3)
             {
-                Gval.CurrentRootNode = NoteInspiration;
+                rootNode = NoteInspiration;
             }
-            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
-                DataJoin.FillInPart(null, Gval.CurrentRootNode);
+                CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
+                DataJoin.FillInPart(null, rootNode);
             }
         }
 
-
+        /// <summary>
+        /// 载入信息卡
+        /// </summary>
         public void LoadForCards()
         {
             TabControl tabControl = Gval.SelectedCardTab;
+            Node rootNode = new Node();
             if (tabControl.SelectedIndex == 0)
             {
-                Gval.CurrentRootNode = PublicCardRole;
+                rootNode = PublicCardRole;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                Gval.CurrentRootNode = PublicCardOther;
+                rootNode = PublicCardOther;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                Gval.CurrentRootNode = PublicCardWorld;
+                rootNode = PublicCardWorld;
             }
-            if (Gval.CurrentRootNode.ChildNodes.Count == 0)
+            if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(Gval.CurrentRootNode.OwnerName);
-                DataJoin.FillInPart(null, Gval.CurrentRootNode);
+                CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
+                DataJoin.FillInPart(null, rootNode);
             }
         }
     }
