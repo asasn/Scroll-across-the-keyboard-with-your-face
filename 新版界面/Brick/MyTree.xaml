@@ -17,38 +17,37 @@
             <Button x:Name="BtnFolder" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
             <Button x:Name="BtnAddDoc" FontFamily="../Assets/#androidicons" Content="&#59477;" FontSize="15" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddDoc_Click"/>
             <Button x:Name="BtnDel" FontFamily="../Assets/#androidicons" Content="&#59420;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
-            <Button x:Name="BtnClear" FontFamily="../Assets/#androidicons" Content="&#59463;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnClear_Click"/>
+            <Button x:Name="BtnRecycle" FontFamily="../Assets/#androidicons" Content="&#59463;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnRecycle_Click"/>
             <Button x:Name="BtnUp" FontFamily="../Assets/#androidicons" Content="&#59432;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUp_Click"/>
             <Button x:Name="BtnDown" FontFamily="../Assets/#androidicons" Content="&#59433;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDown_Click"/>
         </StackPanel>
         <TreeView x:Name="TreeNodes" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItemChanged="TreeView_SelectedItemChanged" Grid.RowSpan="2" Grid.Row="1">
             <TreeView.Resources>
-                <RoutedUICommand x:Key="AddBrotherNode" Text="添加兄弟节点"/>
-                <RoutedUICommand x:Key="AddChildNode" Text="添加子节点"/>
+                <RoutedUICommand x:Key="AddFolder" Text="添加目录"/>
+                <RoutedUICommand x:Key="AddDoc" Text="添加文档"/>
                 <RoutedUICommand x:Key="DelNode" Text="删除节点"/>
                 <RoutedUICommand x:Key="ImportNode" Text="导入"/>
             </TreeView.Resources>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">
-                    <MenuItem Icon="&#59419;" FontFamily="../Assets/#androidicons" Header="添加同级节点" IsEnabled="True" Command="{StaticResource AddBrotherNode}" InputGestureText="Add"/>
-                    <MenuItem Header="添加子节点" IsEnabled="False" Command="{StaticResource AddChildNode}" InputGestureText="Enter"/>
-                    <MenuItem Header="删除该节点" IsEnabled="False" Command="{StaticResource DelNode}" InputGestureText="Delete"/>
-                    <MenuItem Header="导入文档" IsEnabled="False" Command="{StaticResource ImportNode}" InputGestureText="Insert"/>
+                    <MenuItem Icon="&#59407;" FontFamily="../Assets/#androidicons" Header="添加目录" IsEnabled="True" Command="{StaticResource AddFolder}" InputGestureText="Add"/>
+                    <MenuItem Header="添加文档" IsEnabled="False" Command="{StaticResource AddDoc}" InputGestureText="Enter"/>
+                    <MenuItem Header="删除节点" IsEnabled="False" Command="{StaticResource DelNode}" InputGestureText="Delete"/>
+                    <MenuItem Header="导入" IsEnabled="False" Command="{StaticResource ImportNode}" InputGestureText="Insert"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
             <TreeView.CommandBindings>
-                <CommandBinding Command="{StaticResource AddBrotherNode}" Executed="Command_AddBrotherNode_Executed" />
-                <CommandBinding Command="{StaticResource AddChildNode}" Executed="Command_AddChildNode_Executed" />
+                <CommandBinding Command="{StaticResource AddFolder}" Executed="Command_AddFolder_Executed" />
+                <CommandBinding Command="{StaticResource AddDoc}" Executed="Command_AddDoc_Executed" />
                 <CommandBinding Command="{StaticResource DelNode}" Executed="Command_Delete_Executed" />
                 <CommandBinding Command="{StaticResource ImportNode}" Executed="Command_Import_Executed" />
             </TreeView.CommandBindings>
             <TreeView.InputBindings>
-                <KeyBinding Command="{StaticResource AddBrotherNode}" Key="Add"/>
-                <KeyBinding Command="{StaticResource AddChildNode}" Key="Return" />
+                <KeyBinding Command="{StaticResource AddFolder}" Key="Add"/>
+                <KeyBinding Command="{StaticResource AddDoc}" Key="Return" />
                 <KeyBinding Command="{StaticResource DelNode}" Key="Delete" />
                 <KeyBinding Command="{StaticResource ImportNode}" Key="Insert" />
             </TreeView.InputBindings>
-
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>

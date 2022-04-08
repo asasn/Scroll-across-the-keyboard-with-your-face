@@ -35,7 +35,8 @@ namespace RootNS.Brick
                     Gval.OpenedDocList.Add(this.DataContext as Node);
                 }
                 Gval.EditorTabControl.SelectedItem = this.DataContext as Node;
-            }            
+            }
+            (this.DataContext as Node).Title = "测试";
         }
 
         private void ThisControl_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

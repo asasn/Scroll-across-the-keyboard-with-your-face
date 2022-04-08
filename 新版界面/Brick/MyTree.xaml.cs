@@ -32,19 +32,19 @@ namespace RootNS.Brick
 
         }
 
-        private void Command_AddBrotherNode_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void Command_AddFolder_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            BtnFolder_Click(null, null);
         }
 
-        private void Command_AddChildNode_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void Command_AddDoc_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            BtnAddDoc_Click(null, null);
         }
 
         private void Command_Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            BtnDel_Click(null, null);
         }
 
         private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -57,39 +57,30 @@ namespace RootNS.Brick
 
         }
 
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnAddBrother_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void BtnDel_Click(object sender, RoutedEventArgs e)
         {
             if (TreeNodes.SelectedItem != null)
             {
-                Node delNode = TreeNodes.SelectedItem as Node;
-                delNode.RemoveItSelf();
+                Node node = TreeNodes.SelectedItem as Node;
+                node.RemoveItSelf();
                 int i = 0;
-                if (delNode.ParentNode.ChildNodes.Count > 0)
+                if (node.ParentNode.ChildNodes.Count > 0)
                 {
-                    if (delNode.Index >= 0)
+                    if (node.Index >= 0)
                     {
-                        i = delNode.Index;
+                        i = node.Index;
                     }
-                    if (delNode.Index == delNode.ParentNode.ChildNodes.Count)
+                    if (node.Index == node.ParentNode.ChildNodes.Count)
                     {
-                        i = delNode.Index - 1;
+                        i = node.Index - 1;
                     }
-                    delNode.ParentNode.ChildNodes[i].IsSelected = true;
+                    node.ParentNode.ChildNodes[i].IsSelected = true;
                 }
             }
         }
 
-        private void BtnClear_Click(object sender, RoutedEventArgs e)
+        private void BtnRecycle_Click(object sender, RoutedEventArgs e)
         {
             if (TreeNodes.SelectedItem != null)
             {
@@ -99,24 +90,44 @@ namespace RootNS.Brick
 
         private void BtnUp_Click(object sender, RoutedEventArgs e)
         {
-
+            if (TreeNodes.SelectedItem != null)
+            {
+                Node node = (TreeNodes.SelectedItem as Node);
+                if (node.Index > 0)
+                {
+                    int i = node.Index;
+                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes.Move(i, i - 1);
+                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i].Index = i;
+                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i - 1].Index = i - 1;
+                }
+            }
         }
 
         private void BtnDown_Click(object sender, RoutedEventArgs e)
         {
-
+            if (TreeNodes.SelectedItem != null)
+            {
+                Node node = (TreeNodes.SelectedItem as Node);
+                if (node.Index < node.ParentNode.ChildNodes.Count - 1)
+                {
+                    int i = node.Index;
+                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes.Move(i, i + 1);
+                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i].Index = i;
+                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i + 1].Index = i + 1;
+                }
+            }
         }
 
         private void BtnFolder_Click(object sender, RoutedEventArgs e)
         {
 
-            if (((sender as Button).DataContext as Node).OwnerName != "index" && string.IsNullOrEmpty(Gval.CurrentBook.Uid) == true)
+            if ((TreeNodes.DataContext as Node).OwnerName != "index" && string.IsNullOrEmpty(Gval.CurrentBook.Uid) == true)
             {
                 return;
             }
             Node node = new Node();
             node.IsDir = true;
-            ((sender as Button).DataContext as Node).AddNode(node);
+            (TreeNodes.DataContext as Node).AddNode(node);
         }
 
         private void BtnAddDoc_Click(object sender, RoutedEventArgs e)

@@ -36,7 +36,7 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="BtnChoose" Margin="5" Content="点" Click="BtnChoose_Click">
                         </Button>
-                        <TextBlock Text="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}, Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
+                        <TextBlock Text="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
                     </Grid>
                 </Border>
                 <TabControl IsEnabled="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}, Converter={StaticResource Object2BooleanConverter}}" x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" GotFocus="TabBook_GotFocus" DataContext="{Binding CurrentBook, Source={StaticResource GlobalSource}}" Style="{DynamicResource TabControlStyle}">

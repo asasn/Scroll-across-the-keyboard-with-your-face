@@ -280,6 +280,37 @@ namespace RootNS.Model
         }
 
 
+        private Node _previousNode;
+        /// <summary>
+        /// 同级集合中的上一个节点
+        /// </summary>
+        public Node PreviousNode
+        {
+            get { return _previousNode; }
+            set
+            {
+                _previousNode = value;
+                this.RaisePropertyChanged(nameof(PreviousNode));
+            }
+        }
+
+        private Node _nextNode;
+        /// <summary>
+        /// 同级集合中的下一个节点
+        /// </summary>
+        public Node NextNode
+        {
+            get { return _nextNode; }
+            set
+            {
+                _nextNode = value;
+                this.RaisePropertyChanged(nameof(NextNode));
+            }
+        }
+
+
+
+
         public Node AddNode(Node node)
         {
             if (node.Title == null)
@@ -334,7 +365,12 @@ namespace RootNS.Model
                 stuff.TabName = this.TabName;
                 stuff.OwnerName = this.OwnerName;
                 stuff.ParentNode = this;
-                stuff.Index = this.ChildNodes.Count - 1;
+                stuff.Index = this.ChildNodes.IndexOf(stuff);
+                if (stuff.Index > 0)
+                {
+                    stuff.PreviousNode = this.ChildNodes[stuff.Index - 1];
+                    stuff.PreviousNode.NextNode = stuff;
+                }
                 Node pNode = stuff;
                 if (this.IsDel == true)
                 {
