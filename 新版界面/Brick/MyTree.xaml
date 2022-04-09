@@ -52,7 +52,9 @@
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                    <Setter Property="AllowDrop" Value="{Binding IsDir, Mode=TwoWay}" />
+                    <Setter Property="AllowDrop" Value="{Binding IsDir}" />
+                    <Setter Property="IsEnabled" Value="{Binding IsDel, Converter={StaticResource Boolean2BooleanReConverter}}"/>
+                    <Setter Property="Opacity" Value="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"/>
                 </Style>
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>

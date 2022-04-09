@@ -63,20 +63,20 @@ namespace RootNS.Brick
             if (TreeNodes.SelectedItem != null)
             {
                 Node node = TreeNodes.SelectedItem as Node;
-                node.RemoveItSelf();
+                node.IsDel = true;
                 int i = 0;
-                if (node.ParentNode.ChildNodes.Count > 0)
-                {
-                    if (node.Index >= 0)
-                    {
-                        i = node.Index;
-                    }
-                    if (node.Index == node.ParentNode.ChildNodes.Count)
-                    {
-                        i = node.Index - 1;
-                    }
-                    node.ParentNode.ChildNodes[i].IsSelected = true;
-                }
+                //if (node.ParentNode.ChildNodes.Count > 0)
+                //{
+                //    if (node.Index >= 0)
+                //    {
+                //        i = node.Index;
+                //    }
+                //    if (node.Index == node.ParentNode.ChildNodes.Count)
+                //    {
+                //        i = node.Index - 1;
+                //    }
+                //    node.ParentNode.ChildNodes[i].IsSelected = true;
+                //}
             }
         }
 

@@ -19,6 +19,7 @@
             <local:TypeConvertToShowText x:Key="TypeConvertToShowText"/>
             <local:IsFocusedConvertToBrush x:Key="IsFocusedConvertToBrush"/>
             <local:TabNameConvertToNodeTemplate x:Key="TabNameConvertToNodeTemplate"/>
+            <local:IsDelConvertOpacity x:Key="IsDelConvertOpacity"/>
             <model:Gval x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>

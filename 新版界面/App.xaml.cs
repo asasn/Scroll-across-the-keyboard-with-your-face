@@ -136,6 +136,44 @@ namespace RootNS
     }
 
     /// <summary>
+    /// 删除决定透明度
+    /// </summary>
+    public class IsDelConvertOpacity : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return 1;
+            }
+            try
+            {
+                //删除为真的时候，进行设置
+                if ((bool)value == true)
+                {
+                    return 0.3;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            catch
+            {
+                return 1;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return false;
+        }
+    }
+
+
+    /// <summary>
     /// 聚焦决定边框
     /// </summary>
     public class IsFocusedConvertToBrush : IValueConverter

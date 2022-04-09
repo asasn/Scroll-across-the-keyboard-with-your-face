@@ -23,9 +23,9 @@ namespace RootNS.Model
             {
                 if (this.IsDel == true)
                 {
-                    foreach (Node node in this.ChildNodes)
+                    foreach (Node child in this.ChildNodes)
                     {
-                        node.IsDel = true;
+                        child.IsDel = true;
                     }
                 }
             }
@@ -326,7 +326,7 @@ namespace RootNS.Model
             return node;
         }
 
-        public void RemoveItSelf()
+        public void RealRemoveItSelf()
         {
             if (this.ParentNode != null)
             {
@@ -388,7 +388,6 @@ namespace RootNS.Model
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 Node stuff = (Node)e.OldItems[0];
-                this.WordsCount -= 1;
                 stuff.IsDel = true;
                 for (int i = stuff.Index; i < this.ChildNodes.Count; i++)
                 {
