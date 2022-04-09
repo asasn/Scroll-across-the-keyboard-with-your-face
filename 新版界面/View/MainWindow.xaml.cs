@@ -122,6 +122,14 @@ namespace RootNS
             win.ShowDialog();
         }
 
-
+        /// <summary>
+        /// 内容渲染完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void WinMain_ContentRendered(object sender, EventArgs e)
+        {
+            Gval.FlagLoadingCompleted = true;
+        }
     }
 }

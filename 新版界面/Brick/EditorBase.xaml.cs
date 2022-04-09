@@ -102,7 +102,7 @@ namespace RootNS.Brick
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            Gval.OpenedDocList.Remove((sender as Button).DataContext as Node);
+            Gval.OpeningDocList.Remove((sender as Button).DataContext as Node);
         }
     }
 }

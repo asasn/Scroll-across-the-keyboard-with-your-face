@@ -12,14 +12,6 @@ namespace RootNS.Model
 {
     public class BookBase : NotificationObject
     {
-        /// <summary>
-        /// 清空各部分根节点
-        /// </summary>
-        public void Clear()
-        {
-
-        }
-
         private string _uid;
         /// <summary>
         /// 书籍标识码
@@ -134,7 +126,7 @@ namespace RootNS.Model
             }
         }
 
-  
+
 
     }
 }

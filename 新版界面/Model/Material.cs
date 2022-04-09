@@ -37,16 +37,16 @@ namespace RootNS.Model
         }
 
         #region 资料库
-        public Node BoxExample { set; get; } = new Node() { TabName = MaterialTabName.范文.ToString(), OwnerName = "index" };
-        public Node BoxMaterial { set; get; } = new Node() { TabName = MaterialTabName.资料.ToString(), OwnerName = "index" };
-        public Node NoteTheme { set; get; } = new Node() { TabName = MaterialTabName.主题.ToString(), OwnerName = "index" };
-        public Node NoteInspiration { set; get; } = new Node() { TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
+        public Node BoxExample { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.范文.ToString(), OwnerName = "index" };
+        public Node BoxMaterial { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.资料.ToString(), OwnerName = "index" };
+        public Node NoteTheme { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.主题.ToString(), OwnerName = "index" };
+        public Node NoteInspiration { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
         #endregion
         #region 信息卡
-        public Node PublicCardRole { set; get; } = new Node() { TabName = CardTabName.角色.ToString(), OwnerName = "index" };
-        public Node PublicCardOther { set; get; } = new Node() { TabName = CardTabName.其他.ToString(), OwnerName = "index" };
-        public Node PublicCardWorld { set; get; } = new Node() { TabName = CardTabName.世界.ToString(), OwnerName = "index" };
-        public Node PublicMapPoints { set; get; } = new Node() { TabName = CardTabName.地图.ToString(), OwnerName = "index" };
+        public Node PublicCardRole { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.角色.ToString(), OwnerName = "index" };
+        public Node PublicCardOther { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.其他.ToString(), OwnerName = "index" };
+        public Node PublicCardWorld { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.世界.ToString(), OwnerName = "index" };
+        public Node PublicMapPoints { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.地图.ToString(), OwnerName = "index" };
         #endregion
 
 

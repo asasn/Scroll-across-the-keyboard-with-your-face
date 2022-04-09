@@ -19,6 +19,10 @@ namespace RootNS.Model
 
         private void Node_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (this.OwnerName == null || Gval.FlagLoadingCompleted == false)
+            {
+                return;
+            }
             if (e.PropertyName == "IsDel")
             {
                 if (this.IsDel == true)
@@ -29,6 +33,12 @@ namespace RootNS.Model
                     }
                 }
             }
+            if (e.PropertyName == "Pid" || e.PropertyName == "Index" || e.PropertyName == "TabName" || e.PropertyName == "IsExpanded" || e.PropertyName == "IsChecked" || e.PropertyName == "IsDel")
+            {
+                object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
+                DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
+            }
+
         }
 
         private string _title;
@@ -45,7 +55,7 @@ namespace RootNS.Model
             }
         }
 
-        private string _uid;
+        private string _uid = Gval.NewGuid();
         /// <summary>
         /// 节点标识码
         /// </summary>
@@ -128,7 +138,7 @@ namespace RootNS.Model
             }
         }
 
-        private string _text;
+        private string _text = String.Empty;
         /// <summary>
         /// 节点文字内容
         /// </summary>
@@ -224,19 +234,7 @@ namespace RootNS.Model
             }
         }
 
-        private string _ownerName;
-        /// <summary>
-        /// 页面名称
-        /// </summary>
-        public string OwnerName
-        {
-            get { return _ownerName; }
-            set
-            {
-                _ownerName = value;
-                this.RaisePropertyChanged(nameof(OwnerName));
-            }
-        }
+
 
         private int _index;
         /// <summary>
@@ -252,8 +250,21 @@ namespace RootNS.Model
             }
         }
 
+        private string _ownerName;
+        /// <summary>
+        /// 页面名称
+        /// </summary>
+        public string OwnerName
+        {
+            get { return _ownerName; }
+            set
+            {
+                _ownerName = value;
+                this.RaisePropertyChanged(nameof(OwnerName));
+            }
+        }
 
-        private string _summary;
+        private string _summary = String.Empty;
         /// <summary>
         /// 摘要说明
         /// </summary>
@@ -308,18 +319,11 @@ namespace RootNS.Model
             }
         }
 
-
-
-
         public Node AddNode(Node node)
         {
             if (node.Title == null)
             {
                 node.Title = "新" + this.TabName;
-            }
-            if (node.Uid == null)
-            {
-                node.Uid = Gval.NewGuid();
             }
             this.ChildNodes.Add(node);
             DataOut.CreateNewNode(node);
@@ -388,7 +392,6 @@ namespace RootNS.Model
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 Node stuff = (Node)e.OldItems[0];
-                stuff.IsDel = true;
                 for (int i = stuff.Index; i < this.ChildNodes.Count; i++)
                 {
                     this.ChildNodes[i].Index -= 1;

@@ -30,7 +30,7 @@ namespace RootNS.Brick
         private void EditorTabControl_Loaded(object sender, RoutedEventArgs e)
         {
             Gval.EditorTabControl = this;
-            Gval.OpenedDocList.CollectionChanged += OpenedDocList_CollectionChanged;
+            Gval.OpeningDocList.CollectionChanged += OpenedDocList_CollectionChanged;
         }
 
         private void OpenedDocList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

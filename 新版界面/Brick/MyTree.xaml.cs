@@ -1,4 +1,5 @@
-﻿using RootNS.Model;
+﻿using RootNS.Behavior;
+using RootNS.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +64,6 @@ namespace RootNS.Brick
             if (TreeNodes.SelectedItem != null)
             {
                 Node node = TreeNodes.SelectedItem as Node;
-                node.IsDel = true;
                 int i = 0;
                 //if (node.ParentNode.ChildNodes.Count > 0)
                 //{
@@ -143,6 +143,113 @@ namespace RootNS.Brick
                 {
                     (TreeNodes.SelectedItem as Node).ParentNode.AddNode(node);
                 }
+            }
+        }
+
+        /// <summary>
+        /// 方法：drop之后向上获取容器
+        /// </summary>
+        private TreeViewItem GetNearestContainer(UIElement element)
+        {
+            TreeViewItem container = element as TreeViewItem;
+            while ((container == null) && (element != null))
+            {
+                element = VisualTreeHelper.GetParent(element) as UIElement;
+                container = element as TreeViewItem;
+            }
+            return container;
+        }
+
+        /// <summary>
+        /// 按下：准备拖曳
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TreeNodes_DragEnter(object sender, DragEventArgs e)
+        {
+            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+            Node dragNode = container.DataContext as Node;
+            if (container != null)
+            {
+                container.Foreground = new SolidColorBrush(Colors.Orange);
+            }
+        }
+        private void TreeNodes_DragLeave(object sender, DragEventArgs e)
+        {
+            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+            Node dragNode = container.DataContext as Node;
+            if (container != null)
+            {
+                container.Foreground = new SolidColorBrush(Colors.Black);
+            }
+        }
+
+        /// <summary>
+        /// 松开：完成拖曳
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TreeNodes_Drop(object sender, DragEventArgs e)
+        {
+            TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
+            Node dragNode = (sender as TreeView).SelectedValue as Node;
+            Node dropNode = container.DataContext as Node;
+            Console.WriteLine(dragNode.Pid);
+            dragNode.ParentNode.ChildNodes.Remove(dragNode);
+            dragNode.IsDel = false;
+            dropNode.ChildNodes.Add(dragNode);
+            Console.WriteLine(dragNode.Pid);
+
+            _lastMouseDown = new Point();
+            TreeNodes_DragLeave(sender, e);
+        }
+
+
+        /// <summary>
+        /// 鼠标移动
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TreeNodes_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                //获取鼠标选中的节点数据
+                Node dragNode = TreeNodes.SelectedItem as Node;
+                if (e.LeftButton == MouseButtonState.Pressed && dragNode != null && dragNode.IsDir == false)
+                {
+                    //获取鼠标移动的距离
+                    Point currentPosition = e.GetPosition(TreeNodes);
+                    //判断鼠标是否移动
+                    if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
+                        (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
+                    {
+                        //启动拖放操作
+                        DragDropEffects finalDropEffect = DragDrop.DoDragDrop(TreeNodes, TreeNodes.SelectedValue, System.Windows.DragDropEffects.Move);
+                        e.Handled = true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        Point _lastMouseDown;
+
+        private void TreeNodes_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _lastMouseDown = e.GetPosition(this);
+        }
+
+        private void BtnSend_Click(object sender, RoutedEventArgs e)
+        {
+            Node selectedNode = TreeNodes.SelectedItem as Node;
+            if (selectedNode != null && selectedNode.RootNode != null)
+            {
+                selectedNode.RealRemoveItSelf();
+                DataOut.MoveNodeToOtherTable(selectedNode, selectedNode.TabName, Gval.CurrentBook.BoxPublished.TabName);
+                Gval.CurrentBook.BoxPublished.ChildNodes.Add(selectedNode);
             }
         }
     }

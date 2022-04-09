@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RootNS" xmlns:brick="clr-namespace:RootNS.Brick"
         xmlns:mod="clr-namespace:RootNS.Model" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" UseLayoutRounding="True"
-        Title=""
+        Title="" ContentRendered="WinMain_ContentRendered"
         Height="1000" Width="1800" 
         WindowState="Maximized" Loaded="WinMain_Loaded">
     <Grid>
@@ -97,7 +97,7 @@
             </GroupBox>
         </Grid>
         <GroupBox Grid.Column="4" Style="{StaticResource BaseStyle}" Background="Transparent" BorderThickness="0">
-            <brick:MyEditor ItemsSource="{Binding OpenDocList, ElementName=WinMain}"/>
+            <brick:MyEditor ItemsSource="{Binding OpeningDocList, Source={StaticResource GlobalSource}}"/>
         </GroupBox>
         <Grid Grid.Column="6">
             <Grid.RowDefinitions>
@@ -138,13 +138,13 @@
             <GroupBox Name="GBoxPublicCard" Grid.Row="2" Header="公共信息卡" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabPublicCard" DataContext="{Binding MaterialBook, Source={StaticResource GlobalSource}}" Loaded="TabPublicCard_Loaded" SelectionChanged="TabPublicCard_SelectionChanged" GotFocus="TabPublicCard_GotFocus" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="公共角色">
-                        <brick:CardsBox DataContext="{Binding CardRole}"/>
+                        <brick:CardsBox DataContext="{Binding PublicCardRole}"/>
                     </TabItem>
                     <TabItem Header="公共其他">
-                        <brick:CardsBox DataContext="{Binding CardOther}"/>
+                        <brick:CardsBox DataContext="{Binding PublicCardOther}"/>
                     </TabItem>
                     <TabItem Header="公共世界">
-                        <brick:CardsBox DataContext="{Binding CardWorld}"/>
+                        <brick:CardsBox DataContext="{Binding PublicCardWorld}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>

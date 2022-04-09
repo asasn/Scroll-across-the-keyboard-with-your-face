@@ -78,21 +78,32 @@ namespace RootNS.Model
         }
 
 
-        private static ObservableCollection<Node> _openedDocList = new ObservableCollection<Node>();
+        private static ObservableCollection<Node> _openingDocList = new ObservableCollection<Node>();
         /// <summary>
         /// 打开文档的集合
         /// </summary>
-        public static ObservableCollection<Node> OpenedDocList
+        public static ObservableCollection<Node> OpeningDocList
         {
-            get { return _openedDocList; }
+            get { return _openingDocList; }
             set
             {
-                _openedDocList = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(OpenedDocList)));
+                _openingDocList = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(OpeningDocList)));
             }
         }
 
 
+        private static bool _flagLoadingCompleted;
+
+        public static bool FlagLoadingCompleted
+        {
+            get { return _flagLoadingCompleted; }
+            set
+            {
+                _flagLoadingCompleted = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(FlagLoadingCompleted)));
+            }
+        }
 
 
 

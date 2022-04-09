@@ -70,13 +70,13 @@ namespace RootNS.Behavior
             return sql;
         }
 
-        private static string GetSqlStringForCreateTable(string dbName)
+        private static string GetSqlStringForCreateTable(string tableName)
         {
             string sql = string.Empty;
-            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Pid CHAR DEFAULT \"\", Title CHAR, IsDir BOOLEAN DEFAULT(False), Text TEXT, Summary CHAR, TabName CHAR, PointX DOUBLE, PointY DOUBLE, WordsCount INTEGER, IsExpanded BOOLEAN DEFAULT(False), IsChecked BOOLEAN DEFAULT(False), IsDel BOOLEAN DEFAULT(False));", dbName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", dbName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Pid ON {0}(Pid);", dbName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}TabName ON {0}(TabName);", dbName);
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} (Uid CHAR PRIMARY KEY, [Index] INTEGER DEFAULT (0), Pid CHAR DEFAULT \"\", Title CHAR, IsDir BOOLEAN DEFAULT(False), Text TEXT, Summary CHAR, TabName CHAR, PointX DOUBLE, PointY DOUBLE, WordsCount INTEGER, IsExpanded BOOLEAN DEFAULT(False), IsChecked BOOLEAN DEFAULT(False), IsDel BOOLEAN DEFAULT(False));", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Pid ON {0}(Pid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}TabName ON {0}(TabName);", tableName);
             return sql;
         }
     }

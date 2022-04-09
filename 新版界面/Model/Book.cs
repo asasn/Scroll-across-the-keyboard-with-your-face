@@ -89,24 +89,24 @@ namespace RootNS.Model
 
 
         #region 目录树
-        public Node BoxDraft { set; get; } = new Node() { TabName = ChapterTabName.草稿.ToString() };
-        public Node BoxTemp { set; get; } = new Node() { TabName = ChapterTabName.暂存.ToString() };
-        public Node BoxPublished { set; get; } = new Node() { TabName = ChapterTabName.已发布.ToString() };
+        public Node BoxDraft { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.草稿.ToString() };
+        public Node BoxTemp { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.暂存.ToString() };
+        public Node BoxPublished { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.已发布.ToString() };
         #endregion
 
         #region 记事板
-        public Node NoteMemorabilia { set; get; } = new Node() { TabName = NoteTabName.大事记.ToString() };
-        public Node NoteStory { set; get; } = new Node() { TabName = NoteTabName.故事.ToString() };
-        public Node NoteScenes { get; set; } = new Node() { TabName = NoteTabName.场景.ToString() };
-        public Node NoteClues { set; get; } = new Node() { TabName = NoteTabName.线索.ToString() };
-        public Node NoteTemplate { set; get; } = new Node() { TabName = NoteTabName.模板.ToString() };
+        public Node NoteMemorabilia { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.大事记.ToString() };
+        public Node NoteStory { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.故事.ToString() };
+        public Node NoteScenes { get; set; } = new Node() { Uid = String.Empty, TabName = NoteTabName.场景.ToString() };
+        public Node NoteClues { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.线索.ToString() };
+        public Node NoteTemplate { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.模板.ToString() };
         #endregion
 
         #region 信息卡
-        public Node CardRole { set; get; } = new Node() { TabName = CardTabName.角色.ToString() };
-        public Node CardOther { set; get; } = new Node() { TabName = CardTabName.其他.ToString() };
-        public Node CardWorld { set; get; } = new Node() { TabName = CardTabName.世界.ToString() };
-        public Node MapPoints { set; get; } = new Node() { TabName = CardTabName.地图.ToString() };
+        public Node CardRole { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.角色.ToString() };
+        public Node CardOther { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.其他.ToString() };
+        public Node CardWorld { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.世界.ToString() };
+        public Node MapPoints { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.地图.ToString() };
         #endregion
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace RootNS.Model
                 DataJoin.FillInPart(null, rootNode);
             }
         }
- 
+
         /// <summary>
         /// 载入信息卡
         /// </summary>

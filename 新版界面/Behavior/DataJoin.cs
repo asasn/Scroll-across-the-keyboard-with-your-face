@@ -43,7 +43,7 @@ namespace RootNS.Behavior
                 if (Gval.CurrentBook.Uid != null && Gval.CurrentBook.Uid == book.Uid)
                 {
                     Gval.CurrentBook = book;
-                    DataJoin.InitRootNodes(book);
+                    DataJoin.InitBookRootNodes(book);
                 }
                 Gval.BooksBank.Add(book);
             }
@@ -67,13 +67,15 @@ namespace RootNS.Behavior
                 book.IsDel = (bool)reader["IsDel"];
             }
             reader.Close();
-            DataJoin.InitRootNodes(book);
+            Gval.FlagLoadingCompleted = false;
+            DataJoin.InitBookRootNodes(book);
             book.LoadBookChapters();
             book.LoadBookNotes();
             book.LoadForCards();
+            Gval.FlagLoadingCompleted = true;
         }
 
-        private static void InitRootNodes(Book book)
+        private static void InitBookRootNodes(Book book)
         {
             Node[] rootNodes = { book.BoxDraft, book.BoxTemp, book.BoxPublished, book.NoteMemorabilia, book.NoteStory, book.NoteScenes, book.NoteClues, book.NoteTemplate, book.CardRole, book.CardOther, book.CardWorld, book.MapPoints };
             foreach (Node node in rootNodes)

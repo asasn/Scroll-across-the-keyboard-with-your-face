@@ -30,9 +30,9 @@ namespace RootNS.Brick
         {            
             if ((this.DataContext as Node).IsDir != true)
             {
-                if (Gval.OpenedDocList.Contains((this.DataContext as Node)) != true)
+                if (Gval.OpeningDocList.Contains((this.DataContext as Node)) != true)
                 {
-                    Gval.OpenedDocList.Add(this.DataContext as Node);
+                    Gval.OpeningDocList.Add(this.DataContext as Node);
                 }
                 Gval.EditorTabControl.SelectedItem = this.DataContext as Node;
             }
