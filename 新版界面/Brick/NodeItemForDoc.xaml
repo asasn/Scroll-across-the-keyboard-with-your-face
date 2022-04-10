@@ -29,7 +29,7 @@
             <ContentControl.Content>
                 <MultiBinding Converter="{StaticResource BoolConvertorCount}">
                     <Binding Path="IsDir" />
-                    <Binding/>
+                    <Binding />
                 </MultiBinding>
             </ContentControl.Content>
         </Label>

@@ -44,7 +44,7 @@ namespace RootNS.Brick
 
         private void ThisControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Console.WriteLine(Gval.EditorTabControl.SelectedItem);            
+                       
         }
 
     }

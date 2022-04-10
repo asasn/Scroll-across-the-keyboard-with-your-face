@@ -2,6 +2,7 @@
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Globalization;
@@ -22,7 +23,7 @@ namespace RootNS
     }
 
     /// <summary>
-    /// 多路绑定
+    /// 多路绑定：根据是否目录的布尔值判断图标
     /// </summary>
     public class CustomMultiValueConvertor : IMultiValueConverter
     {
@@ -65,7 +66,7 @@ namespace RootNS
     /// <summary>
     /// TabName决定节点模板
     /// </summary>
-    public class TabNameConvertToNodeTemplate : IValueConverter
+    public class NodeConvertToNodeTemplate : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -86,6 +87,76 @@ namespace RootNS
             catch
             {
                 return new NodeItemForDoc();
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// TabName决定是否显现
+    /// </summary>
+    public class NodeConvertToVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Visibility.Collapsed;
+            }
+            Node node = (Node)value;
+            try
+            {
+                if (node.TabName == "草稿" || node.TabName == "暂存")
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+            catch
+            {
+                return Visibility.Collapsed;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// TabName决定是否显现2
+    /// </summary>
+    public class NodeConvertToVisibility2 : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Visibility.Collapsed;
+            }
+            Node node = (Node)value;
+            try
+            {
+                if (node.TabName == "草稿")
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+            catch
+            {
+                return Visibility.Collapsed;
             }
         }
 

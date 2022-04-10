@@ -107,8 +107,19 @@ namespace RootNS.Model
 
 
 
-        public static HandyControl.Controls.TabControl EditorTabControl;
-
+        private static HandyControl.Controls.TabControl _editorTabControl;
+        /// <summary>
+        /// 编辑器页标签
+        /// </summary>
+        public static HandyControl.Controls.TabControl EditorTabControl
+        {
+            get { return _editorTabControl; }
+            set
+            {
+                _editorTabControl = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(EditorTabControl)));
+            }
+        }
 
 
         private static TabControl _selectedChapterTab;

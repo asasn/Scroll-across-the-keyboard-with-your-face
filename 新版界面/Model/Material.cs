@@ -76,8 +76,7 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
-                DataJoin.FillInPart(null, rootNode);
+                DataJoin.FillInPart(rootNode);
             }
         }
 
@@ -102,8 +101,7 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
-                DataJoin.FillInPart(null, rootNode);
+                DataJoin.FillInPart(rootNode);
             }
         }
     }

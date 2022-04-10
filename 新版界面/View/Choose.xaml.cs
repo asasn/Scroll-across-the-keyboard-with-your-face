@@ -123,7 +123,6 @@ namespace RootNS.View
                 }
             }
             IsBookNameTrue(sender as TextBox);
-
         }
 
         Button PreviousButton = new Button();

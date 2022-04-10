@@ -53,12 +53,6 @@ namespace RootNS.Brick
 
         }
 
-        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-
-        }
-
-
         private void BtnDel_Click(object sender, RoutedEventArgs e)
         {
             if (TreeNodes.SelectedItem != null)
@@ -125,25 +119,38 @@ namespace RootNS.Brick
             {
                 return;
             }
+            if ((TreeNodes.DataContext as Node).TabName == "暂存" || (TreeNodes.DataContext as Node).TabName == "草稿")
+            {
+                return;
+            }
             Node node = new Node();
             node.IsDir = true;
-            (TreeNodes.DataContext as Node).AddNode(node);
+            (TreeNodes.DataContext as Node).AddChildNode(node);
         }
 
         private void BtnAddDoc_Click(object sender, RoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem != null && (TreeNodes.SelectedItem as Node).RootNode != null)
+            if (TreeNodes.SelectedItem == null)
+            {
+                if ((TreeNodes.DataContext as Node).TabName == "暂存" || (TreeNodes.DataContext as Node).TabName == "草稿")
+                {
+                    Node node = new Node();
+                    (TreeNodes.DataContext as Node).AddChildNode(node);
+                }
+            }
+            else
             {
                 Node node = new Node();
                 if ((TreeNodes.SelectedItem as Node).IsDir == true)
                 {
-                    (TreeNodes.SelectedItem as Node).AddNode(node);
+                    (TreeNodes.SelectedItem as Node).AddChildNode(node);
                 }
                 else
                 {
-                    (TreeNodes.SelectedItem as Node).ParentNode.AddNode(node);
+                    (TreeNodes.SelectedItem as Node).ParentNode.AddChildNode(node);
                 }
             }
+
         }
 
         /// <summary>
@@ -194,11 +201,9 @@ namespace RootNS.Brick
             TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
             Node dragNode = (sender as TreeView).SelectedValue as Node;
             Node dropNode = container.DataContext as Node;
-            Console.WriteLine(dragNode.Pid);
             dragNode.ParentNode.ChildNodes.Remove(dragNode);
             dragNode.IsDel = false;
             dropNode.ChildNodes.Add(dragNode);
-            Console.WriteLine(dragNode.Pid);
 
             _lastMouseDown = new Point();
             TreeNodes_DragLeave(sender, e);
@@ -241,16 +246,29 @@ namespace RootNS.Brick
         {
             _lastMouseDown = e.GetPosition(this);
         }
-
-        private void BtnSend_Click(object sender, RoutedEventArgs e)
+        private void BtnKeep_Click(object sender, RoutedEventArgs e)
         {
             Node selectedNode = TreeNodes.SelectedItem as Node;
+            Node targetRootNode = Gval.CurrentBook.BoxTemp;
             if (selectedNode != null && selectedNode.RootNode != null)
             {
                 selectedNode.RealRemoveItSelf();
-                DataOut.MoveNodeToOtherTable(selectedNode, selectedNode.TabName, Gval.CurrentBook.BoxPublished.TabName);
-                Gval.CurrentBook.BoxPublished.ChildNodes.Add(selectedNode);
+                DataOut.MoveNodeToOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
+                targetRootNode.ChildNodes.Add(selectedNode);
             }
         }
+        private void BtnSend_Click(object sender, RoutedEventArgs e)
+        {
+            Node selectedNode = TreeNodes.SelectedItem as Node;
+            Node targetRootNode = Gval.CurrentBook.BoxPublished;
+            if (selectedNode != null && selectedNode.RootNode != null)
+            {
+                selectedNode.RealRemoveItSelf();
+                DataOut.MoveNodeToOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
+                targetRootNode.ChildNodes.Add(selectedNode);
+            }
+        }
+
+
     }
 }

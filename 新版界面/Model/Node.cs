@@ -23,6 +23,10 @@ namespace RootNS.Model
             {
                 return;
             }
+            if (this.IsDir == false && e.PropertyName == "IsExpanded")
+            {
+                return;
+            }
             if (e.PropertyName == "IsDel")
             {
                 if (this.IsDel == true)
@@ -33,12 +37,12 @@ namespace RootNS.Model
                     }
                 }
             }
+
             if (e.PropertyName == "Pid" || e.PropertyName == "Index" || e.PropertyName == "TabName" || e.PropertyName == "IsExpanded" || e.PropertyName == "IsChecked" || e.PropertyName == "IsDel")
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
                 DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
             }
-
         }
 
         private string _title;
@@ -319,7 +323,12 @@ namespace RootNS.Model
             }
         }
 
-        public Node AddNode(Node node)
+        /// <summary>
+        /// 从当前节点添加子节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public Node AddChildNode(Node node)
         {
             if (node.Title == null)
             {
@@ -370,6 +379,7 @@ namespace RootNS.Model
                 stuff.OwnerName = this.OwnerName;
                 stuff.ParentNode = this;
                 stuff.Index = this.ChildNodes.IndexOf(stuff);
+                this.WordsCount += 1;
                 if (stuff.Index > 0)
                 {
                     stuff.PreviousNode = this.ChildNodes[stuff.Index - 1];
@@ -396,6 +406,7 @@ namespace RootNS.Model
                 {
                     this.ChildNodes[i].Index -= 1;
                 }
+                this.WordsCount -= 1;
             }
         }
 

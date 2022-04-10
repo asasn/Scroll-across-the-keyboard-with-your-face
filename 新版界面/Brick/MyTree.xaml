@@ -20,9 +20,10 @@
             <Button x:Name="BtnRecycle" FontFamily="../Assets/#androidicons" Content="&#59463;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnRecycle_Click"/>
             <Button x:Name="BtnUp" FontFamily="../Assets/#androidicons" Content="&#59432;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUp_Click"/>
             <Button x:Name="BtnDown" FontFamily="../Assets/#androidicons" Content="&#59433;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDown_Click"/>
-            <Button x:Name="BtnSend" FontFamily="../Assets/#androidicons" Content="&#59629;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnSend_Click"/>
+            <Button Visibility="{Binding Converter={StaticResource NodeConvertToVisibility2}}" x:Name="BtnKeep" FontFamily="../Assets/#androidicons" Content="&#59604;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnKeep_Click"/>
+            <Button Visibility="{Binding Converter={StaticResource NodeConvertToVisibility}}" x:Name="BtnSend" FontFamily="../Assets/#androidicons" Content="&#59629;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnSend_Click"/>
         </StackPanel>
-        <TreeView x:Name="TreeNodes" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedItemChanged="TreeView_SelectedItemChanged" Grid.RowSpan="2" Grid.Row="1" DragEnter="TreeNodes_DragEnter" Drop="TreeNodes_Drop" MouseMove="TreeNodes_MouseMove" MouseLeftButtonDown="TreeNodes_MouseLeftButtonDown" DragLeave="TreeNodes_DragLeave">
+        <TreeView x:Name="TreeNodes" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" Grid.Row="1" DragEnter="TreeNodes_DragEnter" Drop="TreeNodes_Drop" MouseMove="TreeNodes_MouseMove" MouseLeftButtonDown="TreeNodes_MouseLeftButtonDown" DragLeave="TreeNodes_DragLeave">
             <TreeView.Resources>
                 <RoutedUICommand x:Key="AddFolder" Text="添加目录"/>
                 <RoutedUICommand x:Key="AddDoc" Text="添加文档"/>
@@ -61,7 +62,7 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}">
                     <Border Margin="0" Padding="0">
-                        <ContentControl Content="{Binding Converter={StaticResource TabNameConvertToNodeTemplate}}" DataContext="{Binding}"/>
+                        <ContentControl Content="{Binding Converter={StaticResource NodeConvertToNodeTemplate}}" DataContext="{Binding}"/>
                     </Border>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

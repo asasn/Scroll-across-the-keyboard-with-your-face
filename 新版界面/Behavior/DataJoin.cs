@@ -84,8 +84,7 @@ namespace RootNS.Behavior
             }
         }
 
-
-        public static void FillInPart(string pid, Node rootNode)
+        private static void FillInPartBase(string pid, Node rootNode)
         {
             if (Gval.CurrentBook.Name == null && rootNode.OwnerName != "index")
             {
@@ -113,12 +112,18 @@ namespace RootNS.Behavior
                     IsDel = (bool)reader["IsDel"]
                 };
                 rootNode.ChildNodes.Add(node);
-                FillInPart(node.Uid, node);
+                FillInPartBase(node.Uid, node);
             }
             reader.Close();
         }
 
 
-
+        public static void FillInPart(Node rootNode)
+        {
+            Gval.FlagLoadingCompleted = false;
+            CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
+            DataJoin.FillInPartBase(null, rootNode);
+            Gval.FlagLoadingCompleted = true;
+        }
     }
 }
