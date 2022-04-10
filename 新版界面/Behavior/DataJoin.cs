@@ -17,7 +17,7 @@ namespace RootNS.Behavior
         public static void ReadyForBaseInfo()
         {
             CFileOperate.CreateFolder(Gval.Path.Books);
-            TableOperate.TryToBuildIndexDatabase();
+            HelperTable.TryToBuildIndexDatabase();
             Gval.CurrentBook.Uid = CSettingsOperate.Get(Gval.MaterialBook.Name, "CurBookUid");
             LoadBooksBankHeader();
         }

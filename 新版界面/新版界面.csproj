@@ -180,9 +180,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behavior\HelperControl.cs" />
     <Compile Include="Behavior\DataJoin.cs" />
     <Compile Include="Behavior\DataOut.cs" />
-    <Compile Include="Behavior\TableOperate.cs" />
+    <Compile Include="Behavior\HelperEditor.cs" />
+    <Compile Include="Behavior\HelperTable.cs" />
     <Compile Include="Brick\CardsBox.xaml.cs">
       <DependentUpon>CardsBox.xaml</DependentUpon>
     </Compile>

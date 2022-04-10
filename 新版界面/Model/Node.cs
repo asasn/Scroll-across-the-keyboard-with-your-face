@@ -37,8 +37,11 @@ namespace RootNS.Model
                     }
                 }
             }
-
-            if (e.PropertyName == "Pid" || e.PropertyName == "Index" || e.PropertyName == "TabName" || e.PropertyName == "IsExpanded" || e.PropertyName == "IsChecked" || e.PropertyName == "IsDel")
+            if (e.PropertyName == "Text")
+            {
+                this.WordsCount = HelperEditor.CountWords(this.Text);
+            }
+            if (e.PropertyName == "Pid" || e.PropertyName == "Index" || e.PropertyName == "Title" || e.PropertyName == "TabName" || e.PropertyName == "IsExpanded" || e.PropertyName == "IsChecked" || e.PropertyName == "IsDel")
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
                 DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
@@ -265,8 +268,23 @@ namespace RootNS.Model
             {
                 _ownerName = value;
                 this.RaisePropertyChanged(nameof(OwnerName));
+            }   
+        }
+
+        private bool _reNameing;
+        /// <summary>
+        /// 是否正在命名状态
+        /// </summary>
+        public bool ReNameing
+        {
+            get { return _reNameing; }
+            set
+            {
+                _reNameing = value;
+                this.RaisePropertyChanged(nameof(ReNameing));
             }
         }
+
 
         private string _summary = String.Empty;
         /// <summary>

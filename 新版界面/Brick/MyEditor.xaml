@@ -10,13 +10,13 @@
     IsAnimationEnabled="True" ShowCloseButton="True" IsTabFillEnabled="False"
     Effect="{StaticResource EffectShadow3}" Loaded="EditorTabControl_Loaded" SelectionChanged="ThisControl_SelectionChanged">
     <TabControl.ItemTemplate>
-        <DataTemplate>
-            <TextBlock Text="{Binding Title}" />
-        </DataTemplate>
+        <HierarchicalDataTemplate>
+            <TextBlock Text="{Binding Title}"/>
+        </HierarchicalDataTemplate>
     </TabControl.ItemTemplate>
     <TabControl.ContentTemplate>
-        <DataTemplate>
+        <HierarchicalDataTemplate>
             <local:EditorBase DataContext="{Binding}"/>
-        </DataTemplate>
+        </HierarchicalDataTemplate>
     </TabControl.ContentTemplate>
 </hc:TabControl>

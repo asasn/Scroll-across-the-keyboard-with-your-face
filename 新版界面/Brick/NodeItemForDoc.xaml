@@ -16,7 +16,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="16"/>
         </Grid.ColumnDefinitions>
-        <ContentControl Padding="0" FontFamily="../Assets/#androidicons" FontSize="{Binding Content, RelativeSource={RelativeSource Self},Converter={StaticResource IconCodeConvertToFontSize}}" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ContentControl x:Name="contentControl" Padding="0" FontFamily="../Assets/#androidicons" FontSize="{Binding Content, RelativeSource={RelativeSource Self},Converter={StaticResource IconCodeConvertToFontSize}}" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ContentControl.Content>
                 <MultiBinding Converter="{StaticResource CustomMultiValueConvertor}">
                     <Binding Path="IsDir" />
@@ -24,15 +24,16 @@
                 </MultiBinding>
             </ContentControl.Content>
         </ContentControl>
-        <ContentControl Content="{Binding Title}" Grid.Column="1" VerticalAlignment="Center"/>
-        <Label Padding="0" Background="Transparent" BorderThickness="0" IsEnabled="False" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center">
-            <ContentControl.Content>
+        <ContentControl x:Name="title" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" Content="{Binding Title, Mode=TwoWay}" Padding="0" BorderThickness="0" Background="Transparent" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Label Padding="0" Content="{Binding WordsCount}" Background="Transparent" BorderThickness="0" IsEnabled="False" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <!--<ContentControl.Content>
                 <MultiBinding Converter="{StaticResource BoolConvertorCount}">
                     <Binding Path="IsDir" />
                     <Binding />
                 </MultiBinding>
-            </ContentControl.Content>
+            </ContentControl.Content>-->
         </Label>
         <Label Padding="0" Background="Transparent" BorderThickness="0" IsEnabled="False" Grid.Column="4" Content="{Binding IsDir, Converter={StaticResource TypeConvertToShowText}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" Padding="0"  Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" KeyDown="TbReName_KeyDown" MaxLength="20"/>
     </Grid>
 </UserControl>

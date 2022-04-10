@@ -16,6 +16,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Search;
+using RootNS.Behavior;
 using RootNS.Model;
 
 namespace RootNS.Brick
@@ -29,7 +30,22 @@ namespace RootNS.Brick
         {
             InitializeComponent();
         }
-        public Book CurrentBook { get; set; } = Gval.CurrentBook;
+
+
+
+        public string MainText
+        {
+            get { return (string)GetValue(MainTextProperty); }
+            set { SetValue(MainTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MainText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MainTextProperty =
+            DependencyProperty.Register("MainText", typeof(string), typeof(EditorBase), new PropertyMetadata("　　"));
+
+
+
+
         private void BtnUndo_Click(object sender, RoutedEventArgs e)
         {
 
@@ -60,49 +76,61 @@ namespace RootNS.Brick
 
         }
 
-        private void TextEditor_TextChanged(object sender, EventArgs e)
+        private void ThisTextEditor_TextChanged(object sender, EventArgs e)
+        {
+            (this.DataContext as Node).Text = ThisTextEditor.Text;
+        }
+
+        private void ThisTextEditor_KeyUp(object sender, KeyEventArgs e)
         {
 
         }
 
-        private void TextEditor_KeyUp(object sender, KeyEventArgs e)
+        private void ThisTextEditor_KeyDown(object sender, KeyEventArgs e)
         {
 
         }
 
-        private void TextEditor_KeyDown(object sender, KeyEventArgs e)
+        private void ThisTextEditor_MouseHoverStopped(object sender, MouseEventArgs e)
         {
 
         }
 
-        private void TextEditor_MouseHoverStopped(object sender, MouseEventArgs e)
+        private void ThisTextEditor_MouseHover(object sender, MouseEventArgs e)
         {
 
         }
 
-        private void TextEditor_MouseHover(object sender, MouseEventArgs e)
+        private void ThisTextEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
         {
 
         }
 
-        private void TextEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void ThisTextEditor_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
         }
 
-        private void TextEditor_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
-        private void TextEditor_Loaded(object sender, RoutedEventArgs e)
-        {
-            (sender as TextEditor).Text = (this.DataContext as Node).Text;
-        }
+        
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Gval.OpeningDocList.Remove((sender as Button).DataContext as Node);
+        }
+
+ 
+
+        private void ThisControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Node node = this.DataContext as Node;
+            if (string.IsNullOrWhiteSpace(node.Text) == true)
+            {
+                ThisTextEditor.Text = "　　";
+            }
+            else
+            {
+                ThisTextEditor.Text = (this.DataContext as Node).Text;
+            }
         }
     }
 }

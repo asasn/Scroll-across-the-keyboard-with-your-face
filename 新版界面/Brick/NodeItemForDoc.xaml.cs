@@ -27,7 +27,21 @@ namespace RootNS.Brick
         }
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {            
+        {
+            //Node node = this.DataContext as Node;
+            //if (node.IsDir != true)
+            //{
+            //    if (Gval.OpeningDocList.Contains(node) == false)
+            //    {
+            //        Gval.OpeningDocList.Add(node);
+            //    }
+            //    if (string.IsNullOrWhiteSpace(node.Text) == true)
+            //    {
+            //        node.Text = "　　";
+            //    }
+            //    Gval.EditorTabControl.SelectedItem = node;
+            //
+
             if ((this.DataContext as Node).IsDir != true)
             {
                 if (Gval.OpeningDocList.Contains((this.DataContext as Node)) != true)
@@ -35,6 +49,7 @@ namespace RootNS.Brick
                     Gval.OpeningDocList.Add(this.DataContext as Node);
                 }
                 Gval.EditorTabControl.SelectedItem = this.DataContext;
+
             }
         }
 
@@ -43,6 +58,13 @@ namespace RootNS.Brick
             (this.DataContext as Node).IsSelected = true;
         }
 
-
+        private void TbReName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                (this.DataContext as Node).ReNameing = !(this.DataContext as Node).ReNameing;
+                e.Handled = true;
+            }
+        }
     }
 }

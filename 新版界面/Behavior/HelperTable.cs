@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RootNS.Behavior
 {
-    public class TableOperate
+    public class HelperTable
     {
         public static void TryToBuildIndexDatabase()
         {

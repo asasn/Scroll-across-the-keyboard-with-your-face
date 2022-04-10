@@ -7,7 +7,7 @@
     xmlns:behavior="clr-namespace:RootNS.Behavior" 
     Background="#FFFEFEFE" UseLayoutRounding="True"
     mc:Ignorable="d" VirtualizingPanel.IsVirtualizing="True"
-    d:DesignHeight="450" d:DesignWidth="300" >
+    d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="26"/>
@@ -28,6 +28,7 @@
                 <RoutedUICommand x:Key="AddFolder" Text="添加目录"/>
                 <RoutedUICommand x:Key="AddDoc" Text="添加文档"/>
                 <RoutedUICommand x:Key="DelNode" Text="删除节点"/>
+                <RoutedUICommand x:Key="ReName" Text="重命名"/>
                 <RoutedUICommand x:Key="ImportNode" Text="导入"/>
             </TreeView.Resources>
             <TreeView.ContextMenu>
@@ -35,6 +36,7 @@
                     <MenuItem Icon="&#59407;" FontFamily="../Assets/#androidicons" Header="添加目录" IsEnabled="True" Command="{StaticResource AddFolder}" InputGestureText="Add"/>
                     <MenuItem Header="添加文档" IsEnabled="False" Command="{StaticResource AddDoc}" InputGestureText="Enter"/>
                     <MenuItem Header="删除节点" IsEnabled="False" Command="{StaticResource DelNode}" InputGestureText="Delete"/>
+                    <MenuItem Header="重命名" IsEnabled="True" Command="{StaticResource ReName}" InputGestureText="F2"/>
                     <MenuItem Header="导入" IsEnabled="False" Command="{StaticResource ImportNode}" InputGestureText="Insert"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
@@ -42,12 +44,14 @@
                 <CommandBinding Command="{StaticResource AddFolder}" Executed="Command_AddFolder_Executed" />
                 <CommandBinding Command="{StaticResource AddDoc}" Executed="Command_AddDoc_Executed" />
                 <CommandBinding Command="{StaticResource DelNode}" Executed="Command_Delete_Executed" />
+                <CommandBinding Command="{StaticResource ReName}" Executed="Command_ReName_Executed" />
                 <CommandBinding Command="{StaticResource ImportNode}" Executed="Command_Import_Executed" />
             </TreeView.CommandBindings>
             <TreeView.InputBindings>
                 <KeyBinding Command="{StaticResource AddFolder}" Key="Add"/>
                 <KeyBinding Command="{StaticResource AddDoc}" Key="Return" />
                 <KeyBinding Command="{StaticResource DelNode}" Key="Delete" />
+                <KeyBinding Command="{StaticResource ReName}" Key="F2" />
                 <KeyBinding Command="{StaticResource ImportNode}" Key="Insert" />
             </TreeView.InputBindings>
             <TreeView.ItemContainerStyle>

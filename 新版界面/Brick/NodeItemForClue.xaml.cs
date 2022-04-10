@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +26,13 @@ namespace RootNS.Brick
             InitializeComponent();
         }
 
+        private void TbReName_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                (this.DataContext as Node).ReNameing = !(this.DataContext as Node).ReNameing;
+                e.Handled = true;
+            }
+        }
     }
 }

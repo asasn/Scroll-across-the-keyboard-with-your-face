@@ -269,6 +269,18 @@ namespace RootNS.Brick
             }
         }
 
+        private void Command_ReName_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Node selectedNode = TreeNodes.SelectedItem as Node;
+            TreeViewItem container = (TreeViewItem)TreeNodes.ItemContainerGenerator.ContainerFromItem(selectedNode);
+            if (selectedNode != null)
+            {
+                selectedNode.ReNameing = !selectedNode.ReNameing;
+                TextBox TbReName = HelperControl.FindChild<TextBox>(container as DependencyObject, "TbReName");
+                TbReName.SelectAll();
+                TbReName.Focus();
+            }
+        }
 
     }
 }

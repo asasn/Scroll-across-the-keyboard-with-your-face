@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RootNS.Brick" xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:Document="clr-namespace:ICSharpCode.AvalonEdit.Document;assembly=ICSharpCode.AvalonEdit" x:Name="ThisControl" x:Class="RootNS.Brick.EditorBase"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" DataContextChanged="ThisControl_DataContextChanged">
     <Grid Background="#FFFAFAFA" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="Column0" Width="100*"/>
@@ -19,9 +19,9 @@
         <avalonEdit:TextEditor 
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
             Grid.Row="0"
-            x:Name="TextEditor" ShowLineNumbers="True"
+            x:Name="ThisTextEditor" ShowLineNumbers="True"
             SyntaxHighlighting="Text" WordWrap="True" FontFamily="宋体"             
-            FontSize="12pt" TextChanged="TextEditor_TextChanged" KeyUp="TextEditor_KeyUp" KeyDown="TextEditor_KeyDown" CommandManager.Executed="TextEditor_Executed"  CommandManager.PreviewExecuted="TextEditor_PreviewExecuted" MouseHover="TextEditor_MouseHover" MouseHoverStopped="TextEditor_MouseHoverStopped" Loaded="TextEditor_Loaded" >
+            FontSize="12pt" TextChanged="ThisTextEditor_TextChanged" KeyUp="ThisTextEditor_KeyUp" KeyDown="ThisTextEditor_KeyDown" CommandManager.Executed="ThisTextEditor_Executed"  CommandManager.PreviewExecuted="ThisTextEditor_PreviewExecuted" MouseHover="ThisTextEditor_MouseHover" MouseHoverStopped="ThisTextEditor_MouseHoverStopped">
             <avalonEdit:TextEditor.Options>
                 <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
@@ -32,13 +32,13 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal"  >
                 <Label hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="段落：" Background="Transparent" Foreground="#FFC70F0F" Padding="10,0,0,0"/>
-                <Label hc:BorderElement.CornerRadius="0" x:Name="LbParagraph" BorderThickness="0,0,0,0" Content="{Binding Document.LineCount, ElementName=TextEditor}" Background="Transparent" Foreground="#FFC70F0F" Padding="0" MinWidth="40"/>
+                <Label hc:BorderElement.CornerRadius="0" x:Name="LbParagraph" BorderThickness="0,0,0,0" Content="{Binding Document.LineCount, ElementName=ThisTextEditor}" Background="Transparent" Foreground="#FFC70F0F" Padding="0" MinWidth="40"/>
                 <Label hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="字数：" Background="Transparent" Foreground="#FF0D4DF9" Padding="10,0,0,0"/>
                 <Label hc:BorderElement.CornerRadius="0" x:Name="LbWorksCount" BorderThickness="0,0,0,0" Content="{Binding WordsCount}" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40"/>
                 <Label hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="价值：" Background="Transparent" Foreground="#FF0D4DF9" Padding="10,0,0,0"/>
-                <Label hc:BorderElement.CornerRadius="0" x:Name="LbValueValue" BorderThickness="0,0,0,0" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40" Content="{Binding CurrentBook.Price, ElementName=ThisControl}"/>
+                <Label hc:BorderElement.CornerRadius="0" x:Name="LbValueValue" BorderThickness="0,0,0,0" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40" Content="{Binding CurrentBook.Price, Source={StaticResource GlobalSource}}"/>
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="0" Grid.Column="1">

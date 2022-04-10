@@ -44,7 +44,7 @@ namespace RootNS.Brick
 
         private void ThisControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-                       
+            //(ThisControl.SelectedItem as EditorBase).ThisTextEditor.Text = (ThisControl.SelectedItem as Node).Text;
         }
 
     }
