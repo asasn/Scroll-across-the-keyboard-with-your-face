@@ -20,7 +20,7 @@ namespace RootNS.Model
         /// <summary>
         /// 清空各部分根节点
         /// </summary>
-        public new void Clear()
+        public void Clear()
         {
             BoxDraft.ChildNodes.Clear();
             BoxTemp.ChildNodes.Clear();

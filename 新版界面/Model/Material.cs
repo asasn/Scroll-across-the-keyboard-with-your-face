@@ -15,7 +15,7 @@ namespace RootNS.Model
         /// <summary>
         /// 清空各部分根节点
         /// </summary>
-        public new void Clear()
+        public void Clear()
         {
             BoxExample.ChildNodes.Clear();
             BoxMaterial.ChildNodes.Clear();

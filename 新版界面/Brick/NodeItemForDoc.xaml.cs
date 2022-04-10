@@ -49,7 +49,6 @@ namespace RootNS.Brick
                     Gval.OpeningDocList.Add(this.DataContext as Node);
                 }
                 Gval.EditorTabControl.SelectedItem = this.DataContext;
-
             }
         }
 
@@ -62,9 +61,14 @@ namespace RootNS.Brick
         {
             if (e.Key == Key.Enter)
             {
-                (this.DataContext as Node).ReNameing = !(this.DataContext as Node).ReNameing;
+                (this.DataContext as Node).ReNameing = false;
                 e.Handled = true;
             }
+        }
+
+        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as Node).ReNameing = false;
         }
     }
 }

@@ -268,7 +268,7 @@ namespace RootNS.Model
             {
                 _ownerName = value;
                 this.RaisePropertyChanged(nameof(OwnerName));
-            }   
+            }
         }
 
         private bool _reNameing;
@@ -284,6 +284,7 @@ namespace RootNS.Model
                 this.RaisePropertyChanged(nameof(ReNameing));
             }
         }
+
 
 
         private string _summary = String.Empty;

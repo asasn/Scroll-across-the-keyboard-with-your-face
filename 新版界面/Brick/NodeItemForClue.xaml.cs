@@ -30,7 +30,7 @@ namespace RootNS.Brick
         {
             if (e.Key == Key.Enter)
             {
-                (this.DataContext as Node).ReNameing = !(this.DataContext as Node).ReNameing;
+                (this.DataContext as Node).ReNameing = false;
                 e.Handled = true;
             }
         }

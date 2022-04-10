@@ -58,7 +58,7 @@ namespace RootNS.Brick
             if (TreeNodes.SelectedItem != null)
             {
                 Node node = TreeNodes.SelectedItem as Node;
-                int i = 0;
+                //int i = 0;
                 //if (node.ParentNode.ChildNodes.Count > 0)
                 //{
                 //    if (node.Index >= 0)
@@ -153,6 +153,9 @@ namespace RootNS.Brick
 
         }
 
+
+
+        #region 拖曳移动节点
         /// <summary>
         /// 方法：drop之后向上获取容器
         /// </summary>
@@ -181,6 +184,7 @@ namespace RootNS.Brick
                 container.Foreground = new SolidColorBrush(Colors.Orange);
             }
         }
+
         private void TreeNodes_DragLeave(object sender, DragEventArgs e)
         {
             TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
@@ -208,7 +212,6 @@ namespace RootNS.Brick
             _lastMouseDown = new Point();
             TreeNodes_DragLeave(sender, e);
         }
-
 
         /// <summary>
         /// 鼠标移动
@@ -246,6 +249,9 @@ namespace RootNS.Brick
         {
             _lastMouseDown = e.GetPosition(this);
         }
+
+        #endregion
+
         private void BtnKeep_Click(object sender, RoutedEventArgs e)
         {
             Node selectedNode = TreeNodes.SelectedItem as Node;
@@ -257,6 +263,7 @@ namespace RootNS.Brick
                 targetRootNode.ChildNodes.Add(selectedNode);
             }
         }
+
         private void BtnSend_Click(object sender, RoutedEventArgs e)
         {
             Node selectedNode = TreeNodes.SelectedItem as Node;
@@ -269,9 +276,10 @@ namespace RootNS.Brick
             }
         }
 
+        Node _previousReNameNode;
         private void Command_ReName_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Node selectedNode = TreeNodes.SelectedItem as Node;
+            Node selectedNode = _previousReNameNode = TreeNodes.SelectedItem as Node;
             TreeViewItem container = (TreeViewItem)TreeNodes.ItemContainerGenerator.ContainerFromItem(selectedNode);
             if (selectedNode != null)
             {
@@ -282,5 +290,12 @@ namespace RootNS.Brick
             }
         }
 
+        private void TreeNodes_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if ((sender as TreeViewItem) == null && _previousReNameNode != null && _previousReNameNode.ReNameing == true)
+            {
+                _previousReNameNode.ReNameing = false;
+            }
+        }
     }
 }
