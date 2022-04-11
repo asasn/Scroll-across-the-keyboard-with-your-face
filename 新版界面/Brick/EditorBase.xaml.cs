@@ -45,33 +45,8 @@ namespace RootNS.Brick
 
 
 
-
-        private void BtnUndo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnFormat_Click(object sender, RoutedEventArgs e)
-        {
-            HelperEditor.TypeSetting(ThisTextEditor);
-        }
-
-        private void BtnPaste_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnCopyTitle_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnCopy_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        public void BtnSaveText_Click(object sender, RoutedEventArgs e)
+        #region 命令
+        private void Command_SaveText_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             BtnSaveDoc.IsEnabled = false;
             Node node = this.DataContext as Node;
@@ -93,10 +68,56 @@ namespace RootNS.Brick
             }
         }
 
+        private void Command_Typesetting_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelperEditor.TypeSetting(ThisTextEditor);
+        }
+        #endregion
+
+        #region 按钮点击事件
+
+
+        public void BtnSaveText_Click(object sender, RoutedEventArgs e)
+        {
+            Command_SaveText_Executed(null, null);
+        }
+
+        private void BtnTypesetting_Click(object sender, RoutedEventArgs e)
+        {
+            Command_Typesetting_Executed(null, null);
+        }
+        private void BtnCopy_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnCopyTitle_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnPaste_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void BtnUndo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
+
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
             Gval.OpeningDocList.Remove((sender as Button).DataContext as Node);
         }
+
+        #endregion
+
+        private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
+        {
+            BtnSaveDoc.IsEnabled = false;
+        }
+
 
         private void ThisTextEditor_TextChanged(object sender, EventArgs e)
         {
@@ -104,15 +125,6 @@ namespace RootNS.Brick
             LbWorksCount.Content = HelperEditor.CountWords(ThisTextEditor.Text);
         }
 
-        private void ThisTextEditor_KeyUp(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void ThisTextEditor_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
 
         private void ThisTextEditor_MouseHoverStopped(object sender, MouseEventArgs e)
         {
@@ -134,15 +146,6 @@ namespace RootNS.Brick
 
         }
 
-        private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
-        {
-            BtnSaveDoc.IsEnabled = false;
-        }
 
-
-        private void Command_SaveText_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            BtnSaveText_Click(null, null);
-        }
     }
 }

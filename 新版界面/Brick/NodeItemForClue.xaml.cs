@@ -82,6 +82,7 @@ namespace RootNS.Brick
                 else
                 {
                     thisNode.ParentNode.IsChecked = false;
+                    thisNode.ParentNode.IsExpanded = false;
                 }
             }
         }

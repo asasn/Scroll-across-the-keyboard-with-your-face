@@ -17,7 +17,7 @@
             <Button x:Name="BtnFolder" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
             <Button x:Name="BtnAddDoc" FontFamily="../Assets/#androidicons" Content="&#59477;" FontSize="15" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddDoc_Click"/>
             <Button x:Name="BtnDel" FontFamily="../Assets/#androidicons" Content="&#59420;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
-            <Button x:Name="BtnUndo" FontFamily="../Assets/#androidicons" Content="&#59473;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUndo_Click"/>
+            <Button x:Name="BtnUnDel" FontFamily="../Assets/#androidicons" Content="&#59473;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUnDel_Click"/>
             <Button x:Name="BtnUp" FontFamily="../Assets/#androidicons" Content="&#59432;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUp_Click"/>
             <Button x:Name="BtnDown" FontFamily="../Assets/#androidicons" Content="&#59433;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDown_Click"/>
             <Button Visibility="{Binding Converter={StaticResource NodeConvertToVisibility2}}" x:Name="BtnKeep" FontFamily="../Assets/#androidicons" Content="&#59604;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnKeep_Click"/>
@@ -30,6 +30,11 @@
                 <RoutedUICommand x:Key="DelNode" Text="删除节点"/>
                 <RoutedUICommand x:Key="ReName" Text="重命名"/>
                 <RoutedUICommand x:Key="ImportNode" Text="导入"/>
+                <RoutedUICommand x:Key="MoveUp" Text="向上移动节点"/>
+                <RoutedUICommand x:Key="MoveDown" Text="向下移动节点"/>
+                <RoutedUICommand x:Key="UnDel" Text="撤销删除"/>
+                <RoutedUICommand x:Key="Keep" Text="暂存"/>
+                <RoutedUICommand x:Key="Send" Text="发布"/>
             </TreeView.Resources>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">
@@ -46,6 +51,11 @@
                 <CommandBinding Command="{StaticResource DelNode}" Executed="Command_Delete_Executed" />
                 <CommandBinding Command="{StaticResource ReName}" Executed="Command_ReName_Executed" />
                 <CommandBinding Command="{StaticResource ImportNode}" Executed="Command_Import_Executed" />
+                <CommandBinding Command="{StaticResource MoveUp}" Executed="Command_MoveUp_Executed" />
+                <CommandBinding Command="{StaticResource MoveDown}" Executed="Command_MoveDown_Executed" />
+                <CommandBinding Command="{StaticResource UnDel}" Executed="Command_UnDel_Executed" />
+                <CommandBinding Command="{StaticResource Keep}" Executed="Command_Keep_Executed" />
+                <CommandBinding Command="{StaticResource Send}" Executed="Command_Send_Executed" />
             </TreeView.CommandBindings>
             <TreeView.InputBindings>
                 <KeyBinding Command="{StaticResource AddFolder}" Key="Add"/>
@@ -53,6 +63,9 @@
                 <KeyBinding Command="{StaticResource DelNode}" Key="Delete" />
                 <KeyBinding Command="{StaticResource ReName}" Key="F2" />
                 <KeyBinding Command="{StaticResource ImportNode}" Key="Insert" />
+                <KeyBinding Command="{StaticResource MoveUp}" Key="U" Modifiers="Ctrl" />
+                <KeyBinding Command="{StaticResource MoveDown}" Key="J" Modifiers="Ctrl" />
+                <KeyBinding Command="{StaticResource UnDel}" Key="Z" Modifiers="Ctrl" />
             </TreeView.InputBindings>
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">
