@@ -37,7 +37,13 @@ namespace RootNS.Model
                     }
                 }
             }
-            if (e.PropertyName == "Pid" || e.PropertyName == "Index" || e.PropertyName == "Title" || e.PropertyName == "TabName" || e.PropertyName == "IsExpanded" || e.PropertyName == "IsChecked" || e.PropertyName == "IsDel")
+            if (e.PropertyName == "Pid" ||
+                e.PropertyName == "Index" ||
+                e.PropertyName == "Title" ||
+                e.PropertyName == "TabName" ||
+                e.PropertyName == "IsExpanded" ||
+                e.PropertyName == "IsChecked" ||
+                e.PropertyName == "IsDel")
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
                 DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
@@ -354,11 +360,29 @@ namespace RootNS.Model
             return node;
         }
 
-        public void RealRemoveItSelf()
+        /// <summary>
+        /// 删除节点以及节点之下的所有子节点
+        /// </summary>
+        public void RealRemoveItSelfAndAllChildNodes()
         {
             if (this.ParentNode != null)
             {
+                DeleteAllChildNodes(this);
                 this.ParentNode.ChildNodes.Remove(this);
+            }
+        }
+
+        /// <summary>
+        /// 向下递归删除子节点
+        /// </summary>
+        /// <param name="selectedSection"></param>
+        private void DeleteAllChildNodes(Node curNode)
+        {
+            for (int i = 0; i < curNode.ChildNodes.Count;)
+            {
+                Node stuff = curNode.ChildNodes[curNode.ChildNodes.Count - 1];
+                DeleteAllChildNodes(stuff);
+                curNode.ChildNodes.Remove(stuff);
             }
         }
 
@@ -422,6 +446,8 @@ namespace RootNS.Model
                     this.ChildNodes[i].Index -= 1;
                 }
                 this.WordsCount -= 1;
+
+                DataOut.RemoveNodeFromTable(stuff);
             }
         }
 

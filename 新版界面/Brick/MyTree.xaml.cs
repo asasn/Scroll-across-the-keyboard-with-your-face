@@ -58,27 +58,36 @@ namespace RootNS.Brick
             if (TreeNodes.SelectedItem != null)
             {
                 Node node = TreeNodes.SelectedItem as Node;
-                //int i = 0;
-                //if (node.ParentNode.ChildNodes.Count > 0)
-                //{
-                //    if (node.Index >= 0)
-                //    {
-                //        i = node.Index;
-                //    }
-                //    if (node.Index == node.ParentNode.ChildNodes.Count)
-                //    {
-                //        i = node.Index - 1;
-                //    }
-                //    node.ParentNode.ChildNodes[i].IsSelected = true;
-                //}
+                int i = 0;
+                if (node.ParentNode.ChildNodes.Count > 0)
+                {
+                    if (node.Index >= 0)
+                    {
+                        i = node.Index;
+                    }
+                    if (node.Index == node.ParentNode.ChildNodes.Count)
+                    {
+                        i = node.Index - 1;
+                    }
+                    node.ParentNode.ChildNodes[i].IsSelected = true;
+                }
+                if (node.IsDel == false)
+                {
+
+                    node.IsDel = true;
+                }
+                else
+                {
+                    node.RealRemoveItSelfAndAllChildNodes();
+                }
             }
         }
 
-        private void BtnRecycle_Click(object sender, RoutedEventArgs e)
+        private void BtnUndo_Click(object sender, RoutedEventArgs e)
         {
             if (TreeNodes.SelectedItem != null)
             {
-                (TreeNodes.SelectedItem as Node).ChildNodes.Clear();
+                (TreeNodes.SelectedItem as Node).IsDel = false;
             }
         }
 
@@ -263,7 +272,7 @@ namespace RootNS.Brick
             Node targetRootNode = Gval.CurrentBook.BoxTemp;
             if (selectedNode != null && selectedNode.RootNode != null)
             {
-                selectedNode.RealRemoveItSelf();
+                selectedNode.RealRemoveItSelfAndAllChildNodes();
                 DataOut.MoveNodeToOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
                 targetRootNode.ChildNodes.Add(selectedNode);
             }
@@ -275,7 +284,7 @@ namespace RootNS.Brick
             Node targetRootNode = Gval.CurrentBook.BoxPublished;
             if (selectedNode != null && selectedNode.RootNode != null)
             {
-                selectedNode.RealRemoveItSelf();
+                selectedNode.RealRemoveItSelfAndAllChildNodes();
                 DataOut.MoveNodeToOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
                 targetRootNode.ChildNodes.Add(selectedNode);
             }
@@ -285,11 +294,11 @@ namespace RootNS.Brick
         private void Command_ReName_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Node selectedNode = _lastReNameNode = TreeNodes.SelectedItem as Node;
-            TreeViewItem container = (TreeViewItem)TreeNodes.ItemContainerGenerator.ContainerFromItem(selectedNode);
+            //TreeViewItem container = (TreeViewItem)TreeNodes.ItemContainerGenerator.ContainerFromItem(selectedNode);
             if (selectedNode != null)
             {
                 selectedNode.ReNameing = !selectedNode.ReNameing;
-                TextBox TbReName = HelperControl.FindChild<TextBox>(container as DependencyObject, "TbReName");
+                TextBox TbReName = HelperControl.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
                 TbReName.SelectAll();
                 TbReName.Focus();
             }
@@ -301,6 +310,12 @@ namespace RootNS.Brick
             {
                 _lastReNameNode.ReNameing = false;
             }
+        }
+
+        TreeViewItem selectedItem;
+        private void TreeNodes_Selected(object sender, RoutedEventArgs e)
+        {
+            selectedItem = e.OriginalSource as TreeViewItem;
         }
     }
 }

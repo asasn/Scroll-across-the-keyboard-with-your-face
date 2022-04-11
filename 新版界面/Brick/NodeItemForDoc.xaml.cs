@@ -29,20 +29,7 @@ namespace RootNS.Brick
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Node node = this.DataContext as Node;
-            //if (node.IsDir != true)
-            //{
-            //    if (Gval.OpeningDocList.Contains(node) == false)
-            //    {
-            //        Gval.OpeningDocList.Add(node);
-            //    }
-            //    if (string.IsNullOrWhiteSpace(node.Text) == true)
-            //    {
-            //        node.Text = "　　";
-            //    }
-            //    Gval.EditorTabControl.SelectedItem = node;
-            //
-
-            if (node.IsDir != true)
+            if (node.IsDir == false && node.IsDel == false)
             {
                 if (Gval.OpeningDocList.Contains(node) != true)
                 {

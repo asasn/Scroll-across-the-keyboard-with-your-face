@@ -22,7 +22,26 @@ namespace RootNS.Behavior
             return newBook;
         }
 
+        /// <summary>
+        /// 从表中删除节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="oldTabName"></param>
+        /// <param name="newTabName"></param>
+        public static void RemoveNodeFromTable(Node node)
+        {
+            string sql = string.Empty;
+            sql += string.Format("DELETE FROM {0} WHERE Uid='{1}';", node.TabName, node.Uid);
+            //sql += string.Format("DELETE FROM {0} WHERE Pid='{1}';", node.TabName, node.Uid);
+            CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
+        }
 
+        /// <summary>
+        /// 移动节点至新表
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="oldTabName"></param>
+        /// <param name="newTabName"></param>
         public static void MoveNodeToOtherTable(Node node, string oldTabName, string newTabName)
         {
             node.Pid = string.Empty;
@@ -32,7 +51,7 @@ namespace RootNS.Behavior
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
 
             //移动至新表之后再进行操作
-            node.TabName = newTabName;            
+            node.TabName = newTabName;
         }
 
         public static void CreateNewNode(Node node)

@@ -25,7 +25,7 @@ namespace RootNS.Behavior
 
         private static void LoadBooksBankHeader()
         {
-            string sql = string.Format("SELECT * FROM 书库;");
+            string sql = string.Format("SELECT * FROM 书库 ORDER BY [Index];");
             CSqlitePlus.PoolOperate.Add("index");
             SQLiteDataReader reader = CSqlitePlus.PoolDict["index"].ExecuteQuery(sql);
             while (reader.Read())
@@ -90,7 +90,7 @@ namespace RootNS.Behavior
             {
                 return;
             }
-            string sql = string.Format("SELECT * FROM {0} WHERE TabName='{1}' AND Pid='{2}';", rootNode.TabName, rootNode.TabName, pid);
+            string sql = string.Format("SELECT * FROM {0} WHERE TabName='{1}' AND Pid='{2}' ORDER BY [Index];", rootNode.TabName, rootNode.TabName, pid);
             SQLiteDataReader reader = CSqlitePlus.PoolDict[rootNode.OwnerName].ExecuteQuery(sql);
             while (reader.Read())
             {
