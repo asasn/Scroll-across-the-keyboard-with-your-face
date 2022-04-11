@@ -97,7 +97,7 @@
             </GroupBox>
         </Grid>
         <GroupBox Grid.Column="4" Style="{StaticResource BaseStyle}" Background="Transparent" BorderThickness="0">
-            <brick:MyEditor ItemsSource="{Binding OpeningDocList, Source={StaticResource GlobalSource}}"/>
+            <brick:MyEditor DataContext="{Binding OpeningDocList, Source={StaticResource GlobalSource}}"/>
         </GroupBox>
         <Grid Grid.Column="6">
             <Grid.RowDefinitions>

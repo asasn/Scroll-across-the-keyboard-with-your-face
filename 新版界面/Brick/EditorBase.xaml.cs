@@ -53,7 +53,7 @@ namespace RootNS.Brick
 
         private void BtnFormat_Click(object sender, RoutedEventArgs e)
         {
-
+            HelperEditor.TypeSetting(ThisTextEditor);
         }
 
         private void BtnPaste_Click(object sender, RoutedEventArgs e)
@@ -71,14 +71,37 @@ namespace RootNS.Brick
 
         }
 
-        private void BtnSaveText_Click(object sender, RoutedEventArgs e)
+        public void BtnSaveText_Click(object sender, RoutedEventArgs e)
         {
+            BtnSaveDoc.IsEnabled = false;
+            Node node = this.DataContext as Node;
+            node.Text = ThisTextEditor.Text;
+            node.WordsCount = HelperEditor.CountWords(ThisTextEditor.Text);
+            try
+            {
+                CSqlitePlus cSqlite = CSqlitePlus.PoolDict[node.OwnerName];
+                string sql = string.Format("UPDATE {0} set Text='{1}', WordsCount='{2}' WHERE Uid='{3}';", node.TabName, node.Text.Replace("'", "''"), node.WordsCount, node.Uid);
+                cSqlite.ExecuteNonQuery(sql);
 
+                //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
+                //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
+                cSqlite.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("本次保存失败！\n{0}", ex));
+            }
+        }
+
+        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Gval.OpeningDocList.Remove((sender as Button).DataContext as Node);
         }
 
         private void ThisTextEditor_TextChanged(object sender, EventArgs e)
         {
-            (this.DataContext as Node).Text = ThisTextEditor.Text;
+            BtnSaveDoc.IsEnabled = true;
+            LbWorksCount.Content = HelperEditor.CountWords(ThisTextEditor.Text);
         }
 
         private void ThisTextEditor_KeyUp(object sender, KeyEventArgs e)
@@ -111,26 +134,15 @@ namespace RootNS.Brick
 
         }
 
-        
-
-        private void BtnClose_Click(object sender, RoutedEventArgs e)
+        private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.OpeningDocList.Remove((sender as Button).DataContext as Node);
+            BtnSaveDoc.IsEnabled = false;
         }
 
- 
 
-        private void ThisControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void Command_SaveText_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Node node = this.DataContext as Node;
-            if (string.IsNullOrWhiteSpace(node.Text) == true)
-            {
-                ThisTextEditor.Text = "　　";
-            }
-            else
-            {
-                ThisTextEditor.Text = (this.DataContext as Node).Text;
-            }
+            BtnSaveText_Click(null, null);
         }
     }
 }

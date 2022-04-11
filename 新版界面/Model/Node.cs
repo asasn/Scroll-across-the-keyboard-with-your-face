@@ -37,10 +37,6 @@ namespace RootNS.Model
                     }
                 }
             }
-            if (e.PropertyName == "Text")
-            {
-                this.WordsCount = HelperEditor.CountWords(this.Text);
-            }
             if (e.PropertyName == "Pid" || e.PropertyName == "Index" || e.PropertyName == "Title" || e.PropertyName == "TabName" || e.PropertyName == "IsExpanded" || e.PropertyName == "IsChecked" || e.PropertyName == "IsDel")
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);

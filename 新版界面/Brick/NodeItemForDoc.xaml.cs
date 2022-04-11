@@ -28,7 +28,7 @@ namespace RootNS.Brick
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //Node node = this.DataContext as Node;
+            Node node = this.DataContext as Node;
             //if (node.IsDir != true)
             //{
             //    if (Gval.OpeningDocList.Contains(node) == false)
@@ -42,13 +42,20 @@ namespace RootNS.Brick
             //    Gval.EditorTabControl.SelectedItem = node;
             //
 
-            if ((this.DataContext as Node).IsDir != true)
+            if (node.IsDir != true)
             {
-                if (Gval.OpeningDocList.Contains((this.DataContext as Node)) != true)
+                if (Gval.OpeningDocList.Contains(node) != true)
                 {
-                    Gval.OpeningDocList.Add(this.DataContext as Node);
+                    Gval.OpeningDocList.Add(node);
                 }
-                Gval.EditorTabControl.SelectedItem = this.DataContext;
+                foreach (HandyControl.Controls.TabItem item in Gval.EditorTabControl.Items)
+                {
+                    if (item.Uid == node.Uid)
+                    {
+                        item.IsSelected = true;
+                        break;
+                    }
+                }
             }
         }
 

@@ -209,7 +209,7 @@ namespace RootNS.Brick
             dragNode.IsDel = false;
             dropNode.ChildNodes.Add(dragNode);
 
-            _lastMouseDown = new Point();
+            _lastMouseLeftDown = new Point();
             TreeNodes_DragLeave(sender, e);
         }
 
@@ -229,8 +229,8 @@ namespace RootNS.Brick
                     //获取鼠标移动的距离
                     Point currentPosition = e.GetPosition(TreeNodes);
                     //判断鼠标是否移动
-                    if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
-                        (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
+                    if ((Math.Abs(currentPosition.X - _lastMouseLeftDown.X) > 10.0) ||
+                        (Math.Abs(currentPosition.Y - _lastMouseLeftDown.Y) > 10.0))
                     {
                         //启动拖放操作
                         DragDropEffects finalDropEffect = DragDrop.DoDragDrop(TreeNodes, TreeNodes.SelectedValue, System.Windows.DragDropEffects.Move);
@@ -243,11 +243,16 @@ namespace RootNS.Brick
             }
         }
 
-        Point _lastMouseDown;
+        Point _lastMouseLeftDown;
 
+        /// <summary>
+        /// 拖动之前的点位
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TreeNodes_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _lastMouseDown = e.GetPosition(this);
+            _lastMouseLeftDown = e.GetPosition(this);
         }
 
         #endregion
@@ -276,10 +281,10 @@ namespace RootNS.Brick
             }
         }
 
-        Node _previousReNameNode;
+        Node _lastReNameNode;
         private void Command_ReName_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Node selectedNode = _previousReNameNode = TreeNodes.SelectedItem as Node;
+            Node selectedNode = _lastReNameNode = TreeNodes.SelectedItem as Node;
             TreeViewItem container = (TreeViewItem)TreeNodes.ItemContainerGenerator.ContainerFromItem(selectedNode);
             if (selectedNode != null)
             {
@@ -292,9 +297,9 @@ namespace RootNS.Brick
 
         private void TreeNodes_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if ((sender as TreeViewItem) == null && _previousReNameNode != null && _previousReNameNode.ReNameing == true)
+            if ((sender as TreeViewItem) == null && _lastReNameNode != null && _lastReNameNode.ReNameing == true)
             {
-                _previousReNameNode.ReNameing = false;
+                _lastReNameNode.ReNameing = false;
             }
         }
     }

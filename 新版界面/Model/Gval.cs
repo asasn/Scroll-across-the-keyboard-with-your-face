@@ -106,9 +106,10 @@ namespace RootNS.Model
         }
 
 
+
         private static HandyControl.Controls.TabControl _editorTabControl;
         /// <summary>
-        /// 编辑器页标签
+        /// 编辑器页容器
         /// </summary>
         public static HandyControl.Controls.TabControl EditorTabControl
         {

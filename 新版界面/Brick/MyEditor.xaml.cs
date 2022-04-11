@@ -20,7 +20,7 @@ namespace RootNS.Brick
     /// <summary>
     /// MyEditor.xaml 的交互逻辑
     /// </summary>
-    public partial class MyEditor : HandyControl.Controls.TabControl
+    public partial class MyEditor : UserControl
     {
         public MyEditor()
         {
@@ -29,23 +29,111 @@ namespace RootNS.Brick
 
         private void EditorTabControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Gval.EditorTabControl = this;
+            Gval.EditorTabControl = sender as HandyControl.Controls.TabControl;
             Gval.OpeningDocList.CollectionChanged += OpenedDocList_CollectionChanged;
         }
 
         private void OpenedDocList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Node stuff = (Node)e.NewItems[0];
+                EditorBase editorBase = new EditorBase
+                {
+                    DataContext = stuff,
+                };
+                if (string.IsNullOrWhiteSpace(stuff.Text) == true)
+                {
+                    stuff.Text = "　　";
+                }
+                editorBase.ThisTextEditor.Text = stuff.Text;
+                HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem
+                {
+                    Uid = stuff.Uid,
+                    IsSelected = true,
+                    Content = editorBase
+                };
+                tabItem.Closing += TabItem_Closing;
+                tabItem.Closed += TabItem_Closed;
+                ThisTabControl.Items.Add(tabItem);
+                Binding textBinding = new Binding
+                {
+                    Source = stuff,
+                    Path = new PropertyPath("Title"),
+                    Mode = BindingMode.TwoWay
+                };
+                tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定 
+            }
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
+                Node stuff = (Node)e.OldItems[0];
+                HandyControl.Controls.TabItem container = (HandyControl.Controls.TabItem)ThisTabControl.ItemContainerGenerator.ContainerFromItem(stuff);
                 Console.WriteLine("从列表中删除，关闭了");
             }
-            
+
         }
+
+        private void TabItem_Closed(object sender, EventArgs e)
+        {
+            HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
+            EditorBase editorBase = tabItem.Content as EditorBase;
+            Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
+        }
+
+        private void TabItem_Closing(object sender, EventArgs e)
+        {
+            HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
+            EditorBase editorBase = tabItem.Content as EditorBase;
+            if (editorBase.BtnSaveDoc.IsEnabled == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    editorBase.BtnSaveText_Click(null, null);
+                }
+                if (dr == MessageBoxResult.No)
+                {
+                    
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    (e as HandyControl.Data.CancelRoutedEventArgs).Cancel = true;
+                }
+            }
+        }
+
 
         private void ThisControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //(ThisControl.SelectedItem as EditorBase).ThisTextEditor.Text = (ThisControl.SelectedItem as Node).Text;
         }
+
+
+        private void TextBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            Node node = (sender as TextBlock).DataContext as Node;
+            EditorBase ucEditor = new EditorBase
+            {
+                DataContext = node,
+            };
+
+            HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem
+            {
+                DataContext = node,
+                IsSelected = true,
+                Content = ucEditor
+            };
+            
+            if (node != null && string.IsNullOrWhiteSpace(node.Text) == true)
+            {
+               // (Gval.EditorTabControl.SelectedContent as EditorBase).ThisTextEditor.Text = "　　";
+            }
+            else
+            {
+               // (Gval.EditorTabControl.SelectedContent as EditorBase).ThisTextEditor.Text = node.Text;
+            }
+        }
+
 
     }
 }
