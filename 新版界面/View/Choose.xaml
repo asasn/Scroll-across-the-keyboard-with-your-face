@@ -14,8 +14,8 @@
             <ItemsControl ItemsSource="{Binding BooksBank}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Padding="1" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4">
-                            <hc:Card Padding="0" Header="{Binding Name}" MaxWidth="{Binding Width, ElementName=Cover}">
+                        <Button Effect="{StaticResource EffectShadow2}" Padding="0" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4" Loaded="Button_Loaded">
+                            <hc:Card BorderThickness="0" Padding="0" Header="{Binding Name}" MaxWidth="{Binding Width, ElementName=Cover}">
                                 <Image x:Name="Cover" Width="108" Height="162" Source="{Binding CoverPath}"/>
                             </hc:Card>
                         </Button>

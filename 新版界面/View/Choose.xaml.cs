@@ -54,7 +54,7 @@ namespace RootNS.View
                     CSqlitePlus.PoolOperate.Add(TbName.Text);
                     CFileOperate.RenameFile(oldNameDB, newNameDB);
                     CFileOperate.RenameFile(oldNameJpg, newNameJpg);
-
+                    //注意处理的先后顺序
                     UpdateCurrentBookInfo();
                     DataOut.UpdateBookInfo(Gval.CurrentBook);
                 }
@@ -69,7 +69,7 @@ namespace RootNS.View
             Gval.CurrentBook.Name = TbName.Text;
             Gval.CurrentBook.Summary = TbSummary.Text;
             Gval.CurrentBook.Price = Convert.ToDouble(TbPrice.Text);
-            Gval.CurrentBook.CurrentYear = Convert.ToInt64(TbCurrentYear.Text);            
+            Gval.CurrentBook.CurrentYear = Convert.ToInt64(TbCurrentYear.Text);
         }
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)
@@ -156,10 +156,20 @@ namespace RootNS.View
             {
                 Gval.CurrentBook = (sender as Button).DataContext as Book;
                 DataJoin.LoadCurrentBookContent(Gval.CurrentBook);
+                (sender as Button).BorderBrush = null;
                 PreviousButton.BorderBrush = null;
                 (sender as Button).BorderBrush = Brushes.Orange;
                 PreviousButton = sender as Button;
                 CSettingsOperate.Set("index", "CurBookUid", Gval.CurrentBook.Uid);
+            }
+        }
+
+        private void Button_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (((sender as Button).DataContext as Book).Uid == Gval.CurrentBook.Uid)
+            {
+                (sender as Button).BorderBrush = Brushes.Orange;
+                PreviousButton = sender as Button;
             }
         }
     }
