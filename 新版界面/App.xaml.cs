@@ -222,7 +222,7 @@ namespace RootNS
                 //删除为真的时候，进行设置
                 if ((bool)value == true)
                 {
-                    return 0.3;
+                    return 0.5;
                 }
                 else
                 {

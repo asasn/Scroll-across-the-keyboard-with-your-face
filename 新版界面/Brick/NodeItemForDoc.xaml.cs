@@ -35,6 +35,7 @@ namespace RootNS.Brick
                 {
                     Gval.OpeningDocList.Add(node);
                 }
+                Gval.CurrentDoc = node;
                 foreach (HandyControl.Controls.TabItem item in Gval.EditorTabControl.Items)
                 {
                     if (item.Uid == node.Uid)

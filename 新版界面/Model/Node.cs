@@ -36,6 +36,13 @@ namespace RootNS.Model
                         child.IsDel = true;
                     }
                 }
+                else
+                {
+                    if (this.ParentNode != null)
+                    {
+                        this.ParentNode.IsDel = false;
+                    }
+                }
             }
             if (e.PropertyName == "Pid" ||
                 e.PropertyName == "Index" ||
