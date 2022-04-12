@@ -123,6 +123,7 @@ namespace RootNS.Brick
         {
             BtnSaveDoc.IsEnabled = true;
             LbWorksCount.Content = HelperEditor.CountWords(ThisTextEditor.Text);
+            LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(LbWorksCount.Content) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
         }
 
 
@@ -146,6 +147,9 @@ namespace RootNS.Brick
 
         }
 
-
+        private void ThisControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            HandyControl.Controls.TabItem tabItem = this.DataContext as HandyControl.Controls.TabItem;
+        }
     }
 }

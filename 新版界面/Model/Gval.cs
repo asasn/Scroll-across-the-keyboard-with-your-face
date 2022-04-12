@@ -92,21 +92,6 @@ namespace RootNS.Model
             }
         }
 
-        private static Node _currentDoc;
-        /// <summary>
-        /// 当前打开的文档
-        /// </summary>
-        public static Node CurrentDoc
-        {
-            get { return _currentDoc; }
-            set
-            {
-                _currentDoc = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentDoc)));
-            }
-        }
-
-
 
         private static bool _flagLoadingCompleted;
 

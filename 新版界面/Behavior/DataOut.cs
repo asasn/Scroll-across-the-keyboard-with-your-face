@@ -22,6 +22,12 @@ namespace RootNS.Behavior
             return newBook;
         }
 
+        public static void UpdateBookInfo(Book book)
+        {
+            string sql = string.Format("UPDATE 书库 SET [index]='{0}', Name='{1}', Summary='{2}', Price='{3}', CurrentYear='{4}', IsDel='{5}' WHERE Uid='{6}';", book.Index, book.Name.Replace("'", "''"), book.Summary.Replace("'", "''"), book.Price, book.CurrentYear, book.IsDel, book.Uid);
+            CSqlitePlus.PoolDict["index"].ExecuteNonQuery(sql);
+        }
+
         /// <summary>
         /// 从表中删除节点
         /// </summary>
@@ -62,7 +68,7 @@ namespace RootNS.Behavior
 
         public static void UpdateNodeProperty(Node node, string fieldName, string value)
         {
-            string sql = string.Format("UPDATE {0} set [{1}]='{2}' where Uid='{3}';", node.TabName, fieldName, value.Replace("'", "''"), node.Uid);
+            string sql = string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}';", node.TabName, fieldName, value.Replace("'", "''"), node.Uid);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
     }

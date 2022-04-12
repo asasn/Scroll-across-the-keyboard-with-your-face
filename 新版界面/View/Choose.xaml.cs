@@ -32,11 +32,6 @@ namespace RootNS.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
-        }
-
-        private void BtnReName_Click(object sender, RoutedEventArgs e)
-        {
 
         }
 
@@ -44,8 +39,37 @@ namespace RootNS.View
         {
             if (IsBookNameTrue(TbName) == true)
             {
+                if (CFileOperate.IsFileExists(Gval.Path.Books + "/" + TbName.Text + ".db") == true)
+                {
+                    MessageBox.Show("该书籍已经存在\n请换一个新书名！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+                    return;
+                }
+                else
+                {
+                    string oldNameDB = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
+                    string newNameDB = Gval.Path.Books + "/" + TbName.Text + ".db";
+                    string oldNameJpg = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".jpg";
+                    string newNameJpg = Gval.Path.Books + "/" + TbName.Text + ".jpg";
+                    CSqlitePlus.PoolOperate.Remove(Gval.CurrentBook.Name);
+                    CSqlitePlus.PoolOperate.Add(TbName.Text);
+                    CFileOperate.RenameFile(oldNameDB, newNameDB);
+                    CFileOperate.RenameFile(oldNameJpg, newNameJpg);
 
+                    UpdateCurrentBookInfo();
+                    DataOut.UpdateBookInfo(Gval.CurrentBook);
+                }
             }
+        }
+
+        /// <summary>
+        /// 更新当前书籍信息
+        /// </summary>
+        private void UpdateCurrentBookInfo()
+        {
+            Gval.CurrentBook.Name = TbName.Text;
+            Gval.CurrentBook.Summary = TbSummary.Text;
+            Gval.CurrentBook.Price = Convert.ToDouble(TbPrice.Text);
+            Gval.CurrentBook.CurrentYear = Convert.ToInt64(TbCurrentYear.Text);            
         }
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)

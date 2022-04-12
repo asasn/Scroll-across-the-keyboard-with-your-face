@@ -1,4 +1,5 @@
-﻿using RootNS.Model;
+﻿using RootNS.Behavior;
+using RootNS.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,15 +36,7 @@ namespace RootNS.Brick
                 {
                     Gval.OpeningDocList.Add(node);
                 }
-                Gval.CurrentDoc = node;
-                foreach (HandyControl.Controls.TabItem item in Gval.EditorTabControl.Items)
-                {
-                    if (item.Uid == node.Uid)
-                    {
-                        item.IsSelected = true;
-                        break;
-                    }
-                }
+                HelperEditor.SelectItem(Gval.EditorTabControl, node);
             }
         }
 

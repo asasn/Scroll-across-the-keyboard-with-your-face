@@ -1,5 +1,6 @@
 ﻿using ICSharpCode.AvalonEdit;
 using RootNS.Brick;
+using RootNS.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,24 @@ namespace RootNS.Behavior
 {
     public class HelperEditor
     {
+        /// <summary>
+        /// 根据node对象从编辑器容器当中选定并返回当前的TabItem对象
+        /// </summary>
+        /// <param name="tabControl"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static HandyControl.Controls.TabItem SelectItem(HandyControl.Controls.TabControl tabControl, Node node)
+        {
+            foreach (HandyControl.Controls.TabItem item in tabControl.Items)
+            {
+                if (item.Uid == node.Uid)
+                {
+                    item.IsSelected = true;
+                    return item;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
         /// 字符串转化为字节流

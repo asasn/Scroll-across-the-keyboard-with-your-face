@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:RootNS.Brick" xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:Document="clr-namespace:ICSharpCode.AvalonEdit.Document;assembly=ICSharpCode.AvalonEdit"
     mc:Ignorable="d"
-    d:DesignHeight="450" d:DesignWidth="800">
+    d:DesignHeight="450" d:DesignWidth="800" Loaded="ThisControl_Loaded">
     <UserControl.Resources>
         <RoutedUICommand x:Key="SaveText" Text="保存文本"/>
         <RoutedUICommand x:Key="Typesetting" Text="排版"/>
@@ -50,7 +50,7 @@
                 <Label hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="字数：" Background="Transparent" Foreground="#FF0D4DF9" Padding="10,0,0,0"/>
                 <Label hc:BorderElement.CornerRadius="0" x:Name="LbWorksCount" BorderThickness="0,0,0,0" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40"/>
                 <Label hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="价值：" Background="Transparent" Foreground="#FF0D4DF9" Padding="10,0,0,0"/>
-                <Label hc:BorderElement.CornerRadius="0" x:Name="LbValueValue" BorderThickness="0,0,0,0" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40" Content="{Binding CurrentBook.Price, Source={StaticResource GlobalSource}}"/>
+                <Label hc:BorderElement.CornerRadius="0" x:Name="LbValueValue" BorderThickness="0,0,0,0" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40"/>
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="0" Grid.Column="1">

@@ -66,11 +66,8 @@ namespace RootNS.Brick
             }
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                Node stuff = (Node)e.OldItems[0];
-                HandyControl.Controls.TabItem container = (HandyControl.Controls.TabItem)ThisTabControl.ItemContainerGenerator.ContainerFromItem(stuff);
                 Console.WriteLine("从列表中删除，关闭了");
             }
-
         }
 
         private void TabItem_Closed(object sender, EventArgs e)
