@@ -32,6 +32,12 @@ namespace RootNS.Behavior
             CSqlitePlus.PoolDict["index"].ExecuteNonQuery(sql);
         }
 
+        public static void DeleteBook(Book book)
+        {
+            string sql = string.Format("DELETE FROM 书库 WHERE Uid='{0}';", book.Uid);
+            CSqlitePlus.PoolDict["index"].ExecuteNonQuery(sql);
+        }
+
         /// <summary>
         /// 从表中删除节点
         /// </summary>
@@ -42,7 +48,6 @@ namespace RootNS.Behavior
         {
             string sql = string.Empty;
             sql += string.Format("DELETE FROM {0} WHERE Uid='{1}';", node.TabName, node.Uid);
-            //sql += string.Format("DELETE FROM {0} WHERE Pid='{1}';", node.TabName, node.Uid);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
 

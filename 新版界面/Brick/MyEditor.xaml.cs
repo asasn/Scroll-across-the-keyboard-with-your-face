@@ -42,11 +42,11 @@ namespace RootNS.Brick
                 {
                     DataContext = stuff,
                 };
-                if (string.IsNullOrWhiteSpace(stuff.Text) == true)
-                {
-                    stuff.Text = "　　";
-                }
-                editorBase.ThisTextEditor.Text = stuff.Text;
+                //if (string.IsNullOrWhiteSpace(stuff.Text) == true)
+                //{
+                //    stuff.Text = "　　";
+                //}
+                //editorBase.ThisTextEditor.Text = stuff.Text;
                 HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem
                 {
                     Uid = stuff.Uid,

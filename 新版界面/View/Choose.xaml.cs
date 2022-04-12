@@ -106,7 +106,12 @@ namespace RootNS.View
 
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
         {
-
+            DataOut.DeleteBook(Gval.CurrentBook);
+            CSqlitePlus.PoolOperate.Remove(Gval.CurrentBook.Name);
+            string dbFullName = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
+            CFileOperate.DeleteFile(dbFullName);
+            Gval.BooksBank.Remove(Gval.CurrentBook);
+            Gval.CurrentBook = new Book();
         }
 
         private void TbBuild_KeyDown(object sender, KeyEventArgs e)

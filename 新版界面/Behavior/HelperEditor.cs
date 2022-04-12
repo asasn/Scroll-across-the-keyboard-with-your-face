@@ -1,4 +1,6 @@
 ﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using RootNS.Brick;
 using RootNS.Model;
 using System;
@@ -6,8 +8,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Text.RegularExpressions;
 
 namespace RootNS.Behavior
 {
@@ -72,11 +76,11 @@ namespace RootNS.Behavior
         /// <summary>
         /// 文字排版，并重新赋值给编辑框
         /// </summary>
-        /// <param name="tb"></param>
-        public static void TypeSetting(TextEditor tb)
+        /// <param name="tEditor"></param>
+        public static void TypeSetting(TextEditor tEditor)
         {
             string reText = "　　"; //开头是两个全角空格
-            string[] sArray = tb.Text.Split(new char[] { '\r', '\n', '\t' });
+            string[] sArray = tEditor.Text.Split(new char[] { '\r', '\n', '\t' });
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
             foreach (string lineStr in sArrayNoEmpty)
             {
@@ -93,18 +97,84 @@ namespace RootNS.Behavior
                 }
             }
             //排版完成，重新赋值给文本框
-            tb.Text = reText;
+            tEditor.Text = reText;
             //光标移动至文末 
-            tb.ScrollToLine(tb.LineCount);
-            tb.SelectionLength = 0;
-            tb.SelectionStart = tb.Text.Length;
-            tb.ScrollToEnd();
-            tb.ScrollToEnd();
+            tEditor.ScrollToLine(tEditor.LineCount);
+            tEditor.SelectionLength = 0;
+            tEditor.SelectionStart = tEditor.Text.Length;
+            tEditor.ScrollToEnd();
+            tEditor.ScrollToEnd();
         }
 
 
+        /// <summary>
+        /// 根据文件设置语法规则
+        /// </summary>
+        public static void SetEditorColorRules(TextEditor tEditor)
+        {
+            tEditor.SyntaxHighlighting = null;
+            string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
+            Stream xshdStream = File.OpenRead(fullFileName);
+            XmlTextReader xshdReader = new XmlTextReader(xshdStream);
+            tEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
+            xshdReader.Close();
+            xshdStream.Close();
+
+        }
 
 
+        /// <summary>
+        /// 向编辑器添加变色关键词
+        /// </summary>
+        /// <param name="keyword"></param>
+        public static void AddKeyWordForEditor(TextEditor textEdit, string keyword, string colorName)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return;
+            }
+            SetRules(textEdit, keyword, colorName);
+        }
 
+        private static IList<HighlightingRule> SetRules(TextEditor textEditor, string keyword, string colorTabName)
+        {
+            try
+            {
+                new Regex(keyword);
+            }
+            catch (Exception)
+            {
+                keyword = "\\" + keyword;
+            }
+            IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
+            HighlightingRule rule = new HighlightingRule
+            {
+                Color = textEditor.SyntaxHighlighting.GetNamedColor(colorTabName),
+                Regex = new Regex(keyword)
+            };
+            rules.Insert(0, rule);
+            return rules;
+        }
+
+        private static IList<HighlightingSpan> SetSpans(TextEditor textEditor, string keyword, string colorTabName)
+        {
+            try
+            {
+                new Regex(keyword);
+            }
+            catch (Exception)
+            {
+                keyword = "\\" + keyword;
+            }
+            IList<HighlightingSpan> spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
+            HighlightingSpan span = new HighlightingSpan();
+            span.SpanColor = textEditor.SyntaxHighlighting.GetNamedColor(colorTabName);
+            span.StartExpression = new Regex(keyword);
+            span.EndExpression = new Regex("");
+            span.SpanColorIncludesStart = true;
+            span.SpanColorIncludesEnd = true;
+            spans.Insert(0, span);
+            return spans;
+        }
     }
 }

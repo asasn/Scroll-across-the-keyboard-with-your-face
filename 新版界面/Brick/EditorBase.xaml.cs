@@ -61,10 +61,11 @@ namespace RootNS.Brick
                 //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
                 //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
                 cSqlite.Close();
+                HandyControl.Controls.Growl.Success("本文档内容保存！");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(string.Format("本次保存失败！\n{0}", ex));
+                HandyControl.Controls.Growl.Warning(String.Format("本次保存失败！\n{0}", ex));
             }
         }
 
@@ -72,6 +73,7 @@ namespace RootNS.Brick
         {
             HelperEditor.TypeSetting(ThisTextEditor);
         }
+
         #endregion
 
         #region 按钮点击事件
@@ -103,8 +105,25 @@ namespace RootNS.Brick
 
         }
 
+        private void ThisTextEditor_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ThisTextEditor.Document.Insert(ThisTextEditor.SelectionStart, "\n　　");
+                ThisTextEditor.LineDown();
+                Command_SaveText_Executed(null, null);
+            }
+            //逗号||句号的情况
+            if (e.Key == Key.OemComma ||
+                e.Key == Key.OemPeriod)
+            {
+                Command_SaveText_Executed(null, null);
+            }
+        }
+        private void ThisTextEditor_KeyDown(object sender, KeyEventArgs e)
+        {
 
-
+        }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -116,6 +135,9 @@ namespace RootNS.Brick
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
             BtnSaveDoc.IsEnabled = false;
+
+            ThisTextEditor.Load(HelperEditor.ConvertStringToStream((ThisControl.DataContext as Node).Text));
+            HelperEditor.SetEditorColorRules(ThisTextEditor);
         }
 
 
@@ -127,14 +149,23 @@ namespace RootNS.Brick
         }
 
 
-        private void ThisTextEditor_MouseHoverStopped(object sender, MouseEventArgs e)
-        {
-
-        }
-
+        ToolTip toolTip = new ToolTip();
         private void ThisTextEditor_MouseHover(object sender, MouseEventArgs e)
         {
+            var pos = ThisTextEditor.GetPositionFromPoint(e.GetPosition(ThisTextEditor));
+            if (pos != null)
+            {
+                //toolTip.PlacementTarget = this; // required for property inheritance
+                //toolTip.Content = pos.ToString();
+                //toolTip.IsOpen = true;
+                //e.Handled = true;
+            }
+        }
 
+
+        private void ThisTextEditor_MouseHoverStopped(object sender, MouseEventArgs e)
+        {
+            toolTip.IsOpen = false;
         }
 
         private void ThisTextEditor_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -151,5 +182,7 @@ namespace RootNS.Brick
         {
             HandyControl.Controls.TabItem tabItem = this.DataContext as HandyControl.Controls.TabItem;
         }
+
+
     }
 }
