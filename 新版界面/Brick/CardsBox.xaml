@@ -20,10 +20,10 @@
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
-            <TextBox Background="Transparent" BorderThickness="0" />
-            <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0"/>
-            <Button x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0"/>
-            <Button x:Name="BtnLookMore" FontFamily="../Assets/#androidicons" Content="&#59555;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0"/>
+            <TextBox x:Name="TbNew" Background="Transparent" BorderThickness="0" KeyUp="TbNew_KeyUp" />
+            <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Click="BtnAdd_Click"/>
+            <Button x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnSearch_Click"/>
+            <Button x:Name="BtnLookMore" FontFamily="../Assets/#androidicons" Content="&#59555;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0" Click="BtnLookMore_Click"/>
         </Grid>
         </Border>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >

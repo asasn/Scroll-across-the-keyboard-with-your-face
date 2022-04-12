@@ -71,13 +71,13 @@ namespace RootNS.Behavior
 
         public static void CreateNewNode(Node node)
         {
-            string sql = string.Format("INSERT INTO {0} (Uid, [Index], Pid, Title, IsDir, Text, Summary, TabName, PointX, PointY, WordsCount, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}');", node.TabName, node.Uid, node.Index, node.Pid, node.Title.Replace("'", "''"), node.IsDir, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.TabName, node.PointX, node.PointY, node.WordsCount, node.IsExpanded, node.IsChecked, node.IsDel);
+            string sql = string.Format("INSERT INTO {0} (Uid, [Index], Pid, Title, IsDir, Text, Summary, TabName, PointX, PointY, WordsCount, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}');", node.TabName.Replace("'", "''"), node.Uid, node.Index, node.Pid, node.Title.Replace("'", "''"), node.IsDir, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.TabName, node.PointX, node.PointY, node.WordsCount, node.IsExpanded, node.IsChecked, node.IsDel);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
 
         public static void UpdateNodeProperty(Node node, string fieldName, string value)
         {
-            string sql = string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}';", node.TabName, fieldName, value.Replace("'", "''"), node.Uid);
+            string sql = string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}';", node.TabName.Replace("'", "''"), fieldName, value.Replace("'", "''"), node.Uid);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
     }

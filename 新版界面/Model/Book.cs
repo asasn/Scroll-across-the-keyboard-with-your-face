@@ -17,6 +17,19 @@ namespace RootNS.Model
     /// </summary>
     public class Book : BookBase
     {
+        public Book()
+        {
+            this.PropertyChanged += Book_PropertyChanged;
+        }
+
+        private void Book_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Name")
+            {
+                DataJoin.InitBookRootNodes(this);
+            }
+        }
+
         /// <summary>
         /// 清空各部分根节点
         /// </summary>

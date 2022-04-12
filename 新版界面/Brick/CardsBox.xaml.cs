@@ -26,5 +26,35 @@ namespace RootNS.Brick
         {
             InitializeComponent();
         }
+
+        private void BtnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
+            {
+                return;
+            }
+            Node node = new Node();
+            node.Title = TbNew.Text;
+            (this.DataContext as Node).AddChildNode(node);
+            TbNew.Clear();
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnLookMore_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TbNew_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                BtnAdd_Click(null, null);
+            }
+        }
     }
 }

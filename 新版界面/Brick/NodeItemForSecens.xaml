@@ -22,6 +22,6 @@
         <Label x:Name="title" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" Content="{Binding Title, Mode=TwoWay}" Padding="0" BorderThickness="0" Background="Transparent" Grid.Column="1" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
         <CheckBox Grid.Column="2" IsChecked="{Binding IsChecked}" HorizontalAlignment="Center" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Click="CheckBox_Click" VerticalAlignment="Center" />
         <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" Padding="0"  Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" KeyDown="TbReName_KeyDown" MaxLength="20"/>
-        <Border x:Name="BoxContent" BorderThickness="1" Grid.Column="1" Grid.Row="1" Visibility="{Binding IsExpanded, Converter={StaticResource BoolConvertToVisibility}}" Height="104"/>
+        <Border x:Name="BoxContent" Grid.Column="1" Grid.Row="1" Visibility="{Binding IsExpanded, Converter={StaticResource BoolConvertToVisibility}}" Height="104"/>
     </Grid>
 </UserControl>

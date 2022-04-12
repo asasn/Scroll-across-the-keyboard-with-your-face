@@ -68,14 +68,13 @@ namespace RootNS.Behavior
             }
             reader.Close();
             Gval.FlagLoadingCompleted = false;
-            DataJoin.InitBookRootNodes(book);
             book.LoadBookChapters();
             book.LoadBookNotes();
             book.LoadForCards();
             Gval.FlagLoadingCompleted = true;
         }
 
-        private static void InitBookRootNodes(Book book)
+        public static void InitBookRootNodes(Book book)
         {
             Node[] rootNodes = { book.BoxDraft, book.BoxTemp, book.BoxPublished, book.NoteMemorabilia, book.NoteStory, book.NoteScenes, book.NoteClues, book.NoteTemplate, book.CardRole, book.CardOther, book.CardWorld, book.MapPoints };
             foreach (Node node in rootNodes)

@@ -218,10 +218,14 @@
     </Compile>
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\BookBase.cs" />
+    <Compile Include="Model\Card.cs" />
+    <Compile Include="Model\Chapter.cs" />
     <Compile Include="Model\Material.cs" />
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\NotificationObject.cs" />
     <Compile Include="Model\Gval.cs" />
+    <Compile Include="Model\Site.cs" />
+    <Compile Include="Model\Tip.cs" />
     <Compile Include="View\Choose.xaml.cs">
       <DependentUpon>Choose.xaml</DependentUpon>
     </Compile>
