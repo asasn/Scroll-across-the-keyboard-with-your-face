@@ -136,8 +136,15 @@ namespace RootNS.Brick
         {
             BtnSaveDoc.IsEnabled = false;
 
-            ThisTextEditor.Load(HelperEditor.ConvertStringToStream((ThisControl.DataContext as Node).Text));
+            Node node = ThisControl.DataContext as Node;
+            if (string.IsNullOrWhiteSpace(node.Text) == true)
+            {
+                node.Text = "　　";
+            }
+            ThisTextEditor.Text = node.Text;
             HelperEditor.SetEditorColorRules(ThisTextEditor);
+            ThisTextEditor.Focus();
+            HelperEditor.MoveToEnd(ThisTextEditor);
         }
 
 

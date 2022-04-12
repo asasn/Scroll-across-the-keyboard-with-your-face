@@ -140,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Brick\NodeItemForSecens.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Brick\NodeItemForClue.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -199,6 +203,9 @@
     </Compile>
     <Compile Include="Brick\MyTree.xaml.cs">
       <DependentUpon>MyTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brick\NodeItemForSecens.xaml.cs">
+      <DependentUpon>NodeItemForSecens.xaml</DependentUpon>
     </Compile>
     <Compile Include="Brick\NodeItemForClue.xaml.cs">
       <DependentUpon>NodeItemForClue.xaml</DependentUpon>

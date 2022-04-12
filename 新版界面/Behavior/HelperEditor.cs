@@ -48,6 +48,20 @@ namespace RootNS.Behavior
             return stream;
         }
 
+        /// <summary>
+        /// 光标移动至文末并激活
+        /// </summary>
+        /// <param name="tEditor"></param>
+        public static void MoveToEnd(TextEditor tEditor)
+        {
+            tEditor.ScrollToLine(tEditor.LineCount);
+            tEditor.SelectionLength = 0;
+            tEditor.SelectionStart = tEditor.Text.Length;
+            for (int i = 0; i < 5; i++)
+            {
+                tEditor.ScrollToEnd();
+            }
+        }
 
         /// <summary>
         /// 字数统计

@@ -42,11 +42,6 @@ namespace RootNS.Brick
                 {
                     DataContext = stuff,
                 };
-                //if (string.IsNullOrWhiteSpace(stuff.Text) == true)
-                //{
-                //    stuff.Text = "　　";
-                //}
-                //editorBase.ThisTextEditor.Text = stuff.Text;
                 HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem
                 {
                     Uid = stuff.Uid,
@@ -96,38 +91,6 @@ namespace RootNS.Brick
                 {
                     (e as HandyControl.Data.CancelRoutedEventArgs).Cancel = true;
                 }
-            }
-        }
-
-
-        private void ThisControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //(ThisControl.SelectedItem as EditorBase).ThisTextEditor.Text = (ThisControl.SelectedItem as Node).Text;
-        }
-
-
-        private void TextBlock_Loaded(object sender, RoutedEventArgs e)
-        {
-            Node node = (sender as TextBlock).DataContext as Node;
-            EditorBase ucEditor = new EditorBase
-            {
-                DataContext = node,
-            };
-
-            HandyControl.Controls.TabItem tabItem = new HandyControl.Controls.TabItem
-            {
-                DataContext = node,
-                IsSelected = true,
-                Content = ucEditor
-            };
-            
-            if (node != null && string.IsNullOrWhiteSpace(node.Text) == true)
-            {
-               // (Gval.EditorTabControl.SelectedContent as EditorBase).ThisTextEditor.Text = "　　";
-            }
-            else
-            {
-               // (Gval.EditorTabControl.SelectedContent as EditorBase).ThisTextEditor.Text = node.Text;
             }
         }
 

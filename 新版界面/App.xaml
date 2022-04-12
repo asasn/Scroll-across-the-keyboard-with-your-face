@@ -22,6 +22,7 @@
             <local:IsDelConvertOpacity x:Key="IsDelConvertOpacity"/>
             <local:NodeConvertToVisibility x:Key="NodeConvertToVisibility"/>
             <local:NodeConvertToVisibility2 x:Key="NodeConvertToVisibility2"/>
+            <local:BoolConvertToVisibility x:Key="BoolConvertToVisibility"/>
             <model:Gval x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>

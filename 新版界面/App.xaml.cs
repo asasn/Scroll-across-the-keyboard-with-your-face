@@ -81,7 +81,10 @@ namespace RootNS
                 {
                     return new NodeItemForClue();
                 }
-
+                if (node.TabName == "场景")
+                {
+                    return new NodeItemForSecens();
+                }
                 return new NodeItemForDoc();
             }
             catch
@@ -168,6 +171,39 @@ namespace RootNS
         }
     }
 
+    /// <summary>
+    /// 布尔值决定是否显现
+    /// </summary>
+    public class BoolConvertToVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Visibility.Collapsed;
+            }
+            try
+            {
+                if ((bool)value == true)
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+            catch
+            {
+                return Visibility.Collapsed;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
 
     /// <summary>
     /// 图标决定字号

@@ -17,11 +17,11 @@ using System.Windows.Shapes;
 namespace RootNS.Brick
 {
     /// <summary>
-    /// NodeItemForDoc.xaml 的交互逻辑
+    /// NodeItemForSecens.xaml 的交互逻辑
     /// </summary>
-    public partial class NodeItemForClue : UserControl
+    public partial class NodeItemForSecens : UserControl
     {
-        public NodeItemForClue()
+        public NodeItemForSecens()
         {
             InitializeComponent();
         }
@@ -46,7 +46,6 @@ namespace RootNS.Brick
                 CheckAllChildNodes(node);
                 node.IsChecked = thisNode.IsChecked;
             }
-            thisNode.IsExpanded = !thisNode.IsChecked;
         }
 
         /// <summary>
@@ -76,8 +75,15 @@ namespace RootNS.Brick
                     }
                 }
                 //根据标志改变父节点选中状态
-                thisNode.ParentNode.IsChecked = tag;
-                thisNode.ParentNode.IsExpanded = !tag;
+                if (tag == true)
+                {
+                    thisNode.ParentNode.IsChecked = true;
+                }
+                else
+                {
+                    thisNode.ParentNode.IsChecked = false;
+                    thisNode.ParentNode.IsExpanded = false;
+                }
             }
         }
 
