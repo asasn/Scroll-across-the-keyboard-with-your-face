@@ -28,7 +28,6 @@ namespace RootNS.View
         public CardDesign(UserControl uc)
         {
             InitializeComponent();
-            RoleModel.DataContext = Role;
 
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;
@@ -38,9 +37,6 @@ namespace RootNS.View
 
         }
 
-        public CardModel.Part Role { get; set; } = Gval.CardModel.PartDict["角色"];
-        public CardModel.Part Other { get; set; } = Gval.CardModel.PartDict["其他"];
-        public CardModel.Part World { get; set; } = Gval.CardModel.PartDict["世界"];
 
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)

@@ -186,19 +186,6 @@ namespace RootNS.Model
 
 
 
-        private static CardModel _cardModel = new CardModel();
-        /// <summary>
-        /// 卡片模板对象
-        /// </summary>
-        public static CardModel CardModel
-        {
-            get { return _cardModel; }
-            set
-            {
-                _cardModel = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CardModel)));
-            }
-        }
 
     }
 }

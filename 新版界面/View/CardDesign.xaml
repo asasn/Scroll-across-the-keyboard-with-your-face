@@ -18,12 +18,12 @@
                         <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition MinHeight="25" Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Button Padding="2" x:Name="BtnSave" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Right" />
+                    <Button Padding="2" x:Name="BtnSave" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Right" />
                     <brick:CardLine x:Name="RoleModel" Grid.Row="1" />
                     <Label x:Name="LbShow" Content="" Foreground="Red" BorderThickness="0" VerticalAlignment="Top" Grid.Row="2" />
                 </Grid>
             </ScrollViewer>
         </hc:Card>
-        <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,5,5,0" />
+        <Button Padding="0" x:Name="BtnClose" FontFamily="../Assets/#androidicons" Content="&#xE82F;" FontSize="14" Background="Transparent" Foreground="Red" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,5,5,0" />
     </Grid>
 </Window>
