@@ -105,6 +105,7 @@
     <Reference Include="System.Data.SQLite, Version=1.0.115.5, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -132,6 +133,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Brick\CardLine.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Brick\MyEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -153,6 +158,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Brick\Searcher.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CardDesign.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -187,6 +196,7 @@
     <Compile Include="Behavior\HelperControl.cs" />
     <Compile Include="Behavior\DataJoin.cs" />
     <Compile Include="Behavior\DataOut.cs" />
+    <Compile Include="Behavior\HelperDataObject.cs" />
     <Compile Include="Behavior\HelperEditor.cs" />
     <Compile Include="Behavior\HelperTable.cs" />
     <Compile Include="Brick\CardsBox.xaml.cs">
@@ -197,6 +207,9 @@
     <Compile Include="Brick\CSqlitePlus.cs" />
     <Compile Include="Brick\EditorBase.xaml.cs">
       <DependentUpon>EditorBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brick\CardLine.xaml.cs">
+      <DependentUpon>CardLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="Brick\MyEditor.xaml.cs">
       <DependentUpon>MyEditor.xaml</DependentUpon>
@@ -215,6 +228,9 @@
     </Compile>
     <Compile Include="Brick\Searcher.xaml.cs">
       <DependentUpon>Searcher.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CardDesign.xaml.cs">
+      <DependentUpon>CardDesign.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Book.cs" />
     <Compile Include="Model\BookBase.cs" />

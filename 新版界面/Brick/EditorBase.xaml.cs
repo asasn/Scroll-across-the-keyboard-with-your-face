@@ -127,15 +127,13 @@ namespace RootNS.Brick
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            Gval.OpeningDocList.Remove((sender as Button).DataContext as Node);
+            (this.Parent as HandyControl.Controls.TabItem).RaiseEvent(new RoutedEventArgs(HandyControl.Controls.TabItem.ClosingEvent));
         }
 
         #endregion
 
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
-            BtnSaveDoc.IsEnabled = false;
-
             Node node = ThisControl.DataContext as Node;
             if (string.IsNullOrWhiteSpace(node.Text) == true)
             {
@@ -145,6 +143,8 @@ namespace RootNS.Brick
             HelperEditor.SetEditorColorRules(ThisTextEditor);
             ThisTextEditor.Focus();
             HelperEditor.MoveToEnd(ThisTextEditor);
+
+            BtnSaveDoc.IsEnabled = false;
         }
 
 

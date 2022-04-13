@@ -1,0 +1,29 @@
+﻿<Window x:Class="RootNS.View.CardDesign"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:brick="clr-namespace:RootNS.Brick"
+        mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize"
+        Background="Transparent" Effect="{StaticResource EffectShadow3}" 
+        Title="信息卡编辑窗体" Topmost="True"
+        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="100" 
+        d:DesignWidth="300" MaxWidth="300" Loaded="Window_Loaded" MaxHeight="759">
+    <Grid x:Name="gMain">
+        <hc:Card x:Name="card" Header=" 属性编辑" VerticalAlignment="Top" Margin="4">
+            <ScrollViewer >
+                <Grid x:Name="gCard" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Padding="2" x:Name="BtnSave" Foreground="Blue" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource SaveGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Right" />
+                    <brick:CardLine x:Name="RoleModel" Grid.Row="1" />
+                    <Label x:Name="LbShow" Content="" Foreground="Red" BorderThickness="0" VerticalAlignment="Top" Grid.Row="2" />
+                </Grid>
+            </ScrollViewer>
+        </hc:Card>
+        <Button Padding="2" x:Name="BtnClose" Foreground="Red" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource CloseGeometry}" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,5,5,0" />
+    </Grid>
+</Window>

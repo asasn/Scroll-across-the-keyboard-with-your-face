@@ -361,7 +361,7 @@ namespace RootNS.Model
             }
             this.IsExpanded = true;
             this.ChildNodes.Add(node);
-            DataOut.CreateNewChapter(node);
+            DataOut.CreateNewNode(node);
             return node;
         }
 

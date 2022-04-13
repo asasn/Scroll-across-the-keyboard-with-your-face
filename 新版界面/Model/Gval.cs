@@ -1,4 +1,5 @@
-﻿using RootNS.Brick;
+﻿using RootNS.Behavior;
+using RootNS.Brick;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using static RootNS.Behavior.HelperDataObject;
 
 namespace RootNS.Model
 {
@@ -30,9 +32,11 @@ namespace RootNS.Model
             public static string Assets { get { return Environment.CurrentDirectory + "/Assets"; } }
         }
 
-
-
-
+        public struct View
+        {
+            public static MainWindow MainWindow { get; set; }
+   
+        }
 
         private static Book _currentBook = new Book();
 
@@ -179,5 +183,22 @@ namespace RootNS.Model
                 _selectedPublicCardTab = value;
             }
         }
+
+
+
+        private static CardModel _cardModel = new CardModel();
+        /// <summary>
+        /// 卡片模板对象
+        /// </summary>
+        public static CardModel CardModel
+        {
+            get { return _cardModel; }
+            set
+            {
+                _cardModel = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CardModel)));
+            }
+        }
+
     }
 }

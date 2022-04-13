@@ -77,18 +77,22 @@ namespace RootNS.Behavior
         private static string GetSqlStringForCreateCardTags()
         {
             string sql = string.Empty;
-            sql += string.Format("CREATE TABLE IF NOT EXISTS 卡片 ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Title CHAR NOT NULL UNIQUE, Tag CHAR NOT NULL);");
+            sql += string.Format("CREATE TABLE IF NOT EXISTS 卡设计 ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Title CHAR NOT NULL UNIQUE, TabName CHAR NOT NULL);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", "卡设计");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Title ON {0}(Title);", "卡设计");
+            sql += string.Format("CREATE TABLE IF NOT EXISTS 卡片 ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Pid CHAR DEFAULT \"\", Tid CHAR DEFAULT \"\" REFERENCES 卡设计(Uid) ON DELETE CASCADE ON UPDATE CASCADE, Title CHAR NOT NULL UNIQUE, TabName CHAR NOT NULL);");
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", "卡片");
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Tag ON {0}(Tag);", "卡片");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Pid ON {0}(Pid);", "卡片");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Tid ON {0}(Tid);", "卡片");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}TabName ON {0}(TabName);", "卡片");
             return sql;
         }
         private static string GetSqlStringForCreateCardTable(string tableName)
         {
             string sql = string.Empty;
-            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY,Pid CHAR DEFAULT \"\", Tid CHAR DEFAULT \"\" REFERENCES 卡片(Uid) ON DELETE CASCADE ON UPDATE CASCADE, Title CHAR, Summary CHAR, Weight INTEGER DEFAULT (0), BornYear INTEGER DEFAULT (0), IsChecked BOOLEAN DEFAULT(False), IsDel BOOLEAN DEFAULT(False));", tableName);
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Title CHAR, Summary CHAR, Weight INTEGER DEFAULT (0), BornYear INTEGER DEFAULT (0), IsChecked BOOLEAN DEFAULT(False), IsDel BOOLEAN DEFAULT(False));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", tableName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Pid ON {0}(Pid);", tableName);
-            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Tid ON {0}(Tid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Title ON {0}(Title);", tableName);
             return sql;
         }
 

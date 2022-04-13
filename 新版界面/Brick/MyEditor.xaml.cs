@@ -82,10 +82,11 @@ namespace RootNS.Brick
                 if (dr == MessageBoxResult.Yes)
                 {
                     editorBase.BtnSaveText_Click(null, null);
+                    Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
                 }
                 if (dr == MessageBoxResult.No)
                 {
-                    
+                    Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
                 }
                 if (dr == MessageBoxResult.Cancel)
                 {

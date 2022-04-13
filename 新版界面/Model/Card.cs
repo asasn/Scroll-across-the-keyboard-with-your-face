@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Behavior;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -30,6 +31,18 @@ namespace RootNS.Model
             {
                 _canSave = value;
                 this.RaisePropertyChanged(nameof(CanSave));
+            }
+        }
+
+        private string _tid;
+
+        public string Tid
+        {
+            get { return _tid; }
+            set
+            {
+                _tid = value;
+                this.RaisePropertyChanged(nameof(Tid));
             }
         }
 
@@ -78,5 +91,21 @@ namespace RootNS.Model
         }
 
 
+        /// <summary>
+        /// 从当前节点添加子节点
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        public Card AddChildNode(Card card)
+        {
+            if (card.Title == null)
+            {
+                card.Title = "新" + this.TabName;
+            }
+            this.IsExpanded = true;
+            this.ChildNodes.Add(card);
+            DataOut.CreateNewCard(card);
+            return card;
+        }
     }
 }

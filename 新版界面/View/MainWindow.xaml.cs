@@ -34,7 +34,7 @@ namespace RootNS
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            Gval.View.MainWindow = this;
         }
 
         private void WinMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -137,6 +137,9 @@ namespace RootNS
             Gval.FlagLoadingCompleted = true;
         }
 
+        private void BtnCardModel_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }

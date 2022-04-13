@@ -1,4 +1,6 @@
-﻿using RootNS.Model;
+﻿using RootNS.Behavior;
+using RootNS.Model;
+using RootNS.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,20 +35,21 @@ namespace RootNS.Brick
             {
                 return;
             }
-            Node node = new Node();
-            node.Title = TbNew.Text;
-            (this.DataContext as Node).AddChildNode(node);
+            Card card = new Card();
+            card.Title = TbNew.Text;
+            card.Tid = TbNew.Text;
+            (this.DataContext as Card).AddChildNode(card);
             TbNew.Clear();
         }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-
+         
         }
 
         private void BtnLookMore_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void TbNew_KeyUp(object sender, KeyEventArgs e)
@@ -55,6 +58,12 @@ namespace RootNS.Brick
             {
                 BtnAdd_Click(null, null);
             }
+        }
+
+        private void BtnDesign_Click(object sender, RoutedEventArgs e)
+        {
+            CardDesign we = new CardDesign(ThisControl);
+            we.ShowDialog();
         }
     }
 }
