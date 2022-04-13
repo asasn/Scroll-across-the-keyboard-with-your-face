@@ -19,11 +19,9 @@ namespace RootNS.Model
 
         private void Node_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (this.OwnerName == null || Gval.FlagLoadingCompleted == false)
-            {
-                return;
-            }
-            if (this.IsDir == false && e.PropertyName == "IsExpanded")
+            if (this.OwnerName == null ||
+                Gval.FlagLoadingCompleted == false ||
+               (this.IsDir == false && e.PropertyName == "IsExpanded"))
             {
                 return;
             }
@@ -47,10 +45,9 @@ namespace RootNS.Model
             if (e.PropertyName == "Pid" ||
                 e.PropertyName == "Index" ||
                 e.PropertyName == "Title" ||
-                e.PropertyName == "TabName" ||
-                e.PropertyName == "IsExpanded" ||
+                e.PropertyName == "IsDel" ||
                 e.PropertyName == "IsChecked" ||
-                e.PropertyName == "IsDel")
+                e.PropertyName == "IsExpanded")
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
                 DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
@@ -362,8 +359,9 @@ namespace RootNS.Model
             {
                 node.Title = "新" + this.TabName;
             }
+            this.IsExpanded = true;
             this.ChildNodes.Add(node);
-            DataOut.CreateNewNode(node);
+            DataOut.CreateNewChapter(node);
             return node;
         }
 

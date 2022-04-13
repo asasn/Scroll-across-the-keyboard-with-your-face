@@ -23,6 +23,8 @@
             <local:NodeConvertToVisibility x:Key="NodeConvertToVisibility"/>
             <local:NodeConvertToVisibility2 x:Key="NodeConvertToVisibility2"/>
             <local:BoolConvertToVisibility x:Key="BoolConvertToVisibility"/>
+            <local:TabName2BoolReConvert x:Key="TabName2BoolReConvert"/>
+            
             <model:Gval x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>

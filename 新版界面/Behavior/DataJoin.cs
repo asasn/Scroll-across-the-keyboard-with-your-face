@@ -19,11 +19,11 @@ namespace RootNS.Behavior
             CFileOperate.CreateFolder(Gval.Path.Books);
             HelperTable.TryToBuildIndexDatabase();
             Gval.CurrentBook.Uid = CSettingsOperate.Get(Gval.MaterialBook.Name, "CurBookUid");
-            LoadBooksBankHeader();
+            LoadBooksBank();
         }
 
 
-        private static void LoadBooksBankHeader()
+        private static void LoadBooksBank()
         {
             string sql = string.Format("SELECT * FROM 书库 ORDER BY [Index];");
             CSqlitePlus.PoolOperate.Add("index");
@@ -43,7 +43,6 @@ namespace RootNS.Behavior
                 if (Gval.CurrentBook.Uid != null && Gval.CurrentBook.Uid == book.Uid)
                 {
                     Gval.CurrentBook = book;
-                    DataJoin.InitBookRootNodes(book);
                 }
                 Gval.BooksBank.Add(book);
             }
@@ -72,57 +71,48 @@ namespace RootNS.Behavior
             book.LoadBookNotes();
             book.LoadForCards();
             Gval.FlagLoadingCompleted = true;
+
         }
 
-        public static void InitBookRootNodes(Book book)
-        {
-            Node[] rootNodes = { book.BoxDraft, book.BoxTemp, book.BoxPublished, book.NoteMemorabilia, book.NoteStory, book.NoteScenes, book.NoteClues, book.NoteTemplate, book.CardRole, book.CardOther, book.CardWorld, book.MapPoints };
-            foreach (Node node in rootNodes)
-            {
-                node.OwnerName = book.Name;
-            }
-        }
 
-        private static void FillInPartBase(string pid, Node rootNode)
+        private static void FillInNodes(string pid, Node rootNode)
         {
             if (Gval.CurrentBook.Name == null && rootNode.OwnerName != "index")
             {
                 return;
             }
-            string sql = string.Format("SELECT * FROM {0} WHERE TabName='{1}' AND Pid='{2}' ORDER BY [Index];", rootNode.TabName, rootNode.TabName, pid);
+            string sql = string.Format("SELECT * FROM {0} WHERE Pid='{1}' ORDER BY [Index];", rootNode.TabName, pid);
             SQLiteDataReader reader = CSqlitePlus.PoolDict[rootNode.OwnerName].ExecuteQuery(sql);
             while (reader.Read())
             {
                 Node node = new Node
                 {
-                    Uid = reader["Uid"].ToString(),
                     Index = Convert.ToInt32(reader["Index"]),
+                    Uid = reader["Uid"].ToString(),
                     Pid = reader["Pid"].ToString(),
                     Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
                     IsDir = (bool)reader["IsDir"],
                     Text = reader["Text"] == DBNull.Value ? null : reader["Text"].ToString(),
                     Summary = reader["Summary"] == DBNull.Value ? null : reader["Summary"].ToString(),
-                    TabName = reader["TabName"].ToString(),
-                    PointX = reader["PointX"] == DBNull.Value ? double.NaN : Convert.ToDouble(reader["PointX"]),
-                    PointY = reader["PointY"] == DBNull.Value ? double.NaN : Convert.ToDouble(reader["PointY"]),
                     WordsCount = reader["WordsCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"],
                     IsChecked = (bool)reader["IsChecked"],
                     IsDel = (bool)reader["IsDel"]
                 };
                 rootNode.ChildNodes.Add(node);
-                FillInPartBase(node.Uid, node);
+                FillInNodes(node.Uid, node);
             }
             reader.Close();
         }
 
 
-        public static void FillInPart(Node rootNode)
+        public static void FillInNodes(Node rootNode)
         {
             Gval.FlagLoadingCompleted = false;
             CSqlitePlus.PoolOperate.Add(rootNode.OwnerName);
-            DataJoin.FillInPartBase(null, rootNode);
+            DataJoin.FillInNodes(null, rootNode);
             Gval.FlagLoadingCompleted = true;
         }
+
     }
 }

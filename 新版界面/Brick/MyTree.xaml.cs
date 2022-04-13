@@ -49,11 +49,8 @@ namespace RootNS.Brick
 
         private void Command_AddFolder_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if ((TreeNodes.DataContext as Node).OwnerName != "index" && string.IsNullOrEmpty(Gval.CurrentBook.Uid) == true)
-            {
-                return;
-            }
-            if ((TreeNodes.DataContext as Node).TabName == "暂存" || (TreeNodes.DataContext as Node).TabName == "草稿")
+            if ((TreeNodes.DataContext as Node).OwnerName != "index" &&
+                string.IsNullOrEmpty(Gval.CurrentBook.Uid) == true)
             {
                 return;
             }
@@ -66,7 +63,8 @@ namespace RootNS.Brick
         {
             if (TreeNodes.SelectedItem == null)
             {
-                if ((TreeNodes.DataContext as Node).TabName == "暂存" || (TreeNodes.DataContext as Node).TabName == "草稿")
+                if ((TreeNodes.DataContext as Node).TabName == Book.ChapterTabName.草稿.ToString() ||
+                    (TreeNodes.DataContext as Node).TabName == Book.ChapterTabName.暂存.ToString())
                 {
                     Node node = new Node();
                     (TreeNodes.DataContext as Node).AddChildNode(node);

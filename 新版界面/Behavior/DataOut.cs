@@ -69,9 +69,9 @@ namespace RootNS.Behavior
             node.TabName = newTabName;
         }
 
-        public static void CreateNewNode(Node node)
+        public static void CreateNewChapter(Node node)
         {
-            string sql = string.Format("INSERT INTO {0} (Uid, [Index], Pid, Title, IsDir, Text, Summary, TabName, PointX, PointY, WordsCount, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}');", node.TabName.Replace("'", "''"), node.Uid, node.Index, node.Pid, node.Title.Replace("'", "''"), node.IsDir, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.TabName, node.PointX, node.PointY, node.WordsCount, node.IsExpanded, node.IsChecked, node.IsDel);
+            string sql = string.Format("INSERT INTO {0} ([Index], Uid, Pid, Title, Text, Summary, WordsCount, IsDir, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');", node.TabName.Replace("'", "''"), node.Index, node.Uid, node.Pid, node.Title.Replace("'", "''"), node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.IsDir, node.IsExpanded, node.IsChecked, node.IsDel);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
 

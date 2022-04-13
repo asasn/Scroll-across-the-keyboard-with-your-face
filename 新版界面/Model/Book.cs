@@ -26,27 +26,24 @@ namespace RootNS.Model
         {
             if (e.PropertyName == "Name")
             {
-                DataJoin.InitBookRootNodes(this);
+                this.InitRootNodes(this.Name);
             }
         }
 
+
         /// <summary>
-        /// 清空各部分根节点
+        /// 根节点初始化
         /// </summary>
-        public void Clear()
+        /// <param name="bookName"></param>
+        private void InitRootNodes(string bookName)
         {
-            BoxDraft.ChildNodes.Clear();
-            BoxTemp.ChildNodes.Clear();
-            BoxPublished.ChildNodes.Clear();
-            NoteStory.ChildNodes.Clear();
-            NoteMemorabilia.ChildNodes.Clear();
-            NoteClues.ChildNodes.Clear();
-            NoteTemplate.ChildNodes.Clear();
-            CardRole.ChildNodes.Clear();
-            CardOther.ChildNodes.Clear();
-            CardWorld.ChildNodes.Clear();
-            MapPoints.ChildNodes.Clear();
+            Node[] rootNodes = { this.BoxDraft, this.BoxTemp, this.BoxPublished, this.NoteMemorabilia, this.NoteStory, this.NoteScenes, this.NoteClues, this.NoteTemplate};
+            foreach (Node node in rootNodes)
+            {
+                node.OwnerName = bookName;
+            }
         }
+
 
         /// <summary>
         /// 目录树TabItem标志
@@ -115,13 +112,6 @@ namespace RootNS.Model
         public Node NoteTemplate { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.模板.ToString() };
         #endregion
 
-        #region 信息卡
-        public Node CardRole { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.角色.ToString() };
-        public Node CardOther { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.其他.ToString() };
-        public Node CardWorld { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.世界.ToString() };
-        public Node MapPoints { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.地图.ToString() };
-        #endregion
-
         /// <summary>
         /// 载入目录树
         /// </summary>
@@ -145,7 +135,7 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                DataJoin.FillInPart(rootNode);
+                DataJoin.FillInNodes(rootNode);
             }
         }
 
@@ -179,34 +169,11 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                DataJoin.FillInPart(rootNode);
+                DataJoin.FillInNodes(rootNode);
             }
         }
 
-        /// <summary>
-        /// 载入信息卡
-        /// </summary>
-        public void LoadForCards()
-        {
-            TabControl tabControl = Gval.SelectedCardTab;
-            Node rootNode = new Node();
-            if (tabControl.SelectedIndex == 0)
-            {
-                rootNode = CardRole;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                rootNode = CardOther;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                rootNode = CardWorld;
-            }
-            if (rootNode.ChildNodes.Count == 0)
-            {
-                DataJoin.FillInPart(rootNode);
-            }
-        }
+
 
 
     }

@@ -28,14 +28,19 @@ namespace RootNS
         public MainWindow()
         {
             InitializeComponent();
+
+            DataJoin.ReadyForBaseInfo();
         }
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
         {
-            DataJoin.ReadyForBaseInfo();
+            
         }
 
+        private void WinMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
 
+        }
 
         private void TabBook_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -131,5 +136,7 @@ namespace RootNS
         {
             Gval.FlagLoadingCompleted = true;
         }
+
+
     }
 }

@@ -12,6 +12,43 @@ namespace RootNS.Model
 {
     public class BookBase : NotificationObject
     {
+        public BookBase()
+        {
+            this.PropertyChanged += BookBase_PropertyChanged;
+        }
+
+        private void BookBase_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Name")
+            {
+                this.InitRootNodes(this.Name);
+            }
+        }
+
+        /// <summary>
+        /// 根节点初始化
+        /// </summary>
+        /// <param name="bookName"></param>
+        private void InitRootNodes(string bookName)
+        {
+            Node[] rootNodes = { this.CardRole, this.CardOther, this.CardWorld, this.MapPoints };
+            foreach (Node node in rootNodes)
+            {
+                node.OwnerName = bookName;
+            }
+        }
+
+        /// <summary>
+        /// 清空各部分根节点
+        /// </summary>
+        public void Clear()
+        {
+            CardRole.ChildNodes.Clear();
+            CardOther.ChildNodes.Clear();
+            CardWorld.ChildNodes.Clear();
+            MapPoints.ChildNodes.Clear();
+        }
+
         private string _uid;
         /// <summary>
         /// 书籍标识码
@@ -67,8 +104,29 @@ namespace RootNS.Model
             角色,
             其他,
             世界,
+        }
+
+
+        /// <summary>
+        /// 地图TabItem标志
+        /// </summary>
+        public enum MapTabName
+        {
             地图,
         }
+
+
+
+        #region 信息卡
+        public Node CardRole { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.角色.ToString() };
+        public Node CardOther { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.其他.ToString() };
+        public Node CardWorld { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.世界.ToString() };
+
+        #endregion
+
+        #region 地图
+        public Node MapPoints { set; get; } = new Node() { Uid = String.Empty, TabName = MapTabName.地图.ToString() };
+        #endregion
 
         private int _index;
         /// <summary>
@@ -127,6 +185,29 @@ namespace RootNS.Model
         }
 
 
-
+        /// <summary>
+        /// 载入信息卡
+        /// </summary>
+        public void LoadForCards()
+        {
+            TabControl tabControl = Gval.SelectedCardTab;
+            Node rootNode = new Node();
+            if (tabControl.SelectedIndex == 0)
+            {
+                rootNode = CardRole;
+            }
+            if (tabControl.SelectedIndex == 1)
+            {
+                rootNode = CardOther;
+            }
+            if (tabControl.SelectedIndex == 2)
+            {
+                rootNode = CardWorld;
+            }
+            if (rootNode.ChildNodes.Count == 0)
+            {
+                //DataJoin.FillInPart(rootNode);
+            }
+        }
     }
 }

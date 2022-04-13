@@ -12,19 +12,28 @@ namespace RootNS.Model
 {
     public class Material : BookBase
     {
-        /// <summary>
-        /// 清空各部分根节点
-        /// </summary>
-        public void Clear()
+        public Material()
         {
-            BoxExample.ChildNodes.Clear();
-            BoxMaterial.ChildNodes.Clear();
-            NoteTheme.ChildNodes.Clear();
-            NoteInspiration.ChildNodes.Clear();
-            PublicCardRole.ChildNodes.Clear();
-            PublicCardOther.ChildNodes.Clear();
-            PublicCardWorld.ChildNodes.Clear();
-            PublicMapPoints.ChildNodes.Clear();
+            this.PropertyChanged += Material_PropertyChanged;
+            this.InitRootNodes("index");
+        }
+
+        private void Material_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            //
+        }
+
+        /// <summary>
+        /// 根节点初始化
+        /// </summary>
+        /// <param name="bookName"></param>
+        private void InitRootNodes(string bookName)
+        {
+            Node[] rootNodes = { this.BoxExample, this.BoxMaterial, this.NoteTheme, this.NoteInspiration};
+            foreach (Node node in rootNodes)
+            {
+                node.OwnerName = bookName;
+            }
         }
 
 
@@ -42,13 +51,6 @@ namespace RootNS.Model
         public Node NoteTheme { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.主题.ToString(), OwnerName = "index" };
         public Node NoteInspiration { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
         #endregion
-        #region 信息卡
-        public Node PublicCardRole { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.角色.ToString(), OwnerName = "index" };
-        public Node PublicCardOther { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.其他.ToString(), OwnerName = "index" };
-        public Node PublicCardWorld { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.世界.ToString(), OwnerName = "index" };
-        public Node PublicMapPoints { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.地图.ToString(), OwnerName = "index" };
-        #endregion
-
 
         /// <summary>
         /// 载入资料库
@@ -76,33 +78,10 @@ namespace RootNS.Model
             }
             if (rootNode.ChildNodes.Count == 0)
             {
-                DataJoin.FillInPart(rootNode);
+                DataJoin.FillInNodes(rootNode);
             }
         }
 
-        /// <summary>
-        /// 载入信息卡
-        /// </summary>
-        public void LoadForCards()
-        {
-            TabControl tabControl = Gval.SelectedCardTab;
-            Node rootNode = new Node();
-            if (tabControl.SelectedIndex == 0)
-            {
-                rootNode = PublicCardRole;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                rootNode = PublicCardOther;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                rootNode = PublicCardWorld;
-            }
-            if (rootNode.ChildNodes.Count == 0)
-            {
-                DataJoin.FillInPart(rootNode);
-            }
-        }
+
     }
 }

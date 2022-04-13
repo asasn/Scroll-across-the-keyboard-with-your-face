@@ -9,6 +9,31 @@ namespace RootNS.Model
 {
     public class Card : Node
     {
+        public Card()
+        {
+            this.PropertyChanged += Card_PropertyChanged;
+        }
+
+        private void Card_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            this.CanSave = true;
+        }
+
+        private bool _canSave;
+        /// <summary>
+        /// 是否可以保存的标记
+        /// </summary>
+        public bool CanSave
+        {
+            get { return _canSave; }
+            set
+            {
+                _canSave = value;
+                this.RaisePropertyChanged(nameof(CanSave));
+            }
+        }
+
+
         private long _bornYear;
         /// <summary>
         /// 诞年

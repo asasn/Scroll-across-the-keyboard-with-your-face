@@ -55,7 +55,7 @@ namespace RootNS.Brick
             try
             {
                 CSqlitePlus cSqlite = CSqlitePlus.PoolDict[node.OwnerName];
-                string sql = string.Format("UPDATE {0} set Text='{1}', WordsCount='{2}' WHERE Uid='{3}';", node.TabName, node.Text.Replace("'", "''"), node.WordsCount, node.Uid);
+                string sql = string.Format("UPDATE {0} SET Text='{1}', Summary='{2}', WordsCount='{3}' WHERE Uid='{4}';", node.TabName, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.Uid);
                 cSqlite.ExecuteNonQuery(sql);
 
                 //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。

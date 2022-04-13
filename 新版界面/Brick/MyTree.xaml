@@ -14,7 +14,7 @@
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-            <Button x:Name="BtnFolder" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
+            <Button x:Name="BtnFolder" IsEnabled="{Binding TabName, Converter={StaticResource TabName2BoolReConvert}}" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
             <Button x:Name="BtnAddDoc" FontFamily="../Assets/#androidicons" Content="&#59477;" FontSize="15" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddDoc_Click"/>
             <Button x:Name="BtnDel" FontFamily="../Assets/#androidicons" Content="&#59420;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
             <Button x:Name="BtnUnDel" FontFamily="../Assets/#androidicons" Content="&#59473;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUnDel_Click"/>
@@ -46,7 +46,7 @@
                 </ContextMenu>
             </TreeView.ContextMenu>
             <TreeView.CommandBindings>
-                <CommandBinding Command="{StaticResource AddFolder}" Executed="Command_AddFolder_Executed" />
+                <CommandBinding Command="{StaticResource AddFolder}" Executed="Command_AddFolder_Executed"/>
                 <CommandBinding Command="{StaticResource AddDoc}" Executed="Command_AddDoc_Executed" />
                 <CommandBinding Command="{StaticResource DelNode}" Executed="Command_Delete_Executed" />
                 <CommandBinding Command="{StaticResource ReName}" Executed="Command_ReName_Executed" />
@@ -58,7 +58,7 @@
                 <CommandBinding Command="{StaticResource Send}" Executed="Command_Send_Executed" />
             </TreeView.CommandBindings>
             <TreeView.InputBindings>
-                <KeyBinding Command="{StaticResource AddFolder}" Key="Add"/>
+                <KeyBinding Command="{StaticResource AddFolder}" Key="Add" CommandParameter="{Binding TabName}"/>
                 <KeyBinding Command="{StaticResource AddDoc}" Key="Return" />
                 <KeyBinding Command="{StaticResource DelNode}" Key="Delete" />
                 <KeyBinding Command="{StaticResource ReName}" Key="F2" />

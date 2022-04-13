@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,7 +20,34 @@ namespace RootNS
     /// </summary>
     public partial class App : Application
     {
-  
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            RunningCheck();
+        }
+        private void RunningCheck()
+        {
+            Process thisProc = Process.GetCurrentProcess();
+            if (Process.GetProcessesByName(thisProc.ProcessName).Length > 1)
+            {
+                MessageBoxResult dr = MessageBox.Show("程序运行中，是否强制重新运行？\n如非必要，请进行取消！", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+                if (dr == MessageBoxResult.OK)
+                {
+                    foreach (Process p in Process.GetProcessesByName(thisProc.ProcessName))
+                    {
+                        if (p.Id != thisProc.Id)
+                        {
+                            //强制Kill其他同名进程
+                            p.Kill();
+                        }
+                    }
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    //本程序结束，不影响其他进程
+                    Application.Current.Shutdown();
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -125,6 +153,40 @@ namespace RootNS
             catch
             {
                 return Visibility.Collapsed;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// TabName决定是否显现
+    /// </summary>
+    public class TabName2BoolReConvert : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return true;
+            }
+            try
+            {
+                if (value.ToString() == "草稿" || value.ToString() == "暂存")
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return true;
             }
         }
 
