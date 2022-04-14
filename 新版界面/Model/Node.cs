@@ -50,7 +50,7 @@ namespace RootNS.Model
                 e.PropertyName == "IsExpanded")
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
-                DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
+                DataOut.UpdateNodeProperty(this as Node, e.PropertyName, propertyValue.ToString());
             }
         }
 
@@ -68,7 +68,7 @@ namespace RootNS.Model
             }
         }
 
-        private string _uid = Gval.NewGuid();
+        private string _uid = Guid.NewGuid().ToString();
         /// <summary>
         /// 节点标识码
         /// </summary>
@@ -86,7 +86,7 @@ namespace RootNS.Model
         /// <summary>
         /// 父节点标识码
         /// </summary>
-        public string Pid
+        public virtual string Pid
         {
             get { return _pid; }
             set

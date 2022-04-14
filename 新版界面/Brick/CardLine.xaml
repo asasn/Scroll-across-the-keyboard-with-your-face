@@ -3,22 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:RootNS.Brick" Background="AliceBlue"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:RootNS.Brick" Background="White"
              mc:Ignorable="d"  d:DesignHeight="26" d:DesignWidth="300">
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-        <ItemsControl ItemsSource="{Binding Tags}" VirtualizingPanel.IsVirtualizing="True">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Padding="2">
-                        <TextBox Padding="2" Text="{Binding DataContext, RelativeSource={RelativeSource Self}}"/>
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="32" Width="*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="26"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="测试" Padding="0" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ItemsControl ItemsSource="{Binding DataContext,ElementName=ThisControl}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="2">
+                            <TextBox Text="{Binding Title}" Padding="0,5,0,0" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" Margin="0,0,10,0"  MinHeight="21" AcceptsReturn="True" MinWidth="30"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="26"/>
+        </Grid>
     </ScrollViewer>
 </UserControl>

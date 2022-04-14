@@ -2,6 +2,7 @@
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace RootNS.Behavior
             CFileOperate.CreateFolder(Gval.Path.Books);
             HelperTable.TryToBuildIndexDatabase();
             Gval.CurrentBook.Uid = CSettingsOperate.Get(Gval.MaterialBook.Name, "CurBookUid");
-            LoadBooksBank();
+            LoadBooksBank();            
         }
 
 
@@ -69,11 +70,36 @@ namespace RootNS.Behavior
             Gval.FlagLoadingCompleted = false;
             book.LoadBookChapters();
             book.LoadBookNotes();
-            book.LoadForCards();
+            book.LoadForCards(Gval.SelectedCardTab);
             Gval.FlagLoadingCompleted = true;
 
         }
 
+
+        public static ObservableCollection<Card> CardDesginLoad(Card rootCard)
+        {
+            ObservableCollection<Card> Headers = new ObservableCollection<Card>();
+            if (Gval.CurrentBook.Name == null && rootCard.OwnerName != "index")
+            {
+                return null;
+            }
+            string sql = string.Format("SELECT * FROM 卡设计 WHERE TabName='{0}' ORDER BY [Index];", rootCard.TabName);
+            SQLiteDataReader reader = CSqlitePlus.PoolDict[rootCard.OwnerName].ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                Card card = new Card
+                {
+                    Index = Convert.ToInt32(reader["Index"]),
+                    Uid = reader["Uid"].ToString(),
+                    Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
+                    TabName = rootCard.TabName,
+                    OwnerName = rootCard.OwnerName,
+                };
+                Headers.Add(card);
+            }
+            reader.Close();
+            return Headers;
+        }
 
         private static void FillInNodes(string pid, Node rootNode)
         {
@@ -114,5 +140,39 @@ namespace RootNS.Behavior
             Gval.FlagLoadingCompleted = true;
         }
 
+        private static void FillInCards(string pid, Card rootCard)
+        {
+            if (Gval.CurrentBook.Name == null && rootCard.OwnerName != "index")
+            {
+                return;
+            }
+            string sql = string.Format("SELECT * FROM {0} ORDER BY [Index];", rootCard.TabName, pid);
+            SQLiteDataReader reader = CSqlitePlus.PoolDict[rootCard.OwnerName].ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                Card card = new Card
+                {
+                    Index = Convert.ToInt32(reader["Index"]),
+                    Uid = reader["Uid"].ToString(),
+                    Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
+                    Summary = reader["Summary"] == DBNull.Value ? null : reader["Summary"].ToString(),
+                    Weight = reader["Weight"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Weight"]),
+                    BornYear = reader["BornYear"] == DBNull.Value ? 0 : Convert.ToInt64(reader["BornYear"]),
+                    IsChecked = (bool)reader["IsChecked"],
+                    IsDel = (bool)reader["IsDel"]
+                };
+                rootCard.ChildNodes.Add(card);
+            }
+            reader.Close();
+        }
+
+
+        public static void FillInCards(Card rootCard)
+        {
+            Gval.FlagLoadingCompleted = false;
+            CSqlitePlus.PoolOperate.Add(rootCard.OwnerName);
+            DataJoin.FillInCards(null, rootCard);
+            Gval.FlagLoadingCompleted = true;
+        }
     }
 }

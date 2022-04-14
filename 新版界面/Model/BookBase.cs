@@ -49,7 +49,7 @@ namespace RootNS.Model
             MapPoints.ChildNodes.Clear();
         }
 
-        private string _uid;
+        private string _uid = Guid.NewGuid().ToString();
         /// <summary>
         /// 书籍标识码
         /// </summary>
@@ -118,9 +118,9 @@ namespace RootNS.Model
 
 
         #region 信息卡
-        public Node CardRole { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.角色.ToString() };
-        public Node CardOther { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.其他.ToString() };
-        public Node CardWorld { set; get; } = new Node() { Uid = String.Empty, TabName = CardTabName.世界.ToString() };
+        public Card CardRole { set; get; } = new Card() { Uid = String.Empty, TabName = CardTabName.角色.ToString() };
+        public Card CardOther { set; get; } = new Card() { Uid = String.Empty, TabName = CardTabName.其他.ToString() };
+        public Card CardWorld { set; get; } = new Card() { Uid = String.Empty, TabName = CardTabName.世界.ToString() };
 
         #endregion
 
@@ -188,25 +188,24 @@ namespace RootNS.Model
         /// <summary>
         /// 载入信息卡
         /// </summary>
-        public void LoadForCards()
+        public void LoadForCards(TabControl tabControl)
         {
-            TabControl tabControl = Gval.SelectedCardTab;
-            Node rootNode = new Node();
+            Card rootCard = new Card();
             if (tabControl.SelectedIndex == 0)
             {
-                rootNode = CardRole;
+                rootCard = CardRole;
             }
             if (tabControl.SelectedIndex == 1)
             {
-                rootNode = CardOther;
+                rootCard = CardOther;
             }
             if (tabControl.SelectedIndex == 2)
             {
-                rootNode = CardWorld;
+                rootCard = CardWorld;
             }
-            if (rootNode.ChildNodes.Count == 0)
+            if (rootCard.ChildNodes.Count == 0)
             {
-                //DataJoin.FillInPart(rootNode);
+                DataJoin.FillInCards(rootCard);
             }
         }
     }

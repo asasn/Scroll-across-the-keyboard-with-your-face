@@ -13,7 +13,6 @@ namespace RootNS.Behavior
         public static Book CreateNewBook(string bookName)
         {
             Book newBook = new Book();
-            newBook.Uid = Gval.NewGuid();
             newBook.Name = bookName;
             HelperTable.TryToBuildBookTables(bookName);
             string sql = string.Format("INSERT INTO 书库 (Uid, [Index], Name) VALUES ('{0}', '{1}', '{2}');", newBook.Uid, newBook.Index, newBook.Name.Replace("'", "''"));
@@ -76,7 +75,7 @@ namespace RootNS.Behavior
         }
         public static void CreateNewCard(Card card)
         {
-            string sql = string.Format("INSERT INTO {0} ([Index], Uid, Pid, Tid, Title, Text, Summary, Weight, IsDir, BornYear, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}');", card.TabName.Replace("'", "''"), card.Index, card.Uid, card.Pid, card.Tid, card.Title.Replace("'", "''"), card.Text.Replace("'", "''"), card.Summary.Replace("'", "''"), card.Weight, card.BornYear, card.IsChecked, card.IsDel);
+            string sql = string.Format("INSERT INTO {0} ([Index], Uid, Title, Summary, Weight, BornYear, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');", card.TabName.Replace("'", "''"), card.Index, card.Uid, card.Title.Replace("'", "''"), card.Summary.Replace("'", "''"), card.Weight, card.BornYear, card.IsChecked, card.IsDel);
             CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
         }
 
@@ -86,6 +85,11 @@ namespace RootNS.Behavior
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
 
+        public static void CardDesignReplaceInto(Card card)
+        {
+            string sql = string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", card.Index, card.Uid, card.Title.Replace("'", "''"), card.TabName);
+            CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
+        }
 
     }
 }

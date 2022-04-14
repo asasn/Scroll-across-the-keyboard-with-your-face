@@ -37,7 +37,6 @@ namespace RootNS.Brick
             }
             Card card = new Card();
             card.Title = TbNew.Text;
-            card.Tid = TbNew.Text;
             (this.DataContext as Card).AddChildNode(card);
             TbNew.Clear();
         }
@@ -62,8 +61,14 @@ namespace RootNS.Brick
 
         private void BtnDesign_Click(object sender, RoutedEventArgs e)
         {
-            CardDesign we = new CardDesign(ThisControl);
+            CardDesign we = new CardDesign(ThisControl); 
             we.ShowDialog();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CardWindow cw = new CardWindow(ThisControl);
+            cw.ShowDialog();
         }
     }
 }

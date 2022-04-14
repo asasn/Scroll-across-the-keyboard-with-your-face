@@ -9,17 +9,17 @@
              d:DesignHeight="450" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="26"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <Border BorderBrush="Salmon" BorderThickness="0,0,0,1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100*"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="26"/>
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="TbNew" Background="Transparent" BorderThickness="0" KeyUp="TbNew_KeyUp" />
                 <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Click="BtnAdd_Click"/>
@@ -33,7 +33,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2">
-                            <Button Padding="2" Content="{Binding Title}" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Height="20">
+                            <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click">
                             </Button>
                         </Border>
                     </DataTemplate>

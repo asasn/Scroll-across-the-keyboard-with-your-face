@@ -86,7 +86,7 @@ namespace RootNS
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabCard_GotFocus(sender, null);
-            Gval.CurrentBook.LoadForCards();
+            Gval.CurrentBook.LoadForCards(Gval.SelectedCardTab);
         }
 
         private void TabMaterial_GotFocus(object sender, RoutedEventArgs e)
@@ -118,7 +118,7 @@ namespace RootNS
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabPublicCard_GotFocus(sender, null);
-            Gval.MaterialBook.LoadForCards();
+            Gval.MaterialBook.LoadForCards(Gval.SelectedPublicCardTab);
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)

@@ -137,6 +137,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Brick\LinesBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Brick\MyEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -181,6 +185,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Choose.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -211,6 +219,9 @@
     <Compile Include="Brick\CardLine.xaml.cs">
       <DependentUpon>CardLine.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Brick\LinesBox.xaml.cs">
+      <DependentUpon>LinesBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Brick\MyEditor.xaml.cs">
       <DependentUpon>MyEditor.xaml</DependentUpon>
     </Compile>
@@ -239,6 +250,9 @@
     <Compile Include="Model\Node.cs" />
     <Compile Include="Model\NotificationObject.cs" />
     <Compile Include="Model\Gval.cs" />
+    <Compile Include="View\CardWindow.xaml.cs">
+      <DependentUpon>CardWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Choose.xaml.cs">
       <DependentUpon>Choose.xaml</DependentUpon>
     </Compile>

@@ -17,7 +17,7 @@ namespace RootNS.Model
 
         private void Card_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            this.CanSave = true;
+      
         }
 
         private bool _canSave;
@@ -34,17 +34,6 @@ namespace RootNS.Model
             }
         }
 
-        private string _tid;
-
-        public string Tid
-        {
-            get { return _tid; }
-            set
-            {
-                _tid = value;
-                this.RaisePropertyChanged(nameof(Tid));
-            }
-        }
 
 
         private long _bornYear;
@@ -107,5 +96,27 @@ namespace RootNS.Model
             DataOut.CreateNewCard(card);
             return card;
         }
+
+        public class Tip
+        {
+            public Tip()
+            {
+                Pid = this.Uid;
+            }
+            public string Index { get; set; }
+            public string Pid { get; set; }
+            public string Uid { get; set; }
+            public string Tid { get; set; }
+            public string TabName { get; set; }
+            public string Title { get; set; }
+        }
+        public class Line
+        {
+            public string TabName { get; set; }
+
+            public ObservableCollection<Tip> Tips { get; set; }
+        }
+
+        public ObservableCollection<Line> Lines { get; set; }
     }
 }

@@ -16,18 +16,13 @@ using System.Windows.Shapes;
 namespace RootNS.Brick
 {
     /// <summary>
-    /// Line.xaml 的交互逻辑
+    /// LinesBox.xaml 的交互逻辑
     /// </summary>
-    public partial class CardLine : UserControl
+    public partial class LinesBox : UserControl
     {
-        public CardLine()
+        public LinesBox()
         {
             InitializeComponent();
-        }
-
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

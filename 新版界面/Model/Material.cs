@@ -16,6 +16,7 @@ namespace RootNS.Model
         {
             this.PropertyChanged += Material_PropertyChanged;
             this.InitRootNodes("index");
+            this.InitRootCards("index");
         }
 
         private void Material_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -35,7 +36,18 @@ namespace RootNS.Model
                 node.OwnerName = bookName;
             }
         }
-
+        /// <summary>
+        /// 根卡片初始化
+        /// </summary>
+        /// <param name="bookName"></param>
+        private void InitRootCards(string bookName)
+        {
+            Card[] rootCards = { this.CardRole, this.CardOther, this.CardWorld };
+            foreach (Card card in rootCards)
+            {
+                card.OwnerName = bookName;
+            }
+        }
 
         public enum MaterialTabName
         {
