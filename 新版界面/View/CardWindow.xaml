@@ -20,7 +20,8 @@
                         <RowDefinition MinHeight="25" Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Button Padding="2" x:Name="BtnSave" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Right" />
-                    <brick:LinesBox/>
+                    <brick:LinesBox DataContext="{Binding Lines}"/>
+                    <Label Grid.Row="2" Content="{Binding Title}"/>
                 </Grid>
             </ScrollViewer>
         </hc:Card>

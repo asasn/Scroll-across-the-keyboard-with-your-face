@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:RootNS.Brick"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
-    <ItemsControl ItemsSource="{Binding Tags}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
+    <ItemsControl ItemsSource="{Binding}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Border Padding="2">
-                    <local:CardLine/>
+                    <local:CardLine DataContext=""/>
                 </Border>
             </DataTemplate>
         </ItemsControl.ItemTemplate>

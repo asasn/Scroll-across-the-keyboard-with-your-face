@@ -61,13 +61,13 @@ namespace RootNS.Brick
 
         private void BtnDesign_Click(object sender, RoutedEventArgs e)
         {
-            CardDesign we = new CardDesign(ThisControl); 
+            CardDesign we = new CardDesign(sender, ThisControl); 
             we.ShowDialog();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CardWindow cw = new CardWindow(ThisControl);
+            CardWindow cw = new CardWindow(sender , ThisControl);
             cw.ShowDialog();
         }
     }

@@ -13,8 +13,8 @@
                 <ColumnDefinition Width="100*"/>
                 <ColumnDefinition Width="26"/>
             </Grid.ColumnDefinitions>
-            <Label Content="测试" Padding="0" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <ItemsControl ItemsSource="{Binding DataContext,ElementName=ThisControl}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
+            <Label Content="{Binding TabName}" Padding="0" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ItemsControl ItemsSource="{Binding Tips}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2">

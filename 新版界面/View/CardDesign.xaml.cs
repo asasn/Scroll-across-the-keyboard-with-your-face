@@ -25,17 +25,17 @@ namespace RootNS.View
     /// </summary>
     public partial class CardDesign : Window
     {
-        public CardDesign(UserControl uc)
+        public CardDesign(object sender, UserControl uc)
         {
             InitializeComponent();
-            this.DataContext = uc.DataContext;
+            this.DataContext = (sender as Button).DataContext;
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;
 
             //添加拖曳面板事件
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
 
-            Gval.Headers = DataJoin.CardDesginLoad(uc.DataContext as Card);
+            Gval.Headers = DataJoin.CardDesginLoad(this.DataContext as Card);
         }
 
 

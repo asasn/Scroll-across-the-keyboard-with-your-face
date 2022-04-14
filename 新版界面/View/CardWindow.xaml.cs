@@ -21,10 +21,10 @@ namespace RootNS.View
     /// </summary>
     public partial class CardWindow : Window
     {
-        public CardWindow(UserControl uc)
+        public CardWindow(object sender, UserControl uc)
         {
             InitializeComponent();
-            this.DataContext = uc.DataContext;
+            this.DataContext = (sender as Button).DataContext;
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;
 
@@ -36,16 +36,18 @@ namespace RootNS.View
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+            BtnSave.IsEnabled = false;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
 
+            BtnSave.IsEnabled = false;
         }
     }
 }
