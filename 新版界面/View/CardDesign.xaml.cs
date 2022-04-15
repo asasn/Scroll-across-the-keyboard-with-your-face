@@ -28,7 +28,8 @@ namespace RootNS.View
         public CardDesign(object sender, UserControl uc)
         {
             InitializeComponent();
-            this.DataContext = DataJoin.CardDesginLoad((sender as Button).DataContext as Card);
+            RootCard = (sender as Button).DataContext as Card;
+            this.DataContext = DataJoin.CardDesginLoad(RootCard);
 
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;
@@ -36,24 +37,19 @@ namespace RootNS.View
             //添加拖曳面板事件
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
 
-            
+
         }
 
-
-
-        public string Tttttt { get; set; } = "测试文本";
+        public Card RootCard { get; set; }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             int i = 0;
             foreach (Card card in this.DataContext as ObservableCollection<Card>)
             {
-                if (string.IsNullOrWhiteSpace(card.Title) == false)
-                {
-                    card.Index = i; 
-                    DataOut.CardDesignReplaceInto(card);
-                    i++;
-                }
+                card.Index = i;
+                DataOut.CardDesignReplaceInto(card);
+                i++;
             }
             BtnSave.IsEnabled = false;
         }
@@ -77,8 +73,8 @@ namespace RootNS.View
             {
                 Index = (this.DataContext as ObservableCollection<Card>).Count,
                 Title = "",
-                OwnerName = (this.DataContext as Card).OwnerName,
-                TabName = (this.DataContext as Card).TabName
+                OwnerName = RootCard.OwnerName,
+                TabName = RootCard.TabName
             };
             (this.DataContext as ObservableCollection<Card>).Add(card);
         }

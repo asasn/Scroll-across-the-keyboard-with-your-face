@@ -87,7 +87,15 @@ namespace RootNS.Behavior
 
         public static void CardDesignReplaceInto(Card card)
         {
-            string sql = string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", card.Index, card.Uid, card.Title.Replace("'", "''"), card.TabName);
+            string sql = String.Empty;
+            if (string.IsNullOrWhiteSpace(card.Title) == true)
+            {
+                sql = string.Format("DELETE FROM 卡设计 WHERE Uid='{0}' AND TabName='{1}';", card.Uid , card.TabName);
+            }
+            else
+            {
+                sql = string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", card.Index, card.Uid, card.Title.Replace("'", "''"), card.TabName);
+            }
             CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
         }
 

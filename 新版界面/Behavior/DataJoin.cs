@@ -78,7 +78,7 @@ namespace RootNS.Behavior
 
         public static ObservableCollection<Card> CardDesginLoad(Card rootCard)
         {
-            ObservableCollection<Card> Headers = new ObservableCollection<Card>();
+            ObservableCollection<Card> lineTitles = new ObservableCollection<Card>();
             if (Gval.CurrentBook.Name == null && rootCard.OwnerName != "index")
             {
                 return null;
@@ -95,10 +95,10 @@ namespace RootNS.Behavior
                     TabName = rootCard.TabName,
                     OwnerName = rootCard.OwnerName,
                 };
-                Headers.Add(card);
+                lineTitles.Add(card);
             }
             reader.Close();
-            return Headers;
+            return lineTitles;
         }
 
         private static void FillInNodes(string pid, Node rootNode)
