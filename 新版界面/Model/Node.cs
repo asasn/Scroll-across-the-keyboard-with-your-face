@@ -247,6 +247,17 @@ namespace RootNS.Model
             }
         }
 
+        private object _owner;
+
+        public object Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                this.RaisePropertyChanged(nameof(Owner));
+            }
+        }
 
 
         private int _index;
@@ -421,6 +432,7 @@ namespace RootNS.Model
                 stuff.Pid = this.Uid;
                 stuff.TabName = this.TabName;
                 stuff.OwnerName = this.OwnerName;
+                stuff.Owner = this.Owner;
                 stuff.ParentNode = this;
                 stuff.Index = this.ChildNodes.IndexOf(stuff);
                 this.WordsCount += 1;

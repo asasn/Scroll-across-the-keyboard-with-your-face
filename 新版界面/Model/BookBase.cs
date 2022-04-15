@@ -31,10 +31,11 @@ namespace RootNS.Model
         /// <param name="bookName"></param>
         private void InitRootNodes(string bookName)
         {
-            Node[] rootNodes = { this.CardRole, this.CardOther, this.CardWorld, this.MapPoints };
-            foreach (Node node in rootNodes)
+            Card[] rootCards = { this.CardRole, this.CardOther, this.CardWorld};
+            foreach (Card card in rootCards)
             {
-                node.OwnerName = bookName;
+                card.OwnerName = bookName;
+                card.Owner = this;
             }
         }
 
@@ -79,6 +80,20 @@ namespace RootNS.Model
                 {
                     this.CoverPath = Gval.Path.Resourses + "/nullbookface.jpg";
                 }
+            }
+        }
+
+        private long _currentYear;
+        /// <summary>
+        /// 本书剧情年份
+        /// </summary>
+        public long CurrentYear
+        {
+            get { return _currentYear; }
+            set
+            {
+                _currentYear = value;
+                this.RaisePropertyChanged("CurrentYear");
             }
         }
 

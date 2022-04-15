@@ -24,7 +24,8 @@ namespace RootNS.View
         public CardWindow(object sender, UserControl uc)
         {
             InitializeComponent();
-            this.DataContext = (sender as Button).DataContext;
+            DataJoin.FillInCardContent((sender as Button).DataContext as Card);
+            this.DataContext = (sender as Button).DataContext as Card;
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;
 

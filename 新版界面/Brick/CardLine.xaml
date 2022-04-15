@@ -3,23 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
              xmlns:local="clr-namespace:RootNS.Brick" Background="White"
              mc:Ignorable="d"  d:DesignHeight="26" d:DesignWidth="300">
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="32" Width="*"/>
+                <ColumnDefinition MinWidth="30" Width="*"/>
                 <ColumnDefinition Width="100*"/>
                 <ColumnDefinition Width="26"/>
             </Grid.ColumnDefinitions>
-            <Label Content="{Binding TabName}" Padding="0" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <ItemsControl ItemsSource="{Binding Tips}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
+            <Label Content="{Binding LineTitle}" Padding="1" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="18" Margin="0,4,0,0"/>
+            <ItemsControl ItemsSource="{Binding Tips}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1" MinWidth="242" MinHeight="17" VerticalAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="2">
-                            <TextBox Text="{Binding Title}" Padding="0,5,0,0" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" Margin="0,0,10,0"  MinHeight="21" AcceptsReturn="True" MinWidth="30"/>
-                        </Border>
+                        <TextBox Text="{Binding Title}" Padding="1" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap"  MinHeight="21" AcceptsReturn="True" MinWidth="20" Height="Auto" Margin="2,1,5,0" VerticalAlignment="Center" TextChanged="TextBox_TextChanged"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
@@ -28,7 +26,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="26"/>
+            <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="12" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="16" Margin="0,5,0,0" VerticalAlignment="Top"/>
         </Grid>
     </ScrollViewer>
 </UserControl>

@@ -32,19 +32,6 @@ namespace RootNS.Model
             public static string Assets { get { return Environment.CurrentDirectory + "/Assets"; } }
         }
 
-        private static ObservableCollection<Card> _Headers;
-
-        public static ObservableCollection<Card> Headers
-        {
-            get { return _Headers; }
-            set
-            {
-                _Headers = value;
-                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(Headers)));
-            }
-        }
-
-
         public struct View
         {
             public static MainWindow MainWindow { get; set; }

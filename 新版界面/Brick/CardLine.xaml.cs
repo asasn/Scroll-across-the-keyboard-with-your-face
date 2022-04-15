@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,9 +26,16 @@ namespace RootNS.Brick
             InitializeComponent();
         }
 
+
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
+            Card.Tip tip = new Card.Tip();
+            (this.DataContext as Card.Line).Tips.Add(tip);
+        }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((this.DataContext as Card.Line).Parent as Card).CanSave = true;
         }
     }
 }

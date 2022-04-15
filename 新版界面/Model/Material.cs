@@ -34,6 +34,7 @@ namespace RootNS.Model
             foreach (Node node in rootNodes)
             {
                 node.OwnerName = bookName;
+                node.Owner = this;
             }
         }
         /// <summary>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,13 @@ namespace RootNS.Model
         public Card()
         {
             this.PropertyChanged += Card_PropertyChanged;
+            Lines.CollectionChanged += Lines_CollectionChanged;
         }
+
 
         private void Card_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-      
+           
         }
 
         private bool _canSave;
@@ -34,6 +37,18 @@ namespace RootNS.Model
             }
         }
 
+
+        private long _realYear;
+
+        public long RealYear
+        {
+            get { return _realYear; }
+            set
+            {
+                _realYear = value;
+                this.RaisePropertyChanged(nameof(RealYear));
+            }
+        }
 
 
         private long _bornYear;
@@ -65,21 +80,6 @@ namespace RootNS.Model
         }
 
 
-        private ObservableCollection<string> _nickName;
-        /// <summary>
-        /// 别称
-        /// </summary>
-        public ObservableCollection<string> NickName
-        {
-            get { return _nickName; }
-            set
-            {
-                _nickName = value;
-                this.RaisePropertyChanged(nameof(NickName));
-            }
-        }
-
-
         /// <summary>
         /// 从当前节点添加子节点
         /// </summary>
@@ -97,26 +97,72 @@ namespace RootNS.Model
             return card;
         }
 
+        private Line _nickNames = new Line();
+
+        public Line NickNames
+        {
+            get { return _nickNames; }
+            set
+            {
+                _nickNames = value;
+                this.RaisePropertyChanged(nameof(NickNames));
+            }
+        }
+
+
         public class Tip
         {
             public Tip()
             {
                 Pid = this.Uid;
             }
-            public string Index { get; set; }
+            public Card.Line Parent { get; set; }
+            public int Index { get; set; }
             public string Pid { get; set; }
             public string Uid { get; set; }
             public string Tid { get; set; }
-            public string TabName { get; set; }
             public string Title { get; set; }
+            public string TabName { get; set; }
+            public string OwnerName { get; set; }
         }
         public class Line
         {
-            public string TabName { get; set; }
+            public Line()
+            {
+                Tips.CollectionChanged += Tips_CollectionChanged;
+            }
 
-            public ObservableCollection<Tip> Tips { get; set; }
+            private void Tips_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                if (e.Action == NotifyCollectionChangedAction.Add)
+                {
+                    Card.Tip tip = (Card.Tip)e.NewItems[0];
+                    tip.TabName = this.TabName;
+                    tip.OwnerName = this.OwnerName;
+                    tip.Pid = this.Pid;
+                    tip.Parent = this;
+                }
+            }
+            public Card Parent { get; set; }
+            public string Pid { get; set; }
+            public string LineTitle { get; set; }
+            public string TabName { get; set; }
+            public string OwnerName { get; set; }
+            public ObservableCollection<Tip> Tips { get; set; } = new ObservableCollection<Tip>();
         }
 
-        public ObservableCollection<Line> Lines { get; set; }
+        public ObservableCollection<Line> Lines { get; set; } = new ObservableCollection<Line>();
+
+        private void Lines_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Card.Line line = (Card.Line)e.NewItems[0];
+                line.TabName = this.TabName;
+                line.OwnerName = this.OwnerName;
+                line.Pid = this.Uid;
+                line.Parent = this;
+            }
+        }
     }
 }

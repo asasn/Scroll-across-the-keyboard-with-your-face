@@ -41,6 +41,7 @@ namespace RootNS.Model
             foreach (Node node in rootNodes)
             {
                 node.OwnerName = bookName;
+                node.Owner = this;
             }
         }
 
@@ -81,25 +82,13 @@ namespace RootNS.Model
             }
         }
 
-        private long _currentYear;
-        /// <summary>
-        /// 本书剧情年份
-        /// </summary>
-        public long CurrentYear
-        {
-            get { return _currentYear; }
-            set
-            {
-                _currentYear = value;
-                this.RaisePropertyChanged("CurrentYear");
-            }
-        }
+
 
 
 
 
         #region 目录树
-        public Node BoxDraft { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.草稿.ToString() };
+        public Node BoxDraft { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.草稿.ToString()};
         public Node BoxTemp { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.暂存.ToString() };
         public Node BoxPublished { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.已发布.ToString() };
         #endregion

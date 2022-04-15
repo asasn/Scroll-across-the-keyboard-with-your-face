@@ -125,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Brick\CardProperty.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Brick\CardsBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -207,6 +211,9 @@
     <Compile Include="Behavior\HelperDataObject.cs" />
     <Compile Include="Behavior\HelperEditor.cs" />
     <Compile Include="Behavior\HelperTable.cs" />
+    <Compile Include="Brick\CardProperty.xaml.cs">
+      <DependentUpon>CardProperty.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Brick\CardsBox.xaml.cs">
       <DependentUpon>CardsBox.xaml</DependentUpon>
     </Compile>

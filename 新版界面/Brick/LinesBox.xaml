@@ -9,9 +9,7 @@
     <ItemsControl ItemsSource="{Binding}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border Padding="2">
-                    <local:CardLine DataContext=""/>
-                </Border>
+                    <local:CardLine/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
         <ItemsControl.ItemsPanel>

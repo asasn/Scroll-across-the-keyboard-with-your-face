@@ -162,6 +162,24 @@ namespace RootNS.Behavior
                     IsDel = (bool)reader["IsDel"]
                 };
                 rootCard.ChildNodes.Add(card);
+                sql = string.Format("SELECT * FROM 卡片 WHERE Pid='{0}' AND Tid=(select Uid from 卡设计 where Title='{1}' AND TabName='{2}') AND TabName='{2}' ORDER BY [Index];", card.Uid, "别称", card.TabName);
+                SQLiteDataReader readerTip = CSqlitePlus.PoolDict[card.OwnerName].ExecuteQuery(sql);
+                while (readerTip.Read())
+                {
+                    Card.Tip tip = new Card.Tip
+                    {
+                        Index = Convert.ToInt32(readerTip["Index"]),
+                        Tid = readerTip["Tid"] == DBNull.Value ? null : readerTip["Tid"].ToString(),
+                        Title = readerTip["Title"] == DBNull.Value ? null : readerTip["Title"].ToString(),
+                        TabName = card.TabName
+                    };
+                    card.NickNames.Tips.Add(tip);
+                }
+                readerTip.Close();
+                if (card.Lines.Contains(card.NickNames) == false)
+                {
+                    card.Lines.Add(card.NickNames);
+                }
             }
             reader.Close();
         }
@@ -172,6 +190,52 @@ namespace RootNS.Behavior
             Gval.FlagLoadingCompleted = false;
             CSqlitePlus.PoolOperate.Add(rootCard.OwnerName);
             DataJoin.FillInCards(null, rootCard);
+            Gval.FlagLoadingCompleted = true;
+        }
+
+        private static void FillInCardContent(string pid, Card card)
+        {
+            card.Lines.Clear();
+            if (Gval.CurrentBook.Name == null && card.OwnerName != "index")
+            {
+                return;
+            }
+            string sql = string.Format("SELECT * FROM 卡设计 WHERE TabName='{0}' ORDER BY [Index];", card.TabName);
+            SQLiteDataReader readerSet = CSqlitePlus.PoolDict[card.OwnerName].ExecuteQuery(sql);
+            while (readerSet.Read())
+            {
+                Card.Line line = new Card.Line
+                {
+                    LineTitle = readerSet["Title"] == DBNull.Value ? null : readerSet["Title"].ToString(),
+                };
+                sql = string.Format("SELECT * FROM 卡片 WHERE Pid='{0}' AND Tid=(select Uid from 卡设计 where Title='{1}' AND TabName='{2}') AND TabName='{2}' ORDER BY [Index];", card.Uid, line.LineTitle, card.TabName);
+                SQLiteDataReader readerTip = CSqlitePlus.PoolDict[card.OwnerName].ExecuteQuery(sql);
+                while (readerTip.Read())
+                {
+                    Card.Tip tip = new Card.Tip
+                    {
+                        Index = Convert.ToInt32(readerTip["Index"]),
+                        Tid = readerTip["Tid"] == DBNull.Value ? null : readerTip["Tid"].ToString(),
+                        Title = readerTip["Title"] == DBNull.Value ? null : readerTip["Title"].ToString(),
+                        TabName = card.TabName
+                    };
+                    line.Tips.Add(tip);
+                }
+                readerTip.Close();
+                if (card.Lines.Contains(line) == false)
+                {
+                    card.Lines.Add(line);
+                }
+            }
+            readerSet.Close();
+        }
+
+
+        public static void FillInCardContent(Card card)
+        {
+            Gval.FlagLoadingCompleted = false;
+            CSqlitePlus.PoolOperate.Add(card.OwnerName);
+            DataJoin.FillInCardContent(null, card);
             Gval.FlagLoadingCompleted = true;
         }
     }

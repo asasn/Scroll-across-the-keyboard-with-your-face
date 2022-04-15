@@ -28,14 +28,15 @@ namespace RootNS.View
         public CardDesign(object sender, UserControl uc)
         {
             InitializeComponent();
-            this.DataContext = (sender as Button).DataContext;
+            this.DataContext = DataJoin.CardDesginLoad((sender as Button).DataContext as Card);
+
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;
 
             //添加拖曳面板事件
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
 
-            Gval.Headers = DataJoin.CardDesginLoad(this.DataContext as Card);
+            
         }
 
 
@@ -45,7 +46,7 @@ namespace RootNS.View
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             int i = 0;
-            foreach (Card card in Gval.Headers)
+            foreach (Card card in this.DataContext as ObservableCollection<Card>)
             {
                 if (string.IsNullOrWhiteSpace(card.Title) == false)
                 {
@@ -54,7 +55,6 @@ namespace RootNS.View
                     i++;
                 }
             }
-            Gval.Headers = DataJoin.CardDesginLoad(this.DataContext as Card);
             BtnSave.IsEnabled = false;
         }
 
@@ -75,12 +75,12 @@ namespace RootNS.View
         {
             Card card = new Card
             {
-                Index = Gval.Headers.Count,
+                Index = (this.DataContext as ObservableCollection<Card>).Count,
                 Title = "",
                 OwnerName = (this.DataContext as Card).OwnerName,
                 TabName = (this.DataContext as Card).TabName
             };
-            Gval.Headers.Add(card);
+            (this.DataContext as ObservableCollection<Card>).Add(card);
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
