@@ -48,7 +48,7 @@ namespace RootNS.View
             foreach (Card card in this.DataContext as ObservableCollection<Card>)
             {
                 card.Index = i;
-                DataOut.CardDesignReplaceInto(card);
+                DataOut.ReplaceIntoCardDesign(card);
                 i++;
             }
             BtnSave.IsEnabled = false;

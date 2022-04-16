@@ -2,6 +2,7 @@
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,12 +86,13 @@ namespace RootNS.Behavior
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
 
-        public static void CardDesignReplaceInto(Card card)
+
+        public static void ReplaceIntoCardDesign(Card card)
         {
             string sql = String.Empty;
             if (string.IsNullOrWhiteSpace(card.Title) == true)
             {
-                sql = string.Format("DELETE FROM 卡设计 WHERE Uid='{0}' AND TabName='{1}';", card.Uid , card.TabName);
+                sql = string.Format("DELETE FROM 卡设计 WHERE Uid='{0}' AND TabName='{1}';", card.Uid, card.TabName);
             }
             else
             {
@@ -99,5 +101,42 @@ namespace RootNS.Behavior
             CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
         }
 
+
+        public static void ReplaceIntoCard(Card card)
+        {
+            string sql = String.Empty;
+            if (string.IsNullOrWhiteSpace(card.Title) == true)
+            {
+                //sql = string.Format("DELETE FROM 卡片 WHERE Pid=(select Uid from {0} where Title='{1}') AND TabName='{0}';", card.TabName, card.Title);
+            }
+            else
+            {
+                sql += string.Format("REPLACE INTO {0} ([Index], Uid, Title, Summary, Weight, BornYear, IsChecked, IsDel) values ( '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');", card.TabName, card.Index, card.Uid, card.Title.Replace("'", "''"), card.Summary.Replace("'", "''"), card.Weight, card.BornYear, card.IsChecked, card.IsDel);
+                foreach (Card.Line line in card.Lines)
+                {
+                    string tid = String.Empty;
+                    string lineSql = string.Format("select Uid from 卡设计 where Title='{0}' AND TabName='{1}';", line.LineTitle, line.TabName);
+                    SQLiteDataReader readerLine = CSqlitePlus.PoolDict[card.OwnerName].ExecuteQuery(lineSql);
+                    while (readerLine.Read())
+                    {
+                        tid = readerLine["Uid"] == DBNull.Value ? null : readerLine["Uid"].ToString();
+                    }
+                    readerLine.Close();
+                    foreach (Card.Tip tip in line.Tips)
+                    {
+                        if (string.IsNullOrWhiteSpace(tip.Title) == true)
+                        {
+                            sql += string.Format("DELETE FROM 卡片 WHERE Uid='{0}';", tip.Uid);
+                        }
+                        else
+                        {
+                            sql += string.Format("REPLACE INTO 卡片 ([Index], Uid, Pid, Tid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');", tip.Index, tip.Uid, tip.Pid, tid, tip.Title.Replace("'", "''"), tip.TabName);
+                        }
+                    }
+                }
+
+            }
+            CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
+        }
     }
 }

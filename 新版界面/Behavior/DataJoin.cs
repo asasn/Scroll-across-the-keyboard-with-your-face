@@ -162,6 +162,10 @@ namespace RootNS.Behavior
                     IsDel = (bool)reader["IsDel"]
                 };
                 rootCard.ChildNodes.Add(card);
+                if (card.Lines.Contains(card.NickNames) == false)
+                {
+                    card.Lines.Add(card.NickNames);
+                }
                 sql = string.Format("SELECT * FROM 卡片 WHERE Pid='{0}' AND Tid=(select Uid from 卡设计 where Title='{1}' AND TabName='{2}') AND TabName='{2}' ORDER BY [Index];", card.Uid, "别称", card.TabName);
                 SQLiteDataReader readerTip = CSqlitePlus.PoolDict[card.OwnerName].ExecuteQuery(sql);
                 while (readerTip.Read())
@@ -176,10 +180,6 @@ namespace RootNS.Behavior
                     card.NickNames.Tips.Add(tip);
                 }
                 readerTip.Close();
-                if (card.Lines.Contains(card.NickNames) == false)
-                {
-                    card.Lines.Add(card.NickNames);
-                }
             }
             reader.Close();
         }
@@ -208,6 +208,10 @@ namespace RootNS.Behavior
                 {
                     LineTitle = readerSet["Title"] == DBNull.Value ? null : readerSet["Title"].ToString(),
                 };
+                if (card.Lines.Contains(line) == false)
+                {
+                    card.Lines.Add(line);
+                }
                 sql = string.Format("SELECT * FROM 卡片 WHERE Pid='{0}' AND Tid=(select Uid from 卡设计 where Title='{1}' AND TabName='{2}') AND TabName='{2}' ORDER BY [Index];", card.Uid, line.LineTitle, card.TabName);
                 SQLiteDataReader readerTip = CSqlitePlus.PoolDict[card.OwnerName].ExecuteQuery(sql);
                 while (readerTip.Read())
@@ -215,6 +219,8 @@ namespace RootNS.Behavior
                     Card.Tip tip = new Card.Tip
                     {
                         Index = Convert.ToInt32(readerTip["Index"]),
+                        Uid = readerTip["Uid"] == DBNull.Value ? null : readerTip["Uid"].ToString(),
+                        Pid = readerTip["Pid"] == DBNull.Value ? null : readerTip["Pid"].ToString(),
                         Tid = readerTip["Tid"] == DBNull.Value ? null : readerTip["Tid"].ToString(),
                         Title = readerTip["Title"] == DBNull.Value ? null : readerTip["Title"].ToString(),
                         TabName = card.TabName
@@ -222,10 +228,6 @@ namespace RootNS.Behavior
                     line.Tips.Add(tip);
                 }
                 readerTip.Close();
-                if (card.Lines.Contains(line) == false)
-                {
-                    card.Lines.Add(line);
-                }
             }
             readerSet.Close();
         }

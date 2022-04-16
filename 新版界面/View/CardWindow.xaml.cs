@@ -42,12 +42,14 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            DataJoin.FillInCardContent(this.DataContext as Card);
             this.Close();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-
+            DataOut.ReplaceIntoCard(this.DataContext as Card);
+            DataJoin.FillInCardContent(this.DataContext as Card);
             BtnSave.IsEnabled = false;
         }
     }

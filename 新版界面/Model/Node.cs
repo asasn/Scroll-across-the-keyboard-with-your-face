@@ -50,7 +50,7 @@ namespace RootNS.Model
                 e.PropertyName == "IsExpanded")
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
-                DataOut.UpdateNodeProperty(this as Node, e.PropertyName, propertyValue.ToString());
+                DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
             }
         }
 

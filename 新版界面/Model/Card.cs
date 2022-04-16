@@ -20,7 +20,6 @@ namespace RootNS.Model
 
         private void Card_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-           
         }
 
         private bool _canSave;
@@ -119,7 +118,7 @@ namespace RootNS.Model
             public Card.Line Parent { get; set; }
             public int Index { get; set; }
             public string Pid { get; set; }
-            public string Uid { get; set; }
+            public string Uid { get; set; } = Guid.NewGuid().ToString();
             public string Tid { get; set; }
             public string Title { get; set; }
             public string TabName { get; set; }
@@ -141,6 +140,7 @@ namespace RootNS.Model
                     tip.OwnerName = this.OwnerName;
                     tip.Pid = this.Pid;
                     tip.Parent = this;
+                    tip.Index = this.Tips.IndexOf(tip);
                 }
             }
             public Card Parent { get; set; }
