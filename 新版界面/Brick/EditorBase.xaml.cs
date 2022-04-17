@@ -140,7 +140,7 @@ namespace RootNS.Brick
                 node.Text = "　　";
             }
             ThisTextEditor.Text = node.Text;
-            HelperEditor.SetEditorColorRules(ThisTextEditor);
+            HelperEditor.SetThisEditorColorRules(ThisTextEditor);
             ThisTextEditor.Focus();
             HelperEditor.MoveToEnd(ThisTextEditor);
 

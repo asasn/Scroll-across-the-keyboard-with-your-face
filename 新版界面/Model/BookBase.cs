@@ -31,7 +31,7 @@ namespace RootNS.Model
         /// <param name="bookName"></param>
         private void InitRootNodes(string bookName)
         {
-            Card[] rootCards = { this.CardRole, this.CardOther, this.CardWorld};
+            Card[] rootCards = { this.CardRole, this.CardOther, this.CardWorld };
             foreach (Card card in rootCards)
             {
                 card.OwnerName = bookName;
@@ -203,7 +203,7 @@ namespace RootNS.Model
         /// <summary>
         /// 载入信息卡
         /// </summary>
-        public void LoadForCards(TabControl tabControl)
+        public void LoadCardsTab(TabControl tabControl)
         {
             Card rootCard = new Card();
             if (tabControl.SelectedIndex == 0)
@@ -221,6 +221,25 @@ namespace RootNS.Model
             if (rootCard.ChildNodes.Count == 0)
             {
                 DataJoin.FillInCards(rootCard);
+            }
+        }
+
+        /// <summary>
+        /// 载入所有信息卡
+        /// </summary>
+        public void LoadForAllCardTabs()
+        {
+            if (CardRole.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInCards(CardRole);
+            }
+            if (CardOther.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInCards(CardOther);
+            }
+            if (CardWorld.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInCards(CardWorld);
             }
         }
     }

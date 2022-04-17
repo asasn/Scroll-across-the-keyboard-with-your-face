@@ -106,7 +106,7 @@ namespace RootNS.Model
         /// </summary>
         /// <param name="rootNode"></param>
         /// <param name="partTag"></param>
-        public void LoadBookChapters()
+        public void LoadChaptersTab()
         {
             TabControl tabControl = Gval.SelectedChapterTab;
             Node rootNode = new Node();
@@ -132,7 +132,7 @@ namespace RootNS.Model
         /// 载入记事板
         /// </summary>
         /// <param name="index"></param>
-        public void LoadBookNotes()
+        public void LoadNotesTab()
         {
             TabControl tabControl = Gval.SelectedNoteTab;
             Node rootNode = new Node();
@@ -163,7 +163,53 @@ namespace RootNS.Model
         }
 
 
+        /// <summary>
+        /// 载入所有章节
+        /// </summary>
+        /// <param name="index"></param>
+        public void LoadForAllChapterTabs()
+        {
+            if (BoxDraft.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(BoxDraft);
+            }
+            if (BoxTemp.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(BoxTemp);
+            }
+            if (BoxPublished.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(BoxPublished);
+            }
+        }
 
+        /// <summary>
+        /// 载入所有记事
+        /// </summary>
+        /// <param name="index"></param>
+        public void LoadForAllNoteTabs()
+        {
+            if (NoteMemorabilia.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(NoteMemorabilia);
+            }
+            if (NoteStory.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(NoteStory);
+            }
+            if (NoteScenes.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(NoteScenes);
+            }
+            if (NoteClues.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(NoteClues);
+            }
+            if (NoteTemplate.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(NoteTemplate);
+            }
+        }
 
     }
 }

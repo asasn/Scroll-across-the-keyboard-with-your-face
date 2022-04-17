@@ -38,6 +38,7 @@ namespace RootNS.Brick
             Card card = new Card();
             card.Title = TbNew.Text;
             (this.DataContext as Card).AddChildNode(card);
+            HelperEditor.RefreshKeyWordForAllEditor(card);
             TbNew.Clear();
         }
 
@@ -89,11 +90,13 @@ namespace RootNS.Brick
             else
             {
                 ((sender as Button).DataContext as Card).IsDel = true;
+                HelperEditor.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
             }
         }
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((sender as Button).DataContext as Card).IsDel = false;
+            HelperEditor.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
         }
 
         private void Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

@@ -69,7 +69,7 @@ namespace RootNS.Model
         /// 载入资料库
         /// </summary>
         /// <param name="index"></param>
-        public void LoadForMaterialPart()
+        public void LoadMaterialTab()
         {
             TabControl tabControl = Gval.SelectedMaterialTab;
             Node rootNode = new Node();
@@ -95,6 +95,28 @@ namespace RootNS.Model
             }
         }
 
-
+        /// <summary>
+        /// 载入所有资料
+        /// </summary>
+        /// <param name="index"></param>
+        public void LoadForAllMaterialTabs()
+        {
+            if (BoxExample.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(BoxExample);
+            }
+            if (BoxMaterial.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(BoxMaterial);
+            }
+            if (NoteTheme.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(NoteTheme);
+            }
+            if (NoteInspiration.ChildNodes.Count == 0)
+            {
+                DataJoin.FillInNodes(NoteInspiration);
+            }
+        }
     }
 }

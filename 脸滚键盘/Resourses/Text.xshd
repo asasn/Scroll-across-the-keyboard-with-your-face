@@ -5,11 +5,11 @@
   <Color name="搜索" background="#40FF40"/>
   <Color name="符号" foreground="#C08040" />
   <Color name="标记" foreground="Yellow" />
-  <Color name="对话" foreground="Green" />
+  <Color name="对话" foreground="DarkGoldenrod" />
   <Color name="敏感" foreground="Red"/>
   <Color name="角色" foreground="Blue" fontFamily="宋体" />  
-  <Color name="其他" foreground="#0080FF"/>
-  <Color name="世界" foreground="Orange"/>
+  <Color name="其他" foreground="Orange"/>
+  <Color name="世界" foreground="Violet"/>
   <!-- This is the main ruleset. -->
   <RuleSet>
     <Span color="对话" multiline="true">

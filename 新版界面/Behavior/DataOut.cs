@@ -16,7 +16,7 @@ namespace RootNS.Behavior
             Book newBook = new Book();
             newBook.Name = bookName;
             HelperTable.TryToBuildBookTables(bookName);
-            string sql = string.Format("INSERT INTO 书库 (Uid, [Index], Name) VALUES ('{0}', '{1}', '{2}');", newBook.Uid, newBook.Index, newBook.Name.Replace("'", "''"));
+            string sql = string.Format("INSERT OR IGNORE INTO 书库 (Uid, [Index], Name) VALUES ('{0}', '{1}', '{2}');", newBook.Uid, newBook.Index, newBook.Name.Replace("'", "''"));
             CSqlitePlus.PoolDict["index"].ExecuteNonQuery(sql);
             Gval.BooksBank.Add(newBook);
             return newBook;
@@ -61,7 +61,7 @@ namespace RootNS.Behavior
         {
             node.Pid = string.Empty;
             string sql = string.Empty;
-            sql += string.Format("INSERT INTO {0} SELECT * FROM {1} WHERE Uid='{2}';", newTabName, oldTabName, node.Uid);
+            sql += string.Format("INSERT OR IGNORE INTO {0} SELECT * FROM {1} WHERE Uid='{2}';", newTabName, oldTabName, node.Uid);
             sql += string.Format("DELETE FROM {0} WHERE Uid='{1}';", oldTabName, node.Uid);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
 
@@ -71,18 +71,18 @@ namespace RootNS.Behavior
 
         public static void CreateNewNode(Node node)
         {
-            string sql = string.Format("INSERT INTO {0} ([Index], Uid, Pid, Title, Text, Summary, WordsCount, IsDir, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');", node.TabName.Replace("'", "''"), node.Index, node.Uid, node.Pid, node.Title.Replace("'", "''"), node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.IsDir, node.IsExpanded, node.IsChecked, node.IsDel);
+            string sql = string.Format("INSERT OR IGNORE INTO {0} ([Index], Uid, Pid, Title, Text, Summary, WordsCount, IsDir, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');", node.TabName.Replace("'", "''"), node.Index, node.Uid, node.Pid, node.Title.Replace("'", "''"), node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.IsDir, node.IsExpanded, node.IsChecked, node.IsDel);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
         public static void CreateNewCard(Card card)
         {
-            string sql = string.Format("INSERT INTO {0} ([Index], Uid, Title, Summary, Weight, BornYear, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');", card.TabName.Replace("'", "''"), card.Index, card.Uid, card.Title.Replace("'", "''"), card.Summary.Replace("'", "''"), card.Weight, card.BornYear, card.IsChecked, card.IsDel);
+            string sql = string.Format("INSERT OR IGNORE INTO {0} ([Index], Uid, Title, Summary, Weight, BornYear, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');", card.TabName.Replace("'", "''"), card.Index, card.Uid, card.Title.Replace("'", "''"), card.Summary.Replace("'", "''"), card.Weight, card.BornYear, card.IsChecked, card.IsDel);
             CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
         }
 
         public static void UpdateNodeProperty(Node node, string fieldName, string value)
         {
-            string sql = string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}';", node.TabName.Replace("'", "''"), fieldName, value.Replace("'", "''"), node.Uid);
+            string sql = string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}' AND EXISTS(select * from sqlite_master where name='{0}' and sql like '%{1}%');", node.TabName.Replace("'", "''"), fieldName, value.Replace("'", "''"), node.Uid);
             CSqlitePlus.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
 

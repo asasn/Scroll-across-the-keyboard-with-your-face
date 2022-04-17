@@ -124,7 +124,7 @@ namespace RootNS.Behavior
         /// <summary>
         /// 根据文件设置语法规则
         /// </summary>
-        public static void SetEditorColorRules(TextEditor tEditor)
+        public static void SetThisEditorColorRules(TextEditor tEditor)
         {
             tEditor.SyntaxHighlighting = null;
             string fullFileName = System.IO.Path.Combine(Gval.Path.App, "Resourses/Text.xshd");
@@ -134,14 +134,47 @@ namespace RootNS.Behavior
             xshdReader.Close();
             xshdStream.Close();
 
+            Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+            foreach (Card rootCard in CardBoxs)
+            {
+                foreach (Card card in rootCard.ChildNodes)
+                {
+                    if (card.IsDel == true)
+                    {
+                        continue;
+                    }
+                    AddCardKeyWord(tEditor, card);
+                }
+            }
         }
 
+        public static void RefreshKeyWordForAllEditor(Card card)
+        {
+            foreach (HandyControl.Controls.TabItem tabItem in Gval.EditorTabControl.Items)
+            {
+                if (((tabItem.Content as EditorBase).DataContext as Node).OwnerName != card.OwnerName)
+                {
+                    continue;
+                }
+                TextEditor tEditor = (tabItem.Content as EditorBase).ThisTextEditor;
+                SetThisEditorColorRules(tEditor);
+            }
+        }
+
+        private static void AddCardKeyWord(TextEditor tEditor, Card card)
+        {
+            AddKeyWordForEditor(tEditor, card.Title, card.TabName);
+            foreach (Card.Tip tip in card.NickNames.Tips)
+            {
+                AddKeyWordForEditor(tEditor, tip.Title, tip.TabName);
+            }
+        }
 
         /// <summary>
         /// 向编辑器添加变色关键词
         /// </summary>
         /// <param name="keyword"></param>
-        public static void AddKeyWordForEditor(TextEditor textEdit, string keyword, string colorName)
+        private static void AddKeyWordForEditor(TextEditor textEdit, string keyword, string colorName)
         {
             if (string.IsNullOrWhiteSpace(keyword))
             {

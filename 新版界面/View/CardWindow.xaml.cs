@@ -58,6 +58,7 @@ namespace RootNS.View
                     break;
                 }
             }
+            HelperEditor.RefreshKeyWordForAllEditor(this.DataContext as Card);
             BtnSave.IsEnabled = false;
         }
     }

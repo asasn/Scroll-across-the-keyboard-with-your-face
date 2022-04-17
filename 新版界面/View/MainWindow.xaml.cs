@@ -50,12 +50,13 @@ namespace RootNS
         private void TabBook_Loaded(object sender, RoutedEventArgs e)
         {
             TabBook_SelectionChanged(sender, null);
+            Gval.CurrentBook.LoadForAllChapterTabs();
         }
 
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabBook_GotFocus(sender, null);
-            Gval.CurrentBook.LoadBookChapters();
+            //Gval.CurrentBook.LoadChaptersTab();
         }
 
         private void TabNote_GotFocus(object sender, RoutedEventArgs e)
@@ -66,12 +67,13 @@ namespace RootNS
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
         {
             TabNote_SelectionChanged(sender, null);
+            Gval.CurrentBook.LoadForAllNoteTabs();
         }
 
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabNote_GotFocus(sender, null);
-            Gval.CurrentBook.LoadBookNotes();
+            //Gval.CurrentBook.LoadNotesTab();
         }
         private void TabCard_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -81,12 +83,13 @@ namespace RootNS
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
         {
             TabCard_SelectionChanged(sender, null);
+            Gval.CurrentBook.LoadForAllCardTabs();
         }
 
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabCard_GotFocus(sender, null);
-            Gval.CurrentBook.LoadForCards(Gval.SelectedCardTab);
+            //Gval.CurrentBook.LoadCardsTab(Gval.SelectedCardTab);
         }
 
         private void TabMaterial_GotFocus(object sender, RoutedEventArgs e)
@@ -97,12 +100,13 @@ namespace RootNS
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
         {
             TabMaterial_SelectionChanged(sender, null);
+            Gval.MaterialBook.LoadForAllMaterialTabs();
         }
 
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabMaterial_GotFocus(sender, null);
-            Gval.MaterialBook.LoadForMaterialPart();
+            //Gval.MaterialBook.LoadMaterialTab();
         }
 
         private void TabPublicCard_GotFocus(object sender, RoutedEventArgs e)
@@ -113,12 +117,13 @@ namespace RootNS
         private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)
         {
             TabPublicCard_SelectionChanged(sender, null);
+            Gval.MaterialBook.LoadForAllCardTabs();
         }
 
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             TabPublicCard_GotFocus(sender, null);
-            Gval.MaterialBook.LoadForCards(Gval.SelectedPublicCardTab);
+            //Gval.MaterialBook.LoadCardsTab(Gval.SelectedPublicCardTab);
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)

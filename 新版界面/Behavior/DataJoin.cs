@@ -68,9 +68,9 @@ namespace RootNS.Behavior
             }
             reader.Close();
             Gval.FlagLoadingCompleted = false;
-            book.LoadBookChapters();
-            book.LoadBookNotes();
-            book.LoadForCards(Gval.SelectedCardTab);
+            book.LoadChaptersTab();
+            book.LoadNotesTab();
+            book.LoadCardsTab(Gval.SelectedCardTab);
             Gval.FlagLoadingCompleted = true;
 
         }
