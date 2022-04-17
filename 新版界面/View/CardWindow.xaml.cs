@@ -50,6 +50,14 @@ namespace RootNS.View
         {
             DataOut.ReplaceIntoCard(this.DataContext as Card);
             DataJoin.FillInCardContent(this.DataContext as Card);
+            foreach (Card.Line line in (this.DataContext as Card).Lines)
+            {
+                if (line.LineTitle == "别称")
+                {
+                    (this.DataContext as Card).NickNames = line;
+                    break;
+                }
+            }
             BtnSave.IsEnabled = false;
         }
     }

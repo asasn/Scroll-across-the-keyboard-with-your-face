@@ -67,8 +67,43 @@ namespace RootNS.Brick
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CardWindow cw = new CardWindow(sender , ThisControl);
+            if (((sender as Button).DataContext as Card).IsDel == true)
+            {
+                return;
+            }
+            CardWindow cw = new CardWindow(sender, ThisControl);
             cw.ShowDialog();
+        }
+
+        private void ButtonMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Command_Delete_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (((sender as Button).DataContext as Card).IsDel == true)
+            {
+                ((sender as Button).DataContext as Card).RemoveThisCard();
+            }
+            else
+            {
+                ((sender as Button).DataContext as Card).IsDel = true;
+            }
+        }
+        private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ((sender as Button).DataContext as Card).IsDel = false;
+        }
+
+        private void Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            (sender as Button).Focus();
+        }
+
+        private void Button_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

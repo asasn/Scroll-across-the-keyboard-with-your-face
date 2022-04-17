@@ -22,6 +22,12 @@ namespace RootNS.Model
         {
         }
 
+        public void RemoveThisCard()
+        {
+            (this.Parent as Card).ChildNodes.Remove(this);
+            DataOut.RemoveCardFromTable(this);
+        }
+
         private bool _canSave;
         /// <summary>
         /// 是否可以保存的标记

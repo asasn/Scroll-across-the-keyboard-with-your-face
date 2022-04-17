@@ -105,11 +105,7 @@ namespace RootNS.Behavior
         public static void ReplaceIntoCard(Card card)
         {
             string sql = String.Empty;
-            if (string.IsNullOrWhiteSpace(card.Title) == true)
-            {
-                //sql = string.Format("DELETE FROM 卡片 WHERE Pid=(select Uid from {0} where Title='{1}') AND TabName='{0}';", card.TabName, card.Title);
-            }
-            else
+            if (string.IsNullOrWhiteSpace(card.Title) == false)
             {
                 sql += string.Format("REPLACE INTO {0} ([Index], Uid, Title, Summary, Weight, BornYear, IsChecked, IsDel) values ( '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}');", card.TabName, card.Index, card.Uid, card.Title.Replace("'", "''"), card.Summary.Replace("'", "''"), card.Weight, card.BornYear, card.IsChecked, card.IsDel);
                 foreach (Card.Line line in card.Lines)
@@ -136,6 +132,14 @@ namespace RootNS.Behavior
                 }
 
             }
+            CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
+        }
+
+        public static void RemoveCardFromTable(Card card)
+        {
+            string sql = String.Empty;
+            sql += string.Format("DELETE FROM 卡片 WHERE Pid='{1}';", card.TabName, card.Uid);
+            sql += string.Format("DELETE FROM {0} WHERE Uid='{1}';", card.TabName, card.Uid);
             CSqlitePlus.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
         }
     }

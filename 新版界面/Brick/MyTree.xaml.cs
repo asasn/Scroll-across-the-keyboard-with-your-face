@@ -79,7 +79,7 @@ namespace RootNS.Brick
                 }
                 else
                 {
-                    (TreeNodes.SelectedItem as Node).ParentNode.AddChildNode(node);
+                    ((TreeNodes.SelectedItem as Node).Parent as Node).AddChildNode(node);
                 }
             }
         }
@@ -98,17 +98,17 @@ namespace RootNS.Brick
                 {
                     node.RealRemoveItSelfAndAllChildNodes();
                     int i = 0;
-                    if (node.ParentNode.ChildNodes.Count > 0)
+                    if ((node.Parent as Node).ChildNodes.Count > 0)
                     {
                         if (node.Index >= 0)
                         {
                             i = node.Index;
                         }
-                        if (node.Index == node.ParentNode.ChildNodes.Count)
+                        if (node.Index == (node.Parent as Node).ChildNodes.Count)
                         {
                             i = node.Index - 1;
                         }
-                        node.ParentNode.ChildNodes[i].IsSelected = true;
+                        (node.Parent as Node).ChildNodes[i].IsSelected = true;
                     }
                 }
             }
@@ -135,9 +135,9 @@ namespace RootNS.Brick
                 if (node.Index > 0)
                 {
                     int i = node.Index;
-                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes.Move(i, i - 1);
-                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i].Index = i;
-                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i - 1].Index = i - 1;
+                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes.Move(i, i - 1);
+                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i].Index = i;
+                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i - 1].Index = i - 1;
                 }
             }
         }
@@ -147,12 +147,12 @@ namespace RootNS.Brick
             if (TreeNodes.SelectedItem != null)
             {
                 Node node = (TreeNodes.SelectedItem as Node);
-                if (node.Index < node.ParentNode.ChildNodes.Count - 1)
+                if (node.Index < (node.Parent as Node).ChildNodes.Count - 1)
                 {
                     int i = node.Index;
-                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes.Move(i, i + 1);
-                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i].Index = i;
-                    (TreeNodes.SelectedItem as Node).ParentNode.ChildNodes[i + 1].Index = i + 1;
+                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes.Move(i, i + 1);
+                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i].Index = i;
+                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i + 1].Index = i + 1;
                 }
             }
         }
@@ -273,7 +273,7 @@ namespace RootNS.Brick
             TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
             Node dragNode = (sender as TreeView).SelectedValue as Node;
             Node dropNode = container.DataContext as Node;
-            dragNode.ParentNode.ChildNodes.Remove(dragNode);
+            (dragNode.Parent as Node).ChildNodes.Remove(dragNode);
             dragNode.IsDel = false;
             dropNode.ChildNodes.Add(dragNode);
 

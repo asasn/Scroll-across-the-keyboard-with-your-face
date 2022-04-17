@@ -57,9 +57,9 @@ namespace RootNS.Brick
         {
             if (thisNode.IsChecked == false)
             {
-                while (thisNode.ParentNode != null)
+                while (thisNode.Parent != null)
                 {
-                    thisNode = thisNode.ParentNode;
+                    thisNode = thisNode.Parent as Node;
                     thisNode.IsChecked = false;
                 }
             }
@@ -67,7 +67,7 @@ namespace RootNS.Brick
             {
                 bool tag = true;
                 //兄弟节点当中有任意一个未选择，则改变标志
-                foreach (Node node in thisNode.ParentNode.ChildNodes)
+                foreach (Node node in ((thisNode.Parent as Node) ).ChildNodes)
                 {
                     if (node.IsChecked == false)
                     {
@@ -76,8 +76,8 @@ namespace RootNS.Brick
                     }
                 }
                 //根据标志改变父节点选中状态
-                thisNode.ParentNode.IsChecked = tag;
-                thisNode.ParentNode.IsExpanded = !tag;
+                (thisNode.Parent as Node).IsChecked = tag;
+                (thisNode.Parent as Node).IsExpanded = !tag;
             }
         }
 

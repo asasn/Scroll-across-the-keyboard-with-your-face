@@ -92,6 +92,41 @@ namespace RootNS
     }
 
     /// <summary>
+    /// 从节点中获取悬浮信息
+    /// </summary>
+    public class GetToolTipInfo : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            Card.Line nickNameLine = (Card.Line)value;
+            try
+            {
+                string content = string.Empty;
+                foreach (Card.Tip tip in nickNameLine.Tips)
+                {
+                    content += tip.Title + " ";
+                }
+                return content;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
     /// TabName决定节点模板
     /// </summary>
     public class NodeConvertToNodeTemplate : IValueConverter

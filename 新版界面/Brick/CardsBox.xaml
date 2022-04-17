@@ -33,7 +33,25 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2">
-                            <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click">
+                            <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTip="{Binding NickNames, Converter={StaticResource GetToolTipInfo}, Mode=TwoWay}" ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click" MouseRightButtonDown="Button_MouseRightButtonDown" Loaded="Button_Loaded">
+                                <Button.Resources>
+                                    <RoutedUICommand x:Key="DelCard" Text="信息卡"/>
+                                    <RoutedUICommand x:Key="UnDel" Text="撤销删除"/>
+                                </Button.Resources>
+                                <Button.ContextMenu>
+                                    <ContextMenu x:Name="ButtonMenu" Opened="ButtonMenu_Opened">
+                                        <MenuItem Header="删除信息卡" Command="{StaticResource DelCard}" InputGestureText="Delete"/>
+                                        <MenuItem Header="撤销删除" Command="{StaticResource UnDel}" InputGestureText="UnDel"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                <Button.CommandBindings>
+                                    <CommandBinding Command="{StaticResource DelCard}" Executed="Command_Delete_Executed"/>
+                                    <CommandBinding Command="{StaticResource UnDel}" Executed="Command_UnDel_Executed"/>
+                                </Button.CommandBindings>
+                                <Button.InputBindings>
+                                    <KeyBinding Command="{StaticResource DelCard}" Key="Delete" />
+                                    <KeyBinding Command="{StaticResource UnDel}" Key="Z" Modifiers="Ctrl" />
+                                </Button.InputBindings>
                             </Button>
                         </Border>
                     </DataTemplate>

@@ -36,9 +36,9 @@ namespace RootNS.Model
                 }
                 else
                 {
-                    if (this.ParentNode != null)
+                    if (this.Parent != null)
                     {
-                        this.ParentNode.IsDel = false;
+                        (this.Parent as Node).IsDel = false;
                     }
                 }
             }
@@ -122,17 +122,17 @@ namespace RootNS.Model
 
 
 
-        private Node _parentNode;
+        private object _parent;
         /// <summary>
         /// 父节点对象
         /// </summary>
-        public Node ParentNode
+        public object Parent
         {
-            get { return _parentNode; }
+            get { return _parent; }
             set
             {
-                _parentNode = value;
-                this.RaisePropertyChanged("ParentNode");
+                _parent = value;
+                this.RaisePropertyChanged("Parent");
             }
         }
 
@@ -381,10 +381,10 @@ namespace RootNS.Model
         /// </summary>
         public void RealRemoveItSelfAndAllChildNodes()
         {
-            if (this.ParentNode != null)
+            if (this.Parent != null)
             {
                 DeleteAllChildNodes(this);
-                this.ParentNode.ChildNodes.Remove(this);
+                (this.Parent as Node).ChildNodes.Remove(this);
             }
         }
 
@@ -433,7 +433,7 @@ namespace RootNS.Model
                 stuff.TabName = this.TabName;
                 stuff.OwnerName = this.OwnerName;
                 stuff.Owner = this.Owner;
-                stuff.ParentNode = this;
+                stuff.Parent = this;
                 stuff.Index = this.ChildNodes.IndexOf(stuff);
                 this.WordsCount += 1;
                 if (stuff.Index > 0)
@@ -446,7 +446,7 @@ namespace RootNS.Model
                 {
                     stuff.IsDel = true;
                 }
-                if (this.ParentNode == null)
+                if (this.Parent == null)
                 {
                     stuff.RootNode = this;
                 }
