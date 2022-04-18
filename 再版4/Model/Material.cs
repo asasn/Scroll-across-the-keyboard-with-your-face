@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Version4.Workflow
+namespace Version4.Model
 {
-    internal class MainWindow
+    internal class Material : BaseBook
     {
     }
 }

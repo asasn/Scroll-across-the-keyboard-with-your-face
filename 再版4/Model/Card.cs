@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Version4.Converter
+namespace Version4.Model
 {
-    internal class Boolean
+    internal class Card : BaseNode
     {
     }
 }

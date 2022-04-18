@@ -6,14 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <RootNamespace>Version4</RootNamespace>
+    <AssemblyName>脸滚键盘</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Assets\androidicons.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Style\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,7 +20,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Helper\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\androidicons.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Style\BookCardStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Style\TabControlStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Style\TreeViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Style\TreeViewStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

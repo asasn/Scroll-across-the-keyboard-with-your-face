@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Version4.Model
 {
-    internal class Book : BaseBook
+    internal class Note : BaseNode
     {
     }
 }

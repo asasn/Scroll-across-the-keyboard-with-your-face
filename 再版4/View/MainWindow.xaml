@@ -4,9 +4,90 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version4.View"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:vm="clr-namespace:Version4.Workflow"
+        mc:Ignorable="d" UseLayoutRounding="True"
+        d:DataContext="{d:DesignInstance Type=vm:VmMainWindow}"
+        Title="{Binding AppName, Source={StaticResource GlobalSource}}" ContentRendered="Window_ContentRendered"
+        Height="1000" Width="1800" 
+        WindowState="Maximized" Closing="Window_Closing" Loaded="Window_Loaded">
+    <Window.DataContext>
+        <vm:VmMainWindow x:Name="VM"></vm:VmMainWindow>
+    </Window.DataContext>
+    <Window.Resources>
+        <vm:VmMainWindow x:Key="VmMainWindow"/>
+    </Window.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="目录树" Background="AliceBlue" Grid.Row="0" Style="{StaticResource BaseStyle}">
+            <Grid Grid.Column="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="3"/>
+                    <RowDefinition Height="100*"/>
+                </Grid.RowDefinitions>
+                <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="3"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button></Button>
+                    </Grid>
+                </Border>
+                <GroupBox Header="目录" Background="AliceBlue" Grid.Row="2" ></GroupBox>
+            </Grid>
+        </GroupBox>
 
+        <Grid Grid.Column="2" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="3"/>
+                <RowDefinition Height="52"/>
+                <RowDefinition Height="3"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="记事板" Background="AliceBlue" Style="{StaticResource BaseStyle}"></GroupBox>
+            <GroupBox Header="工具栏 - 本书" Grid.Row="2" Background="AliceBlue" Style="{StaticResource BaseStyle}">
+                <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5"/>
+            </GroupBox>
+            <GroupBox Header="信息卡 - 本书" Background="AliceBlue" Grid.Row="4" Style="{StaticResource BaseStyle}"/>
+        </Grid>
+        <Grid Grid.Column="4">
+            <GroupBox Header="编辑区" Background="AliceBlue" Style="{StaticResource BaseStyle}"></GroupBox>
+        </Grid>
+        <Grid Grid.Column="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="3"/>
+                <RowDefinition Height="52"/>
+                <RowDefinition Height="3"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="展示区" Background="AliceBlue" Style="{StaticResource BaseStyle}"></GroupBox>
+            <GroupBox Header="工具栏 - 全局" Grid.Row="2" Background="AliceBlue" Style="{StaticResource BaseStyle}">
+                <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5"/>
+            </GroupBox>
+            <GroupBox Header="搜索区" Background="AliceBlue" Grid.Row="4" Style="{StaticResource BaseStyle}"/>
+        </Grid>
+        <Grid Grid.Column="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="3"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Header="资料库" Background="AliceBlue" Style="{StaticResource BaseStyle}"></GroupBox>
+            <GroupBox Header="信息卡 - 全局" Background="Cornsilk" Grid.Row="2" Style="{StaticResource BaseStyle}"/>
+        </Grid>
     </Grid>
 </Window>
