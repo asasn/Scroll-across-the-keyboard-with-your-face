@@ -1,7 +1,6 @@
 ﻿using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
-using NSMain.Bricks;
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
-using static NSMain.TreeViewPlus.CNodeModule;
 
 namespace RootNS.Brick
 {

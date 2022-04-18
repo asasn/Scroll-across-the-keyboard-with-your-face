@@ -39,17 +39,18 @@ namespace RootNS.Brick
             card.Title = TbNew.Text;
             (this.DataContext as Card).AddChildNode(card);
             HelperEditor.RefreshKeyWordForAllEditor(card);
+            HelperEditor.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
             TbNew.Clear();
         }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-         
+
         }
 
         private void BtnLookMore_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void TbNew_KeyUp(object sender, KeyEventArgs e)
@@ -62,7 +63,7 @@ namespace RootNS.Brick
 
         private void BtnDesign_Click(object sender, RoutedEventArgs e)
         {
-            CardDesign we = new CardDesign(sender, ThisControl); 
+            CardDesign we = new CardDesign(sender, ThisControl);
             we.ShowDialog();
         }
 
@@ -78,7 +79,7 @@ namespace RootNS.Brick
 
         private void ButtonMenu_Opened(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void Command_Delete_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -86,17 +87,19 @@ namespace RootNS.Brick
             if (((sender as Button).DataContext as Card).IsDel == true)
             {
                 ((sender as Button).DataContext as Card).RemoveThisCard();
-            }
+               }
             else
             {
                 ((sender as Button).DataContext as Card).IsDel = true;
                 HelperEditor.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
+                HelperEditor.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
             }
         }
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((sender as Button).DataContext as Card).IsDel = false;
             HelperEditor.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
+            HelperEditor.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
         }
 
         private void Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

@@ -1,4 +1,5 @@
-﻿using RootNS.Model;
+﻿using RootNS.Behavior;
+using RootNS.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -70,6 +71,7 @@ namespace RootNS.Brick
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
             EditorBase editorBase = tabItem.Content as EditorBase;
             Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
+            HelperEditor.RefreshStyleForCardsBox(new ICSharpCode.AvalonEdit.TextEditor());
         }
 
         private void TabItem_Closing(object sender, EventArgs e)
@@ -82,11 +84,10 @@ namespace RootNS.Brick
                 if (dr == MessageBoxResult.Yes)
                 {
                     editorBase.BtnSaveText_Click(null, null);
-                    Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
                 }
                 if (dr == MessageBoxResult.No)
                 {
-                    Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
+
                 }
                 if (dr == MessageBoxResult.Cancel)
                 {

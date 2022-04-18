@@ -5,7 +5,7 @@ using System.IO;
 
 namespace RootNS.Brick
 {
-    public class CSqlitePlus : NotificationObject
+    public class CSqlitePlus
     {
 
         public CSqlitePlus(string dbPath, string dbName = null)

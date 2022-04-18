@@ -17,7 +17,7 @@
             <local:IconCodeConvertToFontSize x:Key="IconCodeConvertToFontSize"/>
             <local:BoolConvertorCount x:Key="BoolConvertorCount"/>
             <local:TypeConvertToShowText x:Key="TypeConvertToShowText"/>
-            <local:IsFocusedConvertToBrush x:Key="IsFocusedConvertToBrush"/>
+            <local:BoolConvertToBrush x:Key="BoolConvertToBrush"/>
             <local:NodeConvertToNodeTemplate x:Key="NodeConvertToNodeTemplate"/>
             <local:IsDelConvertOpacity x:Key="IsDelConvertOpacity"/>
             <local:NodeConvertToVisibility x:Key="NodeConvertToVisibility"/>

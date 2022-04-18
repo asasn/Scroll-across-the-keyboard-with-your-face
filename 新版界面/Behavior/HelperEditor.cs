@@ -17,6 +17,42 @@ namespace RootNS.Behavior
 {
     public class HelperEditor
     {
+
+        public static void RefreshStyleForCardsBox(TextEditor tEditor)
+        {
+            Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+            foreach (Card rootCard in CardBoxs)
+            {
+                foreach (Card card in rootCard.ChildNodes)
+                {
+                    if (card.IsDel == true)
+                    {
+                        card.IsContain = false;
+                        continue;
+                    }
+                    if (tEditor.Text.Contains(card.Title.Trim()))
+                    {
+                        card.IsContain = true;
+                    }
+                    else
+                    {
+                        card.IsContain = false;
+                    }
+                    foreach (Card.Tip tip in card.NickNames.Tips)
+                    {
+                        if (tEditor.Text.Contains(tip.Title.Trim()))
+                        {
+                            card.IsContain = true;
+                        }
+                        else
+                        {
+                            card.IsContain = false;
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// 根据node对象从编辑器容器当中选定并返回当前的TabItem对象
         /// </summary>

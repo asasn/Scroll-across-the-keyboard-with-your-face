@@ -22,11 +22,25 @@ namespace RootNS.Model
         {
         }
 
+
         public void RemoveThisCard()
         {
             (this.Parent as Card).ChildNodes.Remove(this);
             DataOut.RemoveCardFromTable(this);
         }
+
+        private bool _isContain;
+
+        public bool IsContain
+        {
+            get { return _isContain; }
+            set
+            {
+                _isContain = value;
+                this.RaisePropertyChanged(nameof(IsContain));
+            }
+        }
+
 
         private bool _canSave;
         /// <summary>

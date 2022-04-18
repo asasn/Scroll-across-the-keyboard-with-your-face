@@ -380,29 +380,29 @@ namespace RootNS
     /// <summary>
     /// 聚焦决定边框
     /// </summary>
-    public class IsFocusedConvertToBrush : IValueConverter
+    public class BoolConvertToBrush : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value == null)
             {
-                return Brushes.Orange;
+                return Brushes.Transparent;
             }
             try
             {
                 //是焦点的时候，进行设置
                 if ((bool)value == true)
                 {
-                    return Brushes.Orange;
+                    return Brushes.LightGoldenrodYellow;
                 }
                 else
                 {
-                    return Brushes.Orange;
+                    return Brushes.Transparent;
                 }
             }
             catch
             {
-                return Brushes.Orange;
+                return Brushes.Transparent;
             }
         }
 

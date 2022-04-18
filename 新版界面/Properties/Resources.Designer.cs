@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RootNS.Properties {
+namespace Version4.Properties {
     using System;
     
     
