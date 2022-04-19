@@ -9,7 +9,7 @@ namespace RootNS.Model
 {
     public class NotificationObject : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// 属性改变时调用此方法发出通知
@@ -22,22 +22,6 @@ namespace RootNS.Model
                 this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-
-
-        ///// <summary>
-        ///// 静态事件处理属性更改
-        ///// </summary>
-        //public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-
-        ///// <summary>
-        ///// 异步更新静态属性
-        ///// </summary>
-        ///// <param name="propertyName"></param>
-        //public static void RaiseStaticPropertyChanged(object property)
-        //{
-        //    StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(property)));
-        //}
 
     }
 

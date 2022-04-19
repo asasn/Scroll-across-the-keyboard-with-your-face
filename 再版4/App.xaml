@@ -13,7 +13,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Style/TabControlStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Style/BookCardStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <model:AppModel x:Key="GlobalSource"/>
+            <model:AppInfo x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

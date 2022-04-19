@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace Version4.Model
 {
-    internal class BaseNode : INotifyPropertyChanged
+    public class BaseNode : NotificationObject
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public static event PropertyChangedEventHandler? StaticPropertyChanged;
+
     }
 }

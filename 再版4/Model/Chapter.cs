@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Version4.Model
 {
-    internal class Chapter : BaseNode
+    public class Chapter : BaseNode
     {
     }
 }

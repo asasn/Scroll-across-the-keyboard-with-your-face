@@ -4,18 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version4.View"
-        xmlns:vm="clr-namespace:Version4.Workflow"
+        xmlns:vm="clr-namespace:Version4.ViewModel"
         mc:Ignorable="d" UseLayoutRounding="True"
-        d:DataContext="{d:DesignInstance Type=vm:VmMainWindow}"
-        Title="{Binding AppName, Source={StaticResource GlobalSource}}" ContentRendered="Window_ContentRendered"
+        d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
+        Title="{Binding WindowTitle}" ContentRendered="Window_ContentRendered"
         Height="1000" Width="1800" 
         WindowState="Maximized" Closing="Window_Closing" Loaded="Window_Loaded">
     <Window.DataContext>
-        <vm:VmMainWindow x:Name="VM"></vm:VmMainWindow>
+        <vm:MainWindowViewModel x:Name="VM"></vm:MainWindowViewModel>
     </Window.DataContext>
-    <Window.Resources>
-        <vm:VmMainWindow x:Key="VmMainWindow"/>
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -39,13 +36,13 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="3"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
-                        <Button></Button>
+                        <Button x:Name="BtnChoose" FontFamily="../Assets/#androidicons" Content="&#59547;" FontSize="26" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnChoose_Click"></Button>
+                        <TextBlock Text="{Binding CurrentBook.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
                     </Grid>
                 </Border>
-                <GroupBox Header="目录" Background="AliceBlue" Grid.Row="2" ></GroupBox>
+                <TreeView  Background="AliceBlue" Grid.Row="2" ></TreeView>
             </Grid>
         </GroupBox>
 

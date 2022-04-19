@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Version4.Workflow;
+using Version4.ViewModel;
 
 namespace Version4.View
 {
@@ -26,10 +26,9 @@ namespace Version4.View
             InitializeComponent();
         }
 
-
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -39,13 +38,13 @@ namespace Version4.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        private void BtnChoose_Click(object sender, RoutedEventArgs e)
         {
-            VM.WindowTitle = "更改";
-            VmMainWindow.MyStaticProperty = "静态属性更改";
+            VM.BtnChoose();
         }
     }
 }
