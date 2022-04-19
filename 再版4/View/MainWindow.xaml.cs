@@ -44,7 +44,8 @@ namespace Version4.View
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)
         {
-            VM.BtnChoose();
+            BookChooseWindow bcw = new();
+            bcw.ShowDialog();
         }
     }
 }

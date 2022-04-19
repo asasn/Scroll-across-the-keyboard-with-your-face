@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Version4.View"
         xmlns:vm="clr-namespace:Version4.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/Interaction"
+        xmlns:ii="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d" UseLayoutRounding="True"
         d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
         Title="{Binding WindowTitle}" ContentRendered="Window_ContentRendered"
@@ -39,10 +41,10 @@
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="BtnChoose" FontFamily="../Assets/#androidicons" Content="&#59547;" FontSize="26" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnChoose_Click"></Button>
-                        <TextBlock Text="{Binding CurrentBook.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
+                        <TextBlock Text="{Binding CurrentBook.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"></TextBlock>
                     </Grid>
                 </Border>
-                <TreeView  Background="AliceBlue" Grid.Row="2" ></TreeView>
+                <TreeView IsEnabled="{Binding CurrentBook, Converter={StaticResource Object2BooleanConverter}}" Background="AliceBlue" Grid.Row="2" ></TreeView>
             </Grid>
         </GroupBox>
 

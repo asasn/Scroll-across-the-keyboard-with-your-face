@@ -28,9 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Style\BookCardStyle.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Style\TabControlStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -38,6 +35,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\TreeViewStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\BookChooseWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

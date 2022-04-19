@@ -52,6 +52,21 @@ namespace Version4.Model
             }
         }
 
+        private string _summary = String.Empty;
+        /// <summary>
+        /// 注释，概要
+        /// </summary>
+        public string Summary
+        {
+            get { return _summary; }
+            set
+            {
+                _summary = value;
+                RaisePropertyChanged(nameof(Summary));
+            }
+        }
+
+
         private bool _isDel;
         /// <summary>
         /// 是否删除的标志

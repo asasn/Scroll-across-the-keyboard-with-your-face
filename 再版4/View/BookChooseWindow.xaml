@@ -1,0 +1,105 @@
+﻿<Window x:Name="ThisWindow" x:Class="Version4.View.BookChooseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:vm="clr-namespace:Version4.ViewModel"
+        mc:Ignorable="d" d:DataContext="{d:DesignInstance Type=vm:BookChooseWindowViewModel}"
+        Title="书籍选择" Height="450" Width="800" Background="#f5f5f5" Loaded="Window_Loaded"  ResizeMode="NoResize">
+    <Window.DataContext>
+        <vm:BookChooseWindowViewModel x:Name="VM"></vm:BookChooseWindowViewModel>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+            <ItemsControl ItemsSource="{Binding BooksBank}" VirtualizingPanel.IsVirtualizing="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button BorderBrush="{Binding SelectedBrush}" Effect="{StaticResource EffectShadow2}" Padding="0" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4" Loaded="Button_Loaded" >
+                            <hc:Card BorderThickness="0" Padding="0" Header="{Binding Name}" MaxWidth="{Binding Width, ElementName=Cover}">
+                                <Image x:Name="Cover" Width="108" Height="162" Source="{Binding CoverPath}"/>
+                            </hc:Card>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel x:Name="WpBooks" Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid Grid.Column="1" DataContext="{Binding CurrentBook}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100*"/>
+                </Grid.ColumnDefinitions>
+                <Label Background="#f5f5f5" BorderThickness="0" Padding="0"  Content="Uid：" Width="38"/>
+                <TextBox Background="Transparent" Grid.Column="1" x:Name="TbUid" Text="{Binding Uid, Mode=OneWay}" IsReadOnly="True" Padding="0"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100*"/>
+                </Grid.ColumnDefinitions>
+                <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="书名：" Width="38"/>
+                <TextBox Grid.Column="1" x:Name="TbName" Padding="0" Text="{Binding Name, Mode=OneWay}" TextChanged="BookName_TextChanged"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="千字价格：" Width="58" HorizontalAlignment="Left"/>
+                <TextBox x:Name="TbPrice" Text="{Binding Price, Mode=OneWay}"  Padding="0" TextChanged="TbPrice_TextChanged" Margin="60,0,0,0"/>
+                <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="当前年份：" Width="58" Grid.Column="2" HorizontalAlignment="Left"/>
+                <TextBox Grid.Column="2" Text="{Binding CurrentYear, Mode=OneWay}" x:Name="TbCurrentYear" Padding="0" TextChanged="TbCurrentYear_TextChanged" MinWidth="30" Margin="60,0,0,0"/>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100*"/>
+                </Grid.ColumnDefinitions>
+                <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="简介：" Width="38" VerticalAlignment="Top" Margin="0,7.5,0,0"/>
+                <TextBox Grid.Column="1" Text="{Binding Summary, Mode=OneWay}" x:Name="TbSummary" Padding="0" AcceptsReturn="True" TextWrapping="Wrap" MaxHeight="65" VerticalScrollBarVisibility="Auto"/>
+            </Grid>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="2" x:Name="BtnUpdate" Content="确定" Click="BtnUpdate_Click"/>
+            </Grid>
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="新书：" Width="38"/>
+                <TextBox Grid.Column="1" x:Name="TbBuild" Padding="0" KeyDown="TbBuild_KeyDown" TextChanged="BookName_TextChanged"/>
+                <Button Grid.Column="2" x:Name="BtnBuild" Content="创建" Click="BtnBuild_Click"/>
+            </Grid>
+            <Grid Grid.Row="7">
+                <Button x:Name="BtnDelBook" Content="删除选中的书籍" Click="BtnDelBook_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            </Grid>
+            <Image x:Name="ImgShow" Source="{Binding CoverPath, Mode=OneWay}" Height="192" Grid.Row="4" Width="144" Grid.RowSpan="2" />
+        </Grid>
+    </Grid>
+</Window>
