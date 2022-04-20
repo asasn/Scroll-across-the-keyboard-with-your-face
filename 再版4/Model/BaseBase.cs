@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,14 @@ namespace Version4.Model
 {
     public class BaseBase : NotificationObject
     {
+        public BaseBase()
+        {
+          
+        }
+
+        private void BaseBase_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+        }
 
         private int _index;
         /// <summary>
@@ -49,6 +59,36 @@ namespace Version4.Model
             {
                 _isDel = value;
                 RaisePropertyChanged(nameof(IsDel));
+            }
+        }
+
+        private object _owner;
+        /// <summary>
+        /// 所有者（一般为书籍）
+        /// </summary>
+        public object Owner
+        {
+            get { return _owner; }
+            set
+            {
+                _owner = value;
+                RaisePropertyChanged(nameof(Owner));
+            }
+        }
+
+        private string _tabName;
+        /// <summary>
+        /// 页面标签名称
+        /// <para></para>
+        /// （对应数据库中的表名/控件TabControl当中的TabItem标签名）
+        /// </summary>
+        public string TabName
+        {
+            get { return _tabName; }
+            set
+            {
+                _tabName = value;
+                RaisePropertyChanged(nameof(TabName));
             }
         }
     }

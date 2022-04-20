@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Version4.Helper;
 using Version4.Model;
+using Version4.View;
 
 namespace Version4.ViewModel
 {
@@ -16,15 +18,8 @@ namespace Version4.ViewModel
 
         public MainWindowViewModel()
         {
-            CurrentBook = new();
-            CurrentBook.Name = "测试";
             this.PropertyChanged += VmMainWindow_PropertyChanged;
-            BooksBank.Add(new Book() { Name = "测试1" });
-            BooksBank.Add(new Book() { Name = "测试2" });
-            BooksBank.Add(new Book() { Name = "测试3" });
-            Console.Write((BooksBank[0] as BaseBase).Uid);
-            Console.Write((BooksBank[0] as BaseBook).Uid);
-            Console.Write(BooksBank[0].Uid);
+       
         }
 
         private void VmMainWindow_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -35,6 +30,15 @@ namespace Version4.ViewModel
                 previousBook = CurrentBook;
                 previousBook.SelectedBrush = Brushes.Orange;
             }
+        }
+
+
+
+
+        public void ShowChooseWindow()
+        {
+            BookChooseWindow bcw = new();
+            bcw.ShowDialog();
         }
 
 
@@ -54,7 +58,7 @@ namespace Version4.ViewModel
             }
         }
 
-        private string _windowTitle = AppInfo.WindowTitle;
+        private string _windowTitle = AppMain.WindowTitle;
         /// <summary>
         /// 窗口标题
         /// </summary>
@@ -69,11 +73,11 @@ namespace Version4.ViewModel
         }
 
 
-        private Book? _currentBook;
+        private Book _currentBook = new();
         /// <summary>
         /// 当前书籍
         /// </summary>
-        public Book? CurrentBook
+        public Book CurrentBook
         {
             get { return _currentBook; }
             set
@@ -83,17 +87,17 @@ namespace Version4.ViewModel
             }
         }
 
-        private Book? _material;
+        private Material _materialBook = new();
         /// <summary>
         /// 资料库（书籍：index.db）
         /// </summary>
-        public Book? Material
+        public Material MaterialBook
         {
-            get { return _material; }
+            get { return _materialBook; }
             set
             {
-                _material = value;
-                RaisePropertyChanged(nameof(Material));
+                _materialBook = value;
+                RaisePropertyChanged(nameof(MaterialBook));
             }
         }
 

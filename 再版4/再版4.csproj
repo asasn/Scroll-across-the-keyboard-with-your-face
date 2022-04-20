@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <RootNamespace>Version4</RootNamespace>
     <AssemblyName>脸滚键盘</AssemblyName>
-    <DebugType>none</DebugType>
+    <DebugType>full</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

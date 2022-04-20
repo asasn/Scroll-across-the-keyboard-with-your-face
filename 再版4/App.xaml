@@ -12,7 +12,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Style/TreeViewStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Style/TabControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <model:AppInfo x:Key="GlobalSource"/>
+            <model:AppMain x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

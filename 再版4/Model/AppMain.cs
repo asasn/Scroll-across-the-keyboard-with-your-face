@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Version4.Model
 {
-    public class AppInfo
+    public class AppMain
     {
-        public AppInfo()
+        public AppMain()
         {
 
         }
@@ -18,7 +18,6 @@ namespace Version4.Model
         public static string PathBooks { get { return Environment.CurrentDirectory + "/books"; } }
         public static string PathResourses { get { return Environment.CurrentDirectory + "/Resourses"; } }
         public static string PathAssets { get { return Environment.CurrentDirectory + "/Assets"; } }
-
 
     }
 

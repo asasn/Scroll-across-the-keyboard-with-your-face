@@ -81,39 +81,6 @@ namespace Version4.Model
             }
         }
 
-
-
-        private object _owner;
-        /// <summary>
-        /// 所有者（一般为书籍）
-        /// </summary>
-        public object Owner
-        {
-            get { return _owner; }
-            set
-            {
-                _owner = value;
-                RaisePropertyChanged(nameof(Owner));
-            }
-        }
-
-        private string _tabName;
-        /// <summary>
-        /// 页面标签名称
-        /// <para></para>
-        /// （对应数据库中的表名/控件TabControl当中的TabItem标签名）
-        /// </summary>
-        public string TabName
-        {
-            get { return _tabName; }
-            set
-            {
-                _tabName = value;
-                RaisePropertyChanged(nameof(TabName));
-            }
-        }
-
-
         private object _parent;
         /// <summary>
         /// 父节点对象

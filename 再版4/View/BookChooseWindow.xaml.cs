@@ -53,17 +53,6 @@ namespace Version4.View
         {
         }
 
-        private void TbPrice_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            (sender as TextBox).Text = Common.KeepTextType<double>((sender as TextBox).Text);
-        }
-
-
-        private void TbCurrentYear_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            (sender as TextBox).Text = Common.KeepTextType<long>((sender as TextBox).Text);
-        }
-
 
         private void BookName_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -77,7 +66,7 @@ namespace Version4.View
 
         private void Button_Loaded(object sender, RoutedEventArgs e)
         {
-           
+            VM.LoadButton((sender as Button).DataContext as Book);
         }
     }
 }

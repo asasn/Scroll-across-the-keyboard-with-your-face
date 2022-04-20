@@ -4,8 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Version4.Helper
 {
+    /// <summary>
+    /// 帮助类通用方法库
+    /// </summary>
     internal class Common
     {
         /// <summary>
