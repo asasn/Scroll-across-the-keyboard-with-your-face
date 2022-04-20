@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RootNS.Model
+namespace Version4.Model
 {
     public class NotificationObject : INotifyPropertyChanged
     {
@@ -17,12 +17,7 @@ namespace RootNS.Model
         /// <param name="propertyName"></param>
         public void RaisePropertyChanged(string propertyName)
         {
-            if (this.PropertyChanged != null)
-            {
-                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
-
 }

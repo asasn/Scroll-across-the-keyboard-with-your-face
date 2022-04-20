@@ -77,7 +77,7 @@ namespace RootNS.Brick
         /// <returns></returns>
         public static bool IsFileExists(string fullFileName)
         {
-            return File.Exists(fullFileName);
+            return System.IO.File.Exists(fullFileName);
         }
 
         /// <summary>

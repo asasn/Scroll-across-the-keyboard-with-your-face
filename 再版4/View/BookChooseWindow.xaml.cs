@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Version4.Helper;
 using Version4.Model;
 
 namespace Version4.View
@@ -54,11 +55,13 @@ namespace Version4.View
 
         private void TbPrice_TextChanged(object sender, TextChangedEventArgs e)
         {
+            (sender as TextBox).Text = Common.KeepTextType<double>((sender as TextBox).Text);
         }
 
 
         private void TbCurrentYear_TextChanged(object sender, TextChangedEventArgs e)
         {
+            (sender as TextBox).Text = Common.KeepTextType<long>((sender as TextBox).Text);
         }
 
 
@@ -69,7 +72,7 @@ namespace Version4.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            VM.SelectBook((sender as Button).DataContext as Book);
+            VM.Choose((sender as Button).DataContext as Book);
         }
 
         private void Button_Loaded(object sender, RoutedEventArgs e)

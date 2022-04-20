@@ -13,12 +13,18 @@ namespace Version4.ViewModel
     {
         public BookChooseWindowViewModel()
         {
-            
+
         }
 
-        public void SelectBook(Book cbook)
+        /// <summary>
+        /// 选中书籍卡片，设置当前书籍对象
+        /// </summary>
+        /// <param name="cbook"></param>
+        public void Choose(Book cbook)
         {
             CurrentBook = cbook;
         }
+
+
     }
 }

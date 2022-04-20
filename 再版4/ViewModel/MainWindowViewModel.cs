@@ -1,5 +1,4 @@
-﻿using RootNS.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -23,6 +22,9 @@ namespace Version4.ViewModel
             BooksBank.Add(new Book() { Name = "测试1" });
             BooksBank.Add(new Book() { Name = "测试2" });
             BooksBank.Add(new Book() { Name = "测试3" });
+            Console.Write((BooksBank[0] as BaseBase).Uid);
+            Console.Write((BooksBank[0] as BaseBook).Uid);
+            Console.Write(BooksBank[0].Uid);
         }
 
         private void VmMainWindow_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -53,7 +55,9 @@ namespace Version4.ViewModel
         }
 
         private string _windowTitle = AppInfo.WindowTitle;
-
+        /// <summary>
+        /// 窗口标题
+        /// </summary>
         public string WindowTitle
         {
             get { return _windowTitle; }
@@ -66,7 +70,9 @@ namespace Version4.ViewModel
 
 
         private Book? _currentBook;
-
+        /// <summary>
+        /// 当前书籍
+        /// </summary>
         public Book? CurrentBook
         {
             get { return _currentBook; }
@@ -78,7 +84,9 @@ namespace Version4.ViewModel
         }
 
         private Book? _material;
-
+        /// <summary>
+        /// 资料库（书籍：index.db）
+        /// </summary>
         public Book? Material
         {
             get { return _material; }

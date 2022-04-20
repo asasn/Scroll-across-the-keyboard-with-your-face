@@ -99,7 +99,7 @@
             <Grid Grid.Row="7">
                 <Button x:Name="BtnDelBook" Content="删除选中的书籍" Click="BtnDelBook_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
-            <Image x:Name="ImgShow" Source="{Binding CoverPath, Mode=OneWay}" Height="192" Grid.Row="4" Width="144" Grid.RowSpan="2" />
+            <Image x:Name="ImgShow" Source="{Binding CoverPath}" Height="192" Grid.Row="4" Width="144" Grid.RowSpan="2" />
         </Grid>
     </Grid>
 </Window>

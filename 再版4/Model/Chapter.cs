@@ -8,5 +8,7 @@ namespace Version4.Model
 {
     public class Chapter : BaseNode
     {
+
+
     }
 }

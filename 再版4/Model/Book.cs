@@ -17,7 +17,18 @@ namespace Version4.Model
 
         private void Book_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            
+            if (e.PropertyName == "Name")
+            {
+                string imgPath = AppInfo.PathBooks + "/" + Name + ".jpg";
+                if (System.IO.File.Exists(imgPath) == true)
+                {
+                    this.CoverPath = imgPath;
+                }
+                else
+                {
+                    this.CoverPath = "../Resourses/nullbookface.jpg";
+                }
+            }
         }
 
         private double _price;
