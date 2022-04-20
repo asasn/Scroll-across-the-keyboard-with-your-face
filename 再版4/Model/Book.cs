@@ -76,7 +76,7 @@ namespace Version4.Model
         }
 
 
-        private string _coverPath = "../Resourses/nullbookface.jpg";
+        private string _coverPath = "../Assets/nullbookface.jpg";
         /// <summary>
         /// 封面路径
         /// </summary>

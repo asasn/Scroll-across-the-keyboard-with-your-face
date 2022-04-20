@@ -12,18 +12,16 @@
 
   <ItemGroup>
     <None Remove="Assets\androidicons.ttf" />
-    <None Remove="Resourses\nullbookface.jpg" />
-    <None Remove="Resourses\Text.xshd" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\androidicons.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resourses\nullbookface.jpg">
+    <Resource Include="Assets\nullbookface.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resourses\Text.xshd">
+    <Resource Include="Assets\Text.xshd">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
