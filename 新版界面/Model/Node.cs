@@ -1,4 +1,4 @@
-﻿using RootNS.Behavior;
+﻿using RootNS.Helper;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,7 +43,6 @@ namespace RootNS.Model
                 }
             }
             if (e.PropertyName == "Pid" ||
-                e.PropertyName == "Index" ||
                 e.PropertyName == "Title" ||
                 e.PropertyName == "IsDel" ||
                 e.PropertyName == "IsChecked" ||
@@ -319,7 +318,9 @@ namespace RootNS.Model
         }
 
         private Node _rootNode;
-
+        /// <summary>
+        /// 根节点
+        /// </summary>
         public Node RootNode
         {
             get { return _rootNode; }

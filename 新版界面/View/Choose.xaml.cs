@@ -1,5 +1,5 @@
-﻿using RootNS.Behavior;
-using RootNS.Brick;
+﻿using RootNS.Helper;
+using RootNS.View;
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace RootNS.View
         {
             if (IsBookNameTrue(TbName) == true)
             {
-                if (CFileOperate.IsFileExists(Gval.Path.Books + "/" + TbName.Text + ".db") == true)
+                if (IOTool.IsFileExists(Gval.Path.Books + "/" + TbName.Text + ".db") == true)
                 {
                     MessageBox.Show("该书籍已经存在\n请换一个新书名！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
                     return;
@@ -50,10 +50,10 @@ namespace RootNS.View
                     string newNameDB = Gval.Path.Books + "/" + TbName.Text + ".db";
                     string oldNameJpg = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".jpg";
                     string newNameJpg = Gval.Path.Books + "/" + TbName.Text + ".jpg";
-                    CSqlitePlus.PoolOperate.Remove(Gval.CurrentBook.Name);
-                    CSqlitePlus.PoolOperate.Add(TbName.Text);
-                    CFileOperate.RenameFile(oldNameDB, newNameDB);
-                    CFileOperate.RenameFile(oldNameJpg, newNameJpg);
+                    SqlitetTool.PoolOperate.Remove(Gval.CurrentBook.Name);
+                    SqlitetTool.PoolOperate.Add(TbName.Text);
+                    IOTool.RenameFile(oldNameDB, newNameDB);
+                    IOTool.RenameFile(oldNameJpg, newNameJpg);
                     //注意处理的先后顺序
                     UpdateCurrentBookInfo();
                     DataOut.UpdateBookInfo(Gval.CurrentBook);
@@ -76,7 +76,7 @@ namespace RootNS.View
         {
             if (IsBookNameTrue(TbBuild) == true)
             {
-                if (CFileOperate.IsFileExists(Gval.Path.Books + "/" + TbBuild.Text + ".db") == true)
+                if (IOTool.IsFileExists(Gval.Path.Books + "/" + TbBuild.Text + ".db") == true)
                 {
                     MessageBox.Show("该书籍已经存在\n请换一个新书名！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
                     return;
@@ -107,9 +107,9 @@ namespace RootNS.View
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
         {
             DataOut.DeleteBook(Gval.CurrentBook);
-            CSqlitePlus.PoolOperate.Remove(Gval.CurrentBook.Name);
+            SqlitetTool.PoolOperate.Remove(Gval.CurrentBook.Name);
             string dbFullName = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
-            CFileOperate.DeleteFile(dbFullName);
+            IOTool.DeleteFile(dbFullName);
             Gval.BooksBank.Remove(Gval.CurrentBook);
             Gval.CurrentBook = new Book();
         }
@@ -145,7 +145,7 @@ namespace RootNS.View
             hasInvalidChar = false;
             foreach (char c in text)
             {
-                if (CFileOperate.invalidCharsInFileName.Contains(c) || (sender as TextBox).Text.Contains('.') == true)
+                if (IOTool.invalidCharsInFileName.Contains(c) || (sender as TextBox).Text.Contains('.') == true)
                 {
                     hasInvalidChar = true;
                     break;
@@ -160,12 +160,12 @@ namespace RootNS.View
             if (Gval.CurrentBook != (sender as Button).DataContext as Book)
             {
                 Gval.CurrentBook = (sender as Button).DataContext as Book;
-                DataJoin.LoadCurrentBookContent(Gval.CurrentBook);
+                DataIn.LoadCurrentBookContent(Gval.CurrentBook);
                 (sender as Button).BorderBrush = null;
                 PreviousButton.BorderBrush = null;
                 (sender as Button).BorderBrush = Brushes.Orange;
                 PreviousButton = sender as Button;
-                CSettingsOperate.Set("index", "CurBookUid", Gval.CurrentBook.Uid);
+                SettingsTool.Set("index", "CurBookUid", Gval.CurrentBook.Uid);
             }
         }
 

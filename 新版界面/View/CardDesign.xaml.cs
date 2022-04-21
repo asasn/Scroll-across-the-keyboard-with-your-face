@@ -1,4 +1,4 @@
-﻿using RootNS.Behavior;
+﻿using RootNS.Helper;
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using static RootNS.Behavior.HelperDataObject;
+using static RootNS.Helper.DataPer;
 
 namespace RootNS.View
 {
@@ -28,7 +28,7 @@ namespace RootNS.View
         {
             InitializeComponent();
             RootCard = (sender as Button).DataContext as Card;
-            this.DataContext = DataJoin.CardDesginLoad(RootCard);
+            this.DataContext = DataIn.CardDesginLoad(RootCard);
 
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;

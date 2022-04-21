@@ -1,0 +1,263 @@
+﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+using RootNS.View;
+using RootNS.Model;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Text.RegularExpressions;
+
+namespace RootNS.Helper
+{
+    public class EditorTool
+    {
+
+        public static void RefreshStyleForCardsBox(TextEditor tEditor)
+        {
+            Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+            foreach (Card rootCard in CardBoxs)
+            {
+                foreach (Card card in rootCard.ChildNodes)
+                {
+                    if (card.IsDel == true)
+                    {
+                        card.IsContain = false;
+                        continue;
+                    }
+                    if (tEditor.Text.Contains(card.Title.Trim()))
+                    {
+                        card.IsContain = true;
+                    }
+                    else
+                    {
+                        card.IsContain = false;
+                    }
+                    foreach (Card.Tip tip in card.NickNames.Tips)
+                    {
+                        if (tEditor.Text.Contains(tip.Title.Trim()))
+                        {
+                            card.IsContain = true;
+                        }
+                        else
+                        {
+                            card.IsContain = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 根据node对象从编辑器容器当中选定并返回当前的TabItem对象
+        /// </summary>
+        /// <param name="tabControl"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static HandyControl.Controls.TabItem SelectItem(HandyControl.Controls.TabControl tabControl, Node node)
+        {
+            foreach (HandyControl.Controls.TabItem item in tabControl.Items)
+            {
+                if (item.Uid == node.Uid)
+                {
+                    item.IsSelected = true;
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 字符串转化为字节流
+        /// </summary>
+        /// <param name="strContent"></param>
+        /// <returns></returns>
+        public static MemoryStream ConvertStringToStream(string strContent)
+        {
+            byte[] array = Encoding.UTF8.GetBytes(strContent);
+            MemoryStream stream = new MemoryStream(array);
+            return stream;
+        }
+
+        /// <summary>
+        /// 光标移动至文末并激活
+        /// </summary>
+        /// <param name="tEditor"></param>
+        public static void MoveToEnd(TextEditor tEditor)
+        {
+            tEditor.ScrollToLine(tEditor.LineCount);
+            tEditor.SelectionLength = 0;
+            tEditor.SelectionStart = tEditor.Text.Length;
+            for (int i = 0; i < 5; i++)
+            {
+                tEditor.ScrollToEnd();
+            }
+        }
+
+        /// <summary>
+        /// 字数统计
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static int CountWords(string content)
+        {
+            if (string.IsNullOrEmpty(content))
+            {
+                return 0;
+            }
+            int total = 0;
+            char[] q = content.ToCharArray();
+            for (int i = 0; i < q.Length; i++)
+            {
+                if (q[i] > 32 && q[i] != 0xA0 && q[i] != 0x3000) // 非空字符，Unicode编码0x3000为全角空格，
+                {
+                    total += 1;
+                }
+            }
+            return total;
+        }
+
+
+        /// <summary>
+        /// 文字排版，并重新赋值给编辑框
+        /// </summary>
+        /// <param name="tEditor"></param>
+        public static void TypeSetting(TextEditor tEditor)
+        {
+            string reText = "　　"; //开头是两个全角空格
+            string[] sArray = tEditor.Text.Split(new char[] { '\r', '\n', '\t' });
+            string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            foreach (string lineStr in sArrayNoEmpty)
+            {
+                //当前段落非空时，注意，这里的长度需要-1才是最后一个索引号
+                if (Array.IndexOf(sArrayNoEmpty, lineStr) != sArrayNoEmpty.Length - 1)
+                {
+                    //非末尾的情况
+                    reText += lineStr.Trim() + "\n\n　　";
+                }
+                else
+                {
+                    //末尾时不添加新行
+                    reText += lineStr.Trim();
+                }
+            }
+            //排版完成，重新赋值给文本框
+            tEditor.Text = reText;
+            //光标移动至文末 
+            tEditor.ScrollToLine(tEditor.LineCount);
+            tEditor.SelectionLength = 0;
+            tEditor.SelectionStart = tEditor.Text.Length;
+            tEditor.ScrollToEnd();
+            tEditor.ScrollToEnd();
+        }
+
+
+        /// <summary>
+        /// 根据文件设置语法规则
+        /// </summary>
+        public static void SetThisEditorColorRules(TextEditor tEditor)
+        {
+            tEditor.SyntaxHighlighting = null;
+            Uri uri = new Uri("../Assets/Text.xshd", UriKind.Relative);
+            Stream xshdStream = Application.GetResourceStream(uri).Stream;
+            XmlTextReader xshdReader = new XmlTextReader(xshdStream);
+            tEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
+            xshdReader.Close();
+            xshdStream.Close();
+
+            Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+            foreach (Card rootCard in CardBoxs)
+            {
+                foreach (Card card in rootCard.ChildNodes)
+                {
+                    if (card.IsDel == true)
+                    {
+                        continue;
+                    }
+                    AddCardKeyWord(tEditor, card);
+                }
+            }
+        }
+
+        public static void RefreshKeyWordForAllEditor(Card card)
+        {
+            foreach (HandyControl.Controls.TabItem tabItem in Gval.EditorTabControl.Items)
+            {
+                if (((tabItem.Content as EditorBase).DataContext as Node).OwnerName != card.OwnerName)
+                {
+                    continue;
+                }
+                TextEditor tEditor = (tabItem.Content as EditorBase).ThisTextEditor;
+                SetThisEditorColorRules(tEditor);
+            }
+        }
+
+        private static void AddCardKeyWord(TextEditor tEditor, Card card)
+        {
+            AddKeyWordForEditor(tEditor, card.Title, card.TabName);
+            foreach (Card.Tip tip in card.NickNames.Tips)
+            {
+                AddKeyWordForEditor(tEditor, tip.Title, tip.TabName);
+            }
+        }
+
+        /// <summary>
+        /// 向编辑器添加变色关键词
+        /// </summary>
+        /// <param name="keyword"></param>
+        private static void AddKeyWordForEditor(TextEditor textEdit, string keyword, string colorName)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return;
+            }
+            SetRules(textEdit, keyword, colorName);
+        }
+
+        private static IList<HighlightingRule> SetRules(TextEditor textEditor, string keyword, string colorTabName)
+        {
+            try
+            {
+                new Regex(keyword);
+            }
+            catch (Exception)
+            {
+                keyword = "\\" + keyword;
+            }
+            IList<HighlightingRule> rules = textEditor.SyntaxHighlighting.MainRuleSet.Rules;
+            HighlightingRule rule = new HighlightingRule
+            {
+                Color = textEditor.SyntaxHighlighting.GetNamedColor(colorTabName),
+                Regex = new Regex(keyword)
+            };
+            rules.Insert(0, rule);
+            return rules;
+        }
+
+        private static IList<HighlightingSpan> SetSpans(TextEditor textEditor, string keyword, string colorTabName)
+        {
+            try
+            {
+                new Regex(keyword);
+            }
+            catch (Exception)
+            {
+                keyword = "\\" + keyword;
+            }
+            IList<HighlightingSpan> spans = textEditor.SyntaxHighlighting.MainRuleSet.Spans;
+            HighlightingSpan span = new HighlightingSpan();
+            span.SpanColor = textEditor.SyntaxHighlighting.GetNamedColor(colorTabName);
+            span.StartExpression = new Regex(keyword);
+            span.EndExpression = new Regex("");
+            span.SpanColorIncludesStart = true;
+            span.SpanColorIncludesEnd = true;
+            spans.Insert(0, span);
+            return spans;
+        }
+    }
+}

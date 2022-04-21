@@ -1,5 +1,5 @@
-﻿using RootNS.Behavior;
-using RootNS.Brick;
+﻿using RootNS.Helper;
+using RootNS.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -76,9 +76,9 @@ namespace RootNS.Model
                 _name = value;
                 this.RaisePropertyChanged("Name");
                 string imgPath = Gval.Path.Books + "/" + _name + ".jpg";
-                if (false == CFileOperate.IsFileExists(imgPath))
+                if (false == IOTool.IsFileExists(imgPath))
                 {
-                    this.CoverPath = Gval.Path.Resourses + "/nullbookface.jpg";
+                    this.CoverPath = "../Assets/nullbookface.jpg";
                 }
             }
         }
@@ -200,29 +200,29 @@ namespace RootNS.Model
         }
 
 
-        /// <summary>
-        /// 载入信息卡
-        /// </summary>
-        public void LoadCardsTab(TabControl tabControl)
-        {
-            Card rootCard = new Card();
-            if (tabControl.SelectedIndex == 0)
-            {
-                rootCard = CardRole;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                rootCard = CardOther;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                rootCard = CardWorld;
-            }
-            if (rootCard.ChildNodes.Count == 0)
-            {
-                DataJoin.FillInCards(rootCard);
-            }
-        }
+        ///// <summary>
+        ///// 载入信息卡
+        ///// </summary>
+        //public void LoadCardsTab(TabControl tabControl)
+        //{
+        //    Card rootCard = new Card();
+        //    if (tabControl.SelectedIndex == 0)
+        //    {
+        //        rootCard = CardRole;
+        //    }
+        //    if (tabControl.SelectedIndex == 1)
+        //    {
+        //        rootCard = CardOther;
+        //    }
+        //    if (tabControl.SelectedIndex == 2)
+        //    {
+        //        rootCard = CardWorld;
+        //    }
+        //    if (rootCard.ChildNodes.Count == 0)
+        //    {
+        //        DataJoin.FillInCards(rootCard);
+        //    }
+        //}
 
         /// <summary>
         /// 载入所有信息卡
@@ -231,15 +231,15 @@ namespace RootNS.Model
         {
             if (CardRole.ChildNodes.Count == 0)
             {
-                DataJoin.FillInCards(CardRole);
+                DataIn.FillInCards(CardRole);
             }
             if (CardOther.ChildNodes.Count == 0)
             {
-                DataJoin.FillInCards(CardOther);
+                DataIn.FillInCards(CardOther);
             }
             if (CardWorld.ChildNodes.Count == 0)
             {
-                DataJoin.FillInCards(CardWorld);
+                DataIn.FillInCards(CardWorld);
             }
         }
     }

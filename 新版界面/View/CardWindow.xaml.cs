@@ -1,5 +1,5 @@
-﻿using RootNS.Behavior;
-using RootNS.Brick;
+﻿using RootNS.Helper;
+using RootNS.View;
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace RootNS.View
         public CardWindow(object sender, UserControl uc)
         {
             InitializeComponent();
-            DataJoin.FillInCardContent((sender as Button).DataContext as Card);
+            DataIn.FillInCardContent((sender as Button).DataContext as Card);
             this.DataContext = (sender as Button).DataContext as Card;
             this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             this.Top = 300;
@@ -43,14 +43,14 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            DataJoin.FillInCardContent(this.DataContext as Card);
+            DataIn.FillInCardContent(this.DataContext as Card);
             this.Close();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             DataOut.ReplaceIntoCard(this.DataContext as Card);
-            DataJoin.FillInCardContent(this.DataContext as Card);
+            DataIn.FillInCardContent(this.DataContext as Card);
             foreach (Card.Line line in (this.DataContext as Card).Lines)
             {
                 if (line.LineTitle == "别称")
@@ -59,7 +59,7 @@ namespace RootNS.View
                     break;
                 }
             }
-            HelperEditor.RefreshKeyWordForAllEditor(this.DataContext as Card);
+            EditorTool.RefreshKeyWordForAllEditor(this.DataContext as Card);
             BtnSave.IsEnabled = false;
         }
     }

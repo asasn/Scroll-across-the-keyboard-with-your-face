@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:brick="clr-namespace:RootNS.Brick"
+        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:brick="clr-namespace:RootNS.View"
         mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize"
         Background="Transparent" Effect="{StaticResource EffectShadow3}" 
         Title="信息卡编辑窗体" Topmost="True"

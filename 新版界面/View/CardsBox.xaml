@@ -1,0 +1,67 @@
+﻿<UserControl x:Name="ThisControl" x:Class="RootNS.View.CardsBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RootNS.View"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" Background="#FFFDFDFD"
+             d:DesignHeight="450" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Salmon" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="26"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="TbNew" Background="Transparent" BorderThickness="0" KeyUp="TbNew_KeyUp" />
+                <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Click="BtnAdd_Click"/>
+                <Button x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnSearch_Click"/>
+                <Button x:Name="BtnLookMore" FontFamily="../Assets/#androidicons" Content="&#59555;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0" Click="BtnLookMore_Click"/>
+                <Button x:Name="BtnDesign" FontFamily="../Assets/#androidicons" Content="&#59554;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="4" Padding="0" BorderThickness="0" Click="BtnDesign_Click"/>
+            </Grid>
+        </Border>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+            <ItemsControl ItemsSource="{Binding ChildNodes}" VirtualizingPanel.IsVirtualizing="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="2">
+                            <Button Padding="2" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTip="{Binding NickNames, Converter={StaticResource GetToolTipInfo}, Mode=TwoWay}" ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click" MouseRightButtonDown="Button_MouseRightButtonDown" Loaded="Button_Loaded">
+                                <Button.Resources>
+                                    <RoutedUICommand x:Key="DelCard" Text="信息卡"/>
+                                    <RoutedUICommand x:Key="UnDel" Text="撤销删除"/>
+                                </Button.Resources>
+                                <Button.ContextMenu>
+                                    <ContextMenu x:Name="ButtonMenu" Opened="ButtonMenu_Opened">
+                                        <MenuItem Header="删除信息卡" Command="{StaticResource DelCard}" InputGestureText="Delete"/>
+                                        <MenuItem Header="撤销删除" Command="{StaticResource UnDel}" InputGestureText="UnDel"/>
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                <Button.CommandBindings>
+                                    <CommandBinding Command="{StaticResource DelCard}" Executed="Command_Delete_Executed"/>
+                                    <CommandBinding Command="{StaticResource UnDel}" Executed="Command_UnDel_Executed"/>
+                                </Button.CommandBindings>
+                                <Button.InputBindings>
+                                    <KeyBinding Command="{StaticResource DelCard}" Key="Delete" />
+                                    <KeyBinding Command="{StaticResource UnDel}" Key="Z" Modifiers="Ctrl" />
+                                </Button.InputBindings>
+                            </Button>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

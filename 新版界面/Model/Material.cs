@@ -1,5 +1,5 @@
-﻿using RootNS.Behavior;
-using RootNS.Brick;
+﻿using RootNS.Helper;
+using RootNS.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -65,35 +65,35 @@ namespace RootNS.Model
         public Node NoteInspiration { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
         #endregion
 
-        /// <summary>
-        /// 载入资料库
-        /// </summary>
-        /// <param name="index"></param>
-        public void LoadMaterialTab()
-        {
-            TabControl tabControl = Gval.SelectedMaterialTab;
-            Node rootNode = new Node();
-            if (tabControl.SelectedIndex == 0)
-            {
-                rootNode = BoxExample;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                rootNode = BoxMaterial;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                rootNode = NoteTheme;
-            }
-            if (tabControl.SelectedIndex == 3)
-            {
-                rootNode = NoteInspiration;
-            }
-            if (rootNode.ChildNodes.Count == 0)
-            {
-                DataJoin.FillInNodes(rootNode);
-            }
-        }
+        ///// <summary>
+        ///// 载入资料库
+        ///// </summary>
+        ///// <param name="index"></param>
+        //public void LoadMaterialTab()
+        //{
+        //    TabControl tabControl = Gval.SelectedMaterialTab;
+        //    Node rootNode = new Node();
+        //    if (tabControl.SelectedIndex == 0)
+        //    {
+        //        rootNode = BoxExample;
+        //    }
+        //    if (tabControl.SelectedIndex == 1)
+        //    {
+        //        rootNode = BoxMaterial;
+        //    }
+        //    if (tabControl.SelectedIndex == 2)
+        //    {
+        //        rootNode = NoteTheme;
+        //    }
+        //    if (tabControl.SelectedIndex == 3)
+        //    {
+        //        rootNode = NoteInspiration;
+        //    }
+        //    if (rootNode.ChildNodes.Count == 0)
+        //    {
+        //        DataJoin.FillInNodes(rootNode);
+        //    }
+        //}
 
         /// <summary>
         /// 载入所有资料
@@ -103,19 +103,19 @@ namespace RootNS.Model
         {
             if (BoxExample.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(BoxExample);
+                DataIn.FillInNodes(BoxExample);
             }
             if (BoxMaterial.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(BoxMaterial);
+                DataIn.FillInNodes(BoxMaterial);
             }
             if (NoteTheme.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(NoteTheme);
+                DataIn.FillInNodes(NoteTheme);
             }
             if (NoteInspiration.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(NoteInspiration);
+                DataIn.FillInNodes(NoteInspiration);
             }
         }
     }

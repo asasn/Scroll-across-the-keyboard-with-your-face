@@ -1,5 +1,5 @@
-﻿using RootNS.Behavior;
-using RootNS.Brick;
+﻿using RootNS.Helper;
+using RootNS.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -101,66 +101,66 @@ namespace RootNS.Model
         public Node NoteTemplate { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.模板.ToString() };
         #endregion
 
-        /// <summary>
-        /// 载入目录树
-        /// </summary>
-        /// <param name="rootNode"></param>
-        /// <param name="partTag"></param>
-        public void LoadChaptersTab()
-        {
-            TabControl tabControl = Gval.SelectedChapterTab;
-            Node rootNode = new Node();
-            if (tabControl.SelectedIndex == 0)
-            {
-                rootNode = Gval.CurrentBook.BoxDraft;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                rootNode = Gval.CurrentBook.BoxTemp;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                rootNode = Gval.CurrentBook.BoxPublished;
-            }
-            if (rootNode.ChildNodes.Count == 0)
-            {
-                DataJoin.FillInNodes(rootNode);
-            }
-        }
+        ///// <summary>
+        ///// 载入目录树
+        ///// </summary>
+        ///// <param name="rootNode"></param>
+        ///// <param name="partTag"></param>
+        //public void LoadChaptersTab()
+        //{
+        //    TabControl tabControl = Gval.SelectedChapterTab;
+        //    Node rootNode = new Node();
+        //    if (tabControl.SelectedIndex == 0)
+        //    {
+        //        rootNode = Gval.CurrentBook.BoxDraft;
+        //    }
+        //    if (tabControl.SelectedIndex == 1)
+        //    {
+        //        rootNode = Gval.CurrentBook.BoxTemp;
+        //    }
+        //    if (tabControl.SelectedIndex == 2)
+        //    {
+        //        rootNode = Gval.CurrentBook.BoxPublished;
+        //    }
+        //    if (rootNode.ChildNodes.Count == 0)
+        //    {
+        //        DataJoin.FillInNodes(rootNode);
+        //    }
+        //}
 
-        /// <summary>
-        /// 载入记事板
-        /// </summary>
-        /// <param name="index"></param>
-        public void LoadNotesTab()
-        {
-            TabControl tabControl = Gval.SelectedNoteTab;
-            Node rootNode = new Node();
-            if (tabControl.SelectedIndex == 0)
-            {
-                rootNode = Gval.CurrentBook.NoteMemorabilia;
-            }
-            if (tabControl.SelectedIndex == 1)
-            {
-                rootNode = Gval.CurrentBook.NoteStory;
-            }
-            if (tabControl.SelectedIndex == 2)
-            {
-                rootNode = Gval.CurrentBook.NoteScenes;
-            }
-            if (tabControl.SelectedIndex == 3)
-            {
-                rootNode = Gval.CurrentBook.NoteClues;
-            }
-            if (tabControl.SelectedIndex == 4)
-            {
-                rootNode = Gval.CurrentBook.NoteTemplate;
-            }
-            if (rootNode.ChildNodes.Count == 0)
-            {
-                DataJoin.FillInNodes(rootNode);
-            }
-        }
+        ///// <summary>
+        ///// 载入记事板
+        ///// </summary>
+        ///// <param name="index"></param>
+        //public void LoadNotesTab()
+        //{
+        //    TabControl tabControl = Gval.SelectedNoteTab;
+        //    Node rootNode = new Node();
+        //    if (tabControl.SelectedIndex == 0)
+        //    {
+        //        rootNode = Gval.CurrentBook.NoteMemorabilia;
+        //    }
+        //    if (tabControl.SelectedIndex == 1)
+        //    {
+        //        rootNode = Gval.CurrentBook.NoteStory;
+        //    }
+        //    if (tabControl.SelectedIndex == 2)
+        //    {
+        //        rootNode = Gval.CurrentBook.NoteScenes;
+        //    }
+        //    if (tabControl.SelectedIndex == 3)
+        //    {
+        //        rootNode = Gval.CurrentBook.NoteClues;
+        //    }
+        //    if (tabControl.SelectedIndex == 4)
+        //    {
+        //        rootNode = Gval.CurrentBook.NoteTemplate;
+        //    }
+        //    if (rootNode.ChildNodes.Count == 0)
+        //    {
+        //        DataJoin.FillInNodes(rootNode);
+        //    }
+        //}
 
 
         /// <summary>
@@ -171,15 +171,15 @@ namespace RootNS.Model
         {
             if (BoxDraft.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(BoxDraft);
+                DataIn.FillInNodes(BoxDraft);
             }
             if (BoxTemp.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(BoxTemp);
+                DataIn.FillInNodes(BoxTemp);
             }
             if (BoxPublished.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(BoxPublished);
+                DataIn.FillInNodes(BoxPublished);
             }
         }
 
@@ -191,23 +191,23 @@ namespace RootNS.Model
         {
             if (NoteMemorabilia.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(NoteMemorabilia);
+                DataIn.FillInNodes(NoteMemorabilia);
             }
             if (NoteStory.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(NoteStory);
+                DataIn.FillInNodes(NoteStory);
             }
             if (NoteScenes.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(NoteScenes);
+                DataIn.FillInNodes(NoteScenes);
             }
             if (NoteClues.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(NoteClues);
+                DataIn.FillInNodes(NoteClues);
             }
             if (NoteTemplate.ChildNodes.Count == 0)
             {
-                DataJoin.FillInNodes(NoteTemplate);
+                DataIn.FillInNodes(NoteTemplate);
             }
         }
 

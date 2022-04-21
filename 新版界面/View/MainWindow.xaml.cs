@@ -1,5 +1,5 @@
-﻿using RootNS.Behavior;
-using RootNS.Brick;
+﻿using RootNS.Helper;
+using RootNS.View;
 using RootNS.Model;
 using RootNS.View;
 using System;
@@ -29,7 +29,7 @@ namespace RootNS
         {
             InitializeComponent();
 
-            DataJoin.ReadyForBaseInfo();
+            DataIn.ReadyForBaseInfo();
         }
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)

@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "脸滚键盘", "脸滚键�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "新版界面", "新版界面\新版界面.csproj", "{3C2531E5-0012-490E-A352-112B82390A9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "再版4", "再版4\再版4.csproj", "{F2AFBE7B-8406-4994-A980-F9E06E052792}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,18 +41,6 @@ Global
 		{3C2531E5-0012-490E-A352-112B82390A9B}.Release|x64.Build.0 = Release|x64
 		{3C2531E5-0012-490E-A352-112B82390A9B}.Release|x86.ActiveCfg = Release|x86
 		{3C2531E5-0012-490E-A352-112B82390A9B}.Release|x86.Build.0 = Release|x86
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Debug|x64.Build.0 = Debug|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Debug|x86.Build.0 = Debug|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Release|x64.ActiveCfg = Release|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Release|x64.Build.0 = Release|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Release|x86.ActiveCfg = Release|Any CPU
-		{F2AFBE7B-8406-4994-A980-F9E06E052792}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
