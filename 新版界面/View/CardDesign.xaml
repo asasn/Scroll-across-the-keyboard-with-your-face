@@ -7,7 +7,7 @@
         mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize"
         Background="Transparent" Effect="{StaticResource EffectShadow3}" 
         Title="信息卡编辑窗体" Topmost="True"
-        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="100" 
+        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="100" MouseLeftButtonDown="ThisWindow_MouseLeftButtonDown"
         d:DesignWidth="300" MaxWidth="300" Loaded="Window_Loaded" MaxHeight="759">
     <Grid x:Name="gMain">
         <hc:Card x:Name="card" Header=" 属性编辑" VerticalAlignment="Top" Margin="4">
@@ -17,30 +17,8 @@
                     <RowDefinition MinHeight="26" Height="Auto"/>
                     <RowDefinition MinHeight="26" Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Button Padding="2" x:Name="BtnSave" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Right" />
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition MinWidth="36" Width="*"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="26"/>
-                        </Grid.ColumnDefinitions>
-                        <Label Content="测试" Padding="0" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" Height="18" MinWidth="30"/>
-                        <ItemsControl ItemsSource="{Binding}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBox Text="{Binding Title}" Padding="0,5,0,0" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" Margin="0,2,10,0"  MinHeight="21" AcceptsReturn="True" MinWidth="30" TextChanged="TextBox_TextChanged"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Margin="0,5,0,0" VerticalAlignment="Top" Height="16"/>
-                    </Grid>
-                </ScrollViewer>
+                <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,0,0" />
+                <brick:LinesBox DataContext="{Binding Lines}" Grid.Row="1"/>
                 <Label x:Name="LbShow" Content="" Foreground="Red" BorderThickness="0" VerticalAlignment="Top" Grid.Row="2" />
             </Grid>
         </hc:Card>

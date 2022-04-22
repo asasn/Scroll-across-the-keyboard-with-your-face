@@ -82,18 +82,18 @@ namespace RootNS.Helper
         }
 
 
-        public static void ReplaceIntoCardDesign(Card card)
+        public static void ReplaceIntoCardDesign(Card.Tip tip)
         {
             string sql = String.Empty;
-            if (string.IsNullOrWhiteSpace(card.Title) == true)
+            if (string.IsNullOrWhiteSpace(tip.Title) == true)
             {
-                sql = string.Format("DELETE FROM 卡设计 WHERE Uid='{0}' AND TabName='{1}';", card.Uid, card.TabName);
+                sql = string.Format("DELETE FROM 卡设计 WHERE Uid='{0}' AND TabName='{1}';", tip.Uid, tip.TabName); ;
             }
             else
             {
-                sql = string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", card.Index, card.Uid, card.Title.Replace("'", "''"), card.TabName);
+                sql = string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", tip.Index, tip.Uid, tip.Title.Replace("'", "''"), tip.TabName);
             }
-            SqlitetTool.PoolDict[card.OwnerName].ExecuteNonQuery(sql);
+            SqlitetTool.PoolDict[tip.OwnerName].ExecuteNonQuery(sql);
         }
 
 

@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using RootNS.Workfolw;
 
 namespace RootNS.View
 {
@@ -25,10 +26,9 @@ namespace RootNS.View
         public CardWindow(object sender, UserControl uc)
         {
             InitializeComponent();
-            DataIn.FillInCardContent((sender as Button).DataContext as Card);
+            DataIn.LoadCardContent((sender as Button).DataContext as Card);
             this.DataContext = (sender as Button).DataContext as Card;
-            this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
-            this.Top = 300;
+            ViewSet.ForCardPoint(this, uc);
 
             //添加拖曳面板事件
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
@@ -43,14 +43,14 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            DataIn.FillInCardContent(this.DataContext as Card);
+            DataIn.LoadCardContent(this.DataContext as Card);
             this.Close();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             DataOut.ReplaceIntoCard(this.DataContext as Card);
-            DataIn.FillInCardContent(this.DataContext as Card);
+            DataIn.LoadCardContent(this.DataContext as Card);
             foreach (Card.Line line in (this.DataContext as Card).Lines)
             {
                 if (line.LineTitle == "别称")

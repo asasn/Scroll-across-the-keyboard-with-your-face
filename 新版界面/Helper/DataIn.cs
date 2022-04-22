@@ -76,29 +76,28 @@ namespace RootNS.Helper
         }
 
 
-        public static ObservableCollection<Card> CardDesginLoad(Card rootCard)
+        public static Card CardDesginLoad(Card card)
         {
-            ObservableCollection<Card> lineTitles = new ObservableCollection<Card>();
-            if (Gval.CurrentBook.Name == null && rootCard.OwnerName != "index")
+            if (Gval.CurrentBook.Name == null && card.OwnerName != "index")
             {
                 return null;
             }
-            string sql = string.Format("SELECT * FROM 卡设计 WHERE TabName='{0}' ORDER BY [Index];", rootCard.TabName);
-            SQLiteDataReader reader = SqlitetTool.PoolDict[rootCard.OwnerName].ExecuteQuery(sql);
+            Card.Line line = card.Lines[0];
+            line.Tips.Clear();
+            string sql = string.Format("SELECT * FROM 卡设计 WHERE TabName='{0}' ORDER BY [Index];", card.TabName);
+            SQLiteDataReader reader = SqlitetTool.PoolDict[card.OwnerName].ExecuteQuery(sql);
             while (reader.Read())
             {
-                Card card = new Card
+                Card.Tip tip = new Card.Tip()
                 {
                     Index = Convert.ToInt32(reader["Index"]),
                     Uid = reader["Uid"].ToString(),
-                    Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
-                    TabName = rootCard.TabName,
-                    OwnerName = rootCard.OwnerName,
+                    Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString()
                 };
-                lineTitles.Add(card);
+                line.Tips.Add(tip);
             }
             reader.Close();
-            return lineTitles;
+            return card;
         }
 
         private static void FillInNodes(string pid, Node rootNode)
@@ -233,7 +232,7 @@ namespace RootNS.Helper
         }
 
 
-        public static void FillInCardContent(Card card)
+        public static void LoadCardContent(Card card)
         {
             Gval.FlagLoadingCompleted = false;
             SqlitetTool.PoolOperate.Add(card.OwnerName);

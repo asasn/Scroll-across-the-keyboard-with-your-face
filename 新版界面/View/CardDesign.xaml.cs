@@ -1,5 +1,6 @@
 ﻿using RootNS.Helper;
 using RootNS.Model;
+using RootNS.Workfolw;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,30 +28,31 @@ namespace RootNS.View
         public CardDesign(object sender, UserControl uc)
         {
             InitializeComponent();
-            RootCard = (sender as Button).DataContext as Card;
+            RootCard.TabName = ((sender as Button).DataContext as Card).TabName;
+            RootCard.OwnerName = ((sender as Button).DataContext as Card).OwnerName;
+            Card.Line line = new Card.Line() { LineTitle = "设计" };
+            RootCard.Lines.Add(line);
             this.DataContext = DataIn.CardDesginLoad(RootCard);
 
-            this.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
-            this.Top = 300;
-
-            //添加拖曳面板事件
-            this.MouseLeftButtonDown += (o, e) => { DragMove(); };
-
+            ViewSet.ForCardPoint(this, uc);
 
         }
+        public Card RootCard { get; set; } = new Card();
 
-        public Card RootCard { get; set; }
+        private void ThisWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            int i = 0;
-            foreach (Card card in this.DataContext as ObservableCollection<Card>)
+            foreach (Card.Tip tip in (this.DataContext as Card).Lines[0].Tips)
             {
-                card.Index = i;
-                DataOut.ReplaceIntoCardDesign(card);
-                i++;
+                DataOut.ReplaceIntoCardDesign(tip);
             }
-            BtnSave.IsEnabled = false;
+            this.DataContext = DataIn.CardDesginLoad(RootCard);
+            RootCard.CanSave = false;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -63,24 +65,10 @@ namespace RootNS.View
 
 
             //填充信息之后，将保存状态拨回，以实现初始化
-            BtnSave.IsEnabled = false;
+            RootCard.CanSave = false;
         }
 
-        private void BtnAdd_Click(object sender, RoutedEventArgs e)
-        {
-            Card card = new Card
-            {
-                Index = (this.DataContext as ObservableCollection<Card>).Count,
-                Title = "",
-                OwnerName = RootCard.OwnerName,
-                TabName = RootCard.TabName
-            };
-            (this.DataContext as ObservableCollection<Card>).Add(card);
-        }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            BtnSave.IsEnabled = true;
-        }
+
     }
 }
