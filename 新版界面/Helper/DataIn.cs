@@ -193,7 +193,7 @@ namespace RootNS.Helper
             Gval.FlagLoadingCompleted = true;
         }
 
-        private static void FillInCardContent(string pid, Card card)
+        private static void FillInCardContent(Card card)
         {
             card.Lines.Clear();
             if (Gval.CurrentBook.Name == null && card.OwnerName != "index")
@@ -237,7 +237,7 @@ namespace RootNS.Helper
         {
             Gval.FlagLoadingCompleted = false;
             SqlitetHelper.PoolOperate.Add(card.OwnerName);
-            DataIn.FillInCardContent(null, card);
+            DataIn.FillInCardContent(card);
             Gval.FlagLoadingCompleted = true;
         }
     }

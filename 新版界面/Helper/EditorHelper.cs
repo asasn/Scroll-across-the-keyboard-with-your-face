@@ -85,7 +85,7 @@ namespace RootNS.Helper
         }
 
         /// <summary>
-        /// 光标移动至文末并激活
+        /// 光标移动至文末
         /// </summary>
         /// <param name="tEditor"></param>
         public static void MoveToEnd(TextEditor tEditor)
@@ -114,7 +114,7 @@ namespace RootNS.Helper
             char[] q = content.ToCharArray();
             for (int i = 0; i < q.Length; i++)
             {
-                if (q[i] > 32 && q[i] != 0xA0 && q[i] != 0x3000) // 非空字符，Unicode编码0x3000为全角空格，
+                if (q[i] > 32 && q[i] != 0xA0 && q[i] != 0x3000) // 非空字符，Unicode编码0x3000为全角空格
                 {
                     total += 1;
                 }

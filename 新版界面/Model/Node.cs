@@ -469,6 +469,75 @@ namespace RootNS.Model
             }
         }
 
+        /// <summary>
+        /// 向下递归改变子节点标记
+        /// </summary>
+        public void CheckChildNodes()
+        {
+            CheckChildNodes(this);
+        }
 
+        private void CheckChildNodes(Node cNode)
+        {
+            foreach (Node node in cNode.ChildNodes)
+            {
+                CheckChildNodes(node);
+                node.IsChecked = cNode.IsChecked;
+            }
+            cNode.IsExpanded = !cNode.IsChecked;
+        }
+
+        /// <summary>
+        /// 向上改变父节点标记
+        /// </summary>
+        public void CheckParentNodes()
+        {
+            CheckParentNodes(this);
+        }
+
+        private void CheckParentNodes(Node cNode)
+        {
+            if (cNode.IsChecked == false)
+            {
+                while (cNode.Parent != null)
+                {
+                    cNode = cNode.Parent as Node;
+                    cNode.IsChecked = false;
+                }
+            }
+            else
+            {
+                bool tag = true;
+                //兄弟节点当中有任意一个未选择，则改变标志
+                foreach (Node node in ((cNode.Parent as Node)).ChildNodes)
+                {
+                    if (node.IsChecked == false)
+                    {
+                        tag = false;
+                        break;
+                    }
+                }
+                //根据标志改变父节点选中状态
+                (cNode.Parent as Node).IsChecked = tag;
+                (cNode.Parent as Node).IsExpanded = !tag;
+            }
+        }
+
+
+        /// <summary>
+        /// 添加至指定根节点的树末尾
+        /// </summary>
+        /// <param name="rootNode">指定根节点</param>
+        public void AddToTreeEnd(Node rootNode)
+        {
+            if (rootNode.ChildNodes.Last<Node>().IsDir == true)
+            {
+                rootNode.ChildNodes.Last<Node>().ChildNodes.Add(this);
+            }
+            else
+            {
+                rootNode.ChildNodes.Add(this);
+            }
+        }
     }
 }

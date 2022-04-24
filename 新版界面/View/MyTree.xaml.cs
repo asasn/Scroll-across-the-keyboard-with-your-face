@@ -165,7 +165,7 @@ namespace RootNS.View
             {
                 DataOut.InsertIntoOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
                 selectedNode.RealRemoveItSelfAndAllChildNodes();
-                FunctionPack.AddToTreeEnd(targetRootNode, selectedNode);
+                selectedNode.AddToTreeEnd(targetRootNode);
             }
         }
         private void Command_Send_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -176,7 +176,7 @@ namespace RootNS.View
             {
                 DataOut.InsertIntoOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
                 selectedNode.RealRemoveItSelfAndAllChildNodes();
-                FunctionPack.AddToTreeEnd(targetRootNode, selectedNode);        
+                selectedNode.AddToTreeEnd(targetRootNode);        
             }
         }
         #endregion

@@ -1,4 +1,5 @@
 ﻿using RootNS.Model;
+using RootNS.Workfolw;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,69 +36,13 @@ namespace RootNS.View
             }
         }
 
-        /// <summary>
-        /// 向下递归改变子节点标记
-        /// </summary>
-        /// <param name="selectedSection"></param>
-        private void CheckAllChildNodes(Node thisNode)
-        {
-            foreach (Node node in thisNode.ChildNodes)
-            {
-                CheckAllChildNodes(node);
-                node.IsChecked = thisNode.IsChecked;
-            }
-            thisNode.IsExpanded = !thisNode.IsChecked;
-        }
-
-        /// <summary>
-        /// 向上改变父节点标记
-        /// </summary>
-        /// <param name="selectedSection"></param>
-        private void CheckParentNodes(Node thisNode)
-        {
-            if (thisNode.IsChecked == false)
-            {
-                while (thisNode.Parent != null)
-                {
-                    thisNode = thisNode.Parent as Node;
-                    thisNode.IsChecked = false;
-                }
-            }
-            else
-            {
-                bool tag = true;
-                //兄弟节点当中有任意一个未选择，则改变标志
-                foreach (Node node in ((thisNode.Parent as Node) ).ChildNodes)
-                {
-                    if (node.IsChecked == false)
-                    {
-                        tag = false;
-                        break;
-                    }
-                }
-                //根据标志改变父节点选中状态
-                (thisNode.Parent as Node).IsChecked = tag;
-                (thisNode.Parent as Node).IsExpanded = !tag;
-            }
-        }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             Node node = this.DataContext as Node;
             if (node != null)
             {
-                CheckAllChildNodes(node);
-                CheckParentNodes(node);
+                node.CheckChildNodes();
+                node.CheckParentNodes();
             }
         }
     }
