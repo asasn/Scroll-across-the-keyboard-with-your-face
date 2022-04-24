@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RootNS.Helper
 {
-    public class SettingsTool
+    internal class SettingsHelper
     {
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace RootNS.Helper
         {
             string value = null;
             string sql = string.Format("SELECT * FROM 设置 where Key='{0}';", key.Replace("'", "''"));
-            SQLiteDataReader reader = SqlitetTool.PoolDict[dbName].ExecuteQuery(sql);
+            SQLiteDataReader reader = SqlitetHelper.PoolDict[dbName].ExecuteQuery(sql);
             while (reader.Read())
             {
                 value = reader["Value"].ToString();
@@ -39,7 +39,7 @@ namespace RootNS.Helper
         public static void Set(string dbName, string key, string value)
         {
             string sql = string.Format("REPLACE INTO 设置 (Key, Value) VALUES ('{0}', '{1}');", key.Replace("'", "''"), value.Replace("'", "''"));
-            SqlitetTool.PoolDict[dbName].ExecuteNonQuery(sql);
+            SqlitetHelper.PoolDict[dbName].ExecuteNonQuery(sql);
         }
 
 

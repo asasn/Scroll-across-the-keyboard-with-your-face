@@ -1,8 +1,11 @@
-﻿using System;
+﻿using RootNS.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace RootNS.Workfolw
 {
@@ -11,5 +14,7 @@ namespace RootNS.Workfolw
     /// </summary>
     internal class FunctionPack
     {
+
+
     }
 }

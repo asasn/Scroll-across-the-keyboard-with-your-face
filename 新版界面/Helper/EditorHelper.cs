@@ -15,7 +15,7 @@ using System.Text.RegularExpressions;
 
 namespace RootNS.Helper
 {
-    public class EditorTool
+    internal class EditorHelper
     {
 
         public static void RefreshStyleForCardsBox(TextEditor tEditor)
@@ -158,18 +158,26 @@ namespace RootNS.Helper
 
 
         /// <summary>
-        /// 根据文件设置语法规则
+        /// 初始化配色方案（从文件）
         /// </summary>
-        public static void SetThisEditorColorRules(TextEditor tEditor)
+        private static HighlightingRuleSet InitEditorColorRules(TextEditor tEditor, string xshdPath)
         {
-            tEditor.SyntaxHighlighting = null;
-            Uri uri = new Uri("../Assets/Text.xshd", UriKind.Relative);
+            Uri uri = new Uri(xshdPath, UriKind.Relative);
             Stream xshdStream = Application.GetResourceStream(uri).Stream;
             XmlTextReader xshdReader = new XmlTextReader(xshdStream);
             tEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
             xshdReader.Close();
             xshdStream.Close();
+            return tEditor.SyntaxHighlighting.MainRuleSet;
+        }
 
+        /// <summary>
+        /// 设置信息卡配色方案（当前书籍）
+        /// </summary>
+        /// <param name="tEditor"></param>
+        public static void SetColorRulesForCards(TextEditor tEditor)
+        {
+            InitEditorColorRules(tEditor, Gval.Path.XshdPath);
             Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
             foreach (Card rootCard in CardBoxs)
             {
@@ -184,6 +192,26 @@ namespace RootNS.Helper
             }
         }
 
+        /// <summary>
+        /// 设置信息卡配色方案（搜索结果）
+        /// </summary>
+        public static void SetColorRulesForSearchResult(TextEditor tEditor, string[] Matches)
+        {
+            HighlightingRuleSet mainRuleSet = InitEditorColorRules(tEditor, Gval.Path.XshdPath);
+            //清空文件内的自带规则
+            mainRuleSet.Rules.Clear();
+            mainRuleSet.Spans.Clear();
+            foreach (string keyword in Matches)
+            {
+                AddKeyWordForEditor(tEditor, keyword, "搜索");
+            }
+        }
+
+
+        /// <summary>
+        /// 遍历TabControl以刷新所有打开的文档配色方案
+        /// </summary>
+        /// <param name="card"></param>
         public static void RefreshKeyWordForAllEditor(Card card)
         {
             foreach (HandyControl.Controls.TabItem tabItem in Gval.EditorTabControl.Items)
@@ -193,7 +221,8 @@ namespace RootNS.Helper
                     continue;
                 }
                 TextEditor tEditor = (tabItem.Content as EditorBase).ThisTextEditor;
-                SetThisEditorColorRules(tEditor);
+                InitEditorColorRules(tEditor, "../Assets/Text.xshd");
+                SetColorRulesForCards(tEditor);
             }
         }
 

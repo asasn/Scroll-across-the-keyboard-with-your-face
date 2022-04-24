@@ -37,7 +37,7 @@ namespace RootNS.Model
         /// <param name="bookName"></param>
         private void InitRootNodes(string bookName)
         {
-            Node[] rootNodes = { this.BoxDraft, this.BoxTemp, this.BoxPublished, this.NoteMemorabilia, this.NoteStory, this.NoteScenes, this.NoteClues, this.NoteTemplate};
+            Node[] rootNodes = { this.BoxDraft, this.BoxTemp, this.BoxPublished, this.NoteMemorabilia, this.NoteStory, this.NoteScenes, this.NoteClues, this.NoteTemplate };
             foreach (Node node in rootNodes)
             {
                 node.OwnerName = bookName;
@@ -88,7 +88,7 @@ namespace RootNS.Model
 
 
         #region 目录树
-        public Node BoxDraft { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.草稿.ToString()};
+        public Node BoxDraft { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.草稿.ToString() };
         public Node BoxTemp { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.暂存.ToString() };
         public Node BoxPublished { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.已发布.ToString() };
         #endregion
@@ -101,67 +101,16 @@ namespace RootNS.Model
         public Node NoteTemplate { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.模板.ToString() };
         #endregion
 
-        ///// <summary>
-        ///// 载入目录树
-        ///// </summary>
-        ///// <param name="rootNode"></param>
-        ///// <param name="partTag"></param>
-        //public void LoadChaptersTab()
-        //{
-        //    TabControl tabControl = Gval.SelectedChapterTab;
-        //    Node rootNode = new Node();
-        //    if (tabControl.SelectedIndex == 0)
-        //    {
-        //        rootNode = Gval.CurrentBook.BoxDraft;
-        //    }
-        //    if (tabControl.SelectedIndex == 1)
-        //    {
-        //        rootNode = Gval.CurrentBook.BoxTemp;
-        //    }
-        //    if (tabControl.SelectedIndex == 2)
-        //    {
-        //        rootNode = Gval.CurrentBook.BoxPublished;
-        //    }
-        //    if (rootNode.ChildNodes.Count == 0)
-        //    {
-        //        DataJoin.FillInNodes(rootNode);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// 载入记事板
-        ///// </summary>
-        ///// <param name="index"></param>
-        //public void LoadNotesTab()
-        //{
-        //    TabControl tabControl = Gval.SelectedNoteTab;
-        //    Node rootNode = new Node();
-        //    if (tabControl.SelectedIndex == 0)
-        //    {
-        //        rootNode = Gval.CurrentBook.NoteMemorabilia;
-        //    }
-        //    if (tabControl.SelectedIndex == 1)
-        //    {
-        //        rootNode = Gval.CurrentBook.NoteStory;
-        //    }
-        //    if (tabControl.SelectedIndex == 2)
-        //    {
-        //        rootNode = Gval.CurrentBook.NoteScenes;
-        //    }
-        //    if (tabControl.SelectedIndex == 3)
-        //    {
-        //        rootNode = Gval.CurrentBook.NoteClues;
-        //    }
-        //    if (tabControl.SelectedIndex == 4)
-        //    {
-        //        rootNode = Gval.CurrentBook.NoteTemplate;
-        //    }
-        //    if (rootNode.ChildNodes.Count == 0)
-        //    {
-        //        DataJoin.FillInNodes(rootNode);
-        //    }
-        //}
-
+        public List<Node> GetChapterNodes()
+        {
+            List<Node> nodes = new List<Node>();
+            List<Node> roots = new List<Node>() { BoxDraft, BoxTemp, BoxPublished };
+            foreach (var root in roots) //从根节点遍历即可，不必把根节点也加上
+            {
+                GetTreeNodes(nodes, root);
+            }
+            return nodes;
+        }
 
         /// <summary>
         /// 载入所有章节

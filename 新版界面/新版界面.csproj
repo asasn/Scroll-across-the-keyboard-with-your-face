@@ -16,6 +16,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,7 +29,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -92,6 +92,9 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\ic_action_book_xxhdpi.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="HandyControl, Version=3.3.0.0, Culture=neutral, PublicKeyToken=45be8712787a1e5b, processorArchitecture=MSIL">
       <HintPath>..\packages\HandyControl.3.3.0\lib\net472\HandyControl.dll</HintPath>
@@ -125,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\CommandHelper.cs" />
+    <Compile Include="View\WSearchResult.xaml.cs">
+      <DependentUpon>WSearchResult.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Workfolw\FunctionPack.cs" />
     <Compile Include="Workfolw\ViewSet.cs" />
     <Page Include="View\CardProperty.xaml">
@@ -208,21 +215,21 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converter\Boolean.cs" />
-    <Compile Include="Helper\ControlTool.cs" />
+    <Compile Include="Helper\ControlHelper.cs" />
     <Compile Include="Helper\DataIn.cs" />
     <Compile Include="Helper\DataOut.cs" />
     <Compile Include="Helper\DataPer.cs" />
-    <Compile Include="Helper\EditorTool.cs" />
-    <Compile Include="Helper\TableTool.cs" />
+    <Compile Include="Helper\EditorHelper.cs" />
+    <Compile Include="Helper\TableHelper.cs" />
     <Compile Include="View\CardProperty.xaml.cs">
       <DependentUpon>CardProperty.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CardsBox.xaml.cs">
       <DependentUpon>CardsBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helper\IOTool.cs" />
-    <Compile Include="Helper\SettingsTool.cs" />
-    <Compile Include="Helper\SqlitetTool.cs" />
+    <Compile Include="Helper\IOHelper.cs" />
+    <Compile Include="Helper\SettingsHelper.cs" />
+    <Compile Include="Helper\SqlitetHelper.cs" />
     <Compile Include="View\EditorBase.xaml.cs">
       <DependentUpon>EditorBase.xaml</DependentUpon>
     </Compile>
@@ -270,6 +277,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\WSearchResult.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -315,7 +326,9 @@
   <ItemGroup>
     <Resource Include="Assets\nullbookface.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\ic_action_book_xxhdpi.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

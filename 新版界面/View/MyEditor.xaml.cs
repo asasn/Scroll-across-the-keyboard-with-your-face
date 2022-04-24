@@ -49,6 +49,7 @@ namespace RootNS.View
                     IsSelected = true,
                     Content = editorBase
                 };
+                editorBase.Tag = tabItem;//携带父容器对象以供关闭方法调用
                 tabItem.Closing += TabItem_Closing;
                 tabItem.Closed += TabItem_Closed;
                 ThisTabControl.Items.Add(tabItem);
@@ -71,7 +72,7 @@ namespace RootNS.View
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
             EditorBase editorBase = tabItem.Content as EditorBase;
             Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
-            EditorTool.RefreshStyleForCardsBox(new ICSharpCode.AvalonEdit.TextEditor());
+            EditorHelper.RefreshStyleForCardsBox(new ICSharpCode.AvalonEdit.TextEditor());
         }
 
         private void TabItem_Closing(object sender, EventArgs e)

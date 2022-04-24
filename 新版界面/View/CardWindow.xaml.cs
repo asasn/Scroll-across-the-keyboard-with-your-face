@@ -59,7 +59,7 @@ namespace RootNS.View
                     break;
                 }
             }
-            EditorTool.RefreshKeyWordForAllEditor(this.DataContext as Card);
+            EditorHelper.RefreshKeyWordForAllEditor(this.DataContext as Card);
             BtnSave.IsEnabled = false;
         }
     }

@@ -38,8 +38,8 @@ namespace RootNS.View
             Card card = new Card();
             card.Title = TbNew.Text;
             (this.DataContext as Card).AddChildNode(card);
-            EditorTool.RefreshKeyWordForAllEditor(card);
-            EditorTool.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
+            EditorHelper.RefreshKeyWordForAllEditor(card);
+            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
             TbNew.Clear();
         }
 
@@ -91,15 +91,15 @@ namespace RootNS.View
             else
             {
                 ((sender as Button).DataContext as Card).IsDel = true;
-                EditorTool.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-                EditorTool.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
+                EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
+                EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
             }
         }
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((sender as Button).DataContext as Card).IsDel = false;
-            EditorTool.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-            EditorTool.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
+            EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
+            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
         }
 
         private void Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

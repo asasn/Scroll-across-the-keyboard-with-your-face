@@ -44,7 +44,7 @@ namespace RootNS.Helper
         {
             JavaScriptSerializer jserializer = new JavaScriptSerializer();
             string filePath = Gval.Path.Books + "/" + "CardModel.json";
-            if (IOTool.IsFileExists(filePath) == false)
+            if (IOHelper.IsFileExists(filePath) == false)
             {
                 CardModel cm = new CardModel();
                 SaveJson(cm);
@@ -81,7 +81,7 @@ namespace RootNS.Helper
         public static CardModel LoadCardModel()
         {
             string filePath = Gval.Path.Books + "/" + "CardModel.xml";
-            if (IOTool.IsFileExists(filePath) == false)
+            if (IOHelper.IsFileExists(filePath) == false)
             {
                 CardModel cm = new CardModel();
                 SaveCardModel(cm);

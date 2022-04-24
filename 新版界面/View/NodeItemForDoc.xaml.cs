@@ -36,7 +36,7 @@ namespace RootNS.View
                 {
                     Gval.OpeningDocList.Add(node);
                 }
-                EditorTool.SelectItem(Gval.EditorTabControl, node);
+                EditorHelper.SelectItem(Gval.EditorTabControl, node);
             }
         }
 

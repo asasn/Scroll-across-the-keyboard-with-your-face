@@ -51,10 +51,10 @@ namespace RootNS.View
             BtnSaveDoc.IsEnabled = false;
             Node node = this.DataContext as Node;
             node.Text = ThisTextEditor.Text;
-            node.WordsCount = EditorTool.CountWords(ThisTextEditor.Text);
+            node.WordsCount = EditorHelper.CountWords(ThisTextEditor.Text);
             try
             {
-                SqlitetTool cSqlite = SqlitetTool.PoolDict[node.OwnerName];
+                SqlitetHelper cSqlite = SqlitetHelper.PoolDict[node.OwnerName];
                 string sql = string.Format("UPDATE {0} SET Text='{1}', Summary='{2}', WordsCount='{3}' WHERE Uid='{4}';", node.TabName, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.Uid);
                 cSqlite.ExecuteNonQuery(sql);
 
@@ -71,7 +71,7 @@ namespace RootNS.View
 
         private void Command_Typesetting_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            EditorTool.TypeSetting(ThisTextEditor);
+            EditorHelper.TypeSetting(ThisTextEditor);
         }
 
         #endregion
@@ -127,8 +127,12 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            (this.Parent as HandyControl.Controls.TabItem).RaiseEvent(new RoutedEventArgs(HandyControl.Controls.TabItem.ClosingEvent));
+            HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
+            CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
         }
+
+
+
 
         #endregion
 
@@ -140,9 +144,9 @@ namespace RootNS.View
                 node.Text = "　　";
             }
             ThisTextEditor.Text = node.Text;
-            EditorTool.SetThisEditorColorRules(ThisTextEditor);
+            EditorHelper.SetColorRulesForCards(ThisTextEditor);
             ThisTextEditor.Focus();
-            EditorTool.MoveToEnd(ThisTextEditor);
+            EditorHelper.MoveToEnd(ThisTextEditor);
 
             BtnSaveDoc.IsEnabled = false;
         }
@@ -151,9 +155,9 @@ namespace RootNS.View
         private void ThisTextEditor_TextChanged(object sender, EventArgs e)
         {
             BtnSaveDoc.IsEnabled = true;
-            LbWorksCount.Content = EditorTool.CountWords(ThisTextEditor.Text);
+            LbWorksCount.Content = EditorHelper.CountWords(ThisTextEditor.Text);
             LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(LbWorksCount.Content) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
-            EditorTool.RefreshStyleForCardsBox(ThisTextEditor);
+            EditorHelper.RefreshStyleForCardsBox(ThisTextEditor);
         }
 
 
@@ -188,7 +192,7 @@ namespace RootNS.View
 
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
         {
-            HandyControl.Controls.TabItem tabItem = this.DataContext as HandyControl.Controls.TabItem;
+
         }
 
 

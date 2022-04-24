@@ -50,6 +50,9 @@ namespace RootNS.Model
             MapPoints.ChildNodes.Clear();
         }
 
+
+
+
         private string _uid = Guid.NewGuid().ToString();
         /// <summary>
         /// 书籍标识码
@@ -76,7 +79,7 @@ namespace RootNS.Model
                 _name = value;
                 this.RaisePropertyChanged("Name");
                 string imgPath = Gval.Path.Books + "/" + _name + ".jpg";
-                if (false == IOTool.IsFileExists(imgPath))
+                if (false == IOHelper.IsFileExists(imgPath))
                 {
                     this.CoverPath = "../Assets/nullbookface.jpg";
                 }
@@ -172,7 +175,7 @@ namespace RootNS.Model
             }
         }
 
-        private Node _selectedNode;
+        private Node _selectedNode = new Node();
         /// <summary>
         /// 选中的节点
         /// </summary>
@@ -199,30 +202,37 @@ namespace RootNS.Model
             }
         }
 
+        /// <summary>
+        /// 从根节点中递归载入文档节点（IsDir == false）列表
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="pNode"></param>
+        /// <returns></returns>
+        protected List<Node> GetTreeNodes(List<Node> nodes, Node pNode)
+        {
+            foreach (Node node in pNode.ChildNodes)
+            {
+                if (node.IsDir == false)
+                {
+                    nodes.Add(node);
+                }
+                GetTreeNodes(nodes, node);
+            }
+            return nodes;
+        }
 
-        ///// <summary>
-        ///// 载入信息卡
-        ///// </summary>
-        //public void LoadCardsTab(TabControl tabControl)
-        //{
-        //    Card rootCard = new Card();
-        //    if (tabControl.SelectedIndex == 0)
-        //    {
-        //        rootCard = CardRole;
-        //    }
-        //    if (tabControl.SelectedIndex == 1)
-        //    {
-        //        rootCard = CardOther;
-        //    }
-        //    if (tabControl.SelectedIndex == 2)
-        //    {
-        //        rootCard = CardWorld;
-        //    }
-        //    if (rootCard.ChildNodes.Count == 0)
-        //    {
-        //        DataJoin.FillInCards(rootCard);
-        //    }
-        //}
+        /// <summary>
+        /// 从当前节点中递归载入文档节点（IsDir == false）列表
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public List<Node> GetThisNodeChilds(Node node)
+        {
+            List<Node> nodes = new List<Node>();
+            nodes.Add(node);//自身先加上
+            GetTreeNodes(nodes, node);
+            return nodes;
+        }
 
         /// <summary>
         /// 载入所有信息卡

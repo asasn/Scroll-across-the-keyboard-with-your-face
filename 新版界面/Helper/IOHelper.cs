@@ -7,11 +7,11 @@ using System.Windows.Media.Imaging;
 
 namespace RootNS.Helper
 {
-    class IOTool
+    internal class IOHelper
     {
         public static BitmapImage GetImgObject(string imgPath)
         {
-            if (false == IOTool.IsFileExists(imgPath))
+            if (false == IOHelper.IsFileExists(imgPath))
             {
                 return null;
             }

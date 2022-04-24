@@ -65,35 +65,17 @@ namespace RootNS.Model
         public Node NoteInspiration { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
         #endregion
 
-        ///// <summary>
-        ///// 载入资料库
-        ///// </summary>
-        ///// <param name="index"></param>
-        //public void LoadMaterialTab()
-        //{
-        //    TabControl tabControl = Gval.SelectedMaterialTab;
-        //    Node rootNode = new Node();
-        //    if (tabControl.SelectedIndex == 0)
-        //    {
-        //        rootNode = BoxExample;
-        //    }
-        //    if (tabControl.SelectedIndex == 1)
-        //    {
-        //        rootNode = BoxMaterial;
-        //    }
-        //    if (tabControl.SelectedIndex == 2)
-        //    {
-        //        rootNode = NoteTheme;
-        //    }
-        //    if (tabControl.SelectedIndex == 3)
-        //    {
-        //        rootNode = NoteInspiration;
-        //    }
-        //    if (rootNode.ChildNodes.Count == 0)
-        //    {
-        //        DataJoin.FillInNodes(rootNode);
-        //    }
-        //}
+        public List<Node> GetChapterNodes()
+        {
+            List<Node> nodes = new List<Node>();
+            List<Node> roots = new List<Node>() { BoxExample, BoxMaterial};
+            foreach (var root in roots)
+            {
+                GetTreeNodes(nodes, root);
+            }
+            return nodes;
+        }
+
 
         /// <summary>
         /// 载入所有资料

@@ -17,9 +17,9 @@ namespace RootNS.Helper
         /// </summary>
         public static void ReadyForBaseInfo()
         {
-            IOTool.CreateFolder(Gval.Path.Books);
-            TableTool.TryToBuildIndexDatabase();
-            Gval.CurrentBook.Uid = SettingsTool.Get(Gval.MaterialBook.Name, "CurBookUid");
+            IOHelper.CreateFolder(Gval.Path.Books);
+            TableHelper.TryToBuildIndexDatabase();
+            Gval.CurrentBook.Uid = SettingsHelper.Get(Gval.MaterialBook.Name, "CurBookUid");
             LoadBooksBank();            
         }
 
@@ -27,8 +27,8 @@ namespace RootNS.Helper
         private static void LoadBooksBank()
         {
             string sql = string.Format("SELECT * FROM 书库 ORDER BY [Index];");
-            SqlitetTool.PoolOperate.Add("index");
-            SQLiteDataReader reader = SqlitetTool.PoolDict["index"].ExecuteQuery(sql);
+            SqlitetHelper.PoolOperate.Add("index");
+            SQLiteDataReader reader = SqlitetHelper.PoolDict["index"].ExecuteQuery(sql);
             while (reader.Read())
             {
                 Book book = new Book
@@ -53,9 +53,9 @@ namespace RootNS.Helper
 
         public static void LoadCurrentBookContent(Book book)
         {
-            SqlitetTool.PoolOperate.Add(Gval.CurrentBook.Name);
+            SqlitetHelper.PoolOperate.Add(Gval.CurrentBook.Name);
             string sql = string.Format("SELECT * FROM 书库 WHERE Uid='{0}';", book.Uid);
-            SQLiteDataReader reader = SqlitetTool.PoolDict["index"].ExecuteQuery(sql);
+            SQLiteDataReader reader = SqlitetHelper.PoolDict["index"].ExecuteQuery(sql);
             while (reader.Read())
             {
                 book.Uid = reader["Uid"].ToString();
@@ -85,7 +85,7 @@ namespace RootNS.Helper
             Card.Line line = card.Lines[0];
             line.Tips.Clear();
             string sql = string.Format("SELECT * FROM 卡设计 WHERE TabName='{0}' ORDER BY [Index];", card.TabName);
-            SQLiteDataReader reader = SqlitetTool.PoolDict[card.OwnerName].ExecuteQuery(sql);
+            SQLiteDataReader reader = SqlitetHelper.PoolDict[card.OwnerName].ExecuteQuery(sql);
             while (reader.Read())
             {
                 Card.Tip tip = new Card.Tip()
@@ -107,7 +107,7 @@ namespace RootNS.Helper
                 return;
             }
             string sql = string.Format("SELECT * FROM {0} WHERE Pid='{1}' ORDER BY [Index];", rootNode.TabName, pid);
-            SQLiteDataReader reader = SqlitetTool.PoolDict[rootNode.OwnerName].ExecuteQuery(sql);
+            SQLiteDataReader reader = SqlitetHelper.PoolDict[rootNode.OwnerName].ExecuteQuery(sql);
             while (reader.Read())
             {
                 Node node = new Node
@@ -134,7 +134,7 @@ namespace RootNS.Helper
         public static void FillInNodes(Node rootNode)
         {
             Gval.FlagLoadingCompleted = false;
-            SqlitetTool.PoolOperate.Add(rootNode.OwnerName);
+            SqlitetHelper.PoolOperate.Add(rootNode.OwnerName);
             DataIn.FillInNodes(null, rootNode);
             Gval.FlagLoadingCompleted = true;
         }
@@ -146,7 +146,7 @@ namespace RootNS.Helper
                 return;
             }
             string sql = string.Format("SELECT * FROM {0} ORDER BY [Index];", rootCard.TabName, pid);
-            SQLiteDataReader reader = SqlitetTool.PoolDict[rootCard.OwnerName].ExecuteQuery(sql);
+            SQLiteDataReader reader = SqlitetHelper.PoolDict[rootCard.OwnerName].ExecuteQuery(sql);
             while (reader.Read())
             {
                 Card card = new Card
@@ -166,7 +166,7 @@ namespace RootNS.Helper
                     card.Lines.Add(card.NickNames);
                 }
                 sql = string.Format("SELECT * FROM 卡片 WHERE Pid='{0}' AND Tid=(select Uid from 卡设计 where Title='{1}' AND TabName='{2}') AND TabName='{2}' ORDER BY [Index];", card.Uid, "别称", card.TabName);
-                SQLiteDataReader readerTip = SqlitetTool.PoolDict[card.OwnerName].ExecuteQuery(sql);
+                SQLiteDataReader readerTip = SqlitetHelper.PoolDict[card.OwnerName].ExecuteQuery(sql);
                 while (readerTip.Read())
                 {
                     Card.Tip tip = new Card.Tip
@@ -187,7 +187,7 @@ namespace RootNS.Helper
         public static void FillInCards(Card rootCard)
         {
             Gval.FlagLoadingCompleted = false;
-            SqlitetTool.PoolOperate.Add(rootCard.OwnerName);
+            SqlitetHelper.PoolOperate.Add(rootCard.OwnerName);
             DataIn.FillInCards(null, rootCard);
             Gval.FlagLoadingCompleted = true;
         }
@@ -200,7 +200,7 @@ namespace RootNS.Helper
                 return;
             }
             string sql = string.Format("SELECT * FROM 卡设计 WHERE TabName='{0}' ORDER BY [Index];", card.TabName);
-            SQLiteDataReader readerSet = SqlitetTool.PoolDict[card.OwnerName].ExecuteQuery(sql);
+            SQLiteDataReader readerSet = SqlitetHelper.PoolDict[card.OwnerName].ExecuteQuery(sql);
             while (readerSet.Read())
             {
                 Card.Line line = new Card.Line
@@ -212,7 +212,7 @@ namespace RootNS.Helper
                     card.Lines.Add(line);
                 }
                 sql = string.Format("SELECT * FROM 卡片 WHERE Pid='{0}' AND Tid=(select Uid from 卡设计 where Title='{1}' AND TabName='{2}') AND TabName='{2}' ORDER BY [Index];", card.Uid, line.LineTitle, card.TabName);
-                SQLiteDataReader readerTip = SqlitetTool.PoolDict[card.OwnerName].ExecuteQuery(sql);
+                SQLiteDataReader readerTip = SqlitetHelper.PoolDict[card.OwnerName].ExecuteQuery(sql);
                 while (readerTip.Read())
                 {
                     Card.Tip tip = new Card.Tip
@@ -235,7 +235,7 @@ namespace RootNS.Helper
         public static void LoadCardContent(Card card)
         {
             Gval.FlagLoadingCompleted = false;
-            SqlitetTool.PoolOperate.Add(card.OwnerName);
+            SqlitetHelper.PoolOperate.Add(card.OwnerName);
             DataIn.FillInCardContent(null, card);
             Gval.FlagLoadingCompleted = true;
         }

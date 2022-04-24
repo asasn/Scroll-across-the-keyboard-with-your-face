@@ -13,7 +13,7 @@
             <RowDefinition Height="26"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
             <Button x:Name="BtnFolder" IsEnabled="{Binding TabName, Converter={StaticResource TabName2BoolReConvert}}" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
             <Button x:Name="BtnAddDoc" FontFamily="../Assets/#androidicons" Content="&#59477;" FontSize="15" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddDoc_Click"/>
             <Button x:Name="BtnDel" FontFamily="../Assets/#androidicons" Content="&#59420;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
@@ -61,11 +61,13 @@
                 <KeyBinding Command="{StaticResource AddFolder}" Key="Add" CommandParameter="{Binding TabName}"/>
                 <KeyBinding Command="{StaticResource AddDoc}" Key="Return" />
                 <KeyBinding Command="{StaticResource DelNode}" Key="Delete" />
+                <KeyBinding Command="{StaticResource UnDel}" Key="Z" Modifiers="Ctrl" />
                 <KeyBinding Command="{StaticResource ReName}" Key="F2" />
                 <KeyBinding Command="{StaticResource ImportNode}" Key="Insert" />
                 <KeyBinding Command="{StaticResource MoveUp}" Key="U" Modifiers="Ctrl" />
                 <KeyBinding Command="{StaticResource MoveDown}" Key="J" Modifiers="Ctrl" />
-                <KeyBinding Command="{StaticResource UnDel}" Key="Z" Modifiers="Ctrl" />
+                <KeyBinding Command="{StaticResource Keep}" Key="F7" />
+                <KeyBinding Command="{StaticResource Send}" Key="F8" />
             </TreeView.InputBindings>
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">

@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace RootNS.Helper
 {
-    public class ControlTool
+    internal class ControlHelper
     {
         #region 获取控件
 

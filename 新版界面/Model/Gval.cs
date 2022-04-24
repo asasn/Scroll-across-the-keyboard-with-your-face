@@ -30,6 +30,8 @@ namespace RootNS.Model
             public static string Books { get { return Environment.CurrentDirectory + "/books"; } }
             public static string Resourses { get { return Environment.CurrentDirectory + "/Resourses"; } }
             public static string Assets { get { return Environment.CurrentDirectory + "/Assets"; } }
+
+            public static string XshdPath { get { return "../Assets/Text.xshd"; } }
         }
 
         public struct View

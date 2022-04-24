@@ -41,7 +41,7 @@ namespace RootNS.View
             if (selectedNode != null)
             {
                 selectedNode.ReNameing = !selectedNode.ReNameing;
-                TextBox TbReName = ControlTool.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
+                TextBox TbReName = ControlHelper.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
                 TbReName.SelectAll();
                 TbReName.Focus();
             }
@@ -340,6 +340,7 @@ namespace RootNS.View
         private void TreeNodes_Selected(object sender, RoutedEventArgs e)
         {
             selectedItem = e.OriginalSource as TreeViewItem;
+            ((this.DataContext as Node).Owner as BookBase).SelectedNode = selectedItem.DataContext as Node;
         }
 
 

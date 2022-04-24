@@ -7,14 +7,13 @@
              xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
              mc:Ignorable="d" 
              d:DesignHeight="485" d:DesignWidth="290">
-    <hc:Card Header="搜索栏" Background="#FFFAFAFA" Margin="5">
-        <Grid>
+    <Grid Background="#FFFAFAFA" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="100*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="5" >
+        <Grid Grid.Row="0" Margin="5,0,5,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="33*"/>
                     <ColumnDefinition Width="33*"/>
@@ -24,8 +23,8 @@
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
-                <RadioButton x:Name="RadButton2" Content="全部节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="True"/>
-                <RadioButton x:Name="RadButton1" Content="当前节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
+                <RadioButton x:Name="RbAll" Content="全部节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="True"/>
+                <RadioButton x:Name="RbCurrent" Content="当前节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
                 <CheckBox x:Name="CbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="False"/>
                 <RadioButton x:Name="CbAnd" Content="与模式" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="True"/>
                 <RadioButton x:Name="CbOr" Content="或模式" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
@@ -33,9 +32,7 @@
             </Grid>
             <Grid Grid.Row="1" Margin="5">
                 <TextBox Padding="0" hc:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="TbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="TbKeyWords_KeyDown"/>
-                <Button x:Name="BtnSearch" Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnSearch_Click" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Right"  VerticalAlignment="Center">
-                    <Image Source="pack://siteoforigin:,,,/Resourses/图标/增删改查/ic_action_search.png"/>
-                </Button>
+            <Button x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Foreground="DodgerBlue"  Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnSearch_Click" Background="Transparent" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="30"></Button>
             </Grid>
             <ListBox  x:Name="ListBoxOfResults" ToolTipService.ShowDuration="60000" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
                 <ListBox.ItemContainerStyle>
@@ -45,5 +42,4 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </Grid>
-    </hc:Card>
 </UserControl>
