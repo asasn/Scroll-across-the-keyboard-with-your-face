@@ -1,5 +1,6 @@
 ﻿using RootNS.Helper;
 using RootNS.Model;
+using RootNS.Workfolw;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -164,8 +165,7 @@ namespace RootNS.View
             {
                 DataOut.InsertIntoOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
                 selectedNode.RealRemoveItSelfAndAllChildNodes();
-                targetRootNode.ChildNodes.Add(selectedNode);
-                
+                FunctionPack.AddToTreeEnd(targetRootNode, selectedNode);
             }
         }
         private void Command_Send_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -176,7 +176,7 @@ namespace RootNS.View
             {
                 DataOut.InsertIntoOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
                 selectedNode.RealRemoveItSelfAndAllChildNodes();
-                targetRootNode.ChildNodes.Add(selectedNode);                
+                FunctionPack.AddToTreeEnd(targetRootNode, selectedNode);        
             }
         }
         #endregion

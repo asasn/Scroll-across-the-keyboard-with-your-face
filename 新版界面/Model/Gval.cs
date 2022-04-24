@@ -12,13 +12,13 @@ using static RootNS.Helper.DataPer;
 
 namespace RootNS.Model
 {
-    public class Gval : INotifyPropertyChanged
+    public class Gval : NotificationObject
     {
         /// <summary>
         /// 静态事件处理属性更改
         /// </summary>
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
-        public event PropertyChangedEventHandler PropertyChanged;
+
 
         /// <summary>
         /// 程序路径

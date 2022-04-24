@@ -44,6 +44,7 @@ namespace RootNS.Helper
                 if (Gval.CurrentBook.Uid != null && Gval.CurrentBook.Uid == book.Uid)
                 {
                     Gval.CurrentBook = book;
+                    SqlitetHelper.PoolOperate.Add(Gval.CurrentBook.Name);
                 }
                 Gval.BooksBank.Add(book);
             }

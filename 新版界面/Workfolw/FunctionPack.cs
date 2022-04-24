@@ -14,6 +14,17 @@ namespace RootNS.Workfolw
     /// </summary>
     internal class FunctionPack
     {
+        public static void AddToTreeEnd(Node rootNode, Node selectedNode)
+        {
+            if (rootNode.ChildNodes.Last<Node>().IsDir == true)
+            {
+                rootNode.ChildNodes.Last<Node>().ChildNodes.Add(selectedNode);
+            }
+            else
+            {
+                rootNode.ChildNodes.Add(selectedNode);
+            }
+        }
 
 
     }

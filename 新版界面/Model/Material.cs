@@ -15,8 +15,9 @@ namespace RootNS.Model
         public Material()
         {
             this.PropertyChanged += Material_PropertyChanged;
-            this.InitRootNodes("index");
-            this.InitRootCards("index");
+            Name = "index";
+            this.InitRootNodes(Name);
+            this.InitRootCards(Name);
         }
 
         private void Material_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -64,6 +65,7 @@ namespace RootNS.Model
         public Node NoteTheme { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.主题.ToString(), OwnerName = "index" };
         public Node NoteInspiration { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
         #endregion
+
 
         public List<Node> GetChapterNodes()
         {

@@ -165,7 +165,7 @@ namespace RootNS.View
                 PreviousButton.BorderBrush = null;
                 (sender as Button).BorderBrush = Brushes.Orange;
                 PreviousButton = sender as Button;
-                SettingsHelper.Set("index", "CurBookUid", Gval.CurrentBook.Uid);
+                SettingsHelper.Set(Gval.MaterialBook.Name, "CurBookUid", Gval.CurrentBook.Uid);
             }
         }
 
