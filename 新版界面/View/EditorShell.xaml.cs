@@ -21,9 +21,9 @@ namespace RootNS.View
     /// <summary>
     /// MyEditor.xaml 的交互逻辑
     /// </summary>
-    public partial class MyEditor : UserControl
+    public partial class EditorShell : UserControl
     {
-        public MyEditor()
+        public EditorShell()
         {
             InitializeComponent();
         }
@@ -39,7 +39,7 @@ namespace RootNS.View
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 Node stuff = (Node)e.NewItems[0];
-                EditorBase editorBase = new EditorBase
+                Editorkernel editorBase = new Editorkernel
                 {
                     DataContext = stuff,
                 };
@@ -79,7 +79,7 @@ namespace RootNS.View
         private void TabItem_Closed(object sender, EventArgs e)
         {
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
-            EditorBase editorBase = tabItem.Content as EditorBase;
+            Editorkernel editorBase = tabItem.Content as Editorkernel;
             Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
             EditorHelper.RefreshStyleForCardsBox(string.Empty);
         }
@@ -87,7 +87,7 @@ namespace RootNS.View
         private void TabItem_Closing(object sender, EventArgs e)
         {
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
-            EditorBase editorBase = tabItem.Content as EditorBase;
+            Editorkernel editorBase = tabItem.Content as Editorkernel;
             if (editorBase.BtnSaveDoc.IsEnabled == true)
             {
                 MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);

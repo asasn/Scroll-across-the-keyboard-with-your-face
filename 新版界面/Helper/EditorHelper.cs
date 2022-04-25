@@ -219,11 +219,11 @@ namespace RootNS.Helper
         {
             foreach (HandyControl.Controls.TabItem tabItem in Gval.EditorTabControl.Items)
             {
-                if (((tabItem.Content as EditorBase).DataContext as Node).OwnerName != card.OwnerName)
+                if (((tabItem.Content as Editorkernel).DataContext as Node).OwnerName != card.OwnerName)
                 {
                     continue;
                 }
-                TextEditor tEditor = (tabItem.Content as EditorBase).ThisTextEditor;
+                TextEditor tEditor = (tabItem.Content as Editorkernel).ThisTextEditor;
                 InitEditorColorRules(tEditor, "../Assets/Text.xshd");
                 SetColorRulesForCards(tEditor);
             }

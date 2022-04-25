@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="ThisControl" x:Class="RootNS.View.MyEditor"
+﻿<UserControl x:Name="ThisControl" x:Class="RootNS.View.EditorShell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

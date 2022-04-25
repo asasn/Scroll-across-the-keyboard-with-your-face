@@ -24,9 +24,9 @@ namespace RootNS.View
     /// <summary>
     /// MyEditor.xaml 的交互逻辑
     /// </summary>
-    public partial class EditorBase : UserControl
+    public partial class Editorkernel : UserControl
     {
-        public EditorBase()
+        public Editorkernel()
         {
             InitializeComponent();
         }
@@ -41,7 +41,7 @@ namespace RootNS.View
 
         // Using a DependencyProperty as the backing store for MainText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MainTextProperty =
-            DependencyProperty.Register("MainText", typeof(string), typeof(EditorBase), new PropertyMetadata("　　"));
+            DependencyProperty.Register("MainText", typeof(string), typeof(Editorkernel), new PropertyMetadata("　　"));
 
 
 
@@ -183,19 +183,90 @@ namespace RootNS.View
 
 
         ToolTip toolTip = new ToolTip();
+
+        /// <summary>
+        /// 鼠标悬浮提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ThisTextEditor_MouseHover(object sender, MouseEventArgs e)
         {
-            var pos = ThisTextEditor.GetPositionFromPoint(e.GetPosition(ThisTextEditor));
+            TextViewPosition? pos = ThisTextEditor.GetPositionFromPoint(e.GetPosition(ThisTextEditor));
             if (pos != null)
             {
                 //toolTip.PlacementTarget = this; // required for property inheritance
-                //toolTip.Content = pos.ToString();
-                //toolTip.IsOpen = true;
-                //e.Handled = true;
+                int offset = ThisTextEditor.Document.GetOffset(pos.Value.Location);
+                List<string> rets = GetHoverString(offset);
+                Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+                foreach (Card rootCard in CardBoxs)
+                {
+                    foreach (Card card in rootCard.ChildNodes)
+                    {
+                        foreach (string ret in rets)
+                        {
+                            if (ret.Contains(card.Title) == true || IsContainsNickNames(ret, card.NickNames))
+                            {
+                                toolTip.Content = new CardHover(card);
+                                toolTip.IsOpen = true;
+                                return;
+                            }
+                        }
+
+                    }
+                }
+
             }
         }
 
+        /// <summary>
+        /// 是否包含别名
+        /// </summary>
+        /// <param name="ret"></param>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        private bool IsContainsNickNames(string ret, Card.Line line)
+        {
+            foreach (Card.Tip tip in line.Tips)
+            {
+                if (ret.Contains(tip.Title) == true)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
+        private List<string> GetHoverString(int offset)
+        {
+            List<string> rets = new List<string>();
+            int width = 5;
+            int l = 0, r = 0;
+            for (int i = 0; i < width; i++)
+            {
+                l = offset - i;
+                if (offset - i < 0)
+                {
+                    l = 0;
+                    break;
+                }
+                r = offset + i + 1;
+                if (r > ThisTextEditor.Document.TextLength)
+                {
+                    r = ThisTextEditor.Document.TextLength;
+                    break;
+                }
+                int len = r - l;
+                string ret = ThisTextEditor.Document.GetText(l, len);
+                rets.Add(ret);
+            }
+            return rets;
+        }
+
+        /// <summary>
+        /// 停止悬浮提示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ThisTextEditor_MouseHoverStopped(object sender, MouseEventArgs e)
         {
             toolTip.IsOpen = false;

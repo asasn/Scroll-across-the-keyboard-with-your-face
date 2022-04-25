@@ -129,6 +129,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\CommandHelper.cs" />
+    <Compile Include="View\CardHover.xaml.cs">
+      <DependentUpon>CardHover.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
     </Compile>
     <Compile Include="Workfolw\FunctionPack.cs" />
     <Compile Include="Workfolw\ViewSet.cs" />
+    <Page Include="View\CardHover.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CardProperty.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,7 +152,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditorBase.xaml">
+    <Page Include="View\Editorkernel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MyEditor.xaml">
+    <Page Include="View\EditorShell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -237,8 +244,8 @@
     <Compile Include="Helper\IOHelper.cs" />
     <Compile Include="Helper\SettingsHelper.cs" />
     <Compile Include="Helper\SqliteHelper.cs" />
-    <Compile Include="View\EditorBase.xaml.cs">
-      <DependentUpon>EditorBase.xaml</DependentUpon>
+    <Compile Include="View\Editorkernel.xaml.cs">
+      <DependentUpon>Editorkernel.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CardLine.xaml.cs">
       <DependentUpon>CardLine.xaml</DependentUpon>
@@ -246,8 +253,8 @@
     <Compile Include="View\LinesBox.xaml.cs">
       <DependentUpon>LinesBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MyEditor.xaml.cs">
-      <DependentUpon>MyEditor.xaml</DependentUpon>
+    <Compile Include="View\EditorShell.xaml.cs">
+      <DependentUpon>EditorShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MyTree.xaml.cs">
       <DependentUpon>MyTree.xaml</DependentUpon>
