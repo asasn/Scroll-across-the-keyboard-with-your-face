@@ -26,8 +26,8 @@ namespace RootNS.Helper
             }
             sql += GetSqlStringForCreateSiteTable("地图");
             sql += GetSqlStringForCreateSettingsTable();
-            SqlitetHelper.PoolOperate.Add(dbName);
-            SqlitetHelper.PoolDict[dbName].ExecuteNonQuery(sql);
+            SqliteHelper.PoolOperate.Add(dbName);
+            SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
         }
 
 
@@ -50,8 +50,8 @@ namespace RootNS.Helper
             }
             sql += GetSqlStringForCreateSiteTable("地图");
             sql += GetSqlStringForCreateSettingsTable();
-            SqlitetHelper.PoolOperate.Add(dbName);
-            SqlitetHelper.PoolDict[dbName].ExecuteNonQuery(sql);
+            SqliteHelper.PoolOperate.Add(dbName);
+            SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
         }
 
 
@@ -77,8 +77,8 @@ namespace RootNS.Helper
         private static bool IsExistsTable(string dbName, string tableName)
         {
             string sql = string.Format("SELECT name FROM sqlite_master WHERE name='{0}';", tableName);
-            SqlitetHelper.PoolOperate.Add(dbName);
-            SQLiteDataReader reader = SqlitetHelper.PoolDict[dbName].ExecuteQuery(sql);
+            SqliteHelper.PoolOperate.Add(dbName);
+            SQLiteDataReader reader = SqliteHelper.PoolDict[dbName].ExecuteQuery(sql);
             if (reader.Read())
             {
                 reader.Close();
@@ -105,20 +105,20 @@ namespace RootNS.Helper
             for (int i = 0; i < forRole.Length; i++)
             {
                 sql += string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", i, Guid.NewGuid().ToString(), forRole[i], "角色");
-                SqlitetHelper.PoolDict[dbName].ExecuteNonQuery(sql);
+                SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
             }
             for (int i = 0; i < forOther.Length; i++)
             {
                 sql += string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", i, Guid.NewGuid().ToString(), forOther[i], "其他");
-                SqlitetHelper.PoolDict[dbName].ExecuteNonQuery(sql);
+                SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
             }
             for (int i = 0; i < forWorld.Length; i++)
             {
                 sql += string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", i, Guid.NewGuid().ToString(), forWorld[i], "世界");
-                SqlitetHelper.PoolDict[dbName].ExecuteNonQuery(sql);
+                SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
             }
-            SqlitetHelper.PoolOperate.Add(dbName);
-            SqlitetHelper.PoolDict[dbName].ExecuteNonQuery(sql);
+            SqliteHelper.PoolOperate.Add(dbName);
+            SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
         }
 
         private static string GetSqlStringForCreateCardTags(string dbName)

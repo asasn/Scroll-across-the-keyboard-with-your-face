@@ -5,10 +5,10 @@ using System.IO;
 
 namespace RootNS.Helper
 {
-    internal class SqlitetHelper
+    internal class SqliteHelper
     {
 
-        public SqlitetHelper(string dbPath, string dbName = null)
+        public SqliteHelper(string dbPath, string dbName = null)
         {
             Close();
             connection = CreateDatabaseConnection(dbPath, dbName);
@@ -16,7 +16,7 @@ namespace RootNS.Helper
             this.IsSqlconnOpening = true;
         }
 
-        ~SqlitetHelper()
+        ~SqliteHelper()
         {
             this.IsSqlconnOpening = false;
             SQLiteConnection.ClearAllPools();
@@ -27,7 +27,7 @@ namespace RootNS.Helper
         private readonly SQLiteConnection connection;
         public string DbName;
         public bool IsSqlconnOpening;
-        public static Dictionary<string, SqlitetHelper> PoolDict { get; set; } = new Dictionary<string, SqlitetHelper>();
+        public static Dictionary<string, SqliteHelper> PoolDict { get; set; } = new Dictionary<string, SqliteHelper>();
 
         public struct PoolOperate
         {
@@ -44,7 +44,7 @@ namespace RootNS.Helper
                 }
                 else
                 {
-                    PoolDict.Add(dbName, new SqlitetHelper(Gval.Path.Books, dbName + ".db"));
+                    PoolDict.Add(dbName, new SqliteHelper(Gval.Path.Books, dbName + ".db"));
                 }
             }
 

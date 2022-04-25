@@ -52,7 +52,7 @@ namespace RootNS.View
                 editorBase.Tag = tabItem;//携带父容器对象以供关闭方法调用
                 tabItem.Closing += TabItem_Closing;
                 tabItem.Closed += TabItem_Closed;
-                ThisTabControl.Items.Add(tabItem);
+                ThisTabControl.Items.Add(tabItem);//创建新的编辑器页面
                 Binding textBinding = new Binding
                 {
                     Source = stuff,
@@ -60,6 +60,15 @@ namespace RootNS.View
                     Mode = BindingMode.TwoWay
                 };
                 tabItem.SetBinding(HeaderedItemsControl.HeaderProperty, textBinding);//对绑定目标的目标属性进行绑定 
+
+                //因为在TabControl中，每次切换的时候都会触发Loaded事件，故而一些初始化步骤放在这里
+                if (string.IsNullOrWhiteSpace(stuff.Text) == true)
+                {
+                    stuff.Text = "　　";
+                }
+                editorBase.ThisTextEditor.Text = stuff.Text;
+                EditorHelper.MoveToEnd(editorBase.ThisTextEditor);
+                editorBase.BtnSaveDoc.IsEnabled = false;
             }
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {

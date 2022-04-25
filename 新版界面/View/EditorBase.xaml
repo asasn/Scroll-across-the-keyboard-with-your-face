@@ -6,24 +6,30 @@
     xmlns:local="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:Document="clr-namespace:ICSharpCode.AvalonEdit.Document;assembly=ICSharpCode.AvalonEdit"
     mc:Ignorable="d"
-    d:DesignHeight="450" d:DesignWidth="800" Loaded="ThisControl_Loaded">
+    d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <RoutedUICommand x:Key="SaveText" Text="保存文本"/>
         <RoutedUICommand x:Key="Typesetting" Text="排版"/>
         <RoutedUICommand x:Key="Find" Text="查找"/>
         <RoutedUICommand x:Key="Replace" Text="替换"/>
+        <RoutedUICommand x:Key="MoveNext" Text="下一个"/>
+        <RoutedUICommand x:Key="MovePrevious" Text="上一个"/>
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="{StaticResource SaveText}" Executed="Command_SaveText_Executed" />
         <CommandBinding Command="{StaticResource Typesetting}" Executed="Command_Typesetting_Executed" />
         <CommandBinding Command="{StaticResource Find}" Executed="Command_Find_Executed" />
         <CommandBinding Command="{StaticResource Replace}" Executed="Command_Replace_Executed" />
+        <CommandBinding Command="{StaticResource MoveNext}" Executed="Command_MoveNext_Executed" />
+        <CommandBinding Command="{StaticResource MovePrevious}" Executed="Command_MovePrevious_Executed" />
     </UserControl.CommandBindings>
     <UserControl.InputBindings>
         <KeyBinding Command="{StaticResource SaveText}" Key="S" Modifiers="Ctrl"/>
         <KeyBinding Command="{StaticResource Typesetting}" Key="F9"/>
         <KeyBinding Command="{StaticResource Find}" Key="F" Modifiers="Ctrl"/>
         <KeyBinding Command="{StaticResource Replace}" Key="H" Modifiers="Ctrl"/>
+        <KeyBinding Command="{StaticResource MoveNext}" Key="F3"/>
+        <KeyBinding Command="{StaticResource MovePrevious}" Key="F4"/>
     </UserControl.InputBindings>
     <Grid Background="#FFFAFAFA" >
         <Grid.ColumnDefinitions>

@@ -54,7 +54,7 @@ namespace RootNS.View
             node.WordsCount = EditorHelper.CountWords(ThisTextEditor.Text);
             try
             {
-                SqlitetHelper cSqlite = SqlitetHelper.PoolDict[node.OwnerName];
+                SqliteHelper cSqlite = SqliteHelper.PoolDict[node.OwnerName];
                 string sql = string.Format("UPDATE {0} SET Text='{1}', Summary='{2}', WordsCount='{3}' WHERE Uid='{4}';", node.TabName, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.Uid);
                 cSqlite.ExecuteNonQuery(sql);
 
@@ -74,19 +74,33 @@ namespace RootNS.View
             EditorHelper.TypeSetting(ThisTextEditor);
         }
 
-        private FindReplaceDialog theDialog;
+
         private void Command_Find_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
-            theDialog.TabFind.IsSelected = true;
+            FindReplaceDialog.theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
+            FindReplaceDialog.theDialog.TabFind.IsSelected = true;
         }
 
         private void Command_Replace_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
-            theDialog.TabReplace.IsSelected = true;
+            FindReplaceDialog.theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
+            FindReplaceDialog.theDialog.TabReplace.IsSelected = true;
         }
 
+        private void Command_MoveNext_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            FindReplaceDialog.theDialog = FindReplaceDialog.GetOperateObject(ThisTextEditor);
+            FindReplaceDialog.theDialog.cbSearchUp.IsChecked = false;
+            FindReplaceDialog.theDialog.FindNext(ThisTextEditor.TextArea.Selection.GetText());
+
+        }
+
+        private void Command_MovePrevious_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            FindReplaceDialog.theDialog = FindReplaceDialog.GetOperateObject(ThisTextEditor);
+            FindReplaceDialog.theDialog.cbSearchUp.IsChecked = true;
+            FindReplaceDialog.theDialog.FindNext(ThisTextEditor.TextArea.Selection.GetText());
+        }
         #endregion
 
         #region 按钮点击事件
@@ -149,23 +163,15 @@ namespace RootNS.View
 
         #endregion
 
+
+
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
-            Node node = ThisControl.DataContext as Node;
-            if (string.IsNullOrWhiteSpace(node.Text) == true)
-            {
-                node.Text = "　　";
-            }
-            ThisTextEditor.Text = node.Text;
+            //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
             EditorHelper.SetColorRulesForCards(ThisTextEditor);
             ThisTextEditor.Focus();
-            EditorHelper.MoveToEnd(ThisTextEditor);
 
-            BtnSaveDoc.IsEnabled = false;
-
-            theDialog = new FindReplaceDialog(ThisTextEditor);
         }
-
 
         private void ThisTextEditor_TextChanged(object sender, EventArgs e)
         {
@@ -205,10 +211,6 @@ namespace RootNS.View
 
         }
 
-        private void ThisControl_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
 
 
     }

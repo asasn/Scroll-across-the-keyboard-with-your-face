@@ -236,7 +236,7 @@
     </Compile>
     <Compile Include="Helper\IOHelper.cs" />
     <Compile Include="Helper\SettingsHelper.cs" />
-    <Compile Include="Helper\SqlitetHelper.cs" />
+    <Compile Include="Helper\SqliteHelper.cs" />
     <Compile Include="View\EditorBase.xaml.cs">
       <DependentUpon>EditorBase.xaml</DependentUpon>
     </Compile>

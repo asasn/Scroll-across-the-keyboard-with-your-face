@@ -154,7 +154,6 @@ namespace RootNS.View
                 theDialog = new FindReplaceDialog(editor);
                 theDialog.Show();
 
-
                 //设置窗口位置
                 ViewSet.ForViewPoint(theDialog, Gval.View.Searcher);
             }
@@ -171,6 +170,18 @@ namespace RootNS.View
                 theDialog.txtFind2.SelectAll();
                 theDialog.txtFind2.Focus();
             }
+            return theDialog;
+        }
+
+        public static FindReplaceDialog GetOperateObject(TextEditor editor)
+        {
+            if (theDialog == null)
+            {
+                theDialog = new FindReplaceDialog(editor);
+
+                //设置窗口位置
+                ViewSet.ForViewPoint(theDialog, Gval.View.Searcher);
+            }    
             return theDialog;
         }
 

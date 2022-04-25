@@ -50,8 +50,8 @@ namespace RootNS.View
                     string newNameDB = Gval.Path.Books + "/" + TbName.Text + ".db";
                     string oldNameJpg = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".jpg";
                     string newNameJpg = Gval.Path.Books + "/" + TbName.Text + ".jpg";
-                    SqlitetHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
-                    SqlitetHelper.PoolOperate.Add(TbName.Text);
+                    SqliteHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
+                    SqliteHelper.PoolOperate.Add(TbName.Text);
                     IOHelper.RenameFile(oldNameDB, newNameDB);
                     IOHelper.RenameFile(oldNameJpg, newNameJpg);
                     //注意处理的先后顺序
@@ -107,7 +107,7 @@ namespace RootNS.View
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
         {
             DataOut.DeleteBook(Gval.CurrentBook);
-            SqlitetHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
+            SqliteHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
             string dbFullName = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
             IOHelper.DeleteFile(dbFullName);
             Gval.BooksBank.Remove(Gval.CurrentBook);

@@ -38,7 +38,24 @@ namespace RootNS
 
         private void WinMain_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            if (Gval.EditorTabControl != null)
+            {
+                while (Gval.EditorTabControl.Items.Count > 0)//集合可能改变，故而不需要i++之类的条件
+                {
+                    HandyControl.Controls.TabItem tabItem = Gval.EditorTabControl.Items[Gval.EditorTabControl.Items.Count - 1] as HandyControl.Controls.TabItem;
+                    tabItem.Focus();
+                    CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
+                }
+            }
+            foreach (SqliteHelper cSqlite in SqliteHelper.PoolDict.Values)
+            {
+                cSqlite.Close();
+            }
+            if (FindReplaceDialog.theDialog != null)
+            {
+                FindReplaceDialog.theDialog.Close();
+            }
+            Application.Current.Shutdown(0);
         }
 
 
