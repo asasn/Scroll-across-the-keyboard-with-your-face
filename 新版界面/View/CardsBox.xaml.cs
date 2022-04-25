@@ -39,7 +39,7 @@ namespace RootNS.View
             card.Title = TbNew.Text;
             (this.DataContext as Card).AddChildNode(card);
             EditorHelper.RefreshKeyWordForAllEditor(card);
-            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
+            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor.Text);
             TbNew.Clear();
         }
 
@@ -92,14 +92,14 @@ namespace RootNS.View
             {
                 ((sender as Button).DataContext as Card).IsDel = true;
                 EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-                EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
+                EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor.Text);
             }
         }
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((sender as Button).DataContext as Card).IsDel = false;
             EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor);
+            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as EditorBase).ThisTextEditor.Text);
         }
 
         private void Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

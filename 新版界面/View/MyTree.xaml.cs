@@ -98,19 +98,6 @@ namespace RootNS.View
                 else
                 {
                     node.RealRemoveItSelfAndAllChildNodes();
-                    int i = 0;
-                    if ((node.Parent as Node).ChildNodes.Count > 0)
-                    {
-                        if (node.Index >= 0)
-                        {
-                            i = node.Index;
-                        }
-                        if (node.Index == (node.Parent as Node).ChildNodes.Count)
-                        {
-                            i = node.Index - 1;
-                        }
-                        (node.Parent as Node).ChildNodes[i].IsSelected = true;
-                    }
                 }
             }
         }

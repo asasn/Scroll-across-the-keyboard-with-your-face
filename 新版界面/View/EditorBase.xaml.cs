@@ -74,6 +74,19 @@ namespace RootNS.View
             EditorHelper.TypeSetting(ThisTextEditor);
         }
 
+        private FindReplaceDialog theDialog;
+        private void Command_Find_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
+            theDialog.TabFind.IsSelected = true;
+        }
+
+        private void Command_Replace_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
+            theDialog.TabReplace.IsSelected = true;
+        }
+
         #endregion
 
         #region 按钮点击事件
@@ -149,6 +162,8 @@ namespace RootNS.View
             EditorHelper.MoveToEnd(ThisTextEditor);
 
             BtnSaveDoc.IsEnabled = false;
+
+            theDialog = new FindReplaceDialog(ThisTextEditor);
         }
 
 
@@ -157,7 +172,7 @@ namespace RootNS.View
             BtnSaveDoc.IsEnabled = true;
             LbWorksCount.Content = EditorHelper.CountWords(ThisTextEditor.Text);
             LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(LbWorksCount.Content) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
-            EditorHelper.RefreshStyleForCardsBox(ThisTextEditor);
+            EditorHelper.RefreshStyleForCardsBox(ThisTextEditor.Text);
         }
 
 

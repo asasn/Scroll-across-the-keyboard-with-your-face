@@ -129,6 +129,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\CommandHelper.cs" />
+    <Compile Include="View\FindReplaceDialog.xaml.cs">
+      <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\WSearchResult.xaml.cs">
       <DependentUpon>WSearchResult.xaml</DependentUpon>
     </Compile>
@@ -149,6 +152,10 @@
     <Page Include="View\CardLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FindReplaceDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\LinesBox.xaml">
       <SubType>Designer</SubType>

@@ -387,6 +387,7 @@ namespace RootNS.Model
                 DeleteAllChildNodes(this);
                 (this.Parent as Node).ChildNodes.Remove(this);
             }
+            ReSelect();
         }
 
         /// <summary>
@@ -402,6 +403,27 @@ namespace RootNS.Model
                 curNode.ChildNodes.Remove(stuff);
             }
         }
+
+        /// <summary>
+        /// 删除当前节点值后重新选择新节点
+        /// </summary>
+        private void ReSelect()
+        {
+            int i = 0;
+            if ((this.Parent as Node).ChildNodes.Count > 0)
+            {
+                if (this.Index >= 0)
+                {
+                    i = this.Index;
+                }
+                if (this.Index == (this.Parent as Node).ChildNodes.Count)
+                {
+                    i = this.Index - 1;
+                }
+                (this.Parent as Node).ChildNodes[i].IsSelected = true;
+            }
+        }
+
 
         private ObservableCollection<Node> _childNodes = new ObservableCollection<Node>();
         /// <summary>

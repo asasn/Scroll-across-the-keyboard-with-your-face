@@ -10,14 +10,20 @@
     <UserControl.Resources>
         <RoutedUICommand x:Key="SaveText" Text="保存文本"/>
         <RoutedUICommand x:Key="Typesetting" Text="排版"/>
+        <RoutedUICommand x:Key="Find" Text="查找"/>
+        <RoutedUICommand x:Key="Replace" Text="替换"/>
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="{StaticResource SaveText}" Executed="Command_SaveText_Executed" />
         <CommandBinding Command="{StaticResource Typesetting}" Executed="Command_Typesetting_Executed" />
+        <CommandBinding Command="{StaticResource Find}" Executed="Command_Find_Executed" />
+        <CommandBinding Command="{StaticResource Replace}" Executed="Command_Replace_Executed" />
     </UserControl.CommandBindings>
     <UserControl.InputBindings>
         <KeyBinding Command="{StaticResource SaveText}" Key="S" Modifiers="Ctrl"/>
         <KeyBinding Command="{StaticResource Typesetting}" Key="F9"/>
+        <KeyBinding Command="{StaticResource Find}" Key="F" Modifiers="Ctrl"/>
+        <KeyBinding Command="{StaticResource Replace}" Key="H" Modifiers="Ctrl"/>
     </UserControl.InputBindings>
     <Grid Background="#FFFAFAFA" >
         <Grid.ColumnDefinitions>

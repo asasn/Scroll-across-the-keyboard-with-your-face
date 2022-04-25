@@ -25,6 +25,7 @@ namespace RootNS.View
         public Searcher()
         {
             InitializeComponent();
+            Gval.View.Searcher = this;
         }
 
 

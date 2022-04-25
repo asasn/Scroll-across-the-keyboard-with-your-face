@@ -30,7 +30,9 @@ namespace RootNS.Model
         }
 
         private bool _isContain;
-
+        /// <summary>
+        /// 该项目是否被包含在文章中
+        /// </summary>
         public bool IsContain
         {
             get { return _isContain; }

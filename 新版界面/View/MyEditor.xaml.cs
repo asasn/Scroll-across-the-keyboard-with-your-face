@@ -63,7 +63,7 @@ namespace RootNS.View
             }
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                Console.WriteLine("从列表中删除，关闭了");
+                //Console.WriteLine("关闭，从列表中删除");
             }
         }
 
@@ -72,7 +72,7 @@ namespace RootNS.View
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
             EditorBase editorBase = tabItem.Content as EditorBase;
             Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
-            EditorHelper.RefreshStyleForCardsBox(new ICSharpCode.AvalonEdit.TextEditor());
+            EditorHelper.RefreshStyleForCardsBox(string.Empty);
         }
 
         private void TabItem_Closing(object sender, EventArgs e)

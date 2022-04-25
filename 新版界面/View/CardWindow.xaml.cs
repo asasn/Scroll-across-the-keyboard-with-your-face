@@ -28,7 +28,7 @@ namespace RootNS.View
             InitializeComponent();
             DataIn.LoadCardContent((sender as Button).DataContext as Card);
             this.DataContext = (sender as Button).DataContext as Card;
-            ViewSet.ForCardPoint(this, uc);
+            ViewSet.ForViewPoint(this, uc);
 
             //添加拖曳面板事件
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };

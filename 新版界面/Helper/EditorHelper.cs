@@ -17,8 +17,11 @@ namespace RootNS.Helper
 {
     internal class EditorHelper
     {
-
-        public static void RefreshStyleForCardsBox(TextEditor tEditor)
+        /// <summary>
+        /// 刷新信息卡标志（是否包含在文章中）
+        /// </summary>
+        /// <param name="tEditor"></param>
+        public static void RefreshStyleForCardsBox(string text)
         {
             Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
             foreach (Card rootCard in CardBoxs)
@@ -30,7 +33,7 @@ namespace RootNS.Helper
                         card.IsContain = false;
                         continue;
                     }
-                    if (tEditor.Text.Contains(card.Title.Trim()))
+                    if (text.Contains(card.Title.Trim()))
                     {
                         card.IsContain = true;
                     }
@@ -40,7 +43,7 @@ namespace RootNS.Helper
                     }
                     foreach (Card.Tip tip in card.NickNames.Tips)
                     {
-                        if (tEditor.Text.Contains(tip.Title.Trim()))
+                        if (text.Contains(tip.Title.Trim()))
                         {
                             card.IsContain = true;
                         }

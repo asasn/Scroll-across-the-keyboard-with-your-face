@@ -15,11 +15,11 @@ namespace RootNS.Workfolw
     internal class ViewSet
     {
         /// <summary>
-        /// 信息卡位置
+        /// 弹窗位置
         /// </summary>
         /// <param name="thisWin"></param>
         /// <param name="uc"></param>
-        public static void ForCardPoint(Window thisWin, UIElement uc)
+        public static void ForViewPoint(Window thisWin, UIElement uc)
         {
             thisWin.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
             thisWin.Top = 300;
