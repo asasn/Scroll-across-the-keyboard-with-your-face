@@ -221,87 +221,34 @@ namespace RootNS.View
             {
                 //toolTip.PlacementTarget = this; // required for property inheritance
                 int offset = ThisTextEditor.Document.GetOffset(pos.Value.Location);
-
-                Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
-                foreach (Card rootCard in CardBoxs)
+                foreach (HighlightingRule rule in ThisTextEditor.SyntaxHighlighting.MainRuleSet.Rules)
                 {
-                    foreach (Card card in rootCard.ChildNodes)
+                    System.Text.RegularExpressions.MatchCollection matches = rule.Regex.Matches(ThisTextEditor.Text);
+                    if (matches.Count > 0)
                     {
-                        int w = GetKeywordWidth(card);
-                        List<string> rets = GetHoverString(offset, w);
-                        foreach (string ret in rets)
+                        foreach (System.Text.RegularExpressions.Match match in matches)
                         {
-                            if (ret.Contains(card.Title) == true || IsContainsNickNames(ret, card.NickNames))
+                            //注意偏移值的问题，第一个相等条件相当于左边多出半个字符宽度，第二个则是右边多出半个字符宽度……
+                            if (match.Index <= offset && offset - match.Index <= match.Value.Length)
                             {
-                                toolTip.Content = new CardHover(card);
-                                toolTip.IsOpen = true;
-                                return;
+                                Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+                                foreach (Card rootCard in CardBoxs)
+                                {
+                                    foreach (Card card in rootCard.ChildNodes)
+                                    {
+                                        if (match.Value.Equals(card.Title) || card.IsEqualsNickNames(match.Value, card.NickNames))
+                                        {
+                                            toolTip.Content = new CardHover(card);
+                                            toolTip.IsOpen = true;
+                                            return;
+                                        }
+                                    }
+                                }
                             }
                         }
-
                     }
                 }
-
             }
-        }
-
-        private int GetKeywordWidth(Card card)
-        {
-            int width = 0;
-            width = card.Title.Length;
-            foreach (Card.Tip tip in card.NickNames.Tips)
-            {
-                if (tip.Title.Length > width)
-                {
-                    width = tip.Title.Length;
-                }
-            }
-            return width;
-        }
-
-
-
-        /// <summary>
-        /// 是否包含别名
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="line"></param>
-        /// <returns></returns>
-        private bool IsContainsNickNames(string str, Card.Line line)
-        {
-            foreach (Card.Tip tip in line.Tips)
-            {
-                if (str.Contains(tip.Title) == true)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private List<string> GetHoverString(int offset, int width = 5)
-        {
-            List<string> rets = new List<string>();
-            int l = 0, r = 0;
-            for (int i = 0; i < width; i++)
-            {
-                l = offset - i;
-                if (offset - i < 0)
-                {
-                    l = 0;
-                    break;
-                }
-                r = offset + i + 1;
-                if (r > ThisTextEditor.Document.TextLength)
-                {
-                    r = ThisTextEditor.Document.TextLength;
-                    break;
-                }
-                int len = r - l;
-                string ret = ThisTextEditor.Document.GetText(l, len);
-                rets.Add(ret);
-            }
-            return rets;
         }
 
         /// <summary>

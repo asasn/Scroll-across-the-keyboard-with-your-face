@@ -481,13 +481,16 @@ namespace RootNS.Model
             else if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 Node stuff = (Node)e.OldItems[0];
-                for (int i = stuff.Index; i < this.ChildNodes.Count; i++)
-                {
-                    this.ChildNodes[i].Index -= 1;
-                }
+                string sql = String.Empty;
                 this.WordsCount -= 1;
-
                 DataOut.RemoveNodeFromTable(stuff);
+                for (int i = 0; i < this.ChildNodes.Count; i++)
+                {
+                    this.ChildNodes[i].Index = this.ChildNodes.IndexOf(this.ChildNodes[i]);
+                    sql += string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}' AND EXISTS(select * from sqlite_master where name='{0}' and sql like '%{1}%');", stuff.TabName.Replace("'", "''"), "Index", this.ChildNodes[i].Index, this.ChildNodes[i].Uid);
+
+                }
+                SqliteHelper.PoolDict[stuff.OwnerName].ExecuteNonQuery(sql);
             }
         }
 

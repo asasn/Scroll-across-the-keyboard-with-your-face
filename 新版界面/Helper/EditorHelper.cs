@@ -258,7 +258,7 @@ namespace RootNS.Helper
                 Color = textEditor.SyntaxHighlighting.GetNamedColor(colorTabName),
                 Regex = new Regex(keyword)
             };
-            rules.Insert(0, rule);
+            rules.Add(rule);
             return rules;
         }
 
