@@ -27,6 +27,19 @@ namespace RootNS.View
         }
 
 
+
+        public Visibility ShowAddButton
+        {
+            get { return (Visibility)GetValue(ShowAddButtonProperty); }
+            set { SetValue(ShowAddButtonProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ShowAddButton.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowAddButtonProperty =
+            DependencyProperty.Register("ShowAddButton", typeof(Visibility), typeof(CardLine), new PropertyMetadata(Visibility.Visible));
+
+
+
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             Card.Tip tip = new Card.Tip();

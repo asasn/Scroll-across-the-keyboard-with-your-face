@@ -196,12 +196,13 @@ namespace RootNS.View
             {
                 //toolTip.PlacementTarget = this; // required for property inheritance
                 int offset = ThisTextEditor.Document.GetOffset(pos.Value.Location);
-                List<string> rets = GetHoverString(offset);
+                
                 Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
                 foreach (Card rootCard in CardBoxs)
                 {
                     foreach (Card card in rootCard.ChildNodes)
                     {
+                        List<string> rets = GetHoverString(offset, GetKeywordWidth(card));
                         foreach (string ret in rets)
                         {
                             if (ret.Contains(card.Title) == true || IsContainsNickNames(ret, card.NickNames))
@@ -216,6 +217,20 @@ namespace RootNS.View
                 }
 
             }
+        }
+
+        private int GetKeywordWidth(Card card)
+        {
+            int width = 0;
+            width = card.Title.Length;
+            foreach (Card.Tip tip in card.NickNames.Tips)
+            {
+                if (tip.Title.Length > width)
+                {
+                    width = tip.Title.Length;
+                }
+            }
+            return width;
         }
 
         /// <summary>
@@ -236,10 +251,9 @@ namespace RootNS.View
             return false;
         }
 
-        private List<string> GetHoverString(int offset)
+        private List<string> GetHoverString(int offset, int width=5)
         {
             List<string> rets = new List<string>();
-            int width = 5;
             int l = 0, r = 0;
             for (int i = 0; i < width; i++)
             {

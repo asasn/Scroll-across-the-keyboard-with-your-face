@@ -63,5 +63,29 @@ namespace RootNS.View
             EditorHelper.RefreshKeyWordForAllEditor(this.DataContext as Card);
             BtnSave.IsEnabled = false;
         }
+
+        bool IsShow = false;
+        private void BtnSee_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsShow == true)
+            {
+                foreach (Card.Line line in (this.DataContext as Card).Lines)
+                {
+                    line.HasTip = Convert.ToBoolean(line.Tips.Count);
+                }
+                IsShow = false;
+                ExpandPath.RenderTransform = new RotateTransform(-90);
+            }
+            else
+            {
+                foreach (Card.Line line in (this.DataContext as Card).Lines)
+                {
+                    line.HasTip = true;
+                }
+                IsShow = true;
+                ExpandPath.RenderTransform = new RotateTransform();
+            }
+
+        }
     }
 }

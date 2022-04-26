@@ -6,26 +6,19 @@
              xmlns:local="clr-namespace:RootNS.View"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300">
+             d:DesignHeight="150" d:DesignWidth="300" MinWidth="300" MaxWidth="600">
     <Grid x:Name="gMain">
         <hc:Card x:Name="card" Header=" 权重：" VerticalAlignment="Top">
             <ScrollViewer >
                 <Grid x:Name="gCard" Margin="2">
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="26" Height="Auto"/>
-                        <RowDefinition MinHeight="26" Height="Auto"/>
-                        <RowDefinition MinHeight="26" Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition MinHeight="26" Height="Auto"/>
                         <RowDefinition MinHeight="16" Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="26"/>
-                        </Grid.ColumnDefinitions>
-                        <local:CardProperty LbContent="名称" TbContent="{Binding Title, Mode=TwoWay}"></local:CardProperty>
-                        <!--<Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,3,0,0" />-->
-                    </Grid>
+                    <local:CardProperty LbContent="名称" TbContent="{Binding Title, Mode=TwoWay}"></local:CardProperty>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50*"/>
@@ -34,7 +27,7 @@
                         <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}"></local:CardProperty>
                         <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1"></local:CardProperty>
                     </Grid>
-                    <local:LinesBox DataContext="{Binding Lines, Mode=TwoWay}" Grid.Row="2"/>
+                    <local:LinesBox DataContext="{Binding Lines, Mode=TwoWay}" ShowAddButton="Collapsed" Grid.Row="2"/>
                     <local:CardProperty LbContent="备注" TbContent="{Binding Summary, Mode=TwoWay}" Grid.Row="3"></local:CardProperty>
                 </Grid>
             </ScrollViewer>

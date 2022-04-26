@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RootNS.View.LinesBox"
+﻿<UserControl x:Name="ThisBox" x:Class="RootNS.View.LinesBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
     <ItemsControl ItemsSource="{Binding}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                    <local:CardLine/>
+                <local:CardLine ShowAddButton="{Binding ShowAddButton, ElementName=ThisBox}"/>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
         <ItemsControl.ItemsPanel>

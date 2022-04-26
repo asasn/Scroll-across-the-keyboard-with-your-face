@@ -146,7 +146,7 @@ namespace RootNS.Model
             public string TabName { get; set; }
             public string OwnerName { get; set; }
         }
-        public class Line
+        public class Line : NotificationObject
         {
             public Line()
             {
@@ -164,6 +164,7 @@ namespace RootNS.Model
                     tip.Parent = this;
                     tip.Index = this.Tips.IndexOf(tip);
                 }
+                this.HasTip = Convert.ToBoolean(this.Tips.Count);
             }
             public Card Parent { get; set; }
             public string Pid { get; set; }
@@ -171,6 +172,19 @@ namespace RootNS.Model
             public string TabName { get; set; }
             public string OwnerName { get; set; }
             public ObservableCollection<Tip> Tips { get; set; } = new ObservableCollection<Tip>();
+
+            private bool _hasTip;
+
+            public bool HasTip
+            {
+                get { return _hasTip; }
+                set
+                {
+                    _hasTip = value;
+                    RaisePropertyChanged(nameof(HasTip));
+                }
+            }
+
         }
 
         public ObservableCollection<Line> Lines { get; set; } = new ObservableCollection<Line>();
@@ -186,5 +200,6 @@ namespace RootNS.Model
                 line.Parent = this;
             }
         }
+
     }
 }
