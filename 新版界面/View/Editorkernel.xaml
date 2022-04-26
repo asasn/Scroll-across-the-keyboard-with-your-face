@@ -14,6 +14,8 @@
         <RoutedUICommand x:Key="Replace" Text="替换"/>
         <RoutedUICommand x:Key="MoveNext" Text="下一个"/>
         <RoutedUICommand x:Key="MovePrevious" Text="上一个"/>
+        <RoutedUICommand x:Key="CloseTabItem" Text="关闭当前页面"/>
+        <RoutedUICommand x:Key="EditCard" Text="编辑信息卡"/>
     </UserControl.Resources>
     <UserControl.CommandBindings>
         <CommandBinding Command="{StaticResource SaveText}" Executed="Command_SaveText_Executed" />
@@ -22,6 +24,8 @@
         <CommandBinding Command="{StaticResource Replace}" Executed="Command_Replace_Executed" />
         <CommandBinding Command="{StaticResource MoveNext}" Executed="Command_MoveNext_Executed" />
         <CommandBinding Command="{StaticResource MovePrevious}" Executed="Command_MovePrevious_Executed" />
+        <CommandBinding Command="{StaticResource CloseTabItem}" Executed="Command_CloseTabItem_Executed" />
+        <CommandBinding Command="{StaticResource EditCard}" Executed="Command_EditCard_Executed" />
     </UserControl.CommandBindings>
     <UserControl.InputBindings>
         <KeyBinding Command="{StaticResource SaveText}" Key="S" Modifiers="Ctrl"/>
@@ -30,6 +34,8 @@
         <KeyBinding Command="{StaticResource Replace}" Key="H" Modifiers="Ctrl"/>
         <KeyBinding Command="{StaticResource MoveNext}" Key="F3"/>
         <KeyBinding Command="{StaticResource MovePrevious}" Key="F4"/>
+        <KeyBinding Command="{StaticResource CloseTabItem}" Key="W" Modifiers="Ctrl"/>
+        <KeyBinding Command="{StaticResource EditCard}" Key="F5"/>
     </UserControl.InputBindings>
     <Grid Background="#FFFAFAFA" >
         <Grid.ColumnDefinitions>

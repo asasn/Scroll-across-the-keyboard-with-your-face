@@ -19,7 +19,7 @@ namespace RootNS.Helper
         {
             IOHelper.CreateFolder(Gval.Path.Books);
             TableHelper.TryToBuildIndexDatabase();
-            Gval.CurrentBook.Uid = SettingsHelper.Get(Gval.MaterialBook.Name, "CurBookUid");
+            Gval.CurrentBook.Uid = SettingsHelper.Get(Gval.MaterialBook.Name, "CurBookUid").ToString();
             LoadBooksBank();            
         }
 
@@ -157,7 +157,7 @@ namespace RootNS.Helper
                     Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
                     Summary = reader["Summary"] == DBNull.Value ? null : reader["Summary"].ToString(),
                     Weight = reader["Weight"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Weight"]),
-                    BornYear = reader["BornYear"] == DBNull.Value ? 0 : Convert.ToInt64(reader["BornYear"]),
+                    BornYear = string.IsNullOrWhiteSpace(reader["BornYear"].ToString()) == true ? null : reader["BornYear"].ToString(),
                     IsChecked = (bool)reader["IsChecked"],
                     IsDel = (bool)reader["IsDel"]
                 };

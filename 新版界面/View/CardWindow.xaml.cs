@@ -32,9 +32,16 @@ namespace RootNS.View
 
             //添加拖曳面板事件
             this.MouseLeftButtonDown += (o, e) => { DragMove(); };
-
         }
+        public CardWindow(Card card)
+        {
+            InitializeComponent();
+            DataIn.LoadCardContent(card);
+            this.DataContext = card;
 
+            //添加拖曳面板事件
+            this.MouseLeftButtonDown += (o, e) => { DragMove(); };
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -69,6 +76,7 @@ namespace RootNS.View
         {
             if (IsShow == true)
             {
+                (this.DataContext as Card).ShowYearLine = !string.IsNullOrWhiteSpace((this.DataContext as Card).BornYear);
                 foreach (Card.Line line in (this.DataContext as Card).Lines)
                 {
                     line.HasTip = Convert.ToBoolean(line.Tips.Count);
@@ -78,6 +86,7 @@ namespace RootNS.View
             }
             else
             {
+                (this.DataContext as Card).ShowYearLine = true;
                 foreach (Card.Line line in (this.DataContext as Card).Lines)
                 {
                     line.HasTip = true;

@@ -3,6 +3,7 @@ using ICSharpCode.AvalonEdit.Document;
 using RootNS.Helper;
 using RootNS.Model;
 using RootNS.Workfolw;
+using System;
 using System.Media;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -181,7 +182,7 @@ namespace RootNS.View
 
                 //设置窗口位置
                 ViewSet.ForViewPoint(theDialog, Gval.View.Searcher);
-            }    
+            }
             return theDialog;
         }
 
@@ -224,36 +225,17 @@ namespace RootNS.View
         private void CheckBox_Loaded(object sender, RoutedEventArgs e)
         {
             CheckBox cb = sender as CheckBox;
-            string flag = SettingsHelper.Get("index", string.Format("{0}_{1}", this.GetType().Name, cb.Name));
-            if (flag == "yes")
-            {
-                cb.IsChecked = true;
-            }
-            if (flag == "no")
-            {
-                cb.IsChecked = false;
-            }
+            cb.IsChecked = Convert.ToBoolean(SettingsHelper.Get(Gval.MaterialBook.Name, string.Format("{0}_{1}", this.GetType().Name, cb.Name)));
             IsLoading = false;
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (IsLoading == false)
             {
                 CheckBox cb = sender as CheckBox;
-                SettingsHelper.Set("index", string.Format("{0}_{1}", this.GetType().Name, cb.Name), "yes");
+                SettingsHelper.Set(Gval.MaterialBook.Name, string.Format("{0}_{1}", this.GetType().Name, cb.Name), cb.IsChecked);
             }
         }
-
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            if (IsLoading == false)
-            {
-                CheckBox cb = sender as CheckBox;
-                SettingsHelper.Set("index", string.Format("{0}_{1}", this.GetType().Name, cb.Name), "no");
-            }
-        }
-
-
     }
 }

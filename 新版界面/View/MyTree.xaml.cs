@@ -87,18 +87,24 @@ namespace RootNS.View
 
         private void Command_Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem != null)
+            if (TreeNodes.SelectedItem == null)
             {
-                Node node = TreeNodes.SelectedItem as Node;
-                if (node.IsDel == false)
-                {
-                    node.IsDel = true;
-                    node.IsExpanded = false;
-                }
-                else
-                {
-                    node.RealRemoveItSelfAndAllChildNodes();
-                }
+                return;
+            }
+            Node node = TreeNodes.SelectedItem as Node;
+            if (Gval.OpeningDocList.Contains(node))
+            {
+                FunctionPack.ShowMessageBox("当前文档已打开，请关闭之后再进行操作！");
+                return;
+            }
+            if (node.IsDel == false)
+            {
+                node.IsDel = true;
+                node.IsExpanded = false;
+            }
+            else
+            {
+                node.RealRemoveItSelfAndAllChildNodes();
             }
         }
 

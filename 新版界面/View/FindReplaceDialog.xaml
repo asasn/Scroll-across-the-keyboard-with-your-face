@@ -44,16 +44,16 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         </TabControl>
 
         <CheckBox Grid.Row="1" Grid.Column="0" Margin="10,2" 
-        Name="cbCaseSensitive" Content="匹配大小写" IsChecked="False" HorizontalAlignment="Left" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Loaded="CheckBox_Loaded" />
+        Name="cbCaseSensitive" Content="匹配大小写" IsChecked="False" HorizontalAlignment="Left" Click="CheckBox_Click" Loaded="CheckBox_Loaded" />
         <CheckBox Grid.Row="2" Grid.Column="0" Margin="10,2" 
-        Name="cbWholeWord" Content="匹配整个单词" IsChecked="False" HorizontalAlignment="Left" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Loaded="CheckBox_Loaded" />
+        Name="cbWholeWord" Content="匹配整个单词" IsChecked="False" HorizontalAlignment="Left" Click="CheckBox_Click" Loaded="CheckBox_Loaded" />
         <CheckBox Grid.Row="3" Grid.Column="0" Margin="10,2" 
-        Name="cbLoop" Content="是否循环" HorizontalAlignment="Left" IsChecked="True" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Loaded="CheckBox_Loaded" />
+        Name="cbLoop" Content="是否循环" HorizontalAlignment="Left" IsChecked="True" Click="CheckBox_Click" Loaded="CheckBox_Loaded" />
         <CheckBox Grid.Row="1" Grid.Column="1" Margin="10,2" 
-        Name="cbRegex" Content="正则表达式" HorizontalAlignment="Left" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Loaded="CheckBox_Loaded" />
+        Name="cbRegex" Content="正则表达式" HorizontalAlignment="Left" Click="CheckBox_Click" Loaded="CheckBox_Loaded" />
         <CheckBox Grid.Row="2" Grid.Column="1" Margin="10,2" 
-        Name="cbWildcards" Content="通配符" HorizontalAlignment="Left" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Loaded="CheckBox_Loaded" />
+        Name="cbWildcards" Content="通配符" HorizontalAlignment="Left" Click="CheckBox_Click" Loaded="CheckBox_Loaded" />
         <CheckBox Grid.Row="3" Grid.Column="1" Margin="10,2" 
-        Name="cbSearchUp" Content="向上查找/替换" HorizontalAlignment="Left" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Loaded="CheckBox_Loaded" />
+        Name="cbSearchUp" Content="向上查找/替换" HorizontalAlignment="Left" Click="CheckBox_Click" Loaded="CheckBox_Loaded" />
     </Grid>
 </Window>

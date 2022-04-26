@@ -1,6 +1,7 @@
 ﻿using RootNS.Helper;
 using RootNS.Model;
 using RootNS.View;
+using RootNS.Workfolw;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,11 +36,23 @@ namespace RootNS.View
             {
                 return;
             }
+            foreach (Node node in (this.DataContext as Card).ChildNodes)
+            {
+                if (node.Title.Equals(TbNew.Text) || (node as Card).IsEqualsNickNames(TbNew.Text, (node as Card).NickNames))
+                {
+                    FunctionPack.ShowMessageBox("该信息卡已经存在\n请换一个名称！");
+                    TbNew.Clear();
+                    return;
+                }
+            }
             Card card = new Card();
             card.Title = TbNew.Text;
             (this.DataContext as Card).AddChildNode(card);
             EditorHelper.RefreshKeyWordForAllEditor(card);
-            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            if (Gval.EditorTabControl.SelectedItem != null)
+            {
+                EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            }
             TbNew.Clear();
         }
 
@@ -48,9 +61,27 @@ namespace RootNS.View
 
         }
 
-        private void BtnLookMore_Click(object sender, RoutedEventArgs e)
+        public bool LookLessCards;
+        private void BtnLookLess_Click(object sender, RoutedEventArgs e)
         {
-
+            if (LookLessCards == true)
+            {
+                LookLessCards = false;
+                (sender as Button).Content = "\ue8c1";
+                foreach (Node node in (this.DataContext as Card).ChildNodes)
+                {
+                    (node as Card).IsShowCard = true;
+                }
+            }
+            else
+            {
+                LookLessCards = true;
+                (sender as Button).Content = "\ue8a3";
+                foreach (Node node in (this.DataContext as Card).ChildNodes)
+                {
+                    (node as Card).IsShowCard = (node as Card).IsContain;
+                }
+            }
         }
 
         private void TbNew_KeyUp(object sender, KeyEventArgs e)
@@ -87,19 +118,19 @@ namespace RootNS.View
             if (((sender as Button).DataContext as Card).IsDel == true)
             {
                 ((sender as Button).DataContext as Card).RemoveThisCard();
-               }
+            }
             else
             {
                 ((sender as Button).DataContext as Card).IsDel = true;
                 EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-                EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+                EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
             }
         }
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((sender as Button).DataContext as Card).IsDel = false;
             EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-            EditorHelper.RefreshStyleForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
         }
 
         private void Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -111,5 +142,6 @@ namespace RootNS.View
         {
 
         }
+
     }
 }

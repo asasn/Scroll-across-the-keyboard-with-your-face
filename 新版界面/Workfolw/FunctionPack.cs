@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace RootNS.Workfolw
@@ -15,6 +16,10 @@ namespace RootNS.Workfolw
     internal class FunctionPack
     {
 
+        public static void ShowMessageBox(string text)
+        {
+            MessageBox.Show(text, "提示", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+        }
 
     }
 }

@@ -5,12 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RootNS.View"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="300" MinWidth="300" MaxWidth="600">
+             mc:Ignorable="d"
+             d:DesignHeight="150" d:DesignWidth="150" MinWidth="150" MaxWidth="450">
     <Grid x:Name="gMain">
-        <hc:Card x:Name="card" Header=" 权重：" VerticalAlignment="Top">
             <ScrollViewer >
-                <Grid x:Name="gCard" Margin="2">
+                <Grid x:Name="gCard">
                     <Grid.RowDefinitions>
                         <RowDefinition MinHeight="26" Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -24,14 +23,12 @@
                             <ColumnDefinition Width="50*"/>
                             <ColumnDefinition Width="50*"/>
                         </Grid.ColumnDefinitions>
-                        <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}"></local:CardProperty>
-                        <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1"></local:CardProperty>
+                        <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
+                        <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
                     </Grid>
                     <local:LinesBox DataContext="{Binding Lines, Mode=TwoWay}" ShowAddButton="Collapsed" Grid.Row="2"/>
                     <local:CardProperty LbContent="备注" TbContent="{Binding Summary, Mode=TwoWay}" Grid.Row="3"></local:CardProperty>
                 </Grid>
             </ScrollViewer>
-        </hc:Card>
-        <!--<Button Padding="0" x:Name="BtnClose" FontFamily="../Assets/#androidicons" Content="&#xE82F;" FontSize="14" Background="Transparent" Foreground="Red" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,5,5,0" />-->
-    </Grid>
+        </Grid>
 </UserControl>

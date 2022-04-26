@@ -24,18 +24,10 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="26"/>
-                        </Grid.ColumnDefinitions>
-                        <local:CardProperty LbContent="名称" TbContent="{Binding Title, Mode=TwoWay}"></local:CardProperty>
-                        <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,3,0,0" />
-                    </Grid>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50*"/>
-                            <ColumnDefinition Width="50*"/>
                             <ColumnDefinition Width="26"/>
                         </Grid.ColumnDefinitions>
-                        <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}"/>
-                        <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1"/>
+                        <local:CardProperty LbContent="名称" TbContent="{Binding Title, Mode=TwoWay}"></local:CardProperty>
+                        <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,3,0,0" />
                         <Button Padding="2" x:Name="BtnSee" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSee_Click" Width="20" Height="20" Grid.Column="3" >
                             <Border Background="Transparent" Height="16" Padding="3" Width="16">
                                 <Path x:Name="ExpandPath" Data="M508.89325,762.93166 A65.039498,65.039498,0,0,1,462.47259,743.44582 L97.125746,371.00402 C71.982728,345.3697 72.372878,304.18717 98.007197,279.04415 123.65597,253.87946 164.81682,254.29851 189.96706,279.92561 L508.90047,605.05084 827.83388,279.92561 A65.025048,65.025048,0,0,1,920.6752,371.00402 L555.31391,743.44582 A65.025048,65.025048,0,0,1,508.89325,762.93166 z" Fill="Goldenrod"  RenderTransformOrigin="0.5,0.5" Stretch="Uniform">
@@ -45,6 +37,15 @@
                                 </Path>
                             </Border>
                         </Button>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="26"/>
+                        </Grid.ColumnDefinitions>
+                        <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
+                        <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
                     </Grid>
                     <local:LinesBox DataContext="{Binding Lines}" Grid.Row="2"/>
                     <local:CardProperty LbContent="备注" TbContent="{Binding Summary, Mode=TwoWay}" Grid.Row="3"></local:CardProperty>

@@ -101,6 +101,31 @@ namespace RootNS.View
             FindReplaceDialog.theDialog.cbSearchUp.IsChecked = true;
             FindReplaceDialog.theDialog.FindNext(ThisTextEditor.TextArea.Selection.GetText());
         }
+
+        private void Command_CloseTabItem_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
+            CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
+        }
+
+        private void Command_EditCard_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+            foreach (Card rootCard in CardBoxs)
+            {
+                foreach (Card card in rootCard.ChildNodes)
+                {
+                    if (ThisTextEditor.SelectedText.Equals(card.Title) == true || card.IsEqualsNickNames(ThisTextEditor.SelectedText, card.NickNames))
+                    {
+                        CardWindow cw = new CardWindow(card);
+                        cw.Left = ThisTextEditor.TranslatePoint(Mouse.GetPosition(this), Gval.View.MainWindow).X - 150;
+                        cw.Top = ThisTextEditor.TranslatePoint(Mouse.GetPosition(this), Gval.View.MainWindow).Y + 20;
+                        cw.ShowDialog();
+                        return;
+                    }
+                }
+            }
+        }
         #endregion
 
         #region 按钮点击事件
@@ -115,6 +140,7 @@ namespace RootNS.View
         {
             Command_Typesetting_Executed(null, null);
         }
+
         private void BtnCopy_Click(object sender, RoutedEventArgs e)
         {
 
@@ -154,8 +180,7 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
-            CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
+            Command_CloseTabItem_Executed(null, null);
         }
 
 
@@ -168,7 +193,7 @@ namespace RootNS.View
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
             //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
-            EditorHelper.SetColorRulesForCards(ThisTextEditor);
+            EditorHelper.RefreshIsContainFlagForCardsBox(ThisTextEditor.Text);
             ThisTextEditor.Focus();
 
         }
@@ -178,7 +203,7 @@ namespace RootNS.View
             BtnSaveDoc.IsEnabled = true;
             LbWorksCount.Content = EditorHelper.CountWords(ThisTextEditor.Text);
             LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(LbWorksCount.Content) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
-            EditorHelper.RefreshStyleForCardsBox(ThisTextEditor.Text);
+            EditorHelper.RefreshIsContainFlagForCardsBox(ThisTextEditor.Text);
         }
 
 
@@ -196,13 +221,14 @@ namespace RootNS.View
             {
                 //toolTip.PlacementTarget = this; // required for property inheritance
                 int offset = ThisTextEditor.Document.GetOffset(pos.Value.Location);
-                
+
                 Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
                 foreach (Card rootCard in CardBoxs)
                 {
                     foreach (Card card in rootCard.ChildNodes)
                     {
-                        List<string> rets = GetHoverString(offset, GetKeywordWidth(card));
+                        int w = GetKeywordWidth(card);
+                        List<string> rets = GetHoverString(offset, w);
                         foreach (string ret in rets)
                         {
                             if (ret.Contains(card.Title) == true || IsContainsNickNames(ret, card.NickNames))
@@ -233,17 +259,19 @@ namespace RootNS.View
             return width;
         }
 
+
+
         /// <summary>
         /// 是否包含别名
         /// </summary>
-        /// <param name="ret"></param>
+        /// <param name="str"></param>
         /// <param name="line"></param>
         /// <returns></returns>
-        private bool IsContainsNickNames(string ret, Card.Line line)
+        private bool IsContainsNickNames(string str, Card.Line line)
         {
             foreach (Card.Tip tip in line.Tips)
             {
-                if (ret.Contains(tip.Title) == true)
+                if (str.Contains(tip.Title) == true)
                 {
                     return true;
                 }
@@ -251,7 +279,7 @@ namespace RootNS.View
             return false;
         }
 
-        private List<string> GetHoverString(int offset, int width=5)
+        private List<string> GetHoverString(int offset, int width = 5)
         {
             List<string> rets = new List<string>();
             int l = 0, r = 0;
@@ -295,7 +323,6 @@ namespace RootNS.View
         {
 
         }
-
 
 
     }

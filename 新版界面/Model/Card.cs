@@ -20,6 +20,10 @@ namespace RootNS.Model
 
         private void Card_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            if (e.PropertyName == "BornYear")
+            {
+                ShowYearLine = !string.IsNullOrWhiteSpace(BornYear);
+            }
         }
 
 
@@ -43,6 +47,38 @@ namespace RootNS.Model
             }
         }
 
+        private bool _isShowCard = true;
+        /// <summary>
+        /// 卡片是否可见
+        /// </summary>
+        public bool IsShowCard
+        {
+            get { return _isShowCard; }
+            set
+            {
+                _isShowCard = value;
+                RaisePropertyChanged(nameof(IsShowCard));
+            }
+        }
+
+
+        /// <summary>
+        /// 是否在行中具有相同的值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        public bool IsEqualsNickNames(string str, Card.Line line)
+        {
+            foreach (Card.Tip tip in line.Tips)
+            {
+                if (str.Equals(tip.Title))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private bool _canSave;
         /// <summary>
@@ -72,11 +108,11 @@ namespace RootNS.Model
         }
 
 
-        private long _bornYear;
+        private string _bornYear;
         /// <summary>
         /// 诞年
         /// </summary>
-        public long BornYear
+        public string BornYear
         {
             get { return _bornYear; }
             set
@@ -85,6 +121,19 @@ namespace RootNS.Model
                 this.RaisePropertyChanged(nameof(BornYear));
             }
         }
+
+        private bool _showYearLine;
+
+        public bool ShowYearLine
+        {
+            get { return _showYearLine; }
+            set
+            {
+                _showYearLine = value;
+                RaisePropertyChanged(nameof(ShowYearLine));
+            }
+        }
+
 
         private int _weight;
         /// <summary>

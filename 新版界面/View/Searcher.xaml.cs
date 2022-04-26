@@ -3,6 +3,7 @@ using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using RootNS.Helper;
 using RootNS.Model;
+using RootNS.Workfolw;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -95,7 +96,7 @@ namespace RootNS.View
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("正则表达式错误！", "警告", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+                    FunctionPack.ShowMessageBox("正则表达式错误！");
                     return;
                 }
             }

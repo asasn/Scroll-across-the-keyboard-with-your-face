@@ -138,7 +138,7 @@ namespace RootNS.Helper
         private static string GetSqlStringForCreateCardTable(string tableName)
         {
             string sql = string.Empty;
-            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Title CHAR, Summary CHAR, Weight INTEGER DEFAULT (0), BornYear INTEGER DEFAULT (0), IsChecked BOOLEAN DEFAULT(False), IsDel BOOLEAN DEFAULT(False));", tableName);
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0} ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Title CHAR, Summary CHAR, Weight INTEGER DEFAULT (0), BornYear CHAR, IsChecked BOOLEAN DEFAULT(False), IsDel BOOLEAN DEFAULT(False));", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", tableName);
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Title ON {0}(Title);", tableName);
             return sql;

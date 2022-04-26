@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RootNS.Workfolw;
 
 namespace RootNS.View
 {
@@ -41,7 +42,7 @@ namespace RootNS.View
             {
                 if (IOHelper.IsFileExists(Gval.Path.Books + "/" + TbName.Text + ".db") == true)
                 {
-                    MessageBox.Show("该书籍已经存在\n请换一个新书名！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+                    FunctionPack.ShowMessageBox("该书籍已经存在\n请换一个新书名！"); 
                     return;
                 }
                 else
@@ -78,7 +79,7 @@ namespace RootNS.View
             {
                 if (IOHelper.IsFileExists(Gval.Path.Books + "/" + TbBuild.Text + ".db") == true)
                 {
-                    MessageBox.Show("该书籍已经存在\n请换一个新书名！", "提示", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+                    FunctionPack.ShowMessageBox("该书籍已经存在\n请换一个新书名！");
                     return;
                 }
                 else

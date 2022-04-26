@@ -21,8 +21,8 @@ namespace RootNS.Workfolw
         /// <param name="uc"></param>
         public static void ForViewPoint(Window thisWin, UIElement uc)
         {
-            thisWin.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 5;
-            thisWin.Top = 300;
+            thisWin.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 6;
+            thisWin.Top = uc.TranslatePoint(new Point(), Gval.View.MainWindow).Y + 50;
         }
 
     }

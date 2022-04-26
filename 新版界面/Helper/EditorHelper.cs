@@ -18,38 +18,33 @@ namespace RootNS.Helper
     internal class EditorHelper
     {
         /// <summary>
-        /// 刷新信息卡标志（是否包含在文章中）
+        /// 刷新信息卡标志以在box中标记（是否包含在文章中）
         /// </summary>
         /// <param name="tEditor"></param>
-        public static void RefreshStyleForCardsBox(string text)
+        public static void RefreshIsContainFlagForCardsBox(string text)
         {
+            
             Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
             foreach (Card rootCard in CardBoxs)
             {
                 foreach (Card card in rootCard.ChildNodes)
                 {
+                    card.IsContain = false;
                     if (card.IsDel == true)
                     {
-                        card.IsContain = false;
                         continue;
                     }
                     if (text.Contains(card.Title.Trim()))
                     {
                         card.IsContain = true;
-                    }
-                    else
-                    {
-                        card.IsContain = false;
+                        continue;
                     }
                     foreach (Card.Tip tip in card.NickNames.Tips)
                     {
                         if (text.Contains(tip.Title.Trim()))
                         {
                             card.IsContain = true;
-                        }
-                        else
-                        {
-                            card.IsContain = false;
+                            continue;
                         }
                     }
                 }
@@ -186,10 +181,6 @@ namespace RootNS.Helper
             {
                 foreach (Card card in rootCard.ChildNodes)
                 {
-                    if (card.IsDel == true)
-                    {
-                        continue;
-                    }
                     AddCardKeyWord(tEditor, card);
                 }
             }

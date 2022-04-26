@@ -66,6 +66,7 @@ namespace RootNS.View
                 {
                     stuff.Text = "　　";
                 }
+                EditorHelper.SetColorRulesForCards(editorBase.ThisTextEditor);
                 editorBase.ThisTextEditor.Text = stuff.Text;
                 EditorHelper.MoveToEnd(editorBase.ThisTextEditor);
                 editorBase.BtnSaveDoc.IsEnabled = false;
@@ -81,7 +82,7 @@ namespace RootNS.View
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
             Editorkernel editorBase = tabItem.Content as Editorkernel;
             Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
-            EditorHelper.RefreshStyleForCardsBox(string.Empty);
+            EditorHelper.RefreshIsContainFlagForCardsBox(string.Empty);
         }
 
         private void TabItem_Closing(object sender, EventArgs e)
