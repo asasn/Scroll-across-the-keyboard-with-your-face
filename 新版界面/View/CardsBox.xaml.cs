@@ -36,19 +36,22 @@ namespace RootNS.View
             {
                 return;
             }
-            foreach (Node node in (this.DataContext as Card).ChildNodes)
+            Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+            foreach (Card rootCard in CardBoxs)
             {
-                if (node.Title.Equals(TbNew.Text) || (node as Card).IsEqualsNickNames(TbNew.Text, (node as Card).NickNames))
+                foreach (Card card in rootCard.ChildNodes)
                 {
-                    FunctionPack.ShowMessageBox("该信息卡已经存在\n请换一个名称！");
-                    TbNew.Clear();
-                    return;
+                    if (card.Title.Equals(TbNew.Text) || card.IsEqualsNickNames(TbNew.Text, card.NickNames))
+                    {
+                        FunctionPack.ShowMessageBox("该信息卡已经存在\n请换一个名称！");
+                        TbNew.Clear();
+                        return;
+                    }
                 }
             }
-            Card card = new Card();
-            card.Title = TbNew.Text;
-            (this.DataContext as Card).AddChildNode(card);
-            EditorHelper.RefreshKeyWordForAllEditor(card);
+            Card newCard = new Card() { Title = TbNew.Text };
+            (this.DataContext as Card).AddChildNode(newCard);
+            EditorHelper.RefreshKeyWordForAllEditor(newCard);
             if (Gval.EditorTabControl.SelectedItem != null)
             {
                 EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
