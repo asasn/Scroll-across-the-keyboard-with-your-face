@@ -23,7 +23,6 @@ namespace RootNS.Helper
         /// <param name="tEditor"></param>
         public static void RefreshIsContainFlagForCardsBox(string text)
         {
-            
             Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
             foreach (Card rootCard in CardBoxs)
             {

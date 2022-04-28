@@ -36,7 +36,9 @@ namespace RootNS.View
             {
                 return;
             }
-            Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
+            BookBase owner = (this.DataContext as Card).Owner as BookBase;
+            owner.LoadForAllCardTabs();
+            Card[] CardBoxs = { owner.CardRole, owner.CardOther, owner.CardWorld };
             foreach (Card rootCard in CardBoxs)
             {
                 foreach (Card card in rootCard.ChildNodes)
@@ -51,12 +53,15 @@ namespace RootNS.View
             }
             Card newCard = new Card() { Title = TbNew.Text };
             (this.DataContext as Card).AddChildNode(newCard);
-            EditorHelper.RefreshKeyWordForAllEditor(newCard);
-            if (Gval.EditorTabControl.SelectedItem != null)
-            {
-                EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
-            }
             TbNew.Clear();
+            if (Gval.EditorTabControl.SelectedItem == null || owner.Name == Gval.MaterialBook.Name)
+            {
+                return;
+            }
+            EditorHelper.RefreshKeyWordForAllEditor(newCard);
+            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+
+
         }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
@@ -125,13 +130,26 @@ namespace RootNS.View
             else
             {
                 ((sender as Button).DataContext as Card).IsDel = true;
-                EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-                EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
             }
+            if (Gval.EditorTabControl.SelectedItem == null || (this.DataContext as BookBase).Name == Gval.MaterialBook.Name)
+            {
+                return;
+            }
+            BookBase owner = (this.DataContext as Card).Owner as BookBase;
+            owner.LoadForAllCardTabs();
+            EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
+            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+
         }
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((sender as Button).DataContext as Card).IsDel = false;
+            if (Gval.EditorTabControl.SelectedItem == null || (this.DataContext as BookBase).Name == Gval.MaterialBook.Name)
+            {
+                return;
+            }
+            BookBase owner = (this.DataContext as Card).Owner as BookBase;
+            owner.LoadForAllCardTabs();
             EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
             EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
         }

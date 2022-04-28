@@ -150,6 +150,7 @@ namespace RootNS.View
             {
                 return;
             }
+            Gval.CurrentBook.LoadForAllChapterTabs();
             selectedNode.RealRemoveItSelfAndAllChildNodes();
             selectedNode.AddToTreeEnd(targetRootNode);
         }
@@ -161,6 +162,7 @@ namespace RootNS.View
             {
                 return;
             }
+            Gval.CurrentBook.LoadForAllChapterTabs();
             selectedNode.RealRemoveItSelfAndAllChildNodes();
             selectedNode.AddToTreeEnd(targetRootNode);
         }

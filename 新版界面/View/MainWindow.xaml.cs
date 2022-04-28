@@ -61,20 +61,18 @@ namespace RootNS
 
         private void TabBook_Loaded(object sender, RoutedEventArgs e)
         {
-            TabBook_SelectionChanged(sender, null);
-            Gval.CurrentBook.LoadForAllChapterTabs();
+            
         }
 
         private void TabBook_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.SelectedChapterTab = sender as TabControl;
+            Gval.CurrentBook.LoadForChapterTab();
         }
 
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
         {
-            TabNote_SelectionChanged(sender, null);
-            Gval.CurrentBook.LoadForAllNoteTabs();
             (sender as TabControl).SelectedIndex = Convert.ToInt32(SettingsHelper.Get(Gval.CurrentBook.Name, "NoteSelectedIndex"));
             tabNoteLoadedFlag = true;
         }
@@ -83,6 +81,7 @@ namespace RootNS
         private void TabNote_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.SelectedNoteTab = sender as TabControl;
+            Gval.CurrentBook.LoadForNoteTab();
             if (tabNoteLoadedFlag == true)
             {
                 SettingsHelper.Set(Gval.CurrentBook.Name, "NoteSelectedIndex", (sender as TabControl).SelectedIndex.ToString());
@@ -92,19 +91,17 @@ namespace RootNS
 
         private void TabCard_Loaded(object sender, RoutedEventArgs e)
         {
-            TabCard_SelectionChanged(sender, null);
-            Gval.CurrentBook.LoadForAllCardTabs();
+
         }
 
         private void TabCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.SelectedCardTab = sender as TabControl;
+            Gval.CurrentBook.LoadForCardTab();
         }
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
         {
-            TabMaterial_SelectionChanged(sender, null);
-            Gval.MaterialBook.LoadForAllMaterialTabs();
             (sender as TabControl).SelectedIndex = Convert.ToInt32(SettingsHelper.Get(Gval.MaterialBook.Name, "MaterialSelectedIndex"));
             tabMaterialLoadedFlag = true;
         }
@@ -113,6 +110,7 @@ namespace RootNS
         private void TabMaterial_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.SelectedMaterialTab = sender as TabControl;
+            Gval.MaterialBook.LoadForMaterialTab();
             if (tabMaterialLoadedFlag == true)
             {
                 SettingsHelper.Set(Gval.MaterialBook.Name, "MaterialSelectedIndex", (sender as TabControl).SelectedIndex.ToString());
@@ -123,13 +121,13 @@ namespace RootNS
 
         private void TabPublicCard_Loaded(object sender, RoutedEventArgs e)
         {
-            TabPublicCard_SelectionChanged(sender, null);
-            Gval.MaterialBook.LoadForAllCardTabs();
+
         }
 
         private void TabPublicCard_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Gval.SelectedPublicCardTab = sender as TabControl;
+            Gval.MaterialBook.LoadForPublicCardTab();
         }
 
         private void BtnChoose_Click(object sender, RoutedEventArgs e)

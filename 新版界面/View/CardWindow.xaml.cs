@@ -67,8 +67,14 @@ namespace RootNS.View
                     break;
                 }
             }
-            EditorHelper.RefreshKeyWordForAllEditor(this.DataContext as Card);
             BtnSave.IsEnabled = false;
+            if (Gval.EditorTabControl.SelectedItem == null || ((this.DataContext as Card).Owner as BookBase).Name == Gval.MaterialBook.Name)
+            {
+                return;
+            }
+            EditorHelper.RefreshKeyWordForAllEditor(this.DataContext as Card);
+            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            
         }
 
         bool IsShow = false;

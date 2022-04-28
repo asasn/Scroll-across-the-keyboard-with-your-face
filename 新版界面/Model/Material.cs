@@ -18,6 +18,10 @@ namespace RootNS.Model
             Name = "index";
             this.InitRootNodes(Name);
             this.InitRootCards(Name);
+            RootNodes.Add(MaterialTabName.范文.ToString(), BoxExample);
+            RootNodes.Add(MaterialTabName.资料.ToString(), BoxMaterial);
+            RootNodes.Add(MaterialTabName.主题.ToString(), NoteTheme);
+            RootNodes.Add(MaterialTabName.灵感.ToString(), NoteInspiration);
         }
 
         private void Material_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -77,7 +81,22 @@ namespace RootNS.Model
             }
             return nodes;
         }
-
+        public void LoadForMaterialTab()
+        {
+            Node rootNode = RootNodes[Enum.GetName(typeof(MaterialTabName), Gval.SelectedMaterialTab.SelectedIndex)];
+            if (rootNode.ChildNodes.Count == 0)
+            {
+                DataIn.FillInNodes(rootNode);
+            }
+        }
+        public void LoadForPublicCardTab()
+        {
+            Card rootCard = RootNodes[Enum.GetName(typeof(CardTabName), Gval.SelectedPublicCardTab.SelectedIndex)] as Card;
+            if (rootCard.ChildNodes.Count == 0)
+            {
+                DataIn.FillInCards(rootCard);
+            }
+        }
 
         /// <summary>
         /// 载入所有资料

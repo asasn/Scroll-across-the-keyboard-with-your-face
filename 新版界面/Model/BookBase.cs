@@ -1,12 +1,6 @@
 ﻿using RootNS.Helper;
-using RootNS.View;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace RootNS.Model
 {
@@ -15,13 +9,16 @@ namespace RootNS.Model
         public BookBase()
         {
             this.PropertyChanged += BookBase_PropertyChanged;
+            RootNodes.Add(CardTabName.角色.ToString(), CardRole);
+            RootNodes.Add(CardTabName.其他.ToString(), CardOther);
+            RootNodes.Add(CardTabName.世界.ToString(), CardWorld);
         }
 
         private void BookBase_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Name")
             {
-                this.InitRootNodes(this.Name);
+                this.InitRootCards(this.Name);
             }
         }
 
@@ -29,7 +26,7 @@ namespace RootNS.Model
         /// 根节点初始化
         /// </summary>
         /// <param name="bookName"></param>
-        private void InitRootNodes(string bookName)
+        private void InitRootCards(string bookName)
         {
             Card[] rootCards = { this.CardRole, this.CardOther, this.CardWorld };
             foreach (Card card in rootCards)
@@ -133,7 +130,7 @@ namespace RootNS.Model
             地图,
         }
 
-
+        public Dictionary<string, Node> RootNodes { get; set; } = new Dictionary<string, Node>();
 
         #region 信息卡
         public Card CardRole { set; get; } = new Card() { Uid = String.Empty, TabName = CardTabName.角色.ToString() };
@@ -234,6 +231,8 @@ namespace RootNS.Model
             GetTreeNodes(nodes, node);
             return nodes;
         }
+
+
 
         /// <summary>
         /// 载入所有信息卡

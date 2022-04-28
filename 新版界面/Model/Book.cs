@@ -20,6 +20,16 @@ namespace RootNS.Model
         public Book()
         {
             this.PropertyChanged += Book_PropertyChanged;
+            RootNodes.Add(ChapterTabName.草稿.ToString(), BoxDraft);
+            RootNodes.Add(ChapterTabName.暂存.ToString(), BoxTemp);
+            RootNodes.Add(ChapterTabName.已发布.ToString(), BoxPublished);
+            RootNodes.Add(NoteTabName.大事记.ToString(), NoteMemorabilia);
+            RootNodes.Add(NoteTabName.故事.ToString(), NoteStory);
+            RootNodes.Add(NoteTabName.场景.ToString(), NoteScenes);
+            RootNodes.Add(NoteTabName.线索.ToString(), NoteClues);
+            RootNodes.Add(NoteTabName.模板.ToString(), NoteTemplate);
+
+
         }
 
         private void Book_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -86,7 +96,6 @@ namespace RootNS.Model
 
 
 
-
         #region 目录树
         public Node BoxDraft { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.草稿.ToString() };
         public Node BoxTemp { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.暂存.ToString() };
@@ -110,6 +119,31 @@ namespace RootNS.Model
                 GetTreeNodes(nodes, root);
             }
             return nodes;
+        }
+
+        public void LoadForChapterTab()
+        {
+            Node rootNode = RootNodes[Enum.GetName(typeof(ChapterTabName), Gval.SelectedChapterTab.SelectedIndex)];
+            if (rootNode.ChildNodes.Count == 0)
+            {
+                DataIn.FillInNodes(rootNode);
+            }
+        }
+        public void LoadForNoteTab()
+        {
+            Node rootNode = RootNodes[Enum.GetName(typeof(NoteTabName), Gval.SelectedNoteTab.SelectedIndex)];
+            if (rootNode.ChildNodes.Count == 0)
+            {
+                DataIn.FillInNodes(rootNode);
+            }
+        }
+        public void LoadForCardTab()
+        {
+            Card rootCard = RootNodes[Enum.GetName(typeof(CardTabName), Gval.SelectedCardTab.SelectedIndex)] as Card;
+            if (rootCard.ChildNodes.Count == 0)
+            {
+                DataIn.FillInCards(rootCard);
+            }
         }
 
         /// <summary>

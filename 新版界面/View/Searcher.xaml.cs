@@ -41,6 +41,7 @@ namespace RootNS.View
                 //搜索资料库
                 if (RbAll.IsChecked == true)
                 {
+                    Gval.MaterialBook.LoadForAllMaterialTabs();
                     nodes = Gval.MaterialBook.GetChapterNodes();
                 }
                 else
@@ -57,6 +58,7 @@ namespace RootNS.View
                 //搜索当前书籍
                 if (RbAll.IsChecked == true)
                 {
+                    Gval.CurrentBook.LoadForAllChapterTabs();
                     nodes = Gval.CurrentBook.GetChapterNodes();
                 }
                 else
