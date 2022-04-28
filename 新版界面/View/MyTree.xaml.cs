@@ -62,25 +62,27 @@ namespace RootNS.View
 
         private void Command_AddDoc_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem == null)
+            Node selectedNode = TreeNodes.SelectedItem as Node;
+            Node rootNode = TreeNodes.DataContext as Node;
+            if (selectedNode == null)
             {
-                if ((TreeNodes.DataContext as Node).TabName == Book.ChapterTabName.草稿.ToString() ||
-                    (TreeNodes.DataContext as Node).TabName == Book.ChapterTabName.暂存.ToString())
+                if (rootNode.TabName == Book.ChapterTabName.草稿.ToString() ||
+                    rootNode.TabName == Book.ChapterTabName.暂存.ToString())
                 {
                     Node node = new Node();
-                    (TreeNodes.DataContext as Node).AddChildNode(node);
+                    rootNode.AddChildNode(node);
                 }
             }
             else
             {
                 Node node = new Node();
-                if ((TreeNodes.SelectedItem as Node).IsDir == true)
+                if (selectedNode.IsDir == true)
                 {
-                    (TreeNodes.SelectedItem as Node).AddChildNode(node);
+                    selectedNode.AddChildNode(node);
                 }
                 else
                 {
-                    ((TreeNodes.SelectedItem as Node).Parent as Node).AddChildNode(node);
+                    (selectedNode.Parent as Node).AddChildNode(node);
                 }
             }
         }
@@ -110,10 +112,11 @@ namespace RootNS.View
 
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem != null)
+            if (TreeNodes.SelectedItem == null)
             {
-                (TreeNodes.SelectedItem as Node).IsDel = false;
+                return;
             }
+            (TreeNodes.SelectedItem as Node).IsDel = false;
         }
 
         private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -123,54 +126,43 @@ namespace RootNS.View
 
         private void Command_MoveUp_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem != null)
+            if (TreeNodes.SelectedItem == null)
             {
-                Node node = (TreeNodes.SelectedItem as Node);
-                if (node.Index > 0)
-                {
-                    int i = node.Index;
-                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes.Move(i, i - 1);
-                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i].Index = i;
-                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i - 1].Index = i - 1;
-                }
+                return;
             }
+            (TreeNodes.SelectedItem as Node).MoveUp();
         }
 
         private void Command_MoveDown_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (TreeNodes.SelectedItem != null)
+            if (TreeNodes.SelectedItem == null)
             {
-                Node node = (TreeNodes.SelectedItem as Node);
-                if (node.Index < (node.Parent as Node).ChildNodes.Count - 1)
-                {
-                    int i = node.Index;
-                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes.Move(i, i + 1);
-                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i].Index = i;
-                    ((TreeNodes.SelectedItem as Node).Parent as Node).ChildNodes[i + 1].Index = i + 1;
-                }
+                return;
             }
+            (TreeNodes.SelectedItem as Node).MoveDown();
         }
+
         private void Command_Keep_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Node selectedNode = TreeNodes.SelectedItem as Node;
             Node targetRootNode = Gval.CurrentBook.BoxTemp;
-            if (selectedNode != null && selectedNode.RootNode != null && targetRootNode != null)
+            if (selectedNode == null || selectedNode.RootNode == null || targetRootNode == null)
             {
-                DataOut.InsertIntoOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
-                selectedNode.RealRemoveItSelfAndAllChildNodes();
-                selectedNode.AddToTreeEnd(targetRootNode);
+                return;
             }
+            selectedNode.RealRemoveItSelfAndAllChildNodes();
+            selectedNode.AddToTreeEnd(targetRootNode);
         }
         private void Command_Send_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Node selectedNode = TreeNodes.SelectedItem as Node;
             Node targetRootNode = Gval.CurrentBook.BoxPublished;
-            if (selectedNode != null && selectedNode.RootNode != null && targetRootNode != null)
+            if (selectedNode == null || selectedNode.RootNode == null || targetRootNode == null)
             {
-                DataOut.InsertIntoOtherTable(selectedNode, selectedNode.TabName, targetRootNode.TabName);
-                selectedNode.RealRemoveItSelfAndAllChildNodes();
-                selectedNode.AddToTreeEnd(targetRootNode);        
+                return;
             }
+            selectedNode.RealRemoveItSelfAndAllChildNodes();
+            selectedNode.AddToTreeEnd(targetRootNode);
         }
         #endregion
 
@@ -267,9 +259,8 @@ namespace RootNS.View
             TreeViewItem container = GetNearestContainer(e.OriginalSource as UIElement);
             Node dragNode = (sender as TreeView).SelectedValue as Node;
             Node dropNode = container.DataContext as Node;
-            (dragNode.Parent as Node).ChildNodes.Remove(dragNode);
-            dragNode.IsDel = false;
-            dropNode.ChildNodes.Add(dragNode);
+
+            dragNode.DragDropNode(dropNode);
 
             _lastMouseLeftDown = new Point();
             TreeNodes_DragLeave(sender, e);

@@ -49,25 +49,40 @@ namespace RootNS.View
         private void Command_SaveText_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             BtnSaveDoc.IsEnabled = false;
-            Node node = this.DataContext as Node;
-            node.Text = ThisTextEditor.Text;
-            node.WordsCount = EditorHelper.CountWords(ThisTextEditor.Text);
-            try
-            {
-                SqliteHelper cSqlite = SqliteHelper.PoolDict[node.OwnerName];
-                string sql = string.Format("UPDATE {0} SET Text='{1}', Summary='{2}', WordsCount='{3}' WHERE Uid='{4}';", node.TabName, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.Uid);
-                cSqlite.ExecuteNonQuery(sql);
 
-                //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
-                //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
-                cSqlite.Close();
-                HandyControl.Controls.Growl.Success("本文档内容保存！");
-            }
-            catch (Exception ex)
-            {
-                HandyControl.Controls.Growl.Warning(String.Format("本次保存失败！\n{0}", ex));
-            }
+            System.Threading.Thread thread = new System.Threading.Thread(SaveMethod);
+            thread.Start();
+            ThisTextEditor.Focus();
         }
+
+        private void SaveMethod()
+        {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
+             (System.Threading.ThreadStart)delegate ()
+             {
+                 RefreshShowContent(textCount);
+                 //EditorHelper.RefreshIsContainFlagForCardsBox(ThisTextEditor.Text);
+                 Node node = this.DataContext as Node;
+                 node.Text = ThisTextEditor.Text;
+                 node.WordsCount = textCount;
+                 try
+                 {
+                     SqliteHelper cSqlite = SqliteHelper.PoolDict[node.OwnerName];
+                     string sql = string.Format("UPDATE {0} SET Text='{1}', Summary='{2}', WordsCount='{3}' WHERE Uid='{4}';", node.TabName, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.Uid);
+                     cSqlite.ExecuteNonQuery(sql);
+
+                     //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
+                     //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
+                     cSqlite.Close();
+                     HandyControl.Controls.Growl.Success("本文档内容保存！");
+                 }
+                 catch (Exception ex)
+                 {
+                     HandyControl.Controls.Growl.Warning(String.Format("本次保存失败！\n{0}", ex));
+                 }
+             });
+        }
+
 
         private void Command_Typesetting_Executed(object sender, ExecutedRoutedEventArgs e)
         {
@@ -195,17 +210,29 @@ namespace RootNS.View
             //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
             EditorHelper.RefreshIsContainFlagForCardsBox(ThisTextEditor.Text);
             ThisTextEditor.Focus();
-
+            ThisTextEditor.Document.Changing += Document_Changing;
+            textCount = EditorHelper.CountWords(ThisTextEditor.Text);
+            RefreshShowContent(textCount);
         }
 
-        private void ThisTextEditor_TextChanged(object sender, EventArgs e)
+        private int textCount;
+        private void Document_Changing(object sender, ICSharpCode.AvalonEdit.Document.DocumentChangeEventArgs e)
         {
             BtnSaveDoc.IsEnabled = true;
-            LbWorksCount.Content = EditorHelper.CountWords(ThisTextEditor.Text);
-            LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(LbWorksCount.Content) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
-            EditorHelper.RefreshIsContainFlagForCardsBox(ThisTextEditor.Text);
+            textCount += EditorHelper.CountWords(e.InsertedText.Text);
+            textCount -= EditorHelper.CountWords(e.RemovedText.Text);
+            RefreshShowContent(textCount);
         }
 
+        /// <summary>
+        /// 刷新字数统计和价值的显示
+        /// </summary>
+        /// <param name="textCount"></param>
+        private void RefreshShowContent(int textCount)
+        {
+            LbWorksCount.Content = textCount;
+            LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(textCount) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
+        }
 
         ToolTip toolTip = new ToolTip();
 
@@ -223,13 +250,16 @@ namespace RootNS.View
                 int offset = ThisTextEditor.Document.GetOffset(pos.Value.Location);
                 foreach (HighlightingRule rule in ThisTextEditor.SyntaxHighlighting.MainRuleSet.Rules)
                 {
-                    System.Text.RegularExpressions.MatchCollection matches = rule.Regex.Matches(ThisTextEditor.Text);
+                    ICSharpCode.AvalonEdit.Document.DocumentLine line = ThisTextEditor.Document.GetLineByOffset(offset);
+                    string segment = ThisTextEditor.Document.GetText(line);
+                    int lineOffset = offset - line.Offset;
+                    System.Text.RegularExpressions.MatchCollection matches = rule.Regex.Matches(segment);
                     if (matches.Count > 0)
                     {
                         foreach (System.Text.RegularExpressions.Match match in matches)
                         {
                             //注意偏移值的问题，第一个相等条件相当于左边多出半个字符宽度，第二个则是右边多出半个字符宽度……
-                            if (match.Index <= offset && offset - match.Index <= match.Value.Length)
+                            if (match.Index <= lineOffset && lineOffset - match.Index <= match.Value.Length)
                             {
                                 Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
                                 foreach (Card rootCard in CardBoxs)
@@ -270,7 +300,6 @@ namespace RootNS.View
         {
 
         }
-
 
     }
 }

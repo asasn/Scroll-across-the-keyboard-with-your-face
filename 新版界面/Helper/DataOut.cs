@@ -51,18 +51,6 @@ namespace RootNS.Helper
             SqliteHelper.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
         }
 
-        /// <summary>
-        /// 移动节点至新表
-        /// </summary>
-        /// <param name="node"></param>
-        /// <param name="oldTabName"></param>
-        /// <param name="newTabName"></param>
-        public static void InsertIntoOtherTable(Node node, string oldTabName, string newTabName)
-        {
-            string sql = string.Empty;
-            sql += string.Format("INSERT OR IGNORE INTO {0} SELECT * FROM {1} WHERE Uid='{2}';", newTabName, oldTabName, node.Uid);
-            SqliteHelper.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
-        }
 
         public static void CreateNewNode(Node node)
         {

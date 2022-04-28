@@ -38,7 +38,7 @@ namespace RootNS.Model
                 {
                     if (this.Parent != null)
                     {
-                        (this.Parent as Node).IsDel = false;
+                        this.Parent.IsDel = false;
                     }
                 }
             }
@@ -121,11 +121,11 @@ namespace RootNS.Model
 
 
 
-        private object _parent;
+        private Node _parent;
         /// <summary>
         /// 父节点对象
         /// </summary>
-        public object Parent
+        public Node Parent
         {
             get { return _parent; }
             set
@@ -385,7 +385,15 @@ namespace RootNS.Model
             if (this.Parent != null)
             {
                 DeleteAllChildNodes(this);
-                (this.Parent as Node).ChildNodes.Remove(this);
+                this.Parent.ChildNodes.Remove(this);
+                DataOut.RemoveNodeFromTable(this);
+                string sql = String.Empty;
+                for (int i = 0; i < this.Parent.ChildNodes.Count; i++)
+                {
+                    this.Parent.ChildNodes[i].Index = i;
+                    sql += string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}' AND EXISTS(select * from sqlite_master where name='{0}' and sql like '%{1}%');", this.TabName.Replace("'", "''"), "Index", i, this.Parent.ChildNodes[i].Uid);
+                }
+                SqliteHelper.PoolDict[this.Parent.OwnerName].ExecuteNonQuery(sql);
             }
             ReSelect();
         }
@@ -401,6 +409,7 @@ namespace RootNS.Model
                 Node stuff = curNode.ChildNodes[curNode.ChildNodes.Count - 1];
                 DeleteAllChildNodes(stuff);
                 curNode.ChildNodes.Remove(stuff);
+                DataOut.RemoveNodeFromTable(stuff);
             }
         }
 
@@ -410,17 +419,17 @@ namespace RootNS.Model
         private void ReSelect()
         {
             int i = 0;
-            if ((this.Parent as Node).ChildNodes.Count > 0)
+            if (this.Parent.ChildNodes.Count > 0)
             {
                 if (this.Index >= 0)
                 {
                     i = this.Index;
                 }
-                if (this.Index == (this.Parent as Node).ChildNodes.Count)
+                if (this.Index == this.Parent.ChildNodes.Count)
                 {
                     i = this.Index - 1;
                 }
-                (this.Parent as Node).ChildNodes[i].IsSelected = true;
+                this.Parent.ChildNodes[i].IsSelected = true;
             }
         }
 
@@ -448,9 +457,10 @@ namespace RootNS.Model
 
         private void OnMoreStuffChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            Node stuff = new Node();
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                Node stuff = (Node)e.NewItems[0];
+                stuff = (Node)e.NewItems[0];
                 this.IsDir = true;
                 stuff.Pid = this.Uid;
                 stuff.TabName = this.TabName;
@@ -464,11 +474,6 @@ namespace RootNS.Model
                     stuff.PreviousNode = this.ChildNodes[stuff.Index - 1];
                     stuff.PreviousNode.NextNode = stuff;
                 }
-                Node pNode = stuff;
-                if (this.IsDel == true)
-                {
-                    stuff.IsDel = true;
-                }
                 if (this.Parent == null)
                 {
                     stuff.RootNode = this;
@@ -478,19 +483,10 @@ namespace RootNS.Model
                     stuff.RootNode = this.RootNode;
                 }
             }
-            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                Node stuff = (Node)e.OldItems[0];
-                string sql = String.Empty;
+                stuff = (Node)e.OldItems[0];
                 this.WordsCount -= 1;
-                DataOut.RemoveNodeFromTable(stuff);
-                for (int i = 0; i < this.ChildNodes.Count; i++)
-                {
-                    this.ChildNodes[i].Index = this.ChildNodes.IndexOf(this.ChildNodes[i]);
-                    sql += string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}' AND EXISTS(select * from sqlite_master where name='{0}' and sql like '%{1}%');", stuff.TabName.Replace("'", "''"), "Index", this.ChildNodes[i].Index, this.ChildNodes[i].Uid);
-
-                }
-                SqliteHelper.PoolDict[stuff.OwnerName].ExecuteNonQuery(sql);
             }
         }
 
@@ -557,12 +553,45 @@ namespace RootNS.Model
         {
             if (rootNode.ChildNodes.Last<Node>().IsDir == true)
             {
-                rootNode.ChildNodes.Last<Node>().ChildNodes.Add(this);
+                rootNode.ChildNodes.Last<Node>().AddChildNode(this);
             }
             else
             {
-                rootNode.ChildNodes.Add(this);
+                rootNode.AddChildNode(this);
             }
+        }
+
+        public void MoveUp()
+        {
+            if (this.Index <= 0)
+            {
+                return;
+            }
+            UpDown(this.Index, this.Index - 1);
+        }
+
+        public void MoveDown()
+        {
+            if (this.Index >= (this.Parent as Node).ChildNodes.Count - 1)
+            {
+                return;
+            }
+            UpDown(this.Index, this.Index + 1);
+        }
+
+        private void UpDown(int a, int b)
+        {
+            this.Parent.ChildNodes.Move(a, b);
+            this.Parent.ChildNodes[a].Index = a;
+            this.Parent.ChildNodes[b].Index = b;
+            DataOut.UpdateNodeProperty(this.Parent.ChildNodes[a], "Index", a.ToString());
+            DataOut.UpdateNodeProperty(this.Parent.ChildNodes[b], "Index", (b).ToString());
+        }
+
+        public void DragDropNode(Node dropNode)
+        {
+            this.RealRemoveItSelfAndAllChildNodes();
+            dropNode.AddChildNode(this);
         }
     }
 }
