@@ -20,7 +20,7 @@ namespace RootNS.Helper
             IOHelper.CreateFolder(Gval.Path.Books);
             TableHelper.TryToBuildIndexDatabase();
             Gval.CurrentBook.Uid = SettingsHelper.Get(Gval.MaterialBook.Name, "CurBookUid").ToString();
-            LoadBooksBank();            
+            LoadBooksBank();
         }
 
 
@@ -81,7 +81,7 @@ namespace RootNS.Helper
         {
             if (Gval.CurrentBook.Name == null && card.OwnerName != "index")
             {
-                return null;
+                return card;
             }
             Card.Line line = card.Lines[0];
             line.Tips.Clear();
@@ -193,13 +193,27 @@ namespace RootNS.Helper
             Gval.FlagLoadingCompleted = true;
         }
 
-        private static void FillInCardContent(Card card)
+        private static Card FillInCardContent(Card card)
         {
             card.Lines.Clear();
             if (Gval.CurrentBook.Name == null && card.OwnerName != "index")
             {
-                return;
+                return card;
             }
+            string sqlMain = string.Format("SELECT * FROM {0} WHERE Uid='{1}';", card.TabName, card.Uid);
+            SQLiteDataReader readerMain = SqliteHelper.PoolDict[card.OwnerName].ExecuteQuery(sqlMain);
+            while (readerMain.Read())
+            {
+                card.Index = Convert.ToInt32(readerMain["Index"]);
+                card.Uid = readerMain["Uid"].ToString();
+                card.Title = readerMain["Title"] == DBNull.Value ? null : readerMain["Title"].ToString();
+                card.Summary = readerMain["Summary"] == DBNull.Value ? null : readerMain["Summary"].ToString();
+                card.Weight = readerMain["Weight"] == DBNull.Value ? 0 : Convert.ToInt32(readerMain["Weight"]);
+                card.BornYear = string.IsNullOrWhiteSpace(readerMain["BornYear"].ToString()) == true ? null : readerMain["BornYear"].ToString();
+                card.IsChecked = (bool)readerMain["IsChecked"];
+                card.IsDel = (bool)readerMain["IsDel"];
+            }
+            readerMain.Close();
             string sql = string.Format("SELECT * FROM 卡设计 WHERE TabName='{0}' ORDER BY [Index];", card.TabName);
             SQLiteDataReader readerSet = SqliteHelper.PoolDict[card.OwnerName].ExecuteQuery(sql);
             while (readerSet.Read())
@@ -230,15 +244,17 @@ namespace RootNS.Helper
                 readerTip.Close();
             }
             readerSet.Close();
+            return card;
         }
 
 
-        public static void LoadCardContent(Card card)
+        public static Card LoadCardContent(Card card)
         {
             Gval.FlagLoadingCompleted = false;
             SqliteHelper.PoolOperate.Add(card.OwnerName);
-            DataIn.FillInCardContent(card);
+            card = DataIn.FillInCardContent(card);
             Gval.FlagLoadingCompleted = true;
+            return card;
         }
     }
 }

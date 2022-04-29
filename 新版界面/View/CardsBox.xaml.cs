@@ -161,7 +161,7 @@ namespace RootNS.View
 
         private void Button_Loaded(object sender, RoutedEventArgs e)
         {
-
+            (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
         }
 
     }

@@ -21,11 +21,12 @@ namespace RootNS.Model
         {
             if (this.OwnerName == null ||
                 Gval.FlagLoadingCompleted == false ||
-               (this.IsDir == false && e.PropertyName == "IsExpanded"))
+               this.IsDir == false && e.PropertyName == nameof(IsExpanded)
+               )
             {
                 return;
             }
-            if (e.PropertyName == "IsDel")
+            if (e.PropertyName == nameof(IsDel))
             {
                 if (this.IsDel == true)
                 {
@@ -42,11 +43,14 @@ namespace RootNS.Model
                     }
                 }
             }
-            if (e.PropertyName == "Pid" ||
-                e.PropertyName == "Title" ||
-                e.PropertyName == "IsDel" ||
-                e.PropertyName == "IsChecked" ||
-                e.PropertyName == "IsExpanded")
+            if (e.PropertyName == nameof(Title) && ReNameing == false && this.Owner.GetType() == typeof(Node))
+            {
+                DataOut.UpdateNodeProperty(this, nameof(Title), this.Title);
+            }
+            if (e.PropertyName == nameof(Pid) ||
+                e.PropertyName == nameof(IsDel) ||
+                e.PropertyName == nameof(IsChecked) ||
+                e.PropertyName == nameof(IsExpanded))
             {
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
                 DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
@@ -273,6 +277,7 @@ namespace RootNS.Model
             }
         }
 
+
         private string _ownerName;
         /// <summary>
         /// 页面名称
@@ -301,6 +306,10 @@ namespace RootNS.Model
             }
         }
 
+        public void FinishRename()
+        {
+            this.ReNameing = false;
+        }
 
 
         private string _summary = String.Empty;
@@ -551,7 +560,7 @@ namespace RootNS.Model
         /// <param name="rootNode">指定根节点</param>
         public void AddToTreeEnd(Node rootNode)
         {
-            if (rootNode.ChildNodes.Last<Node>().IsDir == true)
+            if (rootNode.ChildNodes.Count > 0 && rootNode.ChildNodes.Last<Node>().IsDir == true)
             {
                 rootNode.ChildNodes.Last<Node>().AddChildNode(this);
             }

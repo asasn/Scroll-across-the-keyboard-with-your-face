@@ -19,6 +19,10 @@ namespace RootNS.Helper
         /// <returns></returns>
         public static object Get(string dbName, string key)
         {
+            if (dbName == null)
+            {
+                return null;
+            }
             object value = null;
             string sql = string.Format("SELECT * FROM 设置 where Key='{0}';", key.Replace("'", "''"));
             SQLiteDataReader reader = SqliteHelper.PoolDict[dbName].ExecuteQuery(sql);

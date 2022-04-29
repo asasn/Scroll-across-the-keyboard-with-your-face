@@ -49,14 +49,14 @@ namespace RootNS.View
         {
             if (e.Key == Key.Enter)
             {
-                (this.DataContext as Node).ReNameing = false;
-                e.Handled = true;
+                (this.DataContext as Node).FinishRename();
+                e.Handled = true;//防止触发对应的快捷键
             }
         }
 
         private void TbReName_LostFocus(object sender, RoutedEventArgs e)
         {
-            (this.DataContext as Node).ReNameing = false;
+            (this.DataContext as Node).FinishRename();
         }
     }
 }

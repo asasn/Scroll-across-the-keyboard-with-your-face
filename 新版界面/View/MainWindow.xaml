@@ -116,7 +116,7 @@
                 </Border>
             </GroupBox>
             <GroupBox Header="搜索区" Grid.Row="4" Style="{StaticResource BaseStyle}">
-                <brick:Searcher/>
+                <brick:UcSearch/>
             </GroupBox>
         </Grid>
         <Grid Grid.Column="8">

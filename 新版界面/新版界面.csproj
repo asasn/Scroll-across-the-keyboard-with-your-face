@@ -164,7 +164,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\LinesBox.xaml">
+    <Page Include="View\CardLinesBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,7 +188,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Searcher.xaml">
+    <Page Include="View\UcSearch.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -250,8 +250,8 @@
     <Compile Include="View\CardLine.xaml.cs">
       <DependentUpon>CardLine.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\LinesBox.xaml.cs">
-      <DependentUpon>LinesBox.xaml</DependentUpon>
+    <Compile Include="View\CardLinesBox.xaml.cs">
+      <DependentUpon>CardLinesBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EditorShell.xaml.cs">
       <DependentUpon>EditorShell.xaml</DependentUpon>
@@ -268,8 +268,8 @@
     <Compile Include="View\NodeItemForDoc.xaml.cs">
       <DependentUpon>NodeItemForDoc.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Searcher.xaml.cs">
-      <DependentUpon>Searcher.xaml</DependentUpon>
+    <Compile Include="View\UcSearch.xaml.cs">
+      <DependentUpon>UcSearch.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CardDesign.xaml.cs">
       <DependentUpon>CardDesign.xaml</DependentUpon>

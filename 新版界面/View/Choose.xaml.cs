@@ -109,8 +109,7 @@ namespace RootNS.View
         {
             DataOut.DeleteBook(Gval.CurrentBook);
             SqliteHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
-            string dbFullName = Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db";
-            IOHelper.DeleteFile(dbFullName);
+            IOHelper.DeleteFile(Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db");
             Gval.BooksBank.Remove(Gval.CurrentBook);
             Gval.CurrentBook = new Book();
         }

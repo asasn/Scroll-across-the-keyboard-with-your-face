@@ -26,37 +26,34 @@ namespace RootNS.View
         public CardWindow(object sender, UserControl uc)
         {
             InitializeComponent();
-            DataIn.LoadCardContent((sender as Button).DataContext as Card);
-            this.DataContext = (sender as Button).DataContext as Card;
+            this.DataContext = DataIn.LoadCardContent((sender as Button).DataContext as Card);
             ViewSet.ForViewPoint(this, uc);
-
-            //添加拖曳面板事件
-            this.MouseLeftButtonDown += (o, e) => { DragMove(); };
         }
         public CardWindow(Card card)
         {
             InitializeComponent();
-            DataIn.LoadCardContent(card);
-            this.DataContext = card;
-
+            this.DataContext = DataIn.LoadCardContent(card);
+        }
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
             //添加拖曳面板事件
-            this.MouseLeftButtonDown += (o, e) => { DragMove(); };
+            DragMove();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
             BtnSave.IsEnabled = false;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            DataIn.LoadCardContent(this.DataContext as Card);
             this.Close();
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            BtnSave.IsEnabled = false;
+            (this.DataContext as Card).Title = CpTitle.TbContent.ToString().Trim();
             DataOut.ReplaceIntoCard(this.DataContext as Card);
             DataIn.LoadCardContent(this.DataContext as Card);
             foreach (Card.Line line in (this.DataContext as Card).Lines)
@@ -67,7 +64,6 @@ namespace RootNS.View
                     break;
                 }
             }
-            BtnSave.IsEnabled = false;
             if (Gval.EditorTabControl.SelectedItem == null || ((this.DataContext as Card).Owner as BookBase).Name == Gval.MaterialBook.Name)
             {
                 return;
@@ -102,5 +98,6 @@ namespace RootNS.View
             }
 
         }
+
     }
 }

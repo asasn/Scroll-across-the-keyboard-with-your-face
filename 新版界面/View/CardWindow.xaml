@@ -8,7 +8,7 @@
         Background="Transparent" Effect="{StaticResource EffectShadow3}" 
         Title="信息卡编辑窗体" Topmost="True"
         AllowsTransparency="True" WindowStyle="None" d:DesignHeight="100" 
-        d:DesignWidth="300" MaxWidth="300" MinHeight="200" Loaded="Window_Loaded" MaxHeight="759">
+        d:DesignWidth="300" MaxWidth="300" MinHeight="200" Loaded="Window_Loaded" MaxHeight="759" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid x:Name="gMain">
         <hc:Card x:Name="card" Header=" 权重：" VerticalAlignment="Top" Margin="4">
             <ScrollViewer >
@@ -26,7 +26,7 @@
                             <ColumnDefinition Width="26"/>
                             <ColumnDefinition Width="26"/>
                         </Grid.ColumnDefinitions>
-                        <local:CardProperty LbContent="名称" TbContent="{Binding Title, Mode=TwoWay}"></local:CardProperty>
+                        <local:CardProperty x:Name="CpTitle" LbContent="名称" TbContent="{Binding Title}"></local:CardProperty>
                         <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,3,0,0" />
                         <Button Padding="2" x:Name="BtnSee" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSee_Click" Width="20" Height="20" Grid.Column="3" >
                             <Border Background="Transparent" Height="16" Padding="3" Width="16">
@@ -47,7 +47,7 @@
                         <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
                         <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
                     </Grid>
-                    <local:LinesBox DataContext="{Binding Lines}" Grid.Row="2"/>
+                    <local:CardLinesBox DataContext="{Binding Lines}" Grid.Row="2"/>
                     <local:CardProperty LbContent="备注" TbContent="{Binding Summary, Mode=TwoWay}" Grid.Row="3"></local:CardProperty>
                 </Grid>
             </ScrollViewer>

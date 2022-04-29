@@ -26,7 +26,7 @@
                         <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
                         <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
                     </Grid>
-                    <local:LinesBox DataContext="{Binding Lines, Mode=TwoWay}" ShowAddButton="Collapsed" Grid.Row="2"/>
+                    <local:CardLinesBox DataContext="{Binding Lines, Mode=TwoWay}" ShowAddButton="Collapsed" Grid.Row="2"/>
                     <local:CardProperty LbContent="备注" TbContent="{Binding Summary, Mode=TwoWay}" Grid.Row="3"></local:CardProperty>
                 </Grid>
             </ScrollViewer>

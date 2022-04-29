@@ -37,12 +37,15 @@ namespace RootNS.View
             ViewSet.ForViewPoint(this, uc);
 
         }
-        public Card RootCard { get; set; } = new Card();
 
-        private void ThisWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {   
+            //添加拖曳面板事件
             DragMove();
         }
+
+        public Card RootCard { get; set; } = new Card();
+
 
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
@@ -67,7 +70,6 @@ namespace RootNS.View
             //填充信息之后，将保存状态拨回，以实现初始化
             RootCard.CanSave = false;
         }
-
 
 
     }

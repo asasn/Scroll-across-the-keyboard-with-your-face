@@ -26,7 +26,6 @@ namespace RootNS.Model
             }
         }
 
-
         public void RemoveThisCard()
         {
             (this.Parent as Card).ChildNodes.Remove(this);

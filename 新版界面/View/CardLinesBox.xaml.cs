@@ -18,9 +18,9 @@ namespace RootNS.View
     /// <summary>
     /// LinesBox.xaml 的交互逻辑
     /// </summary>
-    public partial class LinesBox : UserControl
+    public partial class CardLinesBox : UserControl
     {
-        public LinesBox()
+        public CardLinesBox()
         {
             InitializeComponent();
         }
@@ -33,7 +33,7 @@ namespace RootNS.View
 
         // Using a DependencyProperty as the backing store for ShowAddButton.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowAddButtonProperty =
-            DependencyProperty.Register("ShowAddButton", typeof(Visibility), typeof(LinesBox), new PropertyMetadata(Visibility.Visible));
+            DependencyProperty.Register("ShowAddButton", typeof(Visibility), typeof(CardLinesBox), new PropertyMetadata(Visibility.Visible));
 
     }
 }

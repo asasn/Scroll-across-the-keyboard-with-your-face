@@ -21,9 +21,9 @@ namespace RootNS.View
     /// <summary>
     /// uc_Searcher.xaml 的交互逻辑
     /// </summary>
-    public partial class Searcher : UserControl
+    public partial class UcSearch : UserControl
     {
-        public Searcher()
+        public UcSearch()
         {
             InitializeComponent();
             Gval.View.Searcher = this;

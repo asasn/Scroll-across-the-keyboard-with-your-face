@@ -318,7 +318,7 @@ namespace RootNS.View
         {
             if ((sender as TreeViewItem) == null && _lastReNameNode != null && _lastReNameNode.ReNameing == true)
             {
-                _lastReNameNode.ReNameing = false;
+                _lastReNameNode.FinishRename();
             }
         }
 
