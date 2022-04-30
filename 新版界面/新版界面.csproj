@@ -129,6 +129,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\CommandHelper.cs" />
+    <Compile Include="Model\PomodoroClock.cs" />
+    <Compile Include="Model\Searcher.cs" />
+    <Compile Include="Model\Shower.cs" />
     <Compile Include="View\CardHover.xaml.cs">
       <DependentUpon>CardHover.xaml</DependentUpon>
     </Compile>

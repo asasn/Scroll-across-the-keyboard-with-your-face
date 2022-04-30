@@ -1,45 +1,135 @@
 ﻿using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.Highlighting;
-using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using RootNS.Helper;
-using RootNS.Model;
 using RootNS.Workfolw;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using System.Windows;
+using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Xml;
 
-namespace RootNS.View
+namespace RootNS.Model
 {
-    /// <summary>
-    /// uc_Searcher.xaml 的交互逻辑
-    /// </summary>
-    public partial class UcSearch : UserControl
+    internal class Searcher : NotificationObject
     {
-        public UcSearch()
+        public Searcher()
         {
-            InitializeComponent();
-            Gval.View.Searcher = this;
+
+        }
+
+        public struct Item
+        {
+            public string Title;
+            public string Content;
+            public string[] Matches;
+            public object ToolTip;
+        }
+
+        private ObservableCollection<Item> _results;
+
+        public ObservableCollection<Item> Results
+        {
+            get { return _results; }
+            set
+            {
+                _results = value;
+                RaisePropertyChanged(nameof(Results));
+            }
         }
 
 
-        /// <summary>
-        /// 搜索参数初始化
-        /// </summary>
+        private string _keyWords;
+
+        public string KeyWords
+        {
+            get { return _keyWords; }
+            set
+            {
+                _keyWords = value;
+                RaisePropertyChanged(nameof(KeyWords));
+            }
+        }
+
+
+        private bool _cbMaterial;
+
+        public bool CbMaterial
+        {
+            get { return _cbMaterial; }
+            set
+            {
+                _cbMaterial = value;
+                RaisePropertyChanged(nameof(CbMaterial));
+            }
+        }
+
+        private bool _rbAll = true;
+
+        public bool RbAll
+        {
+            get { return _rbAll; }
+            set
+            {
+                _rbAll = value;
+                RaisePropertyChanged(nameof(RbAll));
+            }
+        }
+
+        private bool _rbAnd;
+
+        public bool RbAnd
+        {
+            get { return _rbAnd; }
+            set
+            {
+                _rbAnd = value;
+                RaisePropertyChanged(nameof(RbAnd));
+            }
+        }
+
+        private bool _rbOr;
+
+        public bool RbOr
+        {
+            get { return _rbOr; }
+            set
+            {
+                _rbOr = value;
+                RaisePropertyChanged(nameof(RbOr));
+            }
+        }
+
+
+        private bool _rbRegex;
+
+        public bool RbRegex
+        {
+            get { return _rbRegex; }
+            set
+            {
+                _rbRegex = value;
+                RaisePropertyChanged(nameof(RbRegex));
+            }
+        }
+
+
+        enum SearchModel
+        {
+            与模式,
+            或模式,
+            正则模式,
+        }
+
         private List<Node> InitSearch()
         {
             List<Node> nodes = new List<Node>();
-            if (CbMaterial.IsChecked == true)
+            if (CbMaterial == true)
             {
                 //搜索资料库
-                if (RbAll.IsChecked == true)
+                if (RbAll == true)
                 {
                     Gval.MaterialBook.LoadForAllMaterialTabs();
                     nodes = Gval.MaterialBook.GetChapterNodes();
@@ -56,7 +146,7 @@ namespace RootNS.View
             else
             {
                 //搜索当前书籍
-                if (RbAll.IsChecked == true)
+                if (RbAll == true)
                 {
                     Gval.CurrentBook.LoadForAllChapterTabs();
                     nodes = Gval.CurrentBook.GetChapterNodes();
@@ -74,27 +164,24 @@ namespace RootNS.View
         }
 
 
-        #region 执行搜索
-
-        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        private void Search()
         {
-
             //初始化列表框
-            ListBoxOfResults.Items.Clear();
+            Results.Clear();
 
             //输入检校（空字符串或者为 * 时退出）
-            if (string.IsNullOrEmpty(TbKeyWords.Text.Trim()))
+            if (string.IsNullOrEmpty(KeyWords.Trim()))
             {
                 return;
             }
 
             //输入检校（正则表达式错误）
-            if (RbRegex.IsChecked == true)
+            if (RbRegex == true)
             {
                 MatchCollection matchRets;
                 try
                 {
-                    matchRets = Regex.Matches("", TbKeyWords.Text);
+                    matchRets = Regex.Matches("", KeyWords);
                 }
                 catch (Exception)
                 {
@@ -104,15 +191,6 @@ namespace RootNS.View
             }
             List<Node> nodes = InitSearch();
             GetResultMain(nodes);
-        }
-
-
-        private void TbKeyWords_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                BtnSearch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            }
         }
 
         /// <summary>
@@ -143,21 +221,21 @@ namespace RootNS.View
             string ListItemName = String.Empty;
 
             //正则模式
-            if (RbRegex.IsChecked == true)
+            if (RbRegex == true)
             {
                 Matches = GetMatchRets(node.Text);
                 ListItemName = string.Join(" ", Matches);
             }
 
             //与模式
-            if (RbAnd.IsChecked == true)
+            if (RbAnd == true)
             {
                 Matches = GetModeAndRets(node.Text);
                 ListItemName = string.Join(" ", Matches);
             }
 
             //或模式
-            if (RbOr.IsChecked == true)
+            if (RbOr == true)
             {
                 Matches = GetModeOrRets(node.Text);
                 ListItemName = string.Join(" ", Matches);
@@ -173,13 +251,13 @@ namespace RootNS.View
             //获取和定义列表项
             if (false == string.IsNullOrEmpty(ListItemName))
             {
-                ListBoxItem lbItem = new ListBoxItem
+                Item lbItem = new Item()
                 {
-                    Content = node.Title + " >> " + ListItemName,
-                    DataContext = node,
-                    Tag = Matches
+                    Title = node.Title + " >> " + ListItemName,
+                    Content = node.Text,
+                    Matches = Matches
                 };
-                ListBoxOfResults.Items.Add(lbItem);
+                Results.Add(lbItem);
                 SetItemToolTip(lbItem);
             }
         }
@@ -194,7 +272,7 @@ namespace RootNS.View
             MatchCollection matchRets;
             try
             {
-                matchRets = Regex.Matches(nodeText, TbKeyWords.Text);
+                matchRets = Regex.Matches(nodeText, KeyWords);
             }
             catch (Exception)
             {
@@ -234,7 +312,7 @@ namespace RootNS.View
         string[] GetModeAndRets(string NodeContent)
         {
             List<string> rets = new List<string>();
-            string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
             bool ret = true;
             foreach (var mystr in keysArray)
@@ -251,7 +329,7 @@ namespace RootNS.View
             }
             if (ret == true)
             {
-                return TbKeyWords.Text.Split(' ');
+                return KeyWords.Split(' ');
             }
             else
             {
@@ -267,7 +345,7 @@ namespace RootNS.View
         string[] GetModeOrRets(string NodeContent)
         {
             List<string> rets = new List<string>();
-            string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
             foreach (var mystr in keysArray)
             {
                 if (false == string.IsNullOrEmpty(mystr))
@@ -306,7 +384,6 @@ namespace RootNS.View
             }
         }
 
-        #endregion
 
 
 
@@ -315,7 +392,7 @@ namespace RootNS.View
         /// 给列表项添加悬浮内容
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void SetItemToolTip(ListBoxItem lbItem)
+        private void SetItemToolTip(Item lbItem)
         {
             TextEditor tEdit = new TextEditor()
             {
@@ -326,9 +403,9 @@ namespace RootNS.View
             };
             tEdit.Options.WordWrapIndentation = 4;
             tEdit.Options.InheritWordWrapIndentation = false;
-            string lines = GetStrOnLines((lbItem.DataContext as Node).Text);
+            string lines = GetStrOnLines(lbItem.Content);
             tEdit.Text = lines;
-            EditorHelper.SetColorRulesForSearchResult(tEdit, lbItem.Tag as string[]);
+            EditorHelper.SetColorRulesForSearchResult(tEdit, lbItem.Matches);
             ToolTip ttp = new ToolTip
             {
                 Content = tEdit
@@ -346,7 +423,7 @@ namespace RootNS.View
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
             //正则模式
-            if (RbRegex.IsChecked == true)
+            if (RbRegex == true)
             {
                 string[] keysArray = GetMatchRets(nodeContent);
                 foreach (string line in sArrayNoEmpty)
@@ -364,9 +441,9 @@ namespace RootNS.View
             }
 
             //与模式
-            if (RbAnd.IsChecked == true)
+            if (RbAnd == true)
             {
-                string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 foreach (string line in sArrayNoEmpty)
                 {
                     bool isAll = false;
@@ -387,9 +464,9 @@ namespace RootNS.View
             }
 
             //或模式
-            if (RbOr.IsChecked == true)
+            if (RbOr == true)
             {
-                string[] keysArray = TbKeyWords.Text.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                string[] keysArray = KeyWords.Split(new char[] { ' ' }).Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 foreach (string line in sArrayNoEmpty)
                 {
                     foreach (string mystr in keysArray)
@@ -407,17 +484,9 @@ namespace RootNS.View
             return lines;
         }
 
-        /// <summary>
-        /// 双击事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ListBoxOfResults_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void OpenResultWindow()
         {
-            ListBoxItem lbItem = ListBoxOfResults.SelectedItem as ListBoxItem;
-            Node node = lbItem.DataContext as Node;
-            WSearchResult rtWin = new WSearchResult(node, lbItem.Tag as string[]);
-            rtWin.ShowDialog();
         }
+
     }
 }
