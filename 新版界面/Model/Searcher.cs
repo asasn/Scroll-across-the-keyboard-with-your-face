@@ -13,7 +13,7 @@ using System.Windows.Media;
 
 namespace RootNS.Model
 {
-    internal class Searcher : NotificationObject
+    public class Searcher : NotificationObject
     {
         public Searcher()
         {
@@ -22,13 +22,13 @@ namespace RootNS.Model
 
         public struct Item
         {
-            public string Title;
-            public string Content;
-            public string[] Matches;
-            public object ToolTip;
+            public string Title { get; set; }
+            public string Content { get; set; }
+            public string[] Matches { get; set; }
+            public ToolTip ToolTip { get; set; }
         }
 
-        private ObservableCollection<Item> _results;
+        private ObservableCollection<Item> _results = new ObservableCollection<Item>();
 
         public ObservableCollection<Item> Results
         {
@@ -78,7 +78,7 @@ namespace RootNS.Model
             }
         }
 
-        private bool _rbAnd;
+        private bool _rbAnd = true;
 
         public bool RbAnd
         {
@@ -164,7 +164,7 @@ namespace RootNS.Model
         }
 
 
-        private void Search()
+        public void Start()
         {
             //初始化列表框
             Results.Clear();
@@ -257,8 +257,9 @@ namespace RootNS.Model
                     Content = node.Text,
                     Matches = Matches
                 };
+
+                lbItem.ToolTip = SetItemToolTip(lbItem);
                 Results.Add(lbItem);
-                SetItemToolTip(lbItem);
             }
         }
 
@@ -392,7 +393,7 @@ namespace RootNS.Model
         /// 给列表项添加悬浮内容
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SetItemToolTip(Item lbItem)
+        private ToolTip SetItemToolTip(Item lbItem)
         {
             TextEditor tEdit = new TextEditor()
             {
@@ -406,11 +407,7 @@ namespace RootNS.Model
             string lines = GetStrOnLines(lbItem.Content);
             tEdit.Text = lines;
             EditorHelper.SetColorRulesForSearchResult(tEdit, lbItem.Matches);
-            ToolTip ttp = new ToolTip
-            {
-                Content = tEdit
-            };
-            lbItem.ToolTip = ttp;
+            return new ToolTip() { Content = tEdit};
         }
 
         //从当前行当中判断字符串是否存在

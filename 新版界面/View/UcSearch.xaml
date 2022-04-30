@@ -6,40 +6,45 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:controls="clr-namespace:HandyControl.Controls;assembly=HandyControl"
              mc:Ignorable="d" 
-             d:DesignHeight="485" d:DesignWidth="290">
+             d:DesignHeight="485" d:DesignWidth="290" DataContext="{Binding ThisSearcher, ElementName=ThisControl}">
     <Grid Background="#FFFAFAFA" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="60"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="100*"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
         <Grid Grid.Row="0" Margin="5,0,5,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="33*"/>
-                    <ColumnDefinition Width="33*"/>
-                    <ColumnDefinition Width="33*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50*"/>
-                    <RowDefinition Height="50*"/>
-                </Grid.RowDefinitions>
-                <RadioButton x:Name="RbAll" Content="全部节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="True"/>
-                <RadioButton x:Name="RbCurrent" Content="当前节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" />
-                <CheckBox x:Name="CbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="False"/>
-                <RadioButton x:Name="RbAnd" Content="与模式" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="True"/>
-                <RadioButton x:Name="RbOr" Content="或模式" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
-                <RadioButton x:Name="RbRegex" Content="正则模式" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" />
-            </Grid>
-            <Grid Grid.Row="1" Margin="5">
-                <TextBox Padding="0" hc:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="TbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="TbKeyWords_KeyDown"/>
-            <Button x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Foreground="DodgerBlue"  Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnSearch_Click" Background="Transparent" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="30"></Button>
-            </Grid>
-            <ListBox  x:Name="ListBoxOfResults" ToolTipService.ShowDuration="60000" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
-                        <Setter Property="ToolTipService.ShowDuration" Value="60000"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="33*"/>
+                <ColumnDefinition Width="33*"/>
+                <ColumnDefinition Width="33*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <RadioButton x:Name="RbAll" Content="全部节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="{Binding RbAll}"/>
+            <RadioButton x:Name="RbCurrent" Content="当前节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="{Binding RbAll, Converter={StaticResource Boolean2BooleanReConverter}}"/>
+            <CheckBox x:Name="CbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="{Binding CbMaterial}"/>
+            <RadioButton x:Name="RbAnd" Content="与模式" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="{Binding RbAnd}"/>
+            <RadioButton x:Name="RbOr" Content="或模式" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="{Binding RbOr}"/>
+            <RadioButton x:Name="RbRegex" Content="正则模式" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="{Binding RbRegex}"/>
         </Grid>
+        <Grid Grid.Row="1" Margin="5">
+            <TextBox Padding="0" Text="{Binding KeyWords, UpdateSourceTrigger=PropertyChanged}" hc:BorderElement.CornerRadius="0" BorderBrush="Blue" BorderThickness="0,0,0,1" x:Name="TbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="TbKeyWords_KeyDown"/>
+            <Button x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Foreground="DodgerBlue"  Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnSearch_Click" Background="Transparent" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="30"></Button>
+        </Grid>
+        <ListBox x:Name="ListBoxOfResults" ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}" ToolTipService.ShowDuration="60000" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
+                    <Setter Property="ToolTipService.ShowDuration" Value="60000"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl BorderThickness="0" Background="Transparent" Content="{Binding Title}" ToolTip="{Binding ToolTip}" DataContext="{Binding}"></ContentControl>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
 </UserControl>

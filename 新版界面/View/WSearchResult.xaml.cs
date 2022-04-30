@@ -14,12 +14,12 @@ namespace RootNS.View
     /// </summary>
     public partial class WSearchResult : Window
     {
-        public WSearchResult(Node node, string[] keyWords)
+        public WSearchResult(Searcher.Item item)
         {
             InitializeComponent();
-            this.DataContext = node;
-            EditorHelper.SetColorRulesForSearchResult(TextEditor, keyWords);
-            TextEditor.Text = (node).Text;
+            this.DataContext = item;
+            EditorHelper.SetColorRulesForSearchResult(TextEditor, item.Matches);
+            TextEditor.Text = item.Content;
         }
     }
 }
