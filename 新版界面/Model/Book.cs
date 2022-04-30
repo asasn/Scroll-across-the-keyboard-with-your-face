@@ -121,6 +121,13 @@ namespace RootNS.Model
             return nodes;
         }
 
+        public List<Node> GetPublishedChapterNodes()
+        {
+            List<Node> nodes = new List<Node>();
+            GetTreeNodes(nodes, BoxPublished);
+            return nodes;
+        }
+
         public void LoadForChapterTab()
         {
             Node rootNode = RootNodes[Enum.GetName(typeof(ChapterTabName), Gval.SelectedChapterTab.SelectedIndex)];

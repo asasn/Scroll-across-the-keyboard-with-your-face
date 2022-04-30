@@ -481,9 +481,6 @@ namespace RootNS.Model
             return lines;
         }
 
-        private void OpenResultWindow()
-        {
-        }
 
     }
 }

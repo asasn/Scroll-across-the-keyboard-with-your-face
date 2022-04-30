@@ -156,7 +156,7 @@ namespace RootNS.View
                 theDialog.Show();
 
                 //设置窗口位置
-                ViewSet.ForViewPoint(theDialog, Gval.View.Searcher);
+                ViewSet.ForViewPoint(theDialog, Gval.View.UcShower);
             }
             else
             {
@@ -181,7 +181,7 @@ namespace RootNS.View
                 theDialog = new FindReplaceDialog(editor);
 
                 //设置窗口位置
-                ViewSet.ForViewPoint(theDialog, Gval.View.Searcher);
+                ViewSet.ForViewPoint(theDialog, Gval.View.UcShower);
             }
             return theDialog;
         }

@@ -264,6 +264,40 @@ namespace RootNS.Converter
     }
 
     /// <summary>
+    /// 布尔值决定是否显现
+    /// </summary>
+    public class BoolConvertToReVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Visibility.Visible;
+            }
+            try
+            {
+                if ((bool)value == true)
+                {
+                    return Visibility.Collapsed;
+                }
+
+                return Visibility.Visible;
+            }
+            catch
+            {
+                return Visibility.Visible;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
     /// 图标决定字号
     /// </summary>
     public class IconCodeConvertToFontSize : IValueConverter

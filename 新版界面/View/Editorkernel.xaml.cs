@@ -60,8 +60,7 @@ namespace RootNS.View
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
              (System.Threading.ThreadStart)delegate ()
              {
-                 RefreshShowContent(textCount);
-                 //EditorHelper.RefreshIsContainFlagForCardsBox(ThisTextEditor.Text);
+                 RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
                  Node node = this.DataContext as Node;
                  node.Text = ThisTextEditor.Text;
                  node.WordsCount = textCount;
@@ -208,11 +207,11 @@ namespace RootNS.View
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
             //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
-            EditorHelper.RefreshIsContainFlagForCardsBox(ThisTextEditor.Text);
             ThisTextEditor.Focus();
             ThisTextEditor.Document.Changing += Document_Changing;
             textCount = EditorHelper.CountWords(ThisTextEditor.Text);
-            RefreshShowContent(textCount);
+            RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
+            Gval.View.UcShower.DataContext = new Shower(this.DataContext as Node);
         }
 
         private int textCount;
@@ -221,7 +220,7 @@ namespace RootNS.View
             BtnSaveDoc.IsEnabled = true;
             textCount += EditorHelper.CountWords(e.InsertedText.Text);
             textCount -= EditorHelper.CountWords(e.RemovedText.Text);
-            RefreshShowContent(textCount);
+            RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
         }
 
         /// <summary>
@@ -232,6 +231,12 @@ namespace RootNS.View
         {
             LbWorksCount.Content = textCount;
             LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(textCount) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
+        }
+
+        private void RefreshShowContentAndCardsBox(int textCount, string text)
+        {
+            RefreshShowContent(textCount);
+            EditorHelper.RefreshIsContainFlagForCardsBox(text);
         }
 
         ToolTip toolTip = new ToolTip();

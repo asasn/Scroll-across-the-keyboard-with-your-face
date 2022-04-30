@@ -21,7 +21,7 @@ namespace RootNS.Model
         {
             if (this.OwnerName == null ||
                 Gval.FlagLoadingCompleted == false ||
-               this.IsDir == false && e.PropertyName == nameof(IsExpanded)
+               (this.IsDir == false && e.PropertyName == nameof(IsExpanded))
                )
             {
                 return;
@@ -43,7 +43,7 @@ namespace RootNS.Model
                     }
                 }
             }
-            if (e.PropertyName == nameof(Title) && ReNameing == false && this.Owner.GetType() == typeof(Node))
+            if (e.PropertyName == nameof(Title) && ReNameing == false && this.GetType() == typeof(Node))
             {
                 DataOut.UpdateNodeProperty(this, nameof(Title), this.Title);
             }
@@ -56,6 +56,7 @@ namespace RootNS.Model
                 DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
             }
         }
+
 
         private string _title;
         /// <summary>

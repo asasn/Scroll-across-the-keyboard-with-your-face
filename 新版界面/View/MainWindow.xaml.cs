@@ -151,5 +151,9 @@ namespace RootNS
 
         }
 
+        private void UcShower_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.View.UcShower = sender as UcShower;
+        }
     }
 }

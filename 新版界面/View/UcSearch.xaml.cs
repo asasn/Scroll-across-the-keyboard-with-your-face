@@ -26,7 +26,6 @@ namespace RootNS.View
         public UcSearch()
         {
             InitializeComponent();
-            Gval.View.Searcher = this;
         }
 
         public Searcher ThisSearcher { get; set; } = new Searcher();
@@ -44,8 +43,6 @@ namespace RootNS.View
                 BtnSearch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
-
-  
 
         /// <summary>
         /// 双击事件

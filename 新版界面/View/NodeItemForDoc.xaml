@@ -34,6 +34,6 @@
             </ContentControl.Content>-->
         </Label>
         <Label Padding="0" Background="Transparent" BorderThickness="0" IsEnabled="False" Grid.Column="4" Content="{Binding IsDir, Converter={StaticResource TypeConvertToShowText}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" Padding="0"  Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" KeyDown="TbReName_KeyDown" MaxLength="20" LostFocus="TbReName_LostFocus"/>
+        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title, Mode=TwoWay}" Padding="0"  Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" KeyDown="TbReName_KeyDown" MaxLength="20" LostFocus="TbReName_LostFocus"/>
     </Grid>
 </UserControl>

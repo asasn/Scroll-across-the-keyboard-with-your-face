@@ -37,7 +37,7 @@ namespace RootNS.Model
         public struct View
         {
             public static MainWindow MainWindow { get; set; }
-            public static UcSearch Searcher { get; set; }
+            public static UcShower UcShower { get; set; }
         }
 
         private static Book _currentBook = new Book();

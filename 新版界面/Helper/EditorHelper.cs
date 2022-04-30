@@ -12,6 +12,7 @@ using System.Xml;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace RootNS.Helper
 {
@@ -26,28 +27,43 @@ namespace RootNS.Helper
             Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
             foreach (Card rootCard in CardBoxs)
             {
-                foreach (Card card in rootCard.ChildNodes)
+                RefreshIsContainFlagForTab(rootCard, text);
+            }
+        }
+
+        public static ObservableCollection<Card> RefreshIsContainFlagForTab(Card rootCard , string text)
+        {
+            ObservableCollection<Card> cards = new ObservableCollection<Card>();
+            foreach (Card card in rootCard.ChildNodes)
+            {
+                card.IsContain = false;
+                if (card.IsDel == true)
                 {
-                    card.IsContain = false;
-                    if (card.IsDel == true)
+                    continue;
+                }
+                if (text.Contains(card.Title.Trim()))
+                {
+                    card.IsContain = true;
+                    if (cards.Contains(card) == false)
                     {
-                        continue;
+                        cards.Add(card);
                     }
-                    if (text.Contains(card.Title.Trim()))
+                    continue;
+                }
+                foreach (Card.Tip tip in card.NickNames.Tips)
+                {
+                    if (text.Contains(tip.Title.Trim()))
                     {
                         card.IsContain = true;
-                        continue;
-                    }
-                    foreach (Card.Tip tip in card.NickNames.Tips)
-                    {
-                        if (text.Contains(tip.Title.Trim()))
+                        if (cards.Contains(card) == false)
                         {
-                            card.IsContain = true;
-                            continue;
+                            cards.Add(card);
                         }
+                        continue;
                     }
                 }
             }
+            return cards;
         }
 
         /// <summary>
@@ -214,7 +230,7 @@ namespace RootNS.Helper
                     continue;
                 }
                 TextEditor tEditor = (tabItem.Content as Editorkernel).ThisTextEditor;
-                InitEditorColorRules(tEditor, "../Assets/Text.xshd");
+                InitEditorColorRules(tEditor, Gval.Path.XshdPath);
                 SetColorRulesForCards(tEditor);
             }
         }

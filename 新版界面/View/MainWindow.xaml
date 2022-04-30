@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RootNS" xmlns:brick="clr-namespace:RootNS.View"
+        xmlns:local="clr-namespace:RootNS" xmlns:view="clr-namespace:RootNS.View"
         xmlns:mod="clr-namespace:RootNS.Model" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" UseLayoutRounding="True"
         Title="" ContentRendered="WinMain_ContentRendered"
@@ -41,13 +41,13 @@
                 </Border>
                 <TabControl IsEnabled="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}, Converter={StaticResource Object2BooleanConverter}}" x:Name="TabBook" Grid.Row="2" Loaded="TabBook_Loaded" SelectionChanged="TabBook_SelectionChanged" DataContext="{Binding CurrentBook, Source={StaticResource GlobalSource}}" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="草稿箱">
-                        <brick:MyTree DataContext="{Binding BoxDraft}"/>
+                        <view:MyTree DataContext="{Binding BoxDraft}"/>
                     </TabItem>
                     <TabItem Header="暂存箱">
-                        <brick:MyTree DataContext="{Binding BoxTemp}"/>
+                        <view:MyTree DataContext="{Binding BoxTemp}"/>
                     </TabItem>
                     <TabItem Header="已发布">
-                        <brick:MyTree DataContext="{Binding BoxPublished}"/>
+                        <view:MyTree DataContext="{Binding BoxPublished}"/>
                     </TabItem>
                 </TabControl>
             </Grid>
@@ -63,19 +63,19 @@
             <GroupBox x:Name="GBoxNote" Header="记事板" Style="{StaticResource BaseStyle}" IsEnabled="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}, Converter={StaticResource Object2BooleanConverter}}">
                 <TabControl x:Name="TabNote" Loaded="TabNote_Loaded" DataContext="{Binding CurrentBook, Source={StaticResource GlobalSource}}" SelectionChanged="TabNote_SelectionChanged" Style="{DynamicResource TabControlStyle}" >
                     <TabItem Header="大事记">
-                        <brick:MyTree DataContext="{Binding NoteMemorabilia}"/>
+                        <view:MyTree DataContext="{Binding NoteMemorabilia}"/>
                     </TabItem>
                     <TabItem Header="故事大纲">
-                        <brick:MyTree DataContext="{Binding NoteStory}"/>
+                        <view:MyTree DataContext="{Binding NoteStory}"/>
                     </TabItem>
                     <TabItem Header="场景大纲">
-                        <brick:MyTree DataContext="{Binding NoteScenes}"/>
+                        <view:MyTree DataContext="{Binding NoteScenes}"/>
                     </TabItem>
                     <TabItem Header="线索">
-                        <brick:MyTree DataContext="{Binding NoteClues}"/>
+                        <view:MyTree DataContext="{Binding NoteClues}"/>
                     </TabItem>
                     <TabItem Header="模板">
-                        <brick:MyTree DataContext="{Binding NoteTemplate}"/>
+                        <view:MyTree DataContext="{Binding NoteTemplate}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
@@ -85,19 +85,19 @@
             <GroupBox Name="GBoxCard" Header="本书信息卡" Grid.Row="4" Style="{StaticResource BaseStyle}" IsEnabled="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}, Converter={StaticResource Object2BooleanConverter}}">
                 <TabControl x:Name="TabCard" Grid.Row="1" DataContext="{Binding CurrentBook, Source={StaticResource GlobalSource}}" Loaded="TabCard_Loaded" SelectionChanged="TabCard_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="本书角色">
-                        <brick:CardsBox DataContext="{Binding CardRole}"/>
+                        <view:CardsBox DataContext="{Binding CardRole}"/>
                     </TabItem>
                     <TabItem Header="本书其他">
-                        <brick:CardsBox DataContext="{Binding CardOther}"/>
+                        <view:CardsBox DataContext="{Binding CardOther}"/>
                     </TabItem>
                     <TabItem Header="本书世界">
-                        <brick:CardsBox DataContext="{Binding CardWorld}"/>
+                        <view:CardsBox DataContext="{Binding CardWorld}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
         </Grid>
         <GroupBox Grid.Column="4" Style="{StaticResource BaseStyle}" Background="Transparent" BorderThickness="0">
-            <brick:EditorShell DataContext="{Binding OpeningDocList, Source={StaticResource GlobalSource}}"/>
+            <view:EditorShell DataContext="{Binding OpeningDocList, Source={StaticResource GlobalSource}}"/>
         </GroupBox>
         <Grid Grid.Column="6">
             <Grid.RowDefinitions>
@@ -107,16 +107,19 @@
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
-            <GroupBox Header="信息区" Style="{StaticResource BaseStyle}"></GroupBox>
+            <GroupBox Header="信息区" Style="{StaticResource BaseStyle}">
+                <view:UcShower Loaded="UcShower_Loaded"/>
+            </GroupBox>
             <GroupBox x:Name="ToolBarPublic" Header="工具栏 - 全局" Grid.Row="2" Style="{StaticResource BaseStyle}">
                 <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5">
-                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
-                        <Button x:Name="BtnCardModel" Click="BtnCardModel_Click"/>
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                        <Button x:Name="BtnCardModel" Click="BtnCardModel_Click" Margin="0,0,5,0"/>
+                        <view:UcPomodoro Margin="0,0,5,0"/>
                     </StackPanel>
                 </Border>
             </GroupBox>
             <GroupBox Header="搜索区" Grid.Row="4" Style="{StaticResource BaseStyle}">
-                <brick:UcSearch/>
+                <view:UcSearch/>
             </GroupBox>
         </Grid>
         <Grid Grid.Column="8">
@@ -128,29 +131,29 @@
             <GroupBox Name="GBoxMaterial" Header="资料和文库" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabMaterial" DataContext="{Binding MaterialBook, Source={StaticResource GlobalSource}}" Loaded="TabMaterial_Loaded" SelectionChanged="TabMaterial_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="范文">
-                        <brick:MyTree DataContext="{Binding BoxExample}"/>
+                        <view:MyTree DataContext="{Binding BoxExample}"/>
                     </TabItem>
                     <TabItem Header="资料库">
-                        <brick:MyTree DataContext="{Binding BoxMaterial}"/>
+                        <view:MyTree DataContext="{Binding BoxMaterial}"/>
                     </TabItem>
                     <TabItem Header="题材库">
-                        <brick:MyTree DataContext="{Binding NoteTheme}"/>
+                        <view:MyTree DataContext="{Binding NoteTheme}"/>
                     </TabItem>
                     <TabItem Header="灵感记录">
-                        <brick:MyTree DataContext="{Binding NoteInspiration}"/>
+                        <view:MyTree DataContext="{Binding NoteInspiration}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>
             <GroupBox Name="GBoxPublicCard" Grid.Row="2" Header="公共信息卡" Style="{StaticResource BaseStyle}">
                 <TabControl x:Name="TabPublicCard" DataContext="{Binding MaterialBook, Source={StaticResource GlobalSource}}" Loaded="TabPublicCard_Loaded" SelectionChanged="TabPublicCard_SelectionChanged" Style="{DynamicResource TabControlStyle}">
                     <TabItem Header="公共角色">
-                        <brick:CardsBox DataContext="{Binding CardRole}"/>
+                        <view:CardsBox DataContext="{Binding CardRole}"/>
                     </TabItem>
                     <TabItem Header="公共其他">
-                        <brick:CardsBox DataContext="{Binding CardOther}"/>
+                        <view:CardsBox DataContext="{Binding CardOther}"/>
                     </TabItem>
                     <TabItem Header="公共世界">
-                        <brick:CardsBox DataContext="{Binding CardWorld}"/>
+                        <view:CardsBox DataContext="{Binding CardWorld}"/>
                     </TabItem>
                 </TabControl>
             </GroupBox>

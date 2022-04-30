@@ -24,6 +24,7 @@
             <converter:NodeConvertToVisibility x:Key="NodeConvertToVisibility"/>
             <converter:NodeConvertToVisibility2 x:Key="NodeConvertToVisibility2"/>
             <converter:BoolConvertToVisibility x:Key="BoolConvertToVisibility"/>
+            <converter:BoolConvertToReVisibility x:Key="BoolConvertToReVisibility"/>
             <converter:TabName2BoolReConvert x:Key="TabName2BoolReConvert"/>
             <converter:GetToolTipInfo x:Key="GetToolTipInfo"/>
             
