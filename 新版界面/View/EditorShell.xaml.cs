@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RootNS.View
 {
@@ -32,6 +33,11 @@ namespace RootNS.View
         {
             Gval.EditorTabControl = sender as HandyControl.Controls.TabControl;
             Gval.OpeningDocList.CollectionChanged += OpenedDocList_CollectionChanged;
+        }
+
+        private void ThisTabControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private void OpenedDocList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -82,7 +88,10 @@ namespace RootNS.View
             HandyControl.Controls.TabItem tabItem = sender as HandyControl.Controls.TabItem;
             Editorkernel editorBase = tabItem.Content as Editorkernel;
             Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
+
+            //清空各种显示
             EditorHelper.RefreshIsContainFlagForCardsBox(string.Empty);
+            Gval.View.UcShower.DataContext = new Shower(new Node(), 0);
         }
 
         private void TabItem_Closing(object sender, EventArgs e)

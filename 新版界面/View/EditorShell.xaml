@@ -9,6 +9,6 @@
     d:DesignHeight="450" d:DesignWidth="800"  Effect="{StaticResource EffectShadow3}" >
     <hc:TabControl x:Name="ThisTabControl"
         IsAnimationEnabled="True" ShowCloseButton="True" IsTabFillEnabled="False" Style="{StaticResource TabControlPlusBaseStyle}"
-        Loaded="EditorTabControl_Loaded">
+        Loaded="EditorTabControl_Loaded" Unloaded="ThisTabControl_Unloaded">
     </hc:TabControl>
 </UserControl>

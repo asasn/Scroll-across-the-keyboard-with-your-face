@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RootNS.View
 {
@@ -27,7 +29,33 @@ namespace RootNS.View
 
         private void Button_Loaded(object sender, RoutedEventArgs e)
         {
-
+            (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(1000)
+            };
+            Timer.Tick += TimeRuner;
+            Timer.Start();
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Timer.Stop();
+        }
+
+        public DispatcherTimer Timer = new DispatcherTimer();
+
+        /// <summary>
+        /// 方法：每次间隔运行的内容
+        /// </summary>
+        private void TimeRuner(object sender, EventArgs e)
+        {
+            Shower.RefreshCards();
+        }
+
     }
 }

@@ -32,7 +32,7 @@ namespace RootNS.View
             Node node = this.DataContext as Node;
             if (node.IsDir == false && node.IsDel == false)
             {
-                if (Gval.OpeningDocList.Contains(node) != true)
+                if (Gval.OpeningDocList.Contains(node) == false)
                 {
                     Gval.OpeningDocList.Add(node);
                 }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RootNS.View"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" Background="#FFFDFDFD"
-             d:DesignHeight="450" d:DesignWidth="300">
+             d:DesignHeight="450" d:DesignWidth="300" Loaded="ThisControl_Loaded" Unloaded="ThisControl_Unloaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="26"/>

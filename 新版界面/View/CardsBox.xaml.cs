@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RootNS.View
 {
@@ -163,6 +164,31 @@ namespace RootNS.View
         {
             (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
         }
+
+        private void ThisControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            Timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(1000)
+            };
+            Timer.Tick += TimeRuner;
+            Timer.Start();
+        }
+        private void ThisControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Timer.Stop();
+        }
+
+        private DispatcherTimer Timer = new DispatcherTimer();
+
+        /// <summary>
+        /// 方法：每次间隔运行的内容
+        /// </summary>
+        private void TimeRuner(object sender, EventArgs e)
+        {
+            EditorHelper.RefreshIsContainFlagForCardsBox(Gval.CurrentDoc.Text);
+        }
+
 
     }
 }

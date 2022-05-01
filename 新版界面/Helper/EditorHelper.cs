@@ -31,9 +31,8 @@ namespace RootNS.Helper
             }
         }
 
-        public static ObservableCollection<Card> RefreshIsContainFlagForTab(Card rootCard , string text)
+        private static void RefreshIsContainFlagForTab(Card rootCard, string text)
         {
-            ObservableCollection<Card> cards = new ObservableCollection<Card>();
             foreach (Card card in rootCard.ChildNodes)
             {
                 card.IsContain = false;
@@ -44,6 +43,30 @@ namespace RootNS.Helper
                 if (text.Contains(card.Title.Trim()))
                 {
                     card.IsContain = true;
+                    continue;
+                }
+                foreach (Card.Tip tip in card.NickNames.Tips)
+                {
+                    if (text.Contains(tip.Title.Trim()))
+                    {
+                        card.IsContain = true;
+                        continue;
+                    }
+                }
+            }
+        }
+
+        public static ObservableCollection<Card> RefreshCardsForTab(Card rootCard, string text)
+        {
+            ObservableCollection<Card> cards = new ObservableCollection<Card>();
+            foreach (Card card in rootCard.ChildNodes)
+            {
+                if (card.IsDel == true)
+                {
+                    continue;
+                }
+                if (text.Contains(card.Title.Trim()))
+                {
                     if (cards.Contains(card) == false)
                     {
                         cards.Add(card);
@@ -54,7 +77,6 @@ namespace RootNS.Helper
                 {
                     if (text.Contains(tip.Title.Trim()))
                     {
-                        card.IsContain = true;
                         if (cards.Contains(card) == false)
                         {
                             cards.Add(card);
@@ -65,7 +87,6 @@ namespace RootNS.Helper
             }
             return cards;
         }
-
         /// <summary>
         /// 根据node对象从编辑器容器当中选定并返回当前的TabItem对象
         /// </summary>
@@ -191,6 +212,7 @@ namespace RootNS.Helper
         public static void SetColorRulesForCards(TextEditor tEditor)
         {
             InitEditorColorRules(tEditor, Gval.Path.XshdPath);
+            Gval.CurrentBook.LoadForAllCardTabs();
             Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
             foreach (Card rootCard in CardBoxs)
             {

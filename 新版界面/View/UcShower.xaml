@@ -3,48 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RootNS.View"
+             xmlns:local="clr-namespace:RootNS.View" xmlns:model="clr-namespace:RootNS.Model" d:DataContext="{d:DesignInstance Type=model:Shower}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="300">
+             d:DesignHeight="450" d:DesignWidth="300" Unloaded="UserControl_Unloaded" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="55*"/>
-            <RowDefinition Height="64*"/>
-            <RowDefinition Height="331*"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" >
-            <ItemsControl ItemsSource="{Binding Roles}" VirtualizingPanel.IsVirtualizing="True">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="2">
-                            <Button Padding="2" Visibility="{Binding IsShowCard, Converter={StaticResource BoolConvertToVisibility}}" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="Button_Loaded">
-                            </Button>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
-            <ItemsControl ItemsSource="{Binding Others}" VirtualizingPanel.IsVirtualizing="True">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Padding="2">
-                            <Button Padding="2" Visibility="{Binding IsShowCard, Converter={StaticResource BoolConvertToVisibility}}" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="Button_Loaded">
-                            </Button>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
+        <Label Padding="0" BorderThickness="0" Background="Transparent" Grid.Row="0" Content="临近章节 - 角色" HorizontalAlignment="Left"></Label>
+        <Separator Grid.Row="1" ></Separator>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" >
+                <ItemsControl ItemsSource="{Binding Roles}" VirtualizingPanel.IsVirtualizing="True">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="2">
+                                <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="Button_Loaded">
+                                </Button>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        <Label Padding="0" BorderThickness="0" Background="Transparent" Grid.Row="3" Content="临近章节 - 其他" HorizontalAlignment="Left"></Label>
+        <Separator Grid.Row="4" ></Separator>   
+        <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" >
+                <ItemsControl ItemsSource="{Binding Others}" VirtualizingPanel.IsVirtualizing="True">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="2">
+                                <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="Button_Loaded">
+                                </Button>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
     </Grid>
 </UserControl>

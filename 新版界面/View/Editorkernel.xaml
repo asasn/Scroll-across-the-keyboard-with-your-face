@@ -51,7 +51,7 @@
             Grid.Row="0"
             x:Name="ThisTextEditor" ShowLineNumbers="True"
             SyntaxHighlighting="Text" WordWrap="True" FontFamily="宋体"             
-            FontSize="12pt" CommandManager.Executed="ThisTextEditor_Executed"  CommandManager.PreviewExecuted="ThisTextEditor_PreviewExecuted" MouseHover="ThisTextEditor_MouseHover" MouseHoverStopped="ThisTextEditor_MouseHoverStopped" Loaded="ThisTextEditor_Loaded" KeyUp="ThisTextEditor_KeyUp" KeyDown="ThisTextEditor_KeyDown">
+            FontSize="12pt" CommandManager.Executed="ThisTextEditor_Executed"  CommandManager.PreviewExecuted="ThisTextEditor_PreviewExecuted" MouseHover="ThisTextEditor_MouseHover" MouseHoverStopped="ThisTextEditor_MouseHoverStopped" Loaded="ThisTextEditor_Loaded" KeyUp="ThisTextEditor_KeyUp" KeyDown="ThisTextEditor_KeyDown" TextChanged="ThisTextEditor_TextChanged">
             <avalonEdit:TextEditor.Options>
                 <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ShowTabs="True" WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
