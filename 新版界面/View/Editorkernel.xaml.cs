@@ -46,28 +46,22 @@ namespace RootNS.View
         #region 命令
         private void Command_SaveText_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            BtnSaveDoc.IsEnabled = false;
+            System.Threading.Thread thread = new System.Threading.Thread(SaveInThreadMethod);
+            thread.Start(this.DataContext);
 
-            //System.Threading.Thread thread = new System.Threading.Thread(SaveInThreadMethod);
-            //thread.Start();
-            SaveMethod();
-            ThisTextEditor.Focus();
+            ExtraForSave();
         }
 
-        private void SaveMethod()
+        private void SaveMethod(Node node)
         {
-            RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
-            Node node = this.DataContext as Node;
-            node.Text = ThisTextEditor.Text;
-            node.WordsCount = textCount;
             try
             {
                 string sql = string.Format("UPDATE {0} SET Text='{1}', Summary='{2}', WordsCount='{3}' WHERE Uid='{4}';", node.TabName, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.Uid);
                 SqliteHelper.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
-
                 //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
                 //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
                 SqliteHelper.PoolDict[node.OwnerName].Close();
+                HandyControl.Controls.Growl.Success(String.Format("{0} 已保存！", node.Title));
             }
             catch (Exception ex)
             {
@@ -75,13 +69,28 @@ namespace RootNS.View
             }
         }
 
-        private void SaveInThreadMethod()
+        /// <summary>
+        /// 与保存相关的一些额外工作
+        /// <para></para>
+        /// （确保BtnSaveDoc按钮状态正确，node对象的Text属性和WordsCount属性正确，以及重新聚集控件）
+        /// </summary>
+        /// <param name="node"></param>
+        private void ExtraForSave()
         {
-            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
-             (System.Threading.ThreadStart)delegate ()
-             {
-                 SaveMethod();
-             });
+            BtnSaveDoc.IsEnabled = false;
+            //RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
+            (this.DataContext as Node).Text = ThisTextEditor.Text;
+            (this.DataContext as Node).WordsCount = textCount;
+            ThisTextEditor.Focus();
+        }
+
+        /// <summary>
+        /// 在新线程中进行保存操作。
+        /// </summary>
+        /// <param name="node"></param>
+        private void SaveInThreadMethod(object node)
+        {
+            SaveMethod(node as Node);
         }
 
 
@@ -178,7 +187,7 @@ namespace RootNS.View
         {
             if (e.Key == Key.Enter)
             {
-                ThisTextEditor.TextArea.Document.Insert(ThisTextEditor.SelectionStart, "\n　　");
+                ThisTextEditor.TextArea.Document.Insert(ThisTextEditor.CaretOffset, "\n\t");
                 ThisTextEditor.LineDown();
                 Command_SaveText_Executed(null, null);
             }
@@ -215,7 +224,7 @@ namespace RootNS.View
             RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
 
             Gval.View.UcShower.DataContext = new Shower(this.DataContext as Node);
-            Gval.CurrentDoc = this.DataContext as Node;
+            (this.DataContext as Node).Text = ThisTextEditor.Text;
         }
 
         private int textCount;
@@ -229,11 +238,11 @@ namespace RootNS.View
         private void ThisTextEditor_TextChanged(object sender, EventArgs e)
         {
             BtnSaveDoc.IsEnabled = true;
-            Gval.CurrentDoc.Text = ThisTextEditor.Text;
             //文字变更之后，获得结果
             RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
-
+            (this.DataContext as Node).Text = ThisTextEditor.Text;
         }
+
         /// <summary>
         /// 刷新字数统计和价值的显示
         /// </summary>

@@ -163,7 +163,7 @@ namespace RootNS.Helper
         /// <param name="tEditor"></param>
         public static void TypeSetting(TextEditor tEditor)
         {
-            string reText = "　　"; //开头是两个全角空格
+            string reText = "\t"; //开头是两个全角空格
             string[] sArray = tEditor.Text.Split(new char[] { '\r', '\n', '\t' });
             string[] sArrayNoEmpty = sArray.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
             foreach (string lineStr in sArrayNoEmpty)
@@ -172,7 +172,7 @@ namespace RootNS.Helper
                 if (Array.IndexOf(sArrayNoEmpty, lineStr) != sArrayNoEmpty.Length - 1)
                 {
                     //非末尾的情况
-                    reText += lineStr.Trim() + "\n\n　　";
+                    reText += lineStr.Trim() + "\n\t\n\t";
                 }
                 else
                 {
@@ -184,10 +184,9 @@ namespace RootNS.Helper
             tEditor.Text = reText;
             //光标移动至文末 
             tEditor.ScrollToLine(tEditor.LineCount);
-            tEditor.SelectionLength = 0;
+            tEditor.ScrollToEnd();
             tEditor.SelectionStart = tEditor.Text.Length;
-            tEditor.ScrollToEnd();
-            tEditor.ScrollToEnd();
+            tEditor.Focus();
         }
 
 

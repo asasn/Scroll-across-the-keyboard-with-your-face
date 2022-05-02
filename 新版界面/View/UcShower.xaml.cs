@@ -54,7 +54,12 @@ namespace RootNS.View
         /// </summary>
         private void TimeRuner(object sender, EventArgs e)
         {
-            Shower.RefreshCards();
+            if (Gval.EditorTabControl.SelectedItem == null)
+            {
+                return;
+            }
+            Node curNode = ((Gval.EditorTabControl.SelectedItem as TabItem).Content as Editorkernel).DataContext as Node;
+            (Gval.View.UcShower.DataContext as Shower).RefreshCards(curNode);
         }
 
     }

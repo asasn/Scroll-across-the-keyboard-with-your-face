@@ -186,9 +186,12 @@ namespace RootNS.View
         /// </summary>
         private void TimeRuner(object sender, EventArgs e)
         {
-            EditorHelper.RefreshIsContainFlagForCardsBox(Gval.CurrentDoc.Text);
+            if (Gval.EditorTabControl.SelectedItem == null)
+            {
+                return;
+            }
+            string text = ((Gval.EditorTabControl.SelectedItem as TabItem).Content as Editorkernel).ThisTextEditor.Text;
+            EditorHelper.RefreshIsContainFlagForCardsBox(text);
         }
-
-
     }
 }
