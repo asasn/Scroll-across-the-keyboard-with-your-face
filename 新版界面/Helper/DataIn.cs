@@ -95,6 +95,12 @@ namespace RootNS.Helper
                     Uid = reader["Uid"].ToString(),
                     Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString()
                 };
+                if (tip.Title == "别称" ||
+                    tip.Title == "所属" ||
+                    tip.Title == "物品" )
+                {
+                    tip.IsEnabled = false;
+                }
                 line.Tips.Add(tip);
             }
             reader.Close();

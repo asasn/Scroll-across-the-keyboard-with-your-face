@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using RootNS.Model;
 using System;
 using System.IO;
 using System.Text;
@@ -9,6 +10,7 @@ namespace RootNS.Helper
 {
     internal class IOHelper
     {
+
         public static BitmapImage GetImgObject(string imgPath)
         {
             if (false == IOHelper.IsFileExists(imgPath))

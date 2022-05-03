@@ -27,7 +27,6 @@
             <converter:BoolConvertToReVisibility x:Key="BoolConvertToReVisibility"/>
             <converter:TabName2BoolReConvert x:Key="TabName2BoolReConvert"/>
             <converter:GetToolTipInfo x:Key="GetToolTipInfo"/>
-            <model:Shower x:Key="Shower"/>
             <model:Gval x:Key="GlobalSource"/>
         </ResourceDictionary>
     </Application.Resources>

@@ -603,5 +603,102 @@ namespace RootNS.Model
             this.RealRemoveItSelfAndAllChildNodes();
             dropNode.AddChildNode(this);
         }
+
+        public void Import()
+        {
+            Node selectedNode;
+            if (this.IsDir == false)
+            {
+                if (this.Parent == null)
+                {
+                    return;
+                }
+                else
+                {
+                    selectedNode = this.Parent;
+                }
+            }
+            else
+            {
+                selectedNode = this;
+            }
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                DefaultExt = ".txt",
+                Filter = "文本文件(*.txt, *.book)|*.txt;*.book|所有文件(*.*)|*.*",
+                Multiselect = true
+            };
+
+            string[] files;
+            // 打开选择框选择
+            if (dlg.ShowDialog() == true)
+            {
+                files = dlg.FileNames;
+            }
+            else
+            {
+                return;
+            }
+            foreach (string srcFullFileName in files)
+            {
+                string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
+
+                Node newNode = new Node
+                {
+                    Title = title,
+                    Text = IOHelper.ReadFromTxt(srcFullFileName)
+                };
+                newNode.WordsCount = EditorHelper.CountWords(newNode.Text);
+                selectedNode.AddChildNode(newNode);
+            }
+        }
+
+        public void Export()
+        {
+            Node selectedNode;
+            if (this.IsDir == false)
+            {
+                if (this.Parent == null)
+                {
+                    return;
+                }
+                else
+                {
+                    selectedNode = this.Parent;
+                }
+            }
+            else
+            {
+                selectedNode = this;
+            }
+            if (selectedNode.ChildNodes.Count == 0)
+            {
+                return;
+            }
+            System.Windows.Forms.FolderBrowserDialog folder = new System.Windows.Forms.FolderBrowserDialog();
+            folder.Description = "选择文件所在文件夹目录";  //提示的文字
+            folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            if (folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string path = String.Format("{0}/{1}", folder.SelectedPath, selectedNode.Title);
+                if (IOHelper.IsFolderExists(path) == false)
+                {
+                    IOHelper.CreateFolder(path);
+                }
+
+                foreach (Node node in selectedNode.ChildNodes)
+                {
+                    string fullFileName = String.Format("{0}/{1}.txt", path, node.Title);
+                    int n = 1;
+                    while (IOHelper.IsFileExists(fullFileName) == true)
+                    {
+                        fullFileName = String.Format("{0}/{1}{2}.txt", path, node.Title, n);
+                        n++;
+                    }
+
+                    IOHelper.WriteToTxt(fullFileName, node.Text);
+                }
+            }
+        }
     }
 }

@@ -92,7 +92,7 @@ namespace RootNS.Model
                     DataIn.FillInNodes(Gval.CurrentBook.BoxPublished);
                 }
                 List<Node> publishedChaptersList = Gval.CurrentBook.GetPublishedChapterNodes();
-                int cc = 0;
+                int cc;
                 if (publishedChaptersList.Contains(curChapter))
                 {
                     cc = publishedChaptersList.IndexOf(curChapter);
@@ -155,10 +155,10 @@ namespace RootNS.Model
             }
         }
 
-        private ObservableCollection<Card> _pRoles = new ObservableCollection<Card>();
-        private ObservableCollection<Card> _cRoles = new ObservableCollection<Card>();
-        private ObservableCollection<Card> _pOthers = new ObservableCollection<Card>();
-        private ObservableCollection<Card> _cOthers = new ObservableCollection<Card>();
+        //private ObservableCollection<Card> _pRoles = new ObservableCollection<Card>();
+        //private ObservableCollection<Card> _cRoles = new ObservableCollection<Card>();
+        //private ObservableCollection<Card> _pOthers = new ObservableCollection<Card>();
+        //private ObservableCollection<Card> _cOthers = new ObservableCollection<Card>();
 
         private ObservableCollection<Card> _previousRoles = new ObservableCollection<Card>();
         private ObservableCollection<Card> _previousOthers = new ObservableCollection<Card>();

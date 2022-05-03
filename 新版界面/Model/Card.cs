@@ -179,7 +179,7 @@ namespace RootNS.Model
         }
 
 
-        public class Tip
+        public class Tip : NotificationObject
         {
             public Tip()
             {
@@ -193,6 +193,19 @@ namespace RootNS.Model
             public string Title { get; set; }
             public string TabName { get; set; }
             public string OwnerName { get; set; }
+
+            private bool _isEnabled = true;
+
+            public bool IsEnabled
+            {
+                get { return _isEnabled; }
+                set
+                {
+                    _isEnabled = value;
+                    RaisePropertyChanged(nameof(IsEnabled));
+                }
+            }
+
         }
         public class Line : NotificationObject
         {

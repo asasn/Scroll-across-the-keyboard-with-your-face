@@ -31,7 +31,12 @@ namespace RootNS.View
 
         private void TreeViewMenu_Opened(object sender, RoutedEventArgs e)
         {
-
+            if (TreeNodes.SelectedItem == null)
+            {
+                return;
+            }
+            ((sender as ContextMenu).Items[1] as MenuItem).IsEnabled = true;
+            ((sender as ContextMenu).Items[2] as MenuItem).IsEnabled = true;
         }
         #region 命令
         Node _lastReNameNode;
@@ -119,11 +124,6 @@ namespace RootNS.View
             (TreeNodes.SelectedItem as Node).IsDel = false;
         }
 
-        private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
         private void Command_MoveUp_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (TreeNodes.SelectedItem == null)
@@ -165,6 +165,24 @@ namespace RootNS.View
             Gval.CurrentBook.LoadForAllChapterTabs();
             selectedNode.RealRemoveItSelfAndAllChildNodes();
             selectedNode.AddToTreeEnd(targetRootNode);
+        }
+        private void Command_Import_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Node selectedNode = TreeNodes.SelectedItem as Node;
+            if (selectedNode == null)
+            {
+                return;
+            }
+            selectedNode.Import();
+        }
+        private void Command_Export_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            Node selectedNode = TreeNodes.SelectedItem as Node;
+            if (selectedNode == null)
+            {
+                return;
+            }
+            selectedNode.Export();
         }
         #endregion
 
@@ -208,6 +226,15 @@ namespace RootNS.View
         private void BtnSend_Click(object sender, RoutedEventArgs e)
         {
             Command_Send_Executed(null, null);
+        }
+        private void BtnImport_Click(object sender, RoutedEventArgs e)
+        {
+            Command_Import_Executed(null, null);
+        }
+
+        private void BtnExport_Click(object sender, RoutedEventArgs e)
+        {
+            Command_Export_Executed(null, null);
         }
         #endregion
 
@@ -329,8 +356,16 @@ namespace RootNS.View
             ((this.DataContext as Node).Owner as BookBase).SelectedNode = selectedItem.DataContext as Node;
         }
 
+        private void UserControl_MouseEnter(object sender, MouseEventArgs e)
+        {
+            R1.Height = new GridLength(26);
+            TreeNodes.BorderThickness = new Thickness(1);
+        }
 
-
-
+        private void UserControl_MouseLeave(object sender, MouseEventArgs e)
+        {
+            R1.Height = new GridLength(0);
+            TreeNodes.BorderThickness = new Thickness(1,0,1,1);
+        }
     }
 }

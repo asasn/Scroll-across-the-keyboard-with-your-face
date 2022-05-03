@@ -7,34 +7,39 @@
     xmlns:behavior="clr-namespace:RootNS.Helper" 
     Background="#FFFEFEFE" UseLayoutRounding="True"
     mc:Ignorable="d" VirtualizingPanel.IsVirtualizing="True"
-    d:DesignHeight="450" d:DesignWidth="300">
+    d:DesignHeight="450" d:DesignWidth="300" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="26"/>
+            <RowDefinition x:Name="R1" Height="0"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
-            <Button x:Name="BtnFolder" IsEnabled="{Binding TabName, Converter={StaticResource TabName2BoolReConvert}}" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
-            <Button x:Name="BtnAddDoc" FontFamily="../Assets/#androidicons" Content="&#59477;" FontSize="15" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddDoc_Click"/>
-            <Button x:Name="BtnDel" FontFamily="../Assets/#androidicons" Content="&#59420;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
-            <Button x:Name="BtnUnDel" FontFamily="../Assets/#androidicons" Content="&#59473;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUnDel_Click"/>
-            <Button x:Name="BtnUp" FontFamily="../Assets/#androidicons" Content="&#59432;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUp_Click"/>
-            <Button x:Name="BtnDown" FontFamily="../Assets/#androidicons" Content="&#59433;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDown_Click"/>
-            <Button Visibility="{Binding Converter={StaticResource NodeConvertToVisibility2}}" x:Name="BtnKeep" FontFamily="../Assets/#androidicons" Content="&#59604;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnKeep_Click"/>
-            <Button Visibility="{Binding Converter={StaticResource NodeConvertToVisibility}}" x:Name="BtnSend" FontFamily="../Assets/#androidicons" Content="&#59629;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnSend_Click"/>
+        <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" Margin="0,0,60,0">
+            <Button x:Name="BtnFolder" ToolTip="添加目录" IsEnabled="{Binding TabName, Converter={StaticResource TabName2BoolReConvert}}" FontFamily="../Assets/#androidicons" Content="&#59407;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnFolder_Click"/>
+            <Button x:Name="BtnAddDoc" ToolTip="添加文档" FontFamily="../Assets/#androidicons" Content="&#59477;" FontSize="15" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnAddDoc_Click"/>
+            <Button x:Name="BtnDel" ToolTip="删除节点" FontFamily="../Assets/#androidicons" Content="&#59420;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDel_Click"/>
+            <Button x:Name="BtnUnDel" ToolTip="撤销删除" FontFamily="../Assets/#androidicons" Content="&#59473;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUnDel_Click"/>
+            <Button x:Name="BtnUp" ToolTip="节点向上移动" FontFamily="../Assets/#androidicons" Content="&#59432;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnUp_Click"/>
+            <Button x:Name="BtnDown" ToolTip="节点向下移动" FontFamily="../Assets/#androidicons" Content="&#59433;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnDown_Click"/>
+            <Button ToolTip="发送到暂存" Visibility="{Binding Converter={StaticResource NodeConvertToVisibility2}}" x:Name="BtnKeep" FontFamily="../Assets/#androidicons" Content="&#59604;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnKeep_Click"/>
+            <Button ToolTip="发送到已发布" Visibility="{Binding Converter={StaticResource NodeConvertToVisibility}}" x:Name="BtnSend" FontFamily="../Assets/#androidicons" Content="&#59629;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnSend_Click"/>
         </StackPanel>
-        <TreeView x:Name="TreeNodes" TreeViewItem.Selected="TreeNodes_Selected" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" Grid.Row="1" DragEnter="TreeNodes_DragEnter" Drop="TreeNodes_Drop" MouseMove="TreeNodes_MouseMove" MouseLeftButtonDown="TreeNodes_MouseLeftButtonDown" DragLeave="TreeNodes_DragLeave" MouseUp="TreeNodes_MouseUp">
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button ToolTip="导入" x:Name="BtnImport" FontFamily="../Assets/#androidicons" Content="&#59515;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnImport_Click"/>
+            <Button ToolTip="导出" x:Name="BtnExport" FontFamily="../Assets/#androidicons" Content="&#59516;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="26" Height="26" Click="BtnExport_Click"/>
+        </StackPanel>
+        <TreeView x:Name="TreeNodes" BorderThickness="1,0,1,1" TreeViewItem.Selected="TreeNodes_Selected" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" Grid.Row="1" DragEnter="TreeNodes_DragEnter" Drop="TreeNodes_Drop" MouseMove="TreeNodes_MouseMove" MouseLeftButtonDown="TreeNodes_MouseLeftButtonDown" DragLeave="TreeNodes_DragLeave" MouseUp="TreeNodes_MouseUp">
             <TreeView.Resources>
                 <RoutedUICommand x:Key="AddFolder" Text="添加目录"/>
                 <RoutedUICommand x:Key="AddDoc" Text="添加文档"/>
                 <RoutedUICommand x:Key="DelNode" Text="删除节点"/>
                 <RoutedUICommand x:Key="ReName" Text="重命名"/>
-                <RoutedUICommand x:Key="ImportNode" Text="导入"/>
                 <RoutedUICommand x:Key="MoveUp" Text="向上移动节点"/>
                 <RoutedUICommand x:Key="MoveDown" Text="向下移动节点"/>
                 <RoutedUICommand x:Key="UnDel" Text="撤销删除"/>
                 <RoutedUICommand x:Key="Keep" Text="暂存"/>
                 <RoutedUICommand x:Key="Send" Text="发布"/>
+                <RoutedUICommand x:Key="Import" Text="导入"/>
+                <RoutedUICommand x:Key="Export" Text="导出"/>
             </TreeView.Resources>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">
@@ -42,20 +47,20 @@
                     <MenuItem Header="添加文档" IsEnabled="False" Command="{StaticResource AddDoc}" InputGestureText="Enter"/>
                     <MenuItem Header="删除节点" IsEnabled="False" Command="{StaticResource DelNode}" InputGestureText="Delete"/>
                     <MenuItem Header="重命名" IsEnabled="True" Command="{StaticResource ReName}" InputGestureText="F2"/>
-                    <MenuItem Header="导入" IsEnabled="False" Command="{StaticResource ImportNode}" InputGestureText="Insert"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
             <TreeView.CommandBindings>
                 <CommandBinding Command="{StaticResource AddFolder}" Executed="Command_AddFolder_Executed"/>
                 <CommandBinding Command="{StaticResource AddDoc}" Executed="Command_AddDoc_Executed" />
                 <CommandBinding Command="{StaticResource DelNode}" Executed="Command_Delete_Executed" />
+                <CommandBinding Command="{StaticResource UnDel}" Executed="Command_UnDel_Executed" />
                 <CommandBinding Command="{StaticResource ReName}" Executed="Command_ReName_Executed" />
-                <CommandBinding Command="{StaticResource ImportNode}" Executed="Command_Import_Executed" />
                 <CommandBinding Command="{StaticResource MoveUp}" Executed="Command_MoveUp_Executed" />
                 <CommandBinding Command="{StaticResource MoveDown}" Executed="Command_MoveDown_Executed" />
-                <CommandBinding Command="{StaticResource UnDel}" Executed="Command_UnDel_Executed" />
                 <CommandBinding Command="{StaticResource Keep}" Executed="Command_Keep_Executed" />
                 <CommandBinding Command="{StaticResource Send}" Executed="Command_Send_Executed" />
+                <CommandBinding Command="{StaticResource Import}" Executed="Command_Import_Executed" />
+                <CommandBinding Command="{StaticResource Export}" Executed="Command_Export_Executed" />
             </TreeView.CommandBindings>
             <TreeView.InputBindings>
                 <KeyBinding Command="{StaticResource AddFolder}" Key="Add" CommandParameter="{Binding TabName}"/>
@@ -63,11 +68,12 @@
                 <KeyBinding Command="{StaticResource DelNode}" Key="Delete" />
                 <KeyBinding Command="{StaticResource UnDel}" Key="Z" Modifiers="Ctrl" />
                 <KeyBinding Command="{StaticResource ReName}" Key="F2" />
-                <KeyBinding Command="{StaticResource ImportNode}" Key="Insert" />
                 <KeyBinding Command="{StaticResource MoveUp}" Key="U" Modifiers="Ctrl" />
                 <KeyBinding Command="{StaticResource MoveDown}" Key="J" Modifiers="Ctrl" />
                 <KeyBinding Command="{StaticResource Keep}" Key="F7" />
                 <KeyBinding Command="{StaticResource Send}" Key="F8" />
+                <KeyBinding Command="{StaticResource Import}" Key="Insert" />
+                <KeyBinding Command="{StaticResource Export}" Key="Insert" Modifiers="Ctrl" />
             </TreeView.InputBindings>
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">
