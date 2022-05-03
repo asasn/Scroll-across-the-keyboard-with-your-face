@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RootNS.View"
              xmlns:root="clr-namespace:RootNS" Padding="0"
              mc:Ignorable="d" UseLayoutRounding="True" ToolTip="{Binding Index}" ToolTipService.ShowDuration="60000"
-             d:DesignHeight="30" d:DesignWidth="278" MouseDoubleClick="ThisControl_MouseDoubleClick" MouseRightButtonDown="ThisControl_MouseRightButtonDown">
+             d:DesignHeight="30" d:DesignWidth="278" MouseDoubleClick="ThisControl_MouseDoubleClick" MouseRightButtonDown="ThisControl_MouseRightButtonDown" VerticalAlignment="Stretch">
 
     <Grid>
         <Grid.ColumnDefinitions>

@@ -10,7 +10,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="GridHeader" Height="26"/>
+            <RowDefinition x:Name="GridHeader" Height="30"/>
             <RowDefinition x:Name="GridContent" Height="100*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>

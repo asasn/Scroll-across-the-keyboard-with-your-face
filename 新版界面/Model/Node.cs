@@ -399,6 +399,7 @@ namespace RootNS.Model
             this.IsExpanded = true;
             this.ChildNodes.Add(node);
             DataOut.CreateNewNode(node);
+            node.IsSelected = true;
             return node;
         }
 

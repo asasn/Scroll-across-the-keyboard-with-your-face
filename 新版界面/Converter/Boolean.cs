@@ -101,11 +101,11 @@ namespace RootNS.Converter
             Node node = (Node)value;
             try
             {
-                if (node.TabName == "线索")
+                if (node.TabName == Book.NoteTabName.线索.ToString())
                 {
                     return new NodeItemForClue();
                 }
-                if (node.TabName == "场景")
+                if (node.TabName == Book.NoteTabName.场景.ToString() && node.IsDir == false)
                 {
                     return new NodeItemForSecens();
                 }
@@ -139,7 +139,8 @@ namespace RootNS.Converter
             }
             try
             {
-                if (value.ToString() == "草稿" || value.ToString() == "暂存")
+                if (value.ToString() == Book.ChapterTabName.草稿.ToString() || 
+                    value.ToString() == Book.ChapterTabName.暂存.ToString())
                 {
                     return false;
                 }
@@ -173,11 +174,11 @@ namespace RootNS.Converter
             }
             try
             {
-                if (value.ToString() == "草稿" ||
-                    value.ToString() == "暂存" ||
-                    value.ToString() == "已发布" ||
-                    value.ToString() == "范文" ||
-                    value.ToString() == "资料")
+                if (value.ToString() == Book.ChapterTabName.草稿.ToString() ||
+                    value.ToString() == Book.ChapterTabName.暂存.ToString() ||
+                    value.ToString() == Book.ChapterTabName.已发布.ToString() ||
+                    value.ToString() == Material.MaterialTabName.范文.ToString() ||
+                    value.ToString() == Material.MaterialTabName.资料.ToString())
                 {
                     return Visibility.Visible;
                 }
@@ -210,7 +211,7 @@ namespace RootNS.Converter
             }
             try
             {
-                if (value.ToString() == "草稿")
+                if (value.ToString() == Book.ChapterTabName.草稿.ToString())
                 {
                     return Visibility.Visible;
                 }
@@ -244,7 +245,8 @@ namespace RootNS.Converter
             }
             try
             {
-                if (value.ToString() == "草稿" || value.ToString() == "暂存")
+                if (value.ToString() == Book.ChapterTabName.草稿.ToString() ||
+                    value.ToString() == Book.ChapterTabName.暂存.ToString())
                 {
                     return Visibility.Visible;
                 }

@@ -42,7 +42,7 @@ namespace RootNS.View
             {
                 if (IOHelper.IsFileExists(Gval.Path.Books + "/" + TbName.Text + ".db") == true)
                 {
-                    FunctionPack.ShowMessageBox("该书籍已经存在\n请换一个新书名！"); 
+                    FunctionPack.ShowMessageBox("该书籍已经存在\n请换一个新书名！");
                     return;
                 }
                 else
@@ -82,10 +82,7 @@ namespace RootNS.View
                     FunctionPack.ShowMessageBox("该书籍已经存在\n请换一个新书名！");
                     return;
                 }
-                else
-                {
-                    DataOut.CreateNewBook(TbBuild.Text);
-                }
+                DataOut.CreateNewBook(TbBuild.Text);
             }
         }
 
@@ -107,6 +104,11 @@ namespace RootNS.View
 
         private void BtnDelBook_Click(object sender, RoutedEventArgs e)
         {
+            if (Gval.EditorTabControl.Items.Count > 0)
+            {
+                FunctionPack.ShowMessageBox("请先关闭所有正在编辑的文档！");
+                return;
+            }
             DataOut.DeleteBook(Gval.CurrentBook);
             SqliteHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
             IOHelper.DeleteFile(Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db");

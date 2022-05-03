@@ -34,7 +34,6 @@ namespace RootNS.Helper
         public static void TryToBuildBookTables(string dbName)
         {
             string sql = string.Empty;
-
             foreach (Book.ChapterTabName item in Enum.GetValues(typeof(Book.ChapterTabName)))
             {
                 sql += GetSqlStringForCreateNodeTable(item.ToString());
@@ -105,17 +104,14 @@ namespace RootNS.Helper
             for (int i = 0; i < forRole.Length; i++)
             {
                 sql += string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", i, Guid.NewGuid().ToString(), forRole[i], "角色");
-                SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
             }
             for (int i = 0; i < forOther.Length; i++)
             {
                 sql += string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", i, Guid.NewGuid().ToString(), forOther[i], "其他");
-                SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
             }
             for (int i = 0; i < forWorld.Length; i++)
             {
                 sql += string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", i, Guid.NewGuid().ToString(), forWorld[i], "世界");
-                SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
             }
             SqliteHelper.PoolOperate.Add(dbName);
             SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
