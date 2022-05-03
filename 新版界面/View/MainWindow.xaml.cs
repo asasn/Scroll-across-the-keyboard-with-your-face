@@ -147,7 +147,7 @@ namespace RootNS
             Gval.FlagLoadingCompleted = true;
         }
 
-        private void BtnCardModel_Click(object sender, RoutedEventArgs e)
+        private void BtnNameTool_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -156,5 +156,7 @@ namespace RootNS
         {
             Gval.View.UcShower = sender as UcShower;
         }
+
+
     }
 }

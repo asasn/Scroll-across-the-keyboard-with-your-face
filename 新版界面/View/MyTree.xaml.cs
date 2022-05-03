@@ -358,14 +358,14 @@ namespace RootNS.View
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
         {
-            R1.Height = new GridLength(26);
-            TreeNodes.BorderThickness = new Thickness(1);
+            //R1.Height = new GridLength(26);
+            //TreeNodes.BorderThickness = new Thickness(1);
         }
 
         private void UserControl_MouseLeave(object sender, MouseEventArgs e)
         {
-            R1.Height = new GridLength(0);
-            TreeNodes.BorderThickness = new Thickness(1,0,1,1);
+            //R1.Height = new GridLength(0);
+            //TreeNodes.BorderThickness = new Thickness(1,0,1,1);
         }
     }
 }

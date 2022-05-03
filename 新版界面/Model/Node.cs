@@ -86,6 +86,21 @@ namespace RootNS.Model
             }
         }
 
+        private string _iconString;
+        /// <summary>
+        /// 图标字符串
+        /// </summary>
+        public string IconString
+        {
+            get { return _iconString; }
+            set
+            {
+                _iconString = value;
+                RaisePropertyChanged(nameof(IconString));
+            }
+        }
+
+
         private string _pid = String.Empty;
         /// <summary>
         /// 父节点标识码
