@@ -6,22 +6,22 @@
              xmlns:local="clr-namespace:RootNS.View"
              xmlns:root="clr-namespace:RootNS" Padding="0"
              mc:Ignorable="d" UseLayoutRounding="True" ToolTip="测试" ToolTipService.ShowDuration="60000"
-             d:DesignHeight="130" d:DesignWidth="278">
+             d:DesignHeight="120" d:DesignWidth="278">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="GridHeader" Height="30"/>
+            <RowDefinition x:Name="GridHeader" Height="24"/>
             <RowDefinition x:Name="GridContent" Height="100*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="26"/>
+            <ColumnDefinition Width="24"/>
             <ColumnDefinition Width="100*"/>
-            <ColumnDefinition Width="26"/>
+            <ColumnDefinition Width="24"/>
         </Grid.ColumnDefinitions>
-        <ContentControl FontFamily="../Assets/#androidicons" FontSize="18" Content="&#59424;" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label Padding="0" BorderThickness="0" FontFamily="../Assets/#androidicons" FontSize="16" Content="&#59424;" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label x:Name="title" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" Content="{Binding Title, Mode=TwoWay}" Padding="0" BorderThickness="0" Background="Transparent" Grid.Column="1" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
         <CheckBox Grid.Column="2" IsChecked="{Binding IsChecked}" HorizontalAlignment="Center" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" Click="CheckBox_Click" VerticalAlignment="Center" />
-        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" Padding="0"  Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" KeyDown="TbReName_KeyDown" MaxLength="20"/>
+        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" Padding="0" MinHeight="0" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" KeyDown="TbReName_KeyDown" MaxLength="20"/>
         <Border x:Name="BoxContent" Grid.Column="1" Grid.Row="1" Visibility="{Binding IsExpanded, Converter={StaticResource BoolConvertToVisibility}}" Height="104"/>
     </Grid>
 </UserControl>

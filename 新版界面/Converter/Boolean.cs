@@ -353,16 +353,16 @@ namespace RootNS.Converter
                 //是章节的时候，把图标字体调小，其他默认情况皆为18
                 if (value.ToString() == "\ue855")
                 {
-                    return 16;
+                    return 15;
                 }
                 else
                 {
-                    return 18;
+                    return 16;
                 }
             }
             catch
             {
-                return 18;
+                return 16;
             }
         }
 

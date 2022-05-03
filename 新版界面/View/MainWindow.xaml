@@ -34,7 +34,7 @@
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="100*"/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="BtnChoose" FontFamily="../Assets/#androidicons" Content="&#59547;" FontSize="26" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnChoose_Click">
+                        <Button x:Name="BtnChoose" FontFamily="../Assets/#androidicons" Content="&#59547;" FontSize="24" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnChoose_Click">
                         </Button>
                         <TextBlock Text="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
                     </Grid>

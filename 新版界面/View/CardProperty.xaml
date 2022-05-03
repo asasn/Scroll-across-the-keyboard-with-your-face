@@ -6,13 +6,13 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:local="clr-namespace:RootNS.View"
              mc:Ignorable="d" 
-             d:DesignHeight="26" d:DesignWidth="100" MinHeight="26">
+             d:DesignHeight="24" d:DesignWidth="100" MinHeight="24">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="30" Width="30"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
-        <Label Height="18" BorderThickness="0" Background="PaleGreen" Content="{Binding LbContent, ElementName=ThisControl}" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,4,0,0"/>
-        <TextBox Text="{Binding TbContent, ElementName=ThisControl}" Padding="1" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" MinHeight="18" AcceptsReturn="True" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextChanged="TextBox_TextChanged" Margin="2,0,5,0"/>
+        <Label Height="18" BorderThickness="0" Background="PaleGreen" Content="{Binding LbContent, ElementName=ThisControl}" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,3,0,0"/>
+        <TextBox Text="{Binding TbContent, ElementName=ThisControl}" Padding="1" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" MinHeight="0" AcceptsReturn="True" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextChanged="TextBox_TextChanged" Margin="2,0,5,0"/>
     </Grid>
 </UserControl>
