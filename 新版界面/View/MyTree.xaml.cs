@@ -367,5 +367,60 @@ namespace RootNS.View
             //R1.Height = new GridLength(0);
             //TreeNodes.BorderThickness = new Thickness(1,0,1,1);
         }
+
+        private void CommandBinding_CanExecute_AddFolder(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (((sender as TreeView).DataContext as Node).TabName == "草稿" ||
+                ((sender as TreeView).DataContext as Node).TabName == "暂存")
+            {
+                e.CanExecute = false;
+            }
+            else
+            {
+                e.CanExecute = true;
+            }
+        }
+
+        private void CommandBinding_CanExecute_ImportExport(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (((sender as TreeView).DataContext as Node).TabName == "草稿" ||
+                ((sender as TreeView).DataContext as Node).TabName == "暂存" ||
+                ((sender as TreeView).DataContext as Node).TabName == "已发布" ||
+                ((sender as TreeView).DataContext as Node).TabName == "范文" ||
+                ((sender as TreeView).DataContext as Node).TabName == "资料")
+            {
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void CommandBinding_CanExecute_Keep(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (((sender as TreeView).DataContext as Node).TabName == "草稿")
+            {
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
+        private void CommandBinding_CanExecute_Send(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (((sender as TreeView).DataContext as Node).TabName == "草稿" ||
+                ((sender as TreeView).DataContext as Node).TabName == "暂存")
+            {
+                e.CanExecute = true;
+            }
+            else
+            {
+                e.CanExecute = false;
+            }
+        }
+
     }
 }

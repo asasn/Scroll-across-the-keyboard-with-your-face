@@ -125,45 +125,11 @@ namespace RootNS.Converter
         }
     }
 
-    /// <summary>
-    /// TabName决定是否显现
-    /// </summary>
-    public class NodeConvertToVisibility : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value == null)
-            {
-                return Visibility.Collapsed;
-            }
-            Node node = (Node)value;
-            try
-            {
-                if (node.TabName == "草稿" || node.TabName == "暂存")
-                {
-                    return Visibility.Visible;
-                }
-
-                return Visibility.Collapsed;
-            }
-            catch
-            {
-                return Visibility.Collapsed;
-            }
-        }
-
-        //这里只有在TwoWay的时候才有用
-        public object ConvertBack(object value, Type targetType, object parameter,
-         System.Globalization.CultureInfo culture)
-        {
-            return null;
-        }
-    }
 
     /// <summary>
-    /// TabName决定是否显现
+    /// TabName决定按钮是否显现
     /// </summary>
-    public class TabName2BoolReConvert : IValueConverter
+    public class TabName2AddFolderButtonIsEnabled : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -194,11 +160,10 @@ namespace RootNS.Converter
         }
     }
 
-
     /// <summary>
-    /// TabName决定是否显现2
+    /// TabName决定按钮是否显现
     /// </summary>
-    public class NodeConvertToVisibility2 : IValueConverter
+    public class TabName2ImportExportButtonVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -206,10 +171,13 @@ namespace RootNS.Converter
             {
                 return Visibility.Collapsed;
             }
-            Node node = (Node)value;
             try
             {
-                if (node.TabName == "草稿")
+                if (value.ToString() == "草稿" ||
+                    value.ToString() == "暂存" ||
+                    value.ToString() == "已发布" ||
+                    value.ToString() == "范文" ||
+                    value.ToString() == "资料")
                 {
                     return Visibility.Visible;
                 }
@@ -229,6 +197,75 @@ namespace RootNS.Converter
             return null;
         }
     }
+    /// <summary>
+    /// TabName决定按钮是否显现
+    /// </summary>
+    public class TabName2KeepButtonVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Visibility.Collapsed;
+            }
+            try
+            {
+                if (value.ToString() == "草稿")
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+            catch
+            {
+                return Visibility.Collapsed;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// TabName决定按钮是否显现
+    /// </summary>
+    public class TabName2SendButtonVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+            {
+                return Visibility.Collapsed;
+            }
+            try
+            {
+                if (value.ToString() == "草稿" || value.ToString() == "暂存")
+                {
+                    return Visibility.Visible;
+                }
+
+                return Visibility.Collapsed;
+            }
+            catch
+            {
+                return Visibility.Collapsed;
+            }
+        }
+
+        //这里只有在TwoWay的时候才有用
+        public object ConvertBack(object value, Type targetType, object parameter,
+         System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+
 
     /// <summary>
     /// 布尔值决定是否显现

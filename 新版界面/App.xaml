@@ -21,11 +21,12 @@
             <converter:BoolConvertToBrush x:Key="BoolConvertToBrush"/>
             <converter:NodeConvertToNodeTemplate x:Key="NodeConvertToNodeTemplate"/>
             <converter:IsDelConvertOpacity x:Key="IsDelConvertOpacity"/>
-            <converter:NodeConvertToVisibility x:Key="NodeConvertToVisibility"/>
-            <converter:NodeConvertToVisibility2 x:Key="NodeConvertToVisibility2"/>
+            <converter:TabName2KeepButtonVisibility x:Key="TabName2KeepButtonVisibility"/>
+            <converter:TabName2SendButtonVisibility x:Key="TabName2SendButtonVisibility"/>
             <converter:BoolConvertToVisibility x:Key="BoolConvertToVisibility"/>
             <converter:BoolConvertToReVisibility x:Key="BoolConvertToReVisibility"/>
-            <converter:TabName2BoolReConvert x:Key="TabName2BoolReConvert"/>
+            <converter:TabName2AddFolderButtonIsEnabled x:Key="TabName2AddFolderButtonIsEnabled"/>
+            <converter:TabName2ImportExportButtonVisibility x:Key="TabName2ImportExportButtonVisibility"/>
             <converter:GetToolTipInfo x:Key="GetToolTipInfo"/>
             <model:Gval x:Key="GlobalSource"/>
         </ResourceDictionary>
