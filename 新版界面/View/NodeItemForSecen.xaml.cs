@@ -106,6 +106,8 @@ namespace RootNS.View
                 secen.Node = this.DataContext as Node;
             }            
             secen.Roles.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
+            secen.Origin.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
+            secen.Result.ChildItems.CollectionChanged += ChildItems_CollectionChanged;
             GMian.DataContext = secen;
         }
 

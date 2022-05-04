@@ -42,6 +42,31 @@ namespace RootNS.Model
         }
 
 
+        private Tags _origin = new Tags("前因", Book.NoteTabName.场景.ToString());
+
+        public Tags Origin
+        {
+            get { return _origin; }
+            set
+            {
+                _origin = value;
+                RaisePropertyChanged(nameof(Origin));
+            }
+        }
+
+
+        private Tags _result = new Tags("后果", Book.NoteTabName.场景.ToString());
+
+        public Tags Result
+        {
+            get { return _result; }
+            set
+            {
+                _result = value;
+                RaisePropertyChanged(nameof(Result));
+            }
+        }
+
         private bool _canSave;
 
         public bool CanSave

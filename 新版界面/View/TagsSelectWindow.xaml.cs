@@ -68,6 +68,14 @@ namespace RootNS.View
             }
             (this.DataContext as Tags).ChildItems.Add(tag);
             this.Close();
+
+            if ((this.DataContext as Tags).BoxTitle == "前因")
+            {
+                foreach (Node node in Gval.CurrentBook.GetSecenNodes())
+                {
+                    Console.WriteLine(node.Title);
+                }
+            }
         }
     }
 }

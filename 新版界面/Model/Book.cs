@@ -120,6 +120,12 @@ namespace RootNS.Model
             }
             return nodes;
         }
+        public List<Node> GetSecenNodes()
+        {
+            List<Node> nodes = new List<Node>();
+            GetTreeNodes(nodes, NoteScenes);
+            return nodes;
+        }
 
         public List<Node> GetPublishedChapterNodes()
         {

@@ -185,6 +185,15 @@ namespace RootNS.Helper
             }
         }
 
-
+        /// <summary>
+        /// 判断某列是否存在
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
+        public static bool ReaderExists(SQLiteDataReader reader, string columnName)
+        {
+            return reader.GetSchemaTable().Select("ColumnName='" + columnName + "'").Length > 0;
+        }
     }
 }

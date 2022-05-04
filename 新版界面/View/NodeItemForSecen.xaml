@@ -37,14 +37,15 @@
                     </Grid.ColumnDefinitions>
                        </Grid>
                 <Grid Grid.Row="1" Grid.ColumnSpan="3">
-                    <local:TagsBoxView DataContext="{Binding Roles, Mode=TwoWay}"></local:TagsBoxView>
+                    <local:TagsBoxView DataContext="{Binding Roles, Mode=TwoWay}" MaxChilds="10"></local:TagsBoxView>
                 </Grid>
-                <Grid Grid.Row="2" Grid.ColumnSpan="3" >
+                <Grid Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50*"/>
                         <ColumnDefinition Width="50*"/>
                     </Grid.ColumnDefinitions>
-                    <local:TagsBoxView DataContext="{Binding Roles, Mode=TwoWay}"></local:TagsBoxView>
+                    <local:TagsBoxView DataContext="{Binding Origin, Mode=TwoWay}"></local:TagsBoxView>
+                    <local:TagsBoxView DataContext="{Binding Result, Mode=TwoWay}" Grid.Column="1"></local:TagsBoxView>
                 </Grid>
                 <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" Text="{Binding Node.Text}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged"/>
             </Grid>

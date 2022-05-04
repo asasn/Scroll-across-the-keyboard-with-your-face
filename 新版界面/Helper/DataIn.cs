@@ -276,7 +276,17 @@ namespace RootNS.Helper
                     Uid = reader["Uid"].ToString(),
                     Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
                 };
-                all.Add(tag);
+                if (SqliteHelper.ReaderExists(reader, "IsDir") == true)
+                {
+                    if ((bool)reader["IsDir"] != true)
+                    {
+                        all.Add(tag);
+                    }
+                }
+                else
+                {
+                    all.Add(tag);
+                }
             }
             reader.Close();
             return all;

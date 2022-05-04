@@ -38,6 +38,20 @@ namespace RootNS.View
         public static readonly DependencyProperty BoxTitleProperty =
             DependencyProperty.Register("BoxTitle", typeof(string), typeof(TagsBoxView), new PropertyMetadata(null));
 
+
+
+        public int MaxChilds
+        {
+            get { return (int)GetValue(MaxChildsProperty); }
+            set { SetValue(MaxChildsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MaxChilds.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxChildsProperty =
+            DependencyProperty.Register("MaxChilds", typeof(int), typeof(TagsBoxView), new PropertyMetadata(1));
+
+
+
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -57,9 +71,26 @@ namespace RootNS.View
 
         private void Button_Loaded(object sender, RoutedEventArgs e)
         {
-
+            if ((this.DataContext as Tags).ChildItems.Count >= MaxChilds)
+            {
+                BtnAdd.IsEnabled = false;
+            }
+            else
+            {
+                BtnAdd.IsEnabled = true;
+            }
         }
 
-
+        private void Button_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if ((this.DataContext as Tags).ChildItems.Count >= MaxChilds)
+            {
+                BtnAdd.IsEnabled = false;
+            }
+            else
+            {
+                BtnAdd.IsEnabled = true;
+            }
+        }
     }
 }
