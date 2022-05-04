@@ -6,14 +6,15 @@
              xmlns:hc="https://handyorg.github.io/handycontrol" 
              xmlns:local="clr-namespace:RootNS.View" Background="White"
              mc:Ignorable="d"  d:DesignHeight="24" d:DesignWidth="100" MinHeight="24" Visibility="{Binding HasTip, Converter={StaticResource BoolConvertToVisibility}}">
-    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="30" Width="30"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="24"/>
-            </Grid.ColumnDefinitions>
-            <Label Content="{Binding LineTitle}" Padding="1" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="18" Margin="0,3,0,0"/>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="30" Width="30"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="24"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="{Binding LineTitle}" Padding="1" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="18" Margin="0,3,0,0"/>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Tips, Mode=TwoWay}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1" MinWidth="242" MinHeight="18" VerticalAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -26,7 +27,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-            <Button x:Name="BtnAdd" Visibility="{Binding ShowAddButton, ElementName=ThisLine}" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="12" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="16" Margin="0,5,0,0" VerticalAlignment="Top"/>
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+        <Button x:Name="BtnAdd" Visibility="{Binding ShowAddButton, ElementName=ThisLine}" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="12" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="16" Margin="0,5,0,0" VerticalAlignment="Top"/>
+    </Grid>
 </UserControl>

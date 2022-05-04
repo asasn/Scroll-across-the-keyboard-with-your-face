@@ -16,7 +16,7 @@
                     <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="Padding" Value="10,6"/>
-                    <Setter Property="MinHeight" Value="26"/>
+                    <Setter Property="MinHeight" Value="25"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                     <Setter Property="Template">

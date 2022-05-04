@@ -97,7 +97,7 @@ namespace RootNS.View
         {
             if (e.Key == Key.Enter)
             {
-                BtnAdd_Click(null, null);
+                BtnAdd.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
 

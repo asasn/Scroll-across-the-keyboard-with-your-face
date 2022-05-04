@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="RootNS.View.TagsBoxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="278">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="30" Width="Auto"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Label Background="Transparent" Padding="0" BorderThickness="0" Content="{Binding BoxTitle}" HorizontalAlignment="Center" Margin="2,4,2,0" VerticalAlignment="Top" Height="17"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding ChildItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1" Margin="0,2,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Uid="{Binding Uid}" Content="{Binding Title}" Padding="1" MinWidth="20" Height="Auto" VerticalAlignment="Stretch" Margin="2,0,2,0" Click="Button_Click" Loaded="Button_Loaded" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        <Button x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="12" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+    </Grid>
+</UserControl>

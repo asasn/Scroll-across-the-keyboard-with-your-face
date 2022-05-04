@@ -114,6 +114,7 @@
                 <Border BorderBrush="#E0E0E0" Background="#FAFAFA" BorderThickness="1" CornerRadius="5">
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
                         <Button x:Name="BtnNameTool" ToolTip="取名工具" Padding="2" FontFamily="../Assets/#androidicons" Content="&#59636;" FontSize="16" Foreground="DodgerBlue"  Click="BtnNameTool_Click" Margin="0,0,5,0" Width="30" Height="30"/>
+                        <Button x:Name="BtnMap" ToolTip="地图工具" Padding="2" FontFamily="../Assets/#androidicons" Content="&#59636;" FontSize="16" Foreground="DodgerBlue"  Click="BtnMap_Click" Margin="0,0,5,0" Width="30" Height="30"/>
                         <view:UcPomodoro Margin="0,0,5,0"/>
                     </StackPanel>
                 </Border>

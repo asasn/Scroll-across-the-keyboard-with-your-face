@@ -107,7 +107,11 @@ namespace RootNS.Converter
                 }
                 if (node.TabName == Book.NoteTabName.场景.ToString() && node.IsDir == false)
                 {
-                    return new NodeItemForSecens();
+                    return new NodeItemForSecen();
+                }
+                if (node.TabName == Book.NoteTabName.故事.ToString() && node.IsDir == false)
+                {
+                    return new NodeItemForStory();
                 }
                 return new NodeItemForDoc();
             }

@@ -6,16 +6,18 @@
              xmlns:local="clr-namespace:RootNS.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="300">
-    <ItemsControl ItemsSource="{Binding}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <local:CardLine ShowAddButton="{Binding ShowAddButton, ElementName=ThisBox}"/>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <WrapPanel Orientation="Vertical" VirtualizingStackPanel.IsVirtualizing="True"/>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
+    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <ItemsControl ItemsSource="{Binding}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:CardLine ShowAddButton="{Binding ShowAddButton, ElementName=ThisBox}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" VirtualizingStackPanel.IsVirtualizing="True"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </ScrollViewer>
 </UserControl>

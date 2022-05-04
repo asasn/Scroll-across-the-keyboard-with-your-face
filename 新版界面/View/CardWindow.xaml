@@ -14,17 +14,17 @@
             <ScrollViewer >
                 <Grid x:Name="gCard" Margin="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="26" Height="Auto"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition MinHeight="26" Height="Auto"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition MinHeight="16" Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="26"/>
-                            <ColumnDefinition Width="26"/>
+                            <ColumnDefinition Width="25"/>
+                            <ColumnDefinition Width="25"/>
                         </Grid.ColumnDefinitions>
                         <local:CardProperty x:Name="CpTitle" LbContent="名称" TbContent="{Binding Title}"></local:CardProperty>
                         <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,3,0,0" />
@@ -42,7 +42,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50*"/>
                             <ColumnDefinition Width="50*"/>
-                            <ColumnDefinition Width="26"/>
+                            <ColumnDefinition Width="25"/>
                         </Grid.ColumnDefinitions>
                         <local:CardProperty LbContent="诞年" TbContent="{Binding BornYear, Mode=TwoWay}" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>
                         <local:CardProperty IsEnabled="False" LbContent="实年" TbContent="{Binding RealYear, Mode=TwoWay}" Grid.Column="1" Visibility="{Binding ShowYearLine, Converter={StaticResource BoolConvertToVisibility}}"/>

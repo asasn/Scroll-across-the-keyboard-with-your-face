@@ -157,6 +157,8 @@ namespace RootNS
             Gval.View.UcShower = sender as UcShower;
         }
 
-
+        private void BtnMap_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

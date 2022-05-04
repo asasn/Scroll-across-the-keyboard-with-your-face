@@ -1,0 +1,12 @@
+﻿<Window x:Class="RootNS.View.CloseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:brick="clr-namespace:RootNS.View"
+        mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize"
+        Background="Transparent"
+        Title="信息卡编辑窗体" Topmost="True"
+        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="15" d:DesignWidth="15" Width="15" Height="15" Deactivated="Window_Deactivated" >
+    <Button Padding="0" x:Name="BtnClose" FontFamily="../Assets/#androidicons" Content="&#xE82F;" FontSize="14" Background="Transparent" Foreground="Red" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15"/>
+</Window>

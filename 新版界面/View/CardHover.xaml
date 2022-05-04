@@ -11,10 +11,10 @@
             <ScrollViewer >
                 <Grid x:Name="gCard">
                     <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="26" Height="Auto"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition MinHeight="26" Height="Auto"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
                         <RowDefinition MinHeight="16" Height="Auto"/>
                     </Grid.RowDefinitions>
                     <local:CardProperty LbContent="名称" TbContent="{Binding Title, Mode=TwoWay}"></local:CardProperty>

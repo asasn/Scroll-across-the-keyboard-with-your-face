@@ -302,6 +302,10 @@ namespace RootNS.View
         /// <param name="e"></param>
         private void TreeNodes_MouseMove(object sender, MouseEventArgs e)
         {
+            if (e.OriginalSource.GetType() == typeof(TextBox))
+            {
+                return;
+            }
             try
             {
                 //获取鼠标选中的节点数据
@@ -322,6 +326,7 @@ namespace RootNS.View
             }
             catch (Exception)
             {
+
             }
         }
 
@@ -336,11 +341,6 @@ namespace RootNS.View
         {
             _lastMouseLeftDown = e.GetPosition(this);
         }
-
-        #endregion
-
-
-
         private void TreeNodes_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if ((sender as TreeViewItem) == null && _lastReNameNode != null && _lastReNameNode.ReNameing == true)
@@ -348,6 +348,8 @@ namespace RootNS.View
                 _lastReNameNode.FinishRename();
             }
         }
+        #endregion
+
 
         TreeViewItem selectedItem;
         private void TreeNodes_Selected(object sender, RoutedEventArgs e)

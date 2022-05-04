@@ -129,14 +129,29 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helper\CommandHelper.cs" />
+    <Compile Include="Helper\JsonHelper.cs" />
     <Compile Include="Model\Pomodoro.cs" />
     <Compile Include="Model\Searcher.cs" />
+    <Compile Include="Model\Secen.cs" />
     <Compile Include="Model\Shower.cs" />
+    <Compile Include="Model\Tags.cs" />
     <Compile Include="View\CardHover.xaml.cs">
       <DependentUpon>CardHover.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CloseWindow.xaml.cs">
+      <DependentUpon>CloseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NodeItemForStory.xaml.cs">
+      <DependentUpon>NodeItemForStory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TagsBoxView.xaml.cs">
+      <DependentUpon>TagsBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TagsSelectWindow.xaml.cs">
+      <DependentUpon>TagsSelectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UcPomodoro.xaml.cs">
       <DependentUpon>UcPomodoro.xaml</DependentUpon>
@@ -165,6 +180,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CloseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Editorkernel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,7 +208,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\NodeItemForSecens.xaml">
+    <Page Include="View\NodeItemForStory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NodeItemForSecen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -198,6 +221,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\NodeItemForDoc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TagsBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TagsSelectWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,8 +307,8 @@
     <Compile Include="View\MyTree.xaml.cs">
       <DependentUpon>MyTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\NodeItemForSecens.xaml.cs">
-      <DependentUpon>NodeItemForSecens.xaml</DependentUpon>
+    <Compile Include="View\NodeItemForSecen.xaml.cs">
+      <DependentUpon>NodeItemForSecen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\NodeItemForClue.xaml.cs">
       <DependentUpon>NodeItemForClue.xaml</DependentUpon>

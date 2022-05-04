@@ -97,7 +97,7 @@ namespace RootNS.Helper
                 };
                 if (tip.Title == "别称" ||
                     tip.Title == "所属" ||
-                    tip.Title == "物品" )
+                    tip.Title == "物品")
                 {
                     tip.IsEnabled = false;
                 }
@@ -261,6 +261,25 @@ namespace RootNS.Helper
             card = DataIn.FillInCardContent(card);
             Gval.FlagLoadingCompleted = true;
             return card;
+        }
+
+
+        public static ObservableCollection<Tags.Tag> LoadTags(Tags tags)
+        {
+            ObservableCollection<Tags.Tag> all = new ObservableCollection<Tags.Tag>();
+            string sql = string.Format("SELECT * FROM {0};", tags.TabName);
+            SQLiteDataReader reader = SqliteHelper.PoolDict[Gval.CurrentBook.Name].ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                Tags.Tag tag = new Tags.Tag
+                {
+                    Uid = reader["Uid"].ToString(),
+                    Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
+                };
+                all.Add(tag);
+            }
+            reader.Close();
+            return all;
         }
     }
 }
