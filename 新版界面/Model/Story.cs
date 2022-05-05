@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace RootNS.Model
 {
-    public class Secen : NotificationObject
+    internal class Story : NotificationObject
     {
-        public Secen()
-        {
-        }
-
-
         private Node _node;
 
         public Node Node
@@ -24,9 +20,9 @@ namespace RootNS.Model
                 RaisePropertyChanged(nameof(Node));
             }
         }
-        private Tags _roles = new Tags("角色", Book.CardTabName.角色.ToString());
+        private ObservableCollection<Card> _roles;
 
-        public Tags Roles
+        public ObservableCollection<Card> Roles
         {
             get { return _roles; }
             set
@@ -36,31 +32,19 @@ namespace RootNS.Model
             }
         }
 
+        private ObservableCollection<Secen> _secens;
 
-        private Tags _origin = new Tags("前因", Book.NoteTabName.场景.ToString());
-
-        public Tags Origin
+        public ObservableCollection<Secen> Secens
         {
-            get { return _origin; }
+            get { return _secens; }
             set
             {
-                _origin = value;
-                RaisePropertyChanged(nameof(Origin));
+                _secens = value;
+                RaisePropertyChanged(nameof(Secens));
             }
         }
 
 
-        private Tags _result = new Tags("后果", Book.NoteTabName.场景.ToString());
-
-        public Tags Result
-        {
-            get { return _result; }
-            set
-            {
-                _result = value;
-                RaisePropertyChanged(nameof(Result));
-            }
-        }
 
         private bool _canSave;
 
@@ -73,6 +57,5 @@ namespace RootNS.Model
                 RaisePropertyChanged(nameof(CanSave));
             }
         }
-
     }
 }

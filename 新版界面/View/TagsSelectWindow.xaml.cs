@@ -53,29 +53,17 @@ namespace RootNS.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Tags.Tag tag = new Tags.Tag
+            Tags.Tag taga = new Tags.Tag
             {
                 Uid = (sender as Button).Uid,
                 Title = (sender as Button).Content.ToString()
             };
-            foreach (Tags.Tag t in (this.DataContext as Tags).ChildItems)
+            if ((this.DataContext as Tags).HasTag(taga) == false)
             {
-                if (t.Uid == tag.Uid)
-                {
-                    this.Close();
-                    return;
-                }
+                (this.DataContext as Tags).ChildItems.Add(taga);
             }
-            (this.DataContext as Tags).ChildItems.Add(tag);
             this.Close();
 
-            if ((this.DataContext as Tags).BoxTitle == "前因")
-            {
-                foreach (Node node in Gval.CurrentBook.GetSecenNodes())
-                {
-                    Console.WriteLine(node.Title);
-                }
-            }
         }
     }
 }

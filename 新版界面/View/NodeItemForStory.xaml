@@ -42,13 +42,7 @@
                     <Label Padding="0" BorderThickness="0" Content="出场角色" HorizontalAlignment="Left" Margin="2,0,2,0"></Label>
                 </Grid>
                 <Grid Grid.Row="2" Grid.ColumnSpan="3" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"/>
-                        <ColumnDefinition Width="50*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Padding="0" BorderThickness="0" Content="前因" HorizontalAlignment="Left" Margin="2,0,2,0"></Label>
-                    <Label Padding="0" BorderThickness="0" Content="后果" HorizontalAlignment="Left" Grid.Column="1" Margin="2,0,2,0"></Label>
-                </Grid>
+                    <local:TagsBoxView DataContext="{Binding Secens, Mode=TwoWay}" MaxChilds="10"></local:TagsBoxView> </Grid>
                 <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" Text="{Binding Text}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged"/>
             </Grid>
         </Border>

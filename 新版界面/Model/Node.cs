@@ -385,6 +385,21 @@ namespace RootNS.Model
             }
         }
 
+        private object _extra;
+        /// <summary>
+        /// 附件
+        /// </summary>
+        public object Extra
+        {
+            get { return _extra; }
+            set
+            {
+                _extra = value;
+                RaisePropertyChanged(nameof(Extra));
+            }
+        }
+
+
         /// <summary>
         /// 从当前节点添加子节点
         /// </summary>

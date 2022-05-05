@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,12 +13,13 @@ namespace RootNS.Model
     {
         public Tags()
         {
-
+            
         }
+
         public Tags(string boxTitle, string tabName)
         {
             BoxTitle = boxTitle;
-            TabName = tabName;
+            TabName = tabName; 
         }
 
         private string _tabName;
@@ -55,6 +57,18 @@ namespace RootNS.Model
                 _childItems = value;
                 RaisePropertyChanged(nameof(ChildItems));
             }
+        }
+
+        public bool HasTag(Tag tag)
+        {
+            foreach (Tag t in ChildItems)
+            {
+                if (t.Uid == tag.Uid)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 
