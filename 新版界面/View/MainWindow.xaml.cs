@@ -76,6 +76,7 @@ namespace RootNS
         {
             (sender as TabControl).SelectedIndex = Convert.ToInt32(SettingsHelper.Get(Gval.CurrentBook.Name, "NoteSelectedIndex"));
             tabNoteLoadedFlag = true;
+            Gval.View.TabNote = sender as TabControl;
         }
 
         private bool tabNoteLoadedFlag;

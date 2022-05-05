@@ -141,7 +141,7 @@ namespace RootNS.View
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if ((this.DataContext as Node).IsExpanded == false)
+            if ((this.DataContext as Node).IsChecked == true)
             {
                 return;
             }

@@ -38,6 +38,7 @@ namespace RootNS.Model
         {
             public static MainWindow MainWindow { get; set; }
             public static UcShower UcShower { get; set; }
+            public static TabControl TabNote { get; set; }
         }
 
         private static Book _currentBook = new Book();

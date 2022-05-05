@@ -143,14 +143,14 @@ namespace RootNS.View
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if ((this.DataContext as Node).IsExpanded == false)
+            if ((this.DataContext as Node).IsChecked == true)
             {
                 return;
             }
             SecenWindow secenWindow = new SecenWindow();
             secenWindow.DataContext = this.DataContext as Node;
             secenWindow.GMian.DataContext = GMian.DataContext;
-            Workfolw.ViewSet.ForViewPoint(secenWindow, this, -25, 50);
+            Workfolw.ViewSet.ForViewPoint(secenWindow, this, -26, 50);
             secenWindow.ShowDialog();
         }
     }
