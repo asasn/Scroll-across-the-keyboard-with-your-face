@@ -27,7 +27,7 @@ namespace RootNS.View
         {
             InitializeComponent();
             this.DataContext = DataIn.LoadCardContent((sender as Button).DataContext as Card);
-            ViewSet.ForViewPoint(this, uc);
+            ViewSet.ForViewPoint(this, uc, -6, 50);
         }
         public CardWindow(Card card)
         {

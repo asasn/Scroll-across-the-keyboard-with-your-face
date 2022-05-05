@@ -34,7 +34,7 @@ namespace RootNS.View
             RootCard.Lines.Add(line);
             this.DataContext = DataIn.CardDesginLoad(RootCard);
 
-            ViewSet.ForViewPoint(this, uc);
+            ViewSet.ForViewPoint(this, uc, -6, 50);
 
         }
 

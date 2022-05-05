@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RootNS.View.NodeItemForStory"
+﻿<UserControl x:Name="ThisControl" x:Class="RootNS.View.NodeItemForStory"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,45 +6,17 @@
              xmlns:local="clr-namespace:RootNS.View"
              xmlns:root="clr-namespace:RootNS" Padding="0"
              mc:Ignorable="d" UseLayoutRounding="True" ToolTip="测试" ToolTipService.ShowDuration="60000"
-             d:DesignHeight="125" d:DesignWidth="278">
+             d:DesignHeight="25" d:DesignWidth="278" Loaded="ThisControl_Loaded" MouseDoubleClick="ThisControl_MouseDoubleClick">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition x:Name="GridHeader" Height="25"/>
-            <RowDefinition x:Name="GridContent" Height="100*"/>
-        </Grid.RowDefinitions>
+    <Grid x:Name="GMian">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="title" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" Content="{Binding Title, Mode=TwoWay}" Padding="0" BorderThickness="0" Background="Transparent" Grid.Column="1" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
-        <Button Padding="2" x:Name="BtnSave" IsEnabled="False" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <CheckBox Grid.Column="2" IsChecked="{Binding IsChecked}" HorizontalAlignment="Center" Click="CheckBox_Click" />
-        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" MinHeight="0" Padding="0" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" KeyDown="TbReName_KeyDown" MaxLength="20" Loaded="TbReName_Loaded"/>
-        <Border x:Name="BoxContent" Visibility="{Binding IsExpanded, Converter={StaticResource BoolConvertToVisibility}}" Grid.Row="4" Grid.ColumnSpan="3" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" Loaded="BoxContent_Loaded">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="100*"/>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Grid.ColumnSpan="3" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="50*"/>
-                        <ColumnDefinition Width="50*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Padding="0" BorderThickness="0" Content="时间" HorizontalAlignment="Left" Margin="2,0,2,0"></Label>
-                    <Label Padding="0" BorderThickness="0" Content="地点" HorizontalAlignment="Left" Grid.Column="1" Margin="2,0,2,0"></Label>
-                </Grid>
-                <Grid Grid.Row="1" Grid.ColumnSpan="3">
-                    <Label Padding="0" BorderThickness="0" Content="出场角色" HorizontalAlignment="Left" Margin="2,0,2,0"></Label>
-                </Grid>
-                <Grid Grid.Row="2" Grid.ColumnSpan="3" >
-                    <local:TagsBoxView DataContext="{Binding Secens, Mode=TwoWay}" MaxChilds="10"></local:TagsBoxView> </Grid>
-                <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" Text="{Binding Text}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged"/>
-            </Grid>
-        </Border>
+        <Label Padding="0" BorderThickness="0" FontFamily="../Assets/#androidicons" FontSize="16" Content="&#59424;" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <CheckBox Grid.Column="2" IsChecked="{Binding Node.IsChecked}" HorizontalAlignment="Center" Click="CheckBox_Click" />
+        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" MinHeight="0" Padding="0" Visibility="{Binding Node.ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" KeyDown="TbReName_KeyDown" MaxLength="20" Loaded="TbReName_Loaded"/>
+        <Label x:Name="title" Visibility="{Binding Node.ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" Content="{Binding Node.Title, Mode=TwoWay}" Padding="0" BorderThickness="0" Background="Transparent" Grid.Column="1" IsEnabled="{Binding Node.IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
     </Grid>
 </UserControl>

@@ -149,6 +149,12 @@
     <Compile Include="View\NodeItemForStory.xaml.cs">
       <DependentUpon>NodeItemForStory.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\StoryWindow.xaml.cs">
+      <DependentUpon>StoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SecenWindow.xaml.cs">
+      <DependentUpon>SecenWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TagsBoxView.xaml.cs">
       <DependentUpon>TagsBoxView.xaml</DependentUpon>
     </Compile>
@@ -223,6 +229,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\NodeItemForDoc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StoryWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SecenWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

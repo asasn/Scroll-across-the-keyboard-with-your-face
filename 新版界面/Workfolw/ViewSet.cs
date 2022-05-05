@@ -19,10 +19,10 @@ namespace RootNS.Workfolw
         /// </summary>
         /// <param name="thisWin"></param>
         /// <param name="uc"></param>
-        public static void ForViewPoint(Window thisWin, UIElement uc)
+        public static void ForViewPoint(Window thisWin, UIElement uc, int offsetX = 0, int offsetY = 0)
         {
-            thisWin.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X - 6;
-            thisWin.Top = uc.TranslatePoint(new Point(), Gval.View.MainWindow).Y + 50;
+            thisWin.Left = uc.TranslatePoint(new Point(), Gval.View.MainWindow).X + offsetX;
+            thisWin.Top = uc.TranslatePoint(new Point(), Gval.View.MainWindow).Y + offsetY;
         }
 
     }
