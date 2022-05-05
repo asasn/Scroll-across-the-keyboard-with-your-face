@@ -22,23 +22,38 @@ namespace RootNS.View
     /// </summary>
     public partial class TagsSelectWindow : Window
     {
-        public TagsSelectWindow(object datacontext)
+        public TagsSelectWindow(object datacontext, string boxTitle)
         {
             InitializeComponent();
             this.DataContext = datacontext;
+            BoxTitle = boxTitle;
         }
 
 
 
-        public ObservableCollection<Tags.Tag> All
+
+
+        public string BoxTitle
         {
-            get { return (ObservableCollection<Tags.Tag>)GetValue(AllProperty); }
+            get { return (string)GetValue(BoxTitleProperty); }
+            set { SetValue(BoxTitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for BoxTitle.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BoxTitleProperty =
+            DependencyProperty.Register("BoxTitle", typeof(string), typeof(TagsSelectWindow), new PropertyMetadata(null));
+
+
+
+        public ObservableCollection<object> All
+        {
+            get { return (ObservableCollection<object>)GetValue(AllProperty); }
             set { SetValue(AllProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for All.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AllProperty =
-            DependencyProperty.Register("All", typeof(ObservableCollection<Tags.Tag>), typeof(TagsSelectWindow), new PropertyMetadata(new ObservableCollection<Tags.Tag>()));
+            DependencyProperty.Register("All", typeof(ObservableCollection<object>), typeof(TagsSelectWindow), new PropertyMetadata(new ObservableCollection<object>()));
 
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -48,19 +63,30 @@ namespace RootNS.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            All = DataIn.LoadTags(this.DataContext as Tags);
+            All.Clear();
+            if (BoxTitle == "角色")
+            {
+                foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
+                {
+                    All.Add(card);
+                }
+            }
+            if (BoxTitle == "前因" ||
+                BoxTitle == "后果")
+            {
+                foreach (Node node in Gval.CurrentBook.GetSecenNodes())
+                {
+                    All.Add(node);
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Tags.Tag taga = new Tags.Tag
+            ObservableCollection<object> c = this.DataContext as ObservableCollection<object>;
+            if (c.Contains((sender as Button).DataContext) == false)
             {
-                Uid = (sender as Button).Uid,
-                Title = (sender as Button).Content.ToString()
-            };
-            if ((this.DataContext as Tags).HasTag(taga) == false)
-            {
-                (this.DataContext as Tags).ChildItems.Add(taga);
+                c.Add((sender as Button).DataContext);
             }
             this.Close();
 

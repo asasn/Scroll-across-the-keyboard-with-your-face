@@ -18,7 +18,7 @@
                     <RowDefinition MinHeight="25" Height="Auto"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding All, Mode=TwoWay,ElementName=window}" VirtualizingPanel.IsVirtualizing="True" MinWidth="242" MinHeight="18" VerticalAlignment="Stretch" Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding All,ElementName=window}" VirtualizingPanel.IsVirtualizing="True" MinWidth="242" MinHeight="18" VerticalAlignment="Stretch" Grid.Row="1">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button Uid="{Binding Uid}" Content="{Binding Title}" Padding="1" MinHeight="0" MinWidth="20" Height="Auto" Margin="2,3,5,0" VerticalAlignment="Center" Click="Button_Click"/>

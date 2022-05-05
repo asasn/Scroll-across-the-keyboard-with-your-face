@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,29 @@ namespace RootNS.Model
     {
         public Secen()
         {
+
         }
+
+
+        public class JsonData
+        {
+            public ObservableCollection<string> Roles = new ObservableCollection<string>();
+            public ObservableCollection<string> Origin = new ObservableCollection<string>();
+            public ObservableCollection<string> Result = new ObservableCollection<string>();
+        }
+
+        private JsonData _json = new JsonData();
+
+        public JsonData Json
+        {
+            get { return _json; }
+            set
+            {
+                _json = value;
+                RaisePropertyChanged(nameof(Json));
+            }
+        }
+
 
 
         private Node _node;
@@ -24,9 +47,9 @@ namespace RootNS.Model
                 RaisePropertyChanged(nameof(Node));
             }
         }
-        private Tags _roles = new Tags("角色", Book.CardTabName.角色.ToString());
+        private ObservableCollection<object> _roles = new ObservableCollection<object>();
 
-        public Tags Roles
+        public ObservableCollection<object> Roles
         {
             get { return _roles; }
             set
@@ -37,9 +60,9 @@ namespace RootNS.Model
         }
 
 
-        private Tags _origin = new Tags("前因", Book.NoteTabName.场景.ToString());
+        private ObservableCollection<object> _origin = new ObservableCollection<object>();
 
-        public Tags Origin
+        public ObservableCollection<object> Origin
         {
             get { return _origin; }
             set
@@ -50,9 +73,9 @@ namespace RootNS.Model
         }
 
 
-        private Tags _result = new Tags("后果", Book.NoteTabName.场景.ToString());
+        private ObservableCollection<object> _result = new ObservableCollection<object>();
 
-        public Tags Result
+        public ObservableCollection<object> Result
         {
             get { return _result; }
             set

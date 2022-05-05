@@ -16,94 +16,94 @@ namespace RootNS.Model
             
         }
 
-        public Tags(string boxTitle, string tabName)
-        {
-            BoxTitle = boxTitle;
-            TabName = tabName; 
-        }
+        //public Tags(string boxTitle, string tabName)
+        //{
+        //    BoxTitle = boxTitle;
+        //    TabName = tabName; 
+        //}
 
-        private string _tabName;
+        //private string _tabName;
 
-        public string TabName
-        {
-            get { return _tabName; }
-            set
-            {
-                _tabName = value;
-                RaisePropertyChanged(nameof(TabName));
-            }
-        }
-
-
-        private string _boxTitle;
-
-        public string BoxTitle
-        {
-            get { return _boxTitle; }
-            set
-            {
-                _boxTitle = value;
-                RaisePropertyChanged(nameof(BoxTitle));
-            }
-        }
-
-        private ObservableCollection<Tag> _childItems = new ObservableCollection<Tag>();
-
-        public ObservableCollection<Tag> ChildItems
-        {
-            get { return _childItems; }
-            set
-            {
-                _childItems = value;
-                RaisePropertyChanged(nameof(ChildItems));
-            }
-        }
-
-        public bool HasTag(Tag tag)
-        {
-            foreach (Tag t in ChildItems)
-            {
-                if (t.Uid == tag.Uid)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        //public string TabName
+        //{
+        //    get { return _tabName; }
+        //    set
+        //    {
+        //        _tabName = value;
+        //        RaisePropertyChanged(nameof(TabName));
+        //    }
+        //}
 
 
-        public void Remove(Tags.Tag tag)
-        {
-            this.ChildItems.Remove(tag);
-        }
+        //private string _boxTitle;
 
-        public class Tag : NotificationObject
-        {
-            private string _uid;
+        //public string BoxTitle
+        //{
+        //    get { return _boxTitle; }
+        //    set
+        //    {
+        //        _boxTitle = value;
+        //        RaisePropertyChanged(nameof(BoxTitle));
+        //    }
+        //}
 
-            public string Uid
-            {
-                get { return _uid; }
-                set
-                {
-                    _uid = value;
-                    RaisePropertyChanged(nameof(Uid));
-                }
-            }
+        //private ObservableCollection<Tag> _childItems = new ObservableCollection<Tag>();
 
-            private string _title;
+        //public ObservableCollection<Tag> ChildItems
+        //{
+        //    get { return _childItems; }
+        //    set
+        //    {
+        //        _childItems = value;
+        //        RaisePropertyChanged(nameof(ChildItems));
+        //    }
+        //}
 
-            public string Title
-            {
-                get { return _title; }
-                set
-                {
-                    _title = value;
-                    RaisePropertyChanged(nameof(Title));
-                }
-            }
+        //public bool HasTag(Tag tag)
+        //{
+        //    foreach (Tag t in ChildItems)
+        //    {
+        //        if (t.Uid == tag.Uid)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
 
 
-        }
+        //public void Remove(Tags.Tag tag)
+        //{
+        //    this.ChildItems.Remove(tag);
+        //}
+
+        //public class Tag : NotificationObject
+        //{
+        //    private string _uid;
+
+        //    public string Uid
+        //    {
+        //        get { return _uid; }
+        //        set
+        //        {
+        //            _uid = value;
+        //            RaisePropertyChanged(nameof(Uid));
+        //        }
+        //    }
+
+        //    private string _title;
+
+        //    public string Title
+        //    {
+        //        get { return _title; }
+        //        set
+        //        {
+        //            _title = value;
+        //            RaisePropertyChanged(nameof(Title));
+        //        }
+        //    }
+
+
+        //}
     }
 }

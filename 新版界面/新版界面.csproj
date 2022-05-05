@@ -128,6 +128,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helper\BinHelper.cs" />
     <Compile Include="Helper\CommandHelper.cs" />
     <Compile Include="Helper\JsonHelper.cs" />
     <Compile Include="Model\Pomodoro.cs" />

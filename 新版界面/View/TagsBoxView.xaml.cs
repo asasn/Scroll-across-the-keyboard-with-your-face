@@ -1,6 +1,7 @@
 ﻿using RootNS.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,7 +60,7 @@ namespace RootNS.View
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            TagsSelectWindow selectWindow = new TagsSelectWindow(this.DataContext);
+            TagsSelectWindow selectWindow = new TagsSelectWindow(this.DataContext, BoxTitle);
             selectWindow.ShowDialog();
         }
 
@@ -71,7 +72,7 @@ namespace RootNS.View
 
         private void Button_Loaded(object sender, RoutedEventArgs e)
         {
-            if ((this.DataContext as Tags).ChildItems.Count >= MaxChilds)
+            if ((this.DataContext as ObservableCollection<object>).Count >= MaxChilds)
             {
                 BtnAdd.IsEnabled = false;
             }
@@ -83,7 +84,7 @@ namespace RootNS.View
 
         private void Button_Unloaded(object sender, RoutedEventArgs e)
         {
-            if ((this.DataContext as Tags).ChildItems.Count >= MaxChilds)
+            if ((this.DataContext as ObservableCollection<object>).Count >= MaxChilds)
             {
                 BtnAdd.IsEnabled = false;
             }

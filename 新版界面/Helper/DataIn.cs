@@ -264,32 +264,32 @@ namespace RootNS.Helper
         }
 
 
-        public static ObservableCollection<Tags.Tag> LoadTags(Tags tags)
-        {
-            ObservableCollection<Tags.Tag> all = new ObservableCollection<Tags.Tag>();
-            string sql = string.Format("SELECT * FROM {0};", tags.TabName);
-            SQLiteDataReader reader = SqliteHelper.PoolDict[Gval.CurrentBook.Name].ExecuteQuery(sql);
-            while (reader.Read())
-            {
-                Tags.Tag tag = new Tags.Tag
-                {
-                    Uid = reader["Uid"].ToString(),
-                    Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
-                };
-                if (SqliteHelper.ReaderExists(reader, "IsDir") == true)
-                {
-                    if ((bool)reader["IsDir"] != true)
-                    {
-                        all.Add(tag);
-                    }
-                }
-                else
-                {
-                    all.Add(tag);
-                }
-            }
-            reader.Close();
-            return all;
-        }
+        //public static ObservableCollection<Tags.Tag> LoadTags(string tabName)
+        //{
+        //    ObservableCollection<Tags.Tag> all = new ObservableCollection<Tags.Tag>();
+        //    string sql = string.Format("SELECT * FROM {0};", tabName);
+        //    SQLiteDataReader reader = SqliteHelper.PoolDict[Gval.CurrentBook.Name].ExecuteQuery(sql);
+        //    while (reader.Read())
+        //    {
+        //        Tags.Tag tag = new Tags.Tag
+        //        {
+        //            Uid = reader["Uid"].ToString(),
+        //            Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
+        //        };
+        //        if (SqliteHelper.ReaderExists(reader, "IsDir") == true)
+        //        {
+        //            if ((bool)reader["IsDir"] != true)
+        //            {
+        //                all.Add(tag);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            all.Add(tag);
+        //        }
+        //    }
+        //    reader.Close();
+        //    return all;
+        //}
     }
 }

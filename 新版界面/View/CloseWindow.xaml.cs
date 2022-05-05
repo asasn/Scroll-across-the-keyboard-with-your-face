@@ -1,6 +1,7 @@
 ﻿using RootNS.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,28 +25,18 @@ namespace RootNS.View
         {
             InitializeComponent();
             this.DataContext = dataContext;
-            TagsTag = (sender as Button).DataContext as Tags.Tag;
+            Sender = (sender as Button).DataContext;
             this.Left = (sender as Button).PointToScreen(new Point()).X + (sender as Button).ActualWidth - 5;
             this.Top = (sender as Button).PointToScreen(new Point()).Y - (sender as Button).ActualHeight + 5;
         }
 
 
-
-        public Tags.Tag TagsTag
-        {
-            get { return (Tags.Tag)GetValue(ThisTagProperty); }
-            set { SetValue(ThisTagProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ThisTag.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ThisTagProperty =
-            DependencyProperty.Register("ThisTag", typeof(Tags.Tag), typeof(CloseWindow), new PropertyMetadata(null));
-
+        public object Sender { get; set; }
 
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            (this.DataContext as Tags).Remove(TagsTag);
+            (this.DataContext as ObservableCollection<object>).Remove(Sender);
             this.Deactivated -= Window_Deactivated;
             this.Close();
         }
