@@ -21,9 +21,9 @@ namespace RootNS.View
     /// <summary>
     /// NodeItemForDoc.xaml 的交互逻辑
     /// </summary>
-    public partial class NodeItemForClue : UserControl
+    public partial class NodeItemForMemo : UserControl
     {
-        public NodeItemForClue()
+        public NodeItemForMemo()
         {
             InitializeComponent();
         }

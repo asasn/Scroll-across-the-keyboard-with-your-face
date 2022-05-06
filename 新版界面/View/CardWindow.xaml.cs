@@ -27,7 +27,8 @@ namespace RootNS.View
         {
             InitializeComponent();
             this.DataContext = DataIn.LoadCardContent((sender as Button).DataContext as Card);
-            ViewSet.ForViewPoint(this, uc, -6, 50);
+            ViewSet.ForViewPointX(this, uc, -6);
+            ViewSet.ForViewPointY(this, uc, 50);
         }
         public CardWindow(Card card)
         {
@@ -47,6 +48,7 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            this.DataContext = DataIn.LoadCardContent(this.DataContext as Card);
             this.Close();
         }
 

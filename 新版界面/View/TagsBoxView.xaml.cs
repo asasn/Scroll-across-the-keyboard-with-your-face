@@ -61,7 +61,8 @@ namespace RootNS.View
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             TagsSelectWindow selectWindow = new TagsSelectWindow(this.DataContext, BoxTitle);
-            Workfolw.ViewSet.ForViewPoint(selectWindow, this, -25, 50);
+            Workfolw.ViewSet.ForViewPointX(selectWindow, this, -25);
+            Workfolw.ViewSet.ForViewPointY(selectWindow, this, 50);
             selectWindow.ShowDialog();
         }
 

@@ -69,9 +69,9 @@ namespace RootNS.Helper
             }
             reader.Close();
             Gval.FlagLoadingCompleted = false;
-            book.LoadForAllChapterTabs();
-            book.LoadForAllNoteTabs();
-            book.LoadForAllCardTabs();
+            book.LoadForChapterTab();
+            book.LoadForNoteTab();
+            book.LoadForCardTab();
             Gval.FlagLoadingCompleted = true;
 
         }
@@ -140,11 +140,16 @@ namespace RootNS.Helper
 
         private static Node FillExtra(Node node)
         {
-            node.Extra = new Summary();
+            node.Extra = new Summary()
+            {
+                Node = node,
+            };
             if (JsonHelper.JsonToObj<Summary>(node.Summary) != null)
             {
                 (node.Extra as Summary).Json = JsonHelper.JsonToObj<Summary.JsonData>(node.Summary);
             }
+            (node.Extra as Summary).Time = (node.Extra as Summary).Json.Time;
+            (node.Extra as Summary).Place = (node.Extra as Summary).Json.Place;
             foreach (string uid in (node.Extra as Summary).Json.Roles)
             {
                 foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
@@ -155,6 +160,43 @@ namespace RootNS.Helper
                     }
                 }
             }
+            return node;
+        }
+
+        private static Node FillInNodeContent(Node node)
+        {
+            if (Gval.CurrentBook.Name == null && node.OwnerName != "index")
+            {
+                return node;
+            }
+            string sql = string.Format("SELECT * FROM {0} WHERE Uid='{1}';", node.TabName, node.Uid);
+            SQLiteDataReader reader = SqliteHelper.PoolDict[node.OwnerName].ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                node.Index = Convert.ToInt32(reader["Index"]);
+                node.Uid = reader["Uid"].ToString();
+                node.Pid = reader["Pid"].ToString();
+                node.Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString();
+                node.IsDir = (bool)reader["IsDir"];
+                node.Text = reader["Text"] == DBNull.Value ? null : reader["Text"].ToString();
+                node.Summary = reader["Summary"] == DBNull.Value ? null : reader["Summary"].ToString();
+                node.WordsCount = reader["WordsCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["WordsCount"]);
+                node.IsExpanded = (bool)reader["IsExpanded"];
+                node.IsChecked = (bool)reader["IsChecked"];
+                node.IsDel = (bool)reader["IsDel"];
+                node = FillExtra(node);
+            }
+            reader.Close();
+            return node;
+        }
+
+
+        public static Node LoadNodeContent(Node node)
+        {
+            Gval.FlagLoadingCompleted = false;
+            SqliteHelper.PoolOperate.Add(node.OwnerName);
+            node = DataIn.FillInNodeContent(node);
+            Gval.FlagLoadingCompleted = true;
             return node;
         }
 
@@ -284,33 +326,5 @@ namespace RootNS.Helper
             return card;
         }
 
-
-        //public static ObservableCollection<Tags.Tag> LoadTags(string tabName)
-        //{
-        //    ObservableCollection<Tags.Tag> all = new ObservableCollection<Tags.Tag>();
-        //    string sql = string.Format("SELECT * FROM {0};", tabName);
-        //    SQLiteDataReader reader = SqliteHelper.PoolDict[Gval.CurrentBook.Name].ExecuteQuery(sql);
-        //    while (reader.Read())
-        //    {
-        //        Tags.Tag tag = new Tags.Tag
-        //        {
-        //            Uid = reader["Uid"].ToString(),
-        //            Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
-        //        };
-        //        if (SqliteHelper.ReaderExists(reader, "IsDir") == true)
-        //        {
-        //            if ((bool)reader["IsDir"] != true)
-        //            {
-        //                all.Add(tag);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            all.Add(tag);
-        //        }
-        //    }
-        //    reader.Close();
-        //    return all;
-        //}
     }
 }

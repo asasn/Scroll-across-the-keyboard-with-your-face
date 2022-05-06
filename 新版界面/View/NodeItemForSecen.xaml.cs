@@ -27,7 +27,6 @@ namespace RootNS.View
         public NodeItemForSecen()
         {
             InitializeComponent();
-            GMian.DataContext = new Summary();
         }
 
 
@@ -35,7 +34,7 @@ namespace RootNS.View
         {
             if (e.Key == Key.Enter)
             {
-                (GMian.DataContext as Summary).Node.ReNameing = false;
+                ((this.DataContext as Node).Extra as Summary).Node.ReNameing = false;
                 e.Handled = true;
             }
         }
@@ -43,7 +42,7 @@ namespace RootNS.View
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            Node node = (GMian.DataContext as Summary).Node;
+            Node node = ((this.DataContext as Node).Extra as Summary).Node;
             if (node != null)
             {
                 node.CheckChildNodes();
@@ -56,7 +55,7 @@ namespace RootNS.View
 
         private void TbReName_Loaded(object sender, RoutedEventArgs e)
         {
-            (GMian.DataContext as Summary).CanSave = false;
+            ((this.DataContext as Node).Extra as Summary).CanSave = false;
         }
 
 
@@ -74,8 +73,6 @@ namespace RootNS.View
             secen.Time = secen.Json.Time;
             secen.Place = secen.Json.Place;
             (this.DataContext as Node).Extra = secen;
-            secen.Node = this.DataContext as Node;
-            GMian.DataContext = secen;
 
             secen.Roles.CollectionChanged += Roles_CollectionChanged;
             secen.Origin.CollectionChanged += Origin_CollectionChanged;
@@ -116,32 +113,32 @@ namespace RootNS.View
 
         private void Result_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            (GMian.DataContext as Summary).Json.Result.Clear();
+            ((this.DataContext as Node).Extra as Summary).Json.Result.Clear();
             foreach (Node item in (sender as ObservableCollection<object>))
             {
-                (GMian.DataContext as Summary).Json.Result.Add(item.Uid);
+                ((this.DataContext as Node).Extra as Summary).Json.Result.Add(item.Uid);
             }
-            (GMian.DataContext as Summary).CanSave = true;
+            ((this.DataContext as Node).Extra as Summary).CanSave = true;
         }
 
         private void Origin_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            (GMian.DataContext as Summary).Json.Origin.Clear();
+            ((this.DataContext as Node).Extra as Summary).Json.Origin.Clear();
             foreach (Node item in (sender as ObservableCollection<object>))
             {
-                (GMian.DataContext as Summary).Json.Origin.Add(item.Uid);
+                ((this.DataContext as Node).Extra as Summary).Json.Origin.Add(item.Uid);
             }
-            (GMian.DataContext as Summary).CanSave = true;
+            ((this.DataContext as Node).Extra as Summary).CanSave = true;
         }
 
         private void Roles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            (GMian.DataContext as Summary).Json.Roles.Clear();
+            ((this.DataContext as Node).Extra as Summary).Json.Roles.Clear();
             foreach (Card item in (sender as ObservableCollection<object>))
             {
-                (GMian.DataContext as Summary).Json.Roles.Add(item.Uid);
+                ((this.DataContext as Node).Extra as Summary).Json.Roles.Add(item.Uid);
             }
-            (GMian.DataContext as Summary).CanSave = true;
+            ((this.DataContext as Node).Extra as Summary).CanSave = true;
         }
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -150,10 +147,12 @@ namespace RootNS.View
             {
                 return;
             }
+            ThisControl_Loaded(null, null);
             SecenWindow secenWindow = new SecenWindow();
             secenWindow.DataContext = this.DataContext as Node;
-            secenWindow.GMian.DataContext = GMian.DataContext;
-            Workfolw.ViewSet.ForViewPoint(secenWindow, this, -26, 50);
+            secenWindow.GMian.DataContext = (this.DataContext as Node).Extra;
+            Workfolw.ViewSet.ForViewPointX(secenWindow, Gval.View.TabNote, -6);
+            Workfolw.ViewSet.ForViewPointY(secenWindow, this, 50);
             secenWindow.ShowDialog();
         }
     }

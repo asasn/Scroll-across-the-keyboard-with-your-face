@@ -49,7 +49,6 @@ namespace RootNS.View
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            //Node里面存在着循环引用，所以不能直接转换，需要先设置为空，然后再重新赋值回去。
             SaveSecen(GMian.DataContext as Summary, this.DataContext as Node);
 
             Node thisNode = this.DataContext as Node;
@@ -103,10 +102,7 @@ namespace RootNS.View
 
         private void SaveSecen(Summary secen, Node node)
         {
-            secen.Node = null;
             string json = JsonHelper.ObjToJson(secen.Json);
-            secen.Node = node;
-
             DataOut.UpdateNodeProperty(secen.Node, nameof(Node.Text), secen.Node.Text);
             DataOut.UpdateNodeProperty(secen.Node, nameof(Node.Summary), json);
             secen.CanSave = false;
@@ -120,6 +116,7 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
+            this.DataContext = DataIn.LoadNodeContent(this.DataContext as Node);
             this.Close();
         }
 

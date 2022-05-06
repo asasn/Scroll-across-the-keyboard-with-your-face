@@ -10,7 +10,7 @@
         AllowsTransparency="True" WindowStyle="None" d:DesignHeight="200"
         d:DesignWidth="300" MaxWidth="300" Loaded="Window_Loaded" MaxHeight="759" MouseLeftButtonDown="window_MouseLeftButtonDown">
     <Grid x:Name="GMian">
-        <hc:Card x:Name="card" Header="场景窗口" VerticalAlignment="Top" Margin="4">
+        <hc:Card x:Name="card" Header="" VerticalAlignment="Top" Margin="4">
             <Grid x:Name="gCard" Margin="2">
                 <Grid.RowDefinitions>
                     <RowDefinition MinHeight="25" Height="Auto"/>

@@ -101,7 +101,11 @@ namespace RootNS.Converter
             Node node = (Node)value;
             try
             {
-                if (node.TabName == Book.NoteTabName.线索.ToString())
+                if (node.TabName == Book.NoteTabName.大事记.ToString() && node.IsDir == false)
+                {
+                    return new NodeItemForMemo();
+                }
+                if (node.TabName == Book.NoteTabName.线索.ToString() && node.IsDir == false)
                 {
                     return new NodeItemForClue();
                 }

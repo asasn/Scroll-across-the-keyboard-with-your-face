@@ -6,7 +6,7 @@
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:local="clr-namespace:RootNS.View"
              mc:Ignorable="d" 
-             d:DesignHeight="24" d:DesignWidth="100" MinHeight="24">
+             d:DesignHeight="25" d:DesignWidth="100" MinHeight="25">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="30" Width="30"/>

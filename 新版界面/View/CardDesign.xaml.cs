@@ -34,8 +34,8 @@ namespace RootNS.View
             RootCard.Lines.Add(line);
             this.DataContext = DataIn.CardDesginLoad(RootCard);
 
-            ViewSet.ForViewPoint(this, uc, -6, 50);
-
+            ViewSet.ForViewPointX(this, uc, -6);
+            ViewSet.ForViewPointY(this, uc, 50);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

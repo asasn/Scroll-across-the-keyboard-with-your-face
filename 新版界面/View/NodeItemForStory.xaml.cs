@@ -27,14 +27,13 @@ namespace RootNS.View
         public NodeItemForStory()
         {
             InitializeComponent();
-            GMian.DataContext = new Summary();
         }
 
         private void TbReName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                (GMian.DataContext as Summary).Node.ReNameing = false;
+                ((this.DataContext as Node).Extra as Summary).Node.ReNameing = false;
                 e.Handled = true;
             }
         }
@@ -42,7 +41,7 @@ namespace RootNS.View
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            Node node = (GMian.DataContext as Summary).Node;
+            Node node = ((this.DataContext as Node).Extra as Summary).Node;
             if (node != null)
             {
                 node.CheckChildNodes();
@@ -55,7 +54,7 @@ namespace RootNS.View
 
         private void TbReName_Loaded(object sender, RoutedEventArgs e)
         {
-            (GMian.DataContext as Summary).CanSave = false;
+            ((this.DataContext as Node).Extra as Summary).CanSave = false;
         }
 
 
@@ -73,9 +72,7 @@ namespace RootNS.View
 
             secen.Time = secen.Json.Time;
             secen.Place = secen.Json.Place;
-            GMian.DataContext = secen;
             (this.DataContext as Node).Extra = secen;
-            secen.Node = this.DataContext as Node;
 
             secen.Secens.CollectionChanged += Secens_CollectionChanged;
 
@@ -95,23 +92,23 @@ namespace RootNS.View
 
         private void Secens_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            (GMian.DataContext as Summary).Json.Secens.Clear();
+            ((this.DataContext as Node).Extra as Summary).Json.Secens.Clear();
             foreach (Node item in (sender as ObservableCollection<object>))
             {
-                (GMian.DataContext as Summary).Json.Secens.Add(item.Uid);
+                ((this.DataContext as Node).Extra as Summary).Json.Secens.Add(item.Uid);
             }
-            (GMian.DataContext as Summary).Roles.Clear();
+            ((this.DataContext as Node).Extra as Summary).Roles.Clear();
             foreach (Node item in (sender as ObservableCollection<object>))
             {
                 foreach (Card card in (item.Extra as Summary).Roles)
                 {
-                    if ((GMian.DataContext as Summary).Roles.Contains(card) == false)
+                    if (((this.DataContext as Node).Extra as Summary).Roles.Contains(card) == false)
                     {
-                        (GMian.DataContext as Summary).Roles.Add(card);
+                        ((this.DataContext as Node).Extra as Summary).Roles.Add(card);
                     }
                 }
             }
-            (GMian.DataContext as Summary).CanSave = true;
+            ((this.DataContext as Node).Extra as Summary).CanSave = true;
         }
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -120,10 +117,12 @@ namespace RootNS.View
             {
                 return;
             }
+            ThisControl_Loaded(null, null);
             StoryWindow storyWindow = new StoryWindow();
             storyWindow.DataContext = this.DataContext as Node;
-            storyWindow.GMian.DataContext = GMian.DataContext;
-            Workfolw.ViewSet.ForViewPoint(storyWindow, this, -25, 50);
+            storyWindow.GMian.DataContext = (this.DataContext as Node).Extra;
+            Workfolw.ViewSet.ForViewPointX(storyWindow, Gval.View.TabNote, -6);
+            Workfolw.ViewSet.ForViewPointY(storyWindow, this, 50);
             storyWindow.ShowDialog();
         }
     }

@@ -1,0 +1,28 @@
+﻿<Window x:Name="window" x:Class="RootNS.View.ClueWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:view="clr-namespace:RootNS.View"
+        mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize"
+        Background="Transparent" Effect="{StaticResource EffectShadow3}" 
+        Topmost="True"
+        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="200"
+        d:DesignWidth="300" MaxWidth="300" Loaded="Window_Loaded" MaxHeight="759" MouseLeftButtonDown="window_MouseLeftButtonDown">
+    <Grid x:Name="GMian">
+        <hc:Card x:Name="card" Header="" VerticalAlignment="Top" Margin="4">
+            <Grid x:Name="gCard" Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                <Border x:Name="BoxContent" Grid.Row="1" Grid.ColumnSpan="3" Loaded="BoxContent_Loaded">
+                    <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" BorderBrush="DodgerBlue" Text="{Binding Node.Text}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" Margin="3,0,3,0"/>
+                </Border>
+            </Grid>
+        </hc:Card>
+        <Button Padding="0" x:Name="BtnClose" FontFamily="../Assets/#androidicons" Content="&#xE82F;" FontSize="14" Background="Transparent" Foreground="Red" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,5,5,0" />
+    </Grid>
+</Window>
