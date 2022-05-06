@@ -70,11 +70,18 @@ namespace RootNS.View
             {
                 secen.Json = JsonHelper.JsonToObj<Summary.JsonData>(secen.Node.Summary);
             }
+
+            secen.Time = secen.Json.Time;
+            secen.Place = secen.Json.Place;
+            (this.DataContext as Node).Extra = secen;
+            secen.Node = this.DataContext as Node;
+            GMian.DataContext = secen;
+
             secen.Roles.CollectionChanged += Roles_CollectionChanged;
             secen.Origin.CollectionChanged += Origin_CollectionChanged;
             secen.Result.CollectionChanged += Result_CollectionChanged;
 
-            foreach (string uid in secen.Json.Roles)
+            foreach (string uid in secen.Json.Roles.ToList())
             {
                 foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
                 {
@@ -84,7 +91,7 @@ namespace RootNS.View
                     }
                 }
             }
-            foreach (string uid in secen.Json.Origin)
+            foreach (string uid in secen.Json.Origin.ToList())
             {
                 foreach (Node node in Gval.CurrentBook.GetSecenNodes())
                 {
@@ -94,7 +101,7 @@ namespace RootNS.View
                     }
                 }
             }
-            foreach (string uid in secen.Json.Result)
+            foreach (string uid in secen.Json.Result.ToList())
             {
                 foreach (Node node in Gval.CurrentBook.GetSecenNodes())
                 {
@@ -104,11 +111,7 @@ namespace RootNS.View
                     }
                 }
             }
-            secen.Time = secen.Json.Time;
-            secen.Place = secen.Json.Place;
-            (this.DataContext as Node).Extra = secen;
-            secen.Node = this.DataContext as Node;
-            GMian.DataContext = secen;
+
         }
 
         private void Result_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

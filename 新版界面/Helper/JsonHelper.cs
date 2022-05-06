@@ -29,7 +29,15 @@ namespace RootNS.Helper
         public static T JsonToObj<T>(string strJson)
         {
             JavaScriptSerializer jserializer = new JavaScriptSerializer();
-            return jserializer.Deserialize<T>(strJson);
+            try
+            {
+                return jserializer.Deserialize<T>(strJson);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(String.Format("解析错误 - {0}！", ex));
+                return default;
+            }
         }
     }
 }

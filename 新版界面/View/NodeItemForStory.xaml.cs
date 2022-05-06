@@ -27,6 +27,7 @@ namespace RootNS.View
         public NodeItemForStory()
         {
             InitializeComponent();
+            GMian.DataContext = new Summary();
         }
 
         private void TbReName_KeyDown(object sender, KeyEventArgs e)
@@ -69,20 +70,16 @@ namespace RootNS.View
             {
                 secen.Json = JsonHelper.JsonToObj<Summary.JsonData>(secen.Node.Summary);
             }
-            //secen.Roles.CollectionChanged += Roles_CollectionChanged;
+
+            secen.Time = secen.Json.Time;
+            secen.Place = secen.Json.Place;
+            GMian.DataContext = secen;
+            (this.DataContext as Node).Extra = secen;
+            secen.Node = this.DataContext as Node;
+
             secen.Secens.CollectionChanged += Secens_CollectionChanged;
 
-            //foreach (string uid in secen.Json.Roles)
-            //{
-            //    foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
-            //    {
-            //        if (uid == card.Uid)
-            //        {
-            //            secen.Roles.Add(card);
-            //        }
-            //    }
-            //}
-            foreach (string uid in secen.Json.Secens)
+            foreach (string uid in secen.Json.Secens.ToList())
             {
                 foreach (Node node in Gval.CurrentBook.GetSecenNodes())
                 {
@@ -92,11 +89,8 @@ namespace RootNS.View
                     }
                 }
             }
-            secen.Time = secen.Json.Time;
-            secen.Place = secen.Json.Place;
-            (this.DataContext as Node).Extra = secen;
-            secen.Node = this.DataContext as Node;
-            GMian.DataContext = secen;
+
+
         }
 
         private void Secens_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -106,22 +100,16 @@ namespace RootNS.View
             {
                 (GMian.DataContext as Summary).Json.Secens.Add(item.Uid);
             }
+            (GMian.DataContext as Summary).Roles.Clear();
             foreach (Node item in (sender as ObservableCollection<object>))
             {
                 foreach (Card card in (item.Extra as Summary).Roles)
                 {
-                    (GMian.DataContext as Summary).Roles.Add(card);
-                } 
-            }
-            (GMian.DataContext as Summary).CanSave = true;
-        }
-
-        private void Roles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            (GMian.DataContext as Summary).Json.Roles.Clear();
-            foreach (Card item in (sender as ObservableCollection<object>))
-            {
-                (GMian.DataContext as Summary).Json.Roles.Add(item.Uid);
+                    if ((GMian.DataContext as Summary).Roles.Contains(card) == false)
+                    {
+                        (GMian.DataContext as Summary).Roles.Add(card);
+                    }
+                }
             }
             (GMian.DataContext as Summary).CanSave = true;
         }

@@ -131,10 +131,31 @@ namespace RootNS.Helper
                     IsChecked = (bool)reader["IsChecked"],
                     IsDel = (bool)reader["IsDel"]
                 };
+                node = FillExtra(node);
                 rootNode.ChildNodes.Add(node);
                 FillInNodes(node.Uid, node);
             }
             reader.Close();
+        }
+
+        private static Node FillExtra(Node node)
+        {
+            node.Extra = new Summary();
+            if (JsonHelper.JsonToObj<Summary>(node.Summary) != null)
+            {
+                (node.Extra as Summary).Json = JsonHelper.JsonToObj<Summary.JsonData>(node.Summary);
+            }
+            foreach (string uid in (node.Extra as Summary).Json.Roles)
+            {
+                foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
+                {
+                    if (uid == card.Uid)
+                    {
+                        (node.Extra as Summary).Roles.Add(card);
+                    }
+                }
+            }
+            return node;
         }
 
 
