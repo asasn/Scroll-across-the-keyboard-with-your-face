@@ -32,11 +32,11 @@ namespace RootNS.View
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            (GMian.DataContext as Secen).CanSave = false;
+            (GMian.DataContext as Summary).CanSave = false;
         }
         private void BoxContent_Loaded(object sender, RoutedEventArgs e)
         {
-            (GMian.DataContext as Secen).Node.IsExpanded = !string.IsNullOrWhiteSpace(TbContent.Text);
+            (GMian.DataContext as Summary).Node.IsExpanded = !string.IsNullOrWhiteSpace(TbContent.Text);
         }
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -50,58 +50,58 @@ namespace RootNS.View
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             //Node里面存在着循环引用，所以不能直接转换，需要先设置为空，然后再重新赋值回去。
-            SaveSecen(GMian.DataContext as Secen, this.DataContext as Node);
+            SaveSecen(GMian.DataContext as Summary, this.DataContext as Node);
 
             Node thisNode = this.DataContext as Node;
 
             //注意理顺这里的逻辑
             foreach (Node node in Gval.CurrentBook.GetSecenNodes())
             {
-                foreach (Node sNode in (node.Extra as Secen).Origin.ToList())
+                foreach (Node sNode in (node.Extra as Summary).Origin.ToList())
                 {
-                    if ((GMian.DataContext as Secen).Result.Contains(node) == false)
+                    if ((GMian.DataContext as Summary).Result.Contains(node) == false)
                     {
-                        (node.Extra as Secen).Origin.Remove(thisNode);
-                        SaveSecen(node.Extra as Secen, (node.Extra as Secen).Node);
-                        (node.Extra as Secen).Node.IsExpanded = true;
+                        (node.Extra as Summary).Origin.Remove(thisNode);
+                        SaveSecen(node.Extra as Summary, (node.Extra as Summary).Node);
+                        (node.Extra as Summary).Node.IsExpanded = true;
                     }
                 }
             }
             foreach (Node node in Gval.CurrentBook.GetSecenNodes())
             {
-                foreach (Node sNode in (node.Extra as Secen).Result.ToList())
+                foreach (Node sNode in (node.Extra as Summary).Result.ToList())
                 {
-                    if ((GMian.DataContext as Secen).Origin.Contains(node) == false)
+                    if ((GMian.DataContext as Summary).Origin.Contains(node) == false)
                     {
-                        (node.Extra as Secen).Result.Remove(thisNode);
-                        SaveSecen(node.Extra as Secen, (node.Extra as Secen).Node);
-                        (node.Extra as Secen).Node.IsExpanded = true;
+                        (node.Extra as Summary).Result.Remove(thisNode);
+                        SaveSecen(node.Extra as Summary, (node.Extra as Summary).Node);
+                        (node.Extra as Summary).Node.IsExpanded = true;
                     }
                 }
             }
 
-            foreach (Node sNode in (GMian.DataContext as Secen).Origin)
+            foreach (Node sNode in (GMian.DataContext as Summary).Origin)
             {
-                if ((sNode.Extra as Secen).Result.Contains(thisNode) == false)
+                if ((sNode.Extra as Summary).Result.Contains(thisNode) == false)
                 {
-                    (sNode.Extra as Secen).Result.Add(thisNode);
-                    SaveSecen(sNode.Extra as Secen, (sNode.Extra as Secen).Node);
-                    (sNode.Extra as Secen).Node.IsExpanded = true;
+                    (sNode.Extra as Summary).Result.Add(thisNode);
+                    SaveSecen(sNode.Extra as Summary, (sNode.Extra as Summary).Node);
+                    (sNode.Extra as Summary).Node.IsExpanded = true;
                 }
             }
-            foreach (Node sNode in (GMian.DataContext as Secen).Result)
+            foreach (Node sNode in (GMian.DataContext as Summary).Result)
             {
-                if ((sNode.Extra as Secen).Origin.Contains(thisNode) == false)
+                if ((sNode.Extra as Summary).Origin.Contains(thisNode) == false)
                 {
-                    (sNode.Extra as Secen).Origin.Add(thisNode);
-                    SaveSecen(sNode.Extra as Secen, (sNode.Extra as Secen).Node);
-                    (sNode.Extra as Secen).Node.IsExpanded = true;
+                    (sNode.Extra as Summary).Origin.Add(thisNode);
+                    SaveSecen(sNode.Extra as Summary, (sNode.Extra as Summary).Node);
+                    (sNode.Extra as Summary).Node.IsExpanded = true;
                 }
             }
 
         }
 
-        private void SaveSecen(Secen secen, Node node)
+        private void SaveSecen(Summary secen, Node node)
         {
             secen.Node = null;
             string json = JsonHelper.ObjToJson(secen.Json);
@@ -115,7 +115,7 @@ namespace RootNS.View
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            (GMian.DataContext as Secen).CanSave = true;
+            (GMian.DataContext as Summary).CanSave = true;
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -123,6 +123,16 @@ namespace RootNS.View
             this.Close();
         }
 
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+            (GMian.DataContext as Summary).CanSave = true;
+            (GMian.DataContext as Summary).Json.Time = (sender as TextBox).Text;
+        }
 
+        private void TextBox_TextChanged_2(object sender, TextChangedEventArgs e)
+        {
+            (GMian.DataContext as Summary).CanSave = true;
+            (GMian.DataContext as Summary).Json.Place = (sender as TextBox).Text;
+        }
     }
 }

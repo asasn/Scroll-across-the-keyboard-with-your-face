@@ -385,6 +385,19 @@ namespace RootNS.Model
             }
         }
 
+        private Summary _summaryObject = new Summary();
+
+        public Summary SummaryObject
+        {
+            get { return _summaryObject; }
+            set
+            {
+                _summaryObject = value;
+                RaisePropertyChanged(nameof(SummaryObject));
+            }
+        }
+
+
         private object _extra;
         /// <summary>
         /// 附件

@@ -122,6 +122,10 @@ namespace RootNS.Model
         }
         public List<Node> GetSecenNodes()
         {
+            if (NoteScenes.ChildNodes.Count == 0)
+            {
+                DataIn.FillInNodes(NoteScenes);
+            }
             List<Node> nodes = new List<Node>();
             GetTreeNodes(nodes, NoteScenes);
             return nodes;
@@ -129,6 +133,10 @@ namespace RootNS.Model
 
         public List<Node> GetPublishedChapterNodes()
         {
+            if (BoxPublished.ChildNodes.Count == 0)
+            {
+                DataIn.FillInNodes(BoxPublished);
+            }
             List<Node> nodes = new List<Node>();
             GetTreeNodes(nodes, BoxPublished);
             return nodes;

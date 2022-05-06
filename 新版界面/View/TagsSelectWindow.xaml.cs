@@ -79,6 +79,13 @@ namespace RootNS.View
                     All.Add(node);
                 }
             }
+            if (BoxTitle == "场景")
+            {
+                foreach (Node node in Gval.CurrentBook.GetSecenNodes())
+                {
+                    All.Add(node);
+                }
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

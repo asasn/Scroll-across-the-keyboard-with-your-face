@@ -27,7 +27,7 @@ namespace RootNS.View
         public NodeItemForSecen()
         {
             InitializeComponent();
-            GMian.DataContext = new Secen();
+            GMian.DataContext = new Summary();
         }
 
 
@@ -35,7 +35,7 @@ namespace RootNS.View
         {
             if (e.Key == Key.Enter)
             {
-                (GMian.DataContext as Secen).Node.ReNameing = false;
+                (GMian.DataContext as Summary).Node.ReNameing = false;
                 e.Handled = true;
             }
         }
@@ -43,7 +43,7 @@ namespace RootNS.View
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            Node node = (GMian.DataContext as Secen).Node;
+            Node node = (GMian.DataContext as Summary).Node;
             if (node != null)
             {
                 node.CheckChildNodes();
@@ -56,19 +56,19 @@ namespace RootNS.View
 
         private void TbReName_Loaded(object sender, RoutedEventArgs e)
         {
-            (GMian.DataContext as Secen).CanSave = false;
+            (GMian.DataContext as Summary).CanSave = false;
         }
 
 
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Secen secen = new Secen
+            Summary secen = new Summary
             {
                 Node = this.DataContext as Node
             };
-            if (JsonHelper.JsonToObj<Secen>(secen.Node.Summary) != null)
+            if (JsonHelper.JsonToObj<Summary>(secen.Node.Summary) != null)
             {
-                secen.Json = JsonHelper.JsonToObj<Secen.JsonData>(secen.Node.Summary);
+                secen.Json = JsonHelper.JsonToObj<Summary.JsonData>(secen.Node.Summary);
             }
             secen.Roles.CollectionChanged += Roles_CollectionChanged;
             secen.Origin.CollectionChanged += Origin_CollectionChanged;
@@ -104,41 +104,41 @@ namespace RootNS.View
                     }
                 }
             }
+            secen.Time = secen.Json.Time;
+            secen.Place = secen.Json.Place;
             (this.DataContext as Node).Extra = secen;
             secen.Node = this.DataContext as Node;
             GMian.DataContext = secen;
-
-
         }
 
         private void Result_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            (GMian.DataContext as Secen).Json.Result.Clear();
+            (GMian.DataContext as Summary).Json.Result.Clear();
             foreach (Node item in (sender as ObservableCollection<object>))
             {
-                (GMian.DataContext as Secen).Json.Result.Add(item.Uid);
+                (GMian.DataContext as Summary).Json.Result.Add(item.Uid);
             }
-            (GMian.DataContext as Secen).CanSave = true;
+            (GMian.DataContext as Summary).CanSave = true;
         }
 
         private void Origin_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            (GMian.DataContext as Secen).Json.Origin.Clear();
+            (GMian.DataContext as Summary).Json.Origin.Clear();
             foreach (Node item in (sender as ObservableCollection<object>))
             {
-                (GMian.DataContext as Secen).Json.Origin.Add(item.Uid);
+                (GMian.DataContext as Summary).Json.Origin.Add(item.Uid);
             }
-            (GMian.DataContext as Secen).CanSave = true;
+            (GMian.DataContext as Summary).CanSave = true;
         }
 
         private void Roles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            (GMian.DataContext as Secen).Json.Roles.Clear();
+            (GMian.DataContext as Summary).Json.Roles.Clear();
             foreach (Card item in (sender as ObservableCollection<object>))
             {
-                (GMian.DataContext as Secen).Json.Roles.Add(item.Uid);
+                (GMian.DataContext as Summary).Json.Roles.Add(item.Uid);
             }
-            (GMian.DataContext as Secen).CanSave = true;
+            (GMian.DataContext as Summary).CanSave = true;
         }
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace RootNS.Model
 {
-    public class Secen : NotificationObject
+    public class Summary : NotificationObject
     {
-        public Secen()
+        public Summary()
         {
 
         }
@@ -17,9 +17,12 @@ namespace RootNS.Model
 
         public class JsonData
         {
+            public string Time;
+            public string Place;
             public ObservableCollection<string> Roles = new ObservableCollection<string>();
             public ObservableCollection<string> Origin = new ObservableCollection<string>();
             public ObservableCollection<string> Result = new ObservableCollection<string>();
+            public ObservableCollection<string> Secens = new ObservableCollection<string>();
         }
 
         private JsonData _json = new JsonData();
@@ -47,6 +50,32 @@ namespace RootNS.Model
                 RaisePropertyChanged(nameof(Node));
             }
         }
+
+        private string _time;
+
+        public string Time
+        {
+            get { return _time; }
+            set
+            {
+                _time = value;
+                RaisePropertyChanged(nameof(Time));
+            }
+        }
+
+        private string _place;
+
+        public string Place
+        {
+            get { return _place; }
+            set
+            {
+                _place = value;
+                RaisePropertyChanged(nameof(Place));
+            }
+        }
+
+
         private ObservableCollection<object> _roles = new ObservableCollection<object>();
 
         public ObservableCollection<object> Roles
@@ -82,6 +111,19 @@ namespace RootNS.Model
             {
                 _result = value;
                 RaisePropertyChanged(nameof(Result));
+            }
+        }
+
+
+        private ObservableCollection<object> _secens = new ObservableCollection<object>();
+
+        public ObservableCollection<object> Secens
+        {
+            get { return _secens; }
+            set
+            {
+                _secens = value;
+                RaisePropertyChanged(nameof(Secens));
             }
         }
 

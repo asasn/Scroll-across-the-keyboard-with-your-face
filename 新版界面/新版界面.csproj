@@ -133,9 +133,8 @@
     <Compile Include="Helper\JsonHelper.cs" />
     <Compile Include="Model\Pomodoro.cs" />
     <Compile Include="Model\Searcher.cs" />
-    <Compile Include="Model\Secen.cs" />
+    <Compile Include="Model\Summary.cs" />
     <Compile Include="Model\Shower.cs" />
-    <Compile Include="Model\Story.cs" />
     <Compile Include="Model\Tags.cs" />
     <Compile Include="View\CardHover.xaml.cs">
       <DependentUpon>CardHover.xaml</DependentUpon>
