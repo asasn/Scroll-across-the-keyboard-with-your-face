@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:Document="clr-namespace:ICSharpCode.AvalonEdit.Document;assembly=ICSharpCode.AvalonEdit"
-    mc:Ignorable="d"
+             mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <RoutedUICommand x:Key="SaveText" Text="保存文本"/>
@@ -44,7 +44,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="Row0" Height="100*"/>
-            <RowDefinition x:Name="Row1" Height="25"/>
+            <RowDefinition x:Name="Row1" Height="20"/>
         </Grid.RowDefinitions>
         <avalonEdit:TextEditor 
             xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
@@ -54,14 +54,15 @@
             FontSize="12pt" CommandManager.Executed="ThisTextEditor_Executed"  CommandManager.PreviewExecuted="ThisTextEditor_PreviewExecuted" MouseHover="ThisTextEditor_MouseHover" MouseHoverStopped="ThisTextEditor_MouseHoverStopped" Loaded="ThisTextEditor_Loaded" KeyUp="ThisTextEditor_KeyUp" KeyDown="ThisTextEditor_KeyDown" TextChanged="ThisTextEditor_TextChanged" Initialized="ThisTextEditor_Initialized">
             <avalonEdit:TextEditor.Options>
                 <avalonEdit:TextEditorOptions
-                    HighlightCurrentLine="True" ShowSpaces="True"
-                    WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
+                    HighlightCurrentLine="True" ShowSpaces="True" ConvertTabsToSpaces="True"
+                    WordWrapIndentation="4"/>
             </avalonEdit:TextEditor.Options>
         </avalonEdit:TextEditor>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal"  >
                 <Label hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="段落：" Background="Transparent" Foreground="#FFC70F0F" Padding="10,0,0,0"/>

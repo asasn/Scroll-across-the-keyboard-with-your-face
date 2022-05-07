@@ -131,6 +131,8 @@
     <Compile Include="Helper\BinHelper.cs" />
     <Compile Include="Helper\CommandHelper.cs" />
     <Compile Include="Helper\JsonHelper.cs" />
+    <Compile Include="Helper\WebHelper.cs" />
+    <Compile Include="Model\Nameer.cs" />
     <Compile Include="Model\Pomodoro.cs" />
     <Compile Include="Model\Searcher.cs" />
     <Compile Include="Model\Summary.cs" />
@@ -168,6 +170,9 @@
     <Compile Include="View\TagsSelectWindow.xaml.cs">
       <DependentUpon>TagsSelectWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UcLocation.xaml.cs">
+      <DependentUpon>UcLocation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UcPomodoro.xaml.cs">
       <DependentUpon>UcPomodoro.xaml</DependentUpon>
     </Compile>
@@ -179,6 +184,12 @@
     </Compile>
     <Compile Include="View\WSearchResult.xaml.cs">
       <DependentUpon>WSearchResult.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NameerWindow.xaml.cs">
+      <DependentUpon>NameerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MapWindow.xaml.cs">
+      <DependentUpon>MapWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workfolw\FunctionPack.cs" />
     <Compile Include="Workfolw\ViewSet.cs" />
@@ -271,6 +282,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TagsSelectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UcLocation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -393,6 +408,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\NameerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MapWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -454,6 +477,66 @@
     <Content Include="Assets\声音\ring.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Assets\语料\取名工具\地名\前缀\周易字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\地名\前缀\千字文字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\地名\后缀\地名后缀.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\称号\前缀\周易字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\称号\前缀\千字文字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\称号\前缀\称号前缀.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\称号\后缀\称号后缀.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\前缀\玄幻百家姓.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\前缀\完整百家姓.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\前缀\常见百家姓.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\周易字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\通用字表7000字.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\诗经字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\全唐诗字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\千字文字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\女性化字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\次常用字1000字.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\楚辞字库.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\取名工具\常规\后缀\常用字2500字.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Assets\语料\拼音字典\PinyinDict.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.115.5\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />

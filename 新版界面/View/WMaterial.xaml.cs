@@ -37,10 +37,16 @@ namespace RootNS.View
             LightEditor.ThisTextEditor.FontSize = 14;
             LightEditor.lbValue.Visibility = Visibility.Collapsed;
             LightEditor.LbValueValue.Visibility = Visibility.Collapsed;
+            LightEditor.ThisTextEditor.ShowLineNumbers = false;
+            LightEditor.Column1.Width = new GridLength(0);
         }
-        private void LightEditor_Unloaded(object sender, RoutedEventArgs e)
-        {
 
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                LightEditor.ThisTextEditor.Focus();
+            }
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
@@ -119,7 +125,7 @@ namespace RootNS.View
                 AddVisualChild(_grid);
                 foreach (Thumb thumb in _grid.Children)
                 {
-                    int thumnSize = 5;
+                    int thumnSize = 3;
                     if (thumb.HorizontalAlignment == HorizontalAlignment.Stretch)
                     {
                         thumb.Width = double.NaN;

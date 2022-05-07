@@ -27,8 +27,8 @@
                             <ColumnDefinition Width="25"/>
                         </Grid.ColumnDefinitions>
                         <local:CardProperty x:Name="CpTitle" LbContent="名称" TbContent="{Binding Title}"></local:CardProperty>
-                        <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,3,0,0" />
-                        <Button Padding="2" x:Name="BtnSee" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSee_Click" Width="20" Height="20" Grid.Column="3" >
+                        <Button Padding="0" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="20" Height="20" />
+                        <Button Padding="0" x:Name="BtnSee" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSee_Click" Width="20" Height="20" Grid.Column="3" >
                             <Border Background="Transparent" Height="16" Padding="3" Width="16">
                                 <Path x:Name="ExpandPath" Data="M508.89325,762.93166 A65.039498,65.039498,0,0,1,462.47259,743.44582 L97.125746,371.00402 C71.982728,345.3697 72.372878,304.18717 98.007197,279.04415 123.65597,253.87946 164.81682,254.29851 189.96706,279.92561 L508.90047,605.05084 827.83388,279.92561 A65.025048,65.025048,0,0,1,920.6752,371.00402 L555.31391,743.44582 A65.025048,65.025048,0,0,1,508.89325,762.93166 z" Fill="Goldenrod"  RenderTransformOrigin="0.5,0.5" Stretch="Uniform">
                                     <Path.RenderTransform>

@@ -19,7 +19,7 @@ namespace RootNS.Helper
         {
             IOHelper.CreateFolder(Gval.Path.Books);
             TableHelper.TryToBuildIndexDatabase();
-            Gval.CurrentBook.Uid = SettingsHelper.Get(Gval.MaterialBook.Name, "CurBookUid").ToString();
+            Gval.CurrentBook.Uid = SettingsHelper.Get(Gval.MaterialBook.Name, "CurBookUid")?.ToString();
             LoadBooksBank();
         }
 

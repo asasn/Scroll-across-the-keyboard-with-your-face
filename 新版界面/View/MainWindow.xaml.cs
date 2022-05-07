@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using RootNS.Workfolw;
 
 namespace RootNS
 {
@@ -34,6 +35,10 @@ namespace RootNS
 
         private void WinMain_Loaded(object sender, RoutedEventArgs e)
         {
+            if (FunctionPack.IsInDesignMode(this))
+            {
+                return;
+            }
             Gval.View.MainWindow = this;
         }
 
@@ -148,9 +153,15 @@ namespace RootNS
             Gval.FlagLoadingCompleted = true;
         }
 
-        private void BtnNameTool_Click(object sender, RoutedEventArgs e)
+        private void BtnNameer_Click(object sender, RoutedEventArgs e)
         {
-
+            NameerWindow win = new NameerWindow();
+            win.ShowDialog();
+        }
+        private void BtnMap_Click(object sender, RoutedEventArgs e)
+        {
+            MapWindow win = new MapWindow();
+            win.ShowDialog();
         }
 
         private void UcShower_Loaded(object sender, RoutedEventArgs e)
@@ -158,8 +169,6 @@ namespace RootNS
             Gval.View.UcShower = sender as UcShower;
         }
 
-        private void BtnMap_Click(object sender, RoutedEventArgs e)
-        {
-        }
+
     }
 }

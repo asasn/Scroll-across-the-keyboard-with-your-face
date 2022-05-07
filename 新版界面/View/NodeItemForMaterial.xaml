@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RootNS.View"
              xmlns:root="clr-namespace:RootNS" Padding="0"
-             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="{Binding Index}" ToolTipService.ShowDuration="60000"
+             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="{Binding Text, Mode=OneWay}" ToolTipService.ShowDuration="60000"
              d:DesignHeight="25" d:DesignWidth="278" MouseDoubleClick="ThisControl_MouseDoubleClick" MouseRightButtonDown="ThisControl_MouseRightButtonDown" VerticalAlignment="Stretch">
 
     <Grid>
@@ -35,6 +35,6 @@
         </Label>
         <Label Padding="0" Background="Transparent" BorderThickness="0" IsEnabled="False" Grid.Column="4" Content="{Binding IsDir, Converter={StaticResource TypeConvertToShowText}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title, Mode=TwoWay}"  Padding="0"  Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" KeyDown="TbReName_KeyDown" MaxLength="20" LostFocus="TbReName_LostFocus" MinHeight="25"/>
-        <Label x:Name="title" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" Content="{Binding Title, Mode=TwoWay}" Padding="0,1,0,0" BorderThickness="0" Background="Transparent" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" />
+        <Label x:Name="title" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" Content="{Binding Title, Mode=TwoWay}" Padding="0,1,0,0" BorderThickness="0" Background="Transparent" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>

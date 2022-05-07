@@ -18,6 +18,7 @@ using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ICSharpCode.AvalonEdit.Search;
 using RootNS.Helper;
 using RootNS.Model;
+using RootNS.Workfolw;
 
 namespace RootNS.View
 {
@@ -131,9 +132,9 @@ namespace RootNS.View
 
         private void Command_CloseTabItem_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (this.Parent.GetType() == typeof(HandyControl.Controls.Card))
+            if ((this.Parent as Grid).Parent.GetType() == typeof(HandyControl.Controls.Card))
             {
-                EditorHelper.CloseLightEditor(this, ((this.Parent as Control).Parent as Grid).Parent as Window);
+                EditorHelper.CloseLightEditor(this, (((this.Parent as Grid).Parent as Control).Parent as Grid).Parent as Window);
             }
 
             HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
@@ -228,6 +229,10 @@ namespace RootNS.View
 
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
+            if (FunctionPack.IsInDesignMode(this))
+            {
+                return;
+            }
             //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
             ThisTextEditor.Document.Changing += Document_Changing;
             textCount = EditorHelper.CountWords(ThisTextEditor.Text);
@@ -345,6 +350,7 @@ namespace RootNS.View
             {
                 return;
             }
+
             if (string.IsNullOrWhiteSpace(stuff.Text) == true)
             {
                 stuff.Text = "　　";

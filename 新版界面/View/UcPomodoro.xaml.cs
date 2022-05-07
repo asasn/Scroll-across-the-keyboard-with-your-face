@@ -1,4 +1,5 @@
 ﻿using RootNS.Model;
+using RootNS.Workfolw;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,10 @@ namespace RootNS.View
 
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
         {
+            if (FunctionPack.IsInDesignMode(this))
+            {
+                return;
+            }
             ThisPomodoro.MeDida = MeDida;
             ThisPomodoro.MeRing = MeRing;
         }
@@ -51,6 +56,10 @@ namespace RootNS.View
 
         private void CbTime_Loaded(object sender, RoutedEventArgs e)
         {
+            if (FunctionPack.IsInDesignMode(this))
+            {
+                return;
+            }
             ThisPomodoro.CbTime_Loaded();
         }
 
