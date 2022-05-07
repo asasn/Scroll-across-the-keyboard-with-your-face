@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Style/TabControlStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Style/BookCardStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Style/ContentControlTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Style/CardStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <converter:CustomMultiValueConvertor x:Key="CustomMultiValueConvertor"/>
             <converter:IconCodeConvertToFontSize x:Key="IconCodeConvertToFontSize"/>

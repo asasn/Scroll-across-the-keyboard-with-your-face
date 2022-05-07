@@ -82,6 +82,14 @@ namespace RootNS.View
             {
                 BtnAdd.IsEnabled = true;
             }
+            if ((sender as Button).DataContext.GetType() == typeof(Card))
+            {
+                (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
+            }
+            if ((sender as Button).DataContext.GetType() == typeof(Node))
+            {
+                (sender as Button).ToolTip = ((sender as Button).DataContext as Node).Text;
+            }
         }
 
         private void Button_Unloaded(object sender, RoutedEventArgs e)

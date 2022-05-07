@@ -318,5 +318,27 @@ namespace RootNS.Helper
             spans.Insert(0, span);
             return spans;
         }
+
+        public static void CloseLightEditor(Editorkernel LightEditor, Window win)
+        {
+            if (LightEditor.BtnSaveDoc.IsEnabled == true)
+            {
+                MessageBoxResult dr = MessageBox.Show("该章节尚未保存\n要在退出前保存更改吗？", "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    LightEditor.BtnSaveText_Click(null, null);
+                }
+                if (dr == MessageBoxResult.No)
+                {
+
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
+            }
+            win.Close();
+        }
+
     }
 }

@@ -28,10 +28,18 @@ namespace RootNS.Helper
         /// <param name="book"></param>
         public static void UpdateBookInfo(Book book)
         {
-            string sql = string.Format("UPDATE 书库 SET [index]='{0}', Name='{1}', Summary='{2}', Price='{3}', CurrentYear='{4}', IsDel='{5}' WHERE Uid='{6}';", book.Index, book.Name.Replace("'", "''"), book.Summary.Replace("'", "''"), book.Price, book.CurrentYear, book.IsDel, book.Uid);
+            string sql = string.Format("UPDATE 书库 SET [index]='{0}', Summary='{1}', Price='{2}', CurrentYear='{3}', IsDel='{4}' WHERE Uid='{5}';", book.Index, book.Summary.Replace("'", "''"), book.Price, book.CurrentYear, book.IsDel, book.Uid);
             SqliteHelper.PoolDict["index"].ExecuteNonQuery(sql);
         }
-
+        /// <summary>
+        /// 在书库数据库中更新记录
+        /// </summary>
+        /// <param name="book"></param>
+        public static void UpdateBookName(Book book)
+        {
+            string sql = string.Format("UPDATE 书库 SET Name='{0}' WHERE Uid='{1}';", book.Name.Replace("'", "''"), book.Uid);
+            SqliteHelper.PoolDict["index"].ExecuteNonQuery(sql);
+        }
         public static void DeleteBook(Book book)
         {
             string sql = string.Format("DELETE FROM 书库 WHERE Uid='{0}';", book.Uid);

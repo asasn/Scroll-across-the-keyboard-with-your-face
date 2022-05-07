@@ -55,6 +55,11 @@ namespace RootNS.Model
                 object propertyValue = this.GetType().GetProperty(e.PropertyName).GetValue(this, null);
                 DataOut.UpdateNodeProperty(this, e.PropertyName, propertyValue.ToString());
             }
+            if (e.PropertyName == nameof(IsDir) ||
+                e.PropertyName == nameof(IsExpanded))
+            {
+                RefreshIcon(this);
+            }
         }
 
 
@@ -86,7 +91,7 @@ namespace RootNS.Model
             }
         }
 
-        private string _iconString;
+        private string _iconString = "\ue855";
         /// <summary>
         /// 图标字符串
         /// </summary>
@@ -97,6 +102,42 @@ namespace RootNS.Model
             {
                 _iconString = value;
                 RaisePropertyChanged(nameof(IconString));
+            }
+        }
+
+
+        private string RefreshIcon(Node node)
+        {
+            //if (node.TabName == Book.NoteTabName.大事记.ToString())
+            //{
+            //    return node.IconString = "\ue88e";
+            //}
+            //if (node.TabName == Book.NoteTabName.故事.ToString())
+            //{
+            //    return node.IconString = "\ue857";
+            //}
+            //if (node.TabName == Book.NoteTabName.场景.ToString())
+            //{
+            //    return node.IconString = "\ue843";
+            //}
+            //if (node.TabName == Book.NoteTabName.线索.ToString())
+            //{
+            //    return node.IconString = "\ue820";
+            //}
+            if (node.IsDir == true)
+            {
+                if (node.IsExpanded == true)
+                {
+                    return node.IconString = "\ue80e";
+                }
+                else
+                {
+                    return node.IconString = "\ue80f";
+                }
+            }
+            else
+            {
+                return node.IconString = "\ue855";
             }
         }
 
@@ -498,11 +539,12 @@ namespace RootNS.Model
 
         private void OnMoreStuffChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Node stuff = new Node();
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                stuff = (Node)e.NewItems[0];
+                Node stuff = (Node)e.NewItems[0];
                 this.IsDir = true;
+                this.IconString = RefreshIcon(this);
+                stuff.IconString = RefreshIcon(stuff);
                 stuff.Pid = this.Uid;
                 stuff.TabName = this.TabName;
                 stuff.OwnerName = this.OwnerName;
@@ -526,7 +568,7 @@ namespace RootNS.Model
             }
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
-                stuff = (Node)e.OldItems[0];
+                Node stuff = (Node)e.OldItems[0];
                 this.WordsCount -= 1;
             }
         }

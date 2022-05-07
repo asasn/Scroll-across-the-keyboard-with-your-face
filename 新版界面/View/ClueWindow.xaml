@@ -17,6 +17,10 @@
                     <RowDefinition MinHeight="25" Height="Auto"/>
                     <RowDefinition MinHeight="25" Height="Auto"/>
                 </Grid.RowDefinitions>
+                <Grid>
+                    <Label BorderThickness="0" Background="Turquoise" Padding="1" Content="标题" HorizontalAlignment="Left" Margin="3,0,3,0"></Label>
+                    <TextBox Text="{Binding Node.Title, Mode=TwoWay}" Padding="0" BorderThickness="0,0,0,1" Margin="33,0,33,0" hc:BorderElement.CornerRadius="0" MinHeight="0" Height="19"/>
+                </Grid>
                 <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" />
                 <Border x:Name="BoxContent" Grid.Row="1" Grid.ColumnSpan="3" Loaded="BoxContent_Loaded">
                     <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" BorderBrush="DodgerBlue" Text="{Binding Node.Text}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" Margin="3,0,3,0"/>

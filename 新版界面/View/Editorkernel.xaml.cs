@@ -31,6 +31,7 @@ namespace RootNS.View
             InitializeComponent();
         }
 
+
         public string MainText
         {
             get { return (string)GetValue(MainTextProperty); }
@@ -61,11 +62,12 @@ namespace RootNS.View
                 //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
                 //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
                 SqliteHelper.PoolDict[node.OwnerName].Close();
-                HandyControl.Controls.Growl.Success(String.Format("{0} 已保存！", node.Title));
+                HandyControl.Controls.Growl.SuccessGlobal(String.Format("{0} 已保存！", node.Title));
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.Growl.Warning(String.Format("本次保存失败！\n{0}", ex));
+                HandyControl.Controls.Growl.WarningGlobal(String.Format("本次保存失败！\n{0}", ex));
+
             }
         }
 
@@ -129,7 +131,16 @@ namespace RootNS.View
 
         private void Command_CloseTabItem_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            if (this.Parent.GetType() == typeof(HandyControl.Controls.Card))
+            {
+                EditorHelper.CloseLightEditor(this, ((this.Parent as Control).Parent as Grid).Parent as Window);
+            }
+
             HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
+            if (tabItem == null)
+            {
+                return;
+            }
             CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
         }
 
@@ -218,13 +229,13 @@ namespace RootNS.View
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
             //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
-            ThisTextEditor.Focus();
             ThisTextEditor.Document.Changing += Document_Changing;
             textCount = EditorHelper.CountWords(ThisTextEditor.Text);
             RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
-
             Gval.View.UcShower.DataContext = new Shower(this.DataContext as Node);
             (this.DataContext as Node).Text = ThisTextEditor.Text;
+
+            ThisTextEditor.Focus();
         }
 
         private int textCount;
@@ -324,6 +335,27 @@ namespace RootNS.View
         {
 
         }
+
+
+
+        private void ThisTextEditor_Initialized(object sender, EventArgs e)
+        {
+            Node stuff = this.DataContext as Node;
+            if (stuff == null)
+            {
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(stuff.Text) == true)
+            {
+                stuff.Text = "　　";
+            }
+            EditorHelper.SetColorRulesForCards(ThisTextEditor);
+            ThisTextEditor.Text = stuff.Text;
+            EditorHelper.MoveToEnd(ThisTextEditor);
+            BtnSaveDoc.IsEnabled = false;
+            ThisTextEditor.Focus();
+        }
+
 
     }
 }

@@ -13,12 +13,12 @@
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
-        <Label Content="{Binding LineTitle}" Padding="1" Background="Bisque"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="18" Margin="0,3,0,0"/>
+        <Label Content="{Binding LineTitle}" Padding="1" Background="Gainsboro"  HorizontalAlignment="Center" VerticalAlignment="Top" Height="17" Margin="0,4,0,0"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
             <ItemsControl ItemsSource="{Binding Tips, Mode=TwoWay}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1" MinWidth="242" MinHeight="18" VerticalAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBox IsEnabled="{Binding IsEnabled}" Text="{Binding Title, Mode=TwoWay}" Padding="1" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap"  MinHeight="0" AcceptsReturn="True" MinWidth="20" Height="Auto" Margin="2,3,5,0" VerticalAlignment="Center" TextChanged="TextBox_TextChanged"/>
+                        <TextBox IsEnabled="{Binding IsEnabled}" Text="{Binding Title, Mode=TwoWay}" Padding="1" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap"  MinHeight="0" AcceptsReturn="True" MinWidth="25" Height="19" Margin="3,3,3,0" VerticalAlignment="Stretch" TextChanged="TextBox_TextChanged"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
@@ -28,6 +28,6 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
-        <Button x:Name="BtnAdd" Visibility="{Binding ShowAddButton, ElementName=ThisLine}" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="12" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="16" Margin="0,5,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BtnAdd" Visibility="{Binding ShowAddButton, ElementName=ThisLine}" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="12" Background="Transparent" Foreground="DodgerBlue"  Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click" Height="15" Margin="0,5,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

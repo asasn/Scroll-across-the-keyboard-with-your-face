@@ -144,6 +144,9 @@
     <Compile Include="View\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\NodeItemForMaterial.xaml.cs">
+      <DependentUpon>NodeItemForMaterial.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\NodeItemForMemo.xaml.cs">
       <DependentUpon>NodeItemForMemo.xaml</DependentUpon>
     </Compile>
@@ -171,11 +174,18 @@
     <Compile Include="View\UcShower.xaml.cs">
       <DependentUpon>UcShower.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\WMaterial.xaml.cs">
+      <DependentUpon>WMaterial.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\WSearchResult.xaml.cs">
       <DependentUpon>WSearchResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="Workfolw\FunctionPack.cs" />
     <Compile Include="Workfolw\ViewSet.cs" />
+    <Page Include="Style\CardStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Style\ContentControlTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -217,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\MyTree.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NodeItemForMaterial.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -370,6 +384,10 @@
     <Page Include="View\UcShower.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WMaterial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\WSearchResult.xaml">
       <Generator>MSBuild:Compile</Generator>

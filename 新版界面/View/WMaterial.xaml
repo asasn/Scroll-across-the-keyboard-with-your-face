@@ -1,0 +1,17 @@
+﻿<Window x:Class="RootNS.View.WMaterial"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:view="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d" UseLayoutRounding="True"
+        Background="Transparent" Effect="{StaticResource EffectShadow3}"
+        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="300"
+        d:DesignWidth="300" MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Height="450" Width="300" Loaded="Window_Loaded">
+    <Grid>
+        <hc:Card x:Name="HcCard" Header="">
+            <view:Editorkernel x:Name="LightEditor" Loaded="LightEditor_Loaded"/>
+        </hc:Card>
+        <Button Padding="0" x:Name="BtnClose" FontFamily="../Assets/#androidicons" Content="&#xE82F;" FontSize="14" Background="Transparent" Foreground="Red" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnClose_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Width="15" Height="15" Margin="0,1,2,0"/>
+    </Grid>
+</Window>

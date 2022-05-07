@@ -12,12 +12,12 @@
             <ColumnDefinition Width="100*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-        <Label Background="Transparent" Padding="0" BorderThickness="0" Content="{Binding BoxTitle, ElementName=userControl}" HorizontalAlignment="Center" Margin="2,4,2,0" VerticalAlignment="Top" Height="17"/>
+        <Label Background="Beige" Padding="1" BorderThickness="0" Content="{Binding BoxTitle, ElementName=userControl}" HorizontalAlignment="Center" Margin="2,4,2,0" VerticalAlignment="Top" Height="17"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1">
             <ItemsControl ItemsSource="{Binding}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1" Margin="0,2,0,0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button DataContext="{Binding}" Uid="{Binding Uid}" Content="{Binding Title}" Padding="1" MinWidth="20" Height="Auto" VerticalAlignment="Stretch" Margin="2,0,2,0" Click="Button_Click" Loaded="Button_Loaded" Unloaded="Button_Unloaded" />
+                        <Button DataContext="{Binding}" Uid="{Binding Uid}" Content="{Binding Title}" Padding="1" MinWidth="20" Height="Auto" VerticalAlignment="Stretch" Margin="2,1,2,1" Click="Button_Click" Loaded="Button_Loaded" Unloaded="Button_Unloaded" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>

@@ -36,7 +36,7 @@ namespace RootNS.View
 
         }
 
-        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        private void BtnReName_Click(object sender, RoutedEventArgs e)
         {
             if (IsBookNameTrue(TbName) == true)
             {
@@ -56,10 +56,13 @@ namespace RootNS.View
                     IOHelper.RenameFile(oldNameDB, newNameDB);
                     IOHelper.RenameFile(oldNameJpg, newNameJpg);
                     //注意处理的先后顺序
-                    UpdateCurrentBookInfo();
-                    DataOut.UpdateBookInfo(Gval.CurrentBook);
+                    UpdateCurrentBookName();
                 }
             }
+        }
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateCurrentBookInfo();
         }
 
         /// <summary>
@@ -67,11 +70,18 @@ namespace RootNS.View
         /// </summary>
         private void UpdateCurrentBookInfo()
         {
-            Gval.CurrentBook.Name = TbName.Text;
             Gval.CurrentBook.Summary = TbSummary.Text;
             Gval.CurrentBook.Price = Convert.ToDouble(TbPrice.Text);
             Gval.CurrentBook.CurrentYear = Convert.ToInt64(TbCurrentYear.Text);
+            DataOut.UpdateBookInfo(Gval.CurrentBook);
         }
+        private void UpdateCurrentBookName()
+        {
+            Gval.CurrentBook.Name = TbName.Text;
+            DataOut.UpdateBookName(Gval.CurrentBook);
+            BtnReName.IsEnabled = false;
+        }
+
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)
         {
@@ -143,6 +153,10 @@ namespace RootNS.View
 
         private void BookName_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (BtnReName == null)
+            {
+                return;
+            }
             string text = (sender as TextBox).Text;
             hasInvalidChar = false;
             foreach (char c in text)
@@ -153,7 +167,14 @@ namespace RootNS.View
                     break;
                 }
             }
-            IsBookNameTrue(sender as TextBox);
+            if (IsBookNameTrue(sender as TextBox))
+            {
+                BtnReName.IsEnabled = true;
+            }
+            else
+            {
+                BtnReName.IsEnabled = false;
+            }
         }
 
         Button PreviousButton = new Button();
@@ -179,5 +200,6 @@ namespace RootNS.View
                 PreviousButton = sender as Button;
             }
         }
+
     }
 }
