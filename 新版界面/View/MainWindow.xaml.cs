@@ -152,6 +152,10 @@ namespace RootNS
         {
             Gval.FlagLoadingCompleted = true;
         }
+        private void UcShower_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.View.UcShower = sender as UcShower;
+        }
 
         private void BtnNameer_Click(object sender, RoutedEventArgs e)
         {
@@ -164,11 +168,10 @@ namespace RootNS
             win.ShowDialog();
         }
 
-        private void UcShower_Loaded(object sender, RoutedEventArgs e)
+        private void BtnHans_Click(object sender, RoutedEventArgs e)
         {
-            Gval.View.UcShower = sender as UcShower;
+            HansWindow win = new HansWindow();
+            win.ShowDialog();
         }
-
-
     }
 }

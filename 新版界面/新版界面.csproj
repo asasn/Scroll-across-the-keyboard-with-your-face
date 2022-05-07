@@ -191,6 +191,9 @@
     <Compile Include="View\MapWindow.xaml.cs">
       <DependentUpon>MapWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\HansWindow.xaml.cs">
+      <DependentUpon>HansWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Workfolw\FunctionPack.cs" />
     <Compile Include="Workfolw\ViewSet.cs" />
     <Page Include="Style\CardStyle.xaml">
@@ -413,6 +416,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\MapWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\HansWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
