@@ -28,6 +28,7 @@
                             <MenuItem x:Name="AddChildNode" Header="添加子节点" IsEnabled="False" Command="local:MyCommand.AddChildNode" InputGestureText="Enter"/>
                             <MenuItem x:Name="MenuDeleteItem" Header="删除该节点" IsEnabled="False" Command="Delete" InputGestureText="Delete"/>
                             <MenuItem x:Name="MenuImportItem" Header="导入文档" IsEnabled="False" Command="local:MyCommand.Import" InputGestureText="Home"/>
+                            <MenuItem x:Name="MenuExportItem" Header="导出文档" IsEnabled="False" Command="local:MyCommand.Export" InputGestureText="End"/>
                         </ContextMenu>
                     </TreeView.ContextMenu>
                     <TreeView.CommandBindings>
@@ -35,12 +36,12 @@
                         <CommandBinding x:Name="Command_AddChildNode" Command="local:MyCommand.AddChildNode" Executed="Command_AddChildNode_Executed" />
                         <CommandBinding x:Name="Command_Delete" Command="Delete" Executed="Command_Delete_Executed" />
                         <CommandBinding x:Name="Command_Import" Command="local:MyCommand.Import" Executed="Command_Import_Executed" />
+                        <CommandBinding x:Name="Command_Export" Command="local:MyCommand.Export" Executed="Command_Export_Executed" />
                     </TreeView.CommandBindings>
                     <TreeView.InputBindings>
                         <KeyBinding Command="local:MyCommand.AddBrotherNode" Key="Insert" />
                         <KeyBinding Command="local:MyCommand.AddChildNode" Key="Return" />
                         <KeyBinding Command="Delete" Key="Delete" />
-                        <KeyBinding Command="local:MyCommand.Import" Key="Home" />
                     </TreeView.InputBindings>
                     <TreeView.ItemContainerStyle>
                         <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeBookItemStyle}">

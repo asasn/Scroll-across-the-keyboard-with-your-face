@@ -111,7 +111,7 @@ namespace NSMain.TreeViewPlus
             }
             CurBookName = curBookName;
             TypeOfTree = typeOfTree;
-            
+
             //数据初始化
             TreeViewNodeList = new ObservableCollection<TreeViewNode>();
             TopNode = new TreeViewNode { Uid = "", IsDir = true };
@@ -193,7 +193,7 @@ namespace NSMain.TreeViewPlus
             {
                 TbReName.Visibility = Visibility.Hidden;
                 //TbkName.Visibility = Visibility.Visible;
-                
+
             }
 
 
@@ -387,7 +387,7 @@ namespace NSMain.TreeViewPlus
                     }
                     TbReName = CTreeView.FindChild<TextBox>(selectedItem as DependencyObject, "TbReName");
                     TbReName.Visibility = Visibility.Visible;
-                    TbReName.Focus();                    
+                    TbReName.Focus();
                     TbReName.Tag = false;
                     if (selectedNode.NodeName == "新节点")
                     {
@@ -397,7 +397,7 @@ namespace NSMain.TreeViewPlus
                     {
                         TbReName.Select(TbReName.Text.Length, 0);
                     }
-                    
+
 
 
                 }
@@ -679,11 +679,13 @@ namespace NSMain.TreeViewPlus
                 {
                     ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = true;
                     ((MenuItem)TreeViewMenu.Items[3]).IsEnabled = true;
+                    ((MenuItem)TreeViewMenu.Items[4]).IsEnabled = true;
                 }
                 else
                 {
                     ((MenuItem)TreeViewMenu.Items[1]).IsEnabled = false;
                     ((MenuItem)TreeViewMenu.Items[3]).IsEnabled = false;
+                    ((MenuItem)TreeViewMenu.Items[4]).IsEnabled = false;
                 }
             }
             else
@@ -778,6 +780,43 @@ namespace NSMain.TreeViewPlus
 
             }
         }
+
+        private void Command_Export_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            TreeViewNode selectedNode = (TreeViewNode)this.Tv.SelectedItem;
+            if (selectedNode.IsDir == true)
+            {
+                if (selectedNode.ChildNodes.Count == 0)
+                {
+                    return;
+                }
+                System.Windows.Forms.FolderBrowserDialog folder = new System.Windows.Forms.FolderBrowserDialog();
+                folder.Description = "选择文件所在文件夹目录";  //提示的文字
+                folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                if (folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string path = String.Format("{0}/{1}", folder.SelectedPath, selectedNode.NodeName);
+                    if (CFileOperate.IsFolderExists(path) == false)
+                    {
+                        CFileOperate.CreateFolder(path);
+                    }
+
+                    foreach (TreeViewNode node in selectedNode.ChildNodes)
+                    {
+                        string fullFileName = String.Format("{0}/{1}.txt", path, node.NodeName);
+                        int n = 1;
+                        while (CFileOperate.IsFileExists(fullFileName) == true)
+                        {
+                            fullFileName = String.Format("{0}/{1}{2}.txt", path, node.NodeName, n);
+                            n++;
+                        }
+
+                        CFileOperate.WriteToTxt(fullFileName, node.NodeContent);
+                    }
+                }
+            }
+        }
+
         #endregion
 
 
@@ -796,6 +835,8 @@ namespace NSMain.TreeViewPlus
 
             this.Tv.RaiseEvent(eventArg);
         }
+
+
     }
 
 

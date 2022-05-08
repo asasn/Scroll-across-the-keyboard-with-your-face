@@ -10,5 +10,6 @@ namespace NSMain
         public static RoutedCommand AddBrotherNode = new RoutedCommand("AddBrotherNode", typeof(UTreeViewPlus));
         public static RoutedCommand AddChildNode = new RoutedCommand("AddChildNode", typeof(UTreeViewPlus));
         public static RoutedCommand Import = new RoutedCommand("Import", typeof(UTreeViewPlus));
+        public static RoutedCommand Export = new RoutedCommand("Export", typeof(UTreeViewPlus));
     }
 }
