@@ -151,7 +151,6 @@ namespace RootNS.Helper
             {
                 using (SQLiteCommand command = connection.CreateCommand())
                 {
-
                     command.CommandText = sql;
                     try
                     {

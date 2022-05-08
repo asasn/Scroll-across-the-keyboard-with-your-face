@@ -120,6 +120,7 @@
                         <Button x:Name="BtnNameer" ToolTip="取名工具" Padding="0" FontFamily="../Assets/#androidicons" Content="&#59636;" FontSize="20" Foreground="DodgerBlue"  Click="BtnNameer_Click" Margin="2,0,2,0" Width="30" Height="30"/>
                         <Button x:Name="BtnHans" ToolTip="字词释义（该功能需联网）" Padding="0" FontFamily="../Assets/#androidicons" Content="&#59450;" FontSize="20" Foreground="DodgerBlue"  Click="BtnHans_Click" Margin="2,0,2,0" Width="30" Height="30"/>
                         <view:UcPomodoro Margin="2,0,2,0"/>
+                        <Button x:Name="BtnDBManger" ToolTip="数据库管理" Padding="0" FontFamily="../Assets/#androidicons" Content="&#59458;" FontSize="20" Foreground="DodgerBlue"  Click="BtnDBManger_Click" Margin="2,0,2,0" Width="30" Height="30"/>
                     </StackPanel>
                 </Border>
             </GroupBox>

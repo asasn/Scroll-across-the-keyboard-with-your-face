@@ -1,0 +1,33 @@
+﻿<Window x:Class="RootNS.View.DBMangerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RootNS.View"
+        mc:Ignorable="d" Title="数据库管理" Height="150" Width="250" ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="50*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="LbSize" BorderThickness="0" Content="库大小" Grid.Column="0" Loaded="LbSize_Loaded"/>
+            <Button x:Name="BtnZip" Content="压缩当前书籍" Grid.Column="2" Click="BtnZip_Click" />
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="LbSize1" BorderThickness="0"  Content="库大小" Grid.Column="0" Loaded="LbSize1_Loaded"/>
+            <Button x:Name="BtnZip1" Content="压缩资料数据" Grid.Column="2" Click="BtnZip1_Click" />
+        </Grid>
+    </Grid>
+</Window>

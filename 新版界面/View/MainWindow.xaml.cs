@@ -173,5 +173,13 @@ namespace RootNS
             HansWindow win = new HansWindow();
             win.ShowDialog();
         }
+
+        private void BtnDBManger_Click(object sender, RoutedEventArgs e)
+        {
+            DBMangerWindow win = new DBMangerWindow();
+            Workfolw.ViewSet.ForViewPointX(win, sender as Button, -(win.Width / 2));
+            Workfolw.ViewSet.ForViewPointY(win, sender as Button, 50);
+            win.ShowDialog();
+        }
     }
 }

@@ -144,6 +144,9 @@
     <Compile Include="View\CloseWindow.xaml.cs">
       <DependentUpon>CloseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DBMangerWindow.xaml.cs">
+      <DependentUpon>DBMangerWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FindReplaceDialog.xaml.cs">
       <DependentUpon>FindReplaceDialog.xaml</DependentUpon>
     </Compile>
@@ -224,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\CloseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DBMangerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
