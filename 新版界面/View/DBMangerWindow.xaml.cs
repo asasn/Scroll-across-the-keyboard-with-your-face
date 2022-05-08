@@ -28,6 +28,10 @@ namespace RootNS.View
 
         private void LoadSize(string bookName, Label lbSize)
         {
+            if (string.IsNullOrWhiteSpace(bookName))
+            {
+                return;
+            }
             System.IO.FileInfo fileInfo = null;
             try
             {
@@ -46,6 +50,10 @@ namespace RootNS.View
 
         private void Vacuum(string bookName, Label lbSize)
         {
+            if (string.IsNullOrWhiteSpace(bookName))
+            {
+                return;
+            }
             SqliteHelper.PoolOperate.Add(bookName);
             SqliteHelper.PoolDict[bookName].Vacuum();
             LoadSize(bookName, lbSize);
