@@ -142,7 +142,7 @@
                         <view:MyTree DataContext="{Binding BoxMaterial}"/>
                     </TabItem>
                     <TabItem Header="题材库">
-                        <view:MyTree DataContext="{Binding NoteTheme}"/>
+                        <view:MyTree DataContext="{Binding NoteTopic}"/>
                     </TabItem>
                     <TabItem Header="灵感记录">
                         <view:MyTree DataContext="{Binding NoteInspiration}"/>

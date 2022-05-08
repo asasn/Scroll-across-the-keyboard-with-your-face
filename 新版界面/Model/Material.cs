@@ -20,7 +20,7 @@ namespace RootNS.Model
             this.InitRootCards(Name);
             RootNodes.Add(MaterialTabName.范文.ToString(), BoxExample);
             RootNodes.Add(MaterialTabName.资料.ToString(), BoxMaterial);
-            RootNodes.Add(MaterialTabName.主题.ToString(), NoteTheme);
+            RootNodes.Add(MaterialTabName.题材.ToString(), NoteTopic);
             RootNodes.Add(MaterialTabName.灵感.ToString(), NoteInspiration);
         }
 
@@ -35,7 +35,7 @@ namespace RootNS.Model
         /// <param name="bookName"></param>
         private void InitRootNodes(string bookName)
         {
-            Node[] rootNodes = { this.BoxExample, this.BoxMaterial, this.NoteTheme, this.NoteInspiration};
+            Node[] rootNodes = { this.BoxExample, this.BoxMaterial, this.NoteTopic, this.NoteInspiration};
             foreach (Node node in rootNodes)
             {
                 node.OwnerName = bookName;
@@ -59,14 +59,14 @@ namespace RootNS.Model
         {
             范文 = 0,
             资料 = 1,
-            主题 = 2,
+            题材 = 2,
             灵感 = 3
         }
 
         #region 资料库
         public Node BoxExample { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.范文.ToString(), OwnerName = "index" };
         public Node BoxMaterial { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.资料.ToString(), OwnerName = "index" };
-        public Node NoteTheme { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.主题.ToString(), OwnerName = "index" };
+        public Node NoteTopic { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.题材.ToString(), OwnerName = "index" };
         public Node NoteInspiration { set; get; } = new Node() { Uid = String.Empty, TabName = MaterialTabName.灵感.ToString(), OwnerName = "index" };
         #endregion
 
@@ -112,9 +112,9 @@ namespace RootNS.Model
             {
                 DataIn.FillInNodes(BoxMaterial);
             }
-            if (NoteTheme.ChildNodes.Count == 0)
+            if (NoteTopic.ChildNodes.Count == 0)
             {
-                DataIn.FillInNodes(NoteTheme);
+                DataIn.FillInNodes(NoteTopic);
             }
             if (NoteInspiration.ChildNodes.Count == 0)
             {

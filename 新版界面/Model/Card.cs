@@ -226,6 +226,7 @@ namespace RootNS.Model
                     tip.Index = this.Tips.IndexOf(tip);
                 }
                 this.HasTip = Convert.ToBoolean(this.Tips.Count);
+                this.HasChange = true;
             }
             public Card Parent { get; set; }
             public string Pid { get; set; }
@@ -243,6 +244,20 @@ namespace RootNS.Model
                 {
                     _hasTip = value;
                     RaisePropertyChanged(nameof(HasTip));
+                }
+            }
+
+            private bool _hasChange;
+            /// <summary>
+            /// 是否改变
+            /// </summary>
+            public bool HasChange
+            {
+                get { return _hasChange; }
+                set
+                {
+                    _hasChange = value;
+                    this.RaisePropertyChanged(nameof(HasChange));
                 }
             }
 

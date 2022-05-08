@@ -117,6 +117,10 @@ namespace RootNS.Converter
                 {
                     return new NodeItemForStory();
                 }
+                if (node.TabName == Material.MaterialTabName.题材.ToString() && node.IsDir == false)
+                {
+                    return new NodeItemForTopic();
+                }
                 if ((node.TabName == Book.NoteTabName.模板.ToString() ||
                     node.TabName == Material.MaterialTabName.范文.ToString() ||
                     node.TabName == Material.MaterialTabName.资料.ToString() ||

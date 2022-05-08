@@ -1,0 +1,49 @@
+﻿<Window x:Name="ThisWindow" x:Class="RootNS.View.TopicWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:local="clr-namespace:RootNS.View"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="题材简记（关于开新书的一些灵感）" Height="310" Width="500" Loaded="ThisWindow_Loaded">
+    <Grid x:Name="GMian">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Label BorderThickness="0" Background="Turquoise" Padding="1" Content="标题" HorizontalAlignment="Left" Margin="3,0,3,0"></Label>
+            <TextBox Text="{Binding DataContext.Title, Mode=TwoWay, ElementName=ThisWindow}" Padding="0" BorderThickness="0,0,0,1" Margin="33,0,33,0" hc:BorderElement.CornerRadius="0" MinHeight="0" Height="19"/>
+        </Grid>
+        <Button Padding="0" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16"  Foreground="DodgerBlue" BorderThickness="0,0,0,0" Click="BtnSave_Click" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Margin="0,5,5,0" />
+        <TabControl Grid.Row="3"  VirtualizingPanel.IsVirtualizing="True" Style="{DynamicResource TabControlStyle}">
+            <TabItem Header="简介，主旨和风格" >
+                <StackPanel>
+                    <TextBox x:Name="TbShowContent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding DataContext.Text, Mode=TwoWay, ElementName=ThisWindow}" VerticalAlignment="Top" Grid.Row="2"/>
+                    <local:CardLine DataContext="{Binding Subject, Mode=TwoWay}" Visibility="Visible"/>
+                    <local:CardLine DataContext="{Binding Style, Mode=TwoWay}" Visibility="Visible"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="分卷大纲" >
+                <local:CardLine DataContext="{Binding Volumes, Mode=TwoWay}" Visibility="Visible"/>
+            </TabItem>
+            <TabItem Header="主要角色" >
+                <local:CardLine DataContext="{Binding Roles, Mode=TwoWay}" Visibility="Visible"/>
+            </TabItem>
+            <TabItem Header="卖点与金手指" >
+                <StackPanel>
+                    <local:CardLine DataContext="{Binding SellPoints, Mode=TwoWay}" Visibility="Visible"/>
+                    <local:CardLine DataContext="{Binding Goldfingers, Mode=TwoWay}" Visibility="Visible"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="线索和设定" >
+                <StackPanel>
+                    <local:CardLine DataContext="{Binding Clues, Mode=TwoWay}" Visibility="Visible"/>
+                    <local:CardLine DataContext="{Binding WorldInfo, Mode=TwoWay}" Visibility="Visible"/>
+                    <local:CardLine DataContext="{Binding Sets, Mode=TwoWay}" Visibility="Visible"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

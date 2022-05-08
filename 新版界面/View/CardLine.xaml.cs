@@ -48,7 +48,14 @@ namespace RootNS.View
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ((this.DataContext as Card.Line).Parent as Card).CanSave = true;
+            if ((this.DataContext as Card.Line).Parent == null)
+            {
+                (this.DataContext as Card.Line).HasChange = true;
+            }
+            else
+            {
+                ((this.DataContext as Card.Line).Parent as Card).CanSave = true;
+            }
         }
     }
 }

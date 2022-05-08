@@ -129,7 +129,8 @@ namespace RootNS.Helper
                     WordsCount = reader["WordsCount"] == DBNull.Value ? 0 : Convert.ToInt32(reader["WordsCount"]),
                     IsExpanded = (bool)reader["IsExpanded"],
                     IsChecked = (bool)reader["IsChecked"],
-                    IsDel = (bool)reader["IsDel"]
+                    IsDel = (bool)reader["IsDel"],
+                    TabName = rootNode.TabName,
                 };
                 node = FillExtra(node);
                 rootNode.ChildNodes.Add(node);
@@ -144,19 +145,31 @@ namespace RootNS.Helper
             {
                 Node = node,
             };
-            if (JsonHelper.JsonToObj<Summary>(node.Summary) != null)
+            if (node.TabName == Material.MaterialTabName.题材.ToString())
             {
-                (node.Extra as Summary).Json = JsonHelper.JsonToObj<Summary.JsonData>(node.Summary);
-            }
-            (node.Extra as Summary).Time = (node.Extra as Summary).Json.Time;
-            (node.Extra as Summary).Place = (node.Extra as Summary).Json.Place;
-            foreach (string uid in (node.Extra as Summary).Json.Roles)
-            {
-                foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
+                Topic topic = new Topic();
+                if (JsonHelper.JsonToObj<Topic>(node.Summary) != null)
                 {
-                    if (uid == card.Uid)
+                    topic = JsonHelper.JsonToObj<Topic>(node.Summary);
+                }
+                node.Extra = topic;
+            }
+            else
+            {
+                if (JsonHelper.JsonToObj<Summary>(node.Summary) != null)
+                {
+                    (node.Extra as Summary).Json = JsonHelper.JsonToObj<Summary.JsonData>(node.Summary);
+                }
+                (node.Extra as Summary).Time = (node.Extra as Summary).Json.Time;
+                (node.Extra as Summary).Place = (node.Extra as Summary).Json.Place;
+                foreach (string uid in (node.Extra as Summary).Json.Roles)
+                {
+                    foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
                     {
-                        (node.Extra as Summary).Roles.Add(card);
+                        if (uid == card.Uid)
+                        {
+                            (node.Extra as Summary).Roles.Add(card);
+                        }
                     }
                 }
             }
