@@ -55,7 +55,7 @@
             <avalonEdit:TextEditor.Options>
                 <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ConvertTabsToSpaces="True"
-                    WordWrapIndentation="4"/>
+                    WordWrapIndentation="4" InheritWordWrapIndentation="False"/>
             </avalonEdit:TextEditor.Options>
         </avalonEdit:TextEditor>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">

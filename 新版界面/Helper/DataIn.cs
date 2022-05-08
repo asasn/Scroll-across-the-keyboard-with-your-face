@@ -136,6 +136,7 @@ namespace RootNS.Helper
                 rootNode.ChildNodes.Add(node);
                 FillInNodes(node.Uid, node);
             }
+            
             reader.Close();
         }
 

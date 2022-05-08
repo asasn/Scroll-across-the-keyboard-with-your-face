@@ -30,8 +30,10 @@ namespace RootNS.View
         public Editorkernel()
         {
             InitializeComponent();
+            System.Threading.Thread thread = new System.Threading.Thread(SaveInThreadMethod);
         }
 
+        private static System.Threading.Mutex mut = new System.Threading.Mutex();
 
         public string MainText
         {
@@ -44,14 +46,21 @@ namespace RootNS.View
             DependencyProperty.Register("MainText", typeof(string), typeof(Editorkernel), new PropertyMetadata("　　"));
 
 
-
         #region 命令
         private void Command_SaveText_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            System.Threading.Thread thread = new System.Threading.Thread(SaveInThreadMethod);
-            thread.Start(this.DataContext);
-
-            ExtraForSave();
+            try
+            {
+                
+                ExtraForSave();
+                SaveMethod(this.DataContext as Node);
+                //Console.WriteLine(thread.ManagedThreadId + " - 成功 - " + thread.ThreadState);
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine(thread.ManagedThreadId + " - 失败 -" + thread.ThreadState);
+                Console.WriteLine(string.Format("本次保存失败！\n{0}", ex));
+            }
         }
 
         private void SaveMethod(Node node)
@@ -63,12 +72,11 @@ namespace RootNS.View
                 //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
                 //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
                 SqliteHelper.PoolDict[node.OwnerName].Close();
-                HandyControl.Controls.Growl.SuccessGlobal(String.Format("{0} 已保存！", node.Title));
+                //HandyControl.Controls.Growl.SuccessGlobal(String.Format("{0} 已保存！", node.Title));
             }
             catch (Exception ex)
             {
-                HandyControl.Controls.Growl.WarningGlobal(String.Format("本次保存失败！\n{0}", ex));
-
+                //HandyControl.Controls.Growl.WarningGlobal(String.Format("本次保存失败！\n{0}", ex));
             }
         }
 
@@ -350,7 +358,6 @@ namespace RootNS.View
             {
                 return;
             }
-
             if (string.IsNullOrWhiteSpace(stuff.Text) == true)
             {
                 stuff.Text = "　　";

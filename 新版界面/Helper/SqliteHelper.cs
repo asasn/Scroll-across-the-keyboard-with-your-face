@@ -146,7 +146,6 @@ namespace RootNS.Helper
         {
             // 确保连接打开
             Open();
-
             using (SQLiteTransaction tr = connection.BeginTransaction())
             {
                 using (SQLiteCommand command = connection.CreateCommand())
