@@ -76,7 +76,11 @@ namespace RootNS.Model
                 _name = value;
                 this.RaisePropertyChanged("Name");
                 string imgPath = Gval.Path.Books + "/" + _name.ToString() + ".jpg";
-                if (false == IOHelper.IsFileExists(imgPath))
+                if (IOHelper.IsFileExists(imgPath))
+                {
+                    this.CoverPath = imgPath;
+                }
+                else
                 {
                     this.CoverPath = "../Assets/nullbookface.jpg";
                 }
