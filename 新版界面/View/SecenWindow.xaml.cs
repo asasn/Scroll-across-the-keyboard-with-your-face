@@ -51,10 +51,6 @@ namespace RootNS.View
         {
             SaveSecen(GMian.DataContext as Summary, this.DataContext as Node);
 
-            Node thisNode = this.DataContext as Node;
-            Summary thisSecen = GMian.DataContext as Summary;
-            List<Node> nodes = Gval.CurrentBook.GetSecenNodes();
-
             foreach (Node linkNode in Gval.CurrentBook.GetSecenNodes())
             {
                 if ((linkNode.Extra as Summary).CanSave == true)
@@ -62,51 +58,6 @@ namespace RootNS.View
                     SaveSecen(linkNode.Extra as Summary, linkNode);
                 }
             }
-
-            //注意理顺这里的逻辑
-            //foreach (Node linkNode in Gval.CurrentBook.GetSecenNodes())
-            //{
-            //    foreach (Node theNode in (linkNode.Extra as Summary).Origin.ToList())
-            //    {
-            //        if (thisNode.Uid == theNode.Uid && (linkNode.Extra as Summary).Origin.Contains(theNode) && thisSecen.Result.Contains(linkNode) == false)
-            //        {
-            //            (linkNode.Extra as Summary).Origin.Remove(theNode);
-            //            SaveSecen(linkNode.Extra as Summary, (linkNode.Extra as Summary).Node);
-            //            (linkNode.Extra as Summary).Node.IsExpanded = true;
-            //        }
-            //    }
-            //}
-            //foreach (Node linkNode in Gval.CurrentBook.GetSecenNodes())
-            //{
-            //    foreach (Node theNode in (linkNode.Extra as Summary).Result.ToList())
-            //    {
-            //        if (thisNode.Uid == theNode.Uid && (linkNode.Extra as Summary).Result.Contains(theNode) && thisSecen.Origin.Contains(linkNode) == false)
-            //        {
-            //            (linkNode.Extra as Summary).Result.Remove(theNode);
-            //            SaveSecen(linkNode.Extra as Summary, (linkNode.Extra as Summary).Node);
-            //            (linkNode.Extra as Summary).Node.IsExpanded = true;
-            //        }
-            //    }
-            //}
-
-            //foreach (Node linkNode in thisSecen.Origin)
-            //{
-            //    if ((linkNode.Extra as Summary).Result.Contains(thisNode) == false)
-            //    {
-            //        (linkNode.Extra as Summary).Result.Add(thisNode);
-            //        SaveSecen(linkNode.Extra as Summary, (linkNode.Extra as Summary).Node);
-            //        (linkNode.Extra as Summary).Node.IsExpanded = true;
-            //    }
-            //}
-            //foreach (Node linkNode in thisSecen.Result)
-            //{
-            //    if ((linkNode.Extra as Summary).Origin.Contains(thisNode) == false)
-            //    {
-            //        (linkNode.Extra as Summary).Origin.Add(thisNode);
-            //        SaveSecen(linkNode.Extra as Summary, (linkNode.Extra as Summary).Node);
-            //        (linkNode.Extra as Summary).Node.IsExpanded = true;
-            //    }
-            //}
 
         }
 

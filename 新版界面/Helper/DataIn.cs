@@ -163,7 +163,7 @@ namespace RootNS.Helper
                 }
                 (node.Extra as Summary).Time = (node.Extra as Summary).Json.Time;
                 (node.Extra as Summary).Place = (node.Extra as Summary).Json.Place;
-                foreach (string uid in (node.Extra as Summary).Json.Roles)
+                foreach (string uid in (node.Extra as Summary).Json.Roles.ToList())
                 {
                     foreach (Card card in Gval.CurrentBook.CardRole.ChildNodes)
                     {

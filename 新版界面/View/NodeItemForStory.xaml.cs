@@ -29,13 +29,19 @@ namespace RootNS.View
             InitializeComponent();
         }
 
+
         private void TbReName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ((this.DataContext as Node).Extra as Summary).Node.ReNameing = false;
-                e.Handled = true;
+                (this.DataContext as Node).FinishRename();
+                e.Handled = true;//防止触发对应的快捷键
             }
+        }
+
+        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as Node).FinishRename();
         }
 
 
@@ -74,8 +80,6 @@ namespace RootNS.View
             secen.Place = secen.Json.Place;
             (this.DataContext as Node).Extra = secen;
 
-            secen.Secens.CollectionChanged += Secens_CollectionChanged;
-
             foreach (string uid in secen.Json.Secens.ToList())
             {
                 foreach (Node node in Gval.CurrentBook.GetSecenNodes())
@@ -87,28 +91,6 @@ namespace RootNS.View
                 }
             }
 
-
-        }
-
-        private void Secens_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ((this.DataContext as Node).Extra as Summary).Json.Secens.Clear();
-            foreach (Node item in (sender as ObservableCollection<object>))
-            {
-                ((this.DataContext as Node).Extra as Summary).Json.Secens.Add(item.Uid);
-            }
-            ((this.DataContext as Node).Extra as Summary).Roles.Clear();
-            foreach (Node item in (sender as ObservableCollection<object>))
-            {
-                foreach (Card card in (item.Extra as Summary).Roles)
-                {
-                    if (((this.DataContext as Node).Extra as Summary).Roles.Contains(card) == false)
-                    {
-                        ((this.DataContext as Node).Extra as Summary).Roles.Add(card);
-                    }
-                }
-            }
-            ((this.DataContext as Node).Extra as Summary).CanSave = true;
         }
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)

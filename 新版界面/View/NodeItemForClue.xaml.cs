@@ -37,6 +37,11 @@ namespace RootNS.View
             }
         }
 
+        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as Node).FinishRename();
+        }
+
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             Node node = this.DataContext as Node;
@@ -45,11 +50,6 @@ namespace RootNS.View
                 node.CheckChildNodes();
                 node.CheckParentNodes();
             }
-        }
-
-        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as Node).FinishRename();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

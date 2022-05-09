@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +12,122 @@ namespace RootNS.Model
     {
         public Summary()
         {
-
+            this.Roles.CollectionChanged += Roles_CollectionChanged;
+            this.Origin.CollectionChanged += Origin_CollectionChanged;
+            this.Result.CollectionChanged += Result_CollectionChanged;
+            this.Secens.CollectionChanged += Secens_CollectionChanged;
         }
 
+        private void Secens_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Node node = (Node)e.NewItems[0];
+                if (this.Json.Secens.Contains(node.Uid) == false)
+                {
+                    this.Json.Secens.Add(node.Uid);
+                }
+            }
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                Node node = (Node)e.OldItems[0];
+                if (this.Json.Secens.Contains(node.Uid) == true)
+                {
+                    this.Json.Secens.Remove(node.Uid);
+                }
+            }
+            this.Roles.Clear();
+            foreach (Node nodeSecen in this.Secens)
+            {
+                foreach (Card card in (nodeSecen.Extra as Summary).Roles)
+                {
+                    if (this.Roles.Contains(card) == false)
+                    {
+                        this.Roles.Add(card);
+                    }
+                }
+            }
+            this.CanSave = true;
+        }
+
+        private void Result_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Node node = (Node)e.NewItems[0];
+                if (this.Json.Result.Contains(node.Uid) == false)
+                {
+                    this.Json.Result.Add(node.Uid);
+                }
+                if ((node.Extra as Summary).Origin.Contains(this.Node) == false && node != this.Node)
+                {
+                    (node.Extra as Summary).Origin.Add(this.Node);
+                }
+            }
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                Node node = (Node)e.OldItems[0];
+                if (this.Json.Result.Contains(node.Uid) == true)
+                {
+                    this.Json.Result.Remove(node.Uid);
+                }
+                if ((node.Extra as Summary).Origin.Contains(this.Node) == true)
+                {
+                    (node.Extra as Summary).Origin.Remove(this.Node);
+                }
+            }
+            this.CanSave = true;
+        }
+
+        private void Origin_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Node node = (Node)e.NewItems[0];
+                if (this.Json.Origin.Contains(node.Uid) == false)
+                {
+                    this.Json.Origin.Add(node.Uid);
+                }
+                if ((node.Extra as Summary).Result.Contains(this.Node) == false && node != this.Node)
+                {
+                    (node.Extra as Summary).Result.Add(this.Node);
+                }
+            }
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                Node node = (Node)e.OldItems[0];
+                if (this.Json.Origin.Contains(node.Uid) == true)
+                {
+                    this.Json.Origin.Remove(node.Uid);
+                }
+                if ((node.Extra as Summary).Result.Contains(this.Node) == true)
+                {
+                    (node.Extra as Summary).Result.Add(this.Node);
+                }
+            }
+            this.CanSave = true;
+        }
+
+        private void Roles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                Card card = (Card)e.NewItems[0];
+                if (this.Json.Roles.Contains(card.Uid) == false)
+                {
+                    this.Json.Roles.Add(card.Uid);
+                }
+            }
+            if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                Card card = (Card)e.OldItems[0];
+                if (this.Json.Roles.Contains(card.Uid) == true)
+                {
+                    this.Json.Roles.Remove(card.Uid);
+                }
+            }
+            this.CanSave = true;
+        }
 
         public class JsonData
         {

@@ -16,7 +16,7 @@
         </Grid.ColumnDefinitions>
         <Label Padding="0" BorderThickness="0" FontFamily="../Assets/#androidicons" FontSize="16" Content="&#59421;" Background="Transparent" Foreground="DodgerBlue" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <CheckBox Grid.Column="2" IsChecked="{Binding IsChecked}" HorizontalAlignment="Center" Click="CheckBox_Click" />
-        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title}" MinHeight="25" Padding="0" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" KeyDown="TbReName_KeyDown" MaxLength="20" Loaded="TbReName_Loaded"/>
+        <TextBox x:Name="TbReName" Text="{Binding Content, ElementName=title, Mode=TwoWay}"  Padding="0"  Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityConverter}}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" KeyDown="TbReName_KeyDown" MaxLength="20" LostFocus="TbReName_LostFocus" MinHeight="25"/>
         <Label x:Name="title" Visibility="{Binding ReNameing, Converter={StaticResource Boolean2VisibilityReConverter}}" IsEnabled="{Binding IsChecked, Converter={StaticResource Boolean2BooleanReConverter}}" Content="{Binding Title, Mode=TwoWay}" Padding="0,1,0,0" BorderThickness="0" Background="Transparent" Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" VerticalAlignment="Stretch" />
     </Grid>
 </UserControl>

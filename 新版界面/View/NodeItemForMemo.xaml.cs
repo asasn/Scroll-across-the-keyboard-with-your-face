@@ -28,6 +28,7 @@ namespace RootNS.View
             InitializeComponent();
         }
 
+
         private void TbReName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -35,6 +36,11 @@ namespace RootNS.View
                 (this.DataContext as Node).FinishRename();
                 e.Handled = true;//防止触发对应的快捷键
             }
+        }
+
+        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as Node).FinishRename();
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
@@ -47,10 +53,6 @@ namespace RootNS.View
             }
         }
 
-        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
-        {
-            (this.DataContext as Node).FinishRename();
-        }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {

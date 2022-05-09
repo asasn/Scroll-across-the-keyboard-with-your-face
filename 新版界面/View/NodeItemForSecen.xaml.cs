@@ -30,13 +30,19 @@ namespace RootNS.View
         }
 
 
+
         private void TbReName_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ((this.DataContext as Node).Extra as Summary).Node.ReNameing = false;
-                e.Handled = true;
+                (this.DataContext as Node).FinishRename();
+                e.Handled = true;//防止触发对应的快捷键
             }
+        }
+
+        private void TbReName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as Node).FinishRename();
         }
 
 
@@ -75,9 +81,6 @@ namespace RootNS.View
             secen.Place = secen.Json.Place;
             (this.DataContext as Node).Extra = secen;
 
-            secen.Roles.CollectionChanged += Roles_CollectionChanged;
-            secen.Origin.CollectionChanged += Origin_CollectionChanged;
-            secen.Result.CollectionChanged += Result_CollectionChanged;
 
             foreach (string uid in secen.Json.Roles.ToList())
             {
@@ -112,35 +115,7 @@ namespace RootNS.View
 
         }
 
-        private void Result_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ((this.DataContext as Node).Extra as Summary).Json.Result.Clear();
-            foreach (Node item in (sender as ObservableCollection<object>))
-            {
-                ((this.DataContext as Node).Extra as Summary).Json.Result.Add(item.Uid);
-            }
-            ((this.DataContext as Node).Extra as Summary).CanSave = true;
-        }
 
-        private void Origin_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ((this.DataContext as Node).Extra as Summary).Json.Origin.Clear();
-            foreach (Node item in (sender as ObservableCollection<object>))
-            {
-                ((this.DataContext as Node).Extra as Summary).Json.Origin.Add(item.Uid);
-            }
-            ((this.DataContext as Node).Extra as Summary).CanSave = true;
-        }
-
-        private void Roles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ((this.DataContext as Node).Extra as Summary).Json.Roles.Clear();
-            foreach (Card item in (sender as ObservableCollection<object>))
-            {
-                ((this.DataContext as Node).Extra as Summary).Json.Roles.Add(item.Uid);
-            }
-            ((this.DataContext as Node).Extra as Summary).CanSave = true;
-        }
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
