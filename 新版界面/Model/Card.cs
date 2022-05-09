@@ -185,7 +185,7 @@ namespace RootNS.Model
             {
                 Pid = this.Uid;
             }
-            public Card.Line Parent { get; set; }
+            //public Card.Line Parent { get; set; }
             public int Index { get; set; }
             public string Pid { get; set; }
             public string Uid { get; set; } = Guid.NewGuid().ToString();
@@ -222,7 +222,7 @@ namespace RootNS.Model
                     tip.TabName = this.TabName;
                     tip.OwnerName = this.OwnerName;
                     tip.Pid = this.Pid;
-                    tip.Parent = this;
+                    //tip.Parent = this;
                     tip.Index = this.Tips.IndexOf(tip);
                 }
                 this.HasTip = Convert.ToBoolean(this.Tips.Count);
