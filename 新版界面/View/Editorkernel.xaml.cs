@@ -140,17 +140,21 @@ namespace RootNS.View
 
         private void Command_CloseTabItem_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if ((this.Parent as Grid).Parent.GetType() == typeof(HandyControl.Controls.Card))
+            if ((this.Parent as Grid).Parent != null)
             {
-                EditorHelper.CloseLightEditor(this, (((this.Parent as Grid).Parent as Control).Parent as Grid).Parent as Window);
+                if ((this.Parent as Grid).Parent.GetType() == typeof(HandyControl.Controls.Card))
+                {
+                    EditorHelper.CloseLightEditor(this, (((this.Parent as Grid).Parent as Control).Parent as Grid).Parent as Window);
+                }
             }
 
+
             HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
-            if (tabItem == null)
+            if (tabItem != null)
             {
-                return;
+                CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
             }
-            CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
+            
         }
 
         private void Command_EditCard_Executed(object sender, ExecutedRoutedEventArgs e)

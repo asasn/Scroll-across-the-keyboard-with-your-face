@@ -71,8 +71,14 @@ namespace RootNS.View
                     All.Add(card);
                 }
             }
-            if (BoxTitle == "前因" ||
-                BoxTitle == "后果")
+            if (BoxTitle == "前因")
+            {
+                foreach (Node node in Gval.CurrentBook.GetSecenNodes())
+                {
+                    All.Add(node);
+                }
+            }
+            if (BoxTitle == "后果")
             {
                 foreach (Node node in Gval.CurrentBook.GetSecenNodes())
                 {
@@ -94,6 +100,23 @@ namespace RootNS.View
             if (c.Contains((sender as Button).DataContext) == false)
             {
                 c.Add((sender as Button).DataContext);
+
+                //Node linkNode = (sender as Button).DataContext as Node;
+                //if (BoxTitle == "前因")
+                //{
+                //    if ((linkNode.Extra as Summary).Result.Contains((linkNode.Owner as BookBase).SelectedNode) == false)
+                //    {
+                //        (linkNode.Extra as Summary).Result.Add((linkNode.Owner as BookBase).SelectedNode);
+                //    }
+                    
+                //}
+                //if (BoxTitle == "后果")
+                //{
+                //    if ((linkNode.Extra as Summary).Origin.Contains((linkNode.Owner as BookBase).SelectedNode) == false)
+                //    {
+                //        (linkNode.Extra as Summary).Origin.Add((linkNode.Owner as BookBase).SelectedNode);
+                //    }
+                //}
             }
             this.Close();
 

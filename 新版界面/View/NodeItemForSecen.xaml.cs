@@ -61,6 +61,7 @@ namespace RootNS.View
 
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
         {
+            this.DataContext = DataIn.LoadNodeContent(this.DataContext as Node); //为了刷新前因后果的场景列表
             Summary secen = new Summary
             {
                 Node = this.DataContext as Node

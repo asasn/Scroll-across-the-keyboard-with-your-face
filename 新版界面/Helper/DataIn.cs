@@ -173,6 +173,26 @@ namespace RootNS.Helper
                         }
                     }
                 }
+                foreach (string uid in (node.Extra as Summary).Json.Origin.ToList())
+                {
+                    foreach (Node cNode in Gval.CurrentBook.GetSecenNodes())
+                    {
+                        if (uid == cNode.Uid)
+                        {
+                            (node.Extra as Summary).Origin.Add(cNode);
+                        }
+                    }
+                }
+                foreach (string uid in (node.Extra as Summary).Json.Result.ToList())
+                {
+                    foreach (Node cNode in Gval.CurrentBook.GetSecenNodes())
+                    {
+                        if (uid == cNode.Uid)
+                        {
+                            (node.Extra as Summary).Result.Add(cNode);
+                        }
+                    }
+                }
             }
             return node;
         }
