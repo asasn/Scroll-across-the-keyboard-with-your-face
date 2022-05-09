@@ -92,6 +92,10 @@ namespace RootNS.View
 
         private void BtnChooseFile_Click(object sender, RoutedEventArgs e)
         {
+            if (Gval.CurrentBook.Name == null)
+            {
+                return;
+            }
             MapGrid.Children.Clear();
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;//该值确定是否可以选择多个文件
@@ -101,6 +105,10 @@ namespace RootNS.View
             {
                 string file = dialog.FileName;
             }
+            if (dialog.FileName == null)
+            {
+                return;
+            }
             SetCurMap(dialog.FileName);
             SettingsHelper.Set(Gval.CurrentBook.Name, "CurMapPath", dialog.FileName);
             string md5 = FunctionPack.GetMD5HashFromFile(dialog.FileName);
@@ -109,6 +117,10 @@ namespace RootNS.View
 
         private void MapImage_Loaded(object sender, RoutedEventArgs e)
         {
+            if (Gval.CurrentBook.Name == null)
+            {
+                return;
+            }
             string imgPath = SettingsHelper.Get(Gval.CurrentBook.Name, "CurMapPath")?.ToString();
             string imgMd5 = SettingsHelper.Get(Gval.CurrentBook.Name, "CurMapMd5")?.ToString();
             SetCurMap(imgPath);
@@ -163,6 +175,10 @@ namespace RootNS.View
         bool IsCreating = false;
         private void BtnCreate_Click(object sender, RoutedEventArgs e)
         {
+            if (Gval.CurrentBook.Name == null)
+            {
+                return;
+            }
             if (IsCreating == true)
             {
                 window.Cursor = null;
@@ -208,6 +224,10 @@ namespace RootNS.View
         bool IsDeleting = false;
         private void BtnDel_Click(object sender, RoutedEventArgs e)
         {
+            if (Gval.CurrentBook.Name == null)
+            {
+                return;
+            }
             if (IsDeleting == true)
             {
                 window.Cursor = null;

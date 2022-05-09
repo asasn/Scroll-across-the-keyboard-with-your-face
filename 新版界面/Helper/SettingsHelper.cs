@@ -42,6 +42,10 @@ namespace RootNS.Helper
         /// <param name="value">设置值</param>
         public static void Set(string dbName, string key, object value)
         {
+            if (dbName == null)
+            {
+                return;
+            }
             string sql = string.Format("REPLACE INTO 设置 (Key, Value) VALUES ('{0}', '{1}');", key.Replace("'", "''"), value.ToString().Replace("'", "''"));
             SqliteHelper.PoolDict[dbName].ExecuteNonQuery(sql);
         }
