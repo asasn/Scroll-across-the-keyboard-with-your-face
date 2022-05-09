@@ -1,5 +1,6 @@
 ﻿using RootNS.Helper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -26,29 +27,11 @@ namespace RootNS.Model
             {
                 return;
             }
-            if (e.PropertyName == nameof(IsDel))
-            {
-                if (this.IsDel == true)
-                {
-                    foreach (Node child in this.ChildNodes)
-                    {
-                        child.IsDel = true;
-                    }
-                }
-                else
-                {
-                    if (this.Parent != null)
-                    {
-                        this.Parent.IsDel = false;
-                    }
-                }
-            }
             if (e.PropertyName == nameof(Title) && ReNameing == false && this.GetType() == typeof(Node))
             {
                 DataOut.UpdateNodeProperty(this, nameof(Title), this.Title);
             }
             if (e.PropertyName == nameof(Pid) ||
-                e.PropertyName == nameof(IsDel) ||
                 e.PropertyName == nameof(IsChecked) ||
                 e.PropertyName == nameof(IsExpanded))
             {
@@ -466,9 +449,16 @@ namespace RootNS.Model
         {
             if (this.Parent != null)
             {
-                DeleteAllChildNodes(this);
+                string sqlDel = string.Empty;
+                ArrayList arrayList = new ArrayList();
+                GelChildNodesListByDeleteNode(this, arrayList);
                 this.Parent.ChildNodes.Remove(this);
-                DataOut.RemoveNodeFromTable(this);
+                sqlDel += string.Format("DELETE FROM {0} WHERE Uid='{1}';", this.TabName, this.Uid);
+                foreach (var item in arrayList)
+                {
+                    sqlDel += string.Format("DELETE FROM {0} WHERE Uid='{1}';", (item as Node).TabName, (item as Node).Uid);
+                }
+                SqliteHelper.PoolDict[this.OwnerName].ExecuteNonQuery(sqlDel);
                 string sql = String.Empty;
                 for (int i = 0; i < this.Parent.ChildNodes.Count; i++)
                 {
@@ -480,18 +470,47 @@ namespace RootNS.Model
             ReSelect();
         }
 
+        public void ChangeDelFlag(bool flag)
+        {
+            ArrayList arrayList = new ArrayList();
+            GetChildNodesListByChangeNode(this, arrayList);
+            string sqlDel = string.Empty;
+            this.IsDel = flag;
+            sqlDel += string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}' AND EXISTS(select * from sqlite_master where name='{0}' and sql like '%{1}%');", this.TabName.Replace("'", "''"), nameof(Node.IsDel), this.IsDel, this.Uid);
+            foreach (var item in arrayList)
+            {
+                (item as Node).IsDel = flag;
+                sqlDel += string.Format("UPDATE {0} SET [{1}]='{2}' WHERE Uid='{3}' AND EXISTS(select * from sqlite_master where name='{0}' and sql like '%{1}%');", (item as Node).TabName.Replace("'", "''"), nameof(Node.IsDel), (item as Node).IsDel, (item as Node).Uid);
+            }
+            SqliteHelper.PoolDict[this.OwnerName].ExecuteNonQuery(sqlDel);
+        }
+
         /// <summary>
-        /// 向下递归删除子节点
+        /// 获取改变的子节点列表
         /// </summary>
         /// <param name="selectedSection"></param>
-        private void DeleteAllChildNodes(Node curNode)
+        private void GetChildNodesListByChangeNode(Node curNode, ArrayList arrayList)
+        {
+            for (int i = 0; i < curNode.ChildNodes.Count; i++)
+            {
+                Node stuff = curNode.ChildNodes[i];
+                GetChildNodesListByChangeNode(stuff, arrayList);
+                arrayList.Add(stuff);
+            }
+        }
+
+        /// <summary>
+        /// 获取删除的子节点列表
+        /// </summary>
+        /// <param name="selectedSection"></param>
+        private void GelChildNodesListByDeleteNode(Node curNode, ArrayList arrayList)
         {
             for (int i = 0; i < curNode.ChildNodes.Count;)
             {
                 Node stuff = curNode.ChildNodes[curNode.ChildNodes.Count - 1];
-                DeleteAllChildNodes(stuff);
+                GelChildNodesListByDeleteNode(stuff, arrayList);
                 curNode.ChildNodes.Remove(stuff);
-                DataOut.RemoveNodeFromTable(stuff);
+                arrayList.Add(stuff);
             }
         }
 
@@ -712,6 +731,7 @@ namespace RootNS.Model
             {
                 return;
             }
+            string sqlImport = string.Empty;
             foreach (string srcFullFileName in files)
             {
                 string title = System.IO.Path.GetFileNameWithoutExtension(srcFullFileName);
@@ -722,8 +742,10 @@ namespace RootNS.Model
                     Text = IOHelper.ReadFromTxt(srcFullFileName)
                 };
                 newNode.WordsCount = EditorHelper.CountWords(newNode.Text);
-                selectedNode.AddChildNode(newNode);
+                this.ChildNodes.Add(newNode);
+                sqlImport += string.Format("INSERT OR IGNORE INTO {0} ([Index], Uid, Pid, Title, Text, Summary, WordsCount, IsDir, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');", newNode.TabName.Replace("'", "''"), newNode.Index, newNode.Uid, newNode.Pid, newNode.Title.Replace("'", "''"), newNode.Text.Replace("'", "''"), newNode.Summary.Replace("'", "''"), newNode.WordsCount, newNode.IsDir, newNode.IsExpanded, newNode.IsChecked, newNode.IsDel);
             }
+            SqliteHelper.PoolDict[this.OwnerName].ExecuteNonQuery(sqlImport);
         }
 
         public void Export()

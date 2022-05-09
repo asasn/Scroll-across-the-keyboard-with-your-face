@@ -52,6 +52,79 @@ namespace NSMain
             this.Activate();
             GlobalVal.Uc.MainWin = this;
             GlobalVal.Uc.BooksPanel = this.BooksPanel;
+            TryToBuildTreeTable("index", "material");
+            TryToBuildNewProjectTable("index");
+            TryToBuildNotesTable("index");
+            TryToBuildSettingTable("index");
+            TryToBuildCardTable("index", "角色");
+            TryToBuildCardTable("index", "其他");
+            TryToBuildCardTable("index", "世界");
+        }
+        void TryToBuildTreeTable(string curBookName, string typeOfTree)
+        {
+            string tableName = typeOfTree;
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS Tree_{0} (Uid CHAR PRIMARY KEY, Pid CHAR, NodeName CHAR, isDir BOOLEAN, NodeContent TEXT, WordsCount INTEGER, IsExpanded BOOLEAN, IsChecked BOOLEAN, IsDel BOOLEAN DEFAULT (false));", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Uid ON Tree_{0}(Uid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS Tree_{0}Pid ON Tree_{0}(Pid);", tableName);
+            cSqlite.ExecuteNonQuery(sql);
+        }
+
+        void TryToBuildNewProjectTable(string curBookName = "index")
+        {
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 题材主表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材主表Uid ON 题材主表(Uid);");
+            sql += string.Format("CREATE TABLE IF NOT EXISTS 题材从表 (Uid CHAR PRIMARY KEY, Pid CHAR REFERENCES 题材主表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Tid CHAR, Text CHAR);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Uid ON 题材从表(Uid);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Pid ON 题材从表(Pid);");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 题材从表Tid ON 题材从表(Tid);");
+            cSqlite.ExecuteNonQuery(sql);
+        }
+        void TryToBuildNotesTable(string curBookName = "index")
+        {
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS 随手记录表 (Uid CHAR PRIMARY KEY, 索引 INTEGER, 标题 CHAR, 内容 CHAR, IsDel BOOLEAN DEFAULT (false));");
+            sql += string.Format("CREATE INDEX IF NOT EXISTS 随手记录表Uid ON 随手记录表(Uid);");
+            cSqlite.ExecuteNonQuery(sql);
+        }
+        void TryToBuildSettingTable(string curBookName)
+        {
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string tableName = string.Empty;
+            if (curBookName == "index")
+            {
+                tableName = "公共";
+            }
+            else
+            {
+                tableName = "本书";
+            }
+
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}设置表 (Key CHAR PRIMARY KEY, Value CHAR);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}设置表Key ON {0}设置表(Key);", tableName);
+            cSqlite.ExecuteNonQuery(sql);
+        }
+
+        void TryToBuildCardTable(string curBookName, string typeOfTree)
+        {
+            string tableName = typeOfTree;
+            CSqlitePlus cSqlite = GlobalVal.SQLClass.Pools[curBookName];
+            string sql = string.Format("CREATE TABLE IF NOT EXISTS {0}主表 (Uid CHAR PRIMARY KEY, 名称 CHAR UNIQUE, 备注 CHAR, 权重 INTEGER DEFAULT (0), 诞生年份 INTEGER, IsDel BOOLEAN DEFAULT (false));", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}主表Uid ON {0}主表(Uid);", tableName);
+
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0}属性表 (Uid CHAR PRIMARY KEY, Text CHAR NOT NULL UNIQUE);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}属性表Uid ON {0}属性表(Uid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}属性表Text ON {0}属性表(Text);", tableName);
+
+            sql += string.Format("CREATE TABLE IF NOT EXISTS {0}从表 (Uid CHAR PRIMARY KEY, Pid CHAR REFERENCES {0}主表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Tid CHAR REFERENCES {0}属性表 (Uid) ON DELETE CASCADE ON UPDATE CASCADE, Text CHAR);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Uid ON {0}从表(Uid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Pid ON {0}从表(Pid);", tableName);
+            sql += string.Format("CREATE INDEX IF NOT EXISTS {0}从表Tid ON {0}从表(Tid);", tableName);
+
+            sql += string.Format("insert or ignore into {0}属性表 (Uid, Text) values ('{1}', '{2}');", tableName, Guid.NewGuid().ToString(), "别称");
+
+            cSqlite.ExecuteNonQuery(sql);
         }
 
         private void UcTreeBook_Loaded(object sender, RoutedEventArgs e)

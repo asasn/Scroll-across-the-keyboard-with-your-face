@@ -106,8 +106,9 @@ namespace RootNS.View
             }
             if (node.IsDel == false)
             {
-                node.IsDel = true;
+                node.ChangeDelFlag(true);
                 node.IsExpanded = false;
+                
             }
             else
             {
@@ -121,7 +122,7 @@ namespace RootNS.View
             {
                 return;
             }
-            (TreeNodes.SelectedItem as Node).IsDel = false;
+            (TreeNodes.SelectedItem as Node).ChangeDelFlag(false);
         }
 
         private void Command_MoveUp_Executed(object sender, ExecutedRoutedEventArgs e)
