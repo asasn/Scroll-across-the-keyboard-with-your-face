@@ -51,7 +51,7 @@ namespace RootNS.View
         {
             try
             {
-                
+
                 ExtraForSave();
                 SaveMethod(this.DataContext as Node);
                 //Console.WriteLine(thread.ManagedThreadId + " - 成功 - " + thread.ThreadState);
@@ -140,21 +140,16 @@ namespace RootNS.View
 
         private void Command_CloseTabItem_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if ((this.Parent as Grid).Parent != null)
+            if (this.Parent.GetType() == typeof(Grid))
             {
-                if ((this.Parent as Grid).Parent.GetType() == typeof(HandyControl.Controls.Card))
-                {
-                    EditorHelper.CloseLightEditor(this, (((this.Parent as Grid).Parent as Control).Parent as Grid).Parent as Window);
-                }
+                EditorHelper.CloseLightEditor(this, (((this.Parent as Grid).Parent as Control).Parent as Grid).Parent as Window);
             }
 
-
-            HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
-            if (tabItem != null)
+            if (this.Parent.GetType() == typeof(HandyControl.Controls.TabItem))
             {
+                HandyControl.Controls.TabItem tabItem = this.Parent as HandyControl.Controls.TabItem;
                 CommandHelper.FindByName(tabItem.CommandBindings, "Close").Execute(tabItem);
             }
-            
         }
 
         private void Command_EditCard_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -192,26 +187,34 @@ namespace RootNS.View
 
         private void BtnCopy_Click(object sender, RoutedEventArgs e)
         {
-
+            Clipboard.SetText(ThisTextEditor.Text);
         }
         private void BtnCopyTitle_Click(object sender, RoutedEventArgs e)
         {
-
+            Clipboard.SetText((this.DataContext as Node).Title);
         }
         private void BtnPaste_Click(object sender, RoutedEventArgs e)
         {
-
+            string temp = ThisTextEditor.Text;
+            ThisTextEditor.Text = Clipboard.GetText();
+            BtnUndo.DataContext = temp;
+            BtnUndo.IsEnabled = true;
+            EditorHelper.TypeSetting(ThisTextEditor);
+            BtnSaveDoc.IsEnabled = true;
         }
         private void BtnUndo_Click(object sender, RoutedEventArgs e)
         {
-
+            ThisTextEditor.Text = BtnUndo.DataContext.ToString();
+            EditorHelper.TypeSetting(ThisTextEditor);
+            BtnUndo.IsEnabled = false;
+            BtnSaveDoc.IsEnabled = true;
         }
 
         private void ThisTextEditor_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                ThisTextEditor.TextArea.Document.Insert(ThisTextEditor.CaretOffset, "\n\t");
+                ThisTextEditor.TextArea.Document.Insert(ThisTextEditor.CaretOffset, "\n　　");
                 ThisTextEditor.LineDown();
                 Command_SaveText_Executed(null, null);
             }

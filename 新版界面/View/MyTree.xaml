@@ -24,8 +24,8 @@
             <Button ToolTip="发送到已发布（F8）" Visibility="{Binding TabName, Converter={StaticResource TabName2SendButtonVisibility}}" x:Name="BtnSend" FontFamily="../Assets/#androidicons" Content="&#59629;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnSend_Click"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding TabName, Converter={StaticResource TabName2ImportExportButtonVisibility}}" >
-            <Button ToolTip="导出" x:Name="BtnExport" FontFamily="../Assets/#androidicons" Content="&#59516;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnExport_Click"/>
-            <Button ToolTip="导入" x:Name="BtnImport" FontFamily="../Assets/#androidicons" Content="&#59515;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnImport_Click"/>
+            <Button ToolTip="导出（Ctrl + Insert）" x:Name="BtnExport" FontFamily="../Assets/#androidicons" Content="&#59516;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnExport_Click"/>
+            <Button ToolTip="导入（Insert）" x:Name="BtnImport" FontFamily="../Assets/#androidicons" Content="&#59515;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnImport_Click"/>
         </StackPanel>
         <TreeView x:Name="TreeNodes" TreeViewItem.Selected="TreeNodes_Selected" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" Grid.Row="1" DragEnter="TreeNodes_DragEnter" Drop="TreeNodes_Drop" MouseMove="TreeNodes_MouseMove" MouseLeftButtonDown="TreeNodes_MouseLeftButtonDown" DragLeave="TreeNodes_DragLeave" MouseUp="TreeNodes_MouseUp">
             <TreeView.Resources>
@@ -40,6 +40,8 @@
                 <RoutedUICommand x:Key="Send" Text="发布"/>
                 <RoutedUICommand x:Key="Import" Text="导入"/>
                 <RoutedUICommand x:Key="Export" Text="导出"/>
+                <RoutedUICommand x:Key="CopyTitle" Text="复制节点标题"/>
+                <RoutedUICommand x:Key="CopyText" Text="复制节点文本"/>
             </TreeView.Resources>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">
@@ -61,6 +63,8 @@
                 <CommandBinding Command="{StaticResource Send}" Executed="Command_Send_Executed" CanExecute="CommandBinding_CanExecute_Send"/>
                 <CommandBinding Command="{StaticResource Import}" Executed="Command_Import_Executed" CanExecute="CommandBinding_CanExecute_ImportExport" />
                 <CommandBinding Command="{StaticResource Export}" Executed="Command_Export_Executed" CanExecute="CommandBinding_CanExecute_ImportExport"/>
+                <CommandBinding Command="{StaticResource CopyTitle}" Executed="Command_CopyTitle_Executed" />
+                <CommandBinding Command="{StaticResource CopyText}" Executed="Command_CopyText_Executed" />
             </TreeView.CommandBindings>
             <TreeView.InputBindings>
                 <KeyBinding Command="{StaticResource AddFolder}" Key="Add" CommandParameter="{Binding TabName}"/>
@@ -74,6 +78,8 @@
                 <KeyBinding Command="{StaticResource Send}" Key="F8" />
                 <KeyBinding Command="{StaticResource Import}" Key="Insert" />
                 <KeyBinding Command="{StaticResource Export}" Key="Insert" Modifiers="Ctrl" />
+                <KeyBinding Command="{StaticResource CopyTitle}" Key="C" Modifiers="Ctrl" />
+                <KeyBinding Command="{StaticResource CopyText}" Key="A" Modifiers="Ctrl" />
             </TreeView.InputBindings>
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemStyle}">
