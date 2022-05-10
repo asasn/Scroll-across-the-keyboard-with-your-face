@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol"
-        mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize"
-        Background="Transparent" Effect="{StaticResource EffectShadow3}" 
+        mc:Ignorable="d" ResizeMode="NoResize"
+        Background="Transparent" UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         Title="信息卡编辑窗体" Topmost="True"
         AllowsTransparency="True" WindowStyle="None" d:DesignHeight="100" 
         d:DesignWidth="300" MaxWidth="300" MinHeight="200" Loaded="Window_Loaded" MaxHeight="759" MouseLeftButtonDown="Window_MouseLeftButtonDown">

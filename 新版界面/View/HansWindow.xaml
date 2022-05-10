@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         Title="字词释义" Height="450" Width="800" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>

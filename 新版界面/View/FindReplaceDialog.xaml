@@ -3,6 +3,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="查找和替换" WindowStartupLocation="CenterOwner"
         Width="300" SizeToContent="Height" ResizeMode="NoResize" 
+        UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         WindowStyle="ToolWindow" ShowInTaskbar="False" Closed="Window_Closed" Topmost="True" KeyDown="Window_KeyDown">
 
     <Grid Margin="0,4">

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol"
-        xmlns:local="clr-namespace:RootNS.View"
+        xmlns:local="clr-namespace:RootNS.View" UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="题材简记（关于开新书的一些灵感）" Height="310" Width="500" Loaded="ThisWindow_Loaded">
     <Grid x:Name="GMian">

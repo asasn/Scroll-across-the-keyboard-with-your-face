@@ -88,7 +88,9 @@
                             <Setter Property="Foreground" Value="Black"/>
                             <Setter Property="BorderThickness" TargetName="Bd" Value="1"/>
                             <Setter Property="BorderBrush" TargetName="Bd" Value="Orange"/>
-                            <Setter Property="Effect" Value="{StaticResource EffectShadow1}"/>
+                            <!--不当使用阴影会导致字体发虚，在这里不好解决，故而未使用阴影效果-->
+                            <!--<Setter Property="Effect" Value="{StaticResource EffectShadow1}"/>
+                            <Setter Property="UseLayoutRounding" Value="True"/>-->
                         </Trigger>
                         <Trigger Property="IsFocused" Value="False">
                             <Setter Property="BorderThickness" TargetName="Bd" Value="0"/>

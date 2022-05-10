@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:hc="https://handyorg.github.io/handycontrol"
-        mc:Ignorable="d" DataContext="{Binding Source={StaticResource GlobalSource}}"
+        mc:Ignorable="d" DataContext="{Binding Source={StaticResource GlobalSource}}" 
+        UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         Title="书籍选择" Height="450" Width="800" Background="#f5f5f5" Loaded="Window_Loaded"  ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,7 +15,7 @@
             <ItemsControl ItemsSource="{Binding BooksBank}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Effect="{StaticResource EffectShadow2}" Padding="0" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4" Loaded="Button_Loaded">
+                        <Button Effect="{StaticResource EffectShadow3}" Padding="0" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4" Loaded="Button_Loaded">
                             <hc:Card BorderThickness="0" Padding="0" Header="{Binding Name}" MaxWidth="{Binding Width, ElementName=Cover}">
                                 <Image x:Name="Cover" Width="108" Height="162" Source="{Binding CoverPath}"/>
                             </hc:Card>

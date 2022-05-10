@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         Title="取名工具" Height="450" Width="800" Background="WhiteSmoke" Loaded="Window_Loaded" ResizeMode="NoResize">
     <Grid >
         <Grid.RowDefinitions>

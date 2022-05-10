@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" MouseRightButtonDown="window_MouseRightButtonDown" WindowStartupLocation="CenterScreen"
-        Title="MapWindow" Height="450" Width="800" MinWidth="800" MinHeight="450">
+        UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
+        Title="地图窗口" Height="450" Width="800" MinWidth="800" MinHeight="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="R1" Height="30"/>

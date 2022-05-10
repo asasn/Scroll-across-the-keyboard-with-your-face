@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:view="clr-namespace:RootNS.View"
-        mc:Ignorable="d" UseLayoutRounding="True" ResizeMode="NoResize"
-        Background="Transparent" Effect="{StaticResource EffectShadow3}" 
+        mc:Ignorable="d" ResizeMode="NoResize"
+        Background="Transparent" UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         Topmost="True"
         AllowsTransparency="True" WindowStyle="None" d:DesignHeight="200"
         d:DesignWidth="300" MaxWidth="300" Loaded="Window_Loaded" MaxHeight="759" MouseLeftButtonDown="window_MouseLeftButtonDown">
