@@ -54,7 +54,11 @@ namespace RootNS.Model
                 node.Owner = this;
             }
         }
-
+        public enum SettingKeyName
+        {
+            NoteSelectedIndex,
+            CurrentYearUid,
+        }
 
         /// <summary>
         /// 目录树TabItem标志

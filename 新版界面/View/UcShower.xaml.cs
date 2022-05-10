@@ -1,4 +1,5 @@
-﻿using RootNS.Model;
+﻿using RootNS.Helper;
+using RootNS.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,10 +27,33 @@ namespace RootNS.View
         {
             InitializeComponent();
         }
-
-        private void Button_Loaded(object sender, RoutedEventArgs e)
+        private void ButtonRole_Loaded(object sender, RoutedEventArgs e)
         {
-            (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
+            if ((sender as Button).DataContext.GetType() == typeof(Card))
+            {
+                (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
+            }
+        }
+
+        private void ButtonOther_Loaded(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Button).DataContext.GetType() == typeof(Card))
+            {
+                (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
+            }
+        }
+
+        private void ButtonYear_Loaded(object sender, RoutedEventArgs e)
+        {
+            if ((sender as Button).DataContext.GetType() == typeof(Node))
+            {
+                (sender as Button).ToolTip = ((sender as Button).DataContext as Node);
+            }
+        }
+
+        private void ButtonYear_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsHelper.Set(Gval.CurrentBook.Name, Book.SettingKeyName.CurrentYearUid.ToString(), ((sender as Button).DataContext as Node).Uid);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -61,6 +85,7 @@ namespace RootNS.View
             Node curNode = ((Gval.EditorTabControl.SelectedItem as TabItem).Content as Editorkernel).DataContext as Node;
             (Gval.View.UcShower.DataContext as Shower).RefreshCards(curNode);
         }
+
 
     }
 }

@@ -14,6 +14,8 @@
             <RowDefinition Height="16"/>
             <RowDefinition Height="6"/>
             <RowDefinition Height="150"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="6"/>
             <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
         <Label Padding="0" BorderThickness="0" Background="Transparent" Grid.Row="0" Content="临近章节 - 角色" HorizontalAlignment="Left"></Label>
@@ -23,7 +25,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="2">
-                                <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="Button_Loaded">
+                                <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonRole_Loaded">
                                 </Button>
                             </Border>
                         </DataTemplate>
@@ -42,7 +44,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Padding="2">
-                                <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="Button_Loaded">
+                                <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonOther_Loaded">
                                 </Button>
                             </Border>
                         </DataTemplate>
@@ -54,5 +56,24 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
+        <Label Padding="0" BorderThickness="0" Background="Transparent" Grid.Row="6" Content="历史年表 - 大事记" HorizontalAlignment="Left"></Label>
+        <Separator Grid.Row="7" ></Separator>
+        <ScrollViewer Grid.Row="8" VerticalScrollBarVisibility="Auto" >
+            <ItemsControl ItemsSource="{Binding Years}" VirtualizingPanel.IsVirtualizing="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="2">
+                            <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonYear_Loaded" Click="ButtonYear_Click">
+                            </Button>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

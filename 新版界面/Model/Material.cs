@@ -54,6 +54,10 @@ namespace RootNS.Model
                 card.OwnerName = bookName;
             }
         }
+        public enum SettingKeyName
+        {
+            MaterialSelectedIndex,
+        }
 
         public enum MaterialTabName
         {

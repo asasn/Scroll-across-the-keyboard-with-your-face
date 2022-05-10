@@ -79,7 +79,7 @@ namespace RootNS
 
         private void TabNote_Loaded(object sender, RoutedEventArgs e)
         {
-            (sender as TabControl).SelectedIndex = Convert.ToInt32(SettingsHelper.Get(Gval.CurrentBook.Name, "NoteSelectedIndex"));
+            (sender as TabControl).SelectedIndex = Convert.ToInt32(SettingsHelper.Get(Gval.CurrentBook.Name, Book.SettingKeyName.NoteSelectedIndex.ToString()));
             tabNoteLoadedFlag = true;
             Gval.View.TabNote = sender as TabControl;
         }
@@ -91,7 +91,7 @@ namespace RootNS
             Gval.CurrentBook.LoadForNoteTab();
             if (tabNoteLoadedFlag == true)
             {
-                SettingsHelper.Set(Gval.CurrentBook.Name, "NoteSelectedIndex", (sender as TabControl).SelectedIndex.ToString());
+                SettingsHelper.Set(Gval.CurrentBook.Name, Book.SettingKeyName.NoteSelectedIndex.ToString(), (sender as TabControl).SelectedIndex.ToString());
             }
         }
 
@@ -109,7 +109,7 @@ namespace RootNS
 
         private void TabMaterial_Loaded(object sender, RoutedEventArgs e)
         {
-            (sender as TabControl).SelectedIndex = Convert.ToInt32(SettingsHelper.Get(Gval.MaterialBook.Name, "MaterialSelectedIndex"));
+            (sender as TabControl).SelectedIndex = Convert.ToInt32(SettingsHelper.Get(Gval.MaterialBook.Name, Material.SettingKeyName.MaterialSelectedIndex.ToString()));
             tabMaterialLoadedFlag = true;
         }
 
@@ -120,7 +120,7 @@ namespace RootNS
             Gval.MaterialBook.LoadForMaterialTab();
             if (tabMaterialLoadedFlag == true)
             {
-                SettingsHelper.Set(Gval.MaterialBook.Name, "MaterialSelectedIndex", (sender as TabControl).SelectedIndex.ToString());
+                SettingsHelper.Set(Gval.MaterialBook.Name, Material.SettingKeyName.MaterialSelectedIndex.ToString(), (sender as TabControl).SelectedIndex.ToString());
             }
         }
 

@@ -155,6 +155,19 @@ namespace RootNS.Model
             }
         }
 
+
+        private ObservableCollection<Node> _years = Gval.CurrentBook.NoteMemorabilia.ChildNodes;
+
+        public ObservableCollection<Node> Years
+        {
+            get { return _years; }
+            set
+            {
+                _years = value;
+                RaisePropertyChanged(nameof(Years));
+            }
+        }
+
         //private ObservableCollection<Card> _pRoles = new ObservableCollection<Card>();
         //private ObservableCollection<Card> _cRoles = new ObservableCollection<Card>();
         //private ObservableCollection<Card> _pOthers = new ObservableCollection<Card>();
