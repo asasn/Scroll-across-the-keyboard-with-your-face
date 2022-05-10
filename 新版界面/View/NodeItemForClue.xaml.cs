@@ -74,7 +74,6 @@ namespace RootNS.View
             {
                 return;
             }
-            UserControl_Loaded(null, null);
             ClueWindow clueWindow = new ClueWindow();
             clueWindow.DataContext = this.DataContext as Node;
             clueWindow.GMian.DataContext = (this.DataContext as Node).Extra;

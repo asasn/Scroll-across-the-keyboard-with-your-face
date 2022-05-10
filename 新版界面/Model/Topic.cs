@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -129,6 +130,27 @@ namespace RootNS.Model
                 _canSave = value;
                 RaisePropertyChanged(nameof(CanSave));
             }
+        }
+
+        public void Save(Node node, string showContent)
+        {
+            //清除tip.title为空的项目
+            Card.Line[] lines = { Subject, Style, Volumes, Roles, SellPoints, Goldfingers, Clues, WorldInfo, Sets };
+            foreach (Card.Line line in lines)
+            {
+                foreach (Card.Tip tip in line.Tips.ToList())
+                {
+                    if (string.IsNullOrWhiteSpace(tip.Title))
+                    {
+                        line.Tips.Remove(tip);
+                    }
+                }
+            }
+            node.Text = showContent;
+            string json = JsonHelper.ObjToJson(this);
+            DataOut.UpdateNodeProperty(node, nameof(Node.Text), node.Text);
+            DataOut.UpdateNodeProperty(node, nameof(Node.Summary), json);
+            this.CanSave = false;
         }
     }
 }

@@ -20,7 +20,7 @@
         <TabControl Grid.Row="3"  VirtualizingPanel.IsVirtualizing="True" Style="{DynamicResource TabControlStyle}">
             <TabItem Header="简介，主旨和风格" >
                 <StackPanel>
-                    <TextBox x:Name="TbShowContent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding DataContext.Text, Mode=TwoWay, ElementName=ThisWindow}" VerticalAlignment="Top" Grid.Row="2"/>
+                    <TextBox x:Name="TbShowContent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding DataContext.Text, Mode=OneWay, ElementName=ThisWindow}" VerticalAlignment="Top" Grid.Row="2"/>
                     <local:CardLine DataContext="{Binding Subject, Mode=TwoWay}" Visibility="Visible"/>
                     <local:CardLine DataContext="{Binding Style, Mode=TwoWay}" Visibility="Visible"/>
                 </StackPanel>

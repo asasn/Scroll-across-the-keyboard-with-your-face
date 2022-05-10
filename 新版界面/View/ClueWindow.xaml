@@ -23,7 +23,7 @@
                 </Grid>
                 <Button Padding="2" x:Name="BtnSave" IsEnabled="{Binding CanSave}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Row="0" BorderThickness="0,0,0,0" Click="BtnSave_Click" Width="20" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" />
                 <Border x:Name="BoxContent" Grid.Row="1" Grid.ColumnSpan="3" Loaded="BoxContent_Loaded">
-                    <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" BorderBrush="DodgerBlue" Text="{Binding Node.Text}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" Margin="3,0,3,0"/>
+                    <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" BorderBrush="DodgerBlue" Text="{Binding Node.Text, Mode=OneWay}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" Margin="3,0,3,0"/>
                 </Border>
             </Grid>
         </hc:Card>

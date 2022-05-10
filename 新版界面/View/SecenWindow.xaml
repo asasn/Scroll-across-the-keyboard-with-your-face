@@ -37,11 +37,11 @@
                             </Grid.ColumnDefinitions>
                             <Grid>
                                 <Label BorderThickness="0" Background="Khaki" Padding="1" Content="时间" HorizontalAlignment="Left" Margin="3,0,3,0"></Label>
-                                <TextBox Text="{Binding Time, Mode=TwoWay}" Padding="0" BorderThickness="0,0,0,1" Margin="33,0,3,0" hc:BorderElement.CornerRadius="0" MinHeight="0" Height="19" TextChanged="TextBox_TextChanged_1"/>
+                                <TextBox x:Name="TbTime"  Text="{Binding Time, Mode=OneWay}" Padding="0" BorderThickness="0,0,0,1" Margin="33,0,3,0" hc:BorderElement.CornerRadius="0" MinHeight="0" Height="19" TextChanged="TextBox_TextChanged_1"/>
                             </Grid>
                             <Grid Grid.Column="1">
                                 <Label BorderThickness="0" Background="Khaki" Padding="1" Content="地点" HorizontalAlignment="Left" Margin="3,0,3,0"></Label>
-                                <TextBox Text="{Binding Place, Mode=TwoWay}" Padding="0" BorderThickness="0,0,0,1" Margin="33,0,3,0" hc:BorderElement.CornerRadius="0" MinHeight="0" Height="19" TextChanged="TextBox_TextChanged_2"></TextBox>
+                                <TextBox x:Name="TbPlace" Text="{Binding Place, Mode=OneWay}" Padding="0" BorderThickness="0,0,0,1" Margin="33,0,3,0" hc:BorderElement.CornerRadius="0" MinHeight="0" Height="19" TextChanged="TextBox_TextChanged_2"></TextBox>
                             </Grid>
                         </Grid>
                         <Grid Grid.Row="1" Grid.ColumnSpan="3">
@@ -55,7 +55,7 @@
                             <view:TagsBoxView BoxTitle="前因" DataContext="{Binding Origin, Mode=TwoWay}"></view:TagsBoxView>
                             <view:TagsBoxView BoxTitle="后果" DataContext="{Binding Result, Mode=TwoWay}" Grid.Column="1"></view:TagsBoxView>
                         </Grid>
-                        <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" BorderBrush="DodgerBlue" Text="{Binding Node.Text}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" Margin="3,0,3,0"/>
+                        <TextBox Grid.Row="3" x:Name="TbContent" Padding="0" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" BorderBrush="DodgerBlue" Text="{Binding Node.Text, Mode=OneWay}" TextWrapping="Wrap" AcceptsReturn="True" KeyUp="TextBox_KeyUp" TextChanged="TextBox_TextChanged" Margin="3,0,3,0"/>
                     </Grid>
                 </Border>
             </Grid>

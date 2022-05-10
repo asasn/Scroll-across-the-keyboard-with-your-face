@@ -49,24 +49,16 @@ namespace RootNS.View
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            SaveSecen(GMian.DataContext as Summary, this.DataContext as Node);
+            (GMian.DataContext as Summary).Save(TbContent.Text, TbTime.Text, TbPlace.Text);
 
             foreach (Node linkNode in Gval.CurrentBook.GetSecenNodes())
             {
                 if ((linkNode.Extra as Summary).CanSave == true)
                 {
-                    SaveSecen(linkNode.Extra as Summary, linkNode);
+                    (linkNode.Extra as Summary).SaveOnlyCollection();
                 }
             }
 
-        }
-
-        private void SaveSecen(Summary secen, Node node)
-        {
-            string json = JsonHelper.ObjToJson(secen.Json);
-            DataOut.UpdateNodeProperty(secen.Node, nameof(Node.Text), secen.Node.Text);
-            DataOut.UpdateNodeProperty(secen.Node, nameof(Node.Summary), json);
-            secen.CanSave = false;
         }
 
 
@@ -77,7 +69,6 @@ namespace RootNS.View
 
         private void BtnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.DataContext = DataIn.LoadNodeContent(this.DataContext as Node);
             this.Close();
         }
 

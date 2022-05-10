@@ -43,27 +43,30 @@ namespace RootNS.View
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            SaveTopic(GMian.DataContext as Topic, this.DataContext as Node);
+            //SaveTopic(GMian.DataContext as Topic, this.DataContext as Node);
+
+            (GMian.DataContext as Topic).Save(this.DataContext as Node, TbShowContent.Text);
         }
-        private void SaveTopic(Topic topic, Node node)
-        {
-            //清除tip.title为空的项目
-            Card.Line[] lines = { (topic).Subject, (topic).Style, (topic).Volumes, (topic).Roles, (topic).SellPoints, (topic).Goldfingers, (topic).Clues, (topic).WorldInfo, (topic).Sets };
-            foreach (Card.Line line in lines)
-            {
-                foreach (Card.Tip tip in line.Tips.ToList())
-                {
-                    if (string.IsNullOrWhiteSpace(tip.Title))
-                    {
-                        line.Tips.Remove(tip);
-                    }
-                }
-            }
-            string json = JsonHelper.ObjToJson(topic);
-            DataOut.UpdateNodeProperty(node, nameof(Node.Text), node.Text);
-            DataOut.UpdateNodeProperty(node, nameof(Node.Summary), json);
-            topic.CanSave = false;
-        }
+        //private void SaveTopic(Topic topic, Node node)
+        //{
+        //    //清除tip.title为空的项目
+        //    Card.Line[] lines = { (topic).Subject, (topic).Style, (topic).Volumes, (topic).Roles, (topic).SellPoints, (topic).Goldfingers, (topic).Clues, (topic).WorldInfo, (topic).Sets };
+        //    foreach (Card.Line line in lines)
+        //    {
+        //        foreach (Card.Tip tip in line.Tips.ToList())
+        //        {
+        //            if (string.IsNullOrWhiteSpace(tip.Title))
+        //            {
+        //                line.Tips.Remove(tip);
+        //            }
+        //        }
+        //    }
+        //    node.Text = TbShowContent.Text;
+        //    string json = JsonHelper.ObjToJson(topic);
+        //    DataOut.UpdateNodeProperty(node, nameof(Node.Text), node.Text);
+        //    DataOut.UpdateNodeProperty(node, nameof(Node.Summary), json);
+        //    topic.CanSave = false;
+        //}
 
         private void TbShowTitle_KeyDown(object sender, KeyEventArgs e)
         {

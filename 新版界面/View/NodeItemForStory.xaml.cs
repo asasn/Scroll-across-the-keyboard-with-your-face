@@ -99,7 +99,6 @@ namespace RootNS.View
             {
                 return;
             }
-            ThisControl_Loaded(null, null);
             StoryWindow storyWindow = new StoryWindow();
             storyWindow.DataContext = this.DataContext as Node;
             storyWindow.GMian.DataContext = (this.DataContext as Node).Extra;

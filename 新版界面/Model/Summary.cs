@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RootNS.Helper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -12,10 +13,23 @@ namespace RootNS.Model
     {
         public Summary()
         {
+            this.PropertyChanged += Summary_PropertyChanged;
             this.Roles.CollectionChanged += Roles_CollectionChanged;
             this.Origin.CollectionChanged += Origin_CollectionChanged;
             this.Result.CollectionChanged += Result_CollectionChanged;
             this.Secens.CollectionChanged += Secens_CollectionChanged;
+        }
+
+        private void Summary_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Time))
+            {
+                Json.Time = Time;
+            }
+            if (e.PropertyName == nameof(Place))
+            {
+                Json.Place = Place;
+            }
         }
 
         private void Secens_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -253,5 +267,22 @@ namespace RootNS.Model
             }
         }
 
+        public void Save(string content, string time = null, string place = null)
+        {
+            Time = time;
+            Place = place;
+            Node.Text = content;
+            string json = JsonHelper.ObjToJson(Json);
+            DataOut.UpdateNodeProperty(Node, nameof(Node.Text), Node.Text);
+            DataOut.UpdateNodeProperty(Node, nameof(Node.Summary), json);
+            CanSave = false;
+        }
+
+        public void SaveOnlyCollection()
+        {
+            string json = JsonHelper.ObjToJson(Json);
+            DataOut.UpdateNodeProperty(Node, nameof(Node.Summary), json);
+            CanSave = false;
+        }
     }
 }
