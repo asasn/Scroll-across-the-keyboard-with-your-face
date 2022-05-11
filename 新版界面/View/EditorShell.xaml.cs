@@ -91,7 +91,6 @@ namespace RootNS.View
 
             //清空各种显示
             EditorHelper.RefreshIsContainFlagForCardsBox(string.Empty);
-            Gval.View.UcShower.DataContext = new Shower(new Node(), 0);
         }
 
         private void TabItem_Closing(object sender, EventArgs e)

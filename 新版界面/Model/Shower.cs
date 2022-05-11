@@ -12,12 +12,6 @@ namespace RootNS.Model
 {
     public class Shower : NotificationObject
     {
-        public Shower(Node curChapter, int length = 10)
-        {
-            GetChapters(curChapter, length);
-            //LoadPreviousCards(curChapter);
-        }
-
         //private void LoadPreviousCards(Node curChapter)
         //{
         //    string text = string.Empty;
@@ -54,6 +48,11 @@ namespace RootNS.Model
             {
                 _previousOthers = Others = _currentOthers;
             }
+        }
+
+        public void RefreshYears()
+        {
+            this.Years = Gval.CurrentBook.NoteMemorabilia.ChildNodes;
         }
 
         ///// <summary>

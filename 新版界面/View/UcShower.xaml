@@ -10,56 +10,60 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="16"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="75"/>
-            <RowDefinition Height="16"/>
-            <RowDefinition Height="6"/>
             <RowDefinition Height="150"/>
             <RowDefinition Height="16"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="100*"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Label Padding="0" BorderThickness="0" Background="Transparent" Grid.Row="0" Content="临近章节 - 角色" HorizontalAlignment="Left"></Label>
         <Separator Grid.Row="1" ></Separator>
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" >
-                <ItemsControl ItemsSource="{Binding Roles}" VirtualizingPanel.IsVirtualizing="True">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Padding="2">
-                                <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonRole_Loaded">
-                                </Button>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Roles}" VirtualizingPanel.IsVirtualizing="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="2">
+                            <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonRole_Loaded">
+                            </Button>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
         <Label Padding="0" BorderThickness="0" Background="Transparent" Grid.Row="3" Content="临近章节 - 其他" HorizontalAlignment="Left"></Label>
-        <Separator Grid.Row="4" ></Separator>   
+        <Separator Grid.Row="4" ></Separator>
         <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" >
-                <ItemsControl ItemsSource="{Binding Others}" VirtualizingPanel.IsVirtualizing="True">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Padding="2">
-                                <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonOther_Loaded">
-                                </Button>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Others}" VirtualizingPanel.IsVirtualizing="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="2">
+                            <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonOther_Loaded">
+                            </Button>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
         <Label Padding="0" BorderThickness="0" Background="Transparent" Grid.Row="6" Content="历史年表 - 大事记" HorizontalAlignment="Left"></Label>
         <Separator Grid.Row="7" ></Separator>
-        <ScrollViewer Grid.Row="8" VerticalScrollBarVisibility="Auto" >
-            <ItemsControl ItemsSource="{Binding Years}" VirtualizingPanel.IsVirtualizing="True">
+        <ScrollViewer x:Name="SvHistory"  Grid.Row="8" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible" Loaded="SvHistory_Loaded" >
+            <ItemsControl ItemsSource="{Binding Years}" VirtualizingPanel.IsVirtualizing="True" >
+                <ItemsControl.Background>
+                    <SolidColorBrush Color="{DynamicResource DarkDefaultColor}"/>
+                </ItemsControl.Background>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="2">
@@ -70,7 +74,7 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True"/>
+                        <WrapPanel Orientation="Horizontal" VirtualizingStackPanel.IsVirtualizing="True" Margin="0,0,100,0"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

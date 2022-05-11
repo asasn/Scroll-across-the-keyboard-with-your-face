@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RootNS" xmlns:view="clr-namespace:RootNS.View"
         xmlns:mod="clr-namespace:RootNS.Model" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" UseLayoutRounding="True"
-        Title="脸滚键盘——不问苍生问鬼神的小说创作方案" ContentRendered="WinMain_ContentRendered"
+        Title="{Binding CurrentVersion, Source={StaticResource GlobalSource},StringFormat=脸滚键盘——不问苍生问鬼神的小说创作方案 {\0}}" ContentRendered="WinMain_ContentRendered"
         Height="1000" Width="1800" 
         WindowState="Maximized" Loaded="WinMain_Loaded" Closing="WinMain_Closing">
     <Grid>
@@ -121,6 +121,8 @@
                         <Button x:Name="BtnHans" ToolTip="字词释义（该功能需联网）" Padding="0" FontFamily="../Assets/#androidicons" Content="&#59450;" FontSize="20" Foreground="DodgerBlue"  Click="BtnHans_Click" Margin="2,0,2,0" Width="30" Height="30"/>
                         <view:UcPomodoro Margin="2,0,2,0"/>
                         <Button x:Name="BtnDBManger" ToolTip="数据库管理" Padding="0" FontFamily="../Assets/#androidicons" Content="&#59458;" FontSize="20" Foreground="DodgerBlue"  Click="BtnDBManger_Click" Margin="2,0,2,0" Width="30" Height="30"/>
+                        <Button x:Name="BtnSettings" ToolTip="软件设置" Padding="0" FontFamily="../Assets/#androidicons" Content="&#59399;" FontSize="20" Foreground="DodgerBlue"  Click="BtnSettings_Click" Margin="2,0,2,0" Width="30" Height="30"/>
+                        <Button x:Name="BtnInfo" ToolTip="软件信息" Padding="0" FontFamily="../Assets/#androidicons" Content="&#59471;" FontSize="20" Foreground="DodgerBlue"  Click="BtnInfo_Click" Margin="2,0,2,0" Width="30" Height="30"/>
                     </StackPanel>
                 </Border>
             </GroupBox>

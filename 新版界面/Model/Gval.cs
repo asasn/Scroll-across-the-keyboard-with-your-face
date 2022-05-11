@@ -34,6 +34,32 @@ namespace RootNS.Model
             public static string XshdPath { get { return "../Assets/Text.xshd"; } }
         }
 
+        private static string _currentVersion;
+
+        public static string CurrentVersion
+        {
+            get { return _currentVersion; }
+            set
+            {
+                _currentVersion = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentVersion)));
+            }
+        }
+
+
+        private static string _latestVersion;
+
+        public static string LatestVersion
+        {
+            get { return _latestVersion; }
+            set
+            {
+                _latestVersion = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(LatestVersion)));
+            }
+        }
+
+
         public struct View
         {
             public static MainWindow MainWindow { get; set; }

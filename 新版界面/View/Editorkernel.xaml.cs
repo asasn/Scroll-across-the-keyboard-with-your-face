@@ -252,7 +252,7 @@ namespace RootNS.View
             ThisTextEditor.Document.Changing += Document_Changing;
             textCount = EditorHelper.CountWords(ThisTextEditor.Text);
             RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
-            Gval.View.UcShower.DataContext = new Shower(this.DataContext as Node);
+            (Gval.View.UcShower.DataContext as Shower).RefreshCards(this.DataContext as Node);
             (this.DataContext as Node).Text = ThisTextEditor.Text;
 
             ThisTextEditor.Focus();

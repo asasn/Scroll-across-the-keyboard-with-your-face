@@ -42,7 +42,7 @@ namespace RootNS.Helper
         /// <param name="value">设置值</param>
         public static void Set(string dbName, string key, object value)
         {
-            if (dbName == null)
+            if (dbName == null || value == null)
             {
                 return;
             }

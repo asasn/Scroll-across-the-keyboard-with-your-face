@@ -124,6 +124,7 @@ namespace RootNS.View
             IOHelper.DeleteFile(Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db");
             Gval.BooksBank.Remove(Gval.CurrentBook);
             Gval.CurrentBook = new Book();
+            (Gval.View.UcShower.DataContext as Shower).RefreshYears();
         }
 
         private void TbBuild_KeyDown(object sender, KeyEventArgs e)
@@ -189,6 +190,7 @@ namespace RootNS.View
                 (sender as Button).BorderBrush = Brushes.Orange;
                 PreviousButton = sender as Button;
                 SettingsHelper.Set(Gval.MaterialBook.Name, "CurBookUid", Gval.CurrentBook.Uid);
+                (Gval.View.UcShower.DataContext as Shower).RefreshYears();
             }
         }
 

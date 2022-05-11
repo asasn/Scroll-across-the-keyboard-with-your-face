@@ -27,7 +27,7 @@
             <Button ToolTip="导出（Ctrl + Insert）" x:Name="BtnExport" FontFamily="../Assets/#androidicons" Content="&#59516;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnExport_Click"/>
             <Button ToolTip="导入（Insert）" x:Name="BtnImport" FontFamily="../Assets/#androidicons" Content="&#59515;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnImport_Click"/>
         </StackPanel>
-        <TreeView x:Name="TreeNodes" TreeViewItem.Selected="TreeNodes_Selected" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" Grid.Row="1" DragEnter="TreeNodes_DragEnter" Drop="TreeNodes_Drop" MouseMove="TreeNodes_MouseMove" MouseLeftButtonDown="TreeNodes_MouseLeftButtonDown" DragLeave="TreeNodes_DragLeave" MouseUp="TreeNodes_MouseUp">
+        <TreeView x:Name="TreeNodes" TreeViewItem.Selected="TreeNodes_Selected" ItemsSource="{Binding ChildNodes}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.RowSpan="2" Grid.Row="1" DragEnter="TreeNodes_DragEnter" Drop="TreeNodes_Drop" MouseMove="TreeNodes_MouseMove" MouseLeftButtonDown="TreeNodes_MouseLeftButtonDown" DragLeave="TreeNodes_DragLeave" MouseUp="TreeNodes_MouseUp" Loaded="TreeNodes_Loaded">
             <TreeView.Resources>
                 <RoutedUICommand x:Key="AddFolder" Text="添加目录"/>
                 <RoutedUICommand x:Key="AddDoc" Text="添加文档"/>

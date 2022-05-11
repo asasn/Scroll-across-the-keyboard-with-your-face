@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using RootNS.Workfolw;
+using System.Windows.Automation.Peers;
 
 namespace RootNS
 {
@@ -155,6 +156,7 @@ namespace RootNS
         private void UcShower_Loaded(object sender, RoutedEventArgs e)
         {
             Gval.View.UcShower = sender as UcShower;
+            Gval.View.UcShower.DataContext = new Shower();
         }
 
         private void BtnNameer_Click(object sender, RoutedEventArgs e)
@@ -180,6 +182,16 @@ namespace RootNS
             Workfolw.ViewSet.ForViewPointX(win, sender as Button, -(win.Width / 2));
             Workfolw.ViewSet.ForViewPointY(win, sender as Button, 50);
             win.ShowDialog();
+        }
+
+        private void BtnSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnInfo_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

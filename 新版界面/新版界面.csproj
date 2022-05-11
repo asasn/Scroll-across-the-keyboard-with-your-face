@@ -131,6 +131,7 @@
     <Compile Include="Helper\BinHelper.cs" />
     <Compile Include="Helper\CommandHelper.cs" />
     <Compile Include="Helper\JsonHelper.cs" />
+    <Compile Include="Helper\ScrollHelper.cs" />
     <Compile Include="Helper\WebHelper.cs" />
     <Compile Include="Model\Nameer.cs" />
     <Compile Include="Model\Pomodoro.cs" />

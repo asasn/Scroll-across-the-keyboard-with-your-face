@@ -34,15 +34,10 @@
             <TextBox Padding="0" Text="{Binding KeyWords, UpdateSourceTrigger=PropertyChanged}" hc:BorderElement.CornerRadius="0" BorderBrush="DodgerBlue" BorderThickness="0,0,0,1" x:Name="TbKeyWords" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" KeyDown="TbKeyWords_KeyDown"/>
             <Button ToolTip="搜索" x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Foreground="DodgerBlue"  Grid.Column="1" BorderThickness="0" Padding="0" Click="BtnSearch_Click" Background="Transparent" HorizontalAlignment="Right"  VerticalAlignment="Center" Width="30"></Button>
         </Grid>
-        <ListBox x:Name="ListBoxOfResults" ItemsSource="{Binding Results}" ToolTipService.ShowDuration="60000" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemBaseStyle}">
-                    <Setter Property="ToolTipService.ShowDuration" Value="60000"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
+        <ListBox x:Name="ListBoxOfResults" ItemsSource="{Binding Results}" Grid.Row="2" Margin="5,0,5,5" MouseDoubleClick="ListBoxOfResults_MouseDoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <ContentControl BorderThickness="0" Background="Transparent" Content="{Binding Title}" ToolTip="{Binding ToolTip}" DataContext="{Binding}"></ContentControl>
+                    <ContentControl BorderThickness="0" Background="Transparent" Content="{Binding Title}" ToolTipService.ShowDuration="60000"  ToolTip="{Binding ToolTip}" DataContext="{Binding}"></ContentControl>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -108,7 +109,7 @@ namespace RootNS.View
             {
                 node.ChangeDelFlag(true);
                 node.IsExpanded = false;
-                
+
             }
             else
             {
@@ -437,5 +438,15 @@ namespace RootNS.View
             }
         }
 
+        private void TreeNodes_Loaded(object sender, RoutedEventArgs e)
+        {
+            TreeViewAutomationPeer lvap = new TreeViewAutomationPeer(TreeNodes);
+            var svap = lvap.GetPattern(PatternInterface.Scroll) as ScrollViewerAutomationPeer;
+            if (svap != null)
+            {
+                var scroll = svap.Owner as ScrollViewer;
+                scroll.ScrollToEnd();
+            }
+        }
     }
 }

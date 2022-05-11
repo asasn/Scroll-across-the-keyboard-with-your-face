@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -86,6 +87,14 @@ namespace RootNS.View
             (Gval.View.UcShower.DataContext as Shower).RefreshCards(curNode);
         }
 
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollHelper.ScrollLR(sender, e); 
+        }
 
+        private void SvHistory_Loaded(object sender, RoutedEventArgs e)
+        {
+            SvHistory.ScrollToRightEnd();
+        }
     }
 }
