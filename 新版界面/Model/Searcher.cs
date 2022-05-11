@@ -66,17 +66,31 @@ namespace RootNS.Model
             }
         }
 
-        private bool _rbAll = true;
+        private bool _cbSelected;
 
-        public bool RbAll
+        public bool CbSelected
         {
-            get { return _rbAll; }
+            get { return _cbSelected; }
             set
             {
-                _rbAll = value;
-                RaisePropertyChanged(nameof(RbAll));
+                _cbSelected = value;
+                RaisePropertyChanged(nameof(CbSelected));
             }
         }
+
+
+        private bool? _cbTitle = false;
+
+        public bool? CbTitle
+        {
+            get { return _cbTitle; }
+            set
+            {
+                _cbTitle = value;
+                RaisePropertyChanged(nameof(CbTitle));
+            }
+        }
+
 
         private bool _rbAnd = true;
 
@@ -129,12 +143,7 @@ namespace RootNS.Model
             if (CbMaterial == true)
             {
                 //搜索资料库
-                if (RbAll == true)
-                {
-                    Gval.MaterialBook.LoadForAllMaterialTabs();
-                    nodes = Gval.MaterialBook.GetChapterNodes();
-                }
-                else
+                if (CbSelected == true)
                 {
                     List<Node> roots = new List<Node>() { Gval.MaterialBook.BoxExample, Gval.MaterialBook.BoxMaterial };
                     if (roots.Contains(Gval.MaterialBook.SelectedNode.RootNode))
@@ -142,22 +151,28 @@ namespace RootNS.Model
                         nodes = Gval.MaterialBook.GetThisNodeChilds(Gval.MaterialBook.SelectedNode);
                     }
                 }
+                else
+                {
+                    Gval.MaterialBook.LoadForAllMaterialTabs();
+                    nodes = Gval.MaterialBook.GetChapterNodes();
+
+                }
             }
             else
             {
                 //搜索当前书籍
-                if (RbAll == true)
-                {
-                    Gval.CurrentBook.LoadForAllChapterTabs();
-                    nodes = Gval.CurrentBook.GetChapterNodes();
-                }
-                else
+                if (CbSelected == true)
                 {
                     List<Node> roots = new List<Node>() { Gval.CurrentBook.BoxDraft, Gval.CurrentBook.BoxTemp, Gval.CurrentBook.BoxPublished };
                     if (roots.Contains(Gval.CurrentBook.SelectedNode.RootNode))
                     {
                         nodes = Gval.CurrentBook.GetThisNodeChilds(Gval.CurrentBook.SelectedNode);
                     }
+                }
+                else
+                {
+                    Gval.CurrentBook.LoadForAllChapterTabs();
+                    nodes = Gval.CurrentBook.GetChapterNodes();
                 }
             }
             return nodes;
@@ -213,9 +228,20 @@ namespace RootNS.Model
         /// <param name="node"></param>
         void AddToListBox(Node node)
         {
-            if (string.IsNullOrEmpty(node.Text))
+            string strTitle = node.Title.ToString();
+            string strText = node.Text.ToString();
+            string strContent = string.Empty;
+            if (CbTitle == true)
             {
-                return;
+                strContent = strTitle;
+            }
+            if (CbTitle == false)
+            {
+                strContent = strText;
+            }
+            if (CbTitle == null)
+            {
+                strContent = strTitle + strText;
             }
             string[] Matches = new string[] { };
             string ListItemName = String.Empty;
@@ -223,21 +249,21 @@ namespace RootNS.Model
             //正则模式
             if (RbRegex == true)
             {
-                Matches = GetMatchRets(node.Text);
+                Matches = GetMatchRets(strContent);
                 ListItemName = string.Join(" ", Matches);
             }
 
             //与模式
             if (RbAnd == true)
             {
-                Matches = GetModeAndRets(node.Text);
+                Matches = GetModeAndRets(strContent);
                 ListItemName = string.Join(" ", Matches);
             }
 
             //或模式
             if (RbOr == true)
             {
-                Matches = GetModeOrRets(node.Text);
+                Matches = GetModeOrRets(strContent);
                 ListItemName = string.Join(" ", Matches);
             }
 
@@ -407,7 +433,7 @@ namespace RootNS.Model
             string lines = GetStrOnLines(lbItem.Content);
             tEdit.Text = lines;
             EditorHelper.SetColorRulesForSearchResult(tEdit, lbItem.Matches);
-            return new ToolTip() { Content = tEdit};
+            return new ToolTip() { Content = tEdit };
         }
 
         //从当前行当中判断字符串是否存在

@@ -23,8 +23,8 @@
                 <RowDefinition Height="50*"/>
                 <RowDefinition Height="50*"/>
             </Grid.RowDefinitions>
-            <RadioButton x:Name="RbAll" Content="全部节点" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="{Binding RbAll}"/>
-            <RadioButton x:Name="RbCurrent" Content="当前节点" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="searcher" IsChecked="{Binding RbAll, Converter={StaticResource Boolean2BooleanReConverter}}"/>
+            <CheckBox x:Name="CbSelected" Content="只搜选中" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="{Binding CbSelected}"/>
+            <CheckBox x:Name="CbTitle" Content="只搜标题" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="{Binding CbTitle}" IsThreeState="True"/>
             <CheckBox x:Name="CbMaterial" Content="资料库" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsChecked="{Binding CbMaterial}"/>
             <RadioButton x:Name="RbAnd" Content="与模式" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="{Binding RbAnd}"/>
             <RadioButton x:Name="RbOr" Content="或模式" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" GroupName="mode" IsChecked="{Binding RbOr}"/>
