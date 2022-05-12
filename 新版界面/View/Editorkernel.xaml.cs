@@ -53,7 +53,7 @@ namespace RootNS.View
         /// </summary>
         private void TimeRuner(object sender, EventArgs e)
         {
-            if (BtnSaveDoc.IsEnabled == true && (saveFlag == true || SysHelper.GetLastInputTime() >= 1 * 1000))
+            if (BtnSaveDoc.IsEnabled == true && (saveFlag == true || SysHelper.GetLastInputTime() >= 10 * 1000))
             {
                 SaveMethod(this.DataContext as Node);
             }
