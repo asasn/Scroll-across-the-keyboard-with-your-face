@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using static RootNS.Helper.DataPer;
 
@@ -34,7 +35,7 @@ namespace RootNS.Model
             public static string XshdPath { get { return "../Assets/Text.xshd"; } }
         }
 
-        private static string _currentVersion;
+        private static string _currentVersion = Application.ResourceAssembly.GetName().Version.ToString();
 
         public static string CurrentVersion
         {

@@ -7,12 +7,12 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("新版界面")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("脸滚键盘")]
+[assembly: AssemblyDescription("不问苍生问鬼神的自制软件")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("新版界面")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyProduct("脸滚键盘")]
+[assembly: AssemblyCopyright("Copyright ©  不问苍生问鬼神")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -53,3 +53,4 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: Guid("B0F38D5C-BFA4-4F47-B34B-13E1DD385D73")]

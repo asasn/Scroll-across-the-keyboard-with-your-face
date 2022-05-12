@@ -95,6 +95,9 @@
   <PropertyGroup>
     <ApplicationIcon>Assets\ic_action_book_xxhdpi.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>RootNS.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="HandyControl, Version=3.3.0.0, Culture=neutral, PublicKeyToken=45be8712787a1e5b, processorArchitecture=MSIL">
       <HintPath>..\packages\HandyControl.3.3.0\lib\net472\HandyControl.dll</HintPath>
