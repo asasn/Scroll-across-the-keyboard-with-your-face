@@ -1,4 +1,5 @@
 ﻿using RootNS.Model;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
@@ -11,7 +12,7 @@ namespace RootNS.Helper
         public SqliteHelper(string dbPath, string dbName = null)
         {
             Close();
-            connection = CreateDatabaseConnection(dbPath, dbName);
+            Connection = CreateDatabaseConnection(dbPath, dbName);
             DbName = dbName;
             this.IsSqlconnOpening = true;
         }
@@ -24,7 +25,7 @@ namespace RootNS.Helper
 
 
         // 使用全局静态变量保存连接
-        private readonly SQLiteConnection connection;
+        public readonly SQLiteConnection Connection;
         public string DbName;
         public bool IsSqlconnOpening;
         public static Dictionary<string, SqliteHelper> PoolDict { get; set; } = new Dictionary<string, SqliteHelper>();
@@ -85,9 +86,9 @@ namespace RootNS.Helper
         // 打开连接
         private void Open()
         {
-            if (connection != null && connection.State != System.Data.ConnectionState.Open)
+            if (Connection != null && Connection.State != System.Data.ConnectionState.Open)
             {
-                connection.Open();
+                Connection.Open();
                 //System.Console.WriteLine(string.Format("打开数据库 {0} 的连接", this.DbName));
             }
         }
@@ -95,10 +96,17 @@ namespace RootNS.Helper
         // 关闭连接
         public void Close()
         {
-            if (connection != null)
+            if (Connection != null)
             {
-                connection.Close();
-                //System.Console.WriteLine(string.Format("关闭数据库 {0} 的连接", this.DbName));
+                try
+                {
+                    Connection.Close();
+                    Console.WriteLine(string.Format("关闭数据库 {0} 的连接", this.DbName));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(string.Format("关闭数据库失败！\n{0}", ex));
+                }
             }
         }
 
@@ -111,9 +119,9 @@ namespace RootNS.Helper
             // 确保连接打开
             Open();
 
-            using (SQLiteTransaction tr = connection.BeginTransaction())
+            using (SQLiteTransaction tr = Connection.BeginTransaction())
             {
-                using (SQLiteCommand command = connection.CreateCommand())
+                using (SQLiteCommand command = Connection.CreateCommand())
                 {
                     command.CommandText = sql;
                     try
@@ -122,7 +130,7 @@ namespace RootNS.Helper
                     }
                     catch (System.Exception ex)
                     {
-                        System.Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex.Message);
                     }
 
                 }
@@ -132,7 +140,7 @@ namespace RootNS.Helper
                 }
                 catch (System.Exception ex)
                 {
-                    System.Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.Message);
                 }
 
             }
@@ -146,9 +154,9 @@ namespace RootNS.Helper
         {
             // 确保连接打开
             Open();
-            using (SQLiteTransaction tr = connection.BeginTransaction())
+            using (SQLiteTransaction tr = Connection.BeginTransaction())
             {
-                using (SQLiteCommand command = connection.CreateCommand())
+                using (SQLiteCommand command = Connection.CreateCommand())
                 {
                     command.CommandText = sql;
                     try
@@ -172,7 +180,7 @@ namespace RootNS.Helper
         /// <param name="cSqlite"></param>
         public void Vacuum()
         {
-            SQLiteCommand cmd = new SQLiteCommand("VACUUM", connection);
+            SQLiteCommand cmd = new SQLiteCommand("VACUUM", Connection);
             try
             {
                 cmd.ExecuteNonQuery();

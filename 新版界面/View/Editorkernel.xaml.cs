@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
@@ -30,9 +33,37 @@ namespace RootNS.View
         public Editorkernel()
         {
             InitializeComponent();
-            System.Threading.Thread thread = new System.Threading.Thread(SaveInThreadMethod);
+            thread = new System.Threading.Thread(SaveInThreadMethod);
+            Timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(10)
+            };
+            Timer.Tick += TimeRuner;
+            Timer.Start();
         }
 
+        private bool saveFlag;
+
+        Stopwatch stopWatch = new Stopwatch();
+
+        public DispatcherTimer Timer = new DispatcherTimer();
+
+        /// <summary>
+        /// 方法：每次间隔运行的内容
+        /// </summary>
+        private void TimeRuner(object sender, EventArgs e)
+        {
+            if (BtnSaveDoc.IsEnabled == true && (saveFlag == true || SysHelper.GetLastInputTime() >= 1 * 1000))
+            {
+                SaveMethod(this.DataContext as Node);
+            }
+            if (BtnSaveDoc.IsEnabled == true && saveFlag == false)
+            {
+                stopWatch.Restart();
+            }
+        }
+
+        System.Threading.Thread thread;
         private static System.Threading.Mutex mut = new System.Threading.Mutex();
 
         public string MainText
@@ -45,21 +76,18 @@ namespace RootNS.View
         public static readonly DependencyProperty MainTextProperty =
             DependencyProperty.Register("MainText", typeof(string), typeof(Editorkernel), new PropertyMetadata("　　"));
 
-
         #region 命令
         private void Command_SaveText_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             try
             {
-
-                ExtraForSave();
-                SaveMethod(this.DataContext as Node);
+                saveFlag = true;
                 //Console.WriteLine(thread.ManagedThreadId + " - 成功 - " + thread.ThreadState);
             }
             catch (Exception ex)
             {
                 //Console.WriteLine(thread.ManagedThreadId + " - 失败 -" + thread.ThreadState);
-                Console.WriteLine(string.Format("本次保存失败！\n{0}", ex));
+                Console.WriteLine(string.Format("保存命令失败！\n{0}", ex));
             }
         }
 
@@ -67,16 +95,20 @@ namespace RootNS.View
         {
             try
             {
+                ExtraForSave();
                 string sql = string.Format("UPDATE {0} SET Text='{1}', Summary='{2}', WordsCount='{3}' WHERE Uid='{4}';", node.TabName, node.Text.Replace("'", "''"), node.Summary.Replace("'", "''"), node.WordsCount, node.Uid);
                 SqliteHelper.PoolDict[node.OwnerName].ExecuteNonQuery(sql);
                 //保持连接会导致文件占用，不能及时同步和备份，过多重新连接则是不必要的开销。
                 //故此在数据库占用和重复连接之间选择了一个平衡，允许保存之后的数据库得以上传。
                 SqliteHelper.PoolDict[node.OwnerName].Close();
                 //HandyControl.Controls.Growl.SuccessGlobal(String.Format("{0} 已保存！", node.Title));
+                Console.WriteLine(string.Format("本次保存成功！"));
+                saveFlag = false;
             }
             catch (Exception ex)
             {
                 //HandyControl.Controls.Growl.WarningGlobal(String.Format("本次保存失败！\n{0}", ex));
+                Console.WriteLine(string.Format("本次保存失败！\n{0}", ex));
             }
         }
 
@@ -88,11 +120,14 @@ namespace RootNS.View
         /// <param name="node"></param>
         private void ExtraForSave()
         {
-            BtnSaveDoc.IsEnabled = false;
-            //RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
-            (this.DataContext as Node).Text = ThisTextEditor.Text;
-            (this.DataContext as Node).WordsCount = textCount;
-            ThisTextEditor.Focus();
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                BtnSaveDoc.IsEnabled = false;
+                //RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
+                (this.DataContext as Node).Text = ThisTextEditor.Text;
+                (this.DataContext as Node).WordsCount = textCount;
+                ThisTextEditor.Focus();
+            }));
         }
 
         /// <summary>
@@ -200,14 +235,12 @@ namespace RootNS.View
             BtnUndo.DataContext = temp;
             BtnUndo.IsEnabled = true;
             EditorHelper.TypeSetting(ThisTextEditor);
-            BtnSaveDoc.IsEnabled = true;
         }
         private void BtnUndo_Click(object sender, RoutedEventArgs e)
         {
             ThisTextEditor.Text = BtnUndo.DataContext.ToString();
             EditorHelper.TypeSetting(ThisTextEditor);
             BtnUndo.IsEnabled = false;
-            BtnSaveDoc.IsEnabled = true;
         }
 
         private void ThisTextEditor_KeyUp(object sender, KeyEventArgs e)
