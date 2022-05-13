@@ -122,10 +122,10 @@ namespace RootNS.View
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
-                BtnSaveDoc.IsEnabled = false;
-                //RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
                 (this.DataContext as Node).Text = ThisTextEditor.Text;
                 (this.DataContext as Node).WordsCount = textCount;
+                BtnSaveDoc.IsEnabled = false;
+                //RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
             }));
         }
 
