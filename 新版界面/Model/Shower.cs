@@ -167,6 +167,14 @@ namespace RootNS.Model
             }
         }
 
+        public void Clear()
+        {
+            Roles.Clear();
+            Others.Clear();
+            Years.Clear();
+        }
+
+
         //private ObservableCollection<Card> _pRoles = new ObservableCollection<Card>();
         //private ObservableCollection<Card> _cRoles = new ObservableCollection<Card>();
         //private ObservableCollection<Card> _pOthers = new ObservableCollection<Card>();
