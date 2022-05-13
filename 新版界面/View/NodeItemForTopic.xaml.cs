@@ -42,6 +42,7 @@ namespace RootNS.View
             topic.SellPoints.PropertyChanged += PropertyChanged;
             topic.Goldfingers.PropertyChanged += PropertyChanged;
             topic.Clues.PropertyChanged += PropertyChanged;
+            topic.Levels.PropertyChanged += PropertyChanged;
             topic.WorldInfo.PropertyChanged += PropertyChanged;
             topic.Sets.PropertyChanged += PropertyChanged;
         }

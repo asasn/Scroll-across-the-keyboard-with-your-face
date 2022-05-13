@@ -19,30 +19,39 @@
         <Button Padding="0" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16"  Foreground="DodgerBlue" BorderThickness="0,0,0,0" Click="BtnSave_Click" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Margin="0,5,5,0" />
         <TabControl Grid.Row="3"  VirtualizingPanel.IsVirtualizing="True" Style="{DynamicResource TabControlStyle}">
             <TabItem Header="简介，主旨和风格" >
-                <StackPanel>
-                    <TextBox x:Name="TbShowContent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding DataContext.Text, Mode=OneWay, ElementName=ThisWindow}" VerticalAlignment="Top" Grid.Row="2"/>
-                    <local:CardLine DataContext="{Binding Subject, Mode=TwoWay}" Visibility="Visible"/>
-                    <local:CardLine DataContext="{Binding Style, Mode=TwoWay}" Visibility="Visible"/>
-                </StackPanel>
+                <ScrollViewer>
+                    <StackPanel Margin="0,0,0,60">
+                        <TextBox x:Name="TbShowContent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding DataContext.Text, Mode=OneWay, ElementName=ThisWindow}" VerticalAlignment="Top" Grid.Row="2"/>
+                        <local:CardLine DataContext="{Binding Subject, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Style, Mode=TwoWay}" Visibility="Visible"/>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="分卷大纲" >
-                <local:CardLine DataContext="{Binding Volumes, Mode=TwoWay}" Visibility="Visible"/>
+                <ScrollViewer>
+                    <StackPanel Margin="0,0,0,60">
+                        <local:CardLine DataContext="{Binding Volumes, Mode=TwoWay}" Visibility="Visible"/>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="主要角色" >
-                <local:CardLine DataContext="{Binding Roles, Mode=TwoWay}" Visibility="Visible"/>
+                <ScrollViewer>
+                    <StackPanel Margin="0,0,0,60">
+                        <local:CardLine DataContext="{Binding Roles, Mode=TwoWay}" Visibility="Visible"/>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
-            <TabItem Header="卖点与金手指" >
-                <StackPanel>
-                    <local:CardLine DataContext="{Binding SellPoints, Mode=TwoWay}" Visibility="Visible"/>
-                    <local:CardLine DataContext="{Binding Goldfingers, Mode=TwoWay}" Visibility="Visible"/>
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="线索和设定" >
-                <StackPanel>
-                    <local:CardLine DataContext="{Binding Clues, Mode=TwoWay}" Visibility="Visible"/>
-                    <local:CardLine DataContext="{Binding WorldInfo, Mode=TwoWay}" Visibility="Visible"/>
-                    <local:CardLine DataContext="{Binding Sets, Mode=TwoWay}" Visibility="Visible"/>
-                </StackPanel>
+            <TabItem Header="卖点、金手指、线索和设定" >
+                <ScrollViewer>
+                    <StackPanel Margin="0,0,0,60">
+                        <local:CardLine DataContext="{Binding SellPoints, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Goldfingers, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Clues, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Levels, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding WorldInfo, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Sets, Mode=TwoWay}" Visibility="Visible"/>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
     </Grid>

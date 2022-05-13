@@ -94,6 +94,20 @@ namespace RootNS.Model
             }
         }
 
+        private Card.Line _levels = new Card.Line() { LineTitle = "阶级" };
+
+        public Card.Line Levels
+        {
+            get { return _levels; }
+            set
+            {
+                _levels = value;
+                RaisePropertyChanged(nameof(Levels));
+            }
+        }
+
+
+
         private Card.Line _worldInfo = new Card.Line() { LineTitle = "世界" };
 
         public Card.Line WorldInfo
@@ -135,7 +149,7 @@ namespace RootNS.Model
         public void Save(Node node, string showContent)
         {
             //清除tip.title为空的项目
-            Card.Line[] lines = { Subject, Style, Volumes, Roles, SellPoints, Goldfingers, Clues, WorldInfo, Sets };
+            Card.Line[] lines = { Subject, Style, Volumes, Roles, SellPoints, Goldfingers, Clues, Levels, WorldInfo, Sets };
             foreach (Card.Line line in lines)
             {
                 foreach (Card.Tip tip in line.Tips.ToList())
