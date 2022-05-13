@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
+        xmlns:hc="https://handyorg.github.io/handycontrol" 
         xmlns:local="clr-namespace:RootNS.View" UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="题材简记（关于开新书的一些灵感）" Height="310" Width="500" Loaded="ThisWindow_Loaded">
+        Title="题材简记（关于开新书的一些灵感）" Height="310" Width="500" MinWidth="500" MinHeight="310" Loaded="ThisWindow_Loaded">
     <Grid x:Name="GMian">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

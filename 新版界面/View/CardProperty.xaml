@@ -13,6 +13,6 @@
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <Label Height="17" BorderThickness="0" Background="Khaki" Content="{Binding LbContent, ElementName=ThisControl}" Padding="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,4,0,0"/>
-        <TextBox Text="{Binding TbContent, ElementName=ThisControl}" Padding="1" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" MinHeight="0" AcceptsReturn="True" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextChanged="TextBox_TextChanged" Margin="3,0,3,0" Height="19"/>
+        <TextBox Background="Transparent" Text="{Binding TbContent, ElementName=ThisControl}" Padding="1" BorderThickness="0,0,0,1" hc:BorderElement.CornerRadius="0" TextWrapping="Wrap" MinHeight="0" AcceptsReturn="True" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextChanged="TextBox_TextChanged" Margin="3,0,3,0" Height="19"/>
     </Grid>
 </UserControl>

@@ -18,7 +18,7 @@
             <ItemsControl ItemsSource="{Binding Tips, Mode=TwoWay}" VirtualizingPanel.IsVirtualizing="True" Grid.Column="1" MinWidth="242" MinHeight="18" VerticalAlignment="Stretch" VerticalContentAlignment="Bottom">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBox IsEnabled="{Binding IsEnabled}" Text="{Binding Title, Mode=TwoWay}" Padding="1" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap"  MinHeight="19" AcceptsReturn="True" MinWidth="25" Margin="3,3,3,0" VerticalAlignment="Stretch" TextChanged="TextBox_TextChanged" VerticalContentAlignment="Bottom"/>
+                        <TextBox Background="Transparent" IsEnabled="{Binding IsEnabled}" Text="{Binding Title, Mode=TwoWay}" Padding="1" BorderThickness="0,0,0,1"  hc:BorderElement.CornerRadius="0" TextWrapping="Wrap"  MinHeight="19" AcceptsReturn="True" MinWidth="25" Margin="3,3,3,0" VerticalAlignment="Stretch" TextChanged="TextBox_TextChanged" VerticalContentAlignment="Bottom"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
