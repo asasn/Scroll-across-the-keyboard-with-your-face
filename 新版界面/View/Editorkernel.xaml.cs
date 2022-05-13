@@ -126,7 +126,6 @@ namespace RootNS.View
                 //RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
                 (this.DataContext as Node).Text = ThisTextEditor.Text;
                 (this.DataContext as Node).WordsCount = textCount;
-                ThisTextEditor.Focus();
             }));
         }
 
