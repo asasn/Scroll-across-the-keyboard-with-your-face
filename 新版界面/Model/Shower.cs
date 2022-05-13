@@ -171,7 +171,6 @@ namespace RootNS.Model
         {
             Roles.Clear();
             Others.Clear();
-            Years.Clear();
         }
 
 
