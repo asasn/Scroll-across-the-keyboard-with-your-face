@@ -145,6 +145,7 @@ namespace RootNS.View
         private void Command_Typesetting_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             EditorHelper.TypeSetting(ThisTextEditor);
+            Command_SaveText_Executed(null, null);
         }
 
 
@@ -235,13 +236,15 @@ namespace RootNS.View
             string temp = ThisTextEditor.Text;
             ThisTextEditor.Text = Clipboard.GetText();
             BtnUndo.DataContext = temp;
-            BtnUndo.IsEnabled = true;
             EditorHelper.TypeSetting(ThisTextEditor);
+            Command_SaveText_Executed(null, null);
+            BtnUndo.IsEnabled = true;
         }
         private void BtnUndo_Click(object sender, RoutedEventArgs e)
         {
             ThisTextEditor.Text = BtnUndo.DataContext.ToString();
             EditorHelper.TypeSetting(ThisTextEditor);
+            Command_SaveText_Executed(null, null);
             BtnUndo.IsEnabled = false;
         }
 
