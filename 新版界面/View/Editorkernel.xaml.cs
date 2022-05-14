@@ -33,6 +33,9 @@ namespace RootNS.View
         public Editorkernel()
         {
             InitializeComponent();
+            ThisTextEditor.TextArea.SelectionChanged += TextArea_SelectionChanged;
+            ThisTextEditor.Document.Changing += Document_Changing;
+            
             thread = new System.Threading.Thread(SaveInThreadMethod);
             Timer = new DispatcherTimer
             {
@@ -273,6 +276,17 @@ namespace RootNS.View
         #endregion
 
 
+        private void TextArea_SelectionChanged(object sender, EventArgs e)
+        {
+            if (ThisTextEditor.SelectionLength > 0)
+            {
+                RefreshSelectionContent(textCount);
+            }
+            else
+            {
+                RefreshShowContent(textCount);
+            }
+        }
 
         private void ThisTextEditor_Loaded(object sender, RoutedEventArgs e)
         {
@@ -281,13 +295,11 @@ namespace RootNS.View
                 return;
             }
             //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
-            ThisTextEditor.Document.Changing += Document_Changing;
-            textCount = EditorHelper.CountWords(ThisTextEditor.Text);
-            RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
             (Gval.View.UcShower.DataContext as Shower).RefreshCards(this.DataContext as Node);
-            (this.DataContext as Node).Text = ThisTextEditor.Text;
-
-            ThisTextEditor.Focus();
+            //textCount = EditorHelper.CountWords(ThisTextEditor.Text);
+            //RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
+            //(this.DataContext as Node).Text = ThisTextEditor.Text;
+            //ThisTextEditor.Focus();
         }
 
         private int textCount;
@@ -301,9 +313,8 @@ namespace RootNS.View
         private void ThisTextEditor_TextChanged(object sender, EventArgs e)
         {
             BtnSaveDoc.IsEnabled = true;
-            //文字变更之后，获得结果
-            RefreshShowContentAndCardsBox(textCount, ThisTextEditor.Text);
-            (this.DataContext as Node).Text = ThisTextEditor.Text;
+            //文字变更之后，刷新展示区
+            RefreshShowContent(textCount);
         }
 
         /// <summary>
@@ -316,9 +327,17 @@ namespace RootNS.View
             LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(textCount) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
         }
 
-        private void RefreshShowContentAndCardsBox(int textCount, string text)
+        /// <summary>
+        /// 刷新选中的字数统计和价值显示
+        /// </summary>
+        /// <param name="textCount"></param>
+        private void RefreshSelectionContent(int textCount)
         {
-            RefreshShowContent(textCount);
+            int sTextCount = EditorHelper.CountWords(ThisTextEditor.SelectedText);
+            LbWorksCount.Content = string.Format("{0}/{1}", sTextCount, textCount);
+            double sValue = Math.Round(Convert.ToDouble(sTextCount) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero);
+            double vValue = Math.Round(Convert.ToDouble(textCount) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero);
+            LbValueValue.Content = string.Format("{0:F}/{1:F}", sValue, vValue);
         }
 
         ToolTip toolTip = new ToolTip();
@@ -392,20 +411,20 @@ namespace RootNS.View
 
         private void ThisTextEditor_Initialized(object sender, EventArgs e)
         {
-            Node stuff = this.DataContext as Node;
-            if (stuff == null)
-            {
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(stuff.Text) == true)
-            {
-                stuff.Text = "　　";
-            }
-            EditorHelper.SetColorRulesForCards(ThisTextEditor);
-            ThisTextEditor.Text = stuff.Text;
-            EditorHelper.MoveToEnd(ThisTextEditor);
-            BtnSaveDoc.IsEnabled = false;
-            ThisTextEditor.Focus();
+            //Node stuff = this.DataContext as Node;
+            //if (stuff == null)
+            //{
+            //    return;
+            //}
+            //if (string.IsNullOrWhiteSpace(stuff.Text) == true)
+            //{
+            //    stuff.Text = "　　";
+            //}
+            //EditorHelper.SetColorRulesForCards(ThisTextEditor);
+            //ThisTextEditor.Text = stuff.Text;
+            //EditorHelper.MoveToEnd(ThisTextEditor);
+            //BtnSaveDoc.IsEnabled = false;
+            //ThisTextEditor.Focus();
         }
 
 

@@ -28,7 +28,7 @@ namespace RootNS.Model
         //}
 
         /// <summary>
-        /// 更新所有章节的匹配内容
+        /// 更新展示区的卡片内容
         /// </summary>
         public void RefreshCards(Node curChapter, int length = 10)
         {
