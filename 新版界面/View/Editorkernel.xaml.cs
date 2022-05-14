@@ -225,7 +225,7 @@ namespace RootNS.View
 
         private void BtnCopy_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(ThisTextEditor.Text);
+            Clipboard.SetText((this.DataContext as Node).Text);
         }
         private void BtnCopyTitle_Click(object sender, RoutedEventArgs e)
         {
