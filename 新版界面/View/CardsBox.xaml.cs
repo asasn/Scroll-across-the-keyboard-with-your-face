@@ -46,8 +46,7 @@ namespace RootNS.View
                 {
                     if (card.Title.Equals(TbNew.Text) || card.IsEqualsNickNames(TbNew.Text, card.NickNames))
                     {
-                        FunctionPack.ShowMessageBox("该信息卡已经存在\n请换一个名称！");
-                        TbNew.Clear();
+                        BtnSearch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                         return;
                     }
                 }
@@ -67,7 +66,18 @@ namespace RootNS.View
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-
+            string title = TbNew.Text.Trim();
+            foreach (Card card in (this.DataContext as Card).ChildNodes)
+            {
+                if (title.Equals(card.Title) == true || card.IsEqualsNickNames(title, card.NickNames))
+                {
+                    CardWindow cw = new CardWindow(card);
+                    ViewSet.ForViewPointX(cw, this, -6);
+                    ViewSet.ForViewPointY(cw, this, 50);
+                    cw.ShowDialog();
+                    return;
+                }
+            }
         }
 
         public bool LookMore;
@@ -79,10 +89,10 @@ namespace RootNS.View
                 LookMore = false;
                 (sender as Button).Content = "\ue8a3";
                 (sender as Button).ToolTip = "更多";
-                //foreach (Node node in (this.DataContext as Card).ChildNodes)
-                //{
-                //    (node as Card).IsShowCard = (node as Card).IsContain;
-                //}
+                foreach (Node node in (this.DataContext as Card).ChildNodes)
+                {
+                    (node as Card).IsShowCard = (node as Card).IsContain;
+                }
             }
             else
             {
@@ -90,10 +100,10 @@ namespace RootNS.View
                 LookMore = true;
                 (sender as Button).Content = "\ue8c1";
                 (sender as Button).ToolTip = "更少";
-                //foreach (Node node in (this.DataContext as Card).ChildNodes)
-                //{
-                //    (node as Card).IsShowCard = true;
-                //}
+                foreach (Node node in (this.DataContext as Card).ChildNodes)
+                {
+                    (node as Card).IsShowCard = true;
+                }
             }
         }
 
