@@ -24,6 +24,10 @@ namespace RootNS.Model
             {
                 ShowYearLine = !string.IsNullOrWhiteSpace(BornYear);
             }
+            if (e.PropertyName == "IsContain" && IsContain == true)
+            {
+                IsShowCard = true;
+            }
         }
 
         public void RemoveThisCard()
@@ -46,7 +50,7 @@ namespace RootNS.Model
             }
         }
 
-        private bool _isShowCard = true;
+        private bool _isShowCard = false;
         /// <summary>
         /// 卡片是否可见
         /// </summary>

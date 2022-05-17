@@ -71,24 +71,26 @@ namespace RootNS.View
         }
 
         public bool LookLessCards;
-        private void BtnLookLess_Click(object sender, RoutedEventArgs e)
+        private void BtnLookMore_Click(object sender, RoutedEventArgs e)
         {
             if (LookLessCards == true)
             {
+                //看更少
                 LookLessCards = false;
-                (sender as Button).Content = "\ue8c1";
-                foreach (Node node in (this.DataContext as Card).ChildNodes)
-                {
-                    (node as Card).IsShowCard = true;
-                }
-            }
-            else
-            {
-                LookLessCards = true;
                 (sender as Button).Content = "\ue8a3";
                 foreach (Node node in (this.DataContext as Card).ChildNodes)
                 {
                     (node as Card).IsShowCard = (node as Card).IsContain;
+                }
+            }
+            else
+            {
+                //看更多
+                LookLessCards = true;
+                (sender as Button).Content = "\ue8c1";
+                foreach (Node node in (this.DataContext as Card).ChildNodes)
+                {
+                    (node as Card).IsShowCard = true;
                 }
             }
         }
@@ -160,9 +162,12 @@ namespace RootNS.View
             (sender as Button).Focus();
         }
 
-        private void Button_Loaded(object sender, RoutedEventArgs e)
+        private void Button_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
+            if (((sender as Button).DataContext as Card).IsShowCard == true && (sender as Button).ToolTip == null)
+            {
+                (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
+            }
         }
 
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
@@ -193,5 +198,7 @@ namespace RootNS.View
             string text = ((Gval.EditorTabControl.SelectedItem as TabItem).Content as Editorkernel).ThisTextEditor.Text;
             EditorHelper.RefreshIsContainFlagForCardsBox(text);
         }
+
+
     }
 }

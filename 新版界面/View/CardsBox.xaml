@@ -24,7 +24,7 @@
                 <TextBox x:Name="TbNew" Background="Transparent" BorderThickness="0" KeyUp="TbNew_KeyUp" Padding="0" MinHeight="0" />
                 <Button ToolTip="添加" x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Click="BtnAdd_Click"/>
                 <Button ToolTip="搜索" x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnSearch_Click"/>
-                <Button ToolTip="更多/更少" x:Name="BtnLookLess" FontFamily="../Assets/#androidicons" Content="&#59585;" FontSize="16" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0" Click="BtnLookLess_Click"/>
+                <Button ToolTip="更多/更少" x:Name="BtnLookMore" FontFamily="../Assets/#androidicons" Content="&#59555;" FontSize="16" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0" Click="BtnLookMore_Click"/>
                 <Button ToolTip="设计模式" x:Name="BtnDesign" FontFamily="../Assets/#androidicons" Content="&#59554;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="4" Padding="0" BorderThickness="0" Click="BtnDesign_Click"/>
             </Grid>
         </Border>
@@ -32,8 +32,7 @@
             <ItemsControl ItemsSource="{Binding ChildNodes}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="2">
-                            <Button Padding="2" Visibility="{Binding IsShowCard, Converter={StaticResource BoolConvertToVisibility}}" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click" MouseRightButtonDown="Button_MouseRightButtonDown" Loaded="Button_Loaded">
+                        <Button Margin="2" Padding="2" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click" MouseRightButtonDown="Button_MouseRightButtonDown" Visibility="{Binding IsShowCard, Converter={StaticResource BoolConvertToVisibility}}" IsVisibleChanged="Button_IsVisibleChanged">
                                 <Button.Resources>
                                     <RoutedUICommand x:Key="DelCard" Text="信息卡"/>
                                     <RoutedUICommand x:Key="UnDel" Text="撤销删除"/>
@@ -53,7 +52,6 @@
                                     <KeyBinding Command="{StaticResource UnDel}" Key="Z" Modifiers="Ctrl" />
                                 </Button.InputBindings>
                             </Button>
-                        </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>

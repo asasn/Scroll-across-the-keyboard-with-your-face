@@ -25,10 +25,8 @@
             <ItemsControl ItemsSource="{Binding Roles}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="2">
-                            <Button Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonRole_Loaded">
-                            </Button>
-                        </Border>
+                        <Button Margin="2" Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonRole_Loaded">
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
@@ -44,10 +42,8 @@
             <ItemsControl ItemsSource="{Binding Others}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="2">
-                            <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonOther_Loaded">
-                            </Button>
-                        </Border>
+                        <Button Margin="2" Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonOther_Loaded">
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
@@ -66,10 +62,8 @@
                 </ItemsControl.Background>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Padding="2">
-                            <Button Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonYear_Loaded" Click="ButtonYear_Click">
-                            </Button>
-                        </Border>
+                        <Button Margin="2" Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonYear_Loaded" Click="ButtonYear_Click">
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
