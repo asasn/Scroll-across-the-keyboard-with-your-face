@@ -124,7 +124,7 @@ namespace RootNS.Helper
             {
                 CardDesignDefault(dbName);
             }
-            sql += string.Format("CREATE TABLE IF NOT EXISTS 卡片 ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Pid CHAR DEFAULT \"\", Tid CHAR DEFAULT \"\" REFERENCES 卡设计(Uid) ON DELETE CASCADE ON UPDATE CASCADE, Title CHAR NOT NULL UNIQUE, TabName CHAR NOT NULL);");
+            sql += string.Format("CREATE TABLE IF NOT EXISTS 卡片 ([Index] INTEGER DEFAULT (0), Uid CHAR PRIMARY KEY, Pid CHAR DEFAULT \"\", Tid CHAR DEFAULT \"\" REFERENCES 卡设计(Uid) ON DELETE CASCADE ON UPDATE CASCADE, Title CHAR NOT NULL, TabName CHAR NOT NULL);");
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Uid ON {0}(Uid);", "卡片");
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Pid ON {0}(Pid);", "卡片");
             sql += string.Format("CREATE INDEX IF NOT EXISTS {0}Tid ON {0}(Tid);", "卡片");
