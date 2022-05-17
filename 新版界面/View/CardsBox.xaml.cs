@@ -136,7 +136,7 @@ namespace RootNS.View
             {
                 ((sender as Button).DataContext as Card).ChangeDelFlag(true);
             }
-            if (Gval.EditorTabControl.SelectedItem == null || (this.DataContext as BookBase).Name == Gval.MaterialBook.Name)
+            if (Gval.EditorTabControl.SelectedItem == null)
             {
                 return;
             }
@@ -149,7 +149,7 @@ namespace RootNS.View
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             ((sender as Button).DataContext as Card).ChangeDelFlag(false);
-            if (Gval.EditorTabControl.SelectedItem == null || (this.DataContext as BookBase).Name == Gval.MaterialBook.Name)
+            if (Gval.EditorTabControl.SelectedItem == null)
             {
                 return;
             }

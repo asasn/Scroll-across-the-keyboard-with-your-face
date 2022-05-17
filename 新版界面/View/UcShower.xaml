@@ -25,7 +25,7 @@
             <ItemsControl ItemsSource="{Binding Roles}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Margin="2" Padding="2" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonRole_Loaded">
+                        <Button Margin="2" Padding="2" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonRole_Loaded">
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -42,7 +42,7 @@
             <ItemsControl ItemsSource="{Binding Others}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Margin="2" Padding="2" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonOther_Loaded">
+                        <Button Margin="2" Padding="2" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}" ToolTipService.ShowDuration="60000" Height="20" Loaded="ButtonOther_Loaded">
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
