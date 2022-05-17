@@ -60,7 +60,7 @@ namespace RootNS.View
                 return;
             }
             EditorHelper.RefreshKeyWordForAllEditor(newCard);
-            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            EditorHelper.RefreshIsContainFlagForAllCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
 
 
         }
@@ -70,28 +70,30 @@ namespace RootNS.View
 
         }
 
-        public bool LookLessCards;
+        public bool LookMore;
         private void BtnLookMore_Click(object sender, RoutedEventArgs e)
         {
-            if (LookLessCards == true)
+            if (LookMore == true)
             {
-                //看更少
-                LookLessCards = false;
+                //屏蔽部分
+                LookMore = false;
                 (sender as Button).Content = "\ue8a3";
-                foreach (Node node in (this.DataContext as Card).ChildNodes)
-                {
-                    (node as Card).IsShowCard = (node as Card).IsContain;
-                }
+                (sender as Button).ToolTip = "更多";
+                //foreach (Node node in (this.DataContext as Card).ChildNodes)
+                //{
+                //    (node as Card).IsShowCard = (node as Card).IsContain;
+                //}
             }
             else
             {
-                //看更多
-                LookLessCards = true;
+                //全部展示
+                LookMore = true;
                 (sender as Button).Content = "\ue8c1";
-                foreach (Node node in (this.DataContext as Card).ChildNodes)
-                {
-                    (node as Card).IsShowCard = true;
-                }
+                (sender as Button).ToolTip = "更少";
+                //foreach (Node node in (this.DataContext as Card).ChildNodes)
+                //{
+                //    (node as Card).IsShowCard = true;
+                //}
             }
         }
 
@@ -141,7 +143,7 @@ namespace RootNS.View
             BookBase owner = (this.DataContext as Card).Owner as BookBase;
             owner.LoadForAllCardTabs();
             EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            EditorHelper.RefreshIsContainFlagForAllCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
 
         }
         private void Command_UnDel_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -154,7 +156,7 @@ namespace RootNS.View
             BookBase owner = (this.DataContext as Card).Owner as BookBase;
             owner.LoadForAllCardTabs();
             EditorHelper.RefreshKeyWordForAllEditor((sender as Button).DataContext as Card);
-            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            EditorHelper.RefreshIsContainFlagForAllCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
         }
 
         private void Button_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -196,7 +198,8 @@ namespace RootNS.View
                 return;
             }
             string text = ((Gval.EditorTabControl.SelectedItem as TabItem).Content as Editorkernel).ThisTextEditor.Text;
-            EditorHelper.RefreshIsContainFlagForCardsBox(text);
+            EditorHelper.RefreshIsContainFlagForTab(this.DataContext as Card, text);
+            EditorHelper.RefreshShowFlagForTab(this.DataContext as Card, LookMore);
         }
 
 

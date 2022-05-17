@@ -24,10 +24,6 @@ namespace RootNS.Model
             {
                 ShowYearLine = !string.IsNullOrWhiteSpace(BornYear);
             }
-            if (e.PropertyName == "IsContain" && IsContain == true)
-            {
-                IsShowCard = true;
-            }
         }
 
         public void RemoveThisCard()

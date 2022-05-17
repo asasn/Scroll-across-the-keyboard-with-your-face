@@ -90,7 +90,7 @@ namespace RootNS.View
             Gval.OpeningDocList.Remove(editorBase.DataContext as Node);
 
             //清空各种显示
-            EditorHelper.RefreshIsContainFlagForCardsBox(string.Empty);
+            EditorHelper.RefreshIsContainFlagForAllCardsBox(string.Empty);
             (Gval.View.UcShower.DataContext as Shower).Clear();
         }
 

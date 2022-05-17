@@ -71,7 +71,7 @@ namespace RootNS.View
                 return;
             }
             EditorHelper.RefreshKeyWordForAllEditor(this.DataContext as Card);
-            EditorHelper.RefreshIsContainFlagForCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
+            EditorHelper.RefreshIsContainFlagForAllCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
             
         }
 

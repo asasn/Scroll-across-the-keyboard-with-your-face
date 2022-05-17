@@ -18,11 +18,26 @@ namespace RootNS.Helper
 {
     internal class EditorHelper
     {
+        public static void RefreshShowFlagForTab(Card rootCard, bool lookMore)
+        {
+            foreach (Card card in rootCard.ChildNodes)
+            {
+                if (lookMore == true)
+                {
+                    card.IsShowCard = true;
+                }
+                else
+                {
+                    card.IsShowCard = card.IsContain;
+                }      
+            }
+        }
+
         /// <summary>
         /// 刷新信息卡标志以在box中标记（是否包含在文章中）
         /// </summary>
         /// <param name="tEditor"></param>
-        public static void RefreshIsContainFlagForCardsBox(string text)
+        public static void RefreshIsContainFlagForAllCardsBox(string text)
         {
             Card[] CardBoxs = { Gval.CurrentBook.CardRole, Gval.CurrentBook.CardOther, Gval.CurrentBook.CardWorld };
             foreach (Card rootCard in CardBoxs)
@@ -31,7 +46,7 @@ namespace RootNS.Helper
             }
         }
 
-        private static void RefreshIsContainFlagForTab(Card rootCard, string text)
+        public static void RefreshIsContainFlagForTab(Card rootCard, string text)
         {
             foreach (Card card in rootCard.ChildNodes)
             {
