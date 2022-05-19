@@ -37,6 +37,8 @@ namespace RootNS.View
             {
                 return;
             }
+            Timer.Start();
+            this.DataContext = this.Tag as Card;
             BookBase owner = (this.DataContext as Card).Owner as BookBase;
             owner.LoadForAllCardTabs();
             Card[] CardBoxs = { owner.CardRole, owner.CardOther, owner.CardWorld };
