@@ -119,12 +119,35 @@ namespace RootNS.View
                 FunctionPack.ShowMessageBox("请先关闭所有正在编辑的文档！");
                 return;
             }
-            DataOut.DeleteBook(Gval.CurrentBook);
-            SqliteHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
-            IOHelper.DeleteFile(Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db");
-            Gval.BooksBank.Remove(Gval.CurrentBook);
+            if (Gval.CurrentBook.IsDel == false)
+            {
+                Gval.CurrentBook.IsDel = true;
+                DataOut.UpdateBookInfo(Gval.CurrentBook);
+            }
+            else
+            {
+                DataOut.DeleteBook(Gval.CurrentBook);
+                SqliteHelper.PoolOperate.Remove(Gval.CurrentBook.Name);
+                IOHelper.DeleteFile(Gval.Path.Books + "/" + Gval.CurrentBook.Name + ".db");
+                Gval.BooksBank.Remove(Gval.CurrentBook);
+            }
             Gval.CurrentBook = new Book();
             (Gval.View.UcShower.DataContext as Shower).RefreshYears();
+        }
+
+
+        private void BtnUnDel_Click(object sender, RoutedEventArgs e)
+        {
+            if (Gval.EditorTabControl.Items.Count > 0)
+            {
+                FunctionPack.ShowMessageBox("请先关闭所有正在编辑的文档！");
+                return;
+            }
+            if (Gval.CurrentBook.IsDel == true)
+            {
+                Gval.CurrentBook.IsDel = false;
+                DataOut.UpdateBookInfo(Gval.CurrentBook);
+            }
         }
 
         private void TbBuild_KeyDown(object sender, KeyEventArgs e)

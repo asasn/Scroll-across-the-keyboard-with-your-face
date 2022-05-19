@@ -15,7 +15,7 @@
             <ItemsControl ItemsSource="{Binding BooksBank}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Effect="{StaticResource EffectShadow3}" Padding="0" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4" Loaded="Button_Loaded">
+                        <Button Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}" Effect="{StaticResource EffectShadow3}" Padding="0" ToolTip="测试-悬浮提示信息" ToolTipService.ShowDuration="60000" Width="Auto" Height="Auto" Click="Button_Click" Margin="4" Loaded="Button_Loaded">
                             <hc:Card BorderThickness="0" Padding="0" Header="{Binding Name}" MaxWidth="{Binding Width, ElementName=Cover}">
                                 <Image x:Name="Cover" Width="108" Height="162" Source="{Binding CoverPath}"/>
                             </hc:Card>
@@ -37,6 +37,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="100*"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
@@ -85,20 +86,24 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="2" x:Name="BtnUpdate" Content="确定" Click="BtnUpdate_Click"/>
             </Grid>
-            <Grid Grid.Row="6">
+            <Image x:Name="ImgShow" Source="{Binding CoverPath}" Height="192" Width="144" Grid.Row="5" />
+            <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="新书：" Width="38" Grid.Row="6" HorizontalAlignment="Left"/>
+            <Grid Grid.Row="7">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="100*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="新书：" Width="38"/>
-                <TextBox Grid.Column="1" x:Name="TbBuild" Padding="0" KeyDown="TbBuild_KeyDown" TextChanged="BookName_TextChanged"/>
+                <TextBox x:Name="TbBuild" Padding="0" KeyDown="TbBuild_KeyDown" TextChanged="BookName_TextChanged"/>
                 <Button Grid.Column="2" x:Name="BtnBuild" Content="创建" Click="BtnBuild_Click"/>
             </Grid>
-            <Grid Grid.Row="7">
+            <Grid Grid.Row="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
                 <Button x:Name="BtnDelBook" Content="删除选中的书籍" Click="BtnDelBook_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Button IsEnabled="{Binding IsDel}" Grid.Column="2" x:Name="BtnUnDel" Content="撤销" Click="BtnUnDel_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Grid>
-            <Image x:Name="ImgShow" Source="{Binding CoverPath}" Height="192" Grid.Row="4" Width="144" Grid.RowSpan="2" />
         </Grid>
     </Grid>
 </Window>
