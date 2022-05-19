@@ -361,9 +361,8 @@ namespace RootNS.Helper
         }
 
 
-        public static Card GetSearchResults(Card rootCard, string inputStr)
+        public static List<string> GetSearchResults(Card rootCard, string inputStr)
         {
-            Card newRoot = new Card() { Uid = String.Empty, Owner = rootCard.Owner, OwnerName = rootCard.OwnerName, TabName = rootCard.TabName };
             List<string> rutList = new List<string>();
             string[] sArray = inputStr.Split(new char[3] { '：', ':', ' ' });
             if (sArray.Length == 1)
@@ -385,7 +384,7 @@ namespace RootNS.Helper
                 {
                     if (string.IsNullOrWhiteSpace(sArrayYear[0]) || string.IsNullOrWhiteSpace(sArrayYear[1]))
                     {
-                        return newRoot;
+                        return rutList;
                     }
                     sql = string.Format("SELECT * FROM {0} WHERE BornYear BETWEEN {1} AND {2};", rootCard.TabName, sArrayYear[0].Replace("'", "''"), sArrayYear[1].Replace("'", "''"));
                 }
@@ -407,7 +406,6 @@ namespace RootNS.Helper
                     if (rutList.Contains(card.Uid) == false)
                     {
                         rutList.Add(card.Uid);
-                        newRoot.ChildNodes.Add(card);
                     }
                 }
                 reader.Close();
@@ -438,14 +436,13 @@ namespace RootNS.Helper
                         if (rutList.Contains(card.Uid) == false)
                         {
                             rutList.Add(card.Uid);
-                            newRoot.ChildNodes.Add(card);
                         }
                     }
                     reader.Close();
                 }
                 readerTip.Close();
             }
-            return newRoot;
+            return rutList;
         }
     }
 }

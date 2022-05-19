@@ -181,16 +181,23 @@ namespace RootNS.View
         Button PreviousButton = new Button();
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Gval.CurrentBook != (sender as Button).DataContext as Book)
+            if (Gval.CurrentBook == (sender as Button).DataContext as Book)
             {
-                Gval.CurrentBook = DataIn.LoadCurrentBookContent((sender as Button).DataContext as Book);
-                (sender as Button).BorderBrush = null;
-                PreviousButton.BorderBrush = null;
-                (sender as Button).BorderBrush = Brushes.Orange;
-                PreviousButton = sender as Button;
-                SettingsHelper.Set(Gval.MaterialBook.Name, "CurBookUid", Gval.CurrentBook.Uid);
-                (Gval.View.UcShower.DataContext as Shower).RefreshYears();
+                return;
             }
+            if (Gval.EditorTabControl.Items.Count > 0)
+            {
+                FunctionPack.ShowMessageBox("请先关闭所有正在编辑的文档！");
+                return;
+            }
+            Gval.CurrentBook = DataIn.LoadCurrentBookContent((sender as Button).DataContext as Book);
+            (sender as Button).BorderBrush = null;
+            PreviousButton.BorderBrush = null;
+            (sender as Button).BorderBrush = Brushes.Orange;
+            PreviousButton = sender as Button;
+            SettingsHelper.Set(Gval.MaterialBook.Name, "CurBookUid", Gval.CurrentBook.Uid);
+            (Gval.View.UcShower.DataContext as Shower).RefreshYears();
+
         }
 
         private void Button_Loaded(object sender, RoutedEventArgs e)

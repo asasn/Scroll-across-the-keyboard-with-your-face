@@ -31,14 +31,15 @@ namespace RootNS.View
             InitializeComponent();
         }
 
+
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
+                Searching = false;
+                Timer.Start();
                 return;
             }
-            Timer.Start();
-            this.DataContext = this.Tag as Card;
             BookBase owner = (this.DataContext as Card).Owner as BookBase;
             owner.LoadForAllCardTabs();
             Card[] CardBoxs = { owner.CardRole, owner.CardOther, owner.CardWorld };
@@ -66,36 +67,37 @@ namespace RootNS.View
 
         }
 
+        private bool Searching;
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
+                Searching = false;
                 Timer.Start();
-                this.DataContext = this.Tag as Card;
                 return;
             }
-            LookMore = false;
-            BtnLookMore.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            Searching = true;
+            Timer.Stop();
             string title = TbNew.Text.Trim();
-            this.DataContext = DataIn.GetSearchResults(this.DataContext as Card, title);
-            //foreach (Card card in (this.DataContext as Card).ChildNodes)
-            //{
-            //    if (title.Equals(card.Title) == true || card.IsEqualsNickNames(title, card.NickNames))
-            //    {
-            //        CardWindow cw = new CardWindow(card);
-            //        ViewSet.ForViewPointX(cw, this, -6);
-            //        ViewSet.ForViewPointY(cw, this, 50);
-            //        cw.ShowDialog();
-            //        return;
-            //    }
-            //}
+            List<string> rutList = DataIn.GetSearchResults(this.DataContext as Card, title);
+            foreach (Card card in (this.DataContext as Card).ChildNodes)
+            {
+                if (rutList.Contains(card.Uid))
+                {
+                    card.IsShowCard = true;
+                }
+                else
+                {
+                    card.IsShowCard = false;
+                }
+            }
+            TbNew.Clear();
         }
 
-        public bool LookMore;
+        private bool LookMore;
         private void BtnLookMore_Click(object sender, RoutedEventArgs e)
         {
             Timer.Start();
-            this.DataContext = this.Tag as Card;
             if (LookMore == true)
             {
                 //屏蔽部分
@@ -205,7 +207,6 @@ namespace RootNS.View
 
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Tag = this.DataContext as Card;
             Timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(1000)
