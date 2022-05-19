@@ -183,8 +183,7 @@ namespace RootNS.View
         {
             if (Gval.CurrentBook != (sender as Button).DataContext as Book)
             {
-                Gval.CurrentBook = (sender as Button).DataContext as Book;
-                DataIn.LoadCurrentBookContent(Gval.CurrentBook);
+                Gval.CurrentBook = DataIn.LoadCurrentBookContent((sender as Button).DataContext as Book);
                 (sender as Button).BorderBrush = null;
                 PreviousButton.BorderBrush = null;
                 (sender as Button).BorderBrush = Brushes.Orange;
@@ -198,6 +197,7 @@ namespace RootNS.View
         {
             if (((sender as Button).DataContext as Book).Uid == Gval.CurrentBook.Uid)
             {
+                Gval.CurrentBook = DataIn.LoadCurrentBookContent((sender as Button).DataContext as Book);
                 (sender as Button).BorderBrush = Brushes.Orange;
                 PreviousButton = sender as Button;
             }

@@ -52,7 +52,7 @@ namespace RootNS.Helper
         }
 
 
-        public static void LoadCurrentBookContent(Book book)
+        public static Book LoadCurrentBookContent(Book book)
         {
             SqliteHelper.PoolOperate.Add(Gval.CurrentBook.Name);
             string sql = string.Format("SELECT * FROM 书库 WHERE Uid='{0}';", book.Uid);
@@ -73,7 +73,7 @@ namespace RootNS.Helper
             book.LoadForNoteTab();
             book.LoadForCardTab();
             Gval.FlagLoadingCompleted = true;
-
+            return book;
         }
 
 
