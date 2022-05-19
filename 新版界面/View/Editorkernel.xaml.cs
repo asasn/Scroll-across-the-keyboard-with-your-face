@@ -297,6 +297,11 @@ namespace RootNS.View
             {
                 return;
             }
+            if (Gval.EditorTabControl.SelectedItem == null ||
+               ((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).DataContext != this.DataContext)
+            {
+                return;
+            }
             //因为在TabControl中，每次切换的时候都会触发这个事件，故而一些初始化步骤放在父容器
             (Gval.View.UcShower.DataContext as Shower).RefreshCards(this.DataContext as Node);
             //textCount = EditorHelper.CountWords(ThisTextEditor.Text);
