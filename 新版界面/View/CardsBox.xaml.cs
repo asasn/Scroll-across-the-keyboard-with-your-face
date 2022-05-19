@@ -72,10 +72,10 @@ namespace RootNS.View
                 this.DataContext = this.Tag as Card;
                 return;
             }
-            Timer.Stop();
+            LookMore = false;
+            BtnLookMore.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             string title = TbNew.Text.Trim();
             this.DataContext = DataIn.GetSearchResults(this.DataContext as Card, title);
-            TbNew.Clear();
             //foreach (Card card in (this.DataContext as Card).ChildNodes)
             //{
             //    if (title.Equals(card.Title) == true || card.IsEqualsNickNames(title, card.NickNames))

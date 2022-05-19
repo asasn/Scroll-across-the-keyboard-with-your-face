@@ -364,6 +364,7 @@ namespace RootNS.Helper
         public static Card GetSearchResults(Card rootCard, string inputStr)
         {
             Card newRoot = new Card() { Uid = String.Empty, Owner = rootCard.Owner, OwnerName = rootCard.OwnerName, TabName = rootCard.TabName };
+            List<string> rutList = new List<string>();
             string[] sArray = inputStr.Split(new char[3] { '：', ':', ' ' });
             if (sArray.Length == 1)
             {
@@ -403,7 +404,11 @@ namespace RootNS.Helper
                         IsDel = (bool)reader["IsDel"],
                         IsShowCard = true,
                     };
-                    newRoot.ChildNodes.Add(card);
+                    if (rutList.Contains(card.Uid) == false)
+                    {
+                        rutList.Add(card.Uid);
+                        newRoot.ChildNodes.Add(card);
+                    }
                 }
                 reader.Close();
             }
@@ -430,8 +435,9 @@ namespace RootNS.Helper
                             IsDel = (bool)reader["IsDel"],
                             IsShowCard = true,
                         };
-                        if (newRoot.ChildNodes.Contains(card) == false)
+                        if (rutList.Contains(card.Uid) == false)
                         {
+                            rutList.Add(card.Uid);
                             newRoot.ChildNodes.Add(card);
                         }
                     }
