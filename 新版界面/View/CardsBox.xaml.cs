@@ -54,7 +54,7 @@ namespace RootNS.View
                     }
                 }
             }
-            Card newCard = new Card() { Title = TbNew.Text };
+            Card newCard = new Card() { Title = TbNew.Text, IsShowCard = true };
             (this.DataContext as Card).AddChildNode(newCard);
             TbNew.Clear();
             if (Gval.EditorTabControl.SelectedItem == null || owner.Name == Gval.MaterialBook.Name)
@@ -85,10 +85,6 @@ namespace RootNS.View
                 if (rutList.Contains(card.Uid))
                 {
                     card.IsShowCard = true;
-                }
-                else
-                {
-                    card.IsShowCard = false;
                 }
             }
             TbNew.Clear();
