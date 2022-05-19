@@ -32,7 +32,7 @@
             <ItemsControl ItemsSource="{Binding ChildNodes}" VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Margin="2" Padding="2" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click" MouseRightButtonDown="Button_MouseRightButtonDown" Visibility="{Binding IsShowCard, Converter={StaticResource BoolConvertToVisibility}}" IsVisibleChanged="Button_IsVisibleChanged">
+                        <Button Margin="2" Padding="2" Background="{Binding IsContain, Converter={StaticResource BoolConvertToBrush}}" Opacity="{Binding IsDel, Converter={StaticResource IsDelConvertOpacity}}"  DataContext="{Binding}" Content="{Binding Title}"  ToolTipService.ShowDuration="60000" Height="20" Click="Button_Click" MouseRightButtonDown="Button_MouseRightButtonDown" Visibility="{Binding IsShowCard, Converter={StaticResource BoolConvertToVisibility}}" IsVisibleChanged="Button_IsVisibleChanged" Loaded="Button_Loaded">
                                 <Button.Resources>
                                     <RoutedUICommand x:Key="DelCard" Text="信息卡"/>
                                     <RoutedUICommand x:Key="UnDel" Text="撤销删除"/>

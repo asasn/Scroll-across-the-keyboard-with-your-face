@@ -66,23 +66,34 @@ namespace RootNS.View
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            string title = TbNew.Text.Trim();
-            foreach (Card card in (this.DataContext as Card).ChildNodes)
+            if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
-                if (title.Equals(card.Title) == true || card.IsEqualsNickNames(title, card.NickNames))
-                {
-                    CardWindow cw = new CardWindow(card);
-                    ViewSet.ForViewPointX(cw, this, -6);
-                    ViewSet.ForViewPointY(cw, this, 50);
-                    cw.ShowDialog();
-                    return;
-                }
+                Timer.Start();
+                this.DataContext = this.Tag as Card;
+                return;
             }
+            Timer.Stop();
+            string title = TbNew.Text.Trim();
+            this.DataContext = DataIn.GetSearchResults(this.DataContext as Card, title);
+            TbNew.Clear();
+            //foreach (Card card in (this.DataContext as Card).ChildNodes)
+            //{
+            //    if (title.Equals(card.Title) == true || card.IsEqualsNickNames(title, card.NickNames))
+            //    {
+            //        CardWindow cw = new CardWindow(card);
+            //        ViewSet.ForViewPointX(cw, this, -6);
+            //        ViewSet.ForViewPointY(cw, this, 50);
+            //        cw.ShowDialog();
+            //        return;
+            //    }
+            //}
         }
 
         public bool LookMore;
         private void BtnLookMore_Click(object sender, RoutedEventArgs e)
         {
+            Timer.Start();
+            this.DataContext = this.Tag as Card;
             if (LookMore == true)
             {
                 //屏蔽部分
@@ -111,7 +122,7 @@ namespace RootNS.View
         {
             if (e.Key == Key.Enter)
             {
-                BtnAdd.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                BtnSearch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
 
@@ -174,6 +185,14 @@ namespace RootNS.View
             (sender as Button).Focus();
         }
 
+        private void Button_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (((sender as Button).DataContext as Card).IsShowCard == true && (sender as Button).ToolTip == null)
+            {
+                (sender as Button).ToolTip = new CardHover((sender as Button).DataContext as Card);
+            }
+        }
+
         private void Button_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (((sender as Button).DataContext as Card).IsShowCard == true && (sender as Button).ToolTip == null)
@@ -184,6 +203,7 @@ namespace RootNS.View
 
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
         {
+            this.Tag = this.DataContext as Card;
             Timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(1000)

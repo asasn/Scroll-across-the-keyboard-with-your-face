@@ -136,7 +136,7 @@ namespace RootNS.Helper
                 rootNode.ChildNodes.Add(node);
                 FillInNodes(node.Uid, node);
             }
-            
+
             reader.Close();
         }
 
@@ -360,5 +360,86 @@ namespace RootNS.Helper
             return card;
         }
 
+
+        public static Card GetSearchResults(Card rootCard, string inputStr)
+        {
+            Card newRoot = new Card() { Uid = String.Empty, Owner = rootCard.Owner, OwnerName = rootCard.OwnerName, TabName = rootCard.TabName };
+            string[] sArray = inputStr.Split(new char[3] { '：', ':', ' ' });
+            if (sArray.Length == 1)
+            {
+                string[] sArrayYear = inputStr.Split(new char[3] { '-', '~', '|' });
+                string sql = string.Empty;
+                if (sArrayYear.Length == 1)
+                {
+                    if (int.TryParse(inputStr, out int n))
+                    {
+                        sql = string.Format("SELECT * FROM {0} WHERE BornYear BETWEEN {1} AND {2};", rootCard.TabName, Convert.ToInt32((n * 0.8)).ToString().Replace("'", "''"), Convert.ToInt32((n * 1.2)).ToString().Replace("'", "''"));
+                    }
+                    else
+                    {
+                        sql = string.Format("SELECT * FROM {0} WHERE Title LIKE '%{1}%' OR Summary LIKE '%{1}%' OR BornYear LIKE '%{1}%';", rootCard.TabName, inputStr);
+                    }
+                }
+                if (sArrayYear.Length == 2)
+                {
+                    if (string.IsNullOrWhiteSpace(sArrayYear[0]) || string.IsNullOrWhiteSpace(sArrayYear[1]))
+                    {
+                        return newRoot;
+                    }
+                    sql = string.Format("SELECT * FROM {0} WHERE BornYear BETWEEN {1} AND {2};", rootCard.TabName, sArrayYear[0].Replace("'", "''"), sArrayYear[1].Replace("'", "''"));
+                }
+                SQLiteDataReader reader = SqliteHelper.PoolDict[rootCard.OwnerName].ExecuteQuery(sql);
+                while (reader.Read())
+                {
+                    Card card = new Card
+                    {
+                        Index = Convert.ToInt32(reader["Index"]),
+                        Uid = reader["Uid"].ToString(),
+                        Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
+                        Summary = reader["Summary"] == DBNull.Value ? null : reader["Summary"].ToString(),
+                        Weight = reader["Weight"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Weight"]),
+                        BornYear = string.IsNullOrWhiteSpace(reader["BornYear"].ToString()) == true ? null : reader["BornYear"].ToString(),
+                        IsChecked = (bool)reader["IsChecked"],
+                        IsDel = (bool)reader["IsDel"],
+                        IsShowCard = true,
+                    };
+                    newRoot.ChildNodes.Add(card);
+                }
+                reader.Close();
+            }
+            if (sArray.Length == 2)
+            {
+                string sql = string.Format("SELECT * FROM 卡片 WHERE Title LIKE '%{0}%' AND Tid=(select Uid from 卡设计 where Title='{1}' AND TabName='{2}') AND TabName='{2}' ORDER BY [Index];", sArray[1].Replace("'", "''"), sArray[0].Replace("'", "''"), rootCard.TabName);
+                SQLiteDataReader readerTip = SqliteHelper.PoolDict[rootCard.OwnerName].ExecuteQuery(sql);
+                while (readerTip.Read())
+                {
+                    string cardUid = readerTip["Pid"].ToString();
+                    string sql2 = string.Format("SELECT * FROM {0} WHERE Uid='{1}';", rootCard.TabName, cardUid);
+                    SQLiteDataReader reader = SqliteHelper.PoolDict[rootCard.OwnerName].ExecuteQuery(sql2);
+                    while (reader.Read())
+                    {
+                        Card card = new Card
+                        {
+                            Index = Convert.ToInt32(reader["Index"]),
+                            Uid = reader["Uid"].ToString(),
+                            Title = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString(),
+                            Summary = reader["Summary"] == DBNull.Value ? null : reader["Summary"].ToString(),
+                            Weight = reader["Weight"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Weight"]),
+                            BornYear = string.IsNullOrWhiteSpace(reader["BornYear"].ToString()) == true ? null : reader["BornYear"].ToString(),
+                            IsChecked = (bool)reader["IsChecked"],
+                            IsDel = (bool)reader["IsDel"],
+                            IsShowCard = true,
+                        };
+                        if (newRoot.ChildNodes.Contains(card) == false)
+                        {
+                            newRoot.ChildNodes.Add(card);
+                        }
+                    }
+                    reader.Close();
+                }
+                readerTip.Close();
+            }
+            return newRoot;
+        }
     }
 }
