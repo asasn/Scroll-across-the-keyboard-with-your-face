@@ -81,7 +81,7 @@ namespace RootNS.Model
             }
         }
 
-        private Card.Line _suspenses = new Card.Line() { LineTitle = "悬念" };
+        private Card.Line _suspenses = new Card.Line() { LineTitle = "悬念问题" };
 
         public Card.Line Suspenses
         {
