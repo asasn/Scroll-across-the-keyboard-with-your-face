@@ -33,6 +33,82 @@ namespace RootNS.Model
             }
         }
 
+        private Card.Line _awardPoints = new Card.Line() { LineTitle = "爽点" };
+
+        public Card.Line AwardPoints
+        {
+            get { return _awardPoints; }
+            set
+            {
+                _awardPoints = value;
+                RaisePropertyChanged(nameof(AwardPoints));
+            }
+        }
+
+        private Card.Line _protagonist = new Card.Line() { LineTitle = "主角人设" };
+
+        public Card.Line Protagonist
+        {
+            get { return _protagonist; }
+            set
+            {
+                _protagonist = value;
+                RaisePropertyChanged(nameof(Protagonist));
+            }
+        }
+
+        private Card.Line _incentiveEvent = new Card.Line() { LineTitle = "激励事件" };
+
+        public Card.Line IncentiveEvent
+        {
+            get { return _incentiveEvent; }
+            set
+            {
+                _incentiveEvent = value;
+                RaisePropertyChanged(nameof(IncentiveEvent));
+            }
+        }
+
+        private Card.Line _overreaction = new Card.Line() { LineTitle = "过激行为" };
+
+        public Card.Line Overreaction
+        {
+            get { return _overreaction; }
+            set
+            {
+                _overreaction = value;
+                RaisePropertyChanged(nameof(Overreaction));
+            }
+        }
+
+        private Card.Line _suspenses = new Card.Line() { LineTitle = "悬念" };
+
+        public Card.Line Suspenses
+        {
+            get { return _suspenses; }
+            set
+            {
+                _suspenses = value;
+                RaisePropertyChanged(nameof(Suspenses));
+            }
+        }
+
+
+        private Card.Line _envObstruction = new Card.Line() { LineTitle = "环境阻力" };
+
+        public Card.Line EnvObstruction
+        {
+            get { return _envObstruction; }
+            set
+            {
+                _envObstruction = value;
+                RaisePropertyChanged(nameof(EnvObstruction));
+            }
+        }
+
+
+
+
         private Card.Line _volumes = new Card.Line() { LineTitle = "分卷" };
 
         public Card.Line Volumes
@@ -69,17 +145,7 @@ namespace RootNS.Model
                 RaisePropertyChanged(nameof(Clues));
             }
         }
-        private Card.Line _sellPoints = new Card.Line() { LineTitle = "卖点" };
 
-        public Card.Line SellPoints
-        {
-            get { return _sellPoints; }
-            set
-            {
-                _sellPoints = value;
-                RaisePropertyChanged(nameof(SellPoints));
-            }
-        }
 
 
         private Card.Line _goldfingers = new Card.Line() { LineTitle = "金手指" };
@@ -149,7 +215,7 @@ namespace RootNS.Model
         public void Save(Node node, string showContent)
         {
             //清除tip.title为空的项目
-            Card.Line[] lines = { Subject, Style, Volumes, Roles, SellPoints, Goldfingers, Clues, Levels, WorldInfo, Sets };
+            Card.Line[] lines = { Subject, Style, AwardPoints, Protagonist, IncentiveEvent, Overreaction, Suspenses, EnvObstruction, Volumes, Roles, Goldfingers, Clues, Levels, WorldInfo, Sets };
             foreach (Card.Line line in lines)
             {
                 foreach (Card.Tip tip in line.Tips.ToList())

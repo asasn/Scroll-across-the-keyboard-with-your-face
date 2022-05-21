@@ -6,7 +6,7 @@
         xmlns:hc="https://handyorg.github.io/handycontrol" 
         xmlns:local="clr-namespace:RootNS.View" UseLayoutRounding="True" Effect="{StaticResource EffectShadow3}" 
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="题材简记（关于开新书的一些灵感）" Height="310" Width="500" MinWidth="500" MinHeight="310" Loaded="ThisWindow_Loaded">
+        Title="题材简记（关于开新书的一些灵感）" Height="360" Width="600" MinWidth="500" MinHeight="360" Loaded="ThisWindow_Loaded">
     <Grid x:Name="GMian">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -18,12 +18,18 @@
         </Grid>
         <Button Padding="0" x:Name="BtnSave" IsEnabled="{Binding CanSave, Mode=TwoWay}" FontFamily="../Assets/#androidicons" Content="&#59556;" FontSize="16"  Foreground="DodgerBlue" BorderThickness="0,0,0,0" Click="BtnSave_Click" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20" Margin="0,5,5,0" />
         <TabControl Grid.Row="3"  VirtualizingPanel.IsVirtualizing="True" Style="{DynamicResource TabControlStyle}">
-            <TabItem Header="简介，主旨和风格" >
+            <TabItem Header="简介，支点" >
                 <ScrollViewer>
                     <StackPanel Margin="0,0,0,60">
                         <TextBox x:Name="TbShowContent" BorderThickness="0,0,0,1" TextWrapping="Wrap" AcceptsReturn="True" TextChanged="TbShowContent_TextChanged" Text="{Binding DataContext.Text, Mode=OneWay, ElementName=ThisWindow}" VerticalAlignment="Top" Grid.Row="2"/>
                         <local:CardLine DataContext="{Binding Subject, Mode=TwoWay}" Visibility="Visible"/>
                         <local:CardLine DataContext="{Binding Style, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding AwardPoints, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Protagonist, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding IncentiveEvent, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Overreaction, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding Suspenses, Mode=TwoWay}" Visibility="Visible"/>
+                        <local:CardLine DataContext="{Binding EnvObstruction, Mode=TwoWay}" Visibility="Visible"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -41,10 +47,9 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="卖点、金手指、线索和设定" >
+            <TabItem Header="金手指、线索和设定" >
                 <ScrollViewer>
                     <StackPanel Margin="0,0,0,60">
-                        <local:CardLine DataContext="{Binding SellPoints, Mode=TwoWay}" Visibility="Visible"/>
                         <local:CardLine DataContext="{Binding Goldfingers, Mode=TwoWay}" Visibility="Visible"/>
                         <local:CardLine DataContext="{Binding Clues, Mode=TwoWay}" Visibility="Visible"/>
                         <local:CardLine DataContext="{Binding Levels, Mode=TwoWay}" Visibility="Visible"/>

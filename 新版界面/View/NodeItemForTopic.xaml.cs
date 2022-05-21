@@ -36,10 +36,15 @@ namespace RootNS.View
             (this.DataContext as Node).Extra = topic;
 
             topic.Subject.PropertyChanged += PropertyChanged;
-            topic.Style.PropertyChanged += PropertyChanged;
+            topic.Style.PropertyChanged += PropertyChanged; 
+            topic.AwardPoints.PropertyChanged += PropertyChanged;
+            topic.Protagonist.PropertyChanged += PropertyChanged;
+            topic.IncentiveEvent.PropertyChanged += PropertyChanged;
+            topic.Overreaction.PropertyChanged += PropertyChanged;
+            topic.Suspenses.PropertyChanged += PropertyChanged;
+            topic.EnvObstruction.PropertyChanged += PropertyChanged;
             topic.Volumes.PropertyChanged += PropertyChanged;
             topic.Roles.PropertyChanged += PropertyChanged;
-            topic.SellPoints.PropertyChanged += PropertyChanged;
             topic.Goldfingers.PropertyChanged += PropertyChanged;
             topic.Clues.PropertyChanged += PropertyChanged;
             topic.Levels.PropertyChanged += PropertyChanged;
@@ -54,7 +59,7 @@ namespace RootNS.View
 
         private void ThisControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
+
             TopicWindow win = new TopicWindow
             {
                 DataContext = this.DataContext
