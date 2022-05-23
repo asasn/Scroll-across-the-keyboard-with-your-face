@@ -227,7 +227,7 @@ namespace RootNS.Model
                 }
             }
             node.Text = showContent;
-            string json = JsonHelper.ObjToJson(this);
+            string json = NewtonsoftJsonHelper.ObjectToJson(this);
             DataOut.UpdateNodeProperty(node, nameof(Node.Text), node.Text);
             DataOut.UpdateNodeProperty(node, nameof(Node.Summary), json);
             this.CanSave = false;

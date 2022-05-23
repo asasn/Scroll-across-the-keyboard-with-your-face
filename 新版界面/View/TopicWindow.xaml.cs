@@ -62,7 +62,7 @@ namespace RootNS.View
         //        }
         //    }
         //    node.Text = TbShowContent.Text;
-        //    string json = JsonHelper.ObjToJson(topic);
+        //    string json = NewtonsoftJsonHelper.ObjectToJson(topic);
         //    DataOut.UpdateNodeProperty(node, nameof(Node.Text), node.Text);
         //    DataOut.UpdateNodeProperty(node, nameof(Node.Summary), json);
         //    topic.CanSave = false;

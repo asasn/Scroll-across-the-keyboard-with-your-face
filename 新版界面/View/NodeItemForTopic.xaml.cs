@@ -29,9 +29,9 @@ namespace RootNS.View
         private void ThisControl_Loaded(object sender, RoutedEventArgs e)
         {
             Topic topic = new Topic();
-            if (JsonHelper.JsonToObj<Topic>((this.DataContext as Node).Summary) != null)
+            if (NewtonsoftJsonHelper.JsonToObject<Topic>((this.DataContext as Node).Summary) != null)
             {
-                topic = JsonHelper.JsonToObj<Topic>((this.DataContext as Node).Summary);
+                topic = NewtonsoftJsonHelper.JsonToObject<Topic>((this.DataContext as Node).Summary);
             }
             (this.DataContext as Node).Extra = topic;
 

@@ -149,17 +149,17 @@ namespace RootNS.Helper
             if (node.TabName == Material.MaterialTabName.题材.ToString())
             {
                 Topic topic = new Topic();
-                if (JsonHelper.JsonToObj<Topic>(node.Summary) != null)
+                if (NewtonsoftJsonHelper.JsonToObject<Topic>(node.Summary) != null)
                 {
-                    topic = JsonHelper.JsonToObj<Topic>(node.Summary);
+                    topic = NewtonsoftJsonHelper.JsonToObject<Topic>(node.Summary);
                 }
                 node.Extra = topic;
             }
             else
             {
-                if (JsonHelper.JsonToObj<Summary>(node.Summary) != null)
+                if (NewtonsoftJsonHelper.JsonToObject<Summary>(node.Summary) != null)
                 {
-                    (node.Extra as Summary).Json = JsonHelper.JsonToObj<Summary.JsonData>(node.Summary);
+                    (node.Extra as Summary).Json = NewtonsoftJsonHelper.JsonToObject<Summary.JsonData>(node.Summary);
                 }
                 (node.Extra as Summary).Time = (node.Extra as Summary).Json.Time;
                 (node.Extra as Summary).Place = (node.Extra as Summary).Json.Place;
