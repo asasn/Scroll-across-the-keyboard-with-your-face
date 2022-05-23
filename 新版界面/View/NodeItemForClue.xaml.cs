@@ -58,9 +58,9 @@ namespace RootNS.View
             {
                 Node = this.DataContext as Node
             };
-            if (NewtonsoftJsonHelper.JsonToObject<Summary>(secen.Node.Summary) != null)
+            if (JsonHelper.JsonToObject<Summary>(secen.Node.Summary) != null)
             {
-                secen.Json = NewtonsoftJsonHelper.JsonToObject<Summary.JsonData>(secen.Node.Summary);
+                secen.Json = JsonHelper.JsonToObject<Summary.JsonData>(secen.Node.Summary);
             }
 
             secen.Time = secen.Json.Time;

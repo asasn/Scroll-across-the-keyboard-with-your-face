@@ -272,7 +272,7 @@ namespace RootNS.Model
             Time = time;
             Place = place;
             Node.Text = content;
-            string json = NewtonsoftJsonHelper.ObjectToJson(Json);
+            string json = JsonHelper.ObjectToJson(Json);
             DataOut.UpdateNodeProperty(Node, nameof(Node.Text), Node.Text);
             DataOut.UpdateNodeProperty(Node, nameof(Node.Summary), json);
             CanSave = false;
@@ -280,7 +280,7 @@ namespace RootNS.Model
 
         public void SaveOnlyCollection()
         {
-            string json = NewtonsoftJsonHelper.ObjectToJson(Json);
+            string json = JsonHelper.ObjectToJson(Json);
             DataOut.UpdateNodeProperty(Node, nameof(Node.Summary), json);
             CanSave = false;
         }
