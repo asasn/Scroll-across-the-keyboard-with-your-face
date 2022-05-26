@@ -19,7 +19,7 @@ namespace RootNS.Helper
         public static string GetHtmlText(string urlStr)
         {
             WebRequest request = WebRequest.Create(urlStr);
-            request.Timeout = 5000;
+            request.Timeout = 10000;
             try
             {
                 WebResponse response = request.GetResponse();

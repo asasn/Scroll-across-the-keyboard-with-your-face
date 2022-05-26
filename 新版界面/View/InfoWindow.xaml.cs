@@ -1,4 +1,5 @@
 ﻿using RootNS.Helper;
+using RootNS.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,17 @@ namespace RootNS.View
             InitializeComponent();
         }
 
+        class LatestInfo
+        {
+            public string html_url { get; set; }
+            public string tag_name { get; set; }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string text = WebHelper.GetHtmlText("https://www.google.com/");
-            Console.WriteLine(text);
+            string text = WebHelper.GetHtmlText("https://api.github.com/repos/asasn/Scroll-across-the-keyboard-with-your-face/releases/latest");
+            LatestInfo latestInfo = JsonHelper.JsonToObject<LatestInfo>(text);
+            Gval.CurrentVersion = latestInfo.tag_name;
         }
     }
 }
