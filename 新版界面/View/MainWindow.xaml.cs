@@ -191,7 +191,10 @@ namespace RootNS
 
         private void BtnInfo_Click(object sender, RoutedEventArgs e)
         {
-
+            InfoWindow win = new InfoWindow();
+            Workfolw.ViewSet.ForViewPointX(win, sender as Button, -(win.Width / 2));
+            Workfolw.ViewSet.ForViewPointY(win, sender as Button, 50);
+            win.ShowDialog();
         }
     }
 }

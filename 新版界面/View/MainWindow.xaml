@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:RootNS" xmlns:view="clr-namespace:RootNS.View"
         xmlns:mod="clr-namespace:RootNS.Model" xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d" UseLayoutRounding="True"
-        Title="{Binding CurrentVersion, Source={StaticResource GlobalSource},StringFormat=脸滚键盘——不问苍生问鬼神的小说创作方案 {\0}}" ContentRendered="WinMain_ContentRendered"
+        Title="{Binding CurrentVersion, Source={StaticResource GlobalSource}, StringFormat=脸滚键盘——不问苍生问鬼神的小说创作方案 {\0}}" ContentRendered="WinMain_ContentRendered"
         Height="1000" Width="1800" 
         WindowState="Maximized" Loaded="WinMain_Loaded" Closing="WinMain_Closing">
     <Grid>
