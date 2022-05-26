@@ -48,7 +48,7 @@ namespace RootNS.Model
         }
 
 
-        private static string _latestVersion = "0.0.0.0";
+        private static string _latestVersion = "       ";
 
         public static string LatestVersion
         {
