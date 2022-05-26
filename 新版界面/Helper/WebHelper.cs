@@ -19,16 +19,17 @@ namespace RootNS.Helper
         public static string GetHtmlText(string urlStr)
         {
             WebRequest request = WebRequest.Create(urlStr);
-            request.Timeout = 10000;
+            request.Timeout = 1000 * 10;
             try
             {
                 WebResponse response = request.GetResponse();
                 StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
                 return reader.ReadToEnd();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return string.Empty;
+                Console.WriteLine(ex);
+                return null;
             }
         }
 

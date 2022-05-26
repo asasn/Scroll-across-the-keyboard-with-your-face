@@ -2,8 +2,11 @@
 using RootNS.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml;
 
 namespace RootNS.View
 {
@@ -34,9 +38,24 @@ namespace RootNS.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string text = WebHelper.GetHtmlText("https://api.github.com/repos/asasn/Scroll-across-the-keyboard-with-your-face/releases/latest");
-            LatestInfo latestInfo = JsonHelper.JsonToObject<LatestInfo>(text);
-            Gval.CurrentVersion = latestInfo.tag_name;
+            string text = WebHelper.GetHtmlText("https://github.com/asasn/Scroll-across-the-keyboard-with-your-face");
+            if (string.IsNullOrEmpty(text))
+            {
+                Gval.LatestVersion = "Error";
+                return;
+            }
+            Match match = Regex.Match(text, "(?<=releases/tag/)([\\s\\S]+?)(?=\">)");
+            if (match.Success)
+            {
+                Gval.LatestVersion = match.Value;
+            }
+            //LatestInfo latestInfo = JsonHelper.JsonToObject<LatestInfo>(text);
+            //Gval.LatestVersion = latestInfo.tag_name;
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(((Hyperlink)sender).NavigateUri.ToString());
         }
     }
 }

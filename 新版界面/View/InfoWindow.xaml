@@ -8,12 +8,16 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox BorderThickness="0" Text="{Binding CurrentVersion, Source={StaticResource GlobalSource}, StringFormat=当前版本 {\0}}" VerticalAlignment="Stretch" Grid.Row="1" HorizontalContentAlignment="Center"/>
         <TextBox BorderThickness="0" Text="{Binding LatestVersion, Source={StaticResource GlobalSource}, StringFormat=最新版本 {\0}}" VerticalAlignment="Stretch" Grid.Row="2" HorizontalContentAlignment="Center"/>
+        <TextBlock  VerticalAlignment="Center" Grid.Row="3" HorizontalAlignment="Center">
+            <Hyperlink x:Name="HLink" NavigateUri="{Binding HomePage, Source={StaticResource GlobalSource}}" Click="Hyperlink_Click" Cursor="Hand">点此进入GitHub仓库</Hyperlink>
+        </TextBlock>
         <Button Content="检查" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Margin="10,0,10,0" Height="24" Padding="3,3,3,3"/>
 
     </Grid>

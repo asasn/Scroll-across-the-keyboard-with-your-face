@@ -35,6 +35,20 @@ namespace RootNS.Model
             public static string XshdPath { get { return "../Assets/Text.xshd"; } }
         }
 
+        private static string _homePage = "https://github.com/asasn/Scroll-across-the-keyboard-with-your-face";
+
+        public static string HomePage
+        {
+            get { return _homePage; }
+            set
+            {
+                _homePage = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(HomePage)));
+            }
+        }
+
+
+
         private static string _currentVersion = Application.ResourceAssembly.GetName().Version.ToString();
 
         public static string CurrentVersion
@@ -48,7 +62,7 @@ namespace RootNS.Model
         }
 
 
-        private static string _latestVersion = "       ";
+        private static string _latestVersion = "no checked";
 
         public static string LatestVersion
         {
