@@ -11,6 +11,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBox BorderThickness="0" Text="{Binding CurrentVersion, Source={StaticResource GlobalSource}, StringFormat=当前版本 {\0}}" VerticalAlignment="Stretch" Grid.Row="1" HorizontalContentAlignment="Center" Margin="30,0,0,0" HorizontalAlignment="Left"/>
@@ -19,6 +20,7 @@
             <Hyperlink x:Name="HLink" NavigateUri="{Binding HomePage, Source={StaticResource GlobalSource}}" Click="Hyperlink_Click" Cursor="Hand">点此进入GitHub仓库</Hyperlink>
         </TextBlock>
         <Button Content="检查更新" HorizontalAlignment="Right" Grid.Row="2" VerticalAlignment="Center" Click="Button_Click" Margin="10,0,10,0" Height="24" Padding="3,3,3,3"/>
+        <Label IsEnabled="False" Padding="0" BorderThickness="0" Content="连接GitHub不稳定，如遇错误请多试几次" VerticalAlignment="Stretch" Grid.Row="4" HorizontalContentAlignment="Center" HorizontalAlignment="Center" MinHeight="0" Height="15"/>
 
     </Grid>
 </Window>

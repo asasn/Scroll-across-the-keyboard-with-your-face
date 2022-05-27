@@ -47,7 +47,7 @@ namespace RootNS.View
             Match match = Regex.Match(text, "(?<=releases/tag/)([\\s\\S]+?)(?=\">)");
             if (match.Success)
             {
-                Gval.LatestVersion = match.Value;
+                Gval.LatestVersion = System.Web.HttpUtility.UrlDecode(match.Value);
             }
             //LatestInfo latestInfo = JsonHelper.JsonToObject<LatestInfo>(text);
             //Gval.LatestVersion = latestInfo.tag_name;
