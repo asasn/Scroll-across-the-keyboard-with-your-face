@@ -56,7 +56,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Label Background="Transparent" BorderThickness="0" Padding="0"  Content="书名：" Width="38"/>
-                <TextBox Grid.Column="1" x:Name="TbName" Padding="0" Text="{Binding Name}" TextChanged="BookName_TextChanged"/>
+                <TextBox Grid.Column="1" x:Name="TbName" Padding="0" Text="{Binding Name, Mode=OneWay}" TextChanged="BookName_TextChanged"/>
                 <Button Grid.Column="2" x:Name="BtnReName" Content="重命名" IsEnabled="False" Click="BtnReName_Click"/>
             </Grid>
             <Grid Grid.Row="2">
