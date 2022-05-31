@@ -53,7 +53,23 @@ namespace RootNS.Model
                 node.OwnerName = bookName;
                 node.Owner = this;
             }
+            foreach (Node node in rootNodes)
+            {
+                Walk(node);
+            }
         }
+
+        protected void Walk(Node pNode)
+        {
+            foreach (Node node in pNode.ChildNodes)
+            {
+                Walk(node);
+                node.OwnerName = this.Name;
+                node.Owner = this;
+            }
+        }
+
+
         public enum SettingKeyName
         {
             NoteSelectedIndex,

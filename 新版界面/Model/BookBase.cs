@@ -34,6 +34,20 @@ namespace RootNS.Model
                 card.OwnerName = bookName;
                 card.Owner = this;
             }
+            foreach (Card card in rootCards)
+            {
+                Walk(card);
+            }
+        }
+
+        protected void Walk(Card pCard)
+        {
+            foreach (Card card in pCard.ChildNodes)
+            {
+                Walk(card);
+                card.OwnerName = this.Name;
+                card.Owner = this;
+            }
         }
 
         /// <summary>
