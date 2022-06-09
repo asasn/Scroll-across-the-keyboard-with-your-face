@@ -25,11 +25,6 @@
                         <local:CardLine DataContext="{Binding Subject, Mode=TwoWay}" Visibility="Visible"/>
                         <local:CardLine DataContext="{Binding Style, Mode=TwoWay}" Visibility="Visible"/>
                         <local:CardLine DataContext="{Binding AwardPoints, Mode=TwoWay}" Visibility="Visible"/>
-                        <local:CardLine DataContext="{Binding Protagonist, Mode=TwoWay}" Visibility="Visible"/>
-                        <local:CardLine DataContext="{Binding IncentiveEvent, Mode=TwoWay}" Visibility="Visible"/>
-                        <local:CardLine DataContext="{Binding Overreaction, Mode=TwoWay}" Visibility="Visible"/>
-                        <local:CardLine DataContext="{Binding Suspenses, Mode=TwoWay}" Visibility="Visible"/>
-                        <local:CardLine DataContext="{Binding EnvObstruction, Mode=TwoWay}" Visibility="Visible"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

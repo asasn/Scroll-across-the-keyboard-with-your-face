@@ -38,11 +38,6 @@ namespace RootNS.View
             topic.Subject.PropertyChanged += PropertyChanged;
             topic.Style.PropertyChanged += PropertyChanged; 
             topic.AwardPoints.PropertyChanged += PropertyChanged;
-            topic.Protagonist.PropertyChanged += PropertyChanged;
-            topic.IncentiveEvent.PropertyChanged += PropertyChanged;
-            topic.Overreaction.PropertyChanged += PropertyChanged;
-            topic.Suspenses.PropertyChanged += PropertyChanged;
-            topic.EnvObstruction.PropertyChanged += PropertyChanged;
             topic.Volumes.PropertyChanged += PropertyChanged;
             topic.Roles.PropertyChanged += PropertyChanged;
             topic.Goldfingers.PropertyChanged += PropertyChanged;

@@ -122,7 +122,7 @@ namespace RootNS.View
         {
             if (e.Key == Key.Enter)
             {
-                BtnAdd.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                BtnSearch.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
         }
 
