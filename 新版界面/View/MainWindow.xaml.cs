@@ -201,7 +201,7 @@ namespace RootNS
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             process.StartInfo.UseShellExecute = true;
-            process.StartInfo.FileName = Gval.Path.Books;
+            process.StartInfo.FileName = Gval.Path.App;
             process.Start();
         }
     }
