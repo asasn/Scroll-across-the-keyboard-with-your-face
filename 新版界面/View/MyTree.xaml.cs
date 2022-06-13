@@ -173,7 +173,7 @@ namespace RootNS.View
             Node selectedNode = TreeNodes.SelectedItem as Node;
             if (selectedNode == null)
             {
-                return;
+                selectedNode = (sender as Button).DataContext as Node;
             }
             selectedNode.Import();
         }
@@ -243,7 +243,7 @@ namespace RootNS.View
         }
         private void BtnImport_Click(object sender, RoutedEventArgs e)
         {
-            Command_Import_Executed(null, null);
+            Command_Import_Executed(sender, null);
         }
 
         private void BtnExport_Click(object sender, RoutedEventArgs e)
