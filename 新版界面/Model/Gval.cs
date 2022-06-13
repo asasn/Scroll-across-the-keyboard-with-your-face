@@ -49,7 +49,7 @@ namespace RootNS.Model
 
 
 
-        private static string _currentVersion = Application.ResourceAssembly.GetName().Version.ToString();
+        private static string _currentVersion = "1.0.0.0";
 
         public static string CurrentVersion
         {
@@ -60,6 +60,19 @@ namespace RootNS.Model
                 StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(CurrentVersion)));
             }
         }
+
+        private static string _appAuthor = "不问苍生问鬼神";
+
+        public static string AppAuthor
+        {   
+            get { return _appAuthor; }
+            set
+            {
+                _appAuthor = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(AppAuthor)));
+            }
+        }
+
 
 
         private static string _latestVersion = "no checked";

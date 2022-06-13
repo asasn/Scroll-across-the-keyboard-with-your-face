@@ -72,7 +72,7 @@ namespace RootNS.Model
         public MediaElement MeDida { get; set; }
         public MediaElement MeRing { get; set; }
 
-        private double _timeSetValue;
+        private double _timeSetValue = 25;
 
         public double TimeSetValue
         {
@@ -161,7 +161,10 @@ namespace RootNS.Model
         {
             string key = this.GetType().Name + nameof(TimeSetValue);
             object value = SettingsHelper.Get(Gval.MaterialBook.Name, key);
-            TimeSetValue = Convert.ToDouble(value);
+            if (value != null && value.ToString() != "0")
+            {
+                TimeSetValue = Convert.ToDouble(value);
+            }
         }
 
 

@@ -98,7 +98,7 @@ namespace RootNS.View
             {
                 //屏蔽部分
                 LookMore = false;
-                (sender as Button).Content = "\ue8a3";
+                (sender as Button).Content = "\ue8c1";
                 (sender as Button).ToolTip = "更多";
                 foreach (Node node in (this.DataContext as Card).ChildNodes)
                 {
@@ -109,7 +109,7 @@ namespace RootNS.View
             {
                 //全部展示
                 LookMore = true;
-                (sender as Button).Content = "\ue8c1";
+                (sender as Button).Content = "\ue8a3";
                 (sender as Button).ToolTip = "更少";
                 foreach (Node node in (this.DataContext as Card).ChildNodes)
                 {

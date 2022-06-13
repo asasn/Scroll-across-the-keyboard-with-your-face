@@ -21,7 +21,7 @@ namespace RootNS.Model
         {
             this.PropertyChanged += Book_PropertyChanged;
             RootNodes.Add(ChapterTabName.草稿.ToString(), BoxDraft);
-            RootNodes.Add(ChapterTabName.暂存.ToString(), BoxTemp);
+            RootNodes.Add(ChapterTabName.作品相关.ToString(), BoxTemp);
             RootNodes.Add(ChapterTabName.已发布.ToString(), BoxPublished);
             RootNodes.Add(NoteTabName.大事记.ToString(), NoteMemorabilia);
             RootNodes.Add(NoteTabName.故事.ToString(), NoteStory);
@@ -82,7 +82,7 @@ namespace RootNS.Model
         public enum ChapterTabName
         {
             草稿,
-            暂存,
+            作品相关,
             已发布,
         }
 
@@ -118,7 +118,7 @@ namespace RootNS.Model
 
         #region 目录树
         public Node BoxDraft { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.草稿.ToString() };
-        public Node BoxTemp { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.暂存.ToString() };
+        public Node BoxTemp { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.作品相关.ToString() };
         public Node BoxPublished { set; get; } = new Node() { Uid = String.Empty, TabName = ChapterTabName.已发布.ToString() };
         #endregion
 

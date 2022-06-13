@@ -703,7 +703,14 @@ namespace RootNS.Model
             {
                 if (this.Parent == null)
                 {
-                    return;
+                    if (this.TabName.Contains("草稿") || this.TabName.Contains("作品相关"))
+                    {
+                        selectedNode = this;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
                 else
                 {
@@ -742,7 +749,7 @@ namespace RootNS.Model
                     Text = IOHelper.ReadFromTxt(srcFullFileName)
                 };
                 newNode.WordsCount = EditorHelper.CountWords(newNode.Text);
-                this.ChildNodes.Add(newNode);
+                selectedNode.ChildNodes.Add(newNode);
                 sqlImport += string.Format("INSERT OR IGNORE INTO {0} ([Index], Uid, Pid, Title, Text, Summary, WordsCount, IsDir, IsExpanded, IsChecked, IsDel) VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}');", newNode.TabName.Replace("'", "''"), newNode.Index, newNode.Uid, newNode.Pid, newNode.Title.Replace("'", "''"), newNode.Text.Replace("'", "''"), newNode.Summary.Replace("'", "''"), newNode.WordsCount, newNode.IsDir, newNode.IsExpanded, newNode.IsChecked, newNode.IsDel);
             }
             SqliteHelper.PoolDict[this.OwnerName].ExecuteNonQuery(sqlImport);

@@ -160,7 +160,7 @@ namespace RootNS.Converter
             try
             {
                 if (value.ToString() == Book.ChapterTabName.草稿.ToString() ||
-                    value.ToString() == Book.ChapterTabName.暂存.ToString())
+                    value.ToString() == Book.ChapterTabName.作品相关.ToString())
                 {
                     return false;
                 }
@@ -195,7 +195,7 @@ namespace RootNS.Converter
             try
             {
                 if (value.ToString() == Book.ChapterTabName.草稿.ToString() ||
-                    value.ToString() == Book.ChapterTabName.暂存.ToString() ||
+                    value.ToString() == Book.ChapterTabName.作品相关.ToString() ||
                     value.ToString() == Book.ChapterTabName.已发布.ToString() ||
                     value.ToString() == Material.MaterialTabName.范文.ToString() ||
                     value.ToString() == Material.MaterialTabName.资料.ToString())
@@ -266,7 +266,7 @@ namespace RootNS.Converter
             try
             {
                 if (value.ToString() == Book.ChapterTabName.草稿.ToString() ||
-                    value.ToString() == Book.ChapterTabName.暂存.ToString())
+                    value.ToString() == Book.ChapterTabName.作品相关.ToString())
                 {
                     return Visibility.Visible;
                 }

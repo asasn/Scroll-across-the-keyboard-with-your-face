@@ -73,7 +73,7 @@ namespace RootNS.View
             if (selectedNode == null)
             {
                 if (rootNode.TabName == Book.ChapterTabName.草稿.ToString() ||
-                    rootNode.TabName == Book.ChapterTabName.暂存.ToString())
+                    rootNode.TabName == Book.ChapterTabName.作品相关.ToString())
                 {
                     Node node = new Node();
                     rootNode.AddChildNode(node);
@@ -173,7 +173,7 @@ namespace RootNS.View
             Node selectedNode = TreeNodes.SelectedItem as Node;
             if (selectedNode == null)
             {
-                return;
+                selectedNode = (sender as Button).DataContext as Node;
             }
             selectedNode.Import();
         }
@@ -243,7 +243,7 @@ namespace RootNS.View
         }
         private void BtnImport_Click(object sender, RoutedEventArgs e)
         {
-            Command_Import_Executed(null, null);
+            Command_Import_Executed(sender, null);
         }
 
         private void BtnExport_Click(object sender, RoutedEventArgs e)
@@ -387,7 +387,7 @@ namespace RootNS.View
         private void CommandBinding_CanExecute_AddFolder(object sender, CanExecuteRoutedEventArgs e)
         {
             if (((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.草稿.ToString() ||
-                ((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.暂存.ToString())
+                ((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.作品相关.ToString())
             {
                 e.CanExecute = false;
             }
@@ -400,7 +400,7 @@ namespace RootNS.View
         private void CommandBinding_CanExecute_ImportExport(object sender, CanExecuteRoutedEventArgs e)
         {
             if (((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.草稿.ToString() ||
-                ((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.暂存.ToString() ||
+                ((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.作品相关.ToString() ||
                 ((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.已发布.ToString() ||
                 ((sender as TreeView).DataContext as Node).TabName == Material.MaterialTabName.范文.ToString() ||
                 ((sender as TreeView).DataContext as Node).TabName == Material.MaterialTabName.资料.ToString())
@@ -428,7 +428,7 @@ namespace RootNS.View
         private void CommandBinding_CanExecute_Send(object sender, CanExecuteRoutedEventArgs e)
         {
             if (((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.草稿.ToString() ||
-                ((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.暂存.ToString())
+                ((sender as TreeView).DataContext as Node).TabName == Book.ChapterTabName.作品相关.ToString())
             {
                 e.CanExecute = true;
             }

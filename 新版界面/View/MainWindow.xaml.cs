@@ -196,5 +196,13 @@ namespace RootNS
             Workfolw.ViewSet.ForViewPointY(win, sender as Button, 50);
             win.ShowDialog();
         }
+
+        private void BtnOpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.FileName = Gval.Path.App;
+            process.Start();
+        }
     }
 }

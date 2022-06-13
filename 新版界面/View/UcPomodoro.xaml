@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" DataContext="{Binding ThisPomodoro, ElementName=ThisControl}"
              d:DesignHeight="30" d:DesignWidth="66" Width="66" MouseRightButtonDown="UserControl_MouseRightButtonDown" Loaded="ThisControl_Loaded">
-    <Border BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" ToolTip="番茄时间" Background="White">
+    <Border BorderThickness="1" BorderBrush="#FFE0E0E0" CornerRadius="5" ToolTip="番茄时间（右键进入设置模式）" Background="White">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="28"/>
@@ -14,7 +14,7 @@
             </Grid.ColumnDefinitions>
             <Button FontFamily="../Assets/#androidicons" Content="{Binding ButtonContent}" FontSize="20" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Grid.Column="0" x:Name="BtnStart" Click="BtnStart_Click"  ToolTip="开始/停止（右键进入设置模式）" Height="Auto"></Button>
             <TextBlock x:Name="TbTime" Text="{Binding ShowTimeText, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsSetting, Converter={StaticResource BoolConvertToReVisibility}}"  Grid.Column="1" Padding="0" VerticalAlignment="Center" Margin="0,0,5,0"/>
-            <hc:NumericUpDown Maximum="99" Visibility="{Binding IsSetting, Converter={StaticResource BoolConvertToVisibility}}" Minimum="0" Padding="0" x:Name="CbTime" Value="{Binding TimeSetValue}" ValueChanged="CbTime_ValueChanged" Grid.ColumnSpan="2" MinHeight="28" Loaded="CbTime_Loaded"/>
+            <hc:NumericUpDown Maximum="99" Visibility="{Binding IsSetting, Converter={StaticResource BoolConvertToVisibility}}" Minimum="1" Padding="0" x:Name="CbTime" Value="{Binding TimeSetValue}" ValueChanged="CbTime_ValueChanged" Grid.ColumnSpan="2" MinHeight="28" Loaded="CbTime_Loaded"/>
             <MediaElement x:Name="MeDida" Visibility="Hidden" LoadedBehavior="Manual" Source="pack://Siteoforigin:,,,/Assets/声音/dida.wav"/>
             <MediaElement x:Name="MeRing" Visibility="Hidden" LoadedBehavior="Manual" Source="pack://Siteoforigin:,,,/Assets/声音/ring.wav" />
         </Grid>
