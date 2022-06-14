@@ -21,8 +21,8 @@
             </Grid.ColumnDefinitions>
             <Label BorderThickness="0" x:Name="LbImagePath" MinWidth="100" MinHeight="30" Content="地图文件路径" Grid.Column="1"/>
             <Button x:Name="BtnChooseFile" Click="BtnChooseFile_Click" HorizontalAlignment="Right" Content="选择文件" Grid.Column="1"/>
-            <Button x:Name="BtnCreate" Content="新地点" Width="75" Click="BtnCreate_Click" Grid.Column="3"/>
-            <Button x:Name="BtnDel" Content="删除地点" Width="75" Click="BtnDel_Click" Grid.Column="4"/>
+            <Button x:Name="BtnCreate" Content="新地点" ToolTip="点击进入添加状态，可以连续在地图上添加（需要有地图），右键退出添加状态" Width="75" Click="BtnCreate_Click" Grid.Column="3"/>
+            <Button x:Name="BtnDel" Content="删除地点" ToolTip="点击进入删除状态，可以连续在地图上删除（需要有地图），右键退出删除状态" Width="75" Click="BtnDel_Click" Grid.Column="4"/>
 
         </Grid>
         <ScrollViewer x:Name="MapSv" Grid.Row="1">
