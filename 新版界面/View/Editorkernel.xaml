@@ -75,7 +75,7 @@
         </Grid>
         <StackPanel Grid.Row="0" Grid.Column="1">
             <Button FontFamily="../Assets/#androidicons" Content="&#xE8A4;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" x:Name="BtnSaveDoc" Padding="0" BorderThickness="0" ToolTip="保存文档（Ctrl + S）" IsEnabled="False" Click="BtnSaveText_Click"/>
-            <Button FontFamily="../Assets/#androidicons" Content="&#xE86C;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" x:Name="BtnCopy" Padding="0" BorderThickness="0" ToolTip="复制文档内容" Click="BtnCopy_Click"/>
+            <Button FontFamily="../Assets/#androidicons" Content="&#xE86C;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" x:Name="BtnCopy" Padding="0" BorderThickness="0" ToolTip="复制文档内容（不包含未保存的部分）" Click="BtnCopy_Click"/>
             <Button FontFamily="../Assets/#androidicons" Content="&#59461;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" x:Name="BtnCopyTitle" Padding="0" BorderThickness="0" ToolTip="复制文档标题" Click="BtnCopyTitle_Click"/>
             <Button FontFamily="../Assets/#androidicons" Content="&#xE86E;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" x:Name="BtnPaste" Padding="0" BorderThickness="0" ToolTip="从剪贴板粘贴" Click="BtnPaste_Click"/>
             <Button FontFamily="../Assets/#androidicons" Content="&#59473;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" x:Name="BtnUndo" Padding="0" BorderThickness="0" ToolTip="粘贴之前的原文" Click="BtnUndo_Click" IsEnabled="False"/>

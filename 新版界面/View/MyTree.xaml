@@ -47,7 +47,7 @@
                 <RoutedUICommand x:Key="Import" Text="导入"/>
                 <RoutedUICommand x:Key="Export" Text="导出"/>
                 <RoutedUICommand x:Key="CopyTitle" Text="复制节点标题"/>
-                <RoutedUICommand x:Key="CopyText" Text="复制节点文本"/>
+                <RoutedUICommand x:Key="CopyText" Text="复制节点文本（不包含未保存的部分）"/>
             </TreeView.Resources>
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="TreeViewMenu" Opened="TreeViewMenu_Opened">

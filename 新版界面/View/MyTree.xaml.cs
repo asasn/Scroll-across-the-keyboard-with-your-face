@@ -196,7 +196,7 @@ namespace RootNS.View
         private void Command_CopyText_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Clipboard.SetText((TreeNodes.SelectedItem as Node).Text);
-            HandyControl.Controls.Growl.SuccessGlobal("已复制本节点文本到剪贴板！");
+            HandyControl.Controls.Growl.SuccessGlobal("已复制本节点文本到剪贴板！\n（不包含未保存的部分）");
         }
         #endregion
 
