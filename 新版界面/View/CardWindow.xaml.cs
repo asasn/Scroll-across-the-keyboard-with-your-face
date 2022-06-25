@@ -72,8 +72,10 @@ namespace RootNS.View
             }
             EditorHelper.RefreshKeyWordForAllEditor(this.DataContext as Card);
             EditorHelper.RefreshIsContainFlagForAllCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
-            
-            BtnSee.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            if (IsShow == true)
+            {
+                BtnSee.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            }
         }
 
         bool IsShow = false;
