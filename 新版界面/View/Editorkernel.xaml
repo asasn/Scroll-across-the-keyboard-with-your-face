@@ -52,6 +52,11 @@
             x:Name="ThisTextEditor" ShowLineNumbers="True" 
             SyntaxHighlighting="Text" WordWrap="True" FontFamily="宋体"
             FontSize="12pt" CommandManager.Executed="ThisTextEditor_Executed"  CommandManager.PreviewExecuted="ThisTextEditor_PreviewExecuted" MouseHover="ThisTextEditor_MouseHover" MouseHoverStopped="ThisTextEditor_MouseHoverStopped" Loaded="ThisTextEditor_Loaded" KeyUp="ThisTextEditor_KeyUp" KeyDown="ThisTextEditor_KeyDown" TextChanged="ThisTextEditor_TextChanged" Initialized="ThisTextEditor_Initialized">
+            <avalonEdit:TextEditor.ContextMenu>
+                <ContextMenu x:Name="TextEditorMenu" Opened="TextEditorMenu_Opened">
+                        <MenuItem Icon="&#59407;" FontFamily="../Assets/#androidicons" Header="测试" IsEnabled="True"/>
+                    </ContextMenu>
+            </avalonEdit:TextEditor.ContextMenu>
             <avalonEdit:TextEditor.Options>
                 <avalonEdit:TextEditorOptions
                     HighlightCurrentLine="True" ShowSpaces="True" ConvertTabsToSpaces="True"

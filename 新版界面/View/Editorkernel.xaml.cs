@@ -443,6 +443,9 @@ namespace RootNS.View
             //ThisTextEditor.Focus();
         }
 
+        private void TextEditorMenu_Opened(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }
