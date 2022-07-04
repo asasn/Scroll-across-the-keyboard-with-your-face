@@ -36,10 +36,10 @@ namespace RootNS.View
         {
             if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
-                Searching = false;
-                Timer.Start();
+                StartRefresh();
                 return;
             }
+            StopRefresh();
             BookBase owner = (this.DataContext as Card).Owner as BookBase;
             owner.LoadForAllCardTabs();
             Card[] CardBoxs = { owner.CardRole, owner.CardOther, owner.CardWorld };
@@ -67,17 +67,42 @@ namespace RootNS.View
 
         }
 
-        private bool Searching;
+        private void StopRefresh()
+        {
+            RefreshFlag = true;
+            BtnLock.Content = "\ue89c";
+            Timer.Stop();
+        }
+
+        private void StartRefresh()
+        {
+            RefreshFlag = false;
+            BtnLock.Content = "\ue89d";
+            Timer.Start();
+        }
+
+
+        private void BtnLock_Click(object sender, RoutedEventArgs e)
+        {
+            if (RefreshFlag == true)
+            {
+                StartRefresh();
+            }
+            else
+            {
+                StopRefresh();
+            }
+        }
+
+        private bool RefreshFlag;
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
-                Searching = false;
-                Timer.Start();
+                StartRefresh();
                 return;
             }
-            Searching = true;
-            Timer.Stop();
+            StopRefresh();
             string title = TbNew.Text.Trim();
             List<string> rutList = DataIn.GetSearchResults(this.DataContext as Card, title);
             foreach (Card card in (this.DataContext as Card).ChildNodes)

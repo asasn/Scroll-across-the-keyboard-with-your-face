@@ -16,16 +16,18 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="25" MinWidth="25"/>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="TbNew" Background="Transparent" BorderThickness="0" KeyUp="TbNew_KeyUp" Padding="0" MinHeight="0" />
-                <Button ToolTip="添加" x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Click="BtnAdd_Click"/>
-                <Button ToolTip="搜索" x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnSearch_Click"/>
-                <Button ToolTip="更多" x:Name="BtnLookMore" FontFamily="../Assets/#androidicons" Content="&#59585;" FontSize="16" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0" Click="BtnLookMore_Click"/>
-                <Button ToolTip="设计模式" x:Name="BtnDesign" FontFamily="../Assets/#androidicons" Content="&#59554;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="4" Padding="0" BorderThickness="0" Click="BtnDesign_Click"/>
+                <Button ToolTip="面板框自动刷新开关" x:Name="BtnLock" FontFamily="../Assets/#androidicons" Content="&#59549;" FontSize="16" Background="Transparent" Foreground="Goldenrod" Grid.Column="1" Padding="0" BorderThickness="0" Click="BtnLock_Click"/>
+                <Button ToolTip="添加" x:Name="BtnAdd" FontFamily="../Assets/#androidicons" Content="&#59419;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="2" Padding="0" BorderThickness="0" Click="BtnAdd_Click"/>
+                <Button ToolTip="搜索" x:Name="BtnSearch" FontFamily="../Assets/#androidicons" Content="&#59431;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="3" Padding="0" BorderThickness="0" Click="BtnSearch_Click"/>
+                <Button ToolTip="更多" x:Name="BtnLookMore" FontFamily="../Assets/#androidicons" Content="&#59585;" FontSize="16" Foreground="DodgerBlue" Grid.Column="4" Padding="0" BorderThickness="0" Click="BtnLookMore_Click"/>
+                <Button ToolTip="设计模式" x:Name="BtnDesign" FontFamily="../Assets/#androidicons" Content="&#59554;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="5" Padding="0" BorderThickness="0" Click="BtnDesign_Click"/>
             </Grid>
         </Border>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
