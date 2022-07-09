@@ -20,6 +20,10 @@
 
 >建议配合[坚果云](https://www.jianguoyun.com/)同步盘使用，可以把`/books`文件夹整个同步
 
+## 软件截图
+
+[测试](截图/软件测试.png)
+
 ## 联络和反馈方式
 
 龙的天空ID：[此间风物](https://www.lkong.com/user/584564)
