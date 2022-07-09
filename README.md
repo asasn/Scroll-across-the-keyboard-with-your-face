@@ -22,7 +22,7 @@
 
 ## 软件截图
 
-[测试](https://raw.githubusercontent.com/asasn/Scroll-across-the-keyboard-with-your-face/master/软件截图/测试.png)
+![测试](./软件截图/测试.png)
 
 ## 联络和反馈方式
 
