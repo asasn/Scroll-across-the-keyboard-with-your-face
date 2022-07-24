@@ -27,8 +27,13 @@ namespace RootNS.View
         {
             InitializeComponent();
             this.DataContext = DataIn.LoadCardContent((sender as Button).DataContext as Card);
+            if (IsShow == false)
+            {
+                BtnSee.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            }
             ViewSet.ForViewPointX(this, uc, -6);
             ViewSet.ForViewPointY(this, uc, 50);
+
         }
         public CardWindow(Card card)
         {
@@ -72,10 +77,6 @@ namespace RootNS.View
             }
             EditorHelper.RefreshKeyWordForAllEditor(this.DataContext as Card);
             EditorHelper.RefreshIsContainFlagForAllCardsBox(((Gval.EditorTabControl.SelectedItem as HandyControl.Controls.TabItem).Content as Editorkernel).ThisTextEditor.Text);
-            if (IsShow == true)
-            {
-                BtnSee.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
-            }
         }
 
         bool IsShow = false;

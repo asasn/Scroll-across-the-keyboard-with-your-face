@@ -36,6 +36,7 @@ namespace RootNS.View
         {
             if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
+
                 StartRefresh();
                 return;
             }
@@ -97,6 +98,11 @@ namespace RootNS.View
         private bool RefreshFlag;
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
+            foreach (Card card in (this.DataContext as Card).ChildNodes)
+            {
+                card.IsShowCard = false;
+            };
+            TimeRuner(null, null);
             if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
                 StartRefresh();
@@ -256,6 +262,9 @@ namespace RootNS.View
             EditorHelper.RefreshShowFlagForTab(this.DataContext as Card, LookMore);
         }
 
-
+        private void ThisControl_LostFocus(object sender, RoutedEventArgs e)
+        {
+            StartRefresh();
+        }
     }
 }

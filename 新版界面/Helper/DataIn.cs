@@ -360,7 +360,12 @@ namespace RootNS.Helper
             return card;
         }
 
-
+        /// <summary>
+        /// 返回搜索结果列表（Uid列表）
+        /// </summary>
+        /// <param name="rootCard"></param>
+        /// <param name="inputStr"></param>
+        /// <returns></returns>
         public static List<string> GetSearchResults(Card rootCard, string inputStr)
         {
             List<string> rutList = new List<string>();
@@ -369,6 +374,7 @@ namespace RootNS.Helper
             {
                 string[] sArrayYear = inputStr.Split(new char[3] { '-', '~', '|' });
                 string sql = string.Empty;
+                string sql2 = string.Empty;
                 if (sArrayYear.Length == 1)
                 {
                     if (int.TryParse(inputStr, out int n))
@@ -378,6 +384,7 @@ namespace RootNS.Helper
                     else
                     {
                         sql = string.Format("SELECT * FROM {0} WHERE Title LIKE '%{1}%' OR Summary LIKE '%{1}%' OR BornYear LIKE '%{1}%';", rootCard.TabName, inputStr);
+                        sql2 = string.Format("SELECT* FROM 卡片 WHERE Title LIKE '%{0}%';", inputStr); //卡片表的内容查询语句
                     }
                 }
                 if (sArrayYear.Length == 2)
@@ -409,6 +416,23 @@ namespace RootNS.Helper
                     }
                 }
                 reader.Close();
+                SQLiteDataReader reader2 = SqliteHelper.PoolDict[rootCard.OwnerName].ExecuteQuery(sql2);
+                while (reader2.Read())
+                {
+                    string Uid = reader2["Pid"].ToString(); //这里的Pid才是对应信息卡的Uid
+                    foreach (Card card in rootCard.ChildNodes)
+                    {
+                        if (Uid == card.Uid)
+                        {
+                            card.IsShowCard = true;
+                            if (rutList.Contains(card.Uid) == false)
+                            {
+                                rutList.Add(card.Uid);
+                            }
+                        }
+                    };
+                }
+                reader2.Close();
             }
             if (sArray.Length == 2)
             {
