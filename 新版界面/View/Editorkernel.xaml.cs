@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -229,9 +230,16 @@ namespace RootNS.View
             Command_Typesetting_Executed(null, null);
         }
 
+        /// <summary>
+        /// 复制全文（可能存在格式化规则，具体看代码）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCopy_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText((this.DataContext as Node).Text);
+            Regex regex = new Regex("　　\n");
+            string nText = regex.Replace((this.DataContext as Node).Text, "");
+            Clipboard.SetText(nText);
         }
         private void BtnCopyTitle_Click(object sender, RoutedEventArgs e)
         {
