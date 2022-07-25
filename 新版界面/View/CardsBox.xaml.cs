@@ -102,7 +102,6 @@ namespace RootNS.View
             {
                 card.IsShowCard = false;
             };
-            TimeRuner(null, null);
             if (string.IsNullOrWhiteSpace(TbNew.Text) == true)
             {
                 StartRefresh();

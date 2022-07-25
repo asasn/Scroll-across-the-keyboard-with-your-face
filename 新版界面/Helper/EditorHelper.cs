@@ -18,6 +18,11 @@ namespace RootNS.Helper
 {
     internal class EditorHelper
     {
+        /// <summary>
+        /// 刷新显示标记（是否在CardsBox显示）
+        /// </summary>
+        /// <param name="rootCard"></param>
+        /// <param name="lookMore"></param>
         public static void RefreshShowFlagForTab(Card rootCard, bool lookMore)
         {
             foreach (Card card in rootCard.ChildNodes)
@@ -46,6 +51,11 @@ namespace RootNS.Helper
             }
         }
 
+        /// <summary>
+        /// 刷新信息卡标志以在box中标记（是否包含在文章中）
+        /// </summary>
+        /// <param name="rootCard"></param>
+        /// <param name="text"></param>
         public static void RefreshIsContainFlagForTab(Card rootCard, string text)
         {
             foreach (Card card in rootCard.ChildNodes)
