@@ -44,7 +44,7 @@ namespace RootNS.Helper
             }
             else
             {
-                return Environment.TickCount - (long)vLastInputInfo.dwTime;
+                return Environment.TickCount & Int32.MaxValue - (long)(vLastInputInfo.dwTime & Int32.MaxValue);
             }
         }
     }

@@ -35,7 +35,7 @@ namespace RootNS.View
             InitializeComponent();
             ThisTextEditor.TextArea.SelectionChanged += TextArea_SelectionChanged;
             ThisTextEditor.Document.Changing += Document_Changing;
-            
+
             thread = new System.Threading.Thread(SaveInThreadMethod);
             Timer = new DispatcherTimer
             {
@@ -45,10 +45,8 @@ namespace RootNS.View
             Timer.Start();
         }
 
-        private bool saveFlag;
-
+        private bool canSaveFlag;
         Stopwatch stopWatch = new Stopwatch();
-
         public DispatcherTimer Timer = new DispatcherTimer();
 
         /// <summary>
@@ -56,13 +54,13 @@ namespace RootNS.View
         /// </summary>
         private void TimeRuner(object sender, EventArgs e)
         {
-            if (BtnSaveDoc.IsEnabled == true && (saveFlag == true || SysHelper.GetLastInputTime() >= 10 * 1000))
+            if (BtnSaveDoc.IsEnabled == true)
             {
-                SaveMethod(this.DataContext as Node);
-            }
-            if (BtnSaveDoc.IsEnabled == true && saveFlag == false)
-            {
-                stopWatch.Restart();
+                if ((canSaveFlag == true || SysHelper.GetLastInputTime() >= 10 * 1000))
+                {
+                    SaveMethod(this.DataContext as Node);
+                    stopWatch.Restart(); //保存时，重置stopWatch计时器
+                }
             }
         }
 
@@ -84,7 +82,7 @@ namespace RootNS.View
         {
             try
             {
-                saveFlag = true;
+                canSaveFlag = true;
                 //Console.WriteLine(thread.ManagedThreadId + " - 成功 - " + thread.ThreadState);
             }
             catch (Exception ex)
@@ -106,7 +104,7 @@ namespace RootNS.View
                 SqliteHelper.PoolDict[node.OwnerName].Close();
                 //HandyControl.Controls.Growl.SuccessGlobal(String.Format("{0} 已保存！", node.Title));
                 Console.WriteLine(string.Format("本次保存成功！"));
-                saveFlag = false;
+                canSaveFlag = false;
             }
             catch (Exception ex)
             {
