@@ -220,12 +220,12 @@ namespace RootNS.Helper
         /// </summary>
         private static HighlightingRuleSet InitEditorColorRules(TextEditor tEditor, string xshdPath)
         {
-            Uri uri = new Uri(xshdPath, UriKind.Relative);
-            Stream xshdStream = Application.GetResourceStream(uri).Stream;
-            XmlTextReader xshdReader = new XmlTextReader(xshdStream);
+            //Uri uri = new Uri(xshdPath, UriKind.Relative);
+            //Stream xshdStream = Application.GetResourceStream(uri).Stream;
+            XmlTextReader xshdReader = new XmlTextReader(xshdPath);
             tEditor.SyntaxHighlighting = HighlightingLoader.Load(xshdReader, HighlightingManager.Instance);
             xshdReader.Close();
-            xshdStream.Close();
+            //xshdStream.Close();
             return tEditor.SyntaxHighlighting.MainRuleSet;
         }
 

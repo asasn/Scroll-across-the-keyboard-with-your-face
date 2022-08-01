@@ -32,7 +32,7 @@ namespace RootNS.Model
             public static string Resourses { get { return Environment.CurrentDirectory + "/Resourses"; } }
             public static string Assets { get { return Environment.CurrentDirectory + "/Assets"; } }
 
-            public static string XshdPath { get { return "../Assets/Text.xshd"; } }
+            public static string XshdPath { get { return Environment.CurrentDirectory +"/Assets/Text.xshd"; } }
         }
 
         private static string _homePage = "https://github.com/asasn/Scroll-across-the-keyboard-with-your-face";

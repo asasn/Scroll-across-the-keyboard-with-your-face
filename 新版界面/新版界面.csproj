@@ -481,7 +481,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Assets\Text.xshd" />
+    <Content Include="Assets\Text.xshd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Assets\androidicons.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
