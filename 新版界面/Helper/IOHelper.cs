@@ -25,21 +25,6 @@ namespace RootNS.Helper
             return bitmap.Clone();
         }
 
-        /// </summary>
-        /// <param name="imagePath">图片地址</param>
-        /// <returns></returns>
-        public static BitmapImage GetBitmapImage(string imagePath)
-        {
-
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(imagePath);
-            bitmap.EndInit();
-            return bitmap.Clone();
-        }
-
-
 
         /// <summary>
         /// 创建新文件夹
@@ -150,7 +135,7 @@ namespace RootNS.Helper
             }
         }
 
-        /// <summary>测试1
+        /// <summary>
         /// 方法：文件重命名
         /// </summary>
         /// <param name="fOld"></param>

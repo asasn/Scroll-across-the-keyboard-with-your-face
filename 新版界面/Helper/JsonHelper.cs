@@ -31,7 +31,7 @@ namespace RootNS.Helper
 
 
         /// <summary>
-        /// 转换成Json
+        /// 把Obj对象转换成Json字符串
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -41,7 +41,7 @@ namespace RootNS.Helper
             return jserializer.Serialize(obj);
         }
         /// <summary>
-        /// 从Json中读取
+        /// 从Json字符串中获取对象属性以载入
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
