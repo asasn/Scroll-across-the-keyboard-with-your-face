@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:root="clr-namespace:RootNS" Padding="0"
-             mc:Ignorable="d" UseLayoutRounding="True" ToolTip="{Binding Text, Mode=OneWay}" ToolTipService.ShowDuration="60000"
+             mc:Ignorable="d" UseLayoutRounding="True" ToolTipService.ShowDuration="60000"
              d:DesignHeight="25" d:DesignWidth="278" Loaded="UserControl_Loaded" MouseDoubleClick="UserControl_MouseDoubleClick">
 
     <Grid>
