@@ -163,7 +163,7 @@ namespace RootNS.Model
                 //搜索当前书籍
                 if (CbSelected == true)
                 {
-                    List<Node> roots = new List<Node>() { Gval.CurrentBook.BoxDraft, Gval.CurrentBook.BoxTemp, Gval.CurrentBook.BoxPublished };
+                    List<Node> roots = new List<Node>() { Gval.CurrentBook.BoxPublished, Gval.CurrentBook.BoxDraft, Gval.CurrentBook.BoxTemp, };
                     if (roots.Contains(Gval.CurrentBook.SelectedNode.RootNode))
                     {
                         nodes = Gval.CurrentBook.GetThisNodeChilds(Gval.CurrentBook.SelectedNode);

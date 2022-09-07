@@ -133,7 +133,7 @@ namespace RootNS.Model
         public List<Node> GetChapterNodes()
         {
             List<Node> nodes = new List<Node>();
-            List<Node> roots = new List<Node>() { BoxDraft, BoxTemp, BoxPublished };
+            List<Node> roots = new List<Node>() { BoxPublished, BoxDraft, BoxTemp, };
             foreach (var root in roots) //从根节点遍历即可，不必把根节点也加上
             {
                 GetTreeNodes(nodes, root);
@@ -193,6 +193,10 @@ namespace RootNS.Model
         /// <param name="index"></param>
         public void LoadForAllChapterTabs()
         {
+            if (BoxPublished.ChildNodes.Count == 0)
+            {
+                DataIn.FillInNodes(BoxPublished);
+            }
             if (BoxDraft.ChildNodes.Count == 0)
             {
                 DataIn.FillInNodes(BoxDraft);
@@ -200,10 +204,6 @@ namespace RootNS.Model
             if (BoxTemp.ChildNodes.Count == 0)
             {
                 DataIn.FillInNodes(BoxTemp);
-            }
-            if (BoxPublished.ChildNodes.Count == 0)
-            {
-                DataIn.FillInNodes(BoxPublished);
             }
         }
 
