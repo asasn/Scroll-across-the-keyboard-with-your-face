@@ -150,12 +150,11 @@ namespace RootNS.Helper
         public static void MoveToEnd(TextEditor tEditor)
         {
             tEditor.ScrollToLine(tEditor.LineCount);
-            tEditor.SelectionLength = 0;
-            tEditor.SelectionStart = tEditor.Text.Length;
             for (int i = 0; i < 5; i++)
             {
                 tEditor.ScrollToEnd();
             }
+            tEditor.Select(tEditor.Text.Length, 0);
         }
 
         /// <summary>
@@ -210,7 +209,7 @@ namespace RootNS.Helper
             //光标移动至文末 
             tEditor.ScrollToLine(tEditor.LineCount);
             tEditor.ScrollToEnd();
-            tEditor.SelectionStart = tEditor.Text.Length;
+            tEditor.Select(tEditor.Text.Length, 0);
             tEditor.Focus();
         }
 
