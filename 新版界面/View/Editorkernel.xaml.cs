@@ -163,6 +163,10 @@ namespace RootNS.View
         string PreviousText = string.Empty;
         private void Command_MoveNext_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            if (FindReplaceDialog.theDialog != null && string.IsNullOrEmpty(FindReplaceDialog.theDialog.txtFind.Text) == false)
+            {
+                PreviousText = FindReplaceDialog.theDialog.txtFind.Text;
+            }
             if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == false)
             {
                 PreviousText = ThisTextEditor.TextArea.Selection.GetText();
