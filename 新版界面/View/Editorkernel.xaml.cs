@@ -160,31 +160,27 @@ namespace RootNS.View
             FindReplaceDialog.theDialog.TabReplace.IsSelected = true;
         }
 
-        string PreviousText = string.Empty;
+        
         private void Command_MoveNext_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (FindReplaceDialog.theDialog != null && string.IsNullOrEmpty(FindReplaceDialog.theDialog.txtFind.Text) == false)
-            {
-                PreviousText = FindReplaceDialog.theDialog.txtFind.Text;
-            }
             if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == false)
             {
-                PreviousText = ThisTextEditor.TextArea.Selection.GetText();
+                Gval.PreviousText = ThisTextEditor.TextArea.Selection.GetText();
             }
             FindReplaceDialog.theDialog = FindReplaceDialog.GetOperateObject(ThisTextEditor);
             FindReplaceDialog.theDialog.cbSearchUp.IsChecked = false;
-            FindReplaceDialog.theDialog.FindNext(PreviousText);
+            FindReplaceDialog.theDialog.FindNext(Gval.PreviousText);
         }
 
         private void Command_MovePrevious_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == false)
             {
-                PreviousText = ThisTextEditor.TextArea.Selection.GetText();
+                Gval.PreviousText = ThisTextEditor.TextArea.Selection.GetText();
             }
             FindReplaceDialog.theDialog = FindReplaceDialog.GetOperateObject(ThisTextEditor);
             FindReplaceDialog.theDialog.cbSearchUp.IsChecked = true;
-            FindReplaceDialog.theDialog.FindNext(PreviousText);
+            FindReplaceDialog.theDialog.FindNext(Gval.PreviousText);
         }
 
         private void Command_CloseTabItem_Executed(object sender, ExecutedRoutedEventArgs e)

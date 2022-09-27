@@ -55,12 +55,24 @@ namespace RootNS.View
         {
             if (!FindNext(txtFind.Text))
                 SystemSounds.Beep.Play();
+
+            if (theDialog != null && string.IsNullOrEmpty(theDialog.txtFind.Text) == false)
+            {
+                Gval.PreviousText = theDialog.txtFind.Text;
+            }
+            this.Close();
         }
 
         private void FindNext2Click(object sender, RoutedEventArgs e)
         {
             if (!FindNext(txtFind2.Text))
                 SystemSounds.Beep.Play();
+
+            if (theDialog != null && string.IsNullOrEmpty(theDialog.txtFind.Text) == false)
+            {
+                Gval.PreviousText = theDialog.txtFind.Text;
+            }
+            this.Close();
         }
 
         private void ReplaceClick(object sender, RoutedEventArgs e)
@@ -188,7 +200,8 @@ namespace RootNS.View
             return theDialog;
         }
 
-        private void TxtFind_KeyDown(object sender, KeyEventArgs e)
+
+        private void txtFind_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -239,5 +252,7 @@ namespace RootNS.View
                 SettingsHelper.Set(Gval.MaterialBook.Name, string.Format("{0}_{1}", this.GetType().Name, cb.Name), cb.IsChecked);
             }
         }
+
+
     }
 }

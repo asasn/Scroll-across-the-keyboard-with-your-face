@@ -47,9 +47,24 @@ namespace RootNS.Model
             }
         }
 
+        private static string _previousText = string.Empty;
+        /// <summary>
+        /// 搜索查找的文字（上一个）
+        /// </summary>
+        public static string PreviousText
+        {
+            get { return _previousText; }
+            set
+            {
+                _previousText = value;
+                StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(PreviousText)));
+            }
+        }
 
 
-        private static string _currentVersion = "1.0.1.6";
+
+
+        private static string _currentVersion = "1.0.1.9";
 
         public static string CurrentVersion
         {
