@@ -76,6 +76,12 @@
                 <Label hc:BorderElement.CornerRadius="0" x:Name="LbWorksCount" BorderThickness="0,0,0,0" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40"/>
                 <Label Name="lbValue" hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="价值：" Background="Transparent" Foreground="#FF0D4DF9" Padding="10,0,0,0"/>
                 <Label Name="LbValueValue" hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Background="Transparent" Foreground="#FF0D4DF9" Padding="0" MinWidth="40"/>
+                <Label Name="lbValue2" hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Content="单价：" Background="Transparent" Foreground="CadetBlue" Padding="10,0,0,0"/>
+                <Label Name="LbValueValue5" hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Background="Transparent" Foreground="CadetBlue" Padding="0" MinWidth="10"/>
+                <Label Name="mmm1" Content='/' hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Background="Transparent" Foreground="CadetBlue" Padding="0" MinWidth="10"/>
+                <Label Name="LbValueValue4" hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Background="Transparent" Foreground="CadetBlue" Padding="0" MinWidth="10"/>
+                <Label Name="mmm2" Content='/' hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Background="Transparent" Foreground="CadetBlue" Padding="0" MinWidth="10"/>
+                <Label Name="LbValueValue3" hc:BorderElement.CornerRadius="0" BorderThickness="0,0,0,0" Background="Transparent" Foreground="CadetBlue" Padding="0" MinWidth="10"/>
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="0" Grid.Column="1">

@@ -160,7 +160,7 @@ namespace RootNS.View
             FindReplaceDialog.theDialog.TabReplace.IsSelected = true;
         }
 
-        
+
         private void Command_MoveNext_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == false)
@@ -347,6 +347,9 @@ namespace RootNS.View
         {
             LbWorksCount.Content = textCount;
             LbValueValue.Content = string.Format("{0:F}", Math.Round(Convert.ToDouble(textCount) * Gval.CurrentBook.Price / 1000, 2, MidpointRounding.AwayFromZero));
+            LbValueValue5.Content = string.Format("{0:0}", Math.Floor((Convert.ToDouble(textCount) - 10) / 1000 * 5));
+            LbValueValue4.Content = string.Format("{0:0}", Math.Floor((Convert.ToDouble(textCount) - 10) / 1000 * 4));
+            LbValueValue3.Content = string.Format("{0:0}", Math.Floor((Convert.ToDouble(textCount) - 10) / 1000 * 3));
         }
 
         /// <summary>

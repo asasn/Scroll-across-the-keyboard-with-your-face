@@ -64,7 +64,7 @@ namespace RootNS.Model
 
 
 
-        private static string _currentVersion = "1.0.1.11";
+        private static string _currentVersion = "1.0.1.12";
 
         public static string CurrentVersion
         {
