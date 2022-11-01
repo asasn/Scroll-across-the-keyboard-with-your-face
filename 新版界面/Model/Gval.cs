@@ -107,6 +107,7 @@ namespace RootNS.Model
         {
             public static MainWindow MainWindow { get; set; }
             public static UcShower UcShower { get; set; }
+            public static UcSearch UcSearch { get; set; }
             public static TabControl TabNote { get; set; }
         }
 

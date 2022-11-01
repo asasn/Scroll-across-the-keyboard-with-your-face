@@ -163,7 +163,14 @@ namespace RootNS.View
 
         private void Command_MoveNext_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == false)
+            if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == true)
+            {
+                if (string.IsNullOrEmpty(Gval.PreviousText) == true)
+                {
+                    Gval.PreviousText = Gval.View.UcSearch.TbKeyWords.Text;
+                }
+            }
+            else
             {
                 Gval.PreviousText = ThisTextEditor.TextArea.Selection.GetText();
             }
@@ -174,7 +181,14 @@ namespace RootNS.View
 
         private void Command_MovePrevious_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == false)
+            if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == true)
+            {
+                if (string.IsNullOrEmpty(Gval.PreviousText) == true)
+                {
+                    Gval.PreviousText = Gval.View.UcSearch.TbKeyWords.Text;
+                }
+            }
+            else
             {
                 Gval.PreviousText = ThisTextEditor.TextArea.Selection.GetText();
             }

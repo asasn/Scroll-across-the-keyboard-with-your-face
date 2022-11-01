@@ -137,7 +137,7 @@
                     </Border>
                 </GroupBox>
                 <GroupBox Header="搜索区" Grid.Row="4" Style="{StaticResource BaseStyle}">
-                    <view:UcSearch/>
+                    <view:UcSearch Loaded="UcSearch_Loaded"/>
                 </GroupBox>
             </Grid>
         </Grid>

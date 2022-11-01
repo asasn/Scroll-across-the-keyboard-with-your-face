@@ -55,11 +55,6 @@ namespace RootNS.View
         {
             if (!FindNext(txtFind.Text))
                 SystemSounds.Beep.Play();
-
-            if (theDialog != null && string.IsNullOrEmpty(theDialog.txtFind.Text) == false)
-            {
-                Gval.PreviousText = theDialog.txtFind.Text;
-            }
             this.Close();
         }
 
@@ -67,11 +62,6 @@ namespace RootNS.View
         {
             if (!FindNext(txtFind2.Text))
                 SystemSounds.Beep.Play();
-
-            if (theDialog != null && string.IsNullOrEmpty(theDialog.txtFind.Text) == false)
-            {
-                Gval.PreviousText = theDialog.txtFind.Text;
-            }
             this.Close();
         }
 
@@ -163,7 +153,7 @@ namespace RootNS.View
         public static FindReplaceDialog ShowForReplace(TextEditor editor)
         {
             if (theDialog == null)
-            {
+            {                
                 theDialog = new FindReplaceDialog(editor);
                 theDialog.Show();
 

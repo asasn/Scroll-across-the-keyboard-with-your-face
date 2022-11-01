@@ -204,5 +204,10 @@ namespace RootNS
             process.StartInfo.FileName = Gval.Path.App;
             process.Start();
         }
+
+        private void UcSearch_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gval.View.UcSearch = sender as UcSearch;
+        }
     }
 }
