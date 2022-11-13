@@ -74,7 +74,14 @@ namespace RootNS.View
                 }
                 EditorHelper.SetColorRulesForCards(editorBase.ThisTextEditor);
                 editorBase.ThisTextEditor.Text = stuff.Text;
-                EditorHelper.MoveToEnd(editorBase.ThisTextEditor);
+                if (stuff.ToLineNum == 0)
+                {
+                    EditorHelper.MoveToEnd(editorBase.ThisTextEditor);
+                }
+                else
+                {
+                    EditorHelper.MoveToLine(editorBase.ThisTextEditor, stuff.ToLineNum);
+                }
                 editorBase.BtnSaveDoc.IsEnabled = false;
             }
             if (e.Action == NotifyCollectionChangedAction.Remove)

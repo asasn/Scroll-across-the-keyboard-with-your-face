@@ -158,6 +158,15 @@ namespace RootNS.Helper
         }
 
         /// <summary>
+        /// 光标移动至指定行
+        /// </summary>
+        /// <param name="tEditor"></param>
+        public static void MoveToLine(TextEditor tEditor, int lineNum)
+        {
+            tEditor.ScrollToLine(lineNum);
+        }
+
+        /// <summary>
         /// 字数统计
         /// </summary>
         /// <param name="content"></param>

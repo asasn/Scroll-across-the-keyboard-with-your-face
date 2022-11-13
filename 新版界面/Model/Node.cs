@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace RootNS.Model
 {
@@ -197,7 +198,7 @@ namespace RootNS.Model
         /// <summary>
         /// （供搜索功能使用的临时变量）跳转至xx行
         /// </summary>
-        public int LineNum { get; set; }
+        public int ToLineNum { get; set; }
 
         /// <summary>
         /// （供搜索功能使用的临时变量）匹配的字符串数组

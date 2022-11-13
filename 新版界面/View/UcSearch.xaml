@@ -36,10 +36,8 @@
         </Grid>
         <ListBox x:Name="ListBoxOfResults" ItemsSource="{Binding Results}" Grid.Row="2" Margin="5,0,5,5">
             <ListBox.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}">
-                    <Border Margin="0" Padding="0">
-                        <ContentControl Content="{Binding Converter={StaticResource NodeConvertToNodeTemplate}}" DataContext="{Binding}" ToolTipService.ShowDuration="60000" ToolTip="{Binding TempToolTip}"/>
-                    </Border>
+                <HierarchicalDataTemplate ItemsSource="{Binding ChildNodes}" >
+                    <ContentControl Content="{Binding Converter={StaticResource NodeConvertToNodeTemplate}}" DataContext="{Binding}"/>
                 </HierarchicalDataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

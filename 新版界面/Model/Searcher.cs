@@ -411,7 +411,7 @@ namespace RootNS.Model
         {
             TextEditor tEdit = new TextEditor()
             {
-                Width = 400,
+                Width = 300,
                 WordWrap = true,
 
                 FontFamily = new FontFamily("宋体")
