@@ -51,9 +51,9 @@ namespace RootNS.View
         /// <param name="e"></param>
         private void ListBoxOfResults_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Searcher.Item lbItem = (Searcher.Item)ListBoxOfResults.SelectedItem;
-            WSearchResult rtWin = new WSearchResult(lbItem);
-            rtWin.ShowDialog();
+            //Searcher.Item lbItem = (Searcher.Item)ListBoxOfResults.SelectedItem;
+            //WSearchResult rtWin = new WSearchResult(lbItem);
+            //rtWin.ShowDialog();
         }
 
     }

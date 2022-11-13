@@ -20,17 +20,10 @@ namespace RootNS.Model
 
         }
 
-        public struct Item
-        {
-            public string Title { get; set; }
-            public string Content { get; set; }
-            public string[] Matches { get; set; }
-            public ToolTip ToolTip { get; set; }
-        }
 
-        private ObservableCollection<Item> _results = new ObservableCollection<Item>();
+        private ObservableCollection<Node> _results = new ObservableCollection<Node>();
 
-        public ObservableCollection<Item> Results
+        public ObservableCollection<Node> Results
         {
             get { return _results; }
             set
@@ -274,18 +267,13 @@ namespace RootNS.Model
                 return;
             }
 
-            //获取和定义列表项
+            //获取并且定义列表项
             if (false == string.IsNullOrEmpty(ListItemName))
             {
-                Item lbItem = new Item()
-                {
-                    Title = node.Title + " >> " + ListItemName,
-                    Content = node.Text,
-                    Matches = Matches
-                };
-
-                lbItem.ToolTip = SetItemToolTip(lbItem);
-                Results.Add(lbItem);
+                node.Matches = Matches;
+                node.TempTitle = strTitle + " >> " + ListItemName;
+                node.TempToolTip = SetItemToolTip(node);
+                Results.Add(node);
             }
         }
 
@@ -419,7 +407,7 @@ namespace RootNS.Model
         /// 给列表项添加悬浮内容
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private ToolTip SetItemToolTip(Item lbItem)
+        private ToolTip SetItemToolTip(Node lbItem)
         {
             TextEditor tEdit = new TextEditor()
             {
@@ -430,7 +418,7 @@ namespace RootNS.Model
             };
             tEdit.Options.WordWrapIndentation = 4;
             tEdit.Options.InheritWordWrapIndentation = false;
-            string lines = GetStrOnLines(lbItem.Content);
+            string lines = GetStrOnLines(lbItem.Text);
             tEdit.Text = lines;
             EditorHelper.SetColorRulesForSearchResult(tEdit, lbItem.Matches);
             return new ToolTip() { Content = tEdit };

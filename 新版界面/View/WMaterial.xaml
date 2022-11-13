@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:view="clr-namespace:RootNS.View" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:model="clr-namespace:RootNS.Model" d:DataContext="{d:DesignInstance Type=model:Node}"
         mc:Ignorable="d" UseLayoutRounding="True"
         Background="Transparent" Effect="{StaticResource EffectShadow3}" 
-        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="255"
-        d:DesignWidth="300" MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        Height="255" Width="300" Loaded="Window_Loaded">
+        AllowsTransparency="True" WindowStyle="None" d:DesignHeight="618"
+        d:DesignWidth="382" MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Height="618" Width="382" Loaded="Window_Loaded">
     <Grid>
         <hc:Card x:Name="HcCard" Header="" Grid.ColumnSpan="2">
             <Grid>

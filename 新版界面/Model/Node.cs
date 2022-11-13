@@ -194,6 +194,38 @@ namespace RootNS.Model
             }
         }
 
+        /// <summary>
+        /// （供搜索功能使用的临时变量）跳转至xx行
+        /// </summary>
+        public int LineNum { get; set; }
+
+        /// <summary>
+        /// （供搜索功能使用的临时变量）匹配的字符串数组
+        /// </summary>
+        public string[] Matches { get; set; }
+
+        /// <summary>
+        /// （供搜索功能使用的临时变量）临时标题
+        /// </summary>
+        public string TempTitle { get; set; }
+
+
+        private object _tempToolTip;
+        /// <summary>
+        /// （供搜索功能使用的临时变量）悬浮显示内容
+        /// </summary>
+        public object TempToolTip
+        {
+            get { return _tempToolTip; }
+            set
+            {
+                _tempToolTip = value;
+                RaisePropertyChanged(nameof(TempToolTip));
+            }
+        }
+
+
+
         private string _text = String.Empty;
         /// <summary>
         /// 节点文字内容
