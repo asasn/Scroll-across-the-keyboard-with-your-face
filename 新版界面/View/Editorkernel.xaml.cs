@@ -156,6 +156,7 @@ namespace RootNS.View
             FindReplaceDialog.theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
             this.SetPreviousText();
             FindReplaceDialog.theDialog.TabFind.IsSelected = true;
+            FindReplaceDialog.theDialog.TbFindNext.Focus();
         }
 
         private void Command_Replace_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -163,6 +164,7 @@ namespace RootNS.View
             FindReplaceDialog.theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
             this.SetPreviousText();
             FindReplaceDialog.theDialog.TabReplace.IsSelected = true;
+            FindReplaceDialog.theDialog.txtReplace.Focus();
         }
 
         private void SetPreviousText()

@@ -166,13 +166,9 @@ namespace RootNS.View
                 theDialog.Visibility = Visibility.Visible;
                 theDialog.Activate();
             }
-            theDialog.txtFind.Focus();
             if (!editor.TextArea.Selection.IsMultiline)
             {
                 theDialog.txtFind.Text = theDialog.txtFind2.Text = editor.TextArea.Selection.GetText();
-                theDialog.txtFind.SelectAll();
-                theDialog.txtFind2.SelectAll();
-                theDialog.txtFind2.Focus();
             }
             return theDialog;
         }
