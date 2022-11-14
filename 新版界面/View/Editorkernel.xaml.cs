@@ -44,11 +44,14 @@ namespace RootNS.View
             };
             Timer.Tick += TimeRuner;
             Timer.Start();
+
+            theDialog = new FindReplaceDialog(this.ThisTextEditor);
         }
 
         private bool canSaveFlag;
         Stopwatch stopWatch = new Stopwatch();
         public DispatcherTimer Timer = new DispatcherTimer();
+        FindReplaceDialog theDialog;
 
         /// <summary>
         /// 方法：每次间隔运行的内容
@@ -151,50 +154,46 @@ namespace RootNS.View
         private void Command_Find_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             FindReplaceDialog.theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
+            this.SetPreviousText();
             FindReplaceDialog.theDialog.TabFind.IsSelected = true;
         }
 
         private void Command_Replace_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             FindReplaceDialog.theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
+            this.SetPreviousText();
             FindReplaceDialog.theDialog.TabReplace.IsSelected = true;
         }
+
+        private void SetPreviousText()
+        {
+            if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == true)
+            {
+                if (string.IsNullOrEmpty(Gval.PreviousText) == true)
+                {
+                    Gval.PreviousText = Gval.View.UcSearch.TbKeyWords.Text;
+                }
+            }
+            else
+            {
+                Gval.PreviousText = ThisTextEditor.TextArea.Selection.GetText();
+            }
+        }
+
 
 
         private void Command_MoveNext_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == true)
-            {
-                if (string.IsNullOrEmpty(Gval.PreviousText) == true)
-                {
-                    Gval.PreviousText = Gval.View.UcSearch.TbKeyWords.Text;
-                }
-            }
-            else
-            {
-                Gval.PreviousText = ThisTextEditor.TextArea.Selection.GetText();
-            }
-            FindReplaceDialog.theDialog = FindReplaceDialog.GetOperateObject(ThisTextEditor);
-            FindReplaceDialog.theDialog.cbSearchUp.IsChecked = false;
-            FindReplaceDialog.theDialog.FindNext(Gval.PreviousText);
+            this.SetPreviousText();
+            theDialog.cbSearchUp.IsChecked = false;
+            theDialog.FindNext(Gval.PreviousText);
         }
 
         private void Command_MovePrevious_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(ThisTextEditor.TextArea.Selection.GetText()) == true)
-            {
-                if (string.IsNullOrEmpty(Gval.PreviousText) == true)
-                {
-                    Gval.PreviousText = Gval.View.UcSearch.TbKeyWords.Text;
-                }
-            }
-            else
-            {
-                Gval.PreviousText = ThisTextEditor.TextArea.Selection.GetText();
-            }
-            FindReplaceDialog.theDialog = FindReplaceDialog.GetOperateObject(ThisTextEditor);
-            FindReplaceDialog.theDialog.cbSearchUp.IsChecked = true;
-            FindReplaceDialog.theDialog.FindNext(Gval.PreviousText);
+            this.SetPreviousText();
+            theDialog.cbSearchUp.IsChecked = true;
+            theDialog.FindNext(Gval.PreviousText);
         }
 
         private void Command_CloseTabItem_Executed(object sender, ExecutedRoutedEventArgs e)
