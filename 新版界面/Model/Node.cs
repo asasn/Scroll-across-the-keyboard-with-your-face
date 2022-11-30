@@ -468,7 +468,7 @@ namespace RootNS.Model
             {
                 node.Title = "新" + this.TabName;
             }
-            this.IsExpanded = true;
+            //this.IsExpanded = true;
             this.ChildNodes.Add(node);
             DataOut.CreateNewNode(node);
             node.IsSelected = true;
