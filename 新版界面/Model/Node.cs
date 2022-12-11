@@ -790,50 +790,43 @@ namespace RootNS.Model
 
         public void Export()
         {
-            Node selectedNode;
-            if (this.IsDir == false)
-            {
-                if (this.Parent == null)
-                {
-                    return;
-                }
-                else
-                {
-                    selectedNode = this.Parent;
-                }
-            }
-            else
-            {
-                selectedNode = this;
-            }
-            if (selectedNode.ChildNodes.Count == 0)
-            {
-                return;
-            }
+            Node selectedNode = this;
             System.Windows.Forms.FolderBrowserDialog folder = new System.Windows.Forms.FolderBrowserDialog();
             folder.Description = "选择文件所在文件夹目录";  //提示的文字
             folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             if (folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string path = String.Format("{0}/{1}", folder.SelectedPath, selectedNode.Title);
-                if (IOHelper.IsFolderExists(path) == false)
+                if (selectedNode.IsDir == true)
                 {
-                    IOHelper.CreateFolder(path);
-                }
-
-                foreach (Node node in selectedNode.ChildNodes)
-                {
-                    string fullFileName = String.Format("{0}/{1}.txt", path, node.Title);
-                    int n = 1;
-                    while (IOHelper.IsFileExists(fullFileName) == true)
+                    string path = String.Format("{0}/{1}", folder.SelectedPath, selectedNode.Title);
+                    if (IOHelper.IsFolderExists(path) == false)
                     {
-                        fullFileName = String.Format("{0}/{1}{2}.txt", path, node.Title, n);
-                        n++;
+                        IOHelper.CreateFolder(path);
                     }
-
-                    IOHelper.WriteToTxt(fullFileName, node.Text);
+                    foreach (Node node in selectedNode.ChildNodes)
+                    {
+                        ExportMethod(node, path);
+                    }
+                }
+                else
+                {
+                    ExportMethod(selectedNode, folder.SelectedPath);
                 }
             }
         }
+
+        private void ExportMethod(Node node, string path)
+        {
+            string fullFileName = String.Format("{0}/{1}.txt", path, node.Title);
+            int n = 1;
+            while (IOHelper.IsFileExists(fullFileName) == true)
+            {
+                fullFileName = String.Format("{0}/{1}{2}.txt", path, node.Title, n);
+                n++;
+            }
+            IOHelper.WriteToTxt(fullFileName, node.Text);
+        }
+
+
     }
 }

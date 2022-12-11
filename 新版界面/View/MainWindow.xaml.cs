@@ -209,5 +209,33 @@ namespace RootNS
         {
             Gval.View.UcSearch = sender as UcSearch;
         }
+
+        private void BtnExport_Click(object sender, RoutedEventArgs e)
+        {
+            string bookContent = String.Empty;
+            Gval.CurrentBook.LoadForAllChapterTabs();
+            System.Windows.Forms.FolderBrowserDialog folder = new System.Windows.Forms.FolderBrowserDialog();
+            folder.Description = "选择文件所在文件夹目录";  //提示的文字
+            folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            if (folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                bookContent += "# 【" + "已发布" + "】" + "\n\n";
+                foreach (Node dirNodes in Gval.CurrentBook.BoxPublished.ChildNodes)
+                {
+                    bookContent += "## 【" + dirNodes.Title + "】" + "\n\n";
+                    foreach (Node node in dirNodes.ChildNodes)
+                    {
+                        bookContent += node.Title + "\n" + node.Text + "\n\n";                        
+                    }
+                }
+                bookContent += "# 【" + "草稿箱" + "】" + "\n\n";
+                foreach (Node node in Gval.CurrentBook.BoxDraft.ChildNodes)
+                {
+                    bookContent += node.Title + "\n" + node.Text + "\n\n";
+                }
+                string fullFileName = String.Format("{0}/{1}.txt", folder.SelectedPath, Gval.CurrentBook.Name);
+                IOHelper.WriteToTxt(fullFileName, bookContent);
+            }
+        }
     }
 }

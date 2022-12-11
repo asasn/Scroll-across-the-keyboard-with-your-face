@@ -29,7 +29,7 @@
                 <Button ToolTip="发送到已发布（F8）" Visibility="{Binding TabName, Converter={StaticResource TabName2SendButtonVisibility}}" x:Name="BtnSend" FontFamily="../Assets/#androidicons" Content="&#59629;" FontSize="16" Background="Transparent" Foreground="Orange" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnSend_Click"/>
             </StackPanel>
             <StackPanel Background="Transparent" HorizontalAlignment="Stretch" Orientation="Horizontal" Visibility="{Binding TabName, Converter={StaticResource TabName2ImportExportButtonVisibility}}" Grid.Column="1" >
-                <Button ToolTip="导出（Ctrl + Insert）" x:Name="BtnExport" FontFamily="../Assets/#androidicons" Content="&#59516;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnExport_Click"/>
+                <Button ToolTip="导出选定文档或者分卷（Ctrl + Insert）" x:Name="BtnExport" FontFamily="../Assets/#androidicons" Content="&#59516;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnExport_Click"/>
                 <Button ToolTip="导入（Insert）" x:Name="BtnImport" FontFamily="../Assets/#androidicons" Content="&#59515;" FontSize="16" Background="Transparent" Foreground="DodgerBlue" Grid.Column="1" Padding="0" BorderThickness="0" Width="25" Height="25" Click="BtnImport_Click"/>
             </StackPanel>
         </Grid>

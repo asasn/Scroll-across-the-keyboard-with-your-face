@@ -30,11 +30,13 @@
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition Width="100*"/>
                             <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="BtnChoose" ToolTip="书库管理"  FontFamily="../Assets/#androidicons" Content="&#59547;" FontSize="24" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnChoose_Click">
                         </Button>
                         <TextBlock Text="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,0"/>
-                        <Button x:Name="BtnOpenFolder" ToolTip="打开书库所在文件夹"  FontFamily="../Assets/#androidicons" Grid.Column="2" Content="&#59467;" FontSize="20" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnOpenFolder_Click">
+                        <Button ToolTip="导出全文（Ctrl + Insert）" x:Name="BtnExport" FontFamily="../Assets/#androidicons" Grid.Column="2" Content="&#59516;" FontSize="20" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnExport_Click"/>
+                        <Button x:Name="BtnOpenFolder" ToolTip="打开书库所在文件夹"  FontFamily="../Assets/#androidicons" Grid.Column="3" Content="&#59467;" FontSize="20" Background="Transparent" Foreground="DodgerBlue" Padding="0" BorderThickness="0" Click="BtnOpenFolder_Click">
                         </Button>
                     </Grid>
                 </Border>
