@@ -24,8 +24,8 @@ namespace RootNS.Model
             RootNodes.Add(ChapterTabName.作品相关.ToString(), BoxTemp);
             RootNodes.Add(ChapterTabName.已发布.ToString(), BoxPublished);
             RootNodes.Add(NoteTabName.大事记.ToString(), NoteMemorabilia);
-            RootNodes.Add(NoteTabName.故事.ToString(), NoteStory);
-            RootNodes.Add(NoteTabName.场景.ToString(), NoteScenes);
+            //RootNodes.Add(NoteTabName.故事.ToString(), NoteStory);
+            //RootNodes.Add(NoteTabName.场景.ToString(), NoteScenes);
             RootNodes.Add(NoteTabName.线索.ToString(), NoteClues);
             RootNodes.Add(NoteTabName.模板.ToString(), NoteTemplate);
 
@@ -47,7 +47,7 @@ namespace RootNS.Model
         /// <param name="bookName"></param>
         private void InitRootNodes(string bookName)
         {
-            Node[] rootNodes = { this.BoxDraft, this.BoxTemp, this.BoxPublished, this.NoteMemorabilia, this.NoteStory, this.NoteScenes, this.NoteClues, this.NoteTemplate };
+            Node[] rootNodes = { this.BoxDraft, this.BoxTemp, this.BoxPublished, this.NoteMemorabilia, /*this.NoteStory, this.NoteScenes,*/ this.NoteClues, this.NoteTemplate };
             foreach (Node node in rootNodes)
             {
                 node.OwnerName = bookName;
@@ -93,8 +93,8 @@ namespace RootNS.Model
         public enum NoteTabName
         {
             大事记,
-            故事,
-            场景,
+            //故事,
+            //场景,
             线索,
             模板,
         }
@@ -125,8 +125,8 @@ namespace RootNS.Model
 
         #region 记事板
         public Node NoteMemorabilia { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.大事记.ToString() };
-        public Node NoteStory { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.故事.ToString() };
-        public Node NoteScenes { get; set; } = new Node() { Uid = String.Empty, TabName = NoteTabName.场景.ToString() };
+        //public Node NoteStory { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.故事.ToString() };
+        //public Node NoteScenes { get; set; } = new Node() { Uid = String.Empty, TabName = NoteTabName.场景.ToString() };
         public Node NoteClues { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.线索.ToString() };
         public Node NoteTemplate { set; get; } = new Node() { Uid = String.Empty, TabName = NoteTabName.模板.ToString() };
         #endregion
@@ -141,15 +141,17 @@ namespace RootNS.Model
             }
             return nodes;
         }
+
         public List<Node> GetSecenNodes()
         {
-            if (NoteScenes.ChildNodes.Count == 0)
-            {
-                DataIn.FillInNodes(NoteScenes);
-            }
-            List<Node> nodes = new List<Node>();
-            GetTreeNodes(nodes, NoteScenes);
-            return nodes;
+            //if (NoteScenes.ChildNodes.Count == 0)
+            //{
+            //    DataIn.FillInNodes(NoteScenes);
+            //}
+            //List<Node> nodes = new List<Node>();
+            //GetTreeNodes(nodes, NoteScenes);
+            //return nodes;
+            return null;
         }
 
         public List<Node> GetPublishedChapterNodes()
@@ -166,6 +168,10 @@ namespace RootNS.Model
         public void LoadForChapterTab()
         {
             Node rootNode = RootNodes[Enum.GetName(typeof(ChapterTabName), Gval.SelectedChapterTab.SelectedIndex)];
+            if (rootNode == null)
+            {
+                return;
+            }
             if (rootNode.ChildNodes.Count == 0)
             {
                 DataIn.FillInNodes(rootNode);
@@ -173,7 +179,12 @@ namespace RootNS.Model
         }
         public void LoadForNoteTab()
         {
+            string vv = Enum.GetName(typeof(NoteTabName), Gval.SelectedNoteTab.SelectedIndex);
             Node rootNode = RootNodes[Enum.GetName(typeof(NoteTabName), Gval.SelectedNoteTab.SelectedIndex)];
+            if (rootNode == null)
+            {
+                return;
+            }
             if (rootNode.ChildNodes.Count == 0)
             {
                 DataIn.FillInNodes(rootNode);
@@ -182,6 +193,10 @@ namespace RootNS.Model
         public void LoadForCardTab()
         {
             Card rootCard = RootNodes[Enum.GetName(typeof(CardTabName), Gval.SelectedCardTab.SelectedIndex)] as Card;
+            if (rootCard == null)
+            {
+                return;
+            }
             if (rootCard.ChildNodes.Count == 0)
             {
                 DataIn.FillInCards(rootCard);
@@ -218,14 +233,14 @@ namespace RootNS.Model
             {
                 DataIn.FillInNodes(NoteMemorabilia);
             }
-            if (NoteStory.ChildNodes.Count == 0)
-            {
-                DataIn.FillInNodes(NoteStory);
-            }
-            if (NoteScenes.ChildNodes.Count == 0)
-            {
-                DataIn.FillInNodes(NoteScenes);
-            }
+            //if (NoteStory.ChildNodes.Count == 0)
+            //{
+            //    DataIn.FillInNodes(NoteStory);
+            //}
+            //if (NoteScenes.ChildNodes.Count == 0)
+            //{
+            //    DataIn.FillInNodes(NoteScenes);
+            //}
             if (NoteClues.ChildNodes.Count == 0)
             {
                 DataIn.FillInNodes(NoteClues);

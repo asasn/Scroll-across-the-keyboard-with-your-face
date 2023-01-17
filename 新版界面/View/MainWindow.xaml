@@ -76,18 +76,18 @@
                         <TabItem Header="大事记">
                             <view:MyTree DataContext="{Binding NoteMemorabilia}"/>
                         </TabItem>
-                        <TabItem Header="故事">
+                        <!--<TabItem Header="故事">
                             <view:MyTree DataContext="{Binding NoteStory}"/>
                         </TabItem>
                         <TabItem Header="场景">
                             <view:MyTree DataContext="{Binding NoteScenes}"/>
-                        </TabItem>
+                        </TabItem>-->
                         <TabItem Header="线索">
                             <view:MyTree DataContext="{Binding NoteClues}"/>
                         </TabItem>
                         <TabItem Header="模板">
                             <view:MyTree DataContext="{Binding NoteTemplate}"/>
-                        </TabItem>
+                        </TabItem>                        
                     </TabControl>
                 </GroupBox>
                 <GroupBox x:Name="ToolBar" Header="工具栏 - 当前书籍" IsEnabled="{Binding CurrentBook.Name, Source={StaticResource GlobalSource}, Converter={StaticResource Object2BooleanConverter}}" Grid.Row="2" Style="{StaticResource BaseStyle}">
