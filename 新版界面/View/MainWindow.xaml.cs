@@ -191,7 +191,7 @@ namespace RootNS
 
         private void BtnInfo_Click(object sender, RoutedEventArgs e)
         {
-            InfoWindow win = new InfoWindow();
+            VersionWindow win = new VersionWindow();
             Workfolw.ViewSet.ForViewPointX(win, sender as Button, -(win.Width / 2));
             Workfolw.ViewSet.ForViewPointY(win, sender as Button, 50);
             win.ShowDialog();
@@ -203,6 +203,11 @@ namespace RootNS
             process.StartInfo.UseShellExecute = true;
             process.StartInfo.FileName = Gval.Path.App;
             process.Start();
+        }
+
+        private void BtnOpenHomepage_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(((Hyperlink)sender).NavigateUri.ToString());
         }
 
         private void UcSearch_Loaded(object sender, RoutedEventArgs e)
@@ -243,5 +248,7 @@ namespace RootNS
                 IOHelper.WriteToTxt(fullFileName, bookContent);
             }
         }
+
+
     }
 }

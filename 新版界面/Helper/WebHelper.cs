@@ -18,13 +18,39 @@ namespace RootNS.Helper
         /// <returns></returns>
         public static string GetHtmlText(string urlStr)
         {
-            WebRequest request = WebRequest.Create(urlStr);
-            request.Timeout = 1000 * 10;
+
+            HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(urlStr);
+            myHttpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.55";
+            myHttpWebRequest.Timeout = 1000 * 10;
             try
             {
-                WebResponse response = request.GetResponse();
+                WebResponse response = myHttpWebRequest.GetResponse();
                 StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
                 return reader.ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 依据输入的url链接获取html源代码
+        /// </summary>
+        /// <param name="urlStr"></param>
+        /// <returns></returns>
+        public static StreamReader GetHtmlReaderObject(string urlStr)
+        {
+
+            HttpWebRequest myHttpWebRequest = (HttpWebRequest)WebRequest.Create(urlStr);
+            myHttpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36 Edg/109.0.1518.55";
+            myHttpWebRequest.Timeout = 1000 * 10;
+            try
+            {
+                WebResponse response = myHttpWebRequest.GetResponse();
+                StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8"));
+                return reader;
             }
             catch (Exception ex)
             {

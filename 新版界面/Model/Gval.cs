@@ -64,7 +64,7 @@ namespace RootNS.Model
 
 
 
-        private static string _currentVersion = "1.0.1.20";
+        private static string _currentVersion = "1.0.1.21";
 
         public static string CurrentVersion
         {
@@ -90,7 +90,7 @@ namespace RootNS.Model
 
 
 
-        private static string _latestVersion = "no checked";
+        private static string _latestVersion = "未检查";
 
         public static string LatestVersion
         {
