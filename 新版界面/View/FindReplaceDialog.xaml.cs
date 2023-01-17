@@ -222,17 +222,17 @@ namespace RootNS.View
         }
 
 
-        bool IsLoading = true;
+        bool IsCheckBoxLoaded = false;
         private void CheckBox_Loaded(object sender, RoutedEventArgs e)
         {
             CheckBox cb = sender as CheckBox;
             cb.IsChecked = Convert.ToBoolean(SettingsHelper.Get(Gval.MaterialBook.Name, string.Format("{0}_{1}", this.GetType().Name, cb.Name)));
-            IsLoading = false;
+            IsCheckBoxLoaded = true;
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
-            if (IsLoading == false)
+            if (IsCheckBoxLoaded == true)
             {
                 CheckBox cb = sender as CheckBox;
                 SettingsHelper.Set(Gval.MaterialBook.Name, string.Format("{0}_{1}", this.GetType().Name, cb.Name), cb.IsChecked);

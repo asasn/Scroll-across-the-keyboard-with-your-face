@@ -74,6 +74,7 @@ namespace RootNS.Model
         {
             NoteSelectedIndex,
             CurrentYearUid,
+            FontSizeBypt,
         }
 
         /// <summary>

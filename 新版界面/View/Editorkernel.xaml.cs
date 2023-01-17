@@ -471,5 +471,33 @@ namespace RootNS.View
         {
 
         }
+
+        bool isSliderLoaded = false;
+        private void slider_Loaded(object sender, RoutedEventArgs e)
+        {
+            double sizePt = Convert.ToDouble(SettingsHelper.Get(Gval.CurrentBook.Name, Book.SettingKeyName.FontSizeBypt.ToString()));
+            if (sizePt != 0)
+            {
+                slider.Value = sizePt;
+            }
+            isSliderLoaded = true;
+        }
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (isSliderLoaded == true)
+            {
+                SettingsHelper.Set(Gval.CurrentBook.Name, Book.SettingKeyName.FontSizeBypt.ToString(), slider.Value);
+            }
+            ThisTextEditor.FontSize = (sender as Slider).Value * 16 / 12;
+        }
+
+        private void reSlider_Click(object sender, RoutedEventArgs e)
+        {
+            ThisTextEditor.FontSize = 16;
+            slider.Value = 12;
+        }
+
+
     }
 }
