@@ -7,7 +7,11 @@
              xmlns:root="clr-namespace:RootNS" Padding="0"
              mc:Ignorable="d" UseLayoutRounding="True" ToolTipService.ShowDuration="60000"
              d:DesignHeight="25" d:DesignWidth="278" Loaded="ThisControl_Loaded" MouseDoubleClick="ThisControl_MouseDoubleClick">
-
+    <UserControl.ToolTip>
+        <Grid MaxWidth="300" MaxHeight="500">
+            <TextBox IsReadOnly="True" MaxLength="100" TextWrapping="Wrap" Text="{Binding Text}"></TextBox>
+        </Grid>
+    </UserControl.ToolTip>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>

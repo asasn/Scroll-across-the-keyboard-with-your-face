@@ -219,21 +219,27 @@ namespace RootNS
             folder.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             if (folder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                bookContent += "# 【" + "已发布" + "】" + "\n\n";
+                bookContent += "# 【" + "已发布" + "】" + "\n\n\n";
                 foreach (Node dirNodes in Gval.CurrentBook.BoxPublished.ChildNodes)
                 {
-                    bookContent += "## 【" + dirNodes.Title + "】" + "\n\n";
+                    bookContent += "## 【" + dirNodes.Title + "】" + "\n\n\n";
                     foreach (Node node in dirNodes.ChildNodes)
                     {
-                        bookContent += node.Title + "\n" + node.Text + "\n\n";                        
+                        bookContent += node.Title + "\n\n" + node.Text + "\n\n\n";                        
                     }
                 }
-                bookContent += "# 【" + "草稿箱" + "】" + "\n\n";
+                bookContent += "# 【" + "草稿箱" + "】" + "\n\n\n";
                 foreach (Node node in Gval.CurrentBook.BoxDraft.ChildNodes)
                 {
-                    bookContent += node.Title + "\n" + node.Text + "\n\n";
+                    bookContent += node.Title + "\n\n" + node.Text + "\n\n\n";
                 }
                 string fullFileName = String.Format("{0}/{1}.txt", folder.SelectedPath, Gval.CurrentBook.Name);
+                int n = 1;
+                while (IOHelper.IsFileExists(fullFileName) == true)
+                {
+                    fullFileName = String.Format("{0}/{1} - {2}.txt", folder.SelectedPath, Gval.CurrentBook.Name, n);
+                    n++;
+                }
                 IOHelper.WriteToTxt(fullFileName, bookContent);
             }
         }

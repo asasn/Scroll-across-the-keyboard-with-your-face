@@ -821,7 +821,7 @@ namespace RootNS.Model
             int n = 1;
             while (IOHelper.IsFileExists(fullFileName) == true)
             {
-                fullFileName = String.Format("{0}/{1}{2}.txt", path, node.Title, n);
+                fullFileName = String.Format("{0}/{1} - {2}.txt", path, node.Title, n);
                 n++;
             }
             IOHelper.WriteToTxt(fullFileName, node.Text);

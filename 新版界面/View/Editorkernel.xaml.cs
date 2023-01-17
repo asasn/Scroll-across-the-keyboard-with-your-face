@@ -164,7 +164,7 @@ namespace RootNS.View
             FindReplaceDialog.theDialog = FindReplaceDialog.ShowForReplace(ThisTextEditor);
             this.SetPreviousText();
             FindReplaceDialog.theDialog.TabReplace.IsSelected = true;
-            FindReplaceDialog.theDialog.txtReplace.Focus();
+            FindReplaceDialog.theDialog.txtFind2.Focus();
         }
 
         private void SetPreviousText()
