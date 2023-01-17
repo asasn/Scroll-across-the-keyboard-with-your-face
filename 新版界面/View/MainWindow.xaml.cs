@@ -207,7 +207,7 @@ namespace RootNS
 
         private void BtnOpenHomepage_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(((Hyperlink)sender).NavigateUri.ToString());
+            System.Diagnostics.Process.Start(Gval.HomePage.ToString());
         }
 
         private void UcSearch_Loaded(object sender, RoutedEventArgs e)
