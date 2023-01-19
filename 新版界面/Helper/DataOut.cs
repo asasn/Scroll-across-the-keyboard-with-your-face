@@ -6,6 +6,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RootNS.Helper
 {
@@ -78,18 +79,62 @@ namespace RootNS.Helper
         }
 
 
+        private static (string, string) GetCardDesignTipInfo(Card.Tip tip)
+        {
+            string tidUid = string.Empty;
+            string tidTitle = string.Empty;
+            string getUid = string.Format("select * from 卡设计 where Uid='{0}';", tip.Uid);
+            SQLiteDataReader reader = SqliteHelper.PoolDict[tip.OwnerName].ExecuteQuery(getUid);
+            while (reader.Read())
+            {
+                tidUid = reader["Uid"] == DBNull.Value ? null : reader["Uid"].ToString();
+                tidTitle = reader["Title"] == DBNull.Value ? null : reader["Title"].ToString();
+            }
+            reader.Close();
+            return (tidUid, tidTitle);
+        }
+
+
         public static void ReplaceIntoCardDesign(Card.Tip tip)
         {
             string sql = String.Empty;
+            (string tipUid, string tipTitle) = GetCardDesignTipInfo(tip);
             if (string.IsNullOrWhiteSpace(tip.Title) == true)
             {
-                sql = string.Format("DELETE FROM 卡设计 WHERE Uid='{0}' AND TabName='{1}';", tip.Uid, tip.TabName); ;
+                MessageBoxResult dr = MessageBox.Show(string.Format("删除字段　　“{0}”\n将会使所有卡片该字段下的相关信息丢失，请慎重考虑！\n\n真的要保存更改吗？", tipTitle), "Tip", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning, MessageBoxResult.Yes);
+                if (dr == MessageBoxResult.Yes)
+                {
+                    sql = string.Format("DELETE FROM 卡设计 WHERE Uid='{0}' AND TabName='{1}';", tip.Uid, tip.TabName);
+                }
+                if (dr == MessageBoxResult.No)
+                {
+                    return;
+                }
+                if (dr == MessageBoxResult.Cancel)
+                {
+                    return;
+                }
             }
             else
             {
-                sql = string.Format("REPLACE INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", tip.Index, tip.Uid, tip.Title.Replace("'", "''"), tip.TabName);
+
+                if (string.IsNullOrWhiteSpace(tipUid) == true &&
+                    string.IsNullOrWhiteSpace(tip.Title) == false)
+                {
+                    sql = string.Format("INSERT INTO 卡设计 ([Index], Uid, Title, TabName) values ('{0}', '{1}', '{2}', '{3}');", tip.Index, tip.Uid, tip.Title.Replace("'", "''"), tip.TabName);
+                }
+                else
+                {
+                    if (tipTitle != tip.Title)
+                    {
+                        sql = string.Format("UPDATE 卡设计 SET Title='{0}' WHERE Uid='{1}';", tip.Title.Replace("'", "''"), tip.Uid);
+                    }
+                }
             }
-            SqliteHelper.PoolDict[tip.OwnerName].ExecuteNonQuery(sql);
+            if (string.IsNullOrWhiteSpace(sql) == false)
+            {
+                SqliteHelper.PoolDict[tip.OwnerName].ExecuteNonQuery(sql);
+            }
         }
 
 
