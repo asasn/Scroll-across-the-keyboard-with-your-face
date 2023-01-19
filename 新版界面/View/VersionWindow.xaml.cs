@@ -32,13 +32,13 @@ namespace RootNS.View
             if (Gval.CurrentVersion == Gval.LatestVersion)
             {
                 labelTip.Content = "已是最新版本";
-                BtnCheck.IsEnabled = false;
+                BtnCheck.Visibility = Visibility.Hidden;
             }
             else if (Gval.LatestVersion != "网络错误！" && Gval.LatestVersion != "未检查")
             {
                 labelTip.Foreground = new SolidColorBrush(Colors.DodgerBlue);
                 labelTip.Content = "有新版本，请打开GitHub仓库以更新";
-                BtnCheck.IsEnabled = false;
+                BtnCheck.Visibility = Visibility.Hidden;
             }
         }
 
@@ -46,12 +46,14 @@ namespace RootNS.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             (sender as Button).IsEnabled = false;
+            BtnCheck.Visibility = Visibility.Hidden;
             StreamReader reader = WebHelper.GetHtmlReaderObject("https://api.github.com/repos/asasn/Scroll-across-the-keyboard-with-your-face/releases/latest");
             if (reader == null)
             {
                 Gval.LatestVersion = "网络错误！";
                 labelTip.Content = "网络错误，请稍等片刻之后再次尝试！";
                 (sender as Button).IsEnabled = true;
+                BtnCheck.Visibility = Visibility.Visible;
                 return;
             }
             else
